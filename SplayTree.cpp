@@ -83,7 +83,3 @@ struct SplayTree {
 };
 
 
-
-int main() {
-    
-}
