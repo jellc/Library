@@ -1,0 +1,83 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile and run",
+            "type": "shell",
+            "command": "g++",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "args": [
+                "-std=c++14",
+                "-mtune=native",
+                "-march=native",
+                "-Wall",
+                "-Wno-unused-variable",
+                "-Wno-unused-function",
+                "-g",
+                "-DDEBUG",
+                "-DLOCAL",
+                "${file}",
+                "-o",
+                "${fileBasenameNoExtension}",
+                ";",
+                "if($?)",
+                "{",
+                    "if","(","Test-Path","${input:inputfile}",")",
+                    "{",
+                        "Get-Content","${input:inputfile}","|","./${fileBasenameNoExtension}.exe",
+                    "}",
+                    "else",
+                    "{",
+                        "./${fileBasenameNoExtension}.exe",
+                    "}",
+                "}",
+                "if($?)",
+                "{",
+                    "Start-Process",
+                    "notepad.exe",
+                    "stdout.txt",
+                "}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "g++.exe build active file",
+            "command": "C:/MinGW/bin/g++.exe",
+            "args": [
+                "-std=c++14",
+                "-mtune=native",
+                "-march=native",
+                "-Wall",
+                "-Wno-unused-variable",
+                "-Wno-unused-function",
+                "-g",
+                "-DDEBUG",
+                "-DLOCAL",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:/MinGW/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "inputfile",
+            "default": "stdin.txt",
+            "description": "enter inputfile name",
+        }
+    ]
+}
