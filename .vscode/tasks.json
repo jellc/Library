@@ -13,8 +13,6 @@
                 "-mtune=native",
                 "-march=native",
                 "-Wall",
-                "-Wno-unused-variable",
-                "-Wno-unused-function",
                 "-g",
                 "-DDEBUG",
                 "-DLOCAL",
@@ -33,12 +31,6 @@
                         "./${fileBasenameNoExtension}.exe",
                     "}",
                 "}",
-                "if($?)",
-                "{",
-                    "Start-Process",
-                    "notepad.exe",
-                    "stdout.txt",
-                "}"
             ],
             "problemMatcher": []
         },
