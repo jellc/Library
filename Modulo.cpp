@@ -6,7 +6,7 @@ using namespace std;
 namespace Calcfn {
     constexpr int mod = 1e9 + 7;
 
-    template <int_fast32_t mod>
+    template <int32_t mod>
     struct modint {
         int x;
         constexpr modint() : x(0) {}
@@ -46,29 +46,29 @@ namespace Calcfn {
             return *this;
         }
 
-        constexpr modint operator-() const { return modint(-x); }
+        constexpr modint operator-() { return modint(-x); }
 
-        constexpr modint operator+(const modint &p) const { return modint(*this) += p; }
+        constexpr modint operator+(const modint &p) { return modint(*this) += p; }
 
-        constexpr modint operator-(const modint &p) const { return modint(*this) -= p; }
+        constexpr modint operator-(const modint &p) { return modint(*this) -= p; }
 
-        constexpr modint operator*(const modint &p) const { return modint(*this) *= p; }
+        constexpr modint operator*(const modint &p) { return modint(*this) *= p; }
 
-        constexpr modint operator/(const modint &p) const { return modint(*this) /= p; }
+        constexpr modint operator/(const modint &p) { return modint(*this) /= p; }
 
-        constexpr bool operator==(const modint &p) const { return x == p.x; }
+        constexpr bool operator==(const modint &p) { return x == p.x; }
 
-        constexpr bool operator!=(const modint &p) const { return x != p.x; }
+        constexpr bool operator!=(const modint &p) { return x != p.x; }
 
-        constexpr bool operator!() const { return !x; }
+        constexpr bool operator!() { return !x; }
 
-        // constexpr bool operator>(const modint &p) const { return x > p.x; }
+        constexpr bool operator>(const modint &p) { return x > p.x; }
 
-        // constexpr bool operator<(const modint &p) const { return x <  p.x; }
+        constexpr bool operator<(const modint &p) { return x <  p.x; }
 
-        // constexpr bool operator>=(const modint &p) const { return x >= p.x; }
+        constexpr bool operator>=(const modint &p) { return x >= p.x; }
 
-        // constexpr bool operator<=(const modint &p) const { return x <= p.x; }
+        constexpr bool operator<=(const modint &p) { return x <= p.x; }
 
         constexpr static modint inverse(const modint &p) {
             int a = p.x, b = mod, u = 1, v = 0;
@@ -91,13 +91,13 @@ namespace Calcfn {
         friend ostream &operator<<(ostream &s, const modint &p) { return s << p.x; }
 
         friend istream &operator>>(istream &s, modint &p) {
-            int_fast64_t x;
-            p = modint((s >> x, x));
+            uint_fast64_t x;
+            p = modint((s >> x,x));
             return s;
         }
     };
 
-    constexpr static int N = 2.2e5, N_max = 2.2e6;
+    constexpr static int N = 2e5 + 2e4, N_max = 2e6 + 2e5;
 
     struct impl {
         int_fast64_t fact_[N + 1], invfact_[N + 1], inv_[N + 1];
@@ -189,7 +189,8 @@ using Calcfn::binom;
 /* The snippet ends here. */
 
 
-template <int_fast32_t mod>
+
+template <int32_t mod>
 struct modint {
     int x;
     constexpr modint() : x(0) {}
@@ -274,8 +275,8 @@ struct modint {
     friend ostream &operator<<(ostream &s, const modint &p) { return s << p.x; }
 
     friend istream &operator>>(istream &s, modint &p) {
-        int_fast64_t x;
-        p = modint((s >> x, x));
+        uint_fast64_t x;
+        p = modint((s >> x,x));
         return s;
     }
 };
