@@ -1,33 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
-template <class T> constexpr T inf = numeric_limits<T>::max() / (T)16;
+template <class T> constexpr T inf = numeric_limits<T>::max() / (T)2 - (T)1234567;
 
-template <class cost_t, class cap_t>
+
+template <class cap_t, class cost_t>
 struct Flow {
-    struct edge_t { int from, to; cost_t cost; cap_t cap; size_t rev; };
+    struct edge_t {
+        int from, to; cap_t cap; cost_t cost; size_t rev;
+        edge_t(int _from, int _to, cap_t _cap, cost_t _cost, size_t _rev)
+            : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev)
+        {}
+    };
+
     size_t V,E;
     vector<vector<size_t>> adj;
     vector<edge_t> edge;
-    bool neg_edge_exi;
+    bool neg_edge_exist;
 
-    Flow(size_t _V) : V(_V), E(), edge(), neg_edge_exi()
+    Flow(size_t _V)
+        : V(_V), E(), edge(), neg_edge_exist()
     {
         adj.resize(V);
     }
 
-    void add_edge(int from, int to, cost_t cost, cap_t cap) {
+    void add_edge(int from, int to, cap_t cap, cost_t cost) {
+        assert(cap >= 0);
         size_t pos = edge.size();
         size_t rpos = pos + 1;
-        edge.emplace_back((edge_t){ from, to, cost, cap, rpos });
+        edge.emplace_back(from, to, cap, cost, rpos);
         adj[from].emplace_back(pos);
-        edge.emplace_back((edge_t){ to, from, -cost, 0, pos });
+        edge.emplace_back(to, from, 0, -cost, pos);
         adj[to].emplace_back(rpos); 
-        ++E; if(cost < 0) neg_edge_exi = true;
+        ++E; if(cost < 0) neg_edge_exist = true;
     }
 
     vector<cost_t> Dijkstra(int s) {
-        vector<cost_t> dist(V,inf<cost_t>);
-        priority_queue<pair<cost_t,int>,vector<pair<cost_t,int>>,greater<pair<cost_t,int>>> que;
+        vector<cost_t> dist(V, inf<cost_t>);
+        priority_queue<pair<cost_t,int>, vector<pair<cost_t,int>>, greater<pair<cost_t,int>>> que;
         que.emplace(dist[s] = 0, s);
         while(!que.empty()) {
             auto p = que.top(); que.pop();
@@ -139,18 +148,19 @@ struct Flow {
     struct Primal_Dual_exe {
         vector<edge_t> &edge;
         vector<vector<size_t>> &adj;
+        size_t &V;
         vector<cost_t> dist, h;
         vector<int> prev_v;
         vector<edge_t*> prev_e;
-        size_t V;
 
-        Primal_Dual_exe(Flow &_F) : edge(_F.edge), adj(_F.adj), V(_F.V)
+        Primal_Dual_exe(Flow &_F)
+            : edge(_F.edge), adj(_F.adj), V(_F.V)
         {
             dist.resize(_F.V), h.resize(_F.V), prev_v.resize(_F.V), prev_e.resize(_F.V);
         }
 
         bool Dijkstra(int s, int t) {
-            priority_queue<pair<cost_t,int>,vector<pair<cost_t,int>>,greater<pair<cost_t,int>>> que;
+            priority_queue<pair<cost_t,int>, vector<pair<cost_t,int>>, greater<pair<cost_t,int>>> que;
             fill(begin(dist), end(dist), inf<cost_t>);
             que.emplace(dist[s] = 0, s);
             while(!que.empty()) {
@@ -179,11 +189,11 @@ struct Flow {
             cost_t res = 0;
             fill(begin(h), end(h), 0);
             while(f > 0) {
-                if(!Dijkstra(s,t)) return inf<cost_t>;
+                if(!Dijkstra(s, t)) return inf<cost_t>;
                 cap_t d = f;
                 for(int v = t; v != s; v = prev_v[v]) d = min(d, prev_e[v]->cap);
                 f -= d;
-                res += d * h[t];
+                res += h[t] * d;
                 for(int v = t; v != s; v = prev_v[v]) {
                     prev_e[v]->cap -= d;
                     edge[prev_e[v]->rev].cap += d;
@@ -195,23 +205,27 @@ struct Flow {
 
     cost_t Primal_Dual(int s, int t, cap_t f) {
         cost_t corr = 0;
-        if(neg_edge_exi) {
+        if(neg_edge_exist) {
             int _s = V++;
             int _t = V++;
-            add_edge(_s, s, 0, f);
-            add_edge(t, _t, 0, f);
+            adj.resize(V);
+            add_edge(_s, s, f, 0);
+            add_edge(t, _t, f, 0);
             s = _s, t = _t;
+            vector<pair<int, cap_t>> s_addv, t_addv;
             for(edge_t &e : edge) {
-                if(e.cost <  0) {
+                if(e.cap > 0 and e.cost <  0) {
                     f += e.cap;
-                    add_edge(s, e.to, 0, e.cap);
-                    add_edge(e.from, t, 0, e.cap);
-                    corr += e.cap * e.cost;
+                    s_addv.emplace_back(e.to, e.cap);
+                    t_addv.emplace_back(e.from, e.cap);
+                    corr += e.cost * e.cap;
                     edge[e.rev].cap += e.cap;
                     e.cap = 0;
                 }
             }
-            neg_edge_exi = false;
+            for(auto &p : s_addv) add_edge(s, p.first, p.second, 0);
+            for(auto &p : t_addv) add_edge(p.first, t, p.second, 0);
+            neg_edge_exist = false;
         }
         return Primal_Dual_exe(*this).min_cost_flow(s, t, f) + corr;
     } 

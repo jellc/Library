@@ -6,7 +6,6 @@ using namespace std;
 namespace Calcfn {
     constexpr int mod = 1e9 + 7;
 
-    template <int_fast32_t mod>
     struct modint {
         int x;
         constexpr modint() : x(0) {}
@@ -21,7 +20,7 @@ namespace Calcfn {
 
         constexpr modint operator++(int) {
             modint t = *this;
-            return ++x,t;
+            return ++x, t;
         }
 
         constexpr modint &operator-=(const modint &p) {
@@ -33,7 +32,7 @@ namespace Calcfn {
 
         constexpr modint operator--(int) {
             modint t = *this;
-            return --x,t;
+            return --x, t;
         }
 
         constexpr modint &operator*=(const modint &p) {
@@ -70,7 +69,7 @@ namespace Calcfn {
 
         // constexpr bool operator<=(const modint &p) const { return x <= p.x; }
 
-        constexpr static modint inverse(const modint &p) {
+        constexpr friend modint inverse(const modint &p) {
             int a = p.x, b = mod, u = 1, v = 0;
             while(b > 0) {
                 int t = a / b;
@@ -82,10 +81,15 @@ namespace Calcfn {
             return modint(u);
         }
 
-        constexpr static modint pow(modint p, int_fast64_t e) {
-            if(!e) return 1;
+        constexpr friend modint pow(modint p, int_fast64_t e) {
             if(e < 0) e = (e % (mod - 1) + mod - 1) % (mod - 1);
-            return pow(p * p, e >> 1) * (e & 1 ? p : 1);
+            modint ret = 1;
+            while(e) {
+                if(e & 1) ret *= p;
+                p *= p;
+                e >>= 1;
+            }
+            return ret;
         }
 
         friend ostream &operator<<(ostream &s, const modint &p) { return s << p.x; }
@@ -97,7 +101,7 @@ namespace Calcfn {
         }
     };
 
-    constexpr static int N = 2.2e5, N_max = 2.2e6;
+    constexpr int N = 2.2e5, N_max = 2.2e6;
 
     struct impl {
         int_fast64_t fact_[N + 1], invfact_[N + 1], inv_[N + 1];
@@ -111,13 +115,13 @@ namespace Calcfn {
             for(int i = 1; i <= N && i < mod; ++i) invfact_[i] = invfact_[i - 1] * inv_[i] % mod;
         }
     };
-    constexpr static impl impl_exe;
+    constexpr impl impl_exe;
 
     int_fast64_t _dyn_fact[N_max + 1];
     int_fast64_t _dyn_inv[N_max + 1];
     int_fast64_t _dyn_invfact[N_max + 1];
 
-    static int_fast64_t dyn_fact(int x) {
+    int_fast64_t dyn_fact(int x) {
         assert(x <= N_max);
         if(x < 0) return 0;
         static int _size = 1;
@@ -128,7 +132,7 @@ namespace Calcfn {
         return _dyn_fact[x];
     }
 
-    static int_fast64_t dyn_invfact(int x) {
+    int_fast64_t dyn_invfact(int x) {
         assert(x <= N_max && x < mod);
         if(x < 0)  return 0;
         static int _size = 1;
@@ -144,54 +148,35 @@ namespace Calcfn {
         return _dyn_invfact[x];
     }
 
-    static modint<mod> fact(int x) {
-        if(x > N) return dyn_fact(x);
-        return x >= 0 ? impl_exe.fact_[x] : 0;
-    }
+    modint fact(int x) { return x > N ? dyn_fact(x) : x < 0 ? 0 : impl_exe.fact_[x]; }
 
-    static modint<mod> invfact(int x) {
-        assert(x < mod);
-        if(x > N) return dyn_invfact(x);
-        return x >= 0 ? impl_exe.invfact_[x] : 0;
-    }
+    modint invfact(int x) { return x > N ? dyn_invfact(x) : x < 0 ? 0 : impl_exe.invfact_[x]; }
 
-    static modint<mod> binom(int x, int y) {
-        return fact(x) * invfact(y) * invfact(x - y);
-    }
+    modint binom(int x, int y) { return fact(x) * invfact(y) * invfact(x - y); }
 
-    static modint<mod> perm(int x, int y) {
-        return binom(x, y) * fact(y);
-    }
+    modint perm(int x, int y) { return binom(x, y) * fact(y); }
 
-    constexpr static int_fast64_t gcd(int_fast64_t a, int_fast64_t b) {
-        if(!b) return a > 0 ? a : -a; 
-        return gcd(b, a % b);
-    }
-
-    constexpr static int_fast64_t lcm(int_fast64_t a, int_fast64_t b) {
-        if(a | b) return a / gcd(a, b) * b;
-        return 0;
-    }
-
-    constexpr static int_fast64_t ext_gcd(int_fast64_t a, int_fast64_t b, int_fast64_t &x, int_fast64_t &y) {
+    constexpr int_fast64_t ext_gcd(int_fast64_t a, int_fast64_t b, int_fast64_t &x, int_fast64_t &y) {
         int_fast64_t d = a;
         if (b) d = ext_gcd(b, a % b, y, x), y -= (a / b) * x;
         else x = 1, y = 0;
         return d;
     }
 }
-using Calcfn::mod;
 using Calcfn::modint;
 using Calcfn::fact;
 using Calcfn::invfact;
 using Calcfn::perm;
 using Calcfn::binom;
+using Calcfn::ext_gcd;
 /* The snippet ends here. */
+
 
 
 template <int_fast32_t mod>
 struct modint {
     int x;
+    
     constexpr modint() : x(0) {}
     constexpr modint(int_fast64_t y) : x(y >= 0 ? y % mod : (mod - (-y) % mod) % mod) {}
 
@@ -200,12 +185,9 @@ struct modint {
         return *this;
     }
 
-    constexpr modint &operator++() { return ++x,*this; }
+    constexpr modint &operator++() { return ++x, *this; }
 
-    constexpr modint operator++(int) {
-        modint t = *this;
-        return ++x,t;
-    }
+    constexpr modint operator++(int) { modint t = *this; return ++x, t; }
 
     constexpr modint &operator-=(const modint &p) {
         if((x += mod - p.x) >= mod) x -= mod;
@@ -214,20 +196,13 @@ struct modint {
 
     constexpr modint &operator--() { return --x, *this; }
 
-    constexpr modint operator--(int) {
-        modint t = *this;
-        return --x,t;
-    }
+    constexpr modint operator--(int) { modint t = *this; return --x, t; }
 
-    constexpr modint &operator*=(const modint &p) {
-        x = (int) (1LL * x * p.x % mod);
-        return *this;
-    }
+    constexpr modint &operator*=(const modint &p) { return x = (int_fast64_t)x * p.x % mod, *this; }
 
-    constexpr modint &operator/=(const modint &p) {
-        *this *= inverse(p);
-        return *this;
-    }
+    constexpr modint &operator/=(const modint &p) { return *this *= inverse(p); }
+
+    // constexpr modint &operator%=(int m) { return x %= m, *this; }
 
     constexpr modint operator-() const { return modint(-x); }
 
@@ -238,6 +213,8 @@ struct modint {
     constexpr modint operator*(const modint &p) const { return modint(*this) *= p; }
 
     constexpr modint operator/(const modint &p) const { return modint(*this) /= p; }
+
+    // constexpr modint operator%(int m) const { return modint(*this) %= m; }
 
     constexpr bool operator==(const modint &p) const { return x == p.x; }
 
@@ -253,7 +230,7 @@ struct modint {
 
     // constexpr bool operator<=(const modint &p) const { return x <= p.x; }
 
-    constexpr static modint inverse(const modint &p) {
+    constexpr friend modint inverse(const modint &p) {
         int a = p.x, b = mod, u = 1, v = 0;
         while(b > 0) {
             int t = a / b;
@@ -265,10 +242,15 @@ struct modint {
         return modint(u);
     }
 
-    constexpr static modint pow(modint p, int_fast64_t e) {
-        if(!e) return 1;
+    constexpr friend modint pow(modint p, int_fast64_t e) {
         if(e < 0) e = (e % (mod - 1) + mod - 1) % (mod - 1);
-        return pow(p * p, e >> 1) * (e & 1 ? p : 1);
+        modint ret = 1;
+        while(e) {
+            if(e & 1) ret *= p;
+            p *= p;
+            e >>= 1;
+        }
+        return ret;
     }
 
     friend ostream &operator<<(ostream &s, const modint &p) { return s << p.x; }

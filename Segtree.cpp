@@ -2,7 +2,6 @@
 using namespace std;
 
 
-
 template <class Monoid, class act_t>
 struct Segtree {
     vector<Monoid> data;
@@ -48,17 +47,20 @@ struct Segtree {
         for(size_t i = N - 1; i; --i) data[i] = opr(data[left(i)], data[right(i)]);
     }
 
-    void update(size_t idx, act_t val) {
-        update_opr(data[idx += N], val);
+    void update(size_t idx, const act_t &actor) {
+        update_opr(data[idx += N], actor);
         while(idx >>= 1) data[idx] = opr(data[idx * 2], data[idx * 2 + 1]);
     }
 
-    Monoid query(size_t a, size_t b, bool is_first = true) const {
-        if(a >= b) return identity;
-        if(is_first) a += N, b += N;
-        Monoid left = a & 1 ? data[a++] : identity;
-        Monoid right = b & 1 ? data[--b] : identity;
-        return opr(opr(left, query(a >> 1, b >> 1, false)), right);
+    Monoid query(size_t a, size_t b) const {
+        Monoid lft = identity, rgt = identity;
+        a += N, b += N;
+        while(a < b) {
+            if(a & 1) lft = opr(lft, data[a++]);
+            if(b & 1) rgt = opr(data[--b], rgt);
+            a >>= 1, b >>= 1; 
+        }
+        return opr(lft, rgt);
     }
 
     size_t rightbound(size_t idx, const function<bool(const Monoid&)> &judge) {
@@ -112,6 +114,7 @@ struct Segtree {
 
 
 
+
 template <class Monoid, class act_t>
 struct LazySegtree {
     const size_t n, N;
@@ -149,7 +152,7 @@ struct LazySegtree {
         lazyflag.assign(N << 1, false);
     }
 
-    const Monoid& operator[](size_t i) { return query(i, i + 1); }
+    Monoid operator[](size_t i) { return query(i, i + 1); }
 
     template <class P> void copy(P s, P t) {
         for(size_t i = N; s != t; ++s, ++i) data[i] = *s;
@@ -175,6 +178,8 @@ struct LazySegtree {
         lazyflag[k] = false;
     }
 
+    void update(size_t a, const act_t &actor) { update(a, a + 1, actor); }
+
     void update(size_t a, size_t b, const act_t &actor) { update(a, b, actor, 1, 0, N); }
 
     void update(size_t a, size_t b, const act_t &actor, size_t k, size_t l, size_t r) {
@@ -190,6 +195,8 @@ struct LazySegtree {
             data[k] = opr(data[left(k)], data[right(k)]);
         }
     }
+
+    Monoid query(size_t a) { return query(a, a + 1); }
 
     Monoid query(size_t a, size_t b) { return query(a, b, 1, 0, N); }
 
