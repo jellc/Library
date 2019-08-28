@@ -19,7 +19,7 @@ namespace trie_prep {
     };
 
     template <size_t dep> 
-    struct trie {
+    struct Binary_trie {
         size_t _kinds;
         node *root;
         int_fast64_t power[dep];
@@ -28,7 +28,7 @@ namespace trie_prep {
             return x >> (dep - d - 1) & 1;
         }
 
-        trie() : _kinds(), root(node::alloc(nullptr))
+        Binary_trie() : _kinds(), root(node::alloc(nullptr))
         {
             for(int_fast64_t i = (int)dep - 1, t = 1; i >= 0; --i, t <<= 1) {
                 power[i] = t;
@@ -126,13 +126,12 @@ namespace trie_prep {
         }
     };
 }
-using trie_prep::trie;
+using trie_prep::Binary_trie;
 
 
 
 
-
-template <class T, class seq_t = std::vector<T>> 
+template <class T, class seq_t = std::vector<T>>
 struct Trie
 {
     struct node
@@ -148,23 +147,29 @@ struct Trie
         explicit node(node *p) : tag(), tag_set(), is_ter(true), is_root(), par(p), ter(), child(), cnt(), typ() {}
 
         explicit node(T _tag, node *p) : tag(_tag), tag_set(true), is_ter(), is_root(), par(p), ter(), child(), cnt(), typ() {}
-        
+
         ~node()
         {
             delete ter;
             for(auto &e : child) delete e.second;
         }
+
+        friend bool valid(node *p) { return p and p->cnt and p->typ; }
     };
 
-    node *root;
+    using dict_t = std::map<T, node*>;
+
+    node* const root;
 
     explicit Trie() : root(new node) {}
 
+#if defined(LOCAL) or defined(DEBUG)
     ~Trie() { delete root; }
+#endif
 
-    size_t size() const { return root->cnt; }
+    std::size_t size() const { return root->cnt; }
 
-    size_t type() const { return root->typ; }
+    std::size_t type() const { return root->typ; }
 
     bool insert(const seq_t &s)
     {
@@ -192,7 +197,7 @@ struct Trie
         return true;
     }
 
-    size_t erase(const seq_t &s, size_t k = 1)
+    std::size_t erase(const seq_t &s, std::size_t k = 1)
     {
         node *p = root;
         for(const T &x : s)
@@ -213,7 +218,7 @@ struct Trie
         return k;
     }
 
-    size_t erase(size_t idx)
+    std::size_t erase(std::size_t idx)
     {
         if(idx >= size()) return 0;
         node *p = root;
@@ -221,7 +226,7 @@ struct Trie
         {
             if(p->ter)
             {
-                size_t here = p->ter->cnt;
+                std::size_t here = p->ter->cnt;
                 if(idx < here)
                 {
                     p = p->ter;
@@ -233,7 +238,7 @@ struct Trie
             for(const auto &e : p->child)
             {
                 T x; node *t; tie(x, t) = e;
-                size_t here = t ? t->cnt : 0;
+                std::size_t here = t ? t->cnt : 0;
                 if(idx < here)
                 {
                     nx = t;
@@ -267,46 +272,46 @@ struct Trie
         return p ? p->cnt : 0;
     }
 
-    size_t lower_bound(const seq_t &s) const
-    {
-        size_t ret = 0;
-        node *p = root;
-        for(const T &x : s)
-        {
-            if(not p) break;
-            if(p->ter) ret += p->ter->cnt;
-            for(const auto &e : p->child)
-            {
-                if(e.first == x) break;
-                node *t = e.second;
-                if(t) ret += t->cnt;
-            }
-            p = p->child[x];
-        }
-        return ret;
-    }
+    // std::size_t lower_bound(const seq_t &s) const
+    // {
+    //     std::size_t ret = 0;
+    //     node *p = root;
+    //     for(const T &x : s)
+    //     {
+    //         if(not p) break;
+    //         if(p->ter) ret += p->ter->cnt;
+    //         for(const auto &e : p->child)
+    //         {
+    //             if(e.first == x) break;
+    //             node *t = e.second;
+    //             if(t) ret += t->cnt;
+    //         }
+    //         p = p->child[x];
+    //     }
+    //     return ret;
+    // }
+    //
+    // std::size_t upper_bound(const seq_t &s) const
+    // {
+    //     std::size_t ret = 0;
+    //     node *p = root;
+    //     for(const T &x : s)
+    //     {
+    //         if(not p) break;
+    //         if(p->ter) ret += p->ter->cnt;
+    //         for(const auto &e : p->child)
+    //         {
+    //             if(e.first == x) break;
+    //             node *t = e.second;
+    //             if(t) ret += t->cnt;
+    //         }
+    //         p = p->child[x];
+    //     }
+    //     if(p and p->ter) ret += p->ter->cnt;
+    //     return ret;
+    // }
 
-    size_t upper_bound(const seq_t &s) const
-    {
-        size_t ret = 0;
-        node *p = root;
-        for(const T &x : s)
-        {
-            if(not p) break;
-            if(p->ter) ret += p->ter->cnt;
-            for(const auto &e : p->child)
-            {
-                if(e.first == x) break;
-                node *t = e.second;
-                if(t) ret += t->cnt;
-            }
-            p = p->child[x];
-        }
-        if(p and p->ter) ret += p->ter->cnt;
-        return ret;
-    }
-
-    seq_t operator[](size_t idx) const
+    seq_t operator[](std::size_t idx) const
     {
         assert(idx < size());
         node *p = root;
@@ -315,15 +320,15 @@ struct Trie
         {
             if(p->ter)
             {
-                size_t here = p->ter->cnt;
+                std::size_t here = p->ter->cnt;
                 if(idx < here) break;
                 idx -= here;
             }
             node *nx = nullptr;
             for(const auto &e : p->child)
             {
-                T x; node *t; tie(x, t) = e;
-                size_t here = t ? t->cnt : 0;
+                T x; node *t; std::tie(x, t) = e;
+                std::size_t here = t ? t->cnt : 0;
                 if(idx < here)
                 {
                     ret.push_back(x);
@@ -341,46 +346,58 @@ struct Trie
         Trie *trie_ptr;
         node *node_ptr;
         seq_t s;
-        std::size_t idx;
+        std::size_t type_idx, size_idx;
 
         explicit iterator_t()
-            : trie_ptr(), node_ptr(), s(), idx(-1)
+            : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1)
         {}
 
         iterator_t(const iterator_t &itr)
-            : trie_ptr(itr.trie_ptr), node_ptr(itr.node_ptr), s(itr.s), idx(itr.idx)
+            : trie_ptr(itr.trie_ptr), node_ptr(itr.node_ptr), s(itr.s), type_idx(itr.type_idx), size_idx(itr.size_idx)
         {}
 
-        explicit iterator_t(Trie *_trie_ptr, std::size_t _idx)
-            : trie_ptr(_trie_ptr), node_ptr(), s(), idx(_idx)
+        explicit iterator_t(Trie *_trie_ptr, std::size_t _type_idx)
+            : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx), size_idx()
         {
-            if(idx != trie_ptr->type())
+            if(_type_idx != trie_ptr->type())
             {
                 node* &p = (node_ptr = trie_ptr->root);
                 while(p)
                 {
-                    std::size_t here = p->ter ? p->ter->cnt : 0;
-                    if(_idx < here)
+                    std::size_t here_typ = p->ter ? p->ter->typ : 0;
+                    std::size_t here_cnt = p->ter ? p->ter->cnt : 0;
+                    if(_type_idx < here_typ)
                     {
                         p = p->ter; break;
                     }
-                    _idx -= here;
+                    _type_idx -= here_typ;
+                    size_idx += here_cnt;
                     node *nx = nullptr;
                     for(const auto &e : p->child)
                     {
-                        T x; node *t; tie(x, t) = e;
-                        here = t ? t->cnt : 0;
-                        if(_idx < here)
+                        T x; node *t; std::tie(x, t) = e;
+                        here_typ = t ? t->typ : 0;
+                        here_cnt = t ? t->cnt : 0;
+                        if(_type_idx < here_typ)
                         {
                             s.push_back(x);
                             nx = t; break;
                         }
-                        _idx -= here;
+                        _type_idx -= here_typ;
+                        size_idx += here_cnt;
                     }
                     p = nx;
                 }
             }
+            else
+            {
+                size_idx = trie_ptr->size();
+            }
         }
+
+        explicit iterator_t(Trie *_trie_ptr, node *_node_ptr, const seq_t &_s, std::size_t _type_idx, std::size_t _size_idx)
+            : trie_ptr(_trie_ptr), node_ptr(_node_ptr), s(_s), type_idx(_type_idx), size_idx(_size_idx)
+        {}
 
         node *operator->() const { return node_ptr; }
 
@@ -388,27 +405,28 @@ struct Trie
 
         bool operator==(const iterator_t &itr) const
         {
-            return trie_ptr == itr.trie_ptr and idx == itr.idx;
+            return trie_ptr == itr.trie_ptr and type_idx == itr.type_idx;
         }
 
         bool operator!=(const iterator_t &itr) const { return not (*this == itr); }
 
         iterator_t &operator++()
         {
+            size_idx += count();
             node *p = node_ptr;
             while(p->par)
             {
-                auto map_itr = p->par->child.begin();
+                auto dict_itr = p->par->child.begin();
                 if(not p->is_ter)
                 {
-                    map_itr = p->par->child.upper_bound(p->tag);
+                    dict_itr = p->par->child.upper_bound(p->tag);
                     s.pop_back();
                 }
                 p = p->par;
-                while(map_itr != p->child.end() and (not map_itr->second or not map_itr->second->cnt)) ++map_itr;
-                if(map_itr != p->child.end())
+                while(dict_itr != p->child.end() and not valid(dict_itr->second)) ++dict_itr;
+                if(dict_itr != p->child.end())
                 {
-                    p = map_itr->second;
+                    p = dict_itr->second;
                     s.push_back(p->tag);
                     break;
                 }
@@ -419,22 +437,23 @@ struct Trie
             }
             else
             {
-                while(not p->ter or not p->ter->cnt)
+                while(not valid(p->ter))
                 {
                     node *nx = nullptr;
                     for(const auto &e : p->child)
                     {
-                        if(e.second and e.second->cnt)
+                        T x; node *t; std::tie(x, t) = e;
+                        if(valid(t))
                         {
-                            s.push_back(e.first);
-                            nx = e.second; break;
+                            s.push_back(x);
+                            nx = t; break;
                         }
                     }
                     p = nx;
                 }
                 node_ptr = p->ter;
             }
-            ++idx;
+            ++type_idx;
             return *this;
         }
 
@@ -448,23 +467,23 @@ struct Trie
             node *p = trie_ptr->root;
             if(*this == trie_ptr->end())
             {
-                if(p->cnt)
+                if(p->typ)
                 {
-                    while(true)
+                    while(not p->is_ter)
                     {
-                        auto map_itr = p->child.rbegin();
-                        while(map_itr != p->child.rend() and (not map_itr->second or not map_itr->second->cnt))
+                        auto dict_itr = p->child.rbegin();
+                        while(dict_itr != p->child.rend() and not valid(dict_itr->second))
                         {
-                            ++map_itr;
+                            ++dict_itr;
                         }
-                        if(map_itr != p->child.rend())
+                        if(dict_itr != p->child.rend())
                         {
-                            p = map_itr->second;
+                            p = dict_itr->second;
                             s.push_back(p->tag);
                         }
                         else
                         {
-                            p = p->ter; break;
+                            p = p->ter;
                         }
                     }
                     node_ptr = p;
@@ -476,18 +495,18 @@ struct Trie
                 p = node_ptr->par;
                 while(p->par)
                 {
-                    auto map_itr = p->par->child.rend();
-                    map_itr = std::reverse_iterator<typename decltype(p->par->child)::iterator>(p->par->child.lower_bound(p->tag));
+                    auto map_ritr = p->par->child.rend();
+                    map_ritr = std::reverse_iterator<typename dict_t::iterator>(p->par->child.lower_bound(p->tag));
                     s.pop_back();
                     p = p->par;
-                    while(map_itr != p->child.rend() and (not map_itr->second or not map_itr->second->cnt)) ++map_itr;
-                    if(map_itr != p->child.rend())
+                    while(map_ritr != p->child.rend() and not valid(map_ritr->second)) ++map_ritr;
+                    if(map_ritr != p->child.rend())
                     {
-                        p = map_itr->second;
-                        s.push_back(map_itr->first);
+                        p = map_ritr->second;
+                        s.push_back(map_ritr->first);
                         break;
                     }
-                    else if(p->ter and p->ter->cnt)
+                    else if(p->ter and p->ter->typ)
                     {
                         is_prefix = true; break;
                     }
@@ -504,25 +523,27 @@ struct Trie
                     }
                     else
                     {
-                        while(true)
+                        while(not p->is_ter)
                         {
-                            auto map_itr = p->child.rbegin();
-                            while(map_itr != p->child.rend() and (not map_itr->second or not map_itr->second->cnt)) ++map_itr;
-                            if(map_itr != p->child.rend())
+                            auto map_ritr = p->child.rbegin();
+                            while(map_ritr != p->child.rend() and not valid(map_ritr->second)) ++map_ritr;
+                            if(map_ritr != p->child.rend())
                             {
-                                s.push_back(map_itr->first);
-                                p = map_itr->second;
+                                s.push_back(map_ritr->first);
+                                p = map_ritr->second;
                             }
                             else
                             {
-                                p = p->ter; break;   
+                                p = p->ter;
                             }
                         }
                         node_ptr = p;
                     }
                 }
             }
-            --idx;
+            --type_idx;
+            if(node_ptr) size_idx -= node_ptr->cnt;
+            else size_idx = -1;
             return *this;
         }
 
@@ -531,16 +552,97 @@ struct Trie
             iterator_t ret = *this; return --(*this), ret;
         }
 
-        std::size_t count() const { return node_ptr->cnt; }
+        std::size_t count() const { return node_ptr ? node_ptr->cnt : 0; }
     };
 
     friend iterator_t;
-    iterator_t begin() { return iterator_t(this, 0); }
-    iterator_t end() { return iterator_t(this, type()); }
-    std::reverse_iterator<iterator_t> rbegin() { return std::reverse_iterator<iterator_t>(end()); }
-    std::reverse_iterator<iterator_t> rend() { return std::reverse_iterator<iterator_t>(begin()); }
-};
 
+    iterator_t begin() { return iterator_t(this, 0); }
+
+    iterator_t end() { return iterator_t(this, type()); }
+
+    std::reverse_iterator<iterator_t> rbegin() { return std::reverse_iterator<iterator_t>(end()); }
+
+    std::reverse_iterator<iterator_t> rend() { return std::reverse_iterator<iterator_t>(begin()); }
+
+    iterator_t lower_bound(const seq_t &key)
+    {
+        std::size_t size_idx = 0, type_idx = 0;
+        seq_t s;
+        node *p = root;
+        bool go_back = false;
+        for(const T &x : key)
+        {
+            if(p->ter)
+            {
+                size_idx += p->ter->cnt;
+                type_idx += p->ter->typ;
+            }
+            node *nx = nullptr;
+            for(const auto &e : p->child)
+            {
+                T y; node *t; std::tie(y, t) = e;
+                if(valid(t))
+                {
+                    if(y < x)
+                    {
+                        size_idx += t->cnt;
+                        type_idx += t->typ;
+                    }
+                    else if(t->typ)
+                    {
+                        s.push_back(y);
+                        nx = t; break;
+                    }
+                }
+            }
+            if(not nx)
+            {
+                go_back = true; break;
+            }
+            p = nx;
+            if(p->tag > x) break;
+        }
+        if(go_back)
+        {
+            while(not p->is_root)
+            {
+                p = p->par;
+                auto dict_itr = p->child.upper_bound(s.back());
+                s.pop_back();
+                while(dict_itr != p->child.end() and not valid(dict_itr->second)) ++dict_itr;
+                if(dict_itr != p->child.end())
+                {
+                    p = dict_itr->second;
+                    s.push_back(dict_itr->first);
+                    break;
+                }
+            }
+            if(p->is_root) return end();
+        }
+        while(not p->is_ter)
+        {
+            if(valid(p->ter))
+            {
+                p = p->ter;
+            }
+            else
+            {
+                auto dict_itr = p->child.begin();
+                while(dict_itr != p->child.end() and not valid(dict_itr->second)) ++dict_itr;
+                p = dict_itr->second; s.push_back(dict_itr->first);
+            }
+        }
+        return iterator_t(this, p, s, type_idx, size_idx);
+    }
+
+    iterator_t upper_bound(const seq_t &s)
+    {
+        auto itr = lower_bound(s);
+        if(*itr == s) ++itr;
+        return itr;
+    }
+};
 
 
 
