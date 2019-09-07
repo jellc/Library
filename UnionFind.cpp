@@ -1,143 +1,185 @@
-#include <bits/stdc++.h>
-using namespace std;
-template <class T> constexpr T inf = numeric_limits<T>::max() / (T)2;
+struct UnionFind
+{
+    std::vector<int> par, _size;
+    std::vector<bool> cyc;
 
+    explicit UnionFind(int n)
+    {
+        init(n);
+    }
 
-struct UnionFind {
-    vector<int> par,siz;
-    vector<bool> cyc;
- 
-    UnionFind(int n) { init(n); }
- 
-    void init(int n) {
+    void init(int n)
+    {
         par.resize(n);
-        iota(begin(par), end(par), 0);
-        siz.assign(n, 1);
+        std::iota(par.begin(), par.end(), 0);
+        _size.assign(n, 1);
         cyc.assign(n, false);
     }
- 
-    int find(int x) {
+
+    int find(int x)
+    {
         if(par[x] == x) return x;
         int r = find(par[x]);
         return par[x] = r;
     }
- 
-    size_t size(int x) { return siz[find(x)]; }
 
-    bool is_cyclic(int x) { return cyc[find(x)]; }
- 
-    bool is_same(int x, int y) { return find(x) == find(y); }
- 
-    bool unite(int x, int y) {
+    size_t size(int x)
+    {
+        return _size[find(x)];
+    }
+
+    bool is_cyclic(int x)
+    {
+        return cyc[find(x)];
+    }
+
+    bool is_same(int x, int y)
+    {
+        return find(x) == find(y);
+    }
+
+    bool unite(int x, int y)
+    {
         x = find(x);
         y = find(y);
-        if(x == y) {
+        if(x == y)
+        {
             cyc[x] = true;
             return false;
         }
-        if(siz[x] < siz[y]) swap(x,y);
-        siz[x] += siz[y];
+        if(_size[x] < _size[y]) std::swap(x, y);
+        _size[x] += _size[y];
         par[y] = x;
         cyc[x] = cyc[x] || cyc[y];
         return true;
     }
 };
 
-
-
 template <class Abel>
-struct WeightedUF {
-    vector<int> par, siz;
+struct WeightedUF
+{
+    vector<int> par, _size;
     vector<Abel> diff_weight;
 
-    WeightedUF(int n) { init(n); }
+    explicit WeightedUF(int n)
+    {
+        init(n);
+    }
 
-    void init(int n) {
+    void init(int n)
+    {
         par.resize(n);
-        iota(begin(par), end(par), 0);
-        siz.assign(n, 1);
+        std::iota(par.begin(), par.end(), 0);
+        _size.assign(n, 1);
         diff_weight.resize(n);
     }
 
-    int find(int x) {
+    int find(int x)
+    {
         if(par[x]) return x;
         int r = find(par[x]);
         diff_weight[x] += diff_weight[par[x]];
         return par[x] = r;
     }
 
-    size_t size(int x) { return siz[find(x)]; }
+    size_t size(int x)
+    {
+        return _size[find(x)];
+    }
 
-    Abel weight(int x) {
+    Abel weight(int x)
+    {
         find(x);
         return diff_weight[x];
     }
 
-    Abel diff(int x, int y) { return weight(y) - weight(x); }
+    Abel diff(int x, int y)
+    {
+        return weight(y) - weight(x);
+    }
 
-    bool is_same(int x, int y) { return find(x) == find(y); }
+    bool is_same(int x, int y)
+    {
+        return find(x) == find(y);
+    }
 
-    bool unite(int x, int y, Abel w = 0) {
+    bool unite(int x, int y, Abel w = 0)
+    {
         w += weight(x);
         w += weight(y);
         x = find(x);
         y = find(y);
         if(x == y) return false;
-        if(size[x] < size[y]) {
-            swap(x,y);
+        if(_size[x] < _size[y])
+        {
+            std::swap(x, y);
             w = -w;
         }
-        size[x] += size[y];
+        _size[x] += _size[y];
         par[y] = x;
         diff_weight[y] = w;
         return true;
     }
 };
 
-
-
-struct PersistentUF {
-    vector<int> par;
-    vector<int> time;
-    vector<vector<pair<int,int>>> siz;
+struct PersistentUF
+{
+    template <class T>
+    static constexpr T inf = std::numeric_limits<T>::max() / T(2) - T(1123456);
+    std::vector<int> par;
+    std::vector<int> time;
+    std::vector<std::vector<std::pair<int, int>>> _size;
     int clock;
 
-    PersistentUF(int n) : clock() { init(n); }
+    explicit PersistentUF(int n) : clock()
+    {
+        init(n);
+    }
 
-    void init(int n) {
+    void init(int n)
+    {
         par.resize(n);
-        iota(begin(par), end(par), 0);
-        siz.resize(n, vector<pair<int,int>>(1, {0, 1}));
+        std::iota(par.begin(), par.end(), 0);
+        _size.resize(n, std::vector<std::pair<int, int>>(1, {0, 1}));
         time.assign(n, inf<int>);
     }
 
-    size_t size(int x, int t = inf<int> - 1) {
-        int p = find(x,t);
-        return prev(lower_bound(begin(siz[p]),end(siz[p]),make_pair(t + 1,1)))->second;
+    std::size_t size(int x, int t = inf<int> - 1)
+    {
+        int p = find(x, t);
+        return std::prev(
+                   std::lower_bound(_size[p].begin(), _size[p].end(), std::make_pair(t + 1, 1)))
+            ->second;
     }
 
-    int find(int x, int t = inf<int> - 1) {
+    int find(int x, int t = inf<int> - 1)
+    {
         if(time[x] > t) return x;
-        return find(par[x],t);
+        return find(par[x], t);
     }
 
-    bool is_same(int x, int y, int t = inf<int> - 1) { return find(x,t) == find(y,t); }
+    bool is_same(int x, int y, int t = inf<int> - 1)
+    {
+        return find(x, t) == find(y, t);
+    }
 
-    int unite(int x, int y) {
+    int unite(int x, int y)
+    {
         ++clock;
         x = find(x);
         y = find(y);
-        if(x != y) {
-            size_t sx = siz[x].back().second;
-            size_t sy = siz[y].back().second;
-            if(sx < sy) {
-                swap(x,y), swap(sx,sy);
+        if(x != y)
+        {
+            std::size_t sx = _size[x].back().second;
+            std::size_t sy = _size[y].back().second;
+            if(sx < sy)
+            {
+                std::swap(x, y), std::swap(sx, sy);
             }
-            siz[x].emplace_back(clock,sx + sy);
+            _size[x].emplace_back(clock, sx + sy);
             par[y] = x;
             time[y] = clock;
         }
         return clock;
     }
 };
-
