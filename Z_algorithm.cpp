@@ -1,15 +1,19 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-namespace Z_algorithm {
-    vector<int> prefix(const string &str) {
-        vector<int> pref(str.size());
-        for(int i = 1, j = 0; i < (int)str.size(); ++i) {
-            if(pref[i - j] + i < pref[j] + j) {
+namespace Z_algorithm
+{
+    std::vector<int> prefix(const std::string &str)
+    {
+        std::vector<int> pref(str.size());
+        for(int i = 1, j = 0; i < (int)str.size(); ++i)
+        {
+            if(pref[i - j] + i < pref[j] + j)
+            {
                 pref[i] = pref[i - j];
-            } else {
+            }
+            else
+            {
                 int k = max(0, pref[j] + j - i);
-                while(k + i < (int)str.size() && str[k] == str[k + i]) ++k;
+                while(k + i < (int)str.size() && str[k] == str[k + i])
+                    ++k;
                 pref[i] = k;
                 j = i;
             }
@@ -18,10 +22,11 @@ namespace Z_algorithm {
         return pref;
     }
 
-    vector<int> prefix(const string &str, const string &key) {
-        vector<int> pref = prefix(key + str);
-        for(int &i : pref) i = min(i,(int)key.size());
-        return vector<int>(begin(pref) + key.size(), end(pref));
+    std::vector<int> prefix(const std::string &str, const std::string &key)
+    {
+        std::vector<int> pref = prefix(key + str);
+        for(int &i : pref)
+            i = min(i, (int)key.size());
+        return std::vector<int>(pref.begin() + key.size(), pref.end());
     }
-}
-
+} // namespace Z_algorithm
