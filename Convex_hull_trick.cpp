@@ -29,7 +29,6 @@ class Convex_hull_trick
         }
     };
 
-    static constexpr K inf = std::numeric_limits<K>::max() / K(2) - K(11234567);
     using comp_t = std::function<bool(const K &, const K &)>;
     const comp_t comp;
     const K x_min, x_max, eps;
@@ -70,8 +69,9 @@ class Convex_hull_trick
     }
 
   public:
+    static constexpr K inf = std::numeric_limits<K>::max() / K(2) - K(1123456);
     // domain set to be the interval [x_min, x_max).
-    Convex_hull_trick(const comp_t &_comp, const K _x_min, const K _x_max,
+    explicit Convex_hull_trick(const comp_t &_comp, const K _x_min, const K _x_max,
                       const K _eps = K(1))
         : comp(_comp), x_min(_x_min), x_max(_x_max), eps(_eps), root()
     {}
