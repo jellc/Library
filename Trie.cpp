@@ -1,6 +1,5 @@
-#include <bits/stdc++.h>
-
 // verified at https://codeforces.com/contest/1202/submission/59818756
+#include <bits/stdc++.h>
 
 template <class T, class seq_t = std::vector<T>>
 struct Trie
@@ -13,7 +12,7 @@ struct Trie
         const bool tag_set, is_ter, is_root;
         node *const par, *ter;
         std::map<T, node *> child;
-        std::size_t cnt, typ;
+        size_t cnt, typ;
 
         explicit node()
             : tag(), tag_set(), is_ter(), is_root(true), par(), ter(), child(),
@@ -58,7 +57,7 @@ struct Trie
 
         node *failure = nullptr;
 
-        std::size_t sfx_wrd = 0;
+        size_t sfx_wrd = 0;
     };
 
     using dict_t = std::map<T, node *>;
@@ -75,12 +74,12 @@ struct Trie
     }
 #endif
 
-    std::size_t size() const
+    size_t size() const
     {
         return root->cnt;
     }
 
-    std::size_t type() const
+    size_t type() const
     {
         return root->typ;
     }
@@ -105,7 +104,7 @@ struct Trie
         return ret;
     }
 
-    std::size_t erase(const seq_t &s, std::size_t k = 1)
+    size_t erase(const seq_t &s, size_t k = 1)
     {
         node *p = root;
         for(const T &x : s)
@@ -130,7 +129,7 @@ struct Trie
         return k;
     }
 
-    std::size_t erase(std::size_t idx)
+    size_t erase(size_t idx)
     {
         if(idx >= size()) return 0;
         node *p = root;
@@ -138,7 +137,7 @@ struct Trie
         {
             if(p->ter)
             {
-                std::size_t here = p->ter->cnt;
+                size_t here = p->ter->cnt;
                 if(idx < here)
                 {
                     p = p->ter;
@@ -152,7 +151,7 @@ struct Trie
                 T x;
                 node *t;
                 tie(x, t) = e;
-                std::size_t here = t ? t->cnt : 0;
+                size_t here = t ? t->cnt : 0;
                 if(idx < here)
                 {
                     nx = t;
@@ -175,7 +174,7 @@ struct Trie
         return 1;
     }
 
-    std::size_t count(const seq_t &s) const
+    size_t count(const seq_t &s) const
     {
         node *p = root;
         for(const T &x : s)
@@ -187,9 +186,9 @@ struct Trie
         return p ? p->cnt : 0;
     }
 
-    // std::size_t lower_bound(const seq_t &s) const
+    // size_t lower_bound(const seq_t &s) const
     // {
-    //     std::size_t ret = 0;
+    //     size_t ret = 0;
     //     node *p = root;
     //     for(const T &x : s)
     //     {
@@ -206,9 +205,9 @@ struct Trie
     //     return ret;
     // }
     //
-    // std::size_t upper_bound(const seq_t &s) const
+    // size_t upper_bound(const seq_t &s) const
     // {
-    //     std::size_t ret = 0;
+    //     size_t ret = 0;
     //     node *p = root;
     //     for(const T &x : s)
     //     {
@@ -226,7 +225,7 @@ struct Trie
     //     return ret;
     // }
 
-    seq_t operator[](std::size_t idx) const
+    seq_t operator[](size_t idx) const
     {
         assert(idx < size());
         node *p = root;
@@ -235,7 +234,7 @@ struct Trie
         {
             if(p->ter)
             {
-                std::size_t here = p->ter->cnt;
+                size_t here = p->ter->cnt;
                 if(idx < here) break;
                 idx -= here;
             }
@@ -245,7 +244,7 @@ struct Trie
                 T x;
                 node *t;
                 std::tie(x, t) = e;
-                std::size_t here = t ? t->cnt : 0;
+                size_t here = t ? t->cnt : 0;
                 if(idx < here)
                 {
                     ret.push_back(x);
@@ -265,7 +264,7 @@ struct Trie
         Trie *const trie_ptr;
         node *node_ptr;
         seq_t s;
-        std::size_t type_idx, size_idx;
+        size_t type_idx, size_idx;
 
         explicit iterator_t()
             : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1)
@@ -276,7 +275,7 @@ struct Trie
               type_idx(itr.type_idx), size_idx(itr.size_idx)
         {}
 
-        explicit iterator_t(Trie *_trie_ptr, std::size_t _type_idx)
+        explicit iterator_t(Trie *_trie_ptr, size_t _type_idx)
             : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx),
               size_idx()
         {
@@ -285,8 +284,8 @@ struct Trie
                 node *&p = (node_ptr = trie_ptr->root);
                 while(p)
                 {
-                    std::size_t here_typ = p->ter ? p->ter->typ : 0;
-                    std::size_t here_cnt = p->ter ? p->ter->cnt : 0;
+                    size_t here_typ = p->ter ? p->ter->typ : 0;
+                    size_t here_cnt = p->ter ? p->ter->cnt : 0;
                     if(_type_idx < here_typ)
                     {
                         p = p->ter;
@@ -321,7 +320,7 @@ struct Trie
         }
 
         explicit iterator_t(Trie *_trie_ptr, node *_node_ptr, const seq_t &_s,
-                            std::size_t _type_idx, std::size_t _size_idx)
+                            size_t _type_idx, size_t _size_idx)
             : trie_ptr(_trie_ptr), node_ptr(_node_ptr), s(_s),
               type_idx(_type_idx), size_idx(_size_idx)
         {}
@@ -504,7 +503,7 @@ struct Trie
             return --(*this), ret;
         }
 
-        std::size_t count() const
+        size_t count() const
         {
             return node_ptr ? node_ptr->cnt : 0;
         }
@@ -534,7 +533,7 @@ struct Trie
 
     iterator_t lower_bound(const seq_t &key)
     {
-        std::size_t size_idx = 0, type_idx = 0;
+        size_t size_idx = 0, type_idx = 0;
         seq_t s;
         node *p = root;
         bool go_back = false;
@@ -666,7 +665,7 @@ struct Trie
             return now = now ? now->child[x] : root;
         }
 
-        std::size_t query(node *now)
+        size_t query(node *now)
         {
             return now->sfx_wrd;
         }
@@ -675,15 +674,15 @@ struct Trie
 
 // verified at https://atcoder.jp/contests/dwacon5th-final/submissions/7200502
 
-template <std::size_t depth, class int_t = int_fast64_t>
+template <size_t depth, class int_t = int_fast64_t>
 struct Binary_trie
 {
     struct node
     {
         bool tag;
         node *par, *lft, *rgt;
-        std::size_t digit;
-        std::size_t cnt, typ;
+        size_t digit;
+        size_t cnt, typ;
         node() : tag(), par(), lft(), rgt(), digit(depth), cnt(), typ()
         {}
         node(bool _tag, node *p)
@@ -693,9 +692,9 @@ struct Binary_trie
         // ~node() { delete lft, delete rgt; }
         friend node *alloc(bool _tag, node *p)
         {
-            constexpr std::size_t nodemax = 1.5e6;
+            constexpr size_t nodemax = 1.5e6;
             static node stock[nodemax];
-            static std::size_t nodec = 0;
+            static size_t nodec = 0;
             return &(stock[nodec++] = node(_tag, p));
         }
         friend bool valid(node *p)
@@ -707,7 +706,7 @@ struct Binary_trie
     node *root;
     int_t power[depth];
 
-    bool bit(int_t x, std::size_t i) const
+    bool bit(int_t x, size_t i) const
     {
         return bool(x & power[i]);
     }
@@ -727,12 +726,12 @@ struct Binary_trie
     }
 #endif
 
-    std::size_t size() const
+    size_t size() const
     {
         return root->cnt;
     }
 
-    std::size_t type() const
+    size_t type() const
     {
         return root->typ;
     }
@@ -740,7 +739,7 @@ struct Binary_trie
     bool insert(int_t x)
     {
         node *p = root;
-        for(std::size_t i = 0; i < depth; ++i)
+        for(size_t i = 0; i < depth; ++i)
         {
             p->cnt++;
             if(bit(x, i))
@@ -763,10 +762,10 @@ struct Binary_trie
         return true;
     }
 
-    std::size_t erase(int_t x, std::size_t k = 1)
+    size_t erase(int_t x, size_t k = 1)
     {
         node *p = root;
-        for(std::size_t i = 0; i < depth; ++i)
+        for(size_t i = 0; i < depth; ++i)
         {
             if(bit(x, i))
             {
@@ -790,10 +789,10 @@ struct Binary_trie
         return k;
     }
 
-    std::size_t count(int_t x) const
+    size_t count(int_t x) const
     {
         node *p = root;
-        for(std::size_t i = 0; i < depth; ++i)
+        for(size_t i = 0; i < depth; ++i)
         {
             if(bit(x, i))
             {
@@ -814,7 +813,7 @@ struct Binary_trie
         assert(size());
         node *p = root;
         int_t ret = 0;
-        for(std::size_t i = 0; i < depth; ++i)
+        for(size_t i = 0; i < depth; ++i)
         {
             if(bit(x, i))
             {
@@ -844,14 +843,14 @@ struct Binary_trie
         return ret;
     }
 
-    int_t operator[](std::size_t idx) const
+    int_t operator[](size_t idx) const
     {
         assert(idx < size());
         node *p = root;
         int_t ret = 0;
-        for(std::size_t i = 0; i < depth; ++i)
+        for(size_t i = 0; i < depth; ++i)
         {
-            std::size_t thr = p->lft ? p->lft->cnt : 0;
+            size_t thr = p->lft ? p->lft->cnt : 0;
             if(idx < thr)
             {
                 p = p->lft;
@@ -872,7 +871,7 @@ struct Binary_trie
         Binary_trie *const trie_ptr;
         node *node_ptr;
         int_t s;
-        std::size_t type_idx, size_idx;
+        size_t type_idx, size_idx;
 
         explicit iterator_t()
             : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1)
@@ -883,14 +882,14 @@ struct Binary_trie
               type_idx(itr.type_idx), size_idx(itr.size_idx)
         {}
 
-        explicit iterator_t(Binary_trie *_trie_ptr, std::size_t _type_idx)
+        explicit iterator_t(Binary_trie *_trie_ptr, size_t _type_idx)
             : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx),
               size_idx()
         {
             if(_type_idx < trie_ptr->type())
             {
                 node *&p = (node_ptr = trie_ptr->root);
-                for(std::size_t i = 0; i < depth; ++i)
+                for(size_t i = 0; i < depth; ++i)
                 {
                     if(valid(p->lft))
                     {
@@ -920,7 +919,7 @@ struct Binary_trie
         }
 
         explicit iterator_t(Binary_trie *_trie_ptr, node *_node_ptr, int_t _s,
-                            std::size_t _type_idx, std::size_t _size_idx)
+                            size_t _type_idx, size_t _size_idx)
             : trie_ptr(_trie_ptr), node_ptr(_node_ptr), s(_s),
               type_idx(_type_idx), size_idx(_size_idx)
         {}
@@ -949,7 +948,7 @@ struct Binary_trie
         {
             size_idx += count();
             node *p = node_ptr;
-            std::size_t i = depth;
+            size_t i = depth;
             while(i--)
             {
                 bool t = p->tag;
@@ -1002,7 +1001,7 @@ struct Binary_trie
                 node *p = trie_ptr->root;
                 if(valid(p))
                 {
-                    for(std::size_t i = 0; i < depth; ++i)
+                    for(size_t i = 0; i < depth; ++i)
                     {
                         if(valid(p->rgt))
                         {
@@ -1020,7 +1019,7 @@ struct Binary_trie
             else
             {
                 node *p = node_ptr;
-                std::size_t i = depth;
+                size_t i = depth;
                 while(i--)
                 {
                     bool t = p->tag;
@@ -1071,7 +1070,7 @@ struct Binary_trie
             return --(*this), ret;
         }
 
-        std::size_t count() const
+        size_t count() const
         {
             return node_ptr ? node_ptr->cnt : 0;
         }
@@ -1101,7 +1100,7 @@ struct Binary_trie
 
     iterator_t lower_bound(int_t key)
     {
-        std::size_t size_idx = 0, type_idx = 0, i = 0;
+        size_t size_idx = 0, type_idx = 0, i = 0;
         node *p = root;
         int_t s = 0;
         bool go_back = false;

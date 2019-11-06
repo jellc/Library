@@ -21,3 +21,5 @@ AllowShortFunctionsOnASingleLine: None
 AlwaysBreakTemplateDeclarations: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 NamespaceIndentation: All
+ReflowComments: false
+IndentCaseLabels: true

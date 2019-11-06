@@ -1,31 +1,59 @@
-struct UnionFind
-{
-    std::vector<int> par, _size;
-    std::vector<bool> cyc;
+#include <bits/stdc++.h>
 
-    explicit UnionFind(int n)
+class Union_Find
+{
+    std::vector<int> dat;
+    std::vector<bool> cyc, clr, flip;
+    size_t comp, isol;
+    bool is_bip;
+
+  public:
+    Union_Find(int n)
     {
         init(n);
     }
 
     void init(int n)
     {
-        par.resize(n);
-        std::iota(par.begin(), par.end(), 0);
-        _size.assign(n, 1);
+        dat.assign(n, -1);
         cyc.assign(n, false);
+        clr.assign(n, false);
+        flip.assign(n, false);
+        comp = isol = n;
+        is_bip = true;
     }
 
     int find(int x)
     {
-        if(par[x] == x) return x;
-        int r = find(par[x]);
-        return par[x] = r;
+        if(dat[x] < 0) return x;
+        int r = find(dat[x]);
+        if(flip[dat[x]])
+        {
+            clr[x] = not clr[x];
+            flip[x] = not flip[x];
+        }
+        return dat[x] = r;
+    }
+
+    size_t count() const
+    {
+        return comp;
     }
 
     size_t size(int x)
     {
-        return _size[find(x)];
+        return -dat[find(x)];
+    }
+
+    size_t isolated() const
+    {
+        return isol;
+    }
+
+    bool color(int x)
+    {
+        find(x);
+        return clr[x];
     }
 
     bool is_cyclic(int x)
@@ -38,21 +66,76 @@ struct UnionFind
         return find(x) == find(y);
     }
 
+    bool is_bipartite() const
+    {
+        return is_bip;
+    }
+
     bool unite(int x, int y)
     {
-        x = find(x);
-        y = find(y);
+        int _x = find(x);
+        int _y = find(y);
+        bool f = clr[x] == clr[y];
+        x = _x, y = _y;
         if(x == y)
         {
+            if(f)
+            {
+                is_bip = false;
+            }
             cyc[x] = true;
             return false;
         }
-        if(_size[x] < _size[y]) std::swap(x, y);
-        _size[x] += _size[y];
-        par[y] = x;
+        if(dat[x] > dat[y]) std::swap(x, y);
+        if(dat[y] == -1)
+        {
+            --isol;
+            if(dat[x] == -1)
+            {
+                --isol;
+            }
+        }
+        dat[x] += dat[y];
+        dat[y] = x;
         cyc[x] = cyc[x] || cyc[y];
+        if(f)
+        {
+            clr[y] = not clr[y];
+            flip[y] = not flip[y];
+        }
+        --comp;
         return true;
     }
+};
+
+template <class T>
+class Union_find
+{
+    std::vector<int> link;
+    std::vector<T> dat;
+    const std::function<void(T &, T &)> merge;
+ 
+  public:
+    Union_find(int n, const std::function<void(T &, T &)> &f) : link(n, -1), dat(n), merge(f) {}
+    
+    Union_find(int n, const T &x, const std::function<void(T &, T &)> &f) : link(n, -1), dat(n, x), merge(f) {}
+ 
+    int find(int x) { return link[x] < 0 ? x : (link[x] = find(link[x])); }
+ 
+    size_t size(int x) { return -link[find(x)]; }
+ 
+    bool is_same(int x, int y) { return find(x) == find(y); }
+ 
+    bool unite(int x, int y)
+    {
+        if((x = find(x)) == (y = find(y))) return false;
+        if(link[x] > link[y]) std::swap(x, y);
+        link[x] += link[y], link[y] = x;
+        merge(dat[x], dat[y]);
+        return true;
+    }
+ 
+    T &operator[](int x) { return dat[find(x)]; }
 };
 
 template <class Abel>
@@ -147,8 +230,8 @@ struct PersistentUF
     std::size_t size(int x, int t = inf<int> - 1)
     {
         int p = find(x, t);
-        return std::prev(
-                   std::lower_bound(_size[p].begin(), _size[p].end(), std::make_pair(t + 1, 1)))
+        return std::prev(std::lower_bound(_size[p].begin(), _size[p].end(),
+                                          std::make_pair(t + 1, 1)))
             ->second;
     }
 

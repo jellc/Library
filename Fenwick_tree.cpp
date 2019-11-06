@@ -148,6 +148,7 @@ struct Dynamic_fenwick_tree
     }
 };
 
+#include <bits/stdc++.h>
 template <class Abel, typename index_t = int_fast64_t>
 // class Abel must be an abelian group.
 struct Bidirectional_fenwick_tree

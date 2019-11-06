@@ -1,85 +1,208 @@
-//verified at https://atcoder.jp/contests/atc001/submissions/5000204
-
 #include <bits/stdc++.h>
-using namespace std;
 
-constexpr long double Pi = 3.14159265358979323;
-
-namespace FFT {
-    template <class Real>
-    vector<complex<Real>> fft(vector<complex<Real>> x, bool inverse = false) {
-        size_t n = x.size(),mask = n - 1;   //"n" must be a power of two.
-        static vector<complex<Real>> tmp;
-        tmp.resize(n);
-        for(size_t i = n >> 1; i; i >>= 1) {
-            Real theta = Pi * 2 * i * (inverse ? -1 : 1) / n;
-            complex<Real> zeta(cos(theta),sin(theta));
-            complex<Real> powzeta = 1;
-            for(size_t j = 0; j < n; j += i) {
-                for(size_t k = 0; k < i; ++k) {
-                    tmp[j + k] = x[k + (mask & j << 1)] + powzeta * x[k + (mask & i + (j << 1))];
+namespace fast_Fourier_transform
+{
+    using real_t = double;
+ 
+    class cmplx_t
+    {
+        real_t re, im;
+        friend std::istream &operator>>(std::istream &s, cmplx_t &x) { return s >> x.re >> x.im; }
+        friend std::ostream &operator<<(std::ostream &s, const cmplx_t &x) { return s << x.re << ' ' << x.im; }
+ 
+      public:
+        constexpr cmplx_t() : re(real_t(0)), im(real_t(0)) {}
+        constexpr cmplx_t(real_t _re) : re(_re), im(real_t(0)) {}
+        constexpr cmplx_t(real_t _re, real_t _im) : re(_re), im(_im) {}
+        constexpr cmplx_t(std::complex<real_t> x) : re(x.real()), im(x.imag()) {}
+ 
+        constexpr real_t real() const { return re; }
+        constexpr void real(const real_t _re) { re = _re; }
+        constexpr real_t imag() const { return im; }
+        constexpr void imag(const real_t _im) { im = _im; }
+        
+        friend constexpr cmplx_t conj(cmplx_t x) { return x.im = -x.im, x; }
+ 
+        constexpr cmplx_t operator-() const { return cmplx_t(-re, -im); }
+ 
+        constexpr cmplx_t &operator+=(const cmplx_t &x) { return re += x.re, im += x.im, *this; }
+ 
+        constexpr cmplx_t &operator-=(const cmplx_t &x) { return *this += -x; }
+ 
+        constexpr cmplx_t &operator*=(const cmplx_t &x)
+        {
+            real_t _re = re * x.re - im * x.im;
+            im = im * x.re + x.im * re;
+            return re = _re, *this;
+        }
+ 
+        constexpr cmplx_t &operator*=(real_t x) { return re *= x, im *= x, *this; }
+ 
+        constexpr cmplx_t &operator/=(const cmplx_t &x) { return conj(*this) /= re * re + im * im; }
+ 
+        constexpr cmplx_t &operator/=(real_t x) { return re /= x, im /= x, *this; }
+ 
+        constexpr cmplx_t operator+(const cmplx_t &x) const { return cmplx_t(*this) += x; }
+        
+        constexpr cmplx_t operator-(const cmplx_t &x) const { return cmplx_t(*this) -= x; }
+ 
+        constexpr cmplx_t operator*(const cmplx_t &x) const { return cmplx_t(*this) *= x; }
+ 
+        constexpr cmplx_t operator*(real_t x) const { return cmplx_t(*this) *= x; }
+ 
+        constexpr cmplx_t operator/(const cmplx_t &x) const { return cmplx_t(*this) /= x; }
+ 
+        constexpr cmplx_t operator/(real_t x) const { return cmplx_t(*this) /= x; }
+    };
+ 
+    using poly_t = std::vector<cmplx_t>;
+ 
+    void dft(poly_t &f)
+    {
+        size_t n = f.size();
+        assert(__builtin_popcount(n) == 1); // degree of f must be a power of two.
+        const size_t mask = n - 1;
+        static poly_t g;
+        g.resize(n);
+        cmplx_t zeta[31] =
+        {
+            {1, 0}, {-1, 0}, {0, 1},
+            {0.70710678118654752438189403651, 0.70710678118654752443610414514},      
+            {0.92387953251128675610142140795, 0.38268343236508977172325753068},      
+            {0.98078528040323044911909938781, 0.19509032201612826785692544201},      
+            {0.99518472667219688623102546998, 0.09801714032956060199569840382},      
+            {0.99879545620517239270077028412, 0.04906767432741801425693899119},      
+            {0.99969881869620422009748220149, 0.02454122852291228803212346128},      
+            {0.99992470183914454093764001552, 0.01227153828571992607945510345},      
+            {0.99998117528260114264494415325, 0.00613588464915447535972750246},      
+            {0.99999529380957617150137498041, 0.00306795676296597627029751672},      
+            {0.99999882345170190993313003025, 0.00153398018628476561237225788},      
+            {0.99999970586288221914474799723, 0.00076699031874270452695124765},      
+            {0.99999992646571785113833452651, 0.00038349518757139558906815188},      
+            {0.99999998161642929381167504976, 0.00019174759731070330743679009},      
+            {0.99999999540410731290905263501, 0.00009587379909597734587360460},      
+            {0.99999999885102682753608427379, 0.00004793689960306688454884772},      
+            {0.99999999971275670682981095982, 0.00002396844980841821872882467},      
+            {0.99999999992818917670745273995, 0.00001198422490506970642183282},      
+            {0.99999999998204729416331065783, 0.00000599211245264242784278378},      
+            {0.99999999999551182356793271877, 0.00000299605622633466075058210},      
+            {0.99999999999887795586487812538, 0.00000149802811316901122883643},      
+            {0.99999999999971948897977205850, 0.00000074901405658471572113723},      
+            {0.99999999999992987223139048746, 0.00000037450702829238412391495},      
+            {0.99999999999998246807140014902, 0.00000018725351414619534486931},      
+            {0.99999999999999561700429751010, 0.00000009362675707309808280024},      
+            {0.99999999999999890425107437752, 0.00000004681337853654909269501},      
+            {0.99999999999999972607632112153, 0.00000002340668926827455275977},      
+            {0.99999999999999993153263280754, 0.00000001170334463413727718121},      
+            {0.99999999999999998286960567472, 0.00000000585167231706863869077}
+        };
+        for(size_t i = n >> 1, ii = 1; i; i >>= 1, ++ii, swap(f, g))
+        {
+            cmplx_t powzeta(1);
+            for(size_t j = 0; j < n; powzeta *= zeta[ii])
+            {
+                for(size_t k = 0, x = mask & j << 1, y = mask & (i + (j << 1));
+                    k < i; ++k, ++j, ++x, ++y)
+                {
+                    g[j] = f[x] + powzeta * f[y];
                 }
-                powzeta *= zeta;
             }
-            swap(x,tmp);
         }
-        if(inverse) for(size_t i = 0; i < n; ++i) x[i] /= n;
-        return x;
     }
-
-    template <class T>
-    vector<T> conv(const vector<T> &a, const vector<T> &b) {
-        size_t n = 1;
-        while(n + 1 < a.size() + b.size()) n <<= 1;
-        vector<complex<double>> x(n),y(n);
-        for(size_t i = 0; i != a.size(); ++i) x[i].real(a[i]);
-        for(size_t i = 0; i != b.size(); ++i) x[i].imag(b[i]);
-        x = fft(x,false);
-        for(int i = 0; i < n; ++i) {
-            int j = i ? n - i : 0;
-            y[i] = (x[i] + conj(x[j])) * (x[i] - conj(x[j])) * complex<double>(0,-.25);
+ 
+    void idft(poly_t &f)
+    {
+        dft(f);
+        reverse(next(f.begin()), f.end());
+        size_t n = f.size();
+        for(cmplx_t &e : f) e /= n;
+    }
+ 
+    poly_t convolute(poly_t f, poly_t g)
+    {
+        if(f.empty() || g.empty()) return poly_t();
+        size_t deg_f = f.size() - 1, deg_g = g.size() - 1, deg_h = deg_f + deg_g;
+        static poly_t h;
+        size_t n = 1u << (32 - __builtin_clz(deg_h));
+        f.resize(n, 0), g.resize(n, 0), h.resize(n);
+        dft(f), dft(g);
+        for(size_t i = 0; i < n; ++i) h[i] = f[i] * g[i];
+        idft(h);
+        h.resize(deg_h + 1);
+        return h;
+    }
+ 
+    std::vector<real_t> convolute(const std::vector<real_t> &f, const std::vector<real_t> &g)
+    {
+        if(f.empty() || g.empty()) return std::vector<real_t>();
+        size_t deg_f = f.size() - 1, deg_g = g.size() - 1, deg_h = deg_f + deg_g;
+        static std::vector<real_t> h;
+        h.resize(deg_h + 1);
+        size_t n = 1u << (32 - __builtin_clz(deg_h));
+        static poly_t p;
+        p.assign(n, 0);
+        for(size_t i = 0; i <= deg_f; ++i) p[i].real(f[i]);
+        for(size_t i = 0; i <= deg_g; ++i) p[i].imag(g[i]);
+        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        static poly_t q;
+        q.resize(n);
+        for(size_t i = 0; i < n; ++i)
+        {
+            size_t j = i ? n - i : 0;
+            q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j]));
         }
-        y = fft(y,true);
-        vector<T> c(n);
-        for(size_t i = 0; i < n; ++i) c[i] = y[i].real();
-        return c;
+        idft(q);
+        for(size_t i = 0; i <= deg_h; ++i) h[i] = q[i].imag() / 4;
+        return h;
     }
-
-    template <>
-    vector<int_fast64_t> conv(const vector<int_fast64_t> &a, const vector<int_fast64_t> &b) {
-        size_t n = 1;
-        while(n + 1 < a.size() + b.size()) n <<= 1;
-        vector<complex<double>> x(n),y(n);
-        for(size_t i = 0; i != a.size(); ++i) x[i].real(a[i]);
-        for(size_t i = 0; i != b.size(); ++i) x[i].imag(b[i]);
-        x = fft(x,false);
-        for(int i = 0; i < n; ++i) {
-            int j = i ? n - i : 0;
-            y[i] = (x[i] + conj(x[j])) * (x[i] - conj(x[j])) * complex<double>(0,-.25);
+ 
+    std::vector<int_least64_t> convolute(const std::vector<int_least64_t> &f,
+                                        const std::vector<int_least64_t> &g)
+    {
+        if(f.empty() || g.empty()) return std::vector<int_least64_t>();
+        size_t deg_f = f.size() - 1, deg_g = g.size() - 1, deg_h = deg_f + deg_g;
+        static std::vector<int_least64_t> h;
+        h.resize(deg_h + 1);
+        size_t n = 1u << (32 - __builtin_clz(deg_h));
+        static poly_t p;
+        p.assign(n, 0);
+        for(size_t i = 0; i <= deg_f; ++i) p[i].real(f[i]);
+        for(size_t i = 0; i <= deg_g; ++i) p[i].imag(g[i]);
+        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        static poly_t q;
+        q.resize(n);
+        for(size_t i = 0; i < n; ++i)
+        {
+            size_t j = i ? n - i : 0;
+            q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j]));
         }
-        y = fft(y,true);
-        vector<int_fast64_t> c(n);
-        for(size_t i = 0; i < n; ++i) c[i] = round(y[i].real());
-        return c;
+        idft(q);
+        for(size_t i = 0; i <= deg_h; ++i) h[i] = round(q[i].imag() / 4);
+        return h;
     }
-
-    template <>
-    vector<int> conv(const vector<int> &a, const vector<int> &b) {
-        size_t n = 1;
-        while(n + 1 < a.size() + b.size()) n <<= 1;
-        vector<complex<double>> x(n),y(n);
-        for(size_t i = 0; i != a.size(); ++i) x[i].real(a[i]);
-        for(size_t i = 0; i != b.size(); ++i) x[i].imag(b[i]);
-        x = fft(x,false);
-        for(int i = 0; i < n; ++i) {
-            int j = i ? n - i : 0;
-            y[i] = (x[i] + conj(x[j])) * (x[i] - conj(x[j])) * complex<double>(0,-.25);
+ 
+    std::vector<int_least32_t> convolute(const std::vector<int_least32_t> &f,
+                               const std::vector<int_least32_t> &g)
+    {
+        if(f.empty() || g.empty()) return std::vector<int_least32_t>();
+        size_t deg_f = f.size() - 1, deg_g = g.size() - 1, deg_h = deg_f + deg_g;
+        static std::vector<int_least32_t> h;
+        h.resize(deg_h + 1);
+        size_t n = 1u << (32 - __builtin_clz(deg_h));
+        static poly_t p;
+        p.assign(n, 0);
+        for(size_t i = 0; i <= deg_f; ++i) p[i].real(f[i]);
+        for(size_t i = 0; i <= deg_g; ++i) p[i].imag(g[i]);
+        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        static poly_t q;
+        q.resize(n);
+        for(size_t i = 0; i < n; ++i)
+        {
+            size_t j = i ? n - i : 0;
+            q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j]));
         }
-        y = fft(y,true);
-        vector<int> c(n);
-        for(size_t i = 0; i < n; ++i) c[i] = round(y[i].real());
-        return c;
+        idft(q);
+        for(size_t i = 0; i <= deg_h; ++i) h[i] = round(q[i].imag() / 4);
+        return h;
     }
-}
-
-
+} // namespace fast_Fourier_transform

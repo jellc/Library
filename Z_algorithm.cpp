@@ -1,3 +1,5 @@
+#include <bits/stdc++.h>
+
 namespace Z_algorithm
 {
     std::vector<int> prefix(const std::string &str)
@@ -11,7 +13,7 @@ namespace Z_algorithm
             }
             else
             {
-                int k = max(0, pref[j] + j - i);
+                int k = std::max(0, pref[j] + j - i);
                 while(k + i < (int)str.size() && str[k] == str[k + i])
                     ++k;
                 pref[i] = k;
@@ -26,7 +28,7 @@ namespace Z_algorithm
     {
         std::vector<int> pref = prefix(key + str);
         for(int &i : pref)
-            i = min(i, (int)key.size());
+            i = std::min(i, (int)key.size());
         return std::vector<int>(pref.begin() + key.size(), pref.end());
     }
 } // namespace Z_algorithm
