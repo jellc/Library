@@ -2,6 +2,31 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "type": "shell",
+            "label": "g++.exe build active file for debug",
+            "command": [
+                "g++",
+            ],
+            "args": [
+                "-DLOCAL",
+                "-Wall",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileBasenameNoExtension}",
+            ],
+            "options": {
+                "cwd": "${fileDirname}",
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "compile and run",
             "type": "shell",
             "command": "./${fileBasenameNoExtension}",
@@ -21,11 +46,9 @@
                 "g++",
             ],
             "args": [
-                "-std=c++14",
                 "-mtune=native",
                 "-march=native",
                 "-Wall",
-                "-g",
                 "${file}",
                 "-o",
                 "${fileBasenameNoExtension}",
@@ -36,38 +59,6 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         },
     ],
-    "inputs": [
-        {
-            "type": "promptString",
-            "id": "stdin_path",
-            "default": "CON",
-            "description": "enter stdin_path",
-        },
-        {
-            "type": "pickString",
-            "id": "stdout_path",
-            "options": [
-                "CON",
-                "stdout"
-            ],
-            "default": "CON",
-            "description": "enter stdout_path",
-        },
-        {
-            "type": "pickString",
-            "id": "stderr_path",
-            "options": [
-                "CON",
-                "stderr"
-            ],
-            "default": "stderr",
-            "description": "enter stderr_path",
-        },
-    ]
 }
