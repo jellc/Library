@@ -17,7 +17,6 @@ namespace math
         constexpr modint &operator--() { return --dat, *this; }
         constexpr modint operator--(int) { modint t = *this; return --dat, t; }
         constexpr modint &operator*=(const modint &other) { return dat = (long long)dat * other.dat % mod, *this; }
-        friend constexpr modint inverse(const modint &other);
         constexpr modint &operator/=(const modint &other) { return *this *= inverse(other); }
         constexpr modint operator-() const { return modint(-dat); }
         constexpr modint operator+(const modint &other) const { return modint(*this) += other; }
@@ -29,7 +28,7 @@ namespace math
         constexpr bool operator!() const { return !dat; }
         friend constexpr modint inverse(const modint &other)
         {
-            int a{other.dat}, b{mod}, u{1}, v{}, t{};
+            int a{mod}, b{other.dat}, u{}, v{1}, t{};
             while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
             return modint{u};
         }
