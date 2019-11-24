@@ -1,59 +1,30 @@
+#include <bits/stdc++.h>
+
 template <class K>
 // K must be a field.
 struct matrix
 {
     std::vector<std::vector<K>> mat;
 
-    matrix()
-    {}
-    matrix(size_t n)
-    {
-        assign(n, n);
-    }
-    matrix(size_t h, size_t w)
-    {
-        assign(h, w);
-    }
-    matrix(const matrix &x) : mat(x.mat)
-    {}
-    matrix(const std::vector<std::vector<K>> _mat) : mat(_mat)
-    {}
+    matrix() {}
+    matrix(size_t n) { assign(n, n);}
+    matrix(size_t h, size_t w) { assign(h, w); }
+    matrix(const matrix &x) : mat(x.mat) {}
+    matrix(const std::vector<std::vector<K>> _mat) : mat(_mat) {}
 
-    void resize(size_t h, size_t w, const K v = K(0))
-    {
-        mat.resize(h, std::vector<K>(w, v));
-    }
+    void resize(size_t h, size_t w, const K v = K(0)) { mat.resize(h, std::vector<K>(w, v)); }
+    void assign(size_t h, size_t w, const K v = K()) { mat.assign(h, std::vector<K>(w, v)); }
 
-    void assign(size_t h, size_t w, const K v = K())
-    {
-        mat.assign(h, std::vector<K>(w, v));
-    }
+    size_t height() const { return mat.size(); }
+    size_t width() const { return mat.empty() ? 0 : mat[0].size(); }
+    bool is_square() const { return height() == width(); }
 
-    size_t height() const
-    {
-        return mat.size();
-    }
-
-    size_t width() const
-    {
-        return mat.empty() ? 0 : mat[0].size();
-    }
-
-    bool is_square() const
-    {
-        return height() == width();
-    }
-
-    std::vector<K> &operator[](const size_t i)
-    {
-        return mat[i];
-    }
+    std::vector<K> &operator[](const size_t i) { return mat[i]; }
 
     static matrix identity(size_t n)
     {
         matrix ret(n, n);
-        for(size_t i = 0; i < n; ++i)
-            ret[i][i] = K(1);
+        for(size_t i = 0; i < n; ++i) ret[i][i] = K(1);
         return ret;
     }
 
@@ -71,35 +42,17 @@ struct matrix
         return res;
     }
 
-    matrix operator&(const matrix &x) const
-    {
-        return matrix(*this) &= x;
-    }
+    matrix operator&(const matrix &x) const { return matrix(*this) &= x; }
 
-    matrix operator|(const matrix &x) const
-    {
-        return matrix(*this) |= x;
-    }
+    matrix operator|(const matrix &x) const { return matrix(*this) |= x; }
 
-    matrix operator^(const matrix &x) const
-    {
-        return matrix(*this) ^= x;
-    }
+    matrix operator^(const matrix &x) const { return matrix(*this) ^= x; }
 
-    matrix operator+(const matrix &x) const
-    {
-        return matrix(*this) += x;
-    }
+    matrix operator+(const matrix &x) const { return matrix(*this) += x; }
 
-    matrix operator-(const matrix &x) const
-    {
-        return matrix(*this) -= x;
-    }
+    matrix operator-(const matrix &x) const { return matrix(*this) -= x; }
 
-    matrix operator*(const matrix &x) const
-    {
-        return matrix(*this) *= x;
-    }
+    matrix operator*(const matrix &x) const { return matrix(*this) *= x; }
 
     matrix &operator&=(const matrix &x)
     {
@@ -196,8 +149,7 @@ struct matrix
         while(n)
         {
             if(n & 1) res *= x;
-            x *= x;
-            n >>= 1;
+            x *= x, n >>= 1;
         }
         return res;
     }
@@ -212,8 +164,7 @@ struct matrix
         ext_x = ext_x.row_canonical_form();
         for(size_t i = 0; i < n; ++i)
         {
-            if(std::vector<K>(begin(ext_x[i]), begin(ext_x[i]) + n) != e[i])
-                return matrix();
+            if(std::vector<K>(begin(ext_x[i]), begin(ext_x[i]) + n) != e[i]) return matrix();
             res[i] = std::vector<K>(begin(ext_x[i]) + n, end(ext_x[i]));
         }
         return res;
@@ -233,26 +184,17 @@ struct matrix
                     if(piv)
                     {
                         K r = -res[i][j];
-                        for(size_t k = j; k < w; ++k)
-                        {
-                            res[i][k] += res[rank][k] * r;
-                        }
+                        for(size_t k = j; k < w; ++k) res[i][k] += res[rank][k] * r;
                     }
                     else
                     {
                         swap(res[rank], res[i]);
                         K r = res[rank][j];
-                        for(size_t k = j; k < w; ++k)
-                        {
-                            res[rank][k] /= r;
-                        }
+                        for(size_t k = j; k < w; ++k) res[rank][k] /= r;
                         for(size_t k = 0; k < rank; ++k)
                         {
                             r = -res[k][j];
-                            for(size_t l = j; l < w; ++l)
-                            {
-                                res[k][l] += res[rank][l] * r;
-                            }
+                            for(size_t l = j; l < w; ++l) res[k][l] += res[rank][l] * r;
                         }
                         piv = true;
                     }
@@ -263,7 +205,7 @@ struct matrix
         return res;
     }
 
-    K det() const
+    K determinant() const
     {
         matrix<K> x(*this);
         assert(is_square());
@@ -279,10 +221,7 @@ struct matrix
                     if(piv)
                     {
                         const K r = -x[i][j];
-                        for(size_t k = j; k < n; ++k)
-                        {
-                            x[i][k] += x[j][k] * r;
-                        }
+                        for(size_t k = j; k < n; ++k) x[i][k] += x[j][k] * r;
                     }
                     else
                     {
@@ -290,18 +229,12 @@ struct matrix
                         if(i != j) res = -res;
                         const K r = x[j][j];
                         res *= r;
-                        for(size_t k = j; k < n; ++k)
-                        {
-                            x[j][k] /= r;
-                        }
+                        for(size_t k = j; k < n; ++k) x[j][k] /= r;
                         piv = true;
                     }
                 }
             }
-            if(not piv)
-            {
-                return K(0);
-            }
+            if(not piv) return K(0);
         }
         return res;
     }
@@ -311,10 +244,7 @@ struct matrix
         size_t h = x.height(), w = x.width();
         for(size_t i = 0; i < h; ++i)
         {
-            for(size_t j = 0; j < w; ++j)
-            {
-                s >> x[i][j];
-            }
+            for(size_t j = 0; j < w; ++j) s >> x[i][j];
         }
         return s;
     }
@@ -325,10 +255,7 @@ struct matrix
         for(size_t i = 0; i < h; ++i)
         {
             if(i) s << "\n";
-            for(size_t j = 0; j < w; ++j)
-            {
-                s << (j ? " " : "") << x.mat[i][j];
-            }
+            for(size_t j = 0; j < w; ++j) s << (j ? " " : "") << x.mat[i][j];
         }
         return s;
     }

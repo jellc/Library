@@ -4,30 +4,18 @@ class Convex_hull_trick
     struct line
     {
         K slop, incp;
-        line(K a, K b) : slop(a), incp(b)
-        {}
-        K get(K x) const
-        {
-            return slop * x + incp;
-        }
-    };
+        line(K a, K b) : slop(a), incp(b) {}
+        K get(K x) const { return slop * x + incp; }
+    }; // struct line
 
     struct node
     {
         line ln;
         node *left, *right;
-        node(const line &l) : ln(l), left(nullptr), right(nullptr)
-        {}
-        ~node()
-        {
-            delete left;
-            delete right;
-        }
-        K get(K x) const
-        {
-            return ln.get(x);
-        }
-    };
+        node(const line &l) : ln(l), left(nullptr), right(nullptr) {}
+        ~node() { delete left; delete right; }
+        K get(K x) const { return ln.get(x); }
+    }; // struct node
 
     using comp_t = std::function<bool(const K &, const K &)>;
     const comp_t comp;
@@ -71,40 +59,23 @@ class Convex_hull_trick
   public:
     static constexpr K inf = std::numeric_limits<K>::max() / K(2) - K(1123456);
     // domain set to be the interval [x_min, x_max).
-    explicit Convex_hull_trick(const comp_t &_comp, const K _x_min, const K _x_max,
+    Convex_hull_trick(const comp_t &_comp, const K _x_min, const K _x_max,
                       const K _eps = K(1))
         : comp(_comp), x_min(_x_min), x_max(_x_max), eps(_eps), root()
     {}
 
-#ifdef LOCAL
-    ~Convex_hull_trick()
-    {
-        delete root;
-    }
-#endif
+    ~Convex_hull_trick() { delete root; }
 
-    std::size_t size() const
-    {
-        return node_cnt;
-    }
+    std::size_t size() const { return node_cnt; }
 
-    bool empty() const
-    {
-        return !root;
-    }
+    bool empty() const { return !root; }
 
     // insert a line whose slope is p and inception is q.
-    void insert(const K p, const K q)
-    {
-        insert(p, q, x_min, x_max);
-    }
+    void insert(const K p, const K q) { insert(p, q, x_min, x_max); }
 
     // insert a line(segment) whose slope is p, inception is q,
     // and domain is the interval [s, t).
-    void insert(const K p, const K q, const K s, const K t)
-    {
-        if(s < t) root = insert(root, x_min, x_max, line(p, q), s, t);
-    }
+    void insert(const K p, const K q, const K s, const K t) { if(s < t) root = insert(root, x_min, x_max, line(p, q), s, t); }
 
     // get the value at x.
     K query(const K x) const
@@ -130,4 +101,4 @@ class Convex_hull_trick
         }
         return res;
     }
-};
+}; // class Convex_hull_trick
