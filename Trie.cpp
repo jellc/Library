@@ -5,7 +5,6 @@ template <class T, class seq_t = std::vector<T>>
 struct Trie
 {
     struct Aho_Corasick;
-
     struct node
     {
         const T tag;
@@ -14,27 +13,13 @@ struct Trie
         std::map<T, node *> child;
         size_t cnt, typ;
 
-        explicit node()
-            : tag(), tag_set(), is_ter(), is_root(true), par(), ter(), child(),
-              cnt(), typ()
-        {}
+        node() : tag(), tag_set(), is_ter(), is_root(true), par(), ter(), child(), cnt(), typ() {}
 
-        explicit node(node *const p)
-            : tag(), tag_set(), is_ter(true), is_root(), par(p), ter(), child(),
-              cnt(), typ()
-        {}
+        node(node *const p) : tag(), tag_set(), is_ter(true), is_root(), par(p), ter(), child(), cnt(), typ() {}
 
-        explicit node(const T &_tag, node *const p)
-            : tag(_tag), tag_set(true), is_ter(), is_root(), par(p), ter(),
-              child(), cnt(), typ()
-        {}
+        node(const T &_tag, node *const p) : tag(_tag), tag_set(true), is_ter(), is_root(), par(p), ter(), child(), cnt(), typ() {}
 
-        ~node()
-        {
-            delete ter;
-            for(auto &e : child)
-                delete e.second;
-        }
+        ~node() { delete ter; for(auto &e : child) delete e.second; }
 
         node *add(const T &x)
         {
@@ -48,12 +33,11 @@ struct Trie
         }
 
       private:
+        friend Aho_Corasick;
         friend bool valid(const node *const p)
         {
             return p and p->cnt and p->typ;
         }
-
-        friend Aho_Corasick;
 
         node *failure = nullptr;
 
@@ -64,25 +48,11 @@ struct Trie
 
     node *const root;
 
-    explicit Trie() : root(new node)
-    {}
+    Trie() : root(new node) {}
+    ~Trie() { delete root; }
 
-#ifdef LOCAL
-    ~Trie()
-    {
-        delete root;
-    }
-#endif
-
-    size_t size() const
-    {
-        return root->cnt;
-    }
-
-    size_t type() const
-    {
-        return root->typ;
-    }
+    size_t size() const { return root->cnt; }
+    size_t type() const { return root->typ; }
 
     node *insert(const seq_t &s)
     {
@@ -266,18 +236,9 @@ struct Trie
         seq_t s;
         size_t type_idx, size_idx;
 
-        explicit iterator_t()
-            : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1)
-        {}
-
-        iterator_t(const iterator_t &itr)
-            : trie_ptr(itr.trie_ptr), node_ptr(itr.node_ptr), s(itr.s),
-              type_idx(itr.type_idx), size_idx(itr.size_idx)
-        {}
-
-        explicit iterator_t(Trie *_trie_ptr, size_t _type_idx)
-            : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx),
-              size_idx()
+        iterator_t() : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1) {}
+        iterator_t(const iterator_t &itr) : trie_ptr(itr.trie_ptr), node_ptr(itr.node_ptr), s(itr.s), type_idx(itr.type_idx), size_idx(itr.size_idx) {}
+        iterator_t(Trie *_trie_ptr, size_t _type_idx) : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx), size_idx()
         {
             if(_type_idx < trie_ptr->type())
             {
@@ -319,31 +280,15 @@ struct Trie
             }
         }
 
-        explicit iterator_t(Trie *_trie_ptr, node *_node_ptr, const seq_t &_s,
-                            size_t _type_idx, size_t _size_idx)
-            : trie_ptr(_trie_ptr), node_ptr(_node_ptr), s(_s),
-              type_idx(_type_idx), size_idx(_size_idx)
-        {}
+        iterator_t(Trie *_trie_ptr, node *_node_ptr, const seq_t &_s, size_t _type_idx, size_t _size_idx) : trie_ptr(_trie_ptr), node_ptr(_node_ptr), s(_s), type_idx(_type_idx), size_idx(_size_idx) {}
 
-        node *operator->() const
-        {
-            return node_ptr;
-        }
+        node *operator->() const { return node_ptr; }
 
-        seq_t operator*() const
-        {
-            return s;
-        }
+        seq_t operator*() const { return s; }
 
-        bool operator==(const iterator_t &itr) const
-        {
-            return trie_ptr == itr.trie_ptr and type_idx == itr.type_idx;
-        }
+        bool operator==(const iterator_t &itr) const { return trie_ptr == itr.trie_ptr and type_idx == itr.type_idx; }
 
-        bool operator!=(const iterator_t &itr) const
-        {
-            return not(*this == itr);
-        }
+        bool operator!=(const iterator_t &itr) const { return not(*this == itr); }
 
         iterator_t &operator++()
         {
@@ -511,25 +456,13 @@ struct Trie
 
     friend iterator_t;
 
-    iterator_t begin()
-    {
-        return iterator_t(this, 0);
-    }
+    iterator_t begin() { return iterator_t(this, 0); }
 
-    iterator_t end()
-    {
-        return iterator_t(this, type());
-    }
+    iterator_t end() { return iterator_t(this, type()); }
 
-    std::reverse_iterator<iterator_t> rbegin()
-    {
-        return std::reverse_iterator<iterator_t>(end());
-    }
+    std::reverse_iterator<iterator_t> rbegin() { return std::reverse_iterator<iterator_t>(end()); }
 
-    std::reverse_iterator<iterator_t> rend()
-    {
-        return std::reverse_iterator<iterator_t>(begin());
-    }
+    std::reverse_iterator<iterator_t> rend() { return std::reverse_iterator<iterator_t>(begin()); }
 
     iterator_t lower_bound(const seq_t &key)
     {
@@ -622,13 +555,8 @@ struct Trie
     {
         node *root;
 
-        Aho_Corasick() : root()
-        {}
-
-        Aho_Corasick(const Trie &trie)
-        {
-            build(trie);
-        }
+        Aho_Corasick() : root() {}
+        Aho_Corasick(const Trie &trie) { build(trie); }
 
         node *build(const Trie<T, seq_t> &trie)
         {
@@ -665,10 +593,7 @@ struct Trie
             return now = now ? now->child[x] : root;
         }
 
-        size_t query(node *now)
-        {
-            return now->sfx_wrd;
-        }
+        size_t query(node *now) { return now->sfx_wrd; }
     };
 };
 
@@ -683,8 +608,7 @@ struct Binary_trie
         node *par, *lft, *rgt;
         size_t digit;
         size_t cnt, typ;
-        node() : tag(), par(), lft(), rgt(), digit(depth), cnt(), typ()
-        {}
+        node() : tag(), par(), lft(), rgt(), digit(depth), cnt(), typ() {}
         node(bool _tag, node *p)
             : tag(_tag), par(p), lft(), rgt(), digit((int)p->digit - 1), cnt(),
               typ()
@@ -697,44 +621,20 @@ struct Binary_trie
             static size_t nodec = 0;
             return &(stock[nodec++] = node(_tag, p));
         }
-        friend bool valid(node *p)
-        {
-            return p and p->cnt;
-        }
+        friend bool valid(node *p) { return p and p->cnt; }
     };
 
     node *root;
     int_t power[depth];
 
-    bool bit(int_t x, size_t i) const
-    {
-        return bool(x & power[i]);
-    }
+    bool bit(int_t x, size_t i) const { return bool(x & power[i]); }
 
-    Binary_trie() : root(new node)
-    {
-        for(int_t i = (int_t)depth - 1, t = 1; i >= 0; --i, t <<= 1)
-        {
-            power[i] = t;
-        }
-    }
+    Binary_trie() : root(new node) { for(int_t i = (int_t)depth - 1, t = 1; i >= 0; --i, t <<= 1) power[i] = t; }
+    ~Binary_trie() { delete root; }
 
-#ifdef LOCAL
-    ~Binary_trie()
-    {
-        delete root;
-    }
-#endif
+    size_t size() const { return root->cnt; }
 
-    size_t size() const
-    {
-        return root->cnt;
-    }
-
-    size_t type() const
-    {
-        return root->typ;
-    }
+    size_t type() const { return root->typ; }
 
     bool insert(int_t x)
     {
@@ -873,7 +773,7 @@ struct Binary_trie
         int_t s;
         size_t type_idx, size_idx;
 
-        explicit iterator_t()
+        iterator_t()
             : trie_ptr(), node_ptr(), s(), type_idx(-1), size_idx(-1)
         {}
 
@@ -882,7 +782,7 @@ struct Binary_trie
               type_idx(itr.type_idx), size_idx(itr.size_idx)
         {}
 
-        explicit iterator_t(Binary_trie *_trie_ptr, size_t _type_idx)
+        iterator_t(Binary_trie *_trie_ptr, size_t _type_idx)
             : trie_ptr(_trie_ptr), node_ptr(), s(), type_idx(_type_idx),
               size_idx()
         {
@@ -924,25 +824,16 @@ struct Binary_trie
               type_idx(_type_idx), size_idx(_size_idx)
         {}
 
-        node *operator->() const
-        {
-            return node_ptr;
-        }
+        node *operator->() const { return node_ptr; }
 
-        int_t operator*() const
-        {
-            return s;
-        }
+        int_t operator*() const { return s; }
 
         bool operator==(const iterator_t &itr) const
         {
             return trie_ptr == itr.trie_ptr and type_idx == itr.type_idx;
         }
 
-        bool operator!=(const iterator_t &itr) const
-        {
-            return not(*this == itr);
-        }
+        bool operator!=(const iterator_t &itr) const { return not(*this == itr); }
 
         iterator_t &operator++()
         {
@@ -1078,25 +969,10 @@ struct Binary_trie
 
     friend iterator_t;
 
-    iterator_t begin()
-    {
-        return iterator_t(this, 0);
-    }
-
-    iterator_t end()
-    {
-        return iterator_t(this, type());
-    }
-
-    std::reverse_iterator<iterator_t> rbegin()
-    {
-        return std::reverse_iterator<iterator_t>(end());
-    }
-
-    std::reverse_iterator<iterator_t> rend()
-    {
-        return std::reverse_iterator<iterator_t>(begin());
-    }
+    iterator_t begin() { return iterator_t(this, 0); }
+    iterator_t end() { return iterator_t(this, type()); }
+    std::reverse_iterator<iterator_t> rbegin() { return std::reverse_iterator<iterator_t>(end()); }
+    std::reverse_iterator<iterator_t> rend() { return std::reverse_iterator<iterator_t>(begin()); }
 
     iterator_t lower_bound(int_t key)
     {
