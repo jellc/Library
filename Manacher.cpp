@@ -1,23 +1,24 @@
-template <class A>
-std::vector<int> Manacher(const A &v)
+template <class str_t>
+class Manacher
 {
-    int n = v.size();
-    std::vector<int> r(n);
-    for(int i = 0, c = 0; i < n; ++i)
+    const size_t len;
+    std::vector<size_t> rad;
+    friend std::ostream &operator<<(std::ostream &s, const Manacher &mana) { return s << mana.rad; }
+  public:
+    Manacher(const str_t &str) : len(str.size()), rad(str.size())
     {
-        int l = c * 2 - i;
-        if(l >= 0 && c + r[c] > i + r[l])
+        for(size_t i = 0, c = 0; i != len; ++i)
         {
-            r[i] = r[l];
-        }
-        else
-        {
-            int j = c + r[c] - i;
-            while(i - j >= 0 && i + j < n && v[i - j] == v[i + j])
-                ++j;
-            r[i] = j;
-            c = i;
+            int l = c * 2 - i;
+            if(l >= 0 && c + rad[c] > i + rad[l]) rad[i] = rad[l];
+            else
+            {
+                size_t j = c + rad[c] - i;
+                while(i >= j && i + j != len && str[i - j] == str[i + j]) ++j;
+                rad[c = i] = j;
+            }
         }
     }
-    return r;
-}
+    size_t size() const { return rad.size(); }
+    size_t operator[](size_t i) const { return rad[i]; }
+}; // class Manacher
