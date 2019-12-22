@@ -116,6 +116,7 @@ class segment_tree
 
     value_type &operator[](size_t i) { return que.push(i += ext_n), data[i]; }
 
+    // minimum l where range [l, idx) meets the condition.
     size_t left_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
         assert(i <= orig_n), rebuild();
@@ -125,6 +126,7 @@ class segment_tree
         return res;
     }
 
+    // maximum r where range [idx, r) meets the condition.
     size_t right_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
         assert(i < orig_n), rebuild();
