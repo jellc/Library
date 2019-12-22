@@ -12,6 +12,7 @@
                 "C:\\mingw\bin\\../lib/gcc/mingw32/8.2.0/include/c++/backward"
             ],
             "defines": [
+                "LOCAL",
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
@@ -20,9 +21,9 @@
             "compilerPath": "C:/MinGW/bin/g++.exe",
             "cStandard": "c11",
             "cppStandard": "c++14",
-            "browse" : {
-                "limitSymbolsToIncludedHeaders" : true,
-                "databaseFilename" : ""
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
             }
         }
     ],
