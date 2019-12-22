@@ -1,3 +1,5 @@
+#ifndef RANDOM_NUMBER_GENERATOR_HPP
+#define RANDOM_NUMBER_GENERATOR_HPP
 template <typename num_t>
 class Random_number_generator
 {
@@ -21,3 +23,4 @@ class Random_number_generator
     Random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
     num_t operator()() { return unif(engine); }
 };
+#endif
