@@ -1,0 +1,76 @@
+struct monoid
+{
+    using value_type = ;
+    value_type identity()
+    {
+
+    }
+    value_type operator()(const value_type &x, const value_type &y)
+    {
+
+    }
+};
+
+
+template <class T>
+struct min_monoid
+{
+    using value_type = T;
+    T identity()
+    {
+        return std::numeric_limits<T>::max();
+    }
+    T operator()(const T &x, const T &y)
+    {
+        return std::min(x,y);
+    }
+};
+
+
+template <class T>
+struct max_monoid
+{
+    using value_type = T;
+    T identity()
+    {
+        return std::numeric_limits<T>::min();
+    }
+    T operator()(const T &x, const T &y)
+    {
+        return std::max(x,y);
+    }
+};
+
+
+template <class T>
+struct plus_monoid
+{
+    using value_type = T;
+    T identity()
+    {
+        return T(0);
+    }
+    T operator()(const T &x, const T &y)
+    {
+        return x+y;
+    }
+};
+
+
+template <class T>
+struct plus_len_monoid
+{
+    struct value_type
+    {
+        size_t len;
+        T val;
+    };
+    value_type identity()
+    {
+        return {0,0};
+    }
+    value_type operator()(const value_type &x, const value_type &y)
+    {
+        return {x.len + y.len, x.val + y.val};
+    }
+};

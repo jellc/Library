@@ -1,0 +1,17 @@
+struct actor
+{
+    using value_type = ;
+    value_type identity()
+    {
+        
+    }
+    void operator()(value_type &x, const value_type &y)
+    {
+
+    }
+    template <class other>
+    void act(other &x, const value_type &y)
+    {
+
+    }
+};
