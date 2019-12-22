@@ -127,6 +127,7 @@ class lazy_segment_tree
 
     value_type fold(size_t a, size_t b) { return fold(a, b, 1, 0, ext_n); }
 
+    // minimum l where range [l, idx) meets the condition.
     size_t left_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
         assert(i <= orig_n);
@@ -136,6 +137,7 @@ class lazy_segment_tree
         return res;
     }
 
+    // maximum r where range [idx, r) meets the condition.
     size_t right_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
         assert(i < orig_n);
