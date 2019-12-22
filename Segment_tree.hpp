@@ -21,7 +21,7 @@ class segment_tree
         {
             const size_t res{*qbegin++};
             inque[res] = false;
-          	if(empty()) clear();
+            if(empty()) clear();
             return res;
         }
     }; // class uniqueue
