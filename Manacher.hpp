@@ -1,9 +1,22 @@
-template <class str_t>
+#ifndef MANACHER_HPP
+#define MANACHER_HPP
+#include <string>
+template <class str_t = std::string>
 class Manacher
 {
     const size_t len;
     std::vector<size_t> rad;
-    friend std::ostream &operator<<(std::ostream &s, const Manacher &mana) { return s << mana.rad; }
+    friend std::ostream &operator<<(std::ostream &s, const Manacher &mana)
+    {
+        bool is_front = true;
+        for(size_t r : mana.rad)
+        {
+            if(is_front) is_front = false;
+            else s << " ";
+            s << r;
+        }
+        return s;
+    }
   public:
     Manacher(const str_t &str) : len(str.size()), rad(str.size())
     {
@@ -22,3 +35,4 @@ class Manacher
     size_t size() const { return rad.size(); }
     size_t operator[](size_t i) const { return rad[i]; }
 }; // class Manacher
+#endif
