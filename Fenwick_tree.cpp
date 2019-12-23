@@ -1,60 +1,41 @@
 template <class Abel>
 // Abel must be an abelian group.
-struct Fenwick_tree
+class Fenwick_tree
 {
     using ary_t = vector<Abel>;
-
-    const std::size_t n;
+    const size_t n;
     const Abel identity;
     ary_t data;
 
-    explicit Fenwick_tree(std::size_t _n, Abel _identity = Abel())
-        : n(_n), identity(_identity)
-    {
-        data.assign(n + 1, identity);
-    }
+  public:
+    explicit Fenwick_tree(size_t _n, Abel _identity = Abel()) : n(_n), identity(_identity), data(n + 1, identity) {}
 
-    void inc(std::size_t i, Abel x)
-    {
-        for(++i; i <= n; i += i & -i)
-        {
-            data[i] += x;
-        }
-    }
+    // increment data[i] by x.
+    void inc(size_t i, Abel x) { for(++i; i <= n; i += i & -i) data[i] += x; }
 
-    void subs(std::size_t i, Abel x)
-    {
-        inc(i, x - (*this)[i]);
-    }
+    // substitute x for data[i].
+    void subs(size_t i, Abel x) { inc(i, x - (*this)[i]); }
 
     // sum of range [0, i).
-    Abel sum(std::size_t i) const
+    Abel sum(size_t i) const
     {
         Abel ret = identity;
-        for(; i; i &= (i - 1))
-        {
-            ret += data[i];
-        }
+        for(; i; i &= (i - 1)) ret += data[i];
         return ret;
     }
 
     // sum of range [l, r).
-    Abel sum(std::size_t l, std::size_t r) const
-    {
-        return sum(r) - sum(l);
-    }
+    Abel sum(size_t l, size_t r) const { return sum(r) - sum(l); }
 
-    Abel operator[](std::size_t i) const
-    {
-        return sum(i + 1) - sum(i);
-    }
+    // get data[i]
+    Abel operator[](size_t i) const { return sum(i + 1) - sum(i); }
 
     // maximum i where range [0, i) meets the condition.
-    std::size_t bound(const std::function<bool(Abel)> &f)
+    size_t bound(const std::function<bool(Abel)> &f)
     {
         Abel now = identity;
-        std::size_t l = 0, r = n + 1;
-        std::size_t bit = 1;
+        size_t l = 0, r = n + 1;
+        size_t bit = 1;
         while(bit <= n)
             bit <<= 1;
         while(r - l > 1)
@@ -73,21 +54,21 @@ struct Fenwick_tree
         }
         return l;
     }
-};
+}; // class Fenwick_tree
 
 template <class Abel>
 // class Abel must be an abelian group.
 struct Dynamic_fenwick_tree
 {
-    const std::size_t n;
+    const size_t n;
     const Abel identity;
-    std::unordered_map<std::size_t, Abel> data;
+    std::unordered_map<size_t, Abel> data;
 
-    explicit Dynamic_fenwick_tree(std::size_t _n, Abel _identity = Abel())
+    explicit Dynamic_fenwick_tree(size_t _n, Abel _identity = Abel())
         : n(_n), identity(_identity)
     {}
 
-    void inc(std::size_t i, Abel x)
+    void inc(size_t i, Abel x)
     {
         for(++i; i <= n; i += i & -i)
         {
@@ -95,13 +76,13 @@ struct Dynamic_fenwick_tree
         }
     }
 
-    void subs(std::size_t i, Abel x)
+    void subs(size_t i, Abel x)
     {
         inc(i, x - (*this)[i]);
     }
 
     // sum of range [0, i).
-    Abel sum(std::size_t i)
+    Abel sum(size_t i)
     {
         Abel ret = identity;
         for(; i; i &= i - 1)
@@ -112,22 +93,22 @@ struct Dynamic_fenwick_tree
     }
 
     // sum of range [l, r).
-    Abel sum(std::size_t l, std::size_t r)
+    Abel sum(size_t l, size_t r)
     {
         return l < r ? sum(r) - sum(l) : identity;
     }
 
-    Abel operator[](std::size_t i)
+    Abel operator[](size_t i)
     {
         return sum(i + 1) - sum(i);
     }
 
     // maximum i where range [0, i) meets the condition.
-    std::size_t bound(const std::function<bool(Abel)> &f)
+    size_t bound(const std::function<bool(Abel)> &f)
     {
         Abel now = identity;
-        std::size_t l = 0, r = n + 1;
-        std::size_t bit = 1;
+        size_t l = 0, r = n + 1;
+        size_t bit = 1;
         while(bit <= n)
             bit <<= 1;
         while(r - l > 1)
@@ -146,7 +127,7 @@ struct Dynamic_fenwick_tree
         }
         return l;
     }
-};
+}; // class Dynamic_fenwick_tree
 
 #include <bits/stdc++.h>
 template <class Abel, typename index_t = int_fast64_t>

@@ -1,15 +1,12 @@
-#include <bits/stdc++.h>
-
+// Base class
 template <class cap_t, class cost_t>
 struct Flow
 {
     struct edge_t
     {
         size_t from, to; cap_t cap; cost_t cost; size_t rev;
-        edge_t(size_t _from, size_t _to, cap_t _cap, cost_t _cost, size_t _rev)
-            : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev)
-        {}
-    };
+        edge_t(size_t _from, size_t _to, cap_t _cap, cost_t _cost, size_t _rev) : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev) {}
+    }; // struct edge_t
 
   protected:
     size_t V;
@@ -23,32 +20,32 @@ struct Flow
         adj[from].emplace_back(from, to, cap, cost, adj[to].size());
         adj[to].emplace_back(to, from, 0, -cost, adj[from].size() - 1);
     }
-};
+}; // struct Flow
 
-template <class cap_t, class cost_t>
-class Dinic : public Flow<cap_t, cost_t>
+template <class cap_t>
+class Dinic : public Flow<cap_t, cap_t>
 {
-    using edge_t = typename Flow<cap_t, cost_t>::edge_t;
-    using Flow<cap_t, cost_t>::V;
-    using Flow<cap_t, cost_t>::adj;
-    
-    std::vector<size_t> level, itr, que;
+    using edge_t = typename Flow<cap_t, cap_t>::edge_t;
+    using Flow<cap_t, cap_t>::V;
+    using Flow<cap_t, cap_t>::adj;
+
+    std::vector<size_t> level, itr;
 
     bool bfs(size_t s, size_t t)
     {
         fill(level.begin(), level.end(), ~0);
-        auto lit = que.begin(), rit = que.begin();
-        *rit++ = s;
+        std::queue<size_t> que;
+        que.emplace(s);
         level[s] = 0;
-        while(lit != rit)
+        while(!que.empty())
         {
-            size_t v = *lit++;
+            size_t v = que.front(); que.pop();
             for(const edge_t &e : adj[v])
             {
                 if(e.cap > cap_t(0) && not ~level[e.to])
                 {
                     level[e.to] = level[v] + 1;
-                    *rit++ = e.to;
+                    que.emplace(e.to);
                 }
             }
         }
@@ -58,28 +55,27 @@ class Dinic : public Flow<cap_t, cost_t>
     cap_t dfs(size_t v, size_t t, cap_t f)
     {
         if(v == t) return f;
-        for(; itr[v] < adj[v].size(); ++itr[v])
+        cap_t res(0);
+        while(itr[v] < adj[v].size())
         {
             edge_t &e = adj[v][itr[v]];
             if(e.cap > cap_t(0) && level[v] < level[e.to])
             {
                 cap_t d = dfs(e.to, t, std::min(f, e.cap));
-                if(d > cap_t(0))
-                {
-                    e.cap -= d;
-                    adj[e.to][e.rev].cap += d;
-                    return d;
-                }
+                e.cap -= d;
+                adj[e.to][e.rev].cap += d;
+                res += d;
+                if((f -= d) == cap_t(0)) break;
             }
+            ++itr[v];
         }
-        return 0;
+        return res;
     }
 
   public:
-    Dinic(size_t V) : Flow<cap_t, cost_t>::Flow(V), level(V), itr(V), que(V) {}
+    Dinic(size_t V) : Flow<cap_t, cap_t>::Flow(V), level(V), itr(V) {}
 
     size_t size() const { return V; }
-
     std::vector<edge_t> &operator[](size_t v) { return adj[v]; }
 
     cap_t max_flow(size_t s, size_t t)
@@ -116,7 +112,7 @@ class Dinic : public Flow<cap_t, cost_t>
             }
             return s;
         }
-    };
+    }; // class cut_t
 
     cut_t min_cut(size_t s, size_t t)
     {
@@ -129,7 +125,37 @@ class Dinic : public Flow<cap_t, cost_t>
         for(size_t v = 0; v != V; ++v) if(~level[v]) res.data[v] = 1;
         return res;
     }
-};
+}; // class Dinic
+
+template <class cap_t>
+class Fold_Fulkerson : public Flow<cap_t, cap_t>
+{
+    using edge_t = typename Flow<cap_t, cap_t>::edge_t;
+    using Flow<cap_t, cap_t>::V;
+    using Flow<cap_t, cap_t>::adj;
+
+    bool *const used;
+
+  public:
+    Fold_Fulkerson(size_t V) : Flow<cap_t, cost_t>(V), used(new bool[V]) {}
+    ~Fold_Fulkerson() { delete[] used; }
+}; // class Fold_Fulkerson
+
+template <class cap_t, class cost_t>
+class Primal_Dual : public Flow<cap_t, cost_t>
+{
+    using edge_t = typename Flow<cap_t, cap_t>::edge_t;
+    using Flow<cap_t, cap_t>::V;
+    using Flow<cap_t, cap_t>::adj;
+
+    std::vector<cost_t> dist, h;
+
+  public:
+    Primal_Dual(size_t V) : Flow<cap_t, cost_t>(V), dist(V), h(V) {}
+    cost_t min_cost_flow(size_t s, size_t t, cap_t f);
+}; // class Primal_Dual
+
+///////////////////////////////////////////////////////////////////
 
 template <class cap_t, class cost_t = cap_t>
 struct Flow
@@ -161,32 +187,14 @@ struct Flow
         edge.emplace_back(from, to, cap, cost, rpos);
         adj[from].emplace_back(pos);
         edge.emplace_back(to, from, 0, -cost, pos);
-        adj[to].emplace_back(rpos); 
+        adj[to].emplace_back(rpos);
         if(cost < 0) neg_edge_exist = true;
-    }
-
-    vector<cost_t> Dijkstra(int s)
-    {
-        vector<cost_t> dist(V, inf<cost_t>);
-        priority_queue<pair<cost_t,int>, vector<pair<cost_t,int>>, greater<pair<cost_t,int>>> que;
-        que.emplace(dist[s] = 0, s);
-        while(!que.empty()) {
-            auto p = que.top(); que.pop();
-            int v = p.second;
-            if(dist[v] < p.first) continue;
-            for(size_t i : adj[v])
-            {
-                edge_t &e = edge[i];
-                if(e.cap > 0 && dist[v] + e.cost < dist[e.to]) que.emplace(dist[e.to] = dist[v] + e.cost, e.to);
-            } 
-        }
-        return dist;
     }
 
     struct Fold_Fulkerson_exe
     {
         vector<edge_t> &edge;
-        vector<vector<size_t>> &adj;  
+        vector<vector<size_t>> &adj;
         vector<bool> used;
 
         Fold_Fulkerson_exe(Flow &_F) : edge(_F.edge), adj(_F.adj)
@@ -225,69 +233,6 @@ struct Flow
     };
 
     cap_t Fold_Fulkerson(int s, int t) { return Fold_Fulkerson_exe(*this).max_flow(s,t); }
-    
-    struct Dinic_exe
-    {
-        vector<edge_t> &edge;
-        vector<vector<size_t>> &adj;
-        vector<int> level, itr;
-
-        Dinic_exe(Flow &_F) : edge(_F.edge), adj(_F.adj), level(_F.V), itr(_F.V) {}
-
-        void bfs(int s)
-        {
-            fill(begin(level), end(level), -1);
-            vector<int> que(level.size());
-            size_t litr = 0, ritr = 0;
-            que[ritr++] = s;
-            while(litr != ritr)
-            {
-                int v = que[litr++];
-                for(size_t i : adj[v])
-                {
-                    edge_t &e = edge[i];
-                    if(e.cap > 0 && level[e.to] < 0)
-                    {
-                        level[e.to] = level[v] + 1;
-                        que[ritr++] = e.to;
-                    }
-                } 
-            }
-        }
-
-        cap_t dfs(int v, int t, cap_t f)
-        {
-            if(v == t) return f;
-            for(int &i = itr[v]; i < (int)adj[v].size(); ++i)
-            {
-                edge_t &e = edge[adj[v][i]];
-                if(e.cap > 0 && level[v] < level[e.to])
-                {
-                    cap_t d = dfs(e.to, t, min(f, e.cap));
-                    if(d > 0)
-                    {
-                        e.cap -= d;
-                        edge[e.rev].cap += d;
-                        return d;
-                    }
-                }
-            }
-            return 0;
-        }
-
-        cap_t max_flow(int s, int t)
-        {
-            cap_t flow = 0, f;
-            while(bfs(s), level[t] >= 0)
-            {
-                fill(begin(itr), end(itr), 0);
-                while((f = dfs(s, t, numeric_limits<cap_t>::max())) > 0) flow += f;
-            }
-            return flow;
-        }
-    };
-
-    cap_t Dinic(int s, int t) { return Dinic_exe(*this).max_flow(s, t); }
 
     struct Primal_Dual_exe
     {
@@ -325,7 +270,7 @@ struct Flow
                         prev_e[e.to] = &e;
                     }
                 }
-            } 
+            }
             if(dist[t] >= inf<cost_t>) return false;
             for(size_t v = 0; v < V; ++v)
             {
@@ -385,7 +330,7 @@ struct Flow
             neg_edge_exist = false;
         }
         return Primal_Dual_exe(*this).min_cost_flow(s, t, f) + corr;
-    } 
+    }
 };
 
 
@@ -419,7 +364,7 @@ struct Flow
 //             if(dist[v] < p.first) continue;
 //             for(edge &e : adj[v]) {
 //                 if(e.cap > 0 && dist[v] + e.cost < dist[e.to]) que.emplace(dist[e.to] = dist[v] + e.cost, e.to);
-//             } 
+//             }
 //         }
 //         return dist;
 //     }
@@ -460,7 +405,7 @@ struct Flow
 //     };
 
 //     cap_t Fold_Fulkerson(int s, int t) { return Fold_Fulkerson_exe(*this).max_flow(s,t); }
-    
+
 //     struct Dinic_exe {
 //         Flow &F;
 //         vector<int> level,itr;
@@ -481,7 +426,7 @@ struct Flow
 //                         level[e.to] = level[v] + 1;
 //                         que.emplace(e.to);
 //                     }
-//                 } 
+//                 }
 //             }
 //         }
 
@@ -540,7 +485,7 @@ struct Flow
 //                         prev_e[e.to] = &e;
 //                     }
 //                 }
-//             } 
+//             }
 //             if(dist[t] >= inf<cost_t>) return false;
 //             for(int v = 0; v < F.V; ++v) h[v] += dist[v];
 //             return true;
@@ -587,9 +532,5 @@ struct Flow
 //             }
 //         }
 //         return Primal_Dual_exe(*this).min_cost_flow(s,t,f) + corr;
-//     } 
+//     }
 // };
-
-
-
-signed main() {}

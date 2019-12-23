@@ -1,3 +1,6 @@
+#ifndef FAST_FOURIER_TRANSFORM_HPP
+#define FAST_FOURIER_TRANSFORM_HPP
+
 #include <bits/stdc++.h>
 
 namespace fast_Fourier_transform
@@ -148,3 +151,5 @@ namespace fast_Fourier_transform
         return h;
     }
 } // namespace fast_Fourier_transform
+
+#endif

@@ -3,25 +3,13 @@
 class Union_Find
 {
     std::vector<int> dat;
-    std::vector<bool> cyc, clr, flip;
+    bool *const cyc, *const clr, *const flip;
     size_t comp, isol;
-    bool is_bip;
+    bool is_bipart;
 
   public:
-    Union_Find(int n)
-    {
-        init(n);
-    }
-
-    void init(int n)
-    {
-        dat.assign(n, -1);
-        cyc.assign(n, false);
-        clr.assign(n, false);
-        flip.assign(n, false);
-        comp = isol = n;
-        is_bip = true;
-    }
+    Union_Find(int n) : dat(n, -1), cyc(new bool[n]), clr(new bool[n]), flip(new bool[n]), comp(n), isol(n), is_bipart(true) {}
+    ~Union_Find() { delete[] cyc; delete[] clr; delete[] flip; }
 
     int find(int x)
     {
@@ -35,41 +23,19 @@ class Union_Find
         return dat[x] = r;
     }
 
-    size_t count() const
-    {
-        return comp;
-    }
+    size_t count() const { return comp; }
 
-    size_t size(int x)
-    {
-        return -dat[find(x)];
-    }
+    size_t size(int x) { return -dat[find(x)]; }
 
-    size_t isolated() const
-    {
-        return isol;
-    }
+    size_t isolated() const { return isol; }
 
-    bool color(int x)
-    {
-        find(x);
-        return clr[x];
-    }
+    bool color(int x) { return find(x), clr[x]; }
 
-    bool is_cyclic(int x)
-    {
-        return cyc[find(x)];
-    }
+    bool is_cyclic(int x) { return cyc[find(x)]; }
 
-    bool is_same(int x, int y)
-    {
-        return find(x) == find(y);
-    }
+    bool is_same(int x, int y) { return find(x) == find(y); }
 
-    bool is_bipartite() const
-    {
-        return is_bip;
-    }
+    bool is_bipartite() const { return is_bipart; }
 
     bool unite(int x, int y)
     {
@@ -79,10 +45,7 @@ class Union_Find
         x = _x, y = _y;
         if(x == y)
         {
-            if(f)
-            {
-                is_bip = false;
-            }
+            is_bipart &= f;
             cyc[x] = true;
             return false;
         }
@@ -100,13 +63,13 @@ class Union_Find
         cyc[x] = cyc[x] || cyc[y];
         if(f)
         {
-            clr[y] = not clr[y];
-            flip[y] = not flip[y];
+            clr[y] ^= 1;
+            flip[y] ^= !flip[y];
         }
         --comp;
         return true;
     }
-};
+}; // class Union_Find
 
 template <class T>
 class Union_find
@@ -114,18 +77,18 @@ class Union_find
     std::vector<int> link;
     std::vector<T> dat;
     const std::function<void(T &, T &)> merge;
- 
+
   public:
     Union_find(int n, const std::function<void(T &, T &)> &f) : link(n, -1), dat(n), merge(f) {}
-    
+
     Union_find(int n, const T &x, const std::function<void(T &, T &)> &f) : link(n, -1), dat(n, x), merge(f) {}
- 
+
     int find(int x) { return link[x] < 0 ? x : (link[x] = find(link[x])); }
- 
+
     size_t size(int x) { return -link[find(x)]; }
- 
+
     bool is_same(int x, int y) { return find(x) == find(y); }
- 
+
     bool unite(int x, int y)
     {
         if((x = find(x)) == (y = find(y))) return false;
@@ -134,9 +97,9 @@ class Union_find
         merge(dat[x], dat[y]);
         return true;
     }
- 
+
     T &operator[](int x) { return dat[find(x)]; }
-};
+}; // class Union_find
 
 template <class Abel>
 struct WeightedUF
@@ -203,7 +166,7 @@ struct WeightedUF
         diff_weight[y] = w;
         return true;
     }
-};
+}; // struct WeightedUF
 
 struct PersistentUF
 {
@@ -265,4 +228,4 @@ struct PersistentUF
         }
         return clock;
     }
-};
+}; // struct PersistentUF

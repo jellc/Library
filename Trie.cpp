@@ -452,16 +452,12 @@ struct Trie
         {
             return node_ptr ? node_ptr->cnt : 0;
         }
-    };
-
+    }; // class iterator_t
     friend iterator_t;
 
     iterator_t begin() { return iterator_t(this, 0); }
-
     iterator_t end() { return iterator_t(this, type()); }
-
     std::reverse_iterator<iterator_t> rbegin() { return std::reverse_iterator<iterator_t>(end()); }
-
     std::reverse_iterator<iterator_t> rend() { return std::reverse_iterator<iterator_t>(begin()); }
 
     iterator_t lower_bound(const seq_t &key)

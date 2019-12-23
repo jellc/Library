@@ -36,14 +36,14 @@ class ext_deque
             *itr = data{x, opr(fold(), x)}, ++itr;
         }
         friend ext_deque;
-    };
+    }; // class ext_stack
 
     ext_stack sfront, sback;
 
   public:
     ext_deque(Monoid _identity, const opr_t &_opr)
         : identity(_identity), opr(_opr), sfront(identity, opr), sback(identity, opr) {}
-    
+
     bool empty() const { return sfront.empty() && sback.empty(); }
 
     size_t size() const { return sfront.size() + sback.size(); }
@@ -97,4 +97,4 @@ class ext_deque
         }
         sback.pop();
     }
-};
+}; // class ext_deque

@@ -1,3 +1,6 @@
+#ifndef NUMBER_THEORETIC_TRANSFORM_HPP
+#define NUMBER_THEORETIC_TRANSFORM_HPP
+
 #include <bits/stdc++.h>
 
 namespace number_theoretic_transform
@@ -108,3 +111,5 @@ namespace number_theoretic_transform
         return h;
     }
 } // namespace fast_Fourier_transform
+
+#endif

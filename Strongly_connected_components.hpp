@@ -1,3 +1,6 @@
+#ifndef STRONGLY_CONNECTED_COMPONENTS_HPP
+#define STRONGLY_CONNECTED_COMPONENTS_HPP
+
 #include <bits/stdc++.h>
 
 class Strongly_connected_components
@@ -66,3 +69,5 @@ class Strongly_connected_components
         return low[v];
     }
 }; // class Strongly_connected_components
+
+#endif
