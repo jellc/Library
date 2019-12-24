@@ -5,7 +5,7 @@ class Li_Chao_tree
     {
         K slop, incp;
         line(K a, K b) : slop(a), incp(b) {}
-        K get(K x) const { return slop * x + incp; }
+        K get(const K x) const { return slop * x + incp; }
     }; // struct line
     struct node
     {
@@ -13,11 +13,11 @@ class Li_Chao_tree
         node *left, *right;
         node(const line &l) : ln(l), left(nullptr), right(nullptr) {}
         ~node() { delete left; delete right; }
-        K get(K x) const { return ln.get(x); }
+        K get(const K x) const { return ln.get(x); }
     }; // struct node
 
     const K x_min, x_max, eps;
-    using comp_t = std::function<bool(const K &, const K &)>;
+    using comp_t = std::function<bool(const K, const K)>;
     const comp_t comp;
     const K identity;
     node *root;
