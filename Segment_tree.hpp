@@ -23,7 +23,8 @@ class segment_tree
     using value_type = typename Monoid::value_type;
     Monoid *const monoid_ptr, &monoid;
     const size_t orig_n, ext_n;
-    std::vector<value_type> data;
+    // std::vector<value_type> data;
+    value_type *data;
     uniqueue que;
 
     void rebuild()
@@ -77,9 +78,15 @@ class segment_tree
     }
 
   public:
-    segment_tree(size_t n) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(ext_n << 1, monoid.identity()), que(ext_n << 1) {}
-    segment_tree(size_t n, Monoid &_monoid) : monoid_ptr{}, monoid{_monoid}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(ext_n << 1, monoid.identity()), que(ext_n << 1) {}
-    ~segment_tree() { if(monoid_ptr) delete monoid_ptr; }
+    segment_tree(size_t n) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(new value_type[ext_n << 1]), que(ext_n << 1)
+    {
+        std::fill_n(data, ext_n << 1, monoid.identity());
+    }
+    segment_tree(size_t n, Monoid &_monoid) : monoid_ptr{}, monoid{_monoid}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(new value_type[ext_n << 1]), que(ext_n << 1)
+    {
+        std::fill_n(data, ext_n << 1, monoid.identity());
+    }
+    ~segment_tree() { if(monoid_ptr) delete monoid_ptr; delete[] data; }
 
     void build(value_type *__first, value_type *__last)
     {
