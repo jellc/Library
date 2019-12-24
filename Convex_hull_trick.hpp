@@ -100,7 +100,7 @@ class Li_Chao_tree
         {
             if(comp(p->get(x), res)) res = p->get(x);
             if(r - l <= eps) return res;
-            K mid = (l + r) / 2;
+            const K mid = (l + r) / 2;
             if(x < mid)
             {
                 p = p->left;
