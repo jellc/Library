@@ -1,4 +1,3 @@
-
 #ifndef SEGMENT_TREE_HPP
 #define SEGMENT_TREE_HPP
 template <class Monoid>
@@ -18,11 +17,7 @@ class segment_tree
             if(inque[x]) return false;
             return inque[*qend++ = x] = true;
         }
-        size_t pop()
-        {
-            const size_t res{*qbegin++};
-            return inque[res] = false, res;
-        }
+        size_t pop() { return inque[*qbegin] = false, *qbegin++; }
     }; // class uniqueue
 
     using value_type = typename Monoid::value_type;
