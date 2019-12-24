@@ -23,7 +23,6 @@ class segment_tree
     using value_type = typename Monoid::value_type;
     Monoid *const monoid_ptr, &monoid;
     const size_t orig_n, ext_n;
-    // std::vector<value_type> data;
     value_type *data;
     uniqueue que;
 
