@@ -1,3 +1,4 @@
+
 #ifndef SEGMENT_TREE_HPP
 #define SEGMENT_TREE_HPP
 template <class Monoid>
@@ -20,14 +21,12 @@ class segment_tree
         size_t pop()
         {
             const size_t res{*qbegin++};
-            inque[res] = false;
-            if(empty()) clear();
-            return res;
+            return inque[res] = false, res;
         }
     }; // class uniqueue
 
     using value_type = typename Monoid::value_type;
-    Monoid monoid;
+    Monoid *const monoid_ptr, &monoid;
     const size_t orig_n, ext_n;
     std::vector<value_type> data;
     uniqueue que;
@@ -39,6 +38,7 @@ class segment_tree
             const size_t f = que.pop(), p = f >> 1;
             if(p && que.push(p)) data[p] = monoid(data[f], data[f ^ 1]);
         }
+        que.clear();
     }
 
     void left_bound(size_t idx, const std::function<bool(const value_type &)> &pred,
@@ -47,7 +47,7 @@ class segment_tree
         if(idx <= l || r < res) return;
         if(r <= idx)
         {
-            value_type nxt = monoid(data[k], now);
+            const value_type nxt = monoid(data[k], now);
             if(pred(nxt))
             {
                 res = l, now = nxt;
@@ -67,7 +67,7 @@ class segment_tree
         if(idx >= r || l > res) return;
         if(l >= idx)
         {
-            value_type nxt = monoid(now, data[k]);
+            const value_type nxt = monoid(now, data[k]);
             if(pred(nxt))
             {
                 res = r, now = nxt;
@@ -82,7 +82,9 @@ class segment_tree
     }
 
   public:
-    segment_tree(size_t n, Monoid _monoid = Monoid()) : monoid{_monoid}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(ext_n << 1, monoid.identity()), que(ext_n << 1) {}
+    segment_tree(size_t n) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(ext_n << 1, monoid.identity()), que(ext_n << 1) {}
+    segment_tree(size_t n, Monoid &_monoid) : monoid_ptr{}, monoid{_monoid}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1), data(ext_n << 1, monoid.identity()), que(ext_n << 1) {}
+    ~segment_tree() { if(monoid_ptr) delete monoid_ptr; }
 
     void build(value_type *__first, value_type *__last)
     {
