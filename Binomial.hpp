@@ -53,7 +53,7 @@ class modint
 namespace binomial
 {
     constexpr int mod = 1000000007;
-    using binomint = modint<mod>;
+    using mint = modint<mod>;
     namespace
     {
         namespace internal_helper
@@ -75,12 +75,12 @@ namespace binomial
             constexpr int invfact_helper(int x) { assert(x < (int)N); return x < 0 ? 0 : fact_impl_inst._invfact[x]; }
             constexpr int inv_helper(int x) { assert(x < (int)N); return x < 0 ? 0 : fact_impl_inst._inv[x]; }
         } // namespace internal_helper
-        constexpr binomint fact(int x) { return internal_helper::fact_helper(x); }
-        constexpr binomint invfact(int x) { return internal_helper::invfact_helper(x); }
+        constexpr mint fact(int x) { return internal_helper::fact_helper(x); }
+        constexpr mint invfact(int x) { return internal_helper::invfact_helper(x); }
     } // unnamed namespace
-    constexpr binomint binom(int x, int y) { return fact(x) * invfact(y) * invfact(x - y); }
-    constexpr binomint fallfact(int x, int y) { return fact(x) * invfact(x - y); }
-    constexpr binomint risefact(int x, int y) { return fallfact(x + y - 1, y); }
+    constexpr mint binom(int x, int y) { return fact(x) * invfact(y) * invfact(x - y); }
+    constexpr mint fallfact(int x, int y) { return fact(x) * invfact(x - y); }
+    constexpr mint risefact(int x, int y) { return fallfact(x + y - 1, y); }
     namespace internal_helper {} // namespace internal_helper
 } // namespace binomial
 #endif
