@@ -105,7 +105,7 @@ class segment_tree
 
     value_type fold(size_t l, size_t r)
     {
-        rebuild();
+        assert(r <= orig_n), rebuild();
         value_type leftval = monoid.identity(), rightval = monoid.identity();
         l |= ext_n, r += ext_n;
         while(l < r)
@@ -117,7 +117,7 @@ class segment_tree
         return monoid(leftval, rightval);
     }
 
-    value_type &operator[](size_t i) { return que.push(i |= ext_n), data[i]; }
+    value_type &operator[](size_t i) { assert(i < orig_n); return que.push(i |= ext_n), data[i]; }
 
     // minimum l where range [l, idx) meets the condition.
     size_t left_bound(size_t i, const std::function<bool(const value_type &)> &pred)
