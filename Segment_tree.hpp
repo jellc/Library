@@ -90,7 +90,7 @@ class segment_tree
     void build(value_type *__first, value_type *__last)
     {
         std::copy(__first, __last, &data[ext_n]);
-        for(size_t i = ext_n; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
+        for(size_t i = ext_n; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
         que.clear();
     }
 
@@ -99,7 +99,7 @@ class segment_tree
     {
         static_assert(std::is_same<typename std::iterator_traits<iterator>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
         std::copy(__first, __last, &data[ext_n]);
-        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
+        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
         que.clear();
     }
 
@@ -107,7 +107,7 @@ class segment_tree
     {
         rebuild();
         value_type leftval = monoid.identity(), rightval = monoid.identity();
-        l += ext_n, r += ext_n;
+        l |= ext_n, r += ext_n;
         while(l < r)
         {
             if(l & 1) leftval = monoid(leftval, data[l++]);
@@ -117,7 +117,7 @@ class segment_tree
         return monoid(leftval, rightval);
     }
 
-    value_type &operator[](size_t i) { return que.push(i += ext_n), data[i]; }
+    value_type &operator[](size_t i) { return que.push(i |= ext_n), data[i]; }
 
     // minimum l where range [l, idx) meets the condition.
     size_t left_bound(size_t i, const std::function<bool(const value_type &)> &pred)
