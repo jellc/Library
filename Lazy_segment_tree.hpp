@@ -18,9 +18,9 @@ class lazy_segment_tree
         actor.act(data[k], lazy[k]);
         if(r - l > 1)
         {
-            actor(lazy[k * 2], lazy[k]);
-            actor(lazy[k * 2 + 1], lazy[k]);
-            flag[k * 2] = flag[k * 2 + 1] = true;
+            actor(lazy[k << 1], lazy[k]);
+            actor(lazy[k << 1 ^ 1], lazy[k]);
+            flag[k << 1] = flag[k << 1 ^ 1] = true;
         }
         lazy[k] = actor.identity(), flag[k] = false;
     }
@@ -37,9 +37,9 @@ class lazy_segment_tree
         }
         else
         {
-            update(a, b, x, k * 2, l, (l + r) >> 1);
-            update(a, b, x, k * 2 + 1, (l + r) >> 1, r);
-            data[k] = monoid(data[k * 2], data[k * 2 + 1]);
+            update(a, b, x, k << 1, l, (l + r) >> 1);
+            update(a, b, x, k << 1 ^ 1, (l + r) >> 1, r);
+            data[k] = monoid(data[k << 1], data[k << 1 ^ 1]);
         }
     }
 
@@ -48,7 +48,7 @@ class lazy_segment_tree
         if(b <= l || r <= a) return monoid.identity();
         eval(k, l, r);
         if(a <= l && r <= b) return data[k];
-        return monoid(fold(a, b, k * 2, l, (l + r) >> 1), fold(a, b, k * 2 + 1, (l + r) >> 1, r));
+        return monoid(fold(a, b, k << 1, l, (l + r) >> 1), fold(a, b, k << 1 ^ 1, (l + r) >> 1, r));
     }
 
     void left_bound(size_t idx, const std::function<bool(const value_type &)> &pred,
@@ -110,20 +110,20 @@ class lazy_segment_tree
     void build(value_type *__first, value_type *__last)
     {
         std::copy(__first, __last, &data[ext_n]);
-        for(size_t i = ext_n; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
+        for(size_t i = ext_n; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
     }
     template <class iterator>
     void build(iterator __first, iterator __last)
     {
         static_assert(std::is_same<typename std::iterator_traits<iterator>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
         std::copy(__first, __last, &data[ext_n]);
-        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
+        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
     }
 
     void init(const value_type &x)
     {
-        for(size_t i = 0; i < ext_n; ++i) data[i + ext_n] = x;
-        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
+        for(size_t i = 0; i != ext_n; ++i) data[i | ext_n] = x;
+        for(size_t i = ext_n - 1; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
     }
 
     void update(size_t a, const actor_value_type &x) { update(a, a + 1, x); }
