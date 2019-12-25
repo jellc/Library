@@ -112,6 +112,7 @@ class lazy_segment_tree
         std::copy(__first, __last, &data[ext_n]);
         for(size_t i = ext_n; i; --i) data[i] = monoid(data[i << 1], data[i << 1 ^ 1]);
     }
+
     template <class iterator>
     void build(iterator __first, iterator __last)
     {
@@ -127,6 +128,7 @@ class lazy_segment_tree
     }
 
     void update(size_t a, const actor_value_type &x) { update(a, a + 1, x); }
+    
     void update(size_t a, size_t b, const actor_value_type &x) { update(a, b, x, 1, 0, ext_n); }
 
     value_type fold(size_t a, size_t b) { return fold(a, b, 1, 0, ext_n); }
@@ -140,6 +142,7 @@ class lazy_segment_tree
         left_bound(i, pred, 1, 0, ext_n, now, res);
         return res;
     }
+
     // maximum r where range [idx, r) meets the condition.
     size_t right_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
