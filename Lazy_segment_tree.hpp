@@ -5,7 +5,8 @@ class lazy_segment_tree
 {
     using value_type = typename Monoid::value_type;
     using actor_value_type = typename Actor::value_type;
-    Monoid monoid; Actor actor;
+    Monoid *const monoid_ptr, &monoid;
+    Actor *const actor_ptr, &actor;
     const size_t orig_n, ext_n;
     std::vector<value_type> data;
     std::vector<actor_value_type> lazy;
@@ -57,7 +58,7 @@ class lazy_segment_tree
         eval(k, l, r);
         if(r <= idx)
         {
-            value_type nxt = monoid(data[k], now);
+            const value_type nxt = monoid(data[k], now);
             if(pred(nxt))
             {
                 res = l, now = nxt;
@@ -78,7 +79,7 @@ class lazy_segment_tree
         eval(k, l, r);
         if(l >= idx)
         {
-            value_type nxt = monoid(now, data[k]);
+            const value_type nxt = monoid(now, data[k]);
             if(pred(nxt))
             {
                 res = r, now = nxt;
@@ -93,12 +94,17 @@ class lazy_segment_tree
     }
 
   public:
-    lazy_segment_tree(size_t n, Monoid _monoid = Monoid(), Actor _actor = Actor())
-        : monoid{_monoid}, actor(_actor), orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1),
-          data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1])
-    {}
-    ~lazy_segment_tree() { delete[] flag; }
+    lazy_segment_tree(size_t n) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, actor_ptr{new Actor}, actor{*actor_ptr}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1),
+                                    data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1]) {}
+    lazy_segment_tree(size_t n, Monoid &_monoid) : monoid_ptr{}, monoid{_monoid}, actor_ptr{new Actor}, actor{*actor_ptr}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1),
+                                                    data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1]) {}
+    lazy_segment_tree(size_t n, Actor &_actor) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, actor_ptr{}, actor{_actor}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1),
+                                                data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1]) {}
+    lazy_segment_tree(size_t n, Monoid &_monoid, Actor &_actor) : monoid_ptr{}, monoid{_monoid}, actor_ptr{}, actor{_actor}, orig_n{n}, ext_n(n > 1 ? 1 << (32 - __builtin_clz(n - 1)) : 1),
+                                                                data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1]) {}
+    ~lazy_segment_tree() { if(monoid_ptr) delete monoid_ptr; if(actor_ptr) delete actor_ptr; delete[] flag; }
 
+    // const reference to index i.
     value_type operator[](size_t i) { return fold(i, i + 1); }
 
     void build(value_type *__first, value_type *__last)
@@ -106,7 +112,6 @@ class lazy_segment_tree
         std::copy(__first, __last, &data[ext_n]);
         for(size_t i = ext_n; i; --i) data[i] = monoid(data[i * 2], data[i * 2 + 1]);
     }
-
     template <class iterator>
     void build(iterator __first, iterator __last)
     {
@@ -122,7 +127,6 @@ class lazy_segment_tree
     }
 
     void update(size_t a, const actor_value_type &x) { update(a, a + 1, x); }
-
     void update(size_t a, size_t b, const actor_value_type &x) { update(a, b, x, 1, 0, ext_n); }
 
     value_type fold(size_t a, size_t b) { return fold(a, b, 1, 0, ext_n); }
@@ -136,7 +140,6 @@ class lazy_segment_tree
         left_bound(i, pred, 1, 0, ext_n, now, res);
         return res;
     }
-
     // maximum r where range [idx, r) meets the condition.
     size_t right_bound(size_t i, const std::function<bool(const value_type &)> &pred)
     {
