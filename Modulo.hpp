@@ -6,7 +6,7 @@ template <int mod>
 class modint
 {
     int val;
-    public:
+  public:
     constexpr modint() : val{0} {}
     constexpr modint(long long x) : val((x %= mod) < 0 ? mod + x : x) {}
     constexpr long long get() const { return val; }
@@ -51,7 +51,7 @@ template <>
 class modint<2>
 {
     bool val;
-    public:
+  public:
     constexpr modint(bool x = false) : val{x} {}
     constexpr modint(int x) : val(x & 1) {}
     constexpr modint(long long x) : val(x & 1) {}
