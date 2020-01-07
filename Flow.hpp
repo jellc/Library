@@ -15,19 +15,21 @@ struct Flow
   public:
     Flow(size_t _V) : V(_V), adj(_V) {}
 
-    void add_edge(size_t from, size_t to, cap_t cap, cost_t cost = cost_t(0))
+    size_t size() const { return V; }
+    std::vector<edge_t> &operator[](size_t v) { return adj[v]; }
+
+    void add_edge(size_t from, size_t to, cap_t cap, cost_t cost)
     {
         adj[from].emplace_back(from, to, cap, cost, adj[to].size());
         adj[to].emplace_back(to, from, 0, -cost, adj[from].size() - 1);
     }
 }; // struct Flow
 
+
 template <class cap_t>
 class Dinic : public Flow<cap_t, cap_t>
 {
-    using edge_t = typename Flow<cap_t, cap_t>::edge_t;
-    using Flow<cap_t, cap_t>::V;
-    using Flow<cap_t, cap_t>::adj;
+    using Base = Flow<cap_t, cap_t>;
 
     std::vector<size_t> level, itr;
 
@@ -40,7 +42,7 @@ class Dinic : public Flow<cap_t, cap_t>
         while(!que.empty())
         {
             size_t v = que.front(); que.pop();
-            for(const edge_t &e : adj[v])
+            for(const typename Base::edge_t &e : Base::adj[v])
             {
                 if(e.cap > cap_t(0) && not ~level[e.to])
                 {
@@ -56,14 +58,14 @@ class Dinic : public Flow<cap_t, cap_t>
     {
         if(v == t) return f;
         cap_t res(0);
-        while(itr[v] < adj[v].size())
+        while(itr[v] < Base::adj[v].size())
         {
-            edge_t &e = adj[v][itr[v]];
+            typename Base::edge_t &e = Base::adj[v][itr[v]];
             if(e.cap > cap_t(0) && level[v] < level[e.to])
             {
                 cap_t d = dfs(e.to, t, std::min(f, e.cap));
                 e.cap -= d;
-                adj[e.to][e.rev].cap += d;
+                Base::adj[e.to][e.rev].cap += d;
                 res += d;
                 if((f -= d) == cap_t(0)) break;
             }
@@ -73,10 +75,9 @@ class Dinic : public Flow<cap_t, cap_t>
     }
 
   public:
-    Dinic(size_t V) : Flow<cap_t, cap_t>::Flow(V), level(V), itr(V) {}
+    Dinic(size_t V) : Base::Flow(V), level(V), itr(V) {}
 
-    size_t size() const { return V; }
-    std::vector<edge_t> &operator[](size_t v) { return adj[v]; }
+    void add_edge(size_t s, size_t t, cap_t cap) { Base::add_edge(s, t, cap, 0); }
 
     cap_t max_flow(size_t s, size_t t)
     {
@@ -121,8 +122,8 @@ class Dinic : public Flow<cap_t, cap_t>
             fill(itr.begin(), itr.end(), 0);
             while(dfs(s, t, std::numeric_limits<cap_t>::max()) > cap_t(0));
         }
-        cut_t res(V);
-        for(size_t v = 0; v != V; ++v) if(~level[v]) res.data[v] = 1;
+        cut_t res(Base::V);
+        for(size_t v = 0; v != Base::V; ++v) if(~level[v]) res.data[v] = 1;
         return res;
     }
 }; // class Dinic
