@@ -18,8 +18,8 @@ struct min_monoid
     using value_type = T;
     T identity()
     {
-        return std::numeric_limits<T>::max();
         // return 0;
+        return std::numeric_limits<T>::max();
     }
     T operator()(const T &x, const T &y)
     {
@@ -34,8 +34,8 @@ struct max_monoid
     using value_type = T;
     T identity()
     {
-        return std::numeric_limits<T>::min();
-        // return 0;
+        // return std::numeric_limits<T>::min();
+        return 0;
     }
     T operator()(const T &x, const T &y)
     {
