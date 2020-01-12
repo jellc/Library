@@ -1,4 +1,4 @@
-// verified at https://judge.yosupo.jp/submission/2860
+// verified at https://judge.yosupo.jp/submission/2862
 #ifndef LAZY_SEGMENT_TREE_HPP
 #define LAZY_SEGMENT_TREE_HPP
 
@@ -121,14 +121,17 @@ class lazy_segment_tree
         assert(0 <= begin && end <= orig_n);
         begin += ext_n, end += ext_n - 1;
         for(size_t i = height; i; --i) push(begin >> i), push(end >> i);
-        for(size_t l = begin, r = end + 1; begin >>= 1, end >>= 1; l >>= 1, r >>= 1)
+        for(size_t l = begin, r = end + 1; end; l >>= 1, r >>= 1)
         {
             if(l < r)
             {
                 if(l & 1) apply(l++, operand);
                 if(r & 1) apply(--r, operand);
             }
-            recalc(begin), recalc(end);
+            if(begin >>= 1, end >>= 1)
+            {
+                recalc(begin), recalc(end);
+            }
         }
     }
 
@@ -137,15 +140,18 @@ class lazy_segment_tree
         assert(0 <= begin && end <= orig_n);
         begin += ext_n, end += ext_n - 1;
         value_type left_val{monoid.identity()}, right_val{monoid.identity()};
-        for(size_t l = begin, r = end + 1; begin >>= 1, end >>= 1; l >>= 1, r >>= 1)
+        for(size_t l = begin, r = end + 1; end; l >>= 1, r >>= 1)
         {
             if(l < r)
             {
                 if(l & 1) left_val = monoid(left_val, data[l++]);
                 if(r & 1) right_val = monoid(data[--r], right_val);
             }
-            action.act(left_val, lazy[begin]);
-            action.act(right_val, lazy[end]);
+            if(begin >>= 1, end >>= 1)
+            {
+                action.act(left_val, lazy[begin]);
+                action.act(right_val, lazy[end]);
+            }
         }
         return monoid(left_val, right_val);
     }
