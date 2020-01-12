@@ -114,6 +114,8 @@ class lazy_segment_tree
         for(size_t i = ext_n - 1; i; --i) recalc(i);
     }
 
+    void update(size_t index, const operand_type &operand) { update(index, index + 1, operand); }
+
     void update(size_t begin, size_t end, const operand_type &operand)
     {
         assert(0 <= begin && end <= orig_n);
