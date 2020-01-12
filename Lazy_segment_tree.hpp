@@ -1,3 +1,4 @@
+// verified at https://judge.yosupo.jp/submission/2823.
 #ifndef LAZY_SEGMENT_TREE_HPP
 #define LAZY_SEGMENT_TREE_HPP
 
