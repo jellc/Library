@@ -10,7 +10,7 @@ class segment_tree
       public:
         uniqueue(size_t n) : que(new size_t[n]), qbegin(que), qend(que), inque(new bool[n]{}) {}
         ~uniqueue() { delete[] que; delete[] inque; }
-      	void clear() { qbegin = qend = que; }
+        void clear() { qbegin = qend = que; }
         bool empty() const { return qbegin == qend; }
         bool push(size_t x)
         {
@@ -57,7 +57,7 @@ class segment_tree
     }
 
     void right_bound(size_t idx, const std::function<bool(const value_type &)> &pred,
-                     size_t k, size_t l, size_t r, value_type &now, size_t &res)
+                    size_t k, size_t l, size_t r, value_type &now, size_t &res)
     {
         if(idx >= r || l > res) return;
         if(l >= idx)

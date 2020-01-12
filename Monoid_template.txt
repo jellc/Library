@@ -75,4 +75,8 @@ struct plus_len_monoid
     {
         return {x.len + y.len, x.val + y.val};
     }
+    friend value_type &operator+=(value_type &x, T val)
+    {
+        return x.val += val * x.len, x;
+    }
 };

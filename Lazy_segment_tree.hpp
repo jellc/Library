@@ -73,7 +73,7 @@ class lazy_segment_tree
     }
 
     void right_bound(size_t idx, const std::function<bool(const value_type &)> &pred,
-                     size_t k, size_t l, size_t r, value_type &now, size_t &res)
+                    size_t k, size_t l, size_t r, value_type &now, size_t &res)
     {
         if(idx >= r || l > res) return;
         eval(k, l, r);
@@ -104,7 +104,7 @@ class lazy_segment_tree
                                                                 data(ext_n << 1, monoid.identity()), lazy(ext_n << 1, actor.identity()), flag(new bool[ext_n << 1]) {}
     ~lazy_segment_tree() { if(monoid_ptr) delete monoid_ptr; if(actor_ptr) delete actor_ptr; delete[] flag; }
 
-    // const reference to index i.
+    // copy of value at index i.
     value_type operator[](size_t i) { return fold(i, i + 1); }
 
     void build(value_type *__first, value_type *__last)
@@ -128,7 +128,7 @@ class lazy_segment_tree
     }
 
     void update(size_t a, const actor_value_type &x) { update(a, a + 1, x); }
-    
+
     void update(size_t a, size_t b, const actor_value_type &x) { update(a, b, x, 1, 0, ext_n); }
 
     value_type fold(size_t a, size_t b) { return fold(a, b, 1, 0, ext_n); }

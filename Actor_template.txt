@@ -3,7 +3,7 @@ struct actor
     using value_type = ;
     value_type identity()
     {
-        
+
     }
     void operator()(value_type &x, const value_type &y)
     {
@@ -13,5 +13,24 @@ struct actor
     void act(other &x, const value_type &y)
     {
 
+    }
+};
+
+template <class T>
+struct add_actor
+{
+    using value_type = T;
+    value_type identity()
+    {
+        return 0;
+    }
+    void operator()(value_type &x, value_type y)
+    {
+        x += y;
+    }
+    template <class other>
+    void act(other &x, value_type y)
+    {
+        x += y;
     }
 };
