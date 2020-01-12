@@ -2,21 +2,20 @@
 #define SKEWHEAP_HPP
 
 template <class T>
-class Skewheap
+class skew_heap
 {
     const std::function<bool(const T&, const T&)> comp;
-
   public:
     struct node
     {
         node *lft, *rgt; T key;
         ~node() { delete lft; delete rgt; }
       private:
-        friend Skewheap;
+        friend skew_heap;
         void clear() { lft = rgt = nullptr; }
     }; // struct node
 
-    Skewheap(const std::function<bool(const T&, const T&)> &f = std::less<T>()) : comp(f) {}
+    skew_heap(const std::function<bool(const T&, const T&)> &f = std::less<T>()) : comp(f) {}
 
     node *make() const { return nullptr; }
 
@@ -42,6 +41,6 @@ class Skewheap
     }
 
     bool empty(node *root) const { return !root; }
-}; // class Skewheap
+}; // class skew_heap
 
 #endif
