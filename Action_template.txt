@@ -1,6 +1,10 @@
 struct action
 {
-    using value_type = ;
+    struct value_type
+    {
+        
+    };
+
     value_type identity()
     {
 
@@ -15,6 +19,49 @@ struct action
 
     }
 };
+
+
+template <class T>
+struct min_action
+{
+    using value_type = T;
+    value_type identity()
+    {
+        // return 0;
+        return std::numeric_limits<T>::max();
+    }
+    void operator()(value_type &x, value_type y)
+    {
+        if(x > y) x = y;
+    }
+    template <class other>
+    void act(other &x, value_type y)
+    {
+        if(x > y) x = y;
+    }
+};
+
+
+template <class T>
+struct max_action
+{
+    using value_type = T;
+    value_type identity()
+    {
+        // return 0;
+        return std::numeric_limits<T>::min();
+    }
+    void operator()(value_type &x, value_type y)
+    {
+        if(x < y) x = y;
+    }
+    template <class other>
+    void act(other &x, value_type y)
+    {
+        if(x < y) x = y;
+    }
+};
+
 
 template <class T>
 struct add_action

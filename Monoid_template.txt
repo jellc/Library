@@ -1,6 +1,10 @@
 struct monoid
 {
-    using value_type = ;
+    struct value_type
+    {
+        
+    };
+
     value_type identity()
     {
 
