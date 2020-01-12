@@ -60,12 +60,12 @@ struct plus_monoid
 
 
 template <class T>
-struct plus_len_monoid
+struct plus_size_monoid
 {
     struct value_type
     {
-        size_t len;
         T val;
+        size_t size;
     };
     value_type identity()
     {
@@ -73,10 +73,10 @@ struct plus_len_monoid
     }
     value_type operator()(const value_type &x, const value_type &y)
     {
-        return {x.len + y.len, x.val + y.val};
+        return {x.val + y.val, x.size + y.size};
     }
     friend value_type &operator+=(value_type &x, T val)
     {
-        return x.val += val * x.len, x;
+        return x.val += val * x.size, x;
     }
 };
