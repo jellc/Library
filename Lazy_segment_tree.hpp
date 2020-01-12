@@ -44,7 +44,7 @@ class lazy_segment_tree
         if(end - begin > 1)
         {
             push(node);
-            // search from right child
+            // search the right child first
             left_bound(index, pred, node << 1 | 1, (begin + end) >> 1, end, now, res);
             left_bound(index, pred, node << 1, begin, (begin + end) >> 1, now, res);
             lazy[node] = action.identity();
@@ -67,7 +67,7 @@ class lazy_segment_tree
         if(end - begin > 1)
         {
             push(node);
-            // search from left child
+            // search the left child first
             right_bound(index, pred, node << 1, begin, (begin + end) >> 1, now, res);
             right_bound(index, pred, node << 1 | 1, (begin + end) >> 1, end, now, res);
             lazy[node] = action.identity();
