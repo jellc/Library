@@ -1,4 +1,4 @@
-struct actor
+struct action
 {
     using value_type = ;
     value_type identity()
@@ -17,7 +17,7 @@ struct actor
 };
 
 template <class T>
-struct add_actor
+struct add_action
 {
     using value_type = T;
     value_type identity()
