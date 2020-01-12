@@ -3,15 +3,15 @@
 #define DEQUE_AGGREGATION_HPP
 
 template <class Monoid>
-class operational_deque
+class deque_aggregation
 {
     using value_type = typename Monoid::value_type;
     Monoid *const monoid_ptr, &monoid;
 
     template <bool left_operand_added>
-    class operational_stack
+    class stack_aggregation
     {
-        friend operational_deque;
+        friend deque_aggregation;
         Monoid &monoid;
         struct data { value_type value, acc; };
         size_t capacity;
@@ -29,8 +29,8 @@ class operational_deque
             }
         }
       public:
-        operational_stack(Monoid &_monoid) : monoid(_monoid), capacity(1), stack(new data[1]), end(std::next(stack)), itr(stack), top_referred() {}
-        ~operational_stack() { delete[] stack; }
+        stack_aggregation(Monoid &_monoid) : monoid(_monoid), capacity(1), stack(new data[1]), end(std::next(stack)), itr(stack), top_referred() {}
+        ~stack_aggregation() { delete[] stack; }
         bool empty() const { return stack == itr; }
         size_t size() const { return itr - stack; }
         // copy of the element at position i.
@@ -74,10 +74,10 @@ class operational_deque
             else *itr = data{x, monoid(fold(), x)};
             ++itr;
         }
-    }; // class operational_stack
+    }; // class stack_aggregation
 
-    operational_stack<true> left;
-    operational_stack<false> right;
+    stack_aggregation<true> left;
+    stack_aggregation<false> right;
 
     void balance_to_left()
     {
@@ -109,9 +109,9 @@ class operational_deque
     }
 
   public:
-    operational_deque() : monoid_ptr(new Monoid), monoid(*monoid_ptr), left(monoid), right(monoid) {}
-    operational_deque(Monoid &_monoid) : monoid_ptr(), monoid(_monoid), left(monoid), right(monoid) {}
-    ~operational_deque() { delete monoid_ptr; }
+    deque_aggregation() : monoid_ptr(new Monoid), monoid(*monoid_ptr), left(monoid), right(monoid) {}
+    deque_aggregation(Monoid &_monoid) : monoid_ptr(), monoid(_monoid), left(monoid), right(monoid) {}
+    ~deque_aggregation() { delete monoid_ptr; }
 
     bool empty() const { return left.empty() && right.empty(); }
     size_t size() const { return left.size() + right.size(); }
@@ -145,6 +145,6 @@ class operational_deque
         balance_to_right();
         right.pop();
     }
-}; // class operational_deque
+}; // class deque_aggregation
 
 #endif
