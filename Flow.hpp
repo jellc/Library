@@ -8,11 +8,11 @@ struct Flow
         edge_t(size_t _from, size_t _to, cap_t _cap, cost_t _cost, size_t _rev) : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev) {}
     }; // struct edge_t
 
-  protected:
+protected:
     size_t V;
     std::vector<std::vector<edge_t>> adj;
 
-  public:
+public:
     Flow(size_t _V) : V(_V), adj(_V) {}
 
     size_t size() const { return V; }
@@ -35,7 +35,7 @@ class Dinic : public Flow<cap_t, cap_t>
 
     bool bfs(size_t s, size_t t)
     {
-        fill(level.begin(), level.end(), ~0);
+        fill(level.begin(), level.end(), SIZE_MAX);
         std::queue<size_t> que;
         que.emplace(s);
         level[s] = 0;
@@ -44,7 +44,7 @@ class Dinic : public Flow<cap_t, cap_t>
             size_t v = que.front(); que.pop();
             for(const typename Base::edge_t &e : Base::adj[v])
             {
-                if(e.cap > cap_t(0) && not ~level[e.to])
+                if(e.cap > cap_t(0) && level[e.to] == SIZE_MAX)
                 {
                     level[e.to] = level[v] + 1;
                     que.emplace(e.to);
@@ -74,7 +74,7 @@ class Dinic : public Flow<cap_t, cap_t>
         return res;
     }
 
-  public:
+public:
     Dinic(size_t V) : Base::Flow(V), level(V), itr(V) {}
 
     void add_edge(size_t s, size_t t, cap_t cap) { Base::add_edge(s, t, cap, 0); }
@@ -90,19 +90,19 @@ class Dinic : public Flow<cap_t, cap_t>
         return res;
     }
 
-    class cut_t
+    class cut_type
     {
         size_t V; bool* const data;
         friend class Dinic;
-      public:
-        cut_t(size_t _V) : V(_V), data(new bool[V]()) {}
-        ~cut_t() { delete[] data; }
+    public:
+        cut_type(size_t _V) : V(_V), data(new bool[V]()) {}
+        ~cut_type() { delete[] data; }
 
         size_t size() const { return V; }
         bool &operator[](size_t v) const { return data[v]; }
         bool *begin() const { return data; }
         bool *end() const { return data + V; }
-        friend std::ostream &operator<<(std::ostream &s, const cut_t &cut)
+        friend std::ostream &operator<<(std::ostream &s, const cut_type &cut)
         {
             bool is_front = true;
             for(bool b : cut)
@@ -113,17 +113,17 @@ class Dinic : public Flow<cap_t, cap_t>
             }
             return s;
         }
-    }; // class cut_t
+    }; // class cut_type
 
-    cut_t min_cut(size_t s, size_t t)
+    cut_type min_cut(size_t s, size_t t)
     {
         while(bfs(s, t))
         {
             fill(itr.begin(), itr.end(), 0);
             while(dfs(s, t, std::numeric_limits<cap_t>::max()) > cap_t(0));
         }
-        cut_t res(Base::V);
-        for(size_t v = 0; v != Base::V; ++v) if(~level[v]) res.data[v] = 1;
+        cut_type res(Base::V);
+        for(size_t v = 0; v != Base::V; ++v) if(~level[v]) res.data[v] = true;
         return res;
     }
 }; // class Dinic
