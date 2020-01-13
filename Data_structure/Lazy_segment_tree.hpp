@@ -1,4 +1,4 @@
-// verified at https://judge.yosupo.jp/submission/2862
+// verified at https://judge.yosupo.jp/submission/2904
 #ifndef LAZY_SEGMENT_TREE_HPP
 #define LAZY_SEGMENT_TREE_HPP
 
@@ -23,9 +23,12 @@ class lazy_segment_tree
 
     void push(size_t index)
     {
-        apply(index << 1, lazy[index]);
-        apply(index << 1 | 1, lazy[index]);
-        lazy[index] = action.identity();
+        if(index < ext_n)
+        {
+            apply(index << 1, lazy[index]);
+            apply(index << 1 | 1, lazy[index]);
+            lazy[index] = action.identity();
+        }
     }
 
     void left_bound(size_t index, const std::function<bool(const value_type &)> &pred,
@@ -41,13 +44,12 @@ class lazy_segment_tree
                 return;
             }
         }
-        if(end - begin > 1)
+        if(node < ext_n)
         {
             push(node);
             // search the right child first
             left_bound(index, pred, node << 1 | 1, (begin + end) >> 1, end, now, res);
             left_bound(index, pred, node << 1, begin, (begin + end) >> 1, now, res);
-            lazy[node] = action.identity();
         }
     }
 
@@ -64,55 +66,64 @@ class lazy_segment_tree
                 return;
             }
         }
-        if(end - begin > 1)
+        if(node < ext_n)
         {
             push(node);
             // search the left child first
             right_bound(index, pred, node << 1, begin, (begin + end) >> 1, now, res);
             right_bound(index, pred, node << 1 | 1, (begin + end) >> 1, end, now, res);
-            lazy[node] = action.identity();
         }
     }
 
-  public:
-    explicit lazy_segment_tree(size_t n) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, action_ptr{new Action}, action{*action_ptr},
-                                            orig_n{n}, height(n > 1 ? 32 - __builtin_clz(n - 1) : 0), ext_n(1 << height),
-                                            data(ext_n << 1, monoid.identity()), lazy(ext_n, action.identity()) {}
-    lazy_segment_tree(size_t n, Monoid &_monoid) : monoid_ptr{}, monoid{_monoid}, action_ptr{new Action}, action{*action_ptr},
-                                                    orig_n{n}, height(n > 1 ? 32 - __builtin_clz(n - 1) : 0), ext_n(1 << height),
-                                                    data(ext_n << 1, monoid.identity()), lazy(ext_n, action.identity()) {}
-    lazy_segment_tree(size_t n, Action &_actor) : monoid_ptr{new Monoid}, monoid{*monoid_ptr}, action_ptr{}, action{_actor},
-                                                    orig_n{n}, height(n > 1 ? 32 - __builtin_clz(n - 1) : 0), ext_n(1 << height),
-                                                    data(ext_n << 1, monoid.identity()), lazy(ext_n, action.identity()) {}
-    lazy_segment_tree(size_t n, Monoid &_monoid, Action &_actor) : monoid_ptr{}, monoid{_monoid}, action_ptr{}, action{_actor},
-                                                                    orig_n{n}, height(n > 1 ? 32 - __builtin_clz(n - 1) : 0), ext_n(1 << height),
-                                                                    data(ext_n << 1, monoid.identity()), lazy(ext_n, action.identity()) {}
+    lazy_segment_tree(size_t n, Monoid *const _monoid_ptr, bool monoid_new_ptr, Action *const _action_ptr, bool action_new_ptr)
+        : monoid_ptr(monoid_new_ptr ? _monoid_ptr : nullptr), monoid(*_monoid_ptr), action_ptr(action_new_ptr ? _action_ptr : nullptr), action(*_action_ptr),
+            orig_n{n}, height(orig_n > 1 ? 32 - __builtin_clz(orig_n - 1) : 0), ext_n{1u << height},
+            data(ext_n << 1, monoid.identity()), lazy(ext_n, action.identity()) {}
+
+    lazy_segment_tree(size_t n, const value_type &val, Monoid *const _monoid_ptr, bool monoid_new_ptr, Action *const _action_ptr, bool action_new_ptr)
+        : monoid_ptr(monoid_new_ptr ? _monoid_ptr : nullptr), monoid(*_monoid_ptr), action_ptr(action_new_ptr ? _action_ptr : nullptr), action(*_action_ptr),
+            orig_n{n}, height(orig_n > 1 ? 32 - __builtin_clz(orig_n - 1) : 0), ext_n{1u << height},
+            data(ext_n << 1), lazy(ext_n, action.identity())
+    {
+        std::fill(data.begin() + ext_n, data.end(), val);
+        for(size_t i = ext_n - 1; i; --i) recalc(i);
+    }
+
+    template <class iter_type>
+    lazy_segment_tree(iter_type __first, iter_type __last, Monoid *const _monoid_ptr, bool monoid_new_ptr, Action *const _action_ptr, bool action_new_ptr)
+        : monoid_ptr(monoid_new_ptr ? _monoid_ptr : nullptr), monoid(*_monoid_ptr), action_ptr(action_new_ptr ? _action_ptr : nullptr), action(*_action_ptr),
+            orig_n(std::distance(__first, __last)), height(orig_n > 1 ? 32 - __builtin_clz(orig_n - 1) : 0), ext_n{1u << height},
+            data(ext_n << 1), lazy(ext_n, action.identity())
+    {
+        static_assert(std::is_same<typename std::iterator_traits<iter_type>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
+        std::fill(std::copy(__first, __last, data.begin() + ext_n), data.end(), monoid.identity());
+        for(size_t i = ext_n - 1; i; --i) recalc(i);
+    }
+
+public:
+    explicit lazy_segment_tree(size_t n) : lazy_segment_tree(n, new Monoid, true, new Action, true) {}
+    lazy_segment_tree(size_t n, Monoid &_monoid) : lazy_segment_tree(n, _monoid, false, new Action, true) {}
+    lazy_segment_tree(size_t n, Action &_action) : lazy_segment_tree(n, new Monoid, true, _action, false) {}
+    lazy_segment_tree(size_t n, Monoid &_monoid, Action &_action) : lazy_segment_tree(n, _monoid, false, _action, false) {}
+
+    lazy_segment_tree(size_t n, const value_type &val) : lazy_segment_tree(n, val, new Monoid, true, new Action, true) {}
+    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid) : lazy_segment_tree(n, val, _monoid, false, new Action, true) {}
+    lazy_segment_tree(size_t n, const value_type &val, Action &_action) : lazy_segment_tree(n, val, new Monoid, true, _action, false) {}
+    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid, Action &_action) : lazy_segment_tree(n, val, _monoid, false, _action, false) {}
+
+    template <class iter_type>
+    lazy_segment_tree(const iter_type __first, const iter_type __last) : lazy_segment_tree(__first, __last, new Monoid, true, new Action, true) {}
+    template <class iter_type>
+    lazy_segment_tree(const iter_type __first, const iter_type __last, Monoid &_monoid) : lazy_segment_tree(__first, __last, _monoid, false, new Action, true) {}
+    template <class iter_type>
+    lazy_segment_tree(const iter_type __first, const iter_type __last, Action &_action) : lazy_segment_tree(__first, __last, new Monoid, true, _action, false) {}
+    template <class iter_type>
+    lazy_segment_tree(const iter_type __first, const iter_type __last, Monoid &_monoid, Action &_action) : lazy_segment_tree(__first, __last, _monoid, false, _action, false) {}
+
     ~lazy_segment_tree() { delete monoid_ptr; delete action_ptr; }
 
     // copy of the element at position i.
     value_type operator[](size_t i) { return fold(i, i + 1); }
-
-    void build(value_type *__first, value_type *__last)
-    {
-        assert((size_t)std::distance(__first, __last) <= ext_n);
-        std::copy(__first, __last, data.begin() + ext_n);
-        for(size_t i = ext_n - 1; i; --i) recalc(i);
-    }
-
-    template <class iterator>
-    void build(iterator __first, iterator __last)
-    {
-        static_assert(std::is_same<typename std::iterator_traits<iterator>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
-        assert((size_t)std::distance(__first, __last) <= ext_n);
-        std::copy(__first, __last, data.begin() + ext_n);
-        for(size_t i = ext_n - 1; i; --i) recalc(i);
-    }
-
-    void init(const value_type &x)
-    {
-        for(size_t i = 0; i != ext_n; ++i) data[i | ext_n] = x;
-        for(size_t i = ext_n - 1; i; --i) recalc(i);
-    }
 
     void update(size_t index, const operand_type &operand) { update(index, index + 1, operand); }
 
