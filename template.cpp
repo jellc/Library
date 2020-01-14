@@ -94,7 +94,7 @@ class
 {
     std::chrono::system_clock::time_point built_pt, last_pt; int built_ln, last_ln;
     std::string built_func, last_func; bool is_built = false;
-  public:
+public:
     void build(int crt_ln, const std::string &crt_func)
     {
         is_built = true, last_pt = built_pt = std::chrono::system_clock::now(), last_ln = built_ln = crt_ln, last_func = built_func = crt_func;
@@ -182,73 +182,27 @@ template <class T, class... types> T read(types... args) noexcept { T obj(args..
 template <class T> inline bool sbmin(T &x, const T &y) { return x > y ? x = y, true : false; }
 // substitute y for x if x < y.
 template <class T> inline bool sbmax(T &x, const T &y) { return x < y ? x = y, true : false; }
-// binary search on integers.
-template <class pred_type>
-long long binary(long long __ok, long long __ng, pred_type &pred)
+// binary search on discrete range.
+template <class iter_type, class pred_type>
+iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
 {
-    while(std::abs(__ok - __ng) > 1)
+    std::ptrdiff_t dist(__ng - __ok);
+    while(abs(dist) > 1)
     {
-        long long mid{(__ok + __ng) / 2};
-        (pred(mid) ? __ok : __ng) = mid;
-    }
-    return __ok;
-}
-// binary search on integers(with a class member function).
-template <class pred_type, class X>
-long long binary(long long __ok, long long __ng, pred_type pred, X *const class_ptr)
-{
-    while(std::abs(__ok - __ng) > 1)
-    {
-        long long mid{(__ok + __ng) / 2};
-        ((class_ptr->*pred)(mid) ? __ok : __ng) = mid;
+        iter_type mid(__ok + dist / 2);
+        if(pred(mid)) __ok = mid, dist -= dist / 2;
+        else __ng = mid, dist /= 2;
     }
     return __ok;
 }
 // binary search on real numbers.
 template <class pred_type>
-long double binary(long double __ok, long double __ng, const long double eps, pred_type &pred)
+long double binary(long double __ok, long double __ng, const long double eps, pred_type pred)
 {
-    while(std::abs(__ok - __ng) > eps)
+    while(abs(__ok - __ng) > eps)
     {
         long double mid{(__ok + __ng) / 2};
         (pred(mid) ? __ok : __ng) = mid;
-    }
-    return __ok;
-}
-// binary search on real numbers(with a class member function).
-template <class pred_type, class X>
-long double binary(long double __ok, long double __ng, const long double eps, pred_type pred, X *const class_ptr)
-{
-    while(std::abs(__ok - __ng) > eps)
-    {
-        long double mid{(__ok + __ng) / 2};
-        ((class_ptr->*pred)(mid) ? __ok : __ng) = mid;
-    }
-    return __ok;
-}
-// binary search on iterator range.
-template <class iter_type, class pred_type>
-iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
-{
-    auto dist{std::distance(__ok, __ng)};
-    while(abs(dist) > 1)
-    {
-        iter_type mid{__ok + (dist >> 1)};
-        if(pred(mid)) __ok = mid, ++dist >>= 1;
-        else __ng =mid, dist >>= 1;
-    }
-    return __ok;
-}
-// binary search on iterator range(with a class member function).
-template <class iter_type, class pred_type, class X>
-iter_type binary(iter_type __ok, iter_type __ng, pred_type pred, X *const class_ptr)
-{
-    auto dist{std::distance(__ok, __ng)};
-    while(abs(dist) > 1)
-    {
-        iter_type mid{__ok + (dist >> 1)};
-        if((class_ptr->*pred)(mid)) __ok = mid, ++dist >>= 1;
-        else __ng =mid, dist >>= 1;
     }
     return __ok;
 }
@@ -277,15 +231,14 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 /* The main code follows. */
 
 
+
 struct solver
 {
-
     solver()
     {
 
     }
 }; // struct solver
-
 
 int main(int argc, char *argv[])
 {
