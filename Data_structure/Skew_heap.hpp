@@ -1,5 +1,6 @@
-#ifndef SKEWHEAP_HPP
-#define SKEWHEAP_HPP
+// #line 2 "Skew_heap.hpp"
+#ifndef Skew_heap_hpp
+#define Skew_heap_hpp
 
 template <class T>
 class skew_heap

@@ -1,6 +1,7 @@
+// #line 2 "Lazy_segment_tree.hpp"
 // verified at https://judge.yosupo.jp/submission/2904
-#ifndef LAZY_SEGMENT_TREE_HPP
-#define LAZY_SEGMENT_TREE_HPP
+#ifndef Lazy_segment_tree_hpp
+#define Lazy_segment_tree_hpp
 
 template <class Monoid, class Action>
 class lazy_segment_tree

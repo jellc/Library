@@ -1,6 +1,8 @@
-#ifndef MANACHER_HPP
-#define MANACHER_HPP
+#line 2 "Manacher.hpp"
+#ifndef Manacher_hpp
+#define Manacher_hpp
 #include <string>
+
 template <class str_t = std::string>
 class Manacher
 {
@@ -35,4 +37,5 @@ class Manacher
     size_t size() const { return rad.size(); }
     size_t operator[](size_t i) const { return rad[i]; }
 }; // class Manacher
+
 #endif

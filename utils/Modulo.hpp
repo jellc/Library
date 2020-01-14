@@ -1,7 +1,9 @@
-#ifndef MODULO_HPP
-#define MODULO_HPP
-#include <iostream>
+// #line 2 "Modulo.hpp"
+#ifndef Modulo_hpp
+#define Modulo_hpp
 #include <cassert>
+#include <iostream>
+
 template <int mod>
 class modint
 {
@@ -47,6 +49,7 @@ class modint
     friend std::ostream &operator<<(std::ostream &s, const modint &other) noexcept { return s << other.val; }
     friend std::istream &operator>>(std::istream &s, modint &other) noexcept { long long val; other = modint{(s >> val, val)}; return s; }
 }; // class modint
+
 template <>
 class modint<2>
 {
@@ -82,4 +85,5 @@ class modint<2>
     friend std::ostream &operator<<(std::ostream &os, const modint &other) noexcept { return os << other.val; }
     friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other.val = (is >> val, val & 1); return is; }
 }; // class modint specialization
+
 #endif

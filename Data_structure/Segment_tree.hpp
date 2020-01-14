@@ -1,6 +1,7 @@
+// #line 2 "Segment_tree.hpp"
 // verified at https://judge.yosupo.jp/submission/2903
-#ifndef SEGMENT_TREE_HPP
-#define SEGMENT_TREE_HPP
+#ifndef Segment_tree_hpp
+#define Segment_tree_hpp
 
 template <class Monoid>
 class segment_tree

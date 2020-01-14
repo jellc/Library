@@ -1,6 +1,8 @@
-#ifndef Z_ALOGORITHM_HPP
-#define Z_ALOGORITHM_HPP
+// #line 2 "Z_algorithm_hpp"
+#ifndef Z_algorithm_hpp
+#define Z_algorithm_hpp
 #include <string>
+
 template <class A = std::string>
 class Z_algorithm
 {
@@ -48,4 +50,5 @@ class Z_algorithm
         return res;
     }
 };
+
 #endif

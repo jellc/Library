@@ -1,22 +1,26 @@
+// #line 2 "Flow.hpp"
+#ifndef Flow_hpp
+#define Flow_hpp
+
 // Base class
 template <class cap_t, class cost_t>
 struct Flow
 {
-    struct edge_t
+    struct edge_type
     {
         size_t from, to; cap_t cap; cost_t cost; size_t rev;
-        edge_t(size_t _from, size_t _to, cap_t _cap, cost_t _cost, size_t _rev) : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev) {}
-    }; // struct edge_t
+        edge_type(size_t _from, size_t _to, cap_t _cap, cost_t _cost, size_t _rev) : from(_from), to(_to), cap(_cap), cost(_cost), rev(_rev) {}
+    }; // struct edge_type
 
 protected:
     size_t V;
-    std::vector<std::vector<edge_t>> adj;
+    std::vector<std::vector<edge_type>> adj;
 
 public:
     Flow(size_t _V) : V(_V), adj(_V) {}
 
     size_t size() const { return V; }
-    std::vector<edge_t> &operator[](size_t v) { return adj[v]; }
+    std::vector<edge_type> &operator[](size_t v) { return adj[v]; }
 
     void add_edge(size_t from, size_t to, cap_t cap, cost_t cost)
     {
@@ -42,7 +46,7 @@ class Dinic : public Flow<cap_t, cap_t>
         while(!que.empty())
         {
             size_t v = que.front(); que.pop();
-            for(const typename Base::edge_t &e : Base::adj[v])
+            for(const typename Base::edge_type &e : Base::adj[v])
             {
                 if(e.cap > cap_t(0) && level[e.to] == SIZE_MAX)
                 {
@@ -60,7 +64,7 @@ class Dinic : public Flow<cap_t, cap_t>
         cap_t res(0);
         while(itr[v] < Base::adj[v].size())
         {
-            typename Base::edge_t &e = Base::adj[v][itr[v]];
+            typename Base::edge_type &e = Base::adj[v][itr[v]];
             if(e.cap > cap_t(0) && level[v] < level[e.to])
             {
                 cap_t d = dfs(e.to, t, std::min(f, e.cap));
@@ -127,3 +131,5 @@ public:
         return res;
     }
 }; // class Dinic
+
+#endif

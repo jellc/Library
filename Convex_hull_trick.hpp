@@ -1,3 +1,7 @@
+// #line 2 "Convex_hull_trick.hpp"
+#ifndef Convex_hull_trick_hpp
+#define Convex_hull_trick_hpp
+
 template <class K>
 class Li_Chao_tree
 {
@@ -115,3 +119,5 @@ class Li_Chao_tree
         return res;
     }
 }; // class Li_Chao_tree
+
+#endif

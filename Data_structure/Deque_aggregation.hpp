@@ -1,6 +1,7 @@
+// #line 2 "Deque_aggregation.hpp"
 // verified at https://judge.yosupo.jp/submission/2812.
-#ifndef DEQUE_AGGREGATION_HPP
-#define DEQUE_AGGREGATION_HPP
+#ifndef Deque_aggregation_hpp
+#define Deque_aggregation_hpp
 
 template <class Monoid>
 class deque_aggregation

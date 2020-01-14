@@ -1,7 +1,12 @@
-#ifndef FAST_FOURIER_TRANSFORM_HPP
-#define FAST_FOURIER_TRANSFORM_HPP
+#line 2 "Fast_Fourier_transform.hpp"
+#ifndef Fast_Fourier_transform_hpp
+#define Fast_Fourier_transform_hpp
 
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <cassert>
+#include <complex>
+#include <iostream>
+#include <vector>
 
 namespace fast_Fourier_transform
 {
@@ -39,7 +44,7 @@ namespace fast_Fourier_transform
 
     using poly_t = std::vector<cmplx_t>;
 
-    void dft(poly_t &f)
+    void discrete_Fourier_transform(poly_t &f)
     {
         const size_t n{f.size()}, mask{n - 1};
         assert(__builtin_popcount(n) == 1); // degree of f must be a power of two.
@@ -89,7 +94,7 @@ namespace fast_Fourier_transform
         }
     }
 
-    void idft(poly_t &f) { dft(f), reverse(next(f.begin()), f.end()); for(cmplx_t &e : f) e /= f.size(); }
+    void inverse_discrete_Fourier_transform(poly_t &f) { discrete_Fourier_transform(f), reverse(next(f.begin()), f.end()); for(cmplx_t &e : f) e /= f.size(); }
 
     poly_t convolute(poly_t f, poly_t g)
     {
@@ -97,9 +102,9 @@ namespace fast_Fourier_transform
         const size_t deg_f{f.size() - 1}, deg_g{g.size() - 1}, deg_h{deg_f + deg_g}, n(1u << (32 - __builtin_clz(deg_h)));
         static poly_t h;
         f.resize(n, 0), g.resize(n, 0), h.resize(n);
-        dft(f), dft(g);
+        discrete_Fourier_transform(f), discrete_Fourier_transform(g);
         for(size_t i{}; i < n; ++i) h[i] = f[i] * g[i];
-        idft(h); h.resize(deg_h + 1);
+        inverse_discrete_Fourier_transform(h); h.resize(deg_h + 1);
         return h;
     }
 
@@ -111,10 +116,10 @@ namespace fast_Fourier_transform
         static poly_t p; p.assign(n, 0);
         for(size_t i{}; i <= deg_f; ++i) p[i].real(f[i]);
         for(size_t i{}; i <= deg_g; ++i) p[i].imag(g[i]);
-        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        discrete_Fourier_transform(p); // perform discrete Fourier transformation on p = f + i*g.
         static poly_t q; q.resize(n);
         for(size_t i{}; i < n; ++i) { size_t j{i ? n - i : 0}; q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j])); }
-        idft(q);
+        inverse_discrete_Fourier_transform(q);
         for(size_t i{}; i <= deg_h; ++i) h[i] = q[i].imag() / 4;
         return h;
     }
@@ -127,10 +132,10 @@ namespace fast_Fourier_transform
         static poly_t p; p.assign(n, 0);
         for(size_t i{}; i <= deg_f; ++i) p[i].real(f[i]);
         for(size_t i{}; i <= deg_g; ++i) p[i].imag(g[i]);
-        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        discrete_Fourier_transform(p); // perform discrete Fourier transformation on p = f + i*g.
         static poly_t q; q.resize(n);
         for(size_t i{}; i < n; ++i) { size_t j{i ? n - i : 0}; q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j])); }
-        idft(q);
+        inverse_discrete_Fourier_transform(q);
         for(size_t i{}; i <= deg_h; ++i) h[i] = round(q[i].imag() / 4);
         return h;
     }
@@ -143,10 +148,10 @@ namespace fast_Fourier_transform
         static poly_t p; p.assign(n, 0);
         for(size_t i{}; i <= deg_f; ++i) p[i].real(f[i]);
         for(size_t i{}; i <= deg_g; ++i) p[i].imag(g[i]);
-        dft(p); // perform discrete Fourier transformation on p = f + i*g.
+        discrete_Fourier_transform(p); // perform discrete Fourier transformation on p = f + i*g.
         static poly_t q; q.resize(n);
         for(size_t i{}; i < n; ++i) { size_t j{i ? n - i : 0}; q[i] = (p[i] + conj(p[j])) * (p[i] - conj(p[j])); }
-        idft(q);
+        inverse_discrete_Fourier_transform(q);
         for(size_t i{}; i <= deg_h; ++i) h[i] = round(q[i].imag() / 4);
         return h;
     }
