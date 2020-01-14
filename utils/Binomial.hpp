@@ -1,9 +1,11 @@
-#ifndef BINOMIAL_HPP
-#define BINOMIAL_HPP
-#ifndef MODULO_HPP
-#define MODULO_HPP
-#include <iostream>
+// #line 2 "Binomial.hpp"
+#ifndef Binomial_hpp
+#define Binomial_hpp
+#ifndef Modulo_hpp
+#define Modulo_hpp
 #include <cassert>
+#include <iostream>
+
 template <int mod>
 class modint
 {
@@ -83,4 +85,5 @@ namespace binomial
     constexpr mint risefact(int x, int y) noexcept { return fallfact(x + y - 1, y); }
     namespace internal_helper {} // namespace internal_helper
 } // namespace binomial
+
 #endif

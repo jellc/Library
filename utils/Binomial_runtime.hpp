@@ -1,13 +1,15 @@
-#ifndef BINOM_RUNTIME_HPP
-#define BINOM_RUNTIME_HPP
+// #line 2 "Binomial_runtime.hpp"
+#ifndef Binomial_runtime_hpp
+#define Binomial_runtime_hpp
 #include <vector>
-class binom_runtime
+
+class binomial_runtime
 {
     const int mod;
     int n;
     std::vector<int> _fact, _inv, _invfact;
   public:
-    binom_runtime(const int _mod) noexcept : mod(_mod), n{2}, _fact{1, 1}, _inv{0, 1}, _invfact{1, 1} {}
+    binomial_runtime(const int _mod) noexcept : mod(_mod), n{2}, _fact{1, 1}, _inv{0, 1}, _invfact{1, 1} {}
     void build(const int m) noexcept
     {
         if(m < n) return;
@@ -26,4 +28,5 @@ class binom_runtime
     long long invfact(const int x) noexcept { return build(x), x < 0 ? 0 : _invfact[x]; }
     long long binom(const int x, int y) noexcept { return fact(x) * invfact(y) % mod * invfact(x - y) % mod; }
 };
+
 #endif
