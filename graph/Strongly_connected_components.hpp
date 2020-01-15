@@ -1,4 +1,3 @@
-// #line 2 "Strongly_connected_components.hpp"
 #ifndef Strongly_connected_components_hpp
 #define Strongly_connected_components_hpp
 #include <vector>
@@ -70,4 +69,4 @@ class Strongly_connected_components
     }
 }; // class Strongly_connected_components
 
-#endif
+#endif // Strongly_connected_components_hpp
