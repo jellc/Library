@@ -111,9 +111,9 @@ public:
     lazy_segment_tree(size_t n, Monoid &_monoid, Action &_action) : lazy_segment_tree(n, &_monoid, false, &_action, false) {}
 
     lazy_segment_tree(size_t n, const value_type &val) : lazy_segment_tree(n, val, new Monoid, true, new Action, true) {}
-    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid) : lazy_segment_tree(n, val, _monoid, false, new Action, true) {}
-    lazy_segment_tree(size_t n, const value_type &val, Action &_action) : lazy_segment_tree(n, val, new Monoid, true, _action, false) {}
-    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid, Action &_action) : lazy_segment_tree(n, val, _monoid, false, _action, false) {}
+    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid) : lazy_segment_tree(n, val, &_monoid, false, new Action, true) {}
+    lazy_segment_tree(size_t n, const value_type &val, Action &_action) : lazy_segment_tree(n, val, new Monoid, true, &_action, false) {}
+    lazy_segment_tree(size_t n, const value_type &val, Monoid &_monoid, Action &_action) : lazy_segment_tree(n, val, &_monoid, false, &_action, false) {}
 
     template <class iter_type, class = typename std::iterator_traits<iter_type>::value_type>
     lazy_segment_tree(const iter_type __first, const iter_type __last) : lazy_segment_tree(__first, __last, new Monoid, true, new Action, true) {}
