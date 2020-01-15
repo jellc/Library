@@ -1,4 +1,3 @@
-#line 2 "Fast_Fourier_transform.hpp"
 #ifndef Fast_Fourier_transform_hpp
 #define Fast_Fourier_transform_hpp
 
@@ -157,4 +156,4 @@ namespace fast_Fourier_transform
     }
 } // namespace fast_Fourier_transform
 
-#endif
+#endif // Fast_Fourier_transform_hpp
