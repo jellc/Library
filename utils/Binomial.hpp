@@ -1,8 +1,5 @@
-// #line 2 "Binomial.hpp"
-#ifndef Binomial_hpp
-#define Binomial_hpp
-#ifndef Modulo_hpp
-#define Modulo_hpp
+#ifndef Modint_hpp
+#define Modint_hpp
 #include <cassert>
 #include <iostream>
 
@@ -14,15 +11,15 @@ class modint
     constexpr modint() noexcept : val{0} {}
     constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
     constexpr long long value() const noexcept { return val; }
-    constexpr modint &operator+=(const modint &other) noexcept { return (val += other.val) < mod ? 0 : val -= mod, *this; }
-    constexpr modint &operator++() noexcept { return ++val, *this; }
     constexpr modint operator++(int) noexcept { modint t = *this; return ++val, t; }
-    constexpr modint &operator-=(const modint &other) noexcept { return (val += mod - other.val) < mod ? 0 : val -= mod, *this; }
-    constexpr modint &operator--() noexcept { return --val, *this; }
     constexpr modint operator--(int) noexcept { modint t = *this; return --val, t; }
+    constexpr modint &operator++() noexcept { return ++val, *this; }
+    constexpr modint &operator--() noexcept { return --val, *this; }
+    constexpr modint operator-() const noexcept { return modint(-val); }
+    constexpr modint &operator+=(const modint &other) noexcept { return (val += other.val) < mod ? 0 : val -= mod, *this; }
+    constexpr modint &operator-=(const modint &other) noexcept { return (val += mod - other.val) < mod ? 0 : val -= mod, *this; }
     constexpr modint &operator*=(const modint &other) noexcept { return val = (long long)val * other.val % mod, *this; }
     constexpr modint &operator/=(const modint &other) noexcept { return *this *= inverse(other); }
-    constexpr modint operator-() const noexcept { return modint(-val); }
     constexpr modint operator+(const modint &other) const noexcept { return modint(*this) += other; }
     constexpr modint operator-(const modint &other) const noexcept { return modint(*this) -= other; }
     constexpr modint operator*(const modint &other) const noexcept { return modint(*this) *= other; }
@@ -30,16 +27,16 @@ class modint
     constexpr bool operator==(const modint &other) const noexcept { return val == other.val; }
     constexpr bool operator!=(const modint &other) const noexcept { return val != other.val; }
     constexpr bool operator!() const noexcept { return !val; }
-    template <class T> friend constexpr modint operator+(T x, modint y) noexcept { return modint(x) + y; }
-    template <class T> friend constexpr modint operator-(T x, modint y) noexcept { return modint(x) - y; }
-    template <class T> friend constexpr modint operator*(T x, modint y) noexcept { return modint(x) * y; }
-    template <class T> friend constexpr modint operator/(T x, modint y) noexcept { return modint(x) / y; }
+    friend constexpr modint operator+(long long x, modint y) noexcept { return modint(x) + y; }
+    friend constexpr modint operator-(long long x, modint y) noexcept { return modint(x) - y; }
+    friend constexpr modint operator*(long long x, modint y) noexcept { return modint(x) * y; }
+    friend constexpr modint operator/(long long x, modint y) noexcept { return modint(x) / y; }
     friend constexpr modint inverse(const modint &other) noexcept
     {
         assert(other != 0);
         int a{mod}, b{other.val}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
-        return modint{u};
+        return {u};
     }
     friend constexpr modint pow(modint other, long long e) noexcept
     {
@@ -48,10 +45,15 @@ class modint
         while(e) { if(e & 1) res *= other; other *= other, e >>= 1; }
         return res;
     }
-    friend std::ostream &operator<<(std::ostream &s, const modint &other) noexcept { return s << other.val; }
-    friend std::istream &operator>>(std::istream &s, modint &other) noexcept { long long val; other = modint{(s >> val, val)}; return s; }
+    friend std::ostream &operator<<(std::ostream &os, const modint &other) noexcept { return os << other.val; }
+    friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other = {(is >> val, val)}; return is; }
 }; // class modint
-#endif
+
+#endif // Modint_hpp
+
+#ifndef Binomial_hpp
+#define Binomial_hpp
+
 namespace binomial
 {
     constexpr int mod = 1000000007;
@@ -86,4 +88,4 @@ namespace binomial
     namespace internal_helper {} // namespace internal_helper
 } // namespace binomial
 
-#endif
+#endif // Binomial_hpp
