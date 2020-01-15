@@ -1,7 +1,9 @@
-#ifndef NUMBER_THEORETIC_TRANSFORM_HPP
-#define NUMBER_THEORETIC_TRANSFORM_HPP
-
-#include <bits/stdc++.h>
+#ifndef Number_theoretic_transform_hpp
+#define Number_theoretic_transform_hpp
+#include <algorithm>
+#include <cassert>
+#include <iostream>
+#include <vector>
 
 namespace number_theoretic_transform
 {
@@ -10,43 +12,47 @@ namespace number_theoretic_transform
 
     class modint
     {
-        int dat;
+        int val;
       public:
-        constexpr modint() : dat{0} {}
-        constexpr modint(long long y) : dat{(y %= mod) < 0 ? mod - y : y} {}
-        constexpr long long get() const { return dat; }
-        constexpr modint &operator+=(const modint &other) { return (dat += other.dat) < mod ? 0 : dat -= mod, *this; }
-        constexpr modint &operator++() { return ++dat, *this; }
-        constexpr modint operator++(int) { modint t = *this; return ++dat, t; }
-        constexpr modint &operator-=(const modint &other) { return (dat += mod - other.dat) < mod ? 0 : dat -= mod, *this; }
-        constexpr modint &operator--() { return --dat, *this; }
-        constexpr modint operator--(int) { modint t = *this; return --dat, t; }
-        constexpr modint &operator*=(const modint &other) { return dat = (long long)dat * other.dat % mod, *this; }
-        friend constexpr modint inverse(const modint &other);
-        constexpr modint &operator/=(const modint &other) { return *this *= inverse(other); }
-        constexpr modint operator-() const { return modint(-dat); }
-        constexpr modint operator+(const modint &other) const { return modint(*this) += other; }
-        constexpr modint operator-(const modint &other) const { return modint(*this) -= other; }
-        constexpr modint operator*(const modint &other) const { return modint(*this) *= other; }
-        constexpr modint operator/(const modint &other) const { return modint(*this) /= other; }
-        constexpr bool operator==(const modint &other) const { return dat == other.dat; }
-        constexpr bool operator!=(const modint &other) const { return dat != other.dat; }
-        constexpr bool operator!() const { return !dat; }
-        friend constexpr modint inverse(const modint &other)
+        constexpr modint() noexcept : val{0} {}
+        constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
+        constexpr long long value() const noexcept { return val; }
+        constexpr modint operator++(int) noexcept { modint t = *this; return ++val, t; }
+        constexpr modint operator--(int) noexcept { modint t = *this; return --val, t; }
+        constexpr modint &operator++() noexcept { return ++val, *this; }
+        constexpr modint &operator--() noexcept { return --val, *this; }
+        constexpr modint operator-() const noexcept { return modint(-val); }
+        constexpr modint &operator+=(const modint &other) noexcept { return (val += other.val) < mod ? 0 : val -= mod, *this; }
+        constexpr modint &operator-=(const modint &other) noexcept { return (val += mod - other.val) < mod ? 0 : val -= mod, *this; }
+        constexpr modint &operator*=(const modint &other) noexcept { return val = (long long)val * other.val % mod, *this; }
+        constexpr modint &operator/=(const modint &other) noexcept { return *this *= inverse(other); }
+        constexpr modint operator+(const modint &other) const noexcept { return modint(*this) += other; }
+        constexpr modint operator-(const modint &other) const noexcept { return modint(*this) -= other; }
+        constexpr modint operator*(const modint &other) const noexcept { return modint(*this) *= other; }
+        constexpr modint operator/(const modint &other) const noexcept { return modint(*this) /= other; }
+        constexpr bool operator==(const modint &other) const noexcept { return val == other.val; }
+        constexpr bool operator!=(const modint &other) const noexcept { return val != other.val; }
+        constexpr bool operator!() const noexcept { return !val; }
+        friend constexpr modint operator+(long long x, modint y) noexcept { return modint(x) + y; }
+        friend constexpr modint operator-(long long x, modint y) noexcept { return modint(x) - y; }
+        friend constexpr modint operator*(long long x, modint y) noexcept { return modint(x) * y; }
+        friend constexpr modint operator/(long long x, modint y) noexcept { return modint(x) / y; }
+        friend constexpr modint inverse(const modint &other) noexcept
         {
-            int a{other.dat}, b{mod}, u{1}, v{}, t{};
-            while(b > 0) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
-            return modint{u};
+            assert(other != 0);
+            int a{mod}, b{other.val}, u{}, v{1}, t{};
+            while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
+            return {u};
         }
-        friend constexpr modint pow(modint other, long long e)
+        friend constexpr modint pow(modint other, long long e) noexcept
         {
             if(e < 0) e = e % (mod - 1) + mod - 1;
             modint res{1};
             while(e) { if(e & 1) res *= other; other *= other, e >>= 1; }
             return res;
         }
-        friend std::ostream &operator<<(std::ostream &s, const modint &other) { return s << other.dat; }
-        friend std::istream &operator>>(std::istream &s, modint &other) { long long dat; other = modint{(s >> dat, dat)}; return s; }
+        friend std::ostream &operator<<(std::ostream &os, const modint &other) noexcept { return os << other.val; }
+        friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other = {(is >> val, val)}; return is; }
     }; // class modint
 
     class zeta_calc
@@ -75,7 +81,7 @@ namespace number_theoretic_transform
 
     using poly_t = std::vector<modint>;
 
-    void dft(poly_t &f)
+    void discrete_Fourier_transform(poly_t &f)
     {
         const size_t n{f.size()}, mask{n - 1};
         assert(__builtin_popcount(n) == 1); // degree of f must be a power of two.
@@ -93,9 +99,9 @@ namespace number_theoretic_transform
         }
     }
 
-    void idft(poly_t &f)
+    void inverse_discrete_Fourier_transform(poly_t &f)
     {
-        dft(f), reverse(next(f.begin()), f.end());
+        discrete_Fourier_transform(f), reverse(next(f.begin()), f.end());
         const size_t k = __builtin_ctz(f.size()); for(modint &e : f) e *= inv[k];
     }
 
@@ -105,11 +111,11 @@ namespace number_theoretic_transform
         const size_t deg_f{f.size() - 1}, deg_g{g.size() - 1}, deg_h{deg_f + deg_g}, n(1u << (32 - __builtin_clz(deg_h)));
         static poly_t h;
         f.resize(n, 0), g.resize(n, 0), h.resize(n);
-        dft(f), dft(g);
+        discrete_Fourier_transform(f), discrete_Fourier_transform(g);
         for(size_t i{}; i < n; ++i) h[i] = f[i] * g[i];
-        idft(h); h.resize(deg_h + 1);
+        inverse_discrete_Fourier_transform(h); h.resize(deg_h + 1);
         return h;
     }
-} // namespace fast_Fourier_transform
+} // namespace Number_theoretic_transform
 
-#endif
+#endif // Number_theoretic_transform_hpp
