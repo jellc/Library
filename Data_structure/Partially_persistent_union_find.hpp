@@ -54,6 +54,6 @@ public:
         }
         return ++clock;
     }
-}; // struct partially_persistent_union_find
+}; // class partially_persistent_union_find
 
 #endif
