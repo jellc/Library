@@ -1,2 +1,2 @@
-# Libraries
-For my own use.
+# Library
+For my own use in competitive programming.
