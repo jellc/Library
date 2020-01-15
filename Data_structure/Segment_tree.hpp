@@ -113,18 +113,14 @@ class segment_tree
 
 public:
     explicit segment_tree(size_t n) : segment_tree(n, new Monoid, true) {}
-    // segment_tree(size_t n, Monoid *const _monoid_ptr) : segment_tree(n, _monoid_ptr, false) {}
     segment_tree(size_t n, Monoid &_monoid) : segment_tree(n, &_monoid, false) {}
 
     segment_tree(size_t n, const value_type &val) : segment_tree(n, val, new Monoid, true) {}
-    // segment_tree(size_t n, const value_type &val, Monoid *_monoid_ptr) : segment_tree(n, val, _monoid_ptr, false) {}
     segment_tree(size_t n, const value_type &val, Monoid &_monoid) : segment_tree(n, val, &_monoid, false) {}
 
-    template <class iter_type>
+    template <class iter_type, class = typename std::iterator_traits<iter_type>::value_type>
     segment_tree(const iter_type __first, const iter_type __last) : segment_tree(__first, __last, new Monoid, true) {}
-    template <class iter_type>
-    // segment_tree(const iter_type __first, const iter_type __last, Monoid *const _monoid_ptr) : segment_tree(__first, __last, _monoid_ptr, false) {}
-    template <class iter_type>
+    template <class iter_type, class = typename std::iterator_traits<iter_type>::value_type>
     segment_tree(const iter_type __first, const iter_type __last, Monoid &_monoid) : segment_tree(__first, __last, &_monoid, false) {}
 
     ~segment_tree() { delete monoid_ptr; delete[] data; }
@@ -172,4 +168,4 @@ public:
     }
 }; // class segment_tree
 
-#endif
+#endif // Segment_tree_hpp
