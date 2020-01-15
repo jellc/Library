@@ -5,8 +5,8 @@
     #define __clock__
 #else
     #pragma GCC optimize("Ofast")
-    #define _GLIBCXX_DEBUG
-    #define _LIBCPP_DEBUG 0
+    // #define _GLIBCXX_DEBUG
+    // #define _LIBCPP_DEBUG 0
     // #define NDEBUG
 #endif
 // #define __buffer_check__
