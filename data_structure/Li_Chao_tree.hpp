@@ -1,6 +1,5 @@
-// #line 2 "Convex_hull_trick.hpp"
-#ifndef Convex_hull_trick_hpp
-#define Convex_hull_trick_hpp
+#ifndef Li_Chao_tree_hpp
+#define Li_Chao_tree_hpp
 
 template <class K>
 class Li_Chao_tree
@@ -11,6 +10,7 @@ class Li_Chao_tree
         line(K a, K b) : slop(a), incp(b) {}
         K get(const K x) const { return slop * x + incp; }
     }; // struct line
+    
     struct node
     {
         line ln;
@@ -120,4 +120,4 @@ class Li_Chao_tree
     }
 }; // class Li_Chao_tree
 
-#endif
+#endif // Li_Chao_tree_hpp
