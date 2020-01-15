@@ -2,7 +2,7 @@ struct action
 {
     struct value_type
     {
-        
+
     };
 
     value_type identity()
@@ -27,7 +27,6 @@ struct min_action
     using value_type = T;
     value_type identity()
     {
-        // return 0;
         return std::numeric_limits<T>::max();
     }
     void operator()(value_type &x, value_type y)
@@ -48,7 +47,6 @@ struct max_action
     using value_type = T;
     value_type identity()
     {
-        // return 0;
         return std::numeric_limits<T>::min();
     }
     void operator()(value_type &x, value_type y)
