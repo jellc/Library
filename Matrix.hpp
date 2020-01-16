@@ -1,34 +1,49 @@
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
-// #include <iostream>
-// K must be a field.
-template <class K>
+#ifndef Matrix_hpp
+#define Matrix_hpp
+#include <iostream>
+#include <valarray>
+#include <vector>
+
+template <class Field>
 class matrix
 {
-    std::vector<std::vector<K>> mat;
+    size_t h, w;
+    using row_type = std::valarray<Field>;
+    using data_type = std::valarray<std::valarray<Field>>;
+    data_type data;
+
     friend std::istream &operator>>(std::istream &is, matrix &x)
     {
-        size_t h = x.height(), w = x.width();
-        for(size_t i = 0; i < h; ++i)
+        for(size_t i = 0; i != x.h; ++i)
         {
-            for(size_t j = 0; j < w; ++j) is >> x[i][j];
+            for(size_t j = 0; j != x.w; ++j) is >> x.data[i][j];
         }
         return is;
     }
     friend std::ostream &operator<<(std::ostream &os, const matrix &x)
     {
-        size_t h = x.height(), w = x.width();
-        for(size_t i = 0; i < h; ++i)
+        for(size_t i = 0; i != x.h; ++i)
         {
             if(i) os << "\n";
-            for(size_t j = 0; j < w; ++j) os << (j ? " " : "") << x.mat[i][j];
+            for(size_t j = 0; j != x.w; ++j) os << (j ? " " : "") << x.data[i][j];
         }
         return os;
     }
+
+    friend matrix transpose(const matrix &x)
+    {
+        matrix res(x.w, x.h);
+        for(size_t i = 0; i != x.w; ++i)
+            for(size_t j = 0; j != x.h; ++j)
+                res[i][j] = x.data[j][i];
+        return res;
+    }
+
     friend matrix pow(matrix x, long long n)
     {
         assert(x.is_square());
-        matrix res = identity(x.height());
+        if(n < 0) x = inverse(x), n = -n;
+        matrix res{identity(x.h)};
         while(n)
         {
             if(n & 1) res *= x;
@@ -36,210 +51,117 @@ class matrix
         }
         return res;
     }
+
     friend matrix inverse(const matrix &x)
     {
         assert(x.is_square());
-        size_t n = x.height();
-        matrix ext_x(x), e(identity(n)), res(n);
-        for(size_t i = 0; i < n; ++i)
-            ext_x[i].insert(end(ext_x[i]), begin(e[i]), end(e[i]));
-        ext_x = ext_x.row_canonical_form();
-        for(size_t i = 0; i < n; ++i)
-        {
-            if(std::vector<K>(begin(ext_x[i]), begin(ext_x[i]) + n) != e[i]) return matrix();
-            res[i] = std::vector<K>(begin(ext_x[i]) + n, end(ext_x[i]));
-        }
+        matrix ext_x(x.h, x.h * 2), res(x.h);
+        for(size_t i = 0; i != x.h; ++i) ext_x.data[i][std::slice(0, x.h, 1)] = x.data[i], ext_x.data[i][i + x.h] = 1;
+        if(ext_x.row_canonicalize().size() != x.h) return matrix{0};
+        for(size_t i = 0; i != x.h; ++i) res[i] = ext_x.data[i][std::slice(x.h, x.h, 1)];
         return res;
     }
-  public:
-    matrix() {}
-    matrix(size_t n) { assign(n, n);}
-    matrix(size_t h, size_t w) { assign(h, w); }
-    matrix(const matrix &x) : mat(x.mat) {}
-    matrix(const std::vector<std::vector<K>> _mat) : mat(_mat) {}
-    size_t height() const { return mat.size(); }
-    size_t width() const { return mat.empty() ? 0 : mat[0].size(); }
-    bool is_square() const { return height() == width(); }
-    void resize(size_t h, size_t w, const K v = K(0)) { mat.resize(h, std::vector<K>(w, v)); }
-    void assign(size_t h, size_t w, const K v = K()) { mat.assign(h, std::vector<K>(w, v)); }
-    std::vector<K> &operator[](const size_t i) { return mat[i]; }
-    static matrix identity(size_t n)
+
+public:
+    explicit matrix(size_t _n = 0) : h(_n), w(_n) { resize(_n, _n);}
+    matrix(size_t _h, size_t _w) : h(_h), w(_w) { resize(_h, _w); }
+    matrix(const data_type &_data) : h(_data.size()), w(_data.size() ? _data[0].size() : 0), data(_data) {}
+    operator data_type() const { return data; }
+
+    size_t height() const noexcept { return h; }
+    size_t width() const noexcept { return w; }
+    bool is_square() const noexcept { return h == w; }
+    row_type &operator[](const size_t i) noexcept { assert(i < data.size()); return data[i]; }
+    void resize(size_t h, size_t w, const Field val = Field(0)) { data.resize(h, std::valarray<Field>(val, w)); }
+
+    static matrix identity(const size_t n) noexcept
     {
-        matrix ret(n, n);
-        for(size_t i = 0; i < n; ++i) ret[i][i] = K(1);
-        return ret;
+        data_type data(row_type(n), n);
+        for(size_t i = 0; i != n; ++i) data[i][i] = 1;
+        return data;
     }
-    matrix operator-() const
+
+    matrix operator-() const noexcept { return {-data}; }
+    matrix &operator+=(const matrix &other) noexcept { data += other.data; return *this; }
+    matrix &operator-=(const matrix &other) { data -= other.data; return *this; }
+    matrix &operator*=(matrix other) noexcept
     {
-        size_t h = height(), w = width();
-        matrix res(*this);
-        for(size_t i = 0; i < h; ++i)
+        other = transpose(other);
+        for(size_t i = 0; i != h; ++i)
         {
-            for(size_t j = 0; j < w; ++j)
-            {
-                res[i][j] = -mat[i][j];
-            }
-        }
-        return res;
-    }
-    matrix operator&(const matrix &x) const { return matrix(*this) &= x; }
-    matrix operator|(const matrix &x) const { return matrix(*this) |= x; }
-    matrix operator^(const matrix &x) const { return matrix(*this) ^= x; }
-    matrix operator+(const matrix &x) const { return matrix(*this) += x; }
-    matrix operator-(const matrix &x) const { return matrix(*this) -= x; }
-    matrix operator*(const matrix &x) const { return matrix(*this) *= x; }
-    matrix &operator&=(const matrix &x)
-    {
-        size_t h = height(), w = width();
-        assert(h == x.height() and w == x.width());
-        for(size_t i = 0; i < h; ++i)
-        {
-            for(size_t j = 0; j < w; ++j)
-            {
-                mat[i][j] &= x.mat[i][j];
-            }
+            const row_type copied{data[i]};
+            for(size_t j = 0; j != other.h; ++j) data[i][j] = (copied * other.data[j]).sum();
         }
         return *this;
     }
-    matrix &operator|=(const matrix &x)
-    {
-        size_t h = height(), w = width();
-        assert(h == x.height() and w == x.width());
-        for(size_t i = 0; i < h; ++i)
-        {
-            for(size_t j = 0; j < w; ++j)
-            {
-                mat[i][j] |= x.mat[i][j];
-            }
-        }
-        return *this;
-    }
-    matrix &operator^=(const matrix &x)
-    {
-        size_t h = height(), w = width();
-        assert(h == x.height() and w == x.width());
-        for(size_t i = 0; i < h; ++i)
-        {
-            for(size_t j = 0; j < w; ++j)
-            {
-                mat[i][j] ^= x.mat[i][j];
-            }
-        }
-        return *this;
-    }
-    matrix &operator+=(const matrix &x)
-    {
-        size_t h = height(), w = width();
-        assert(h == x.height() and w == x.width());
-        for(size_t i = 0; i < h; ++i)
-        {
-            for(size_t j = 0; j < w; ++j)
-            {
-                mat[i][j] += x.mat[i][j];
-            }
-        }
-        return *this;
-    }
-    matrix &operator-=(const matrix &x)
-    {
-        size_t h = height(), w = width();
-        assert(h == x.height() and w == x.width());
-        for(size_t i = 0; i < h; ++i)
-        {
-            for(size_t j = 0; j < w; ++j)
-            {
-                mat[i][j] -= x.mat[i][j];
-            }
-        }
-        return *this;
-    }
-    matrix &operator*=(const matrix &x)
-    {
-        size_t l = height(), m = width(), n = x.width();
-        assert(m == x.height());
-        matrix res(l, n);
-        for(size_t i = 0; i < l; ++i)
-        {
-            for(size_t j = 0; j < m; ++j)
-            {
-                for(size_t k = 0; k < n; ++k)
-                {
-                    res[i][k] += mat[i][j] * x.mat[j][k];
-                }
-            }
-        }
-        return *this = res;
-    }
+    matrix operator+(const matrix &x) const noexcept { return matrix(*this) += x; }
+    matrix operator-(const matrix &x) const noexcept { return matrix(*this) -= x; }
+    matrix operator*(const matrix &x) const noexcept { return matrix(*this) *= x; }
+
+    // return the list of pivot columns
     std::vector<size_t> row_canonicalize()
     {
         std::vector<size_t> pivots;
-        const size_t h = height(), w = width();
         for(size_t j = 0, rank = 0; j != w; ++j)
         {
-            bool ispiv = false;
+            row_type *row_ptr = nullptr;
             for(size_t i = rank; i != h; ++i)
             {
-                if(mat[i][j] != K{})
+                if(data[i][j] != Field{0})
                 {
-                    if(ispiv)
-                    {
-                        const K r = -mat[i][j];
-                        for(size_t k = j; k != w; ++k) mat[i][k] += mat[rank][k] * r;
-                    }
+                    const Field f = data[i][j];
+                    if(row_ptr) data[i][std::slice(j, w - j, 1)] -= *row_ptr * f;
                     else
                     {
-                        swap(mat[rank], mat[i]);
-                        K r = mat[rank][j];
-                        for(size_t k = j; k != w; ++k) mat[rank][k] /= r;
-                        for(size_t k = 0; k != rank; ++k)
-                        {
-                            r = -mat[k][j];
-                            for(size_t l = j; l != w; ++l) mat[k][l] += mat[rank][l] * r;
-                        }
-                        ispiv = true;
+                        swap(data[rank], data[i]);
+                        std::slice_array<Field> tmp{data[rank][std::slice(j, w - j, 1)]};
+                        tmp = *(row_ptr = new row_type{tmp}) /= f;
                     }
                 }
             }
-            if(ispiv)
+            if(row_ptr)
             {
+                for(size_t k = 0; k != rank; ++k)
+                {
+                    const Field f = data[k][j];
+                    data[k][std::slice(j, w - j, 1)] -= *row_ptr * f;
+                }
                 ++rank;
                 pivots.emplace_back(j);
+                delete row_ptr;
             }
         }
         return pivots;
     }
-    K determinant() const
+
+    Field determinant() const
     {
-        matrix<K> x(*this);
         assert(is_square());
-        size_t n = height();
-        K res(1);
-        for(size_t j = 0; j < n; ++j)
+        data_type copied{data};
+        Field res{1};
+        for(size_t j = 0; j != w; ++j)
         {
-            bool ispiv = false;
-            for(size_t i = j; i < n; ++i)
+            row_type *row_ptr = nullptr;
+            for(size_t i = j; i != h; ++i)
             {
-                if(x[i][j] != K{})
+                if(copied[i][j] != Field{0})
                 {
-                    if(ispiv)
-                    {
-                        const K r = -x[i][j];
-                        for(size_t k = j; k < n; ++k) x[i][k] += x[j][k] * r;
-                    }
+                    const Field f = copied[i][j];
+                    if(row_ptr) copied[i][std::slice(j, w - j, 1)] -= *row_ptr * f;
                     else
                     {
-                        swap(x[i], x[j]);
+                        swap(copied[i], copied[j]);
                         if(i != j) res = -res;
-                        const K r = x[j][j];
-                        res *= r;
-                        for(size_t k = j; k < n; ++k) x[j][k] /= r;
-                        ispiv = true;
+                        res *= f;
+                        std::slice_array<Field> tmp{copied[j][std::slice(j, w - j, 1)]};
+                        tmp = *(row_ptr = new row_type{tmp}) /= f;
                     }
                 }
             }
-            if(!ispiv) return K(0);
+            if(!row_ptr) return 0;
         }
         return res;
     }
-};
-#endif
+}; // class matrix
+
+#endif // Matrix_hpp
