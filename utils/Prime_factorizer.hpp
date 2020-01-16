@@ -10,7 +10,7 @@ class prime_factorizer
     int n = 0;
 
   public:
-    constexpr prime_factorizer() : least{}, primes{}, n{}
+    constexpr prime_factorizer() : least{1}, primes{}, n{}
     {
         for(int i = 2; i < N; )
         {
@@ -30,9 +30,9 @@ class prime_factorizer
         }
     }
 
-    constexpr bool prime(int x) const { return least[x] == x; }
+    constexpr bool prime(int x) const { assert(0 <= x && x < N); return least[x] == x; }
 
-    constexpr int least_prime_factor(int x) const { return least[x]; }
+    constexpr int least_prime_factor(int x) const { assert(0 < x && x < N); return least[x]; }
 }; // class prime_factorizer
 
 #endif // Prime_factorizer_hpp
