@@ -19,7 +19,6 @@
 #include <chrono>
 #include <complex>
 #include <cstring>
-#include <deque>
 #include <functional>
 #include <iomanip>
 #include <iostream>
@@ -31,6 +30,7 @@
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
+#include <valarray>
 #define all(v) std::begin(v), std::end(v)
 #define rall(v) std::rbegin(v), std::rend(v)
 #define odd(n) ((n) & 1)
@@ -230,13 +230,11 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 
 /* The main code follows. */
 
-
-
 struct solver
 {
     solver()
     {
-
+        
     }
 }; // struct solver
 
