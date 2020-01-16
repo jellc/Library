@@ -7,7 +7,7 @@ template <int mod>
 class modint
 {
     int val;
-  public:
+public:
     constexpr modint() noexcept : val{0} {}
     constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
     constexpr long long value() const noexcept { return val; }
@@ -31,14 +31,14 @@ class modint
     friend constexpr modint operator-(long long x, modint y) noexcept { return modint(x) - y; }
     friend constexpr modint operator*(long long x, modint y) noexcept { return modint(x) * y; }
     friend constexpr modint operator/(long long x, modint y) noexcept { return modint(x) / y; }
-    friend constexpr modint inverse(const modint &other) noexcept
+    static constexpr modint inverse(const modint &other) noexcept
     {
         assert(other != 0);
         int a{mod}, b{other.val}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
         return {u};
     }
-    friend constexpr modint pow(modint other, long long e) noexcept
+    static constexpr modint pow(modint other, long long e) noexcept
     {
         if(e < 0) e = e % (mod - 1) + mod - 1;
         modint res{1};
@@ -53,7 +53,7 @@ template <>
 class modint<2>
 {
     bool val;
-  public:
+public:
     constexpr modint(bool x = false) noexcept : val{x} {}
     constexpr modint(int x) noexcept : val(x & 1) {}
     constexpr modint(long long x) noexcept : val(x & 1) {}
@@ -62,21 +62,19 @@ class modint<2>
     constexpr modint &operator+=(const modint &other) noexcept { return val ^= other.val, *this; }
     constexpr modint &operator-=(const modint &other) noexcept { return val ^= other.val, *this; }
     constexpr modint &operator*=(const modint &other) noexcept { return val &= other.val, *this; }
-    constexpr modint &operator/=(const modint &other) noexcept { assert(val); return *this; }
+    constexpr modint &operator/=(const modint &other) noexcept { assert(other.val); return *this; }
     constexpr modint operator!() const noexcept { return !val; }
     constexpr modint operator-() const noexcept { return *this; }
     constexpr modint operator+(const modint &other) const noexcept { return val != other.val; }
     constexpr modint operator-(const modint &other) const noexcept { return val != other.val; }
     constexpr modint operator*(const modint &other) const noexcept { return val && other.val; }
-    constexpr modint operator/(const modint &other) const noexcept { assert(val); return *this; }
+    constexpr modint operator/(const modint &other) const noexcept { assert(other.val); return *this; }
     constexpr bool operator==(const modint &other) const noexcept { return val == other.val; }
     constexpr bool operator!=(const modint &other) const noexcept { return val != other.val; }
     friend constexpr modint operator+(long long x, modint y) noexcept { return x & 1 ? !y : y; }
     friend constexpr modint operator-(long long x, modint y) noexcept { return x & 1 ? !y : y; }
     friend constexpr modint operator*(long long x, modint y) noexcept { return x & 1 ? y : modint<2>{0}; }
-    friend constexpr modint operator/(long long x, modint y) noexcept { assert(y); return x & 1 ? y : modint<2>{0}; }
-    friend constexpr modint inverse(const modint &other) noexcept { assert(other); return other; }
-    friend constexpr modint pow(const modint &other, long long exp) noexcept { return other; }
+    friend constexpr modint operator/(long long x, modint y) noexcept { assert(y.val); return x & 1 ? y : modint<2>{0}; }
     friend std::ostream &operator<<(std::ostream &os, const modint &other) noexcept { return os << other.val; }
     friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other.val = (is >> val, val & 1); return is; }
 }; // class modint specialization
