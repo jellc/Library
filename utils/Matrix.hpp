@@ -41,7 +41,7 @@ class matrix
 
     friend matrix pow(matrix x, long long n)
     {
-        assert(x.is_square());
+        assert(x.square());
         if(n < 0) x = inverse(x), n = -n;
         matrix res{identity(x.h)};
         while(n)
@@ -54,7 +54,7 @@ class matrix
 
     friend matrix inverse(const matrix &x)
     {
-        assert(x.is_square());
+        assert(x.square());
         matrix ext_x(x.h, x.h * 2), res(x.h);
         for(size_t i = 0; i != x.h; ++i) ext_x.data[i][std::slice(0, x.h, 1)] = x.data[i], ext_x.data[i][i + x.h] = 1;
         if(ext_x.row_canonicalize().size() != x.h) return matrix{0};
@@ -70,7 +70,7 @@ public:
 
     size_t height() const noexcept { return h; }
     size_t width() const noexcept { return w; }
-    bool is_square() const noexcept { return h == w; }
+    bool square() const noexcept { return h == w; }
     row_type &operator[](const size_t i) noexcept { assert(i < data.size()); return data[i]; }
     void resize(size_t h, size_t w, const Field val = Field(0)) { data.resize(h, std::valarray<Field>(val, w)); }
 
@@ -136,7 +136,7 @@ public:
 
     Field determinant() const
     {
-        assert(is_square());
+        assert(square());
         data_type copied{data};
         Field res{1};
         for(size_t j = 0; j != w; ++j)
