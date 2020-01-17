@@ -106,7 +106,7 @@ class segment_tree
             orig_n(std::distance(__first, __last)), height(orig_n > 1 ? 32 - __builtin_clz(orig_n - 1) : 0), ext_n{1u << height},
             data(new value_type[ext_n << 1]), que(ext_n << 1)
     {
-        static_assert(std::same<typename std::iterator_traits<iter_type>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
+        static_assert(std::is_same<typename std::iterator_traits<iter_type>::value_type, value_type>::value, "iterator's value_type should be equal to Monoid's");
         std::fill(std::copy(__first, __last, data + ext_n), data + (ext_n << 1), monoid.identity());
         for(size_t i = ext_n - 1; i; --i) recalc(i);
     }
