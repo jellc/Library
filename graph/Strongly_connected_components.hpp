@@ -42,7 +42,7 @@ class Strongly_connected_components
             res[i].resize(itr - stack_ptr);
             while(itr != stack_ptr) apr[res[i][--itr - stack_ptr] = *itr] = false;
         }
-        delete[] apr, stack_ptr;
+        delete[] apr; delete[] stack_ptr;
         return res;
     }
 
