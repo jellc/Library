@@ -33,8 +33,6 @@
 #include <valarray>
 #define all(v) std::begin(v), std::end(v)
 #define rall(v) std::rbegin(v), std::rend(v)
-#define odd(n) ((n) & 1)
-#define even(n) (not __odd(n))
 #define __popcount(n) __builtin_popcountll(n)
 #define __clz32(n) __builtin_clz(n)
 #define __clz64(n) __builtin_clzll(n)
