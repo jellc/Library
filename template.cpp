@@ -199,7 +199,7 @@ template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { s
 using namespace std;
 using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
 using pii = pair<i32, i32>; using pll = pair<i64, i64>;
-template <class T, class Comp = std::less<T>> using heap = priority_queue<T, std::vector<T>, Comp>;
+template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 /* using alias end */
