@@ -187,7 +187,7 @@ template <class iter_type, class pred_type>
 iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
 {
     std::ptrdiff_t dist(__ng - __ok);
-    while(abs(dist) > 1)
+    while(std::abs(dist) > 1)
     {
         iter_type mid(__ok + dist / 2);
         if(pred(mid)) __ok = mid, dist -= dist / 2;
@@ -199,7 +199,7 @@ iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
 template <class pred_type>
 long double binary(long double __ok, long double __ng, const long double eps, pred_type pred)
 {
-    while(abs(__ok - __ng) > eps)
+    while(std::abs(__ok - __ng) > eps)
     {
         long double mid{(__ok + __ng) / 2};
         (pred(mid) ? __ok : __ng) = mid;
@@ -216,8 +216,7 @@ template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { s
 using namespace std;
 using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
 using pii = pair<i32, i32>; using pll = pair<i64, i64>;
-template <class T> using heap = priority_queue<T>;
-template <class T> using rheap = priority_queue<T, vector<T>, greater<T>>;
+template <class T, class Comp = std::less<T>> using heap = priority_queue<T, std::vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 /* using alias end */
@@ -230,11 +229,13 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 
 /* The main code follows. */
 
+
 struct solver
 {
+
     solver()
     {
-        
+
     }
 }; // struct solver
 
