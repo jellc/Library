@@ -53,38 +53,21 @@ namespace setting
     {
         setupper()
         {
-            if(iostream_untie) std::ios::sync_with_stdio(false), std::cin.tie(nullptr);
-            std::cout << std::fixed << std::setprecision(__precision__);
+            using namespace std;
+            if(iostream_untie) ios::sync_with_stdio(false), cin.tie(nullptr);
+            cout << fixed << setprecision(__precision__);
     #ifdef stderr_path
-            if(freopen(stderr_path, "a", stderr))
-            {
-                std::cerr << std::fixed << std::setprecision(__precision__);
-            }
-    #endif
-    #ifdef stdout_path
-            if(not freopen(stdout_path, "w", stdout))
-            {
-                freopen("CON", "w", stdout);
-                debug_stream << "\n\033[1;35mwarning\033[0m: failed to open stdout file.\n";
-            }
-            std::cout << "";
-    #endif
-    #ifdef stdin_path
-            if(not freopen(stdin_path, "r", stdin))
-            {
-                freopen("CON", "r", stdin);
-                debug_stream << "\n\033[1;35mwarning\033[0m: failed to open stdin file.\n";
-            }
+            if(freopen(stderr_path, "a", stderr)) cerr << fixed << setprecision(__precision__);
     #endif
     #ifdef LOCAL
             debug_stream << "\n----- stderr at LOCAL -----\n\n";
-            atexit(print_elapsed_time);
     #endif
     #ifdef __buffer_check__
             atexit(buffer_check);
     #endif
-    #if defined(__clock__) || defined(LOCAL)
+    #ifdef __clock__
             start_time = system_clock::now();
+            atexit(print_elapsed_time);
     #endif
         }
     } __setupper; // struct setupper
