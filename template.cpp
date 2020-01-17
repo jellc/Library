@@ -31,8 +31,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <valarray>
-#define all(v) std::begin(v), std::end(v)
-#define rall(v) std::rbegin(v), std::rend(v)
+#define __all(v) std::begin(v), std::end(v)
+#define __rall(v) std::rbegin(v), std::rend(v)
 #define __popcount(n) __builtin_popcountll(n)
 #define __clz32(n) __builtin_clz(n)
 #define __clz64(n) __builtin_clzll(n)
@@ -216,7 +216,7 @@ struct solver
 
     solver()
     {
-
+        
     }
 }; // struct solver
 
