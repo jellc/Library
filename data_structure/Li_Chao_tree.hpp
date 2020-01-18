@@ -10,7 +10,7 @@ class Li_Chao_tree
         line(K a, K b) : slop(a), incp(b) {}
         K get(const K x) const { return slop * x + incp; }
     }; // struct line
-    
+
     struct node
     {
         line ln;
@@ -20,7 +20,7 @@ class Li_Chao_tree
         K get(const K x) const { return ln.get(x); }
     }; // struct node
 
-    const K x_min, x_max, eps;
+    const K x_lower, x_upper, eps;
     using comp_t = std::function<bool(const K, const K)>;
     const comp_t comp;
     const K identity;
@@ -80,25 +80,25 @@ class Li_Chao_tree
     }
 
   public:
-    // domain set to be the interval [x_min, x_max).
-    Li_Chao_tree(const K _x_min, const K _x_max, const K _eps = K(1), const comp_t &_comp = std::less<K>(), const K _identity = std::numeric_limits<K>::max())
-        : x_min(_x_min), x_max(_x_max), eps(_eps), comp(_comp), identity(_identity), root() {}
+    // domain set to be the interval [x_lower, x_upper).
+    Li_Chao_tree(const K _x_lower, const K _x_upper, const K _eps = K(1), const comp_t &_comp = std::less<K>(), const K _identity = std::numeric_limits<K>::max())
+        : x_lower(_x_lower), x_upper(_x_upper), eps(_eps), comp(_comp), identity(_identity), root() {}
     ~Li_Chao_tree() { delete root; }
 
     bool empty() const { return !root; }
 
     // insert a line whose slope is p and inception is q.
-    void insert(const K p, const K q) { root = insert(root, x_min, x_max, line(p, q)); }
+    void insert(const K p, const K q) { root = insert(root, x_lower, x_upper, line(p, q)); }
 
     // insert a line(segment) whose slope is p, inception is q,
     // and domain is the interval [s, t).
-    void insert(const K p, const K q, const K s, const K t) { if(s < t) root = insert(root, x_min, x_max, line(p, q), s, t); }
+    void insert(const K p, const K q, const K s, const K t) { if(s < t) root = insert(root, x_lower, x_upper, line(p, q), s, t); }
 
     // get the value at x.
     K query(const K x) const
     {
         node *p = root;
-        K l = x_min, r = x_max;
+        K l = x_lower, r = x_upper;
         K res = identity;
         while(p)
         {
