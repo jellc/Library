@@ -3,16 +3,16 @@
     #define _GLIBCXX_DEBUG  // gcc
     #define _LIBCPP_DEBUG 0 // clang
     #define __clock__
+    // #define __buffer_check__
 #else
     #pragma GCC optimize("Ofast")
     // #define _GLIBCXX_DEBUG
     // #define _LIBCPP_DEBUG 0
+    // #define __buffer_check__
     // #define NDEBUG
 #endif
-// #define __buffer_check__
 #define __precision__ 10
 #define iostream_untie true
-#define debug_stream std::cerr
 #include <algorithm>
 #include <bitset>
 #include <cassert>
@@ -25,7 +25,6 @@
 #include <list>
 #include <map>
 #include <queue>
-#include <random>
 #include <set>
 #include <stack>
 #include <unordered_map>
@@ -39,77 +38,6 @@
 #define __ctz32(n) __builtin_ctz(n)
 #define __ctz64(n) __builtin_ctzll(n)
 /* preprocessor end */
-
-namespace setting
-{
-    using namespace std::chrono;
-    system_clock::time_point start_time, end_time;
-    long long get_elapsed_time() { end_time = system_clock::now(); return duration_cast<milliseconds>(end_time - start_time).count(); }
-    void print_elapsed_time() { debug_stream << "\n----- Exec time : " << get_elapsed_time() << " ms -----\n"; }
-    void buffer_check() { char bufc; if(std::cin >> bufc) debug_stream << "\n\033[1;35mwarning\033[0m: buffer not empty.\n"; }
-    struct setupper
-    {
-        setupper()
-        {
-            using namespace std;
-            if(iostream_untie) ios::sync_with_stdio(false), cin.tie(nullptr);
-            cout << fixed << setprecision(__precision__);
-    #ifdef stderr_path
-            if(freopen(stderr_path, "a", stderr)) cerr << fixed << setprecision(__precision__);
-    #endif
-    #ifdef LOCAL
-            debug_stream << "\n----- stderr at LOCAL -----\n\n";
-    #endif
-    #ifdef __buffer_check__
-            atexit(buffer_check);
-    #endif
-    #ifdef __clock__
-            start_time = system_clock::now();
-            atexit(print_elapsed_time);
-    #endif
-        }
-    } __setupper; // struct setupper
-} // namespace setting
-#ifdef __clock__
-class
-{
-    std::chrono::system_clock::time_point built_pt, last_pt; int built_ln, last_ln;
-    std::string built_func, last_func; bool is_built = false;
-public:
-    void build(int crt_ln, const std::string &crt_func)
-    {
-        is_built = true, last_pt = built_pt = std::chrono::system_clock::now(), last_ln = built_ln = crt_ln, last_func = built_func = crt_func;
-    }
-    void set(int crt_ln, const std::string &crt_func)
-    {
-        if(is_built) last_pt = std::chrono::system_clock::now(), last_ln = crt_ln, last_func = crt_func;
-        else debug_stream << "[ " << crt_ln << " : " << crt_func << " ] " << "myclock_t::set failed (yet to be built!)\n";
-    }
-    void get(int crt_ln, const std::string &crt_func)
-    {
-        if(is_built)
-        {
-            std::chrono::system_clock::time_point crt_pt(std::chrono::system_clock::now());
-            long long diff = std::chrono::duration_cast<std::chrono::milliseconds>(crt_pt - last_pt).count();
-            debug_stream << diff << " ms elapsed from" << " [ " << last_ln << " : " << last_func << " ]";
-            if(last_ln == built_ln) debug_stream << " (when built)";
-            debug_stream << " to" << " [ " << crt_ln << " : " << crt_func << " ]" << "\n";
-            last_pt = built_pt, last_ln = built_ln, last_func = built_func;
-        }
-        else
-        {
-            debug_stream << "[ " << crt_ln << " : " << crt_func << " ] " << "myclock_t::get failed (yet to be built!)\n";
-        }
-    }
-} myclock; // unnamed class
-    #define build_clock() myclock.build(__LINE__, __func__)
-    #define set_clock() myclock.set(__LINE__, __func__)
-    #define get_clock() myclock.get(__LINE__, __func__)
-#else
-    #define build_clock() ((void)0)
-    #define set_clock() ((void)0)
-    #define get_clock() ((void)0)
-#endif
 
 namespace std
 {
@@ -136,25 +64,50 @@ namespace std
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 } // namespace std
 
-/* dump definition start */
-#ifdef LOCAL
-    #define dump(...) debug_stream << "[ " << __LINE__ << " : " << __FUNCTION__ << " ]\n", dump_func(#__VA_ARGS__, __VA_ARGS__)
-    template <class T> void dump_func(const char *ptr, const T &x)
+namespace setting
+{
+    using namespace std;
+    using namespace chrono;
+    system_clock::time_point start_time, end_time;
+    long long get_elapsed_time() { end_time = system_clock::now(); return duration_cast<milliseconds>(end_time - start_time).count(); }
+    void print_elapsed_time() { cerr << "\n----- Exec time : " << get_elapsed_time() << " ms -----\n"; }
+    void buffer_check() { char bufc; if(cin >> bufc) cerr << "\n\033[1;35mwarning\033[0m: buffer not empty.\n"; }
+    struct setupper
     {
-        debug_stream << '\t';
-        for(char c = *ptr; c != '\0'; c = *++ptr) if(c != ' ' && c != '\t') debug_stream << c;
-        debug_stream << " : " << x << '\n';
-    }
-    template <class T, class... rest_t> void dump_func(const char *ptr, const T &x, rest_t... rest)
-    {
-        debug_stream << '\t';
-        for(char c = *ptr; c != ','; c = *++ptr) if(c != ' ' && c != '\t') debug_stream << c;
-        debug_stream << " : " << x << ",\n"; dump_func(++ptr, rest...);
-    }
+        setupper()
+        {
+            if(iostream_untie) ios::sync_with_stdio(false), cin.tie(nullptr);
+            cout << fixed << setprecision(__precision__);
+    #ifdef stderr_path
+            if(freopen(stderr_path, "a", stderr)) cerr << fixed << setprecision(__precision__);
+    #endif
+    #ifdef LOCAL
+            cerr << "\n----- stderr at LOCAL -----\n\n";
+    #endif
+    #ifdef __buffer_check__
+            atexit(buffer_check);
+    #endif
+    #ifdef __clock__
+            start_time = system_clock::now();
+            atexit(print_elapsed_time);
+    #endif
+        }
+    } __setupper; // struct setupper
+} // namespace setting
+
+#ifdef __clock__
+#include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Clock.hpp"
 #else
-    #define dump(...) ((void)0)
+#define build_clock() ((void)0)
+#define set_clock() ((void)0)
+#define get_clock() ((void)0)
 #endif
-/* dump definition end */
+
+#ifdef LOCAL
+#include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Dump.hpp"
+#else
+#define dump(...) ((void)0)
+#endif
 
 /* function utility start */
 template <class T, class... types> T read(types... args) noexcept { T obj(args...); std::cin >> obj; return obj; }
