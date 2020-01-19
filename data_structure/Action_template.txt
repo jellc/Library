@@ -18,7 +18,7 @@ struct action
     {
 
     }
-};
+}; // struct action
 
 
 template <class T>
@@ -38,7 +38,7 @@ struct min_action
     {
         if(x > y) x = y;
     }
-};
+}; // struct min_action
 
 
 template <class T>
@@ -58,7 +58,7 @@ struct max_action
     {
         if(x < y) x = y;
     }
-};
+}; // struct max_action
 
 
 template <class T>
@@ -78,4 +78,4 @@ struct add_action
     {
         x += y;
     }
-};
+}; // struct add_action

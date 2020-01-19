@@ -1,9 +1,8 @@
-// #line 2 "Modint_runtime.hpp"
 #ifndef Modint_runtime_hpp
 #define Modint_runtime_hpp
 #include <cassert>
 #include <iostream>
-
+//*
 // modulo statically fixed
 class modint_runtime
 {
@@ -55,7 +54,7 @@ public:
     }
 }; // class modint_runtime
 
-/*
+/*/
 // modulo individually set
 class modint_runtime
 {
@@ -110,6 +109,6 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const modint_runtime &other) noexcept { return os << other.val; }
     friend std::istream &operator>>(std::istream &is, modint_runtime &other) noexcept { long long val; other = modint_runtime((is >> val, val)); return is; }
 }; // class modint_runtime
-*/
+//*/
 
 #endif // Modint_runtime_hpp
