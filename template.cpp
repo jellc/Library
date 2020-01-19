@@ -1,13 +1,19 @@
 /* preprocessor start */
 #ifdef LOCAL
+//*
     #define _GLIBCXX_DEBUG  // gcc
+/*/
     #define _LIBCPP_DEBUG 0 // clang
+//*/
     #define __clock__
     // #define __buffer_check__
 #else
     #pragma GCC optimize("Ofast")
-    // #define _GLIBCXX_DEBUG
-    // #define _LIBCPP_DEBUG 0
+/*
+    #define _GLIBCXX_DEBUG  // gcc
+/*/
+//    #define _LIBCPP_DEBUG 0 // clang
+//*/
     // #define __buffer_check__
     // #define NDEBUG
 #endif
@@ -25,6 +31,7 @@
 #include <list>
 #include <map>
 #include <queue>
+#include <random>
 #include <set>
 #include <stack>
 #include <unordered_map>
@@ -96,17 +103,17 @@ namespace setting
 } // namespace setting
 
 #ifdef __clock__
-#include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Clock.hpp"
+    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Clock.hpp"
 #else
-#define build_clock() ((void)0)
-#define set_clock() ((void)0)
-#define get_clock() ((void)0)
+    #define build_clock() ((void)0)
+    #define set_clock() ((void)0)
+    #define get_clock() ((void)0)
 #endif
 
 #ifdef LOCAL
-#include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Dump.hpp"
+    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Dump.hpp"
 #else
-#define dump(...) ((void)0)
+    #define dump(...) ((void)0)
 #endif
 
 /* function utility start */
