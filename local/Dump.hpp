@@ -9,7 +9,7 @@ template <class T> void dump_func(const char *ptr, const T &x)
     std::cerr << " : " << x << '\n';
 }
 
-template <class T, class... rest_t> void dump_func(const char *ptr, const T &x, rest_t... rest)
+template <class T, class... types> void dump_func(const char *ptr, const T &x, types... rest)
 {
     std::cerr << '\t';
     for(char c = *ptr; c != ','; c = *++ptr) if(c != ' ' && c != '\t') std::cerr << c;
