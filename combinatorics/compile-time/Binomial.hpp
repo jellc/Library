@@ -7,7 +7,7 @@ template <int mod>
 class modint
 {
     int val;
-  public:
+public:
     constexpr modint() noexcept : val{0} {}
     constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
     constexpr long long value() const noexcept { return val; }
@@ -31,14 +31,14 @@ class modint
     friend constexpr modint operator-(long long x, modint y) noexcept { return modint(x) - y; }
     friend constexpr modint operator*(long long x, modint y) noexcept { return modint(x) * y; }
     friend constexpr modint operator/(long long x, modint y) noexcept { return modint(x) / y; }
-    friend constexpr modint inverse(const modint &other) noexcept
+    static constexpr modint inverse(const modint &other) noexcept
     {
         assert(other != 0);
         int a{mod}, b{other.val}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
         return {u};
     }
-    friend constexpr modint pow(modint other, long long e) noexcept
+    static constexpr modint pow(modint other, long long e) noexcept
     {
         if(e < 0) e = e % (mod - 1) + mod - 1;
         modint res{1};
@@ -82,9 +82,32 @@ namespace binomial
         constexpr mint fact(int x) noexcept { return internal_helper::fact_helper(x); }
         constexpr mint invfact(int x) noexcept { return internal_helper::invfact_helper(x); }
     } // unnamed namespace
-    constexpr mint binom(int x, int y) noexcept { return fact(x) * invfact(y) * invfact(x - y); }
-    constexpr mint fallfact(int x, int y) noexcept { return fact(x) * invfact(x - y); }
-    constexpr mint risefact(int x, int y) noexcept { return fallfact(x + y - 1, y); }
+    constexpr mint binom(int n, int k) noexcept { return fact(n) * invfact(k) * invfact(n - k); }
+    constexpr mint fallfact(int n, int k) noexcept { return fact(n) * invfact(n - k); }
+    constexpr mint risefact(int n, int k) noexcept { return fallfact(n + k - 1, k); }
+    // time complexity: O(min(n, k) * log(n))
+    constexpr mint stirling_2nd(int n, int k) noexcept
+    {
+        if(n < k) return 0;
+        mint res{};
+        for(int i{}, j{k}; j >= 0; ++i, --j)
+            if(i & 1) res -= mint::pow(j, n) * invfact(j) * invfact(i);
+            else res += mint::pow(j, n) * invfact(j) * invfact(i);
+        return res;
+    };
+    // time complexity: O(min(n, k) * log(n))
+    constexpr mint bell(int n, int k) noexcept
+    {
+        if(n < k) k = n;
+        mint res{}, alt{};
+        for(int i{}, j{k}; j >= 0; ++i, --j)
+        {
+            if(i & 1) alt -= invfact(i);
+            else alt += invfact(i);
+            res += alt * mint::pow(j, n) * invfact(j);
+        }
+        return res;
+    }
     namespace internal_helper {} // namespace internal_helper
 } // namespace binomial
 
