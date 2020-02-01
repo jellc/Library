@@ -33,7 +33,6 @@
 #include <queue>
 #include <random>
 #include <set>
-#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <valarray>
@@ -77,7 +76,7 @@ namespace setting
     using namespace chrono;
     system_clock::time_point start_time, end_time;
     long long get_elapsed_time() { end_time = system_clock::now(); return duration_cast<milliseconds>(end_time - start_time).count(); }
-    void print_elapsed_time() { cerr << "\n----- Exec time : " << get_elapsed_time() << " ms -----\n"; }
+    void print_elapsed_time() { cerr << "\n----- Exec time : " << get_elapsed_time() << " ms -----\n\n"; }
     void buffer_check() { char bufc; if(cin >> bufc) cerr << "\n\033[1;35mwarning\033[0m: buffer not empty.\n"; }
     struct setupper
     {
@@ -117,7 +116,7 @@ namespace setting
 #endif
 
 /* function utility start */
-template <class T, class... types> T read(types... args) noexcept { T obj(args...); std::cin >> obj; return obj; }
+template <class T, class... types> T read(types... args) noexcept { typename std::remove_const<T>::type obj(args...); std::cin >> obj; return obj; }
 #define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
 // substitute y for x if x > y.
 template <class T> inline bool sbmin(T &x, const T &y) { return x > y ? x = y, true : false; }
@@ -156,7 +155,7 @@ template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { s
 /* using alias start */
 using namespace std;
 using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
-using pii = pair<i32, i32>; using pll = pair<i64, i64>;
+using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
 template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
