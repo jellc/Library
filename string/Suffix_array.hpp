@@ -8,68 +8,73 @@
 template <class str_type>
 class suffix_array
 {
+    static constexpr size_t npos = -1;
     const str_type str;
-    const size_t len;
     std::vector<size_t> ary, rank;
 
 public:
     using value_type = typename str_type::value_type;
+
     operator std::vector<size_t>() const { return ary; }
-    std::vector<size_t>::const_iterator begin() const { return std::begin(ary); }
-    std::vector<size_t>::const_iterator end() const { return std::end(ary); }
 
-    suffix_array(const str_type &_str) : str(_str), len(str.size()), ary(len), rank(len)
-    {
-        std::iota(std::begin(ary), std::end(ary), 0);
-        std::sort(std::begin(ary), std::end(ary), [&](size_t i, size_t j){return str[i] < str[j];});
-
-        for(size_t r{1}, c{}, *ptr{&ary.front()}, *tmp{ptr}; c != len; ++r, ptr = tmp)
-            while(c != len && str[*ptr] == str[*tmp])
-                ++c, rank[*tmp++] = r;
-
-        for(size_t k = 1; k < len; k <<= 1)
-        {
-            auto comp = [&](size_t i, size_t j) -> bool
-            {
-                if(rank[i] != rank[j]) return rank[i] < rank[j];
-                return (i + k < len ? rank[i + k] : 0) < (j + k < len ? rank[j + k] : 0);
-            };
-            std::sort(std::begin(ary), std::end(ary), comp);
-
-            std::vector<size_t> next_rank(len);
-            for(size_t r{1}, c{}, *ptr{&ary.front()}, *tmp{ptr}; c != len; ++r, ptr = tmp)
-                while(c != len && !comp(*ptr, *tmp))
-                    ++c, next_rank[*tmp++] = r;
-            rank.swap(next_rank);
-        }
-    }
+    std::vector<size_t>::const_iterator begin() const { return ary.begin(); }
+    std::vector<size_t>::const_iterator end() const { return ary.end(); }
 
     size_t operator[](size_t i) const { return ary[i]; }
 
     const str_type &string() const { return str; }
 
+    size_t size() const { return str.size(); }
+
+    suffix_array(const str_type &_str) : str(_str), ary(str.size()), rank(str.size())
+    {
+        std::iota(ary.begin(), ary.end(), 0);
+        std::sort(ary.begin(), ary.end(), [&](size_t i, size_t j){return str[i] < str[j];});
+
+        for(size_t r{1}, c{}, *ptr{&ary.front()}, *tmp{ptr}; c != str.size(); ++r, ptr = tmp)
+            while(c != str.size() && str[*ptr] == str[*tmp])
+                ++c, rank[*tmp++] = r;
+
+        for(size_t k{1}; k < str.size(); k <<= 1)
+        {
+            auto comp = [&](size_t i, size_t j) -> bool
+            {
+                if(rank[i] != rank[j]) return rank[i] < rank[j];
+                return (i + k < str.size() ? rank[i + k] : 0) < (j + k < str.size() ? rank[j + k] : 0);
+            };
+            std::sort(ary.begin(), ary.end(), comp);
+
+            std::vector<size_t> next_rank(str.size());
+            for(size_t r{1}, c{}, *ptr{&ary.front()}, *tmp{ptr}; c != str.size(); ++r, ptr = tmp)
+                while(c != str.size() && !comp(*ptr, *tmp))
+                    ++c, next_rank[*tmp++] = r;
+            rank.swap(next_rank);
+        }
+    }
+
     size_t find(const str_type &key) const
     {
-        const size_t m{key.size()};
-        int low = -1, up = len;
-        while(up - low > 1)
+        size_t lower{npos}, upper{str.size()};
+        while(upper - lower > 1)
         {
-            size_t mid = (low + up) >> 1;
-            bool less = false;
-            for(size_t i{mid}, j{}; i != len && j != m; ++i, ++j)
+            size_t mid{(lower + upper) >> 1};
+            bool less{};
+            for(auto i{std::begin(str) + ary[mid]}, j{std::begin(key)}; j != std::end(key); ++i, ++j)
             {
-                if(str[i] != key[j])
+                if(i == std::end(str) || *i < *j)
                 {
-                    if(str[i] < key[j]) less = true;
+                    less = true;
                     break;
                 }
+                if(*i > *j) break;
             }
-            (less ? low : up) = mid;
+            (less ? lower : upper) = mid;
         }
-        for(size_t i{low}, j{}; j != m; ++i, ++j)
-            if(i >= len || str[i] != key[j])
-                return -1;
-        return low;
+        if(upper == str.size()) return npos;
+        for(auto i{std::begin(str) + ary[upper]}, j{std::begin(key)}; j != std::end(key); ++i, ++j)
+            if(i == std::end(str) || *i != *j)
+                return npos;
+        return ary[upper];
     }
 }; // class suffix_array
 
