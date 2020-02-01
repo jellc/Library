@@ -18,9 +18,9 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.16299.0",
-            "compilerPath": "C:/MinGW/bin/g++.exe",
+            "compilerPath": "C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/g++.exe",
             "cStandard": "c11",
-            "cppStandard": "c++14",
+            "cppStandard": "c++17",
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
