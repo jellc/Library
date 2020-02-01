@@ -54,14 +54,16 @@ public:
 
     size_t find(const str_type &key) const
     {
+        using std::begin; using std::end;
+
         size_t lower{npos}, upper{str.size()};
         while(upper - lower > 1)
         {
             size_t mid{(lower + upper) >> 1};
             bool less{};
-            for(auto i{std::begin(str) + ary[mid]}, j{std::begin(key)}; j != std::end(key); ++i, ++j)
+            for(auto i{begin(str) + ary[mid]}, j{begin(key)}; j != end(key); ++i, ++j)
             {
-                if(i == std::end(str) || *i < *j)
+                if(i == end(str) || *i < *j)
                 {
                     less = true;
                     break;
@@ -70,9 +72,10 @@ public:
             }
             (less ? lower : upper) = mid;
         }
+
         if(upper == str.size()) return npos;
-        for(auto i{std::begin(str) + ary[upper]}, j{std::begin(key)}; j != std::end(key); ++i, ++j)
-            if(i == std::end(str) || *i != *j)
+        for(auto i{begin(str) + ary[upper]}, j{begin(key)}; j != end(key); ++i, ++j)
+            if(i == end(str) || *i != *j)
                 return npos;
         return ary[upper];
     }
