@@ -12,7 +12,6 @@
                 "C:\\mingw\bin\\../lib/gcc/mingw32/8.2.0/include/c++/backward"
             ],
             "defines": [
-                "LOCAL",
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
