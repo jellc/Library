@@ -1,46 +1,45 @@
-// #line 2 "Deque_aggregation.hpp"
-// verified at https://judge.yosupo.jp/submission/2812.
-#ifndef Deque_aggregation_hpp
-#define Deque_aggregation_hpp
+#include <cassert>
+#include <iterator>
 
-template <class Monoid>
+template <class monoid>
 class deque_aggregation
 {
-    using value_type = typename Monoid::value_type;
-    Monoid *const monoid_ptr, &monoid;
-
     template <bool left_operand_added>
     class stack_aggregation
     {
         friend deque_aggregation;
-        Monoid &monoid;
-        struct data { value_type value, acc; };
+        struct data { monoid value, acc; };
         size_t capacity;
         data *stack, *end, *itr;
         bool top_referred;
+
         void recalc()
         {
             if(top_referred)
             {
                 assert(itr != stack);
                 top_referred = false;
-                value_type top_val(top().value);
+                monoid top_val{top().value};
                 pop();
                 push(top_val);
             }
         }
-      public:
-        stack_aggregation(Monoid &_monoid) : monoid(_monoid), capacity(1), stack(new data[1]), end(std::next(stack)), itr(stack), top_referred() {}
+
+    public:
+        stack_aggregation() : capacity(1), stack(new data[1]), end(std::next(stack)), itr(stack), top_referred() {}
         ~stack_aggregation() { delete[] stack; }
+
         bool empty() const { return stack == itr; }
         size_t size() const { return itr - stack; }
-        // copy of the element at position i.
-        data operator[](size_t i) const
+
+        // copy of the element at the index.
+        data operator[](size_t index) const
         {
-            assert(i < size());
+            assert(index < size());
             recalc();
-            return stack[i];
+            return stack[index];
         }
+
         // reference to the last element
         data &top()
         {
@@ -48,19 +47,15 @@ class deque_aggregation
             top_referred = true;
             return *std::prev(itr);
         }
-        value_type fold()
-        {
-            if(itr == stack) return monoid.identity();
-            recalc();
-            return std::prev(itr)->acc;
-        }
+
         void pop()
         {
             assert(itr != stack);
             --itr;
             top_referred = false;
         }
-        void push(const value_type &x)
+
+        void push(const monoid &mono)
         {
             recalc();
             if(itr == end)
@@ -71,9 +66,16 @@ class deque_aggregation
                 capacity <<= 1;
                 delete[] tmp;
             }
-            if(left_operand_added) *itr = data{x, monoid(x, fold())};
-            else *itr = data{x, monoid(fold(), x)};
+            if(left_operand_added) *itr = data{mono, mono * fold()};
+            else *itr = data{mono, fold() * mono};
             ++itr;
+        }
+
+        monoid fold()
+        {
+            if(itr == stack) return monoid();
+            recalc();
+            return std::prev(itr)->acc;
         }
     }; // class stack_aggregation
 
@@ -87,13 +89,14 @@ class deque_aggregation
         size_t mid = (right.size() + 1) >> 1;
         auto *itr = right.stack + mid;
         do { left.push((--itr)->value); } while(itr != right.stack);
-        value_type acc = monoid.identity();
+        monoid acc;
         for(auto *p = right.stack + mid; p != right.itr; ++p, ++itr)
         {
-            *itr = {p->value, acc = monoid(acc, p->value)};
+            *itr = {p->value, acc = acc * p->value};
         }
         right.itr = itr;
     }
+
     void balance_to_right()
     {
         if(!right.empty() || left.empty()) return;
@@ -101,38 +104,34 @@ class deque_aggregation
         size_t mid = (left.size() + 1) >> 1;
         auto *itr = left.stack + mid;
         do { right.push((--itr)->value); } while(itr != left.stack);
-        value_type acc = monoid.identity();
+        monoid acc;
         for(auto *p = left.stack + mid; p != left.itr; ++p, ++itr)
         {
-            *itr = {p->value, acc = monoid(p->value, acc)};
+            *itr = {p->value, acc = p->value * acc};
         }
         left.itr = itr;
     }
 
-  public:
-    deque_aggregation() : monoid_ptr(new Monoid), monoid(*monoid_ptr), left(monoid), right(monoid) {}
-    deque_aggregation(Monoid &_monoid) : monoid_ptr(), monoid(_monoid), left(monoid), right(monoid) {}
-    ~deque_aggregation() { delete monoid_ptr; }
-
+public:
     bool empty() const { return left.empty() && right.empty(); }
     size_t size() const { return left.size() + right.size(); }
 
     // reference to the first element.
-    value_type &front() { assert(!empty()); return balance_to_left(), left.top().value; }
-    // reference to the last element.
-    value_type &back() { assert(!empty()); return balance_to_right(), right.top().value; }
+    monoid &front() { assert(!empty()); return balance_to_left(), left.top().value; }
 
-    // copy of the element at position i.
-    value_type operator[](size_t i) const
+    // reference to the last element.
+    monoid &back() { assert(!empty()); return balance_to_right(), right.top().value; }
+
+    // copy of the element at the index.
+    monoid operator[](size_t index) const
     {
-        assert(i < left.size() + right.size());
-        return i < left.size() ? left[i].value : right[i - left.size()].value;
+        assert(index < left.size() + right.size());
+        return index < left.size() ? left[index].value : right[index - left.size()].value;
     }
 
-    value_type fold() { return monoid(left.fold(), right.fold()); }
+    void push_front(const monoid &mono) { left.push(mono); }
 
-    void push_front(const value_type &x) { left.push(x); }
-    void push_back(const value_type &x) { right.push(x); }
+    void push_back(const monoid &mono) { right.push(mono); }
 
     void pop_front()
     {
@@ -140,12 +139,13 @@ class deque_aggregation
         balance_to_left();
         left.pop();
     }
+
     void pop_back()
     {
         assert(!empty());
         balance_to_right();
         right.pop();
     }
-}; // class deque_aggregation
 
-#endif
+    monoid fold() { return left.fold() * right.fold(); }
+}; // class deque_aggregation
