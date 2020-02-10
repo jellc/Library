@@ -1,5 +1,6 @@
-#ifndef Number_theoretic_transform_hpp
-#define Number_theoretic_transform_hpp
+#ifndef number_theoretic_transform_hpp
+#define number_theoretic_transform_hpp
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -118,4 +119,4 @@ namespace number_theoretic_transform
     }
 } // namespace Number_theoretic_transform
 
-#endif // Number_theoretic_transform_hpp
+#endif // number_theoretic_transform_hpp

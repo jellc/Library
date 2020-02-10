@@ -1,5 +1,5 @@
-#ifndef Fast_Fourier_transform_hpp
-#define Fast_Fourier_transform_hpp
+#ifndef fast_Fourier_transform_hpp
+#define fast_Fourier_transform_hpp
 
 #include <algorithm>
 #include <cassert>
@@ -152,4 +152,4 @@ namespace fast_Fourier_transform
     }
 } // namespace fast_Fourier_transform
 
-#endif // Fast_Fourier_transform_hpp
+#endif // fast_Fourier_transform_hpp
