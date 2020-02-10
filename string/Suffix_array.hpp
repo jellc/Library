@@ -1,5 +1,5 @@
-#ifndef Suffix_array_hpp
-#define Suffix_array_hpp
+#ifndef suffix_array_hpp
+#define suffix_array_hpp
 
 #include <algorithm>
 #include <vector>
@@ -81,4 +81,4 @@ public:
     }
 }; // class suffix_array
 
-#endif // Suffix_array_hpp
+#endif // suffix_array_hpp
