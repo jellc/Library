@@ -24,11 +24,9 @@
 #include <cassert>
 #include <chrono>
 #include <complex>
-#include <cstring>
 #include <functional>
 #include <iomanip>
 #include <iostream>
-#include <list>
 #include <map>
 #include <queue>
 #include <random>
@@ -102,7 +100,7 @@ namespace setting
 } // namespace setting
 
 #ifdef __clock__
-    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Clock.hpp"
+    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\clock.hpp"
 #else
     #define build_clock() ((void)0)
     #define set_clock() ((void)0)
@@ -110,7 +108,7 @@ namespace setting
 #endif
 
 #ifdef LOCAL
-    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\Dump.hpp"
+    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\dump.hpp"
 #else
     #define dump(...) ((void)0)
 #endif
@@ -119,9 +117,9 @@ namespace setting
 template <class T, class... types> T read(types... args) noexcept { typename std::remove_const<T>::type obj(args...); std::cin >> obj; return obj; }
 #define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
 // substitute y for x if x > y.
-template <class T> inline bool sbmin(T &x, const T &y) { return x > y ? x = y, true : false; }
+template <class T> inline bool chmin(T &x, const T &y) { return x > y ? x = y, true : false; }
 // substitute y for x if x < y.
-template <class T> inline bool sbmax(T &x, const T &y) { return x < y ? x = y, true : false; }
+template <class T> inline bool chmax(T &x, const T &y) { return x < y ? x = y, true : false; }
 // binary search on discrete range.
 template <class iter_type, class pred_type>
 iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
@@ -146,8 +144,8 @@ long double binary(long double __ok, long double __ng, const long double eps, pr
     }
     return __ok;
 }
-// reset all bits.
-template <class A> void reset(A &array) { memset(array, 0, sizeof(array)); }
+// size of array.
+template <class A, size_t N> size_t size(A (&array)[N]) { return N; }
 // be careful that val is type-sensitive.
 template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { std::fill((T*)array, (T*)(array + N), val); }
 /* functon utility end */
@@ -169,19 +167,14 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 
 /* The main code follows. */
 
+template <class T> void _main();
+struct solver;
+int main() { _main<solver>(); }
 
-struct solver
+template <class solver>
+void _main()
 {
-
-    solver()
-    {
-        
-    }
-}; // struct solver
-
-int main(int argc, char *argv[])
-{
-    u32 t; // loop count
+    unsigned t;
 #ifdef LOCAL
     t = 1;
 #else
@@ -190,8 +183,14 @@ int main(int argc, char *argv[])
     // t = -1; // infinite loop
     // cin >> t; // case number given
 
-    while(t--)
-    {
-        solver();
-    }
+    while(t--) solver();
 }
+
+struct solver
+{
+
+    solver()
+    {
+
+    }
+};
