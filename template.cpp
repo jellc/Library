@@ -86,7 +86,7 @@ namespace setting
             if(freopen(stderr_path, "a", stderr)) cerr << fixed << setprecision(__precision__);
     #endif
     #ifdef LOCAL
-            cerr << "\n----- stderr at LOCAL -----\n\n";
+            cerr << boolalpha << "\n----- stderr at LOCAL -----\n\n";
     #endif
     #ifdef __buffer_check__
             atexit(buffer_check);
@@ -191,6 +191,6 @@ struct solver
 
     solver()
     {
-
+        
     }
 };
