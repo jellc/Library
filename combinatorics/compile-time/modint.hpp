@@ -1,5 +1,5 @@
-#ifndef Modint_hpp
-#define Modint_hpp
+#ifndef modint_hpp
+#define modint_hpp
 #include <cassert>
 #include <iostream>
 
@@ -79,4 +79,4 @@ public:
     friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other.val = (is >> val, val & 1); return is; }
 }; // class modint specialization
 
-#endif // Modint_hpp
+#endif // modint_hpp
