@@ -1,5 +1,5 @@
-#ifndef Modint_hpp
-#define Modint_hpp
+#ifndef modint_hpp
+#define modint_hpp
 #include <cassert>
 #include <iostream>
 
@@ -49,10 +49,10 @@ public:
     friend std::istream &operator>>(std::istream &is, modint &other) noexcept { long long val; other = {(is >> val, val)}; return is; }
 }; // class modint
 
-#endif // Modint_hpp
+#endif // modint_hpp
 
-#ifndef Binomial_hpp
-#define Binomial_hpp
+#ifndef binomial_hpp
+#define binomial_hpp
 
 namespace binomial
 {
@@ -111,4 +111,4 @@ namespace binomial
     namespace internal_helper {} // namespace internal_helper
 } // namespace binomial
 
-#endif // Binomial_hpp
+#endif // binomial_hpp
