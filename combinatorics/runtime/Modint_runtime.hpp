@@ -1,7 +1,8 @@
-#ifndef Modint_runtime_hpp
-#define Modint_runtime_hpp
+#ifndef modint_runtime_hpp
+#define modint_runtime_hpp
 #include <cassert>
 #include <iostream>
+
 //*
 // modulo statically fixed
 class modint_runtime
@@ -11,12 +12,13 @@ class modint_runtime
     friend std::istream &operator>>(std::istream &is, modint_runtime &other) noexcept { long long val; other = modint_runtime((is >> val, val)); return is; }
 public:
     static long long &mod() noexcept { static long long mod{}; return mod; }
+    static long long identity() noexcept { return 1; }
     modint_runtime(long long x = 0) : val{(x %= mod()) < 0 ? x + mod() : x} {}
     long long value() const noexcept { return val; }
-    modint_runtime operator++(int) noexcept { modint_runtime t = *this; return ++val, t; }
-    modint_runtime &operator++() noexcept { return ++val, *this; }
-    modint_runtime operator--(int) noexcept { modint_runtime t = *this; return --val, t; }
-    modint_runtime &operator--() noexcept { return --val, *this; }
+    modint_runtime operator++(int) noexcept { modint_runtime t = *this; return ++*this, t; }
+    modint_runtime &operator++() noexcept { return ++val != mod() ? *this : (val = 0, *this); }
+    modint_runtime operator--(int) noexcept { modint_runtime t = *this; return --*this, t; }
+    modint_runtime &operator--() noexcept { return --val < 0 ? (val += mod(), *this) : *this; }
     modint_runtime &operator=(long long other) noexcept { return val = (other %= mod()) < 0 ? other + mod() : other, *this; }
     modint_runtime &operator+=(long long other) noexcept { return (val += other % mod()) < mod() ? 0 : val -= mod(), *this; }
     modint_runtime &operator+=(const modint_runtime &other) noexcept { return (val += other.val) < mod() ? 0 : val -= mod(), *this; }
@@ -111,4 +113,4 @@ public:
 }; // class modint_runtime
 //*/
 
-#endif // Modint_runtime_hpp
+#endif // modint_runtime_hpp
