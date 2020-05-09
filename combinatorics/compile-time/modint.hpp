@@ -8,6 +8,7 @@ class modint
 {
     int val;
 public:
+    static constexpr modint identity() noexcept { return 1; }
     constexpr modint() noexcept : val{0} {}
     constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
     constexpr long long value() const noexcept { return val; }
@@ -54,6 +55,7 @@ class modint<2>
 {
     bool val;
 public:
+    static constexpr modint identity() noexcept { return 1; }
     constexpr modint(bool x = false) noexcept : val{x} {}
     constexpr modint(int x) noexcept : val(x & 1) {}
     constexpr modint(long long x) noexcept : val(x & 1) {}
