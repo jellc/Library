@@ -17,23 +17,10 @@
     // #define __buffer_check__
     // #define NDEBUG
 #endif
-#define __precision__ 10
+#define __precision__ 15
 #define iostream_untie true
-#include <algorithm>
-#include <bitset>
-#include <cassert>
-#include <chrono>
-#include <complex>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <queue>
-#include <random>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <valarray>
+#include <bits/stdc++.h>
+#include <ext/rope>
 #define __all(v) std::begin(v), std::end(v)
 #define __rall(v) std::rbegin(v), std::rend(v)
 #define __popcount(n) __builtin_popcountll(n)
@@ -83,10 +70,10 @@ namespace setting
             if(iostream_untie) ios::sync_with_stdio(false), cin.tie(nullptr);
             cout << fixed << setprecision(__precision__);
     #ifdef stderr_path
-            if(freopen(stderr_path, "a", stderr)) cerr << fixed << setprecision(__precision__);
+            freopen(stderr_path, "a", stderr);
     #endif
     #ifdef LOCAL
-            cerr << boolalpha << "\n----- stderr at LOCAL -----\n\n";
+            cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
     #endif
     #ifdef __buffer_check__
             atexit(buffer_check);
@@ -100,7 +87,7 @@ namespace setting
 } // namespace setting
 
 #ifdef __clock__
-    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\clock.hpp"
+    #include "clock.hpp"
 #else
     #define build_clock() ((void)0)
     #define set_clock() ((void)0)
@@ -108,14 +95,25 @@ namespace setting
 #endif
 
 #ifdef LOCAL
-    #include "C:\Users\euler\OneDrive\Documents\Competitive_Programming\Library\local\dump.hpp"
+    #include "dump.hpp"
 #else
     #define dump(...) ((void)0)
 #endif
 
 /* function utility start */
+// lambda wrapper for recursive method.
+template <class lambda_type>
+class make_recursive
+{
+    lambda_type func;
+public:
+    make_recursive(lambda_type &&f) : func(std::move(f)) {}
+    template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
+};
+/*
 template <class T, class... types> T read(types... args) noexcept { typename std::remove_const<T>::type obj(args...); std::cin >> obj; return obj; }
 #define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
+*/
 // substitute y for x if x > y.
 template <class T> inline bool chmin(T &x, const T &y) { return x > y ? x = y, true : false; }
 // substitute y for x if x < y.
@@ -157,6 +155,7 @@ using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
 template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
+using namespace __gnu_cxx;
 /* using alias end */
 
 /* library start */
@@ -167,18 +166,15 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 
 /* The main code follows. */
 
-template <class T> void _main();
-struct solver;
-int main() { _main<solver>(); }
+struct solver; template <class T = solver> void _main();
+int main() { _main<>(); }
 
 template <class solver>
 void _main()
 {
-    unsigned t;
+    unsigned t = 1;
 #ifdef LOCAL
     t = 1;
-#else
-    t = 1; // single test case
 #endif
     // t = -1; // infinite loop
     // cin >> t; // case number given
@@ -191,6 +187,6 @@ struct solver
 
     solver()
     {
-        
+
     }
 };
