@@ -75,12 +75,12 @@ namespace setting
     #ifdef LOCAL
             cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
     #endif
-    #ifdef __buffer_check__
-            atexit(buffer_check);
-    #endif
     #ifdef __clock__
             start_time = system_clock::now();
             atexit(print_elapsed_time);
+    #endif
+    #ifdef __buffer_check__
+            atexit(buffer_check);
     #endif
         }
     } __setupper; // struct setupper
