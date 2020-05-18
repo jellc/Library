@@ -8,9 +8,9 @@ class modint
 {
     int val;
 public:
-    constexpr long long value() const noexcept { return val; }
     constexpr modint() noexcept : val{0} {}
     constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
+    constexpr long long value() const noexcept { return val; }
     constexpr modint operator++(int) noexcept { modint t = *this; return ++val, t; }
     constexpr modint operator--(int) noexcept { modint t = *this; return --val, t; }
     constexpr modint &operator++() noexcept { return ++val, *this; }
@@ -56,33 +56,37 @@ public:
 
 namespace binomial
 {
-    constexpr int mod = 998244353;
-    constexpr int size = 1 << 20;
+    constexpr int mod = 1000000007;
     using mint = modint<mod>;
     namespace
     {
         namespace internal_helper
         {
+            constexpr int N = 1 << 20;
+            constexpr int loop_limit = 1 << 17;
             struct fact_impl
             {
-                int _fact[size], _inv[size], _invfact[size];
-                fact_impl() : _fact{1}, _inv{0, 1}, _invfact{1}
+                int _fact[N], _inv[N], _invfact[N];
+                constexpr fact_impl() : _fact{1}, _inv{0, 1}, _invfact{1}
                 {
-                    for(int i = 1; i < size; ++i) _fact[i] = (long long)_fact[i - 1] * i % mod;
-                    for(int i = 2; i < size; ++i) _inv[i] = mod - (long long)mod / i * _inv[mod % i] % mod;
-                    for(int i = 1; i < size; ++i) _invfact[i] = (long long)_invfact[i - 1] * _inv[i] % mod;
+                    int itr = 1; while(itr < N) for(int j = 0; j < loop_limit && itr < N; ++itr, ++j) _fact[itr] = (long long)_fact[itr - 1] * itr % mod;
+                    itr = 2; while(itr < N) for(int j = 0; j < loop_limit && itr < N; ++itr, ++j) _inv[itr] = mod - (long long)_inv[mod % itr] * (mod / itr) % mod;
+                    itr = 1; while(itr < N) for(int j = 0; j < loop_limit && itr < N; ++itr, ++j) _invfact[itr] = (long long)_invfact[itr - 1] * _inv[itr] % mod;
                 }
-            } fact_calced;
+            }; // struct fact_impl
+            constexpr fact_impl fact_impl_inst;
+            constexpr int fact_helper(int x) noexcept { assert(x < (int)N); return x < 0 ? 0 : fact_impl_inst._fact[x]; }
+            constexpr int invfact_helper(int x) noexcept { assert(x < (int)N); return x < 0 ? 0 : fact_impl_inst._invfact[x]; }
+            constexpr int inv_helper(int x) noexcept { assert(x < (int)N); return x < 0 ? 0 : fact_impl_inst._inv[x]; }
         } // namespace internal_helper
-        mint fact(int x) noexcept { assert(x < size); return x < 0 ? 0 : internal_helper::fact_calced._fact[x]; }
-        mint invfact(int x) noexcept { assert(x < size); return x < 0 ? 0 : internal_helper::fact_calced._invfact[x]; }
-        mint inv(int x) noexcept { assert(x < size); return x < 0 ? 0 : internal_helper::fact_calced._inv[x]; }
+        constexpr mint fact(int x) noexcept { return internal_helper::fact_helper(x); }
+        constexpr mint invfact(int x) noexcept { return internal_helper::invfact_helper(x); }
     } // unnamed namespace
-    mint binom(int n, int k) noexcept { return fact(n) * invfact(k) * invfact(n - k); }
-    mint fallfact(int n, int k) noexcept { return fact(n) * invfact(n - k); }
-    mint risefact(int n, int k) noexcept { return fallfact(n + k - 1, k); }
+    constexpr mint binom(int n, int k) noexcept { return fact(n) * invfact(k) * invfact(n - k); }
+    constexpr mint fallfact(int n, int k) noexcept { return fact(n) * invfact(n - k); }
+    constexpr mint risefact(int n, int k) noexcept { return fallfact(n + k - 1, k); }
     // time complexity: O(min(n, k) * log(n))
-    mint stirling_2nd(int n, int k) noexcept
+    constexpr mint stirling_2nd(int n, int k) noexcept
     {
         if(n < k) return 0;
         mint res{};
@@ -92,7 +96,7 @@ namespace binomial
         return res;
     };
     // time complexity: O(min(n, k) * log(n))
-    mint bell(int n, int k) noexcept
+    constexpr mint bell(int n, int k) noexcept
     {
         if(n < k) k = n;
         mint res{}, alt{};
