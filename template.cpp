@@ -9,11 +9,6 @@
     // #define __buffer_check__
 #else
     #pragma GCC optimize("Ofast")
-/*
-    #define _GLIBCXX_DEBUG  // gcc
-/*/
-//    #define _LIBCPP_DEBUG 0 // clang
-//*/
     // #define __buffer_check__
     // #define NDEBUG
 #endif
@@ -96,8 +91,10 @@ namespace setting
 
 #ifdef LOCAL
     #include "dump.hpp"
+    #define mesg(str) std::cerr << "[ " << __LINE__ << " : " << __FUNCTION__ << " ]  " << str << "\n"
 #else
     #define dump(...) ((void)0)
+    #define mesg(str) ((void)0)
 #endif
 
 /* function utility start */
@@ -110,10 +107,8 @@ public:
     make_recursive(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
-/*
 template <class T, class... types> T read(types... args) noexcept { typename std::remove_const<T>::type obj(args...); std::cin >> obj; return obj; }
-#define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
-*/
+// #define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
 // substitute y for x if x > y.
 template <class T> inline bool chmin(T &x, const T &y) { return x > y ? x = y, true : false; }
 // substitute y for x if x < y.
@@ -187,6 +182,6 @@ struct solver
 
     solver()
     {
-
+        
     }
 };
