@@ -121,6 +121,7 @@ template <class T> inline bool chmax(T &x, const T &y) { return x < y ? x = y, t
 template <class iter_type, class pred_type>
 iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
 {
+    assert(__ok != __ng);
     std::ptrdiff_t dist(__ng - __ok);
     while(std::abs(dist) > 1)
     {
@@ -134,12 +135,41 @@ iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
 template <class pred_type>
 long double binary(long double __ok, long double __ng, const long double eps, pred_type pred)
 {
+    assert(__ok != __ng);
     while(std::abs(__ok - __ng) > eps)
     {
         long double mid{(__ok + __ng) / 2};
         (pred(mid) ? __ok : __ng) = mid;
     }
     return __ok;
+}
+// trinary search on discrete range.
+template <class iter_type, class comp_type>
+iter_type trinary(iter_type __first, iter_type __last, comp_type comp)
+{
+    assert(__first < __last);
+    std::ptrdiff_t dist(__last - __first);
+    while(dist > 2)
+    {
+        iter_type __left(__first + dist / 3), __right = (__first + dist * 2 / 3);
+        if(comp(__left, __right)) __last = __right, dist = dist * 2 / 3;
+        else __first = __left, dist -= dist / 3;
+    }
+    if(dist > 1 && comp(next(__first), __first)) ++__first;
+    return __first;
+}
+// trinary search on real numbers.
+template <class comp_type>
+long double trinary(long double __first, long double __last, const long double eps, comp_type comp)
+{
+    assert(__first < __last);
+    while(__last - __first > eps)
+    {
+        long double __left{(__first * 2 + __last) / 3}, __right{(__first + __last * 2) / 3};
+        if(comp(__left, __right)) __last = __right;
+        else __first = __left;
+    }
+    return __first;
 }
 // size of array.
 template <class A, size_t N> size_t size(A (&array)[N]) { return N; }
@@ -163,7 +193,6 @@ using namespace __gnu_cxx;
 
 #pragma endregion // library
 
-/* The main code follows. */
 #pragma region main-code
 struct solver; template <class> void main_(); int main() { main_<solver>(); }
 template <class solver> void main_()
