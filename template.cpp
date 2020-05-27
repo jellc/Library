@@ -99,7 +99,7 @@ namespace setting
         }
     } __setupper; // struct setupper
 } // namespace setting
-#pragma endregion // executive setting
+#pragma endregion // executive-setting
 
 #pragma region fucntion-utility
 // lambda wrapper for recursive method.
