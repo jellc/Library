@@ -1,4 +1,4 @@
-/* preprocessor start */
+#pragma region preprocessor
 #ifdef LOCAL
 //*
     #define _GLIBCXX_DEBUG  // gcc
@@ -23,8 +23,25 @@
 #define __clz64(n) __builtin_clzll(n)
 #define __ctz32(n) __builtin_ctz(n)
 #define __ctz64(n) __builtin_ctzll(n)
-/* preprocessor end */
 
+#ifdef __clock__
+    #include "clock.hpp"
+#else
+    #define build_clock() ((void)0)
+    #define set_clock() ((void)0)
+    #define get_clock() ((void)0)
+#endif
+
+#ifdef LOCAL
+    #include "dump.hpp"
+    #define mesg(str) std::cerr << "[ " << __LINE__ << " : " << __FUNCTION__ << " ]  " << str << "\n"
+#else
+    #define dump(...) ((void)0)
+    #define mesg(str) ((void)0)
+#endif
+#pragma endregion // preprocessor
+
+#pragma region std-overload
 namespace std
 {
     // hash
@@ -49,7 +66,9 @@ namespace std
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 } // namespace std
+#pragma endregion // std-overload
 
+#pragma region executive-setting
 namespace setting
 {
     using namespace std;
@@ -80,24 +99,9 @@ namespace setting
         }
     } __setupper; // struct setupper
 } // namespace setting
+#pragma endregion // executive setting
 
-#ifdef __clock__
-    #include "clock.hpp"
-#else
-    #define build_clock() ((void)0)
-    #define set_clock() ((void)0)
-    #define get_clock() ((void)0)
-#endif
-
-#ifdef LOCAL
-    #include "dump.hpp"
-    #define mesg(str) std::cerr << "[ " << __LINE__ << " : " << __FUNCTION__ << " ]  " << str << "\n"
-#else
-    #define dump(...) ((void)0)
-    #define mesg(str) ((void)0)
-#endif
-
-/* function utility start */
+#pragma region fucntion-utility
 // lambda wrapper for recursive method.
 template <class lambda_type>
 class make_recursive
@@ -141,9 +145,9 @@ long double binary(long double __ok, long double __ng, const long double eps, pr
 template <class A, size_t N> size_t size(A (&array)[N]) { return N; }
 // be careful that val is type-sensitive.
 template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { std::fill((T*)array, (T*)(array + N), val); }
-/* functon utility end */
+#pragma endregion // function-utility
 
-/* using alias start */
+#pragma region using-alias
 using namespace std;
 using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
@@ -151,21 +155,18 @@ template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 using namespace __gnu_cxx;
-/* using alias end */
+#pragma endregion // using-alias
 
-/* library start */
+#pragma region library
 
 
 
-/* library end */
+#pragma endregion // library
 
 /* The main code follows. */
-
-struct solver; template <class T = solver> void _main();
-int main() { _main<>(); }
-
-template <class solver>
-void _main()
+#pragma region main-code
+struct solver; template <class> void main_(); int main() { main_<solver>(); }
+template <class solver> void main_()
 {
     unsigned t = 1;
 #ifdef LOCAL
@@ -182,6 +183,7 @@ struct solver
 
     solver()
     {
-        
+
     }
 };
+#pragma endregion // main-code
