@@ -48,25 +48,8 @@ public:
     {
         if(this != &other)
         {
-            adj = decltype(adj)(other.size());
-            for(size_t node{0}; node != other.size(); ++node)
-            {
-                for(const auto &e : other[node])
-                {
-                    if(e.src == node)
-                    {
-                        adj[e.src].emplace_back(e);
-                        adj[e.dst].emplace_back(*e.rev);
-                        adj[e.src].back().rev = &adj[e.dst].back();
-                        adj[e.dst].back().rev = &adj[e.src].back();
-                        e.rev->src = -1;
-                    }
-                    else
-                    {
-                        e.rev->rev->src = node;
-                    }
-                }
-            }
+            flow_base cop(other);
+            std::swap(adj, cop.adj);
         }
         return *this;
     }
