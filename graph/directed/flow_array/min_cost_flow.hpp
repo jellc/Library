@@ -1,3 +1,5 @@
+// Successive shortest paths algorithm.
+// Depends on "base.hpp".
 template <class cap_t, class cost_t>
 class min_cost_flow : public flow_base<cap_t, cost_t>
 {

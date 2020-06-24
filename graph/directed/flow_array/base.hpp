@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 
-// Base class of flow algorithms
+// Base class of flow algorithms.
 template <class cap_t, class cost_t>
 struct flow_base
 {
