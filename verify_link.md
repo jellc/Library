@@ -70,6 +70,9 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 - deque_aggregation
   - <https://atcoder.jp/contests/agc038/tasks/agc038_b>
 
+- skew heap
+  - <https://onlinejudge.u-aizu.ac.jp/challenges/search/volumes/2170>
+
 ## Graph
 
 - flow
@@ -78,10 +81,17 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
     - <https://codeforces.com/contest/1214/problem/D>
     - <https://codeforces.com/gym/102428/problem/A>
 
+  - minimum cost flow
+    - <https://codeforces.com/contest/863/problem/F>
+    - <https://codeforces.com/contest/1187/problem/G>
+
 - scc
   - <https://atcoder.jp/contests/arc030/tasks/arc030_3>
 
 ## String
+
+- trie
+  - <https://codeforces.com/contest/1181/problem/D>
 
 - Aho Corasick
   - <https://codeforces.com/contest/1202/problem/E>
