@@ -10,7 +10,6 @@ struct flow_base
 
     class edge_t
     {
-        friend flow_base;
         friend class adj_type;
         edge_t *link;
     public:
@@ -84,10 +83,8 @@ public:
             {
                 if(e.src == node)
                 {
-                    edge_t *ref = adjs[e.src].emplace(e.src, e.dst, e.cap, e.cost);
-                    edge_t *rref = adjs[e.dst].emplace(e.dst, e.src, e.rev->cap, -e.cost);
-                    ref->rev = rref;
-                    rref->rev = ref;
+                    edge_t *ptr = adjs[e.src].emplace(e.src, e.dst, e.cap, e.cost, nullptr);
+                    ptr->rev = adjs[e.dst].emplace(e.dst, e.src, e.rev->cap, -e.cost, ptr);
                     e.rev->src = -1;
                 }
                 else
@@ -117,7 +114,7 @@ public:
     {
         assert(src < size()); assert(dst < size());
         if(!(cap > 0)) return;
-        edge_t *ref = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ref->rev = adjs[dst].emplace(dst, src, 0, -cost, ref);
+        edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
+        ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
     }
 }; // struct flow_base
