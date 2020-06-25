@@ -13,16 +13,9 @@
     // #define NDEBUG
 #endif
 #define __precision__ 15
-#define iostream_untie true
+#define __iostream_untie__ true
 #include <bits/stdc++.h>
 #include <ext/rope>
-#define __all(v) std::begin(v), std::end(v)
-#define __rall(v) std::rbegin(v), std::rend(v)
-#define __popcount(n) __builtin_popcountll(n)
-#define __clz32(n) __builtin_clz(n)
-#define __clz64(n) __builtin_clzll(n)
-#define __ctz32(n) __builtin_ctz(n)
-#define __ctz64(n) __builtin_ctzll(n)
 
 #ifdef __clock__
     #include "clock.hpp"
@@ -68,38 +61,37 @@ namespace std
 } // namespace std
 #pragma endregion // std-overload
 
-#pragma region executive-setting
-namespace setting
+#pragma region config
+
+namespace config
 {
-    using namespace std;
-    using namespace chrono;
-    system_clock::time_point start_time, end_time;
-    long long get_elapsed_time() { end_time = system_clock::now(); return duration_cast<milliseconds>(end_time - start_time).count(); }
-    void print_elapsed_time() { cerr << "\n----- Exec time : " << get_elapsed_time() << " ms -----\n\n"; }
-    void buffer_check() { char bufc; if(cin >> bufc) cerr << "\n\033[1;35mwarning\033[0m: buffer not empty.\n"; }
-    struct setupper
+    const auto start_time{std::chrono::system_clock::now()};
+    long long elapsed_time()
     {
-        setupper()
-        {
-            if(iostream_untie) ios::sync_with_stdio(false), cin.tie(nullptr);
-            cout << fixed << setprecision(__precision__);
-    #ifdef stderr_path
-            freopen(stderr_path, "a", stderr);
-    #endif
-    #ifdef LOCAL
-            cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
-    #endif
-    #ifdef __clock__
-            start_time = system_clock::now();
-            atexit(print_elapsed_time);
-    #endif
-    #ifdef __buffer_check__
-            atexit(buffer_check);
-    #endif
-        }
-    } __setupper; // struct setupper
-} // namespace setting
-#pragma endregion // executive-setting
+        using namespace std::chrono;
+        const auto end_time{std::chrono::system_clock::now()};
+        return duration_cast<milliseconds>(end_time - start_time).count();
+    }
+    __attribute__((constructor)) void setup()
+    {
+        using namespace std;
+        if(__iostream_untie__) ios::sync_with_stdio(false), cin.tie(nullptr);
+                cout << fixed << setprecision(__precision__);
+        #ifdef stderr_path
+                freopen(stderr_path, "a", stderr);
+        #endif
+        #ifdef LOCAL
+                cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
+        #endif
+        #ifdef __clock__
+                atexit([]{ cerr << "\n----- Exec time : " << elapsed_time() << " ms -----\n\n"; });
+        #endif
+        #ifdef __buffer_check__
+                atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+        #endif
+    }
+} // namespace config
+#pragma endregion // config
 
 #pragma region fucntion-utility
 // lambda wrapper for recursive method.
@@ -193,7 +185,6 @@ using namespace __gnu_cxx;
 
 #pragma endregion // library
 
-#pragma region main-code
 struct solver; template <class> void main_(); int main() { main_<solver>(); }
 template <class solver> void main_()
 {
@@ -212,7 +203,6 @@ struct solver
 
     solver()
     {
-
+        
     }
 };
-#pragma endregion // main-code
