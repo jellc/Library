@@ -19,6 +19,7 @@ struct flow_base
         edge_t() : link() {}
         edge_t(edge_t *link, size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev)
             : link(link), src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
+        bool avbl() const { return cap > static_cast<cap_t>(0); }
     }; // class edge_t
 
     class adj_type

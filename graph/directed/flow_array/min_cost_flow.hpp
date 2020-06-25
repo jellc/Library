@@ -1,3 +1,5 @@
+#include <queue>
+
 // Successive shortest paths algorithm.
 // Depends on "base.hpp".
 template <class cap_t, class cost_t>
@@ -22,72 +24,90 @@ class min_cost_flow : public flow_base<cap_t, cost_t>
     void Dijkstra(std::vector<edge_t*> &last)
     {
         const cost_t infty(total_cost + 1);
-        std::vector<cost_t> dist(size(), infty);
+        std::vector<cost_t> nptnl(size(), infty);
         //*/ // O((V + E)logV)
-        std::priority_queue<std::pair<cost_t, size_t>> que;
-        for(size_t node{}; node != size(); ++node)
+        struct node_t
         {
-            if(supp[node] > static_cast<cap_t>(0))
+            size_t id; cost_t dist;
+            node_t(size_t id, cost_t dist) : id(id), dist(dist) {}
+            bool operator<(const node_t &rhs) const { return rhs.dist < dist; }
+        };
+        std::priority_queue<node_t> que;
+        for(size_t src{}; src != size(); ++src)
+        {
+            if(supp[src] > static_cast<cap_t>(0))
             {
-                dist[node] = 0;
-                que.emplace(0, node);
+                nptnl[src] = 0;
+                for(edge_t &e : adjs[src])
+                {
+                    if(supp[e.dst] > static_cast<cap_t>(0)) continue;
+                    if(e.avbl() && nptnl[e.dst] > e.cost)
+                    {
+                        que.emplace(e.dst, (nptnl[e.dst] = e.cost) - ptnl[e.dst]);
+                        last[e.dst] = &e;
+                    }
+                }
             }
         }
         while(!que.empty())
         {
-            auto [nsp, node] = que.top();
+            auto [src, ndist] = que.top();
             que.pop();
-            if(-nsp != dist[node]) continue;
-            ptnl[node] -= nsp;
-            if(ptnl[node] > infty) ptnl[node] = infty;
-            dist[node] = -1;
-            for(edge_t &e : adjs[node])
+            if(ndist + ptnl[src] != nptnl[src]) continue;
+            for(edge_t &e : adjs[src])
             {
-                if(dist[e.dst] == static_cast<cost_t>(-1) || e.cap == static_cast<cap_t>(0)) continue;
-                if(dist[e.dst] + ptnl[e.dst] > ptnl[node] + e.cost)
+                if(e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost)
                 {
-                    dist[e.dst] = ptnl[node] + e.cost - ptnl[e.dst];
+                    que.emplace(e.dst, (nptnl[e.dst] = nptnl[src] + e.cost) - ptnl[e.dst]);
                     last[e.dst] = &e;
-                    que.emplace(-dist[e.dst], e.dst);
                 }
             }
         }
         /*/ // O(V^2)
-        size_t src(-1);
-        for(size_t node{}; node != size(); ++node)
+        std::vector<bool> used(size());
+        for(size_t src{}; src != size(); ++src)
         {
-            if(supp[node] > static_cast<cap_t>(0))
+            if(supp[src] > static_cast<cap_t>(0))
             {
-                dist[node] = 0;
-                src = node;
-            }
-        }
-        while(~src)
-        {
-            ptnl[src] += dist[src];
-            dist[src] = -1;
-            for(edge_t &e : adjs[src])
-            {
-                if(dist[e.dst] == static_cast<cost_t>(-1) || e.cap == static_cast<cap_t>(0)) continue;
-                if(dist[e.dst] + ptnl[e.dst] > ptnl[src] + e.cost)
+                used[src] = true;
+                nptnl[src] = 0;
+                for(edge_t &e : adjs[src])
                 {
-                    dist[e.dst] = ptnl[src] + e.cost - ptnl[e.dst];
-                    last[e.dst] = &e;
+                    if(supp[e.dst] > static_cast<cap_t>(0)) continue;
+                    if(e.avbl() && nptnl[e.dst] > e.cost)
+                    {
+                        nptnl[e.dst] = e.cost;
+                        last[e.dst] = &e;
+                    }
                 }
             }
-            src = -1;
-            cost_t nsp{infty};
+        }
+        for(;;)
+        {
+            size_t src(-1); cost_t sp{infty};
             for(size_t node{}; node != size(); ++node)
             {
-                if(dist[node] == static_cast<cost_t>(-1)) continue;
-                if(nsp > dist[node])
+                if(used[node] || nptnl[node] == infty) continue;
+                cost_t dist{nptnl[node] - ptnl[node]};
+                if(sp > dist)
                 {
-                    nsp = dist[node];
+                    sp = dist;
                     src = node;
+                }
+            }
+            if(src == static_cast<size_t>(-1)) break;
+            used[src] = true;
+            for(edge_t &e : adjs[src])
+            {
+                if(e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost)
+                {
+                    nptnl[e.dst] = nptnl[src] + e.cost;
+                    last[e.dst] = &e;
                 }
             }
         }
         //*/
+        ptnl.swap(nptnl);
     }
 
 public:
