@@ -5,25 +5,15 @@
 /*/
     #define _LIBCPP_DEBUG 0 // clang
 //*/
-    #define __clock__
     // #define __buffer_check__
 #else
     #pragma GCC optimize("Ofast")
-    // #define __buffer_check__
     // #define NDEBUG
 #endif
 #define __precision__ 15
 #define __iostream_untie__ true
 #include <bits/stdc++.h>
 #include <ext/rope>
-
-#ifdef __clock__
-    #include "clock.hpp"
-#else
-    #define build_clock() ((void)0)
-    #define set_clock() ((void)0)
-    #define get_clock() ((void)0)
-#endif
 
 #ifdef LOCAL
     #include "dump.hpp"
@@ -32,7 +22,7 @@
     #define dump(...) ((void)0)
     #define mesg(str) ((void)0)
 #endif
-#pragma endregion // preprocessor
+#pragma endregion
 
 #pragma region std-overload
 namespace std
@@ -59,14 +49,13 @@ namespace std
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 } // namespace std
-#pragma endregion // std-overload
+#pragma endregion
 
 #pragma region config
-
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
-    long long elapsed_time()
+    int64_t elapsed_time()
     {
         using namespace std::chrono;
         const auto end_time{std::chrono::system_clock::now()};
@@ -82,8 +71,6 @@ namespace config
         #endif
         #ifdef LOCAL
                 cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
-        #endif
-        #ifdef __clock__
                 atexit([]{ cerr << "\n----- Exec time : " << elapsed_time() << " ms -----\n\n"; });
         #endif
         #ifdef __buffer_check__
@@ -91,9 +78,9 @@ namespace config
         #endif
     }
 } // namespace config
-#pragma endregion // config
+#pragma endregion
 
-#pragma region fucntion-utility
+#pragma region utility
 // lambda wrapper for recursive method.
 template <class lambda_type>
 class make_recursive
@@ -167,9 +154,9 @@ long double trinary(long double __first, long double __last, const long double e
 template <class A, size_t N> size_t size(A (&array)[N]) { return N; }
 // be careful that val is type-sensitive.
 template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { std::fill((T*)array, (T*)(array + N), val); }
-#pragma endregion // function-utility
+#pragma endregion
 
-#pragma region using-alias
+#pragma region alias
 using namespace std;
 using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
@@ -177,13 +164,13 @@ template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 using namespace __gnu_cxx;
-#pragma endregion // using-alias
+#pragma endregion
 
 #pragma region library
 
 
 
-#pragma endregion // library
+#pragma endregion
 
 struct solver; template <class> void main_(); int main() { main_<solver>(); }
 template <class solver> void main_()
