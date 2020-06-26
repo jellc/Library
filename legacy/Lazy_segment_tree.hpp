@@ -152,7 +152,8 @@ public:
 
     value_type fold(size_t begin, size_t end)
     {
-        assert(0 <= begin && end <= orig_n);
+        assert(begin <= end);
+        assert(end <= orig_n);
         begin += ext_n, end += ext_n - 1;
         value_type left_val{monoid.identity()}, right_val{monoid.identity()};
         for(size_t l = begin, r = end + 1; end; l >>= 1, r >>= 1)
