@@ -34,6 +34,7 @@ public:
     size_t order_of(const T &val) const { return std::lower_bound(uniquely.begin(), uniquely.end(), val) - uniquely.begin(); }
 
     std::vector<size_t>::iterator begin() { return compressed.begin(); }
-
     std::vector<size_t>::iterator end() { return compressed.end(); }
+    std::vector<size_t>::iterator rbegin() { return compressed.rbegin(); }
+    std::vector<size_t>::iterator rend() { return compressed.rend(); }
 };
