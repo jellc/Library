@@ -14,7 +14,7 @@ namespace number_theoretic_transform
     class modint
     {
         int val;
-      public:
+    public:
         constexpr modint() noexcept : val{0} {}
         constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}
         constexpr long long value() const noexcept { return val; }
@@ -38,14 +38,14 @@ namespace number_theoretic_transform
         friend constexpr modint operator-(long long x, modint y) noexcept { return modint(x) - y; }
         friend constexpr modint operator*(long long x, modint y) noexcept { return modint(x) * y; }
         friend constexpr modint operator/(long long x, modint y) noexcept { return modint(x) / y; }
-        friend constexpr modint inverse(const modint &other) noexcept
+        static constexpr modint inverse(const modint &other) noexcept
         {
             assert(other != 0);
             int a{mod}, b{other.val}, u{}, v{1}, t{};
             while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
             return {u};
         }
-        friend constexpr modint pow(modint other, long long e) noexcept
+        static constexpr modint pow(modint other, long long e) noexcept
         {
             if(e < 0) e = e % (mod - 1) + mod - 1;
             modint res{1};
@@ -63,7 +63,7 @@ namespace number_theoretic_transform
       public:
         constexpr zeta_calc() : _zeta{}
         {
-            _zeta[n] = pow(modint(primitive), (mod - 1) / (1 << n));
+            _zeta[n] = modint::pow(modint(primitive), (mod - 1) / (1 << n));
             for(size_t i{n}; i; --i) _zeta[i - 1] = _zeta[i] * _zeta[i];
         }
         constexpr modint operator[](size_t k) const { return _zeta[k]; }
