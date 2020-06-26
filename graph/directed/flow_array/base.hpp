@@ -64,6 +64,7 @@ struct flow_base
             iterator operator++() { ptr = ptr->link; return *this; }
             bool operator!=(const iterator &other) const { return ptr != other.ptr; }
             edge_t &operator*() const { return *ptr; }
+            edge_t *operator->() const { return ptr; }
         };
 
         iterator begin() const { return iterator(_head); }
