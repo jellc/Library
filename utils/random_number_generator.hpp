@@ -1,10 +1,7 @@
-// #line 2 "Random_number_generator.hpp"
-#ifndef Random_number_generator_hpp
-#define Random_number_generator_hpp
 #include <random>
 
 template <typename num_t>
-class Random_number_generator
+class random_number_generator
 {
     template <bool is_int, class = void>
     struct unif_t
@@ -24,8 +21,6 @@ class Random_number_generator
     std::mt19937 engine;
   public:
     // generate random number in [lower, upper].
-    Random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
+    random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
     num_t operator()() { return unif(engine); }
-};
-
-#endif // Random_number_generator_hpp
+}; // class random_number_generator 
