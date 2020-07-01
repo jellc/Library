@@ -55,7 +55,7 @@ namespace std
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed_time()
+    int64_t elapsed()
     {
         using namespace std::chrono;
         const auto end_time{std::chrono::system_clock::now()};
@@ -66,12 +66,21 @@ namespace config
         using namespace std;
         if(__iostream_untie__) ios::sync_with_stdio(false), cin.tie(nullptr);
                 cout << fixed << setprecision(__precision__);
+        #ifdef DEBUG
+                freopen("debug.out","w",stdout);
+                freopen("debug.err","w",stderr);
+                if(!freopen("debug.in","r",stdin))
+                {
+                    cerr << "error: \"./debug.in\" not found.\n";
+                    exit(EXIT_FAILURE);
+                }
+        #endif
         #ifdef stderr_path
                 freopen(stderr_path, "a", stderr);
         #endif
         #ifdef LOCAL
                 cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
-                atexit([]{ cerr << "\n----- Exec time : " << elapsed_time() << " ms -----\n\n"; });
+                atexit([]{ cerr << "\n----- Exec time : " << elapsed() << " ms -----\n\n"; });
         #endif
         #ifdef __buffer_check__
                 atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
