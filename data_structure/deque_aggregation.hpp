@@ -66,8 +66,8 @@ class deque_aggregation
                 capacity <<= 1;
                 delete[] tmp;
             }
-            if(left_operand_added) *itr = data{mono, mono * fold()};
-            else *itr = data{mono, fold() * mono};
+            if(left_operand_added) *itr = data{mono, mono + fold()};
+            else *itr = data{mono, fold() + mono};
             ++itr;
         }
 
@@ -92,7 +92,7 @@ class deque_aggregation
         monoid acc;
         for(auto *p = right.stack + mid; p != right.itr; ++p, ++itr)
         {
-            *itr = {p->value, acc = acc * p->value};
+            *itr = {p->value, acc = acc + p->value};
         }
         right.itr = itr;
     }
@@ -107,7 +107,7 @@ class deque_aggregation
         monoid acc;
         for(auto *p = left.stack + mid; p != left.itr; ++p, ++itr)
         {
-            *itr = {p->value, acc = p->value * acc};
+            *itr = {p->value, acc = p->value + acc};
         }
         left.itr = itr;
     }
@@ -147,5 +147,5 @@ public:
         right.pop();
     }
 
-    monoid fold() { return left.fold() * right.fold(); }
+    monoid fold() { return left.fold() + right.fold(); }
 }; // class deque_aggregation
