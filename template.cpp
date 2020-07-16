@@ -92,15 +92,28 @@ namespace config
 #pragma region utility
 // lambda wrapper for recursive method.
 template <class lambda_type>
-class make_recursive
+class fixed_point
 {
     lambda_type func;
 public:
-    make_recursive(lambda_type &&f) : func(std::move(f)) {}
+    fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
-template <class T, class... types> T read(types... args) noexcept { typename std::remove_const<T>::type obj(args...); std::cin >> obj; return obj; }
-// #define input(type, var, ...) type var{read<type>(__VA_ARGS__)}
+// read with std::cin.
+template <class T = void>
+struct read
+{
+    typename std::remove_const<T>::type value;
+    template <class... types>
+    read(types... args) : value(args...) { std::cin >> value; }
+    operator T() const { return value; }
+};
+template <>
+struct read<void>
+{
+    template <class T>
+    operator T() const { T value; std::cin >> value; return value; }
+};
 // substitute y for x if x > y.
 template <class T> inline bool chmin(T &x, const T &y) { return x > y ? x = y, true : false; }
 // substitute y for x if x < y.
