@@ -25,21 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: string/suffix_array.hpp
+# :heavy_check_mark: string/suffix_array.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/suffix_array.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 00:16:15+09:00
+    - Last commit date: 2020-08-03 00:23:34+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
-* :x: <a href="../../verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 
 
 ## Code
@@ -117,7 +117,7 @@ public:
         construct_lcp();
     }
 
-    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
+    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, std::nullptr_t> = nullptr>
     suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())
     {
         std::copy(std::begin(_str), std::end(_str), str);
@@ -234,7 +234,7 @@ public:
         construct_lcp();
     }
 
-    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
+    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, std::nullptr_t> = nullptr>
     suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())
     {
         std::copy(std::begin(_str), std::end(_str), str);

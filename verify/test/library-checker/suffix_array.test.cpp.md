@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/suffix_array.test.cpp
+# :heavy_check_mark: test/library-checker/suffix_array.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/suffix_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 00:16:15+09:00
+    - Last commit date: 2020-08-03 00:23:34+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/suffixarray">https://judge.yosupo.jp/problem/suffixarray</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
+* :heavy_check_mark: <a href="../../../library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
 
 
 ## Code
@@ -58,7 +58,7 @@ template <class T, class... types> T read(types... args) noexcept { T obj(args..
 template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
 ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 
-main()
+int main()
 {
     cin.tie(nullptr);
     ios::sync_with_stdio(false);
@@ -145,7 +145,7 @@ public:
         construct_lcp();
     }
 
-    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
+    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, std::nullptr_t> = nullptr>
     suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())
     {
         std::copy(std::begin(_str), std::end(_str), str);
@@ -195,7 +195,7 @@ template <class T, class... types> T read(types... args) noexcept { T obj(args..
 template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
 ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 
-main()
+int main()
 {
     cin.tie(nullptr);
     ios::sync_with_stdio(false);
