@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/lowest_common_ancestor.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 22:26:27+09:00
+    - Last commit date: 2020-08-02 22:37:59+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/lca">https://judge.yosupo.jp/problem/lca</a>
@@ -66,7 +66,7 @@ int main()
     for(int u,v; q--; )
     {
         scanf("%d%d",&u,&v);
-        printf("%d\n",lca.query(u,v));
+        printf("%u\n",lca.query(u,v));
     }
 }
 ```
@@ -160,7 +160,7 @@ int main()
     for(int u,v; q--; )
     {
         scanf("%d%d",&u,&v);
-        printf("%d\n",lca.query(u,v));
+        printf("%u\n",lca.query(u,v));
     }
 }
 
