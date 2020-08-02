@@ -127,7 +127,7 @@ layout: default
 
 ### graph/directed
 
-* :warning: <a href="library/graph/directed/strongly_connected_components.hpp.html">graph/directed/strongly_connected_components.hpp</a>
+* :heavy_check_mark: <a href="library/graph/directed/strongly_connected_components.hpp.html">graph/directed/strongly_connected_components.hpp</a>
 
 
 <div id="13554c95f4603c3979d32881e43d19e6"></div>
@@ -212,6 +212,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
