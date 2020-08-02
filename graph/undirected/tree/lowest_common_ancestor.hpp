@@ -34,7 +34,7 @@ class lowest_common_ancestor
     }
 
 public:
-    lowest_common_ancestor(size_t _n) : tree(_n), tab(1), idx(_n) {}
+    lowest_common_ancestor(size_t n) : tree(n), tab(1), idx(n) {}
 
     size_t size() const { return tree.size(); }
 
@@ -45,7 +45,7 @@ public:
         tree[v].emplace_back(u);
     }
 
-    void build(size_t root)
+    void make(size_t root)
     {
         assert(root < size());
         tour(root, root);
