@@ -17,6 +17,6 @@ int main()
     for(int u,v; q--; )
     {
         scanf("%d%d",&u,&v);
-        printf("%d\n",lca.query(u,v));
+        printf("%u\n",lca.query(u,v));
     }
 }
