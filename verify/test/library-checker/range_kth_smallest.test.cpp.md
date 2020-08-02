@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_kth_smallest.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 02:03:38+09:00
+    - Last commit date: 2020-08-03 02:47:43+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_kth_smallest">https://judge.yosupo.jp/problem/range_kth_smallest</a>
@@ -117,7 +117,6 @@ int main()
 #include <cmath>
 #include <functional>
 #include <vector>
-#include <numeric>
 
 template <class Add, class Del>
 class Mo
@@ -131,8 +130,8 @@ class Mo
     void make()
     {
         made = true;
-        ord.resize(lft.size());
-        std::iota(ord.begin(), ord.end(), 0);
+        ord.resize(size());
+        for(size_t i = 0; i != size(); ++i) ord[i] = i;
         std::sort(ord.begin(), ord.end(),
         [&](size_t x, size_t y)
         {
@@ -146,6 +145,8 @@ public:
     Mo(size_t n = 0, Add add = Add(), Del del = Del())
         : add(add), del(del), made(), width(sqrt(n)), nl(), nr() {}
 
+    size_t size() const { return lft.size(); }
+
     void set(size_t l, size_t r)
     {
         assert(!made);
@@ -156,12 +157,12 @@ public:
     {
         if(!made) make();
         if(itr == ord.end()) return ord.size();
-        size_t now = *itr++;
-        while(nl > lft[now]) add(--nl);
-        while(nr < rgt[now]) add(nr++);
-        while(nl < lft[now]) del(nl++);
-        while(nr > rgt[now]) del(--nr);
-        return now;
+        const size_t id = *itr++, l = lft[id], r = rgt[id];
+        while(nl > l) add(--nl);
+        while(nr < r) add(nr++);
+        while(nl < l) del(nl++);
+        while(nr > r) del(--nr);
+        return id;
     }
 };
 #line 1 "utils/coordinate_compression.hpp"
