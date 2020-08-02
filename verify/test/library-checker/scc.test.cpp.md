@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/scc.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 03:44:15+09:00
+    - Last commit date: 2020-08-03 03:53:14+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/scc">https://judge.yosupo.jp/problem/scc</a>
@@ -126,7 +126,7 @@ public:
         for(size_t i = 0; i != cnt; ++i)
         {
             size_t *itr = stack_ptr;
-            for(size_t s : memb[i]) for(size_t t : graph[s]) if(!apr[comp[t]]) apr[comp[t]] = true, *itr++ = comp[t];
+            for(size_t src : memb[i]) for(size_t dst : graph[src]) if(!apr[comp[dst]]) apr[comp[dst]] = true, *itr++ = comp[dst];
             res[i].resize(itr - stack_ptr);
             while(itr != stack_ptr) apr[res[i][--itr - stack_ptr] = *itr] = false;
         }
@@ -147,13 +147,13 @@ protected:
         for(size_t v = 0; v != size(); ++v) memb[comp[v] = cnt - 1 - comp[v]].emplace_back(v);
     }
 
-    size_t affix(size_t v, size_t &c, size_t* &itr)
+    size_t affix(size_t src, size_t &c, size_t* &itr)
     {
-        if(~low[v]) return ~comp[v] ? -1 : low[v];
-        size_t idx = c++; low[v] = idx; *itr++ = v;
-        for(int u : graph[v]) low[v] = std::min(low[v], affix(u, c, itr));
-        if(low[v] == idx) { do { comp[*--itr] = cnt; } while(*itr != v); ++cnt; }
-        return low[v];
+        if(~low[src]) return ~comp[src] ? -1 : low[src];
+        size_t idx = c++; low[src] = idx; *itr++ = src;
+        for(size_t dst : graph[src]) low[src] = std::min(low[src], affix(dst, c, itr));
+        if(low[src] == idx) { do { comp[*--itr] = cnt; } while(*itr != src); ++cnt; }
+        return low[src];
     }
 }; // class strongly_connected_components
 
