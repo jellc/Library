@@ -25,15 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/coordinate_compression.hpp
+# :heavy_check_mark: utils/coordinate_compression.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/coordinate_compression.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-27 01:14:00+09:00
+    - Last commit date: 2020-08-03 02:03:38+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 
 
 ## Code
@@ -52,25 +57,27 @@ class coordinate_compression
     std::vector<size_t> compressed;
 
 public:
-    coordinate_compression(const std::vector<T> &raw) : uniquely(raw), compressed(uniquely.size())
+    coordinate_compression(const std::vector<T> &raw) : uniquely(raw), compressed(raw.size())
     {
         std::sort(uniquely.begin(), uniquely.end());
         uniquely.erase(std::unique(uniquely.begin(), uniquely.end()), uniquely.end());
-        for(size_t i = 0; i != raw.size(); ++i)
+        for(size_t i = 0; i != size(); ++i)
             compressed[i] = std::lower_bound(uniquely.begin(), uniquely.end(), raw[i]) - uniquely.begin();
     }
 
     size_t operator[](const size_t idx) const
     {
-        assert(idx < compressed.size());
+        assert(idx < size());
         return compressed[idx];
     }
 
-    size_t kind() const { return uniquely.size(); }
+    size_t size() const { return compressed.size(); }
 
-    T restore(const size_t ord) const
+    size_t count() const { return uniquely.size(); }
+
+    T value_of(const size_t ord) const
     {
-        assert(ord < uniquely.size());
+        assert(ord < count());
         return uniquely[ord];
     }
 
@@ -78,8 +85,8 @@ public:
 
     std::vector<size_t>::iterator begin() { return compressed.begin(); }
     std::vector<size_t>::iterator end() { return compressed.end(); }
-    std::vector<size_t>::iterator rbegin() { return compressed.rbegin(); }
-    std::vector<size_t>::iterator rend() { return compressed.rend(); }
+    std::vector<size_t>::reverse_iterator rbegin() { return compressed.rbegin(); }
+    std::vector<size_t>::reverse_iterator rend() { return compressed.rend(); }
 };
 ```
 {% endraw %}
@@ -99,25 +106,27 @@ class coordinate_compression
     std::vector<size_t> compressed;
 
 public:
-    coordinate_compression(const std::vector<T> &raw) : uniquely(raw), compressed(uniquely.size())
+    coordinate_compression(const std::vector<T> &raw) : uniquely(raw), compressed(raw.size())
     {
         std::sort(uniquely.begin(), uniquely.end());
         uniquely.erase(std::unique(uniquely.begin(), uniquely.end()), uniquely.end());
-        for(size_t i = 0; i != raw.size(); ++i)
+        for(size_t i = 0; i != size(); ++i)
             compressed[i] = std::lower_bound(uniquely.begin(), uniquely.end(), raw[i]) - uniquely.begin();
     }
 
     size_t operator[](const size_t idx) const
     {
-        assert(idx < compressed.size());
+        assert(idx < size());
         return compressed[idx];
     }
 
-    size_t kind() const { return uniquely.size(); }
+    size_t size() const { return compressed.size(); }
 
-    T restore(const size_t ord) const
+    size_t count() const { return uniquely.size(); }
+
+    T value_of(const size_t ord) const
     {
-        assert(ord < uniquely.size());
+        assert(ord < count());
         return uniquely[ord];
     }
 
@@ -125,8 +134,8 @@ public:
 
     std::vector<size_t>::iterator begin() { return compressed.begin(); }
     std::vector<size_t>::iterator end() { return compressed.end(); }
-    std::vector<size_t>::iterator rbegin() { return compressed.rbegin(); }
-    std::vector<size_t>::iterator rend() { return compressed.rend(); }
+    std::vector<size_t>::reverse_iterator rbegin() { return compressed.rbegin(); }
+    std::vector<size_t>::reverse_iterator rend() { return compressed.rend(); }
 };
 
 ```

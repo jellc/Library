@@ -39,7 +39,6 @@ layout: default
 ### .
 
 * :warning: <a href="library/Fenwick_tree.cpp.html">Fenwick_tree.cpp</a>
-* :warning: <a href="library/Mo.hpp.html">Mo.hpp</a>
 * :warning: <a href="library/SplayTree.cpp.html">SplayTree.cpp</a>
 * :warning: <a href="library/flow.cpp.html">flow.cpp</a>
 * :warning: <a href="library/math_utility.cpp.html">math_utility.cpp</a>
@@ -94,6 +93,7 @@ layout: default
 ### data_structure
 
 * :warning: <a href="library/data_structure/Additional_union_find.hpp.html">data_structure/Additional_union_find.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
 * :warning: <a href="library/data_structure/Skew_heap.hpp.html">data_structure/Skew_heap.hpp</a>
 * :warning: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
 
@@ -202,7 +202,7 @@ layout: default
 ### utils
 
 * :warning: <a href="library/utils/Prime_factorizer.hpp.html">utils/Prime_factorizer.hpp</a>
-* :warning: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
+* :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/xor_elimination.hpp.html">utils/xor_elimination.hpp</a>
 
@@ -211,6 +211,7 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>

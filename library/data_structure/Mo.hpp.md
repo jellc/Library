@@ -21,19 +21,24 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: Mo.hpp
+# :heavy_check_mark: data_structure/Mo.hpp
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 
-* category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
-* <a href="{{ site.github.repository_url }}/blob/master/Mo.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-04 02:37:44+09:00
+* category: <a href="../../index.html#c8f6850ec2ec3fb32f203c1f4e3c2fd2">data_structure</a>
+* <a href="{{ site.github.repository_url }}/blob/master/data_structure/Mo.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-03 02:03:38+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 
 
 ## Code
@@ -41,38 +46,24 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#include <cassert>
 #include <cmath>
 #include <functional>
 #include <vector>
 #include <numeric>
 
+template <class Add, class Del>
 class Mo
 {
-    using updater = std::function<void(size_t)>;
-    updater add, rmv;
+    Add add; Del del;
     std::vector<size_t> lft, rgt, ord;
-    bool is_built;
-    const size_t width;
-    size_t nl, nr;
     std::vector<size_t>::iterator itr;
+    bool made;
+    size_t width, nl, nr;
 
-public:
-    Mo(size_t _n, updater _add, updater _rmv)
-        : add(_add), rmv(_rmv), is_built(), width(std::sqrt(_n)), nl(0), nr(0)
-    {}
-
-    size_t left() const { return nl; }
-    size_t right() const { return nr; }
-
-    void insert(size_t l, size_t r)
+    void make()
     {
-        lft.emplace_back(l), rgt.emplace_back(r);
-        is_built = false;
-    }
-
-    void build()
-    {
-        is_built = true;
+        made = true;
         ord.resize(lft.size());
         std::iota(ord.begin(), ord.end(), 0);
         std::sort(ord.begin(), ord.end(),
@@ -84,16 +75,26 @@ public:
         itr = ord.begin();
     }
 
+public:
+    Mo(size_t n = 0, Add add = Add(), Del del = Del())
+        : add(add), del(del), made(), width(sqrt(n)), nl(), nr() {}
+
+    void set(size_t l, size_t r)
+    {
+        assert(!made);
+        lft.emplace_back(l), rgt.emplace_back(r);
+    }
+
     size_t process()
     {
-        if(!is_built) build();
+        if(!made) make();
         if(itr == ord.end()) return ord.size();
-        const size_t now = *itr;
+        size_t now = *itr++;
         while(nl > lft[now]) add(--nl);
         while(nr < rgt[now]) add(nr++);
-        while(nl < lft[now]) rmv(nl++);
-        while(nr > rgt[now]) rmv(--nr);
-        return *itr++;
+        while(nl < lft[now]) del(nl++);
+        while(nr > rgt[now]) del(--nr);
+        return now;
     }
 };
 
@@ -103,39 +104,25 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "Mo.hpp"
+#line 1 "data_structure/Mo.hpp"
+#include <cassert>
 #include <cmath>
 #include <functional>
 #include <vector>
 #include <numeric>
 
+template <class Add, class Del>
 class Mo
 {
-    using updater = std::function<void(size_t)>;
-    updater add, rmv;
+    Add add; Del del;
     std::vector<size_t> lft, rgt, ord;
-    bool is_built;
-    const size_t width;
-    size_t nl, nr;
     std::vector<size_t>::iterator itr;
+    bool made;
+    size_t width, nl, nr;
 
-public:
-    Mo(size_t _n, updater _add, updater _rmv)
-        : add(_add), rmv(_rmv), is_built(), width(std::sqrt(_n)), nl(0), nr(0)
-    {}
-
-    size_t left() const { return nl; }
-    size_t right() const { return nr; }
-
-    void insert(size_t l, size_t r)
+    void make()
     {
-        lft.emplace_back(l), rgt.emplace_back(r);
-        is_built = false;
-    }
-
-    void build()
-    {
-        is_built = true;
+        made = true;
         ord.resize(lft.size());
         std::iota(ord.begin(), ord.end(), 0);
         std::sort(ord.begin(), ord.end(),
@@ -147,21 +134,31 @@ public:
         itr = ord.begin();
     }
 
+public:
+    Mo(size_t n = 0, Add add = Add(), Del del = Del())
+        : add(add), del(del), made(), width(sqrt(n)), nl(), nr() {}
+
+    void set(size_t l, size_t r)
+    {
+        assert(!made);
+        lft.emplace_back(l), rgt.emplace_back(r);
+    }
+
     size_t process()
     {
-        if(!is_built) build();
+        if(!made) make();
         if(itr == ord.end()) return ord.size();
-        const size_t now = *itr;
+        size_t now = *itr++;
         while(nl > lft[now]) add(--nl);
         while(nr < rgt[now]) add(nr++);
-        while(nl < lft[now]) rmv(nl++);
-        while(nr > rgt[now]) rmv(--nr);
-        return *itr++;
+        while(nl < lft[now]) del(nl++);
+        while(nr > rgt[now]) del(--nr);
+        return now;
     }
 };
 
 ```
 {% endraw %}
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 
