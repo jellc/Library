@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: string/Z_algorithm.hpp
+# :heavy_check_mark: string/Z_algorithm.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,6 +34,11 @@ layout: default
     - Last commit date: 2020-08-03 00:57:20+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 
 
 ## Code

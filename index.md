@@ -191,7 +191,7 @@ layout: default
 ### string
 
 * :warning: <a href="library/string/Manacher.hpp.html">string/Manacher.hpp</a>
-* :warning: <a href="library/string/Z_algorithm.hpp.html">string/Z_algorithm.hpp</a>
+* :heavy_check_mark: <a href="library/string/Z_algorithm.hpp.html">string/Z_algorithm.hpp</a>
 * :warning: <a href="library/string/binary_trie.hpp.html">string/binary_trie.hpp</a>
 * :heavy_check_mark: <a href="library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
 * :warning: <a href="library/string/trie.hpp.html">string/trie.hpp</a>
@@ -213,6 +213,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
-* :x: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 
 
