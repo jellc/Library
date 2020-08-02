@@ -167,7 +167,7 @@ layout: default
 ### graph/undirected/tree
 
 * :warning: <a href="library/graph/undirected/tree/centroid_decomposition.hpp.html">graph/undirected/tree/centroid_decomposition.hpp</a>
-* :warning: <a href="library/graph/undirected/tree/lowest_common_ancestor.hpp.html">graph/undirected/tree/lowest_common_ancestor.hpp</a>
+* :x: <a href="library/graph/undirected/tree/lowest_common_ancestor.hpp.html">graph/undirected/tree/lowest_common_ancestor.hpp</a>
 
 
 <div id="228c70bfc5589c58c044e03fff0e17eb"></div>
@@ -209,6 +209,7 @@ layout: default
 
 ## Verify Files
 
+* :x: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 
 
