@@ -10,7 +10,7 @@ class suffix_array
 {
     static constexpr size_t npos = -1;
     str_type str;
-    std::vector<size_t> sa, rank;
+    std::vector<size_t> sa, rank, lcp;
 
     void construct_sa()
     {
@@ -41,31 +41,39 @@ class suffix_array
         rank.emplace_back(0);
     }
 
+    void construct_lcp()
+    {
+        for(size_t i{}, h{}; i != size(); ++i, h = h ? h - 1 : 0)
+        {
+            for(size_t j{sa[rank[i] - 1] + h}; i + h != size() && j != size(); ++j, ++h)
+                if(str[i + h] != str[j]) break;
+            lcp[rank[i] - 1] = h;
+        }
+    }
+
 public:
-    // using value_type = typename str_type::value_type;
+    using value_type = typename str_type::value_type;
 
-    operator std::vector<size_t>() const { return sa; }
-
-    std::vector<size_t>::const_iterator begin() const { return sa.begin(); }
+    std::vector<size_t>::const_iterator begin() const { return sa.begin() + 1; }
     std::vector<size_t>::const_iterator end() const { return sa.end(); }
 
     size_t operator[](size_t i) const { return sa[i + 1]; }
 
-    const str_type &string() const { return str; }
-
     size_t size() const { return std::size(str); }
 
     template <class type = str_type, typename = typename type::value_type>
-    suffix_array(const str_type &_str) : str(_str), sa(size()), rank(size())
+    suffix_array(const str_type &_str) : str(_str), sa(size()), rank(size()), lcp(size())
     {
         construct_sa();
+        construct_lcp();
     }
 
-    template <class type = str_type, enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
-    suffix_array(const str_type &_str) : sa(size()), rank(size())
+    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
+    suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())
     {
         std::copy(std::begin(_str), std::end(_str), str);
         construct_sa();
+        construct_lcp();
     }
 
     size_t find(const str_type &key) const
@@ -75,8 +83,8 @@ public:
         size_t lower{npos}, upper{size()};
         while(upper - lower > 1)
         {
-            size_t mid{(lower + upper) >> 1};
-            bool less{};
+            size_t mid = (lower + upper) >> 1;
+            bool less = false;
             for(auto i{begin(str) + sa[mid]}, j{begin(key)}; j != end(key); ++i, ++j)
             {
                 if(i == end(str) || *i < *j)
@@ -96,19 +104,7 @@ public:
         return sa[upper];
     }
 
-    std::vector<size_t> lcp_array() const
-    {
-        static std::vector<size_t> lcp;
-        if(!lcp.empty()) return lcp;
-        lcp.resize(size());
-        for(size_t i{}, h{}; i != size(); ++i, h = h ? h - 1 : 0)
-        {
-            for(size_t j{sa[rank[i] - 1] + h}; i + h != size() && j != size(); ++j, ++h)
-                if(str[i + h] != str[j]) break;
-            lcp[rank[i] - 1] = h;
-        }
-        return lcp;
-    }
+    const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
 
 #endif // suffix_array_hpp
