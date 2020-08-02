@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: string/Z-algorithm.hpp
+# :warning: string/Z_algorithm.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
-* <a href="{{ site.github.repository_url }}/blob/master/string/Z-algorithm.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-01-15 19:00:20+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/string/Z_algorithm.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-03 00:57:20+09:00
 
 
 
@@ -41,27 +41,22 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-// #line 2 "Z_algorithm_hpp"
 #ifndef Z_algorithm_hpp
 #define Z_algorithm_hpp
-#include <string>
 
-template <class A = std::string>
+#include <string>
+#include <vector>
+
+template <class str_type = std::string>
 class Z_algorithm
 {
-    const A key;
-    const size_t len;
+    str_type key;
     std::vector<size_t> z;
-    bool is_built;
-  public:
-    Z_algorithm(const A &_key) : key(_key), len(_key.size()), is_built(false) {}
 
-    const std::vector<size_t> &build()
+    void make()
     {
-        assert(len);
-        is_built = true;
-        z.assign(len, 0);
-        for(size_t i{1}, j{0}; i != len; ++i)
+        if(z.empty()) return;
+        for(size_t i{1}, j{0}; i != size(); ++i)
         {
             if(z[i - j] + i < z[j] + j)
             {
@@ -70,26 +65,31 @@ class Z_algorithm
             else
             {
                 size_t k{z[j] + j > i ? z[j] + j - i : 0};
-                while(k + i < len && key[k] == key[k + i]) ++k;
+                while(k + i < size() && key[k] == key[k + i]) ++k;
                 z[i] = k;
                 j = i;
             }
         }
-        z.front() = len;
-        return z;
+        z.front() = size();
     }
 
-    size_t size() const { return len; }
-    size_t operator[](size_t i) const { return build(), z[i]; }
+public:
+    Z_algorithm(const str_type &key) : key(key), z(size()) { make(); }
 
-    std::vector<size_t> pattern_search(const A &str) const
+    std::vector<size_t>::const_iterator begin() const { return z.begin(); }
+    std::vector<size_t>::const_iterator end() const { return z.end(); }
+
+    size_t size() const { return key.size(); }
+
+    size_t operator[](size_t i) { assert(i < size()); return z[i]; }
+
+    std::vector<size_t> pattern_search(const str_type &str) const
     {
-        A tmp(key);
-        tmp.insert(end(tmp), begin(str), end(str));
-        Z_algorithm other(tmp);
-        const auto &nz(other.build());
-        std::vector<size_t> res(nz.begin() + len, nz.end());
-        for(size_t &x : res) if(x > len) x = len;
+        str_type ccat(key);
+        ccat.insert(end(ccat), begin(str), end(str));
+        Z_algorithm z(ccat);
+        std::vector<size_t> res(z.begin() + size(), z.end());
+        for(size_t &x : res) if(x > size()) x = size();
         return res;
     }
 };
@@ -102,28 +102,23 @@ class Z_algorithm
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "string/Z-algorithm.hpp"
-// #line 2 "Z_algorithm_hpp"
-#ifndef Z_algorithm_hpp
-#define Z_algorithm_hpp
-#include <string>
+#line 1 "string/Z_algorithm.hpp"
 
-template <class A = std::string>
+
+
+#include <string>
+#include <vector>
+
+template <class str_type = std::string>
 class Z_algorithm
 {
-    const A key;
-    const size_t len;
+    str_type key;
     std::vector<size_t> z;
-    bool is_built;
-  public:
-    Z_algorithm(const A &_key) : key(_key), len(_key.size()), is_built(false) {}
 
-    const std::vector<size_t> &build()
+    void make()
     {
-        assert(len);
-        is_built = true;
-        z.assign(len, 0);
-        for(size_t i{1}, j{0}; i != len; ++i)
+        if(z.empty()) return;
+        for(size_t i{1}, j{0}; i != size(); ++i)
         {
             if(z[i - j] + i < z[j] + j)
             {
@@ -132,31 +127,36 @@ class Z_algorithm
             else
             {
                 size_t k{z[j] + j > i ? z[j] + j - i : 0};
-                while(k + i < len && key[k] == key[k + i]) ++k;
+                while(k + i < size() && key[k] == key[k + i]) ++k;
                 z[i] = k;
                 j = i;
             }
         }
-        z.front() = len;
-        return z;
+        z.front() = size();
     }
 
-    size_t size() const { return len; }
-    size_t operator[](size_t i) const { return build(), z[i]; }
+public:
+    Z_algorithm(const str_type &key) : key(key), z(size()) { make(); }
 
-    std::vector<size_t> pattern_search(const A &str) const
+    std::vector<size_t>::const_iterator begin() const { return z.begin(); }
+    std::vector<size_t>::const_iterator end() const { return z.end(); }
+
+    size_t size() const { return key.size(); }
+
+    size_t operator[](size_t i) { assert(i < size()); return z[i]; }
+
+    std::vector<size_t> pattern_search(const str_type &str) const
     {
-        A tmp(key);
-        tmp.insert(end(tmp), begin(str), end(str));
-        Z_algorithm other(tmp);
-        const auto &nz(other.build());
-        std::vector<size_t> res(nz.begin() + len, nz.end());
-        for(size_t &x : res) if(x > len) x = len;
+        str_type ccat(key);
+        ccat.insert(end(ccat), begin(str), end(str));
+        Z_algorithm z(ccat);
+        std::vector<size_t> res(z.begin() + size(), z.end());
+        for(size_t &x : res) if(x > size()) x = size();
         return res;
     }
 };
 
-#endif
+
 
 ```
 {% endraw %}
