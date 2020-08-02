@@ -68,7 +68,7 @@ public:
         construct_lcp();
     }
 
-    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, nullptr_t> = nullptr>
+    template <class type = str_type, std::enable_if_t<std::is_array<type>::value, std::nullptr_t> = nullptr>
     suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())
     {
         std::copy(std::begin(_str), std::end(_str), str);
