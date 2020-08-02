@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <algorithm>
 
-main()
+signed main()
 {
     int v,e;
     scanf("%d%d",&v,&e);
