@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#6a766f280bf2a78039d52a3337357612">modulus/compile-time</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/compile-time/modint.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 14:26:38+09:00
+    - Last commit date: 2020-08-03 15:55:53+09:00
 
 
 
@@ -39,6 +39,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="../../../verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 
 
 ## Code
@@ -46,7 +47,6 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-
 #ifndef modint_hpp
 #define modint_hpp
 #include <cassert>
@@ -141,8 +141,7 @@ public:
 ```cpp
 #line 1 "modulus/compile-time/modint.hpp"
 
-#ifndef modint_hpp
-#define modint_hpp
+
 #include <cassert>
 #include <iostream>
 
@@ -226,7 +225,7 @@ public:
     friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long val; rhs.val = (is >> val, val & 1); return is; }
 }; // class modint<2>
 
-#endif // modint_hpp
+
 
 ```
 {% endraw %}
