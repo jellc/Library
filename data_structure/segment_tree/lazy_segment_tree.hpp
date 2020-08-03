@@ -1,21 +1,22 @@
 #include <cassert>
 #include <vector>
 
-template <class monoid, class homomorphism>
+template <class monoid, class endomorphism>
 class lazy_segment_tree
 {
     using size_type = typename std::vector<monoid>::size_type;
+    template <class T> using container_type = std::vector<T>;
 
     size_type size_orig, height, size_ext;
-    std::vector<monoid> data;
-    std::vector<homomorphism> lazy;
+    container_type<monoid> data;
+    container_type<endomorphism> lazy;
 
     void recalc(const size_type node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
-    void apply(size_type index, const homomorphism &homo)
+    void apply(size_type index, const endomorphism &endo)
     {
-        homo.apply(data[index]);
-        if(index < size_ext) lazy[index] *= homo;
+        endo.apply(data[index]);
+        if(index < size_ext) lazy[index] *= endo;
     }
 
     void push(size_type index)
@@ -23,7 +24,7 @@ class lazy_segment_tree
         if(index >= size_ext) return;
         apply(index << 1, lazy[index]);
         apply(index << 1 | 1, lazy[index]);
-        lazy[index] = homomorphism{};
+        lazy[index] = endomorphism{};
     }
 
     template <class pred_type>
@@ -79,9 +80,9 @@ public:
 
     monoid operator[](size_type index) { return fold(index, index + 1); }
 
-    void update(const size_type index, const homomorphism &homo) { update(index, index + 1, homo); }
+    void update(const size_type index, const endomorphism &endo) { update(index, index + 1, endo); }
 
-    void update(size_type first, size_type last, const homomorphism &homo)
+    void update(size_type first, size_type last, const endomorphism &endo)
     {
         assert(last <= size_orig);
         if(first >= last) return;
@@ -91,8 +92,8 @@ public:
         {
             if(l < r)
             {
-                if(l & 1) apply(l++, homo);
-                if(r & 1) apply(--r, homo);
+                if(l & 1) apply(l++, endo);
+                if(r & 1) apply(--r, endo);
             }
             if(first >>= 1, last >>= 1)
             {

@@ -1,4 +1,3 @@
-
 #ifndef modint_hpp
 #define modint_hpp
 #include <cassert>
