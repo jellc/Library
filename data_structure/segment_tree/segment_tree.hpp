@@ -5,6 +5,7 @@ template <class monoid>
 class segment_tree
 {
     using size_type = typename std::vector<monoid>::size_type;
+    using container_type = std::vector<monoid>;
 
     class unique_queue
     {
@@ -27,7 +28,7 @@ class segment_tree
     }; // struct unique_queue
 
     size_type size_orig, height, size_ext;
-    std::vector<monoid> data;
+    container_type data;
     unique_queue que;
 
     void recalc(const size_type node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
@@ -92,7 +93,7 @@ public:
     size_type capacity() const { return size_ext; }
 
     // reference to the element at the index.
-    typename decltype(data)::reference operator[](size_type index)
+    monoid &operator[](size_type index)
     {
         assert(index < size_orig);
         que.push(index |= size_ext);
@@ -100,7 +101,7 @@ public:
     }
 
     // const reference to the element at the index.
-    typename decltype(data)::const_reference operator[](size_type index) const
+    const monoid &operator[](size_type index) const
     {
         assert(index < size_orig);
         return data[index |= size_orig];
