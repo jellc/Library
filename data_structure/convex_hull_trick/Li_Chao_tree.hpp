@@ -1,12 +1,12 @@
 #include <cassert>
 #include <functional>
 
-template <class T = long long, class Comp = std::less<T>>
+template <class T = long long, class Comp = std::less<T>, T infty = std::numeric_limits<T>::max()>
 class Li_Chao_tree
 {
     struct line
     {
-        T slop, icpt;
+        T slop = 0, icpt = infty;
         line *lch = nullptr, *rch = nullptr;
         ~line() { delete lch; delete rch; }
         line *swap(line &rhs) { std::swap(slop, rhs.slop); std::swap(icpt, rhs.icpt); return this; }
@@ -43,9 +43,10 @@ class Li_Chao_tree
         T mid = (l + r) / 2;
         if(l < s or t < r)
         {
-            p->lch = insert(p->lch, l, mid, ln, s, t);
-            p->rch = insert(p->rch, mid, r, ln, s, t);
-            return p;
+            line *np = p ? p : new line;
+            np->lch = insert(np->lch, l, mid, ln, s, t);
+            np->rch = insert(np->rch, mid, r, ln, s, t);
+            return np;
         }
         if(!p) return new line(ln);
         bool lcmp = comp(ln.eval(l), p->eval(l));
@@ -80,10 +81,9 @@ public:
 
     T get(const T x) const
     {
-        assert(!empty());
         line *p = root;
         T l = lower, r = upper;
-        T res = p->eval(x);
+        T res = infty;
         while(p)
         {
             T nval = p->eval(x);
