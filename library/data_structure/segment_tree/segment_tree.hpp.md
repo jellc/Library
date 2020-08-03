@@ -25,15 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :warning: data_structure/segment_tree/segment_tree.hpp
+# :heavy_check_mark: data_structure/segment_tree/segment_tree.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#fba856dbe1aaa5374a50a27f6dcea717">data_structure/segment_tree</a>
 * <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/segment_tree.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-08 02:39:24+09:00
+    - Last commit date: 2020-08-03 14:26:38+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
 
 
 ## Code
@@ -48,6 +53,7 @@ template <class monoid>
 class segment_tree
 {
     using size_type = typename std::vector<monoid>::size_type;
+    using container_type = std::vector<monoid>;
 
     class unique_queue
     {
@@ -70,7 +76,7 @@ class segment_tree
     }; // struct unique_queue
 
     size_type size_orig, height, size_ext;
-    std::vector<monoid> data;
+    container_type data;
     unique_queue que;
 
     void recalc(const size_type node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
@@ -135,7 +141,7 @@ public:
     size_type capacity() const { return size_ext; }
 
     // reference to the element at the index.
-    typename decltype(data)::reference operator[](size_type index)
+    monoid &operator[](size_type index)
     {
         assert(index < size_orig);
         que.push(index |= size_ext);
@@ -143,7 +149,7 @@ public:
     }
 
     // const reference to the element at the index.
-    typename decltype(data)::const_reference operator[](size_type index) const
+    const monoid &operator[](size_type index) const
     {
         assert(index < size_orig);
         return data[index |= size_orig];
@@ -219,6 +225,7 @@ template <class monoid>
 class segment_tree
 {
     using size_type = typename std::vector<monoid>::size_type;
+    using container_type = std::vector<monoid>;
 
     class unique_queue
     {
@@ -241,7 +248,7 @@ class segment_tree
     }; // struct unique_queue
 
     size_type size_orig, height, size_ext;
-    std::vector<monoid> data;
+    container_type data;
     unique_queue que;
 
     void recalc(const size_type node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
@@ -306,7 +313,7 @@ public:
     size_type capacity() const { return size_ext; }
 
     // reference to the element at the index.
-    typename decltype(data)::reference operator[](size_type index)
+    monoid &operator[](size_type index)
     {
         assert(index < size_orig);
         que.push(index |= size_ext);
@@ -314,7 +321,7 @@ public:
     }
 
     // const reference to the element at the index.
-    typename decltype(data)::const_reference operator[](size_type index) const
+    const monoid &operator[](size_type index) const
     {
         assert(index < size_orig);
         return data[index |= size_orig];

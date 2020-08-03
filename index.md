@@ -67,7 +67,6 @@ layout: default
 ### combinatorics/compile-time
 
 * :warning: <a href="library/combinatorics/compile-time/binomial.hpp.html">combinatorics/compile-time/binomial.hpp</a>
-* :warning: <a href="library/combinatorics/compile-time/modint.hpp.html">combinatorics/compile-time/modint.hpp</a>
 
 
 <div id="9b42923a08378df87ca8c99d4e4e8f68"></div>
@@ -111,7 +110,7 @@ layout: default
 ### data_structure/segment_tree
 
 * :warning: <a href="library/data_structure/segment_tree/lazy_segment_tree.hpp.html">data_structure/segment_tree/lazy_segment_tree.hpp</a>
-* :warning: <a href="library/data_structure/segment_tree/segment_tree.hpp.html">data_structure/segment_tree/segment_tree.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/segment_tree/segment_tree.hpp.html">data_structure/segment_tree/segment_tree.hpp</a>
 
 
 <div id="179a1779a4b5d0e82b6c0fb4370c45e9"></div>
@@ -186,6 +185,13 @@ layout: default
 * :warning: <a href="library/local/dump.hpp.html">local/dump.hpp</a>
 
 
+<div id="6a766f280bf2a78039d52a3337357612"></div>
+
+### modulus/compile-time
+
+* :heavy_check_mark: <a href="library/modulus/compile-time/modint.hpp.html">modulus/compile-time/modint.hpp</a>
+
+
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
 
 ### string
@@ -211,6 +217,7 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
