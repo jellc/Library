@@ -1,7 +1,8 @@
 {
 "test/library-checker/lowest_common_ancestor.test.cpp": "2020-08-02 22:50:20 +0900",
 "test/library-checker/number_of_substrings.test.cpp": "2020-08-03 00:23:34 +0900",
-"test/library-checker/point_set_range_composite.test.cpp": "2020-08-03 14:26:38 +0900",
+"test/library-checker/point_set_range_composite.test.cpp": "2020-08-03 15:55:53 +0900",
+"test/library-checker/range_affine_range_sum.test.cpp": "2020-08-03 15:55:53 +0900",
 "test/library-checker/range_kth_smallest.test.cpp": "2020-08-03 02:47:43 +0900",
 "test/library-checker/scc.test.cpp": "2020-08-03 03:53:14 +0900",
 "test/library-checker/suffix_array.test.cpp": "2020-08-03 00:23:34 +0900",
