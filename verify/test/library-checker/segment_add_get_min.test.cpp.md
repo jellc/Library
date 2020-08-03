@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+# :heavy_check_mark: test/library-checker/segment_add_get_min.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
-* category: <a href="../../../index.html#85c1e2c9a6a68b0da546cc8076233cc6">data_structure/convex_hull_trick</a>
-* <a href="{{ site.github.repository_url }}/blob/master/data_structure/convex_hull_trick/Li_Chao_tree.hpp">View this file on GitHub</a>
+* category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/segment_add_get_min.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-08-04 02:46:58+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/segment_add_get_min">https://judge.yosupo.jp/problem/segment_add_get_min</a>
 
 
-## Verified with
+## Depends on
 
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/segment_add_get_min.test.cpp.html">test/library-checker/segment_add_get_min.test.cpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html">data_structure/convex_hull_trick/Li_Chao_tree.hpp</a>
 
 
 ## Code
@@ -46,112 +47,42 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#include <cassert>
-#include <functional>
+#define PROBLEM "https://judge.yosupo.jp/problem/segment_add_get_min"
+#include "../../data_structure/convex_hull_trick/Li_Chao_tree.hpp"
+#include <cstdio>
+using i64=int64_t;
 
-template <class T = long long, class Comp = std::less<T>, T infty = std::numeric_limits<T>::max()>
-class Li_Chao_tree
+int main()
 {
-    struct line
+    int n,q;
+    scanf("%d%d",&n,&q);
+    Li_Chao_tree<i64> cht(-1e9,1e9);
+    while(n--)
     {
-        T slop = 0, icpt = infty;
-        line *lch = nullptr, *rch = nullptr;
-        ~line() { delete lch; delete rch; }
-        line *swap(line &rhs) { std::swap(slop, rhs.slop); std::swap(icpt, rhs.icpt); return this; }
-        T eval(const T x) const { return slop * x + icpt; }
-    }; // struct line
-
-    T lower, upper, eps;
-    Comp comp;
-    line *root = nullptr;
-
-    // // insert a line for the interval [l, r).
-    line *insert(line *const p, const T l, const T r, line ln)
-    {
-        if(!p) return new line(ln);
-        bool lcmp = comp(ln.eval(l), p->eval(l));
-        bool rcmp = comp(ln.eval(r - eps), p->eval(r - eps));
-        if(lcmp == rcmp) return lcmp ? p->swap(ln) : p;
-        if(r - l <= eps) return p;
-        T mid = (l + r) / 2;
-        if(comp(ln.eval(mid), p->eval(mid)))
-        {
-            p->swap(ln);
-            lcmp = !lcmp;
-        }
-        if(lcmp) p->lch = insert(p->lch, l, mid, ln);
-        else p->rch = insert(p->rch, mid, r, ln);
-        return p;
+        int l,r,a; i64 b;
+        scanf("%d%d%d%lld",&l,&r,&a,&b);
+        cht.insert(a,b,l,r);
     }
-
-    // // insert a segment for the interval [l, r).
-    line *insert(line *const p, const T l, const T r, line ln, const T s, const T t)
+    while(q--)
     {
-        if(t - eps < l || r - eps < s) return p;
-        T mid = (l + r) / 2;
-        if(l < s or t < r)
+        int t;
+        scanf("%d",&t);
+        if(t)
         {
-            line *np = p ? p : new line;
-            np->lch = insert(np->lch, l, mid, ln, s, t);
-            np->rch = insert(np->rch, mid, r, ln, s, t);
-            return np;
+            int p;
+            scanf("%d",&p);
+            i64 ans=cht.get(p);
+            if(ans==INT64_MAX) puts("INFINITY");
+            else printf("%lld\n",ans);
         }
-        if(!p) return new line(ln);
-        bool lcmp = comp(ln.eval(l), p->eval(l));
-        bool rcmp = comp(ln.eval(r - eps), p->eval(r - eps));
-        if(lcmp == rcmp) return lcmp ? p->swap(ln) : p;
-        if(r - l <= eps) return p;
-        if(comp(ln.eval(mid), p->eval(mid)))
+        else
         {
-            p->swap(ln);
-            lcmp = !lcmp;
+            int l,r,a; i64 b;
+            scanf("%d%d%d%lld",&l,&r,&a,&b);
+            cht.insert(a,b,l,r);
         }
-        if(lcmp) p->lch = insert(p->lch, l, mid, ln, s, t);
-        else p->rch = insert(p->rch, mid, r, ln, s, t);
-        return p;
     }
-
-public:
-    // domain set to be the interval [lower, upper).
-    Li_Chao_tree(const T lower, const T upper, const T eps = 1, Comp comp = Comp())
-        : lower(lower), upper(upper), eps(eps), comp(comp) {}
-
-    ~Li_Chao_tree() { delete root; }
-
-    bool empty() const { return !root; }
-
-    // insert a line whose slope is p and inception is q.
-    void insert(const T p, const T q) { root = insert(root, lower, upper, line{p, q}); }
-
-    // insert a line(segment) whose slope is p, inception is q,
-    // and domain is the interval [s, t).
-    void insert(const T p, const T q, const T s, const T t) { if(s < t) root = insert(root, lower, upper, line{p, q}, s, t); }
-
-    T get(const T x) const
-    {
-        line *p = root;
-        T l = lower, r = upper;
-        T res = infty;
-        while(p)
-        {
-            T nval = p->eval(x);
-            if(comp(nval, res)) res = nval;
-            if(r - l <= eps) return res;
-            T mid = (l + r) / 2;
-            if(x < mid)
-            {
-                p = p->lch;
-                r = mid;
-            }
-            else
-            {
-                p = p->rch;
-                l = mid;
-            }
-        }
-        return res;
-    }
-}; // class Li_Chao_tree
+}
 
 ```
 {% endraw %}
@@ -159,6 +90,8 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/library-checker/segment_add_get_min.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/segment_add_get_min"
 #line 1 "data_structure/convex_hull_trick/Li_Chao_tree.hpp"
 #include <cassert>
 #include <functional>
@@ -266,6 +199,41 @@ public:
         return res;
     }
 }; // class Li_Chao_tree
+#line 3 "test/library-checker/segment_add_get_min.test.cpp"
+#include <cstdio>
+using i64=int64_t;
+
+int main()
+{
+    int n,q;
+    scanf("%d%d",&n,&q);
+    Li_Chao_tree<i64> cht(-1e9,1e9);
+    while(n--)
+    {
+        int l,r,a; i64 b;
+        scanf("%d%d%d%lld",&l,&r,&a,&b);
+        cht.insert(a,b,l,r);
+    }
+    while(q--)
+    {
+        int t;
+        scanf("%d",&t);
+        if(t)
+        {
+            int p;
+            scanf("%d",&p);
+            i64 ans=cht.get(p);
+            if(ans==INT64_MAX) puts("INFINITY");
+            else printf("%lld\n",ans);
+        }
+        else
+        {
+            int l,r,a; i64 b;
+            scanf("%d%d%d%lld",&l,&r,&a,&b);
+            cht.insert(a,b,l,r);
+        }
+    }
+}
 
 ```
 {% endraw %}

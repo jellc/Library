@@ -101,7 +101,7 @@ layout: default
 
 ### data_structure/convex_hull_trick
 
-* :warning: <a href="library/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html">data_structure/convex_hull_trick/Li_Chao_tree.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html">data_structure/convex_hull_trick/Li_Chao_tree.hpp</a>
 * :warning: <a href="library/data_structure/convex_hull_trick/monotone.hpp.html">data_structure/convex_hull_trick/monotone.hpp</a>
 
 
@@ -221,6 +221,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/segment_add_get_min.test.cpp.html">test/library-checker/segment_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
