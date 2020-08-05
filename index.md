@@ -216,8 +216,10 @@ layout: default
 ### utils
 
 * :warning: <a href="library/utils/Prime_factorizer.hpp.html">utils/Prime_factorizer.hpp</a>
+* :warning: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
 * :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
+* :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :warning: <a href="library/utils/hash_overload.hpp.html">utils/hash_overload.hpp</a>
 * :warning: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
