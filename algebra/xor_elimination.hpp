@@ -11,4 +11,4 @@ struct xor_elimination
         return e;
     }
     size_t dim() const { return base.size(); }
-}; // struct binary_elimination
+};
