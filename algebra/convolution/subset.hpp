@@ -12,7 +12,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     {
         for(size_t i = k + 1; ~i; --i)
         {
-            for(size_t s = 0; s != 1 << n; ++s)
+            for(size_t s = 0; s != 1u << n; ++s)
             {
                 if(s >> k & 1)
                 {
@@ -33,7 +33,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t i = n; ~i; --i)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             ff[i][s] *= gg[0][s];
             for(size_t j = i; j; --j)
@@ -44,7 +44,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t k = n - 1; ~k; --k)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             if(~s >> k & 1)
             {
