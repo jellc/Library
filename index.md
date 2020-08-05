@@ -40,6 +40,7 @@ layout: default
 
 * :warning: <a href="library/Fenwick_tree.cpp.html">Fenwick_tree.cpp</a>
 * :warning: <a href="library/SplayTree.cpp.html">SplayTree.cpp</a>
+* :warning: <a href="library/config.hpp.html">config.hpp</a>
 * :warning: <a href="library/flow.cpp.html">flow.cpp</a>
 * :warning: <a href="library/math_utility.cpp.html">math_utility.cpp</a>
 * :warning: <a href="library/template.cpp.html">template.cpp</a>
