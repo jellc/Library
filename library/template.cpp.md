@@ -31,9 +31,19 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-16 23:18:30+09:00
+    - Last commit date: 2020-08-06 05:22:13+09:00
 
 
+
+
+## Depends on
+
+* :warning: <a href="config.hpp.html">config.hpp</a>
+* :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
+* :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
+* :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
+* :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -41,42 +51,96 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma region preprocessor
 #ifdef LOCAL
-//*
-    #define _GLIBCXX_DEBUG  // gcc
-/*/
-    #define _LIBCPP_DEBUG 0 // clang
-//*/
-    // #define __buffer_check__
+    #define _GLIBCXX_DEBUG
 #else
-    #pragma GCC optimize("Ofast")
-    // #define NDEBUG
+    #pragma GCC optimize("O3")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("unroll-loops")
 #endif
-#define __precision__ 15
-#define __iostream_untie__ true
+// #define NDEBUG
+
 #include <bits/stdc++.h>
 #include <ext/rope>
 
-#ifdef LOCAL
-    #include "dump.hpp"
-    #define mesg(str) std::cerr << "[ " << __LINE__ << " : " << __FUNCTION__ << " ]  " << str << "\n"
-#else
-    #define dump(...) ((void)0)
-    #define mesg(str) ((void)0)
-#endif
+#include "config.hpp"
+#include "utils/iostream_overload.hpp"
+#include "utils/fixed_point.hpp"
+#include "utils/read.hpp"
+#include "utils/chval.hpp"
+#include "utils/binary_search.hpp"
+
+#pragma region alias
+using namespace std; using namespace __gnu_cxx;
+using i32 = int_least32_t; using i64 = int_least64_t;
+using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
+template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
+template <class T> using hashset = unordered_set<T>;
+template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 #pragma endregion
 
-#pragma region std-overload
+unsigned config::cases()
+{
+    unsigned t = 1;
+    // t = -1;
+    // cin >> t;
+    return t;
+}
+
+struct solver
+{
+    solver()
+    {
+        
+    }
+};
+
+```
+{% endraw %}
+
+<a id="bundled"></a>
+{% raw %}
+```cpp
+#line 1 "template.cpp"
+#ifdef LOCAL
+    #define _GLIBCXX_DEBUG
+#else
+    #pragma GCC optimize("O3")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("unroll-loops")
+#endif
+// #define NDEBUG
+
+#include <bits/stdc++.h>
+#line 12 "template.cpp"
+
+#line 4 "config.hpp"
+namespace config
+{
+    const auto start_time{std::chrono::system_clock::now()};
+    int64_t elapsed()
+    {
+        using namespace std::chrono;
+        const auto end_time{system_clock::now()};
+        return duration_cast<milliseconds>(end_time - start_time).count();
+    }
+    __attribute__((constructor)) void setup()
+    {
+        using namespace std;
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr);
+        cout << fixed << setprecision(15);
+        #ifdef _buffer_check
+            atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+        #endif
+    }
+    unsigned cases(void);
+    template <class C> void main() { for(unsigned t = cases(); t; --t) C(); }
+}
+struct solver; int main() { config::main<solver>(); }
+#line 2 "utils/iostream_overload.hpp"
 namespace std
 {
-    // hash
-    template <class T> size_t hash_combine(size_t seed, T const &key) { return seed ^ (hash<T>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
-    template <class T, class U> struct hash<pair<T, U>> { size_t operator()(pair<T, U> const &pr) const { return hash_combine(hash_combine(0, pr.first), pr.second); } };
-    template <class tuple_t, size_t index = tuple_size<tuple_t>::value - 1> struct tuple_hash_calc { static size_t apply(size_t seed, tuple_t const &t) { return hash_combine(tuple_hash_calc<tuple_t, index - 1>::apply(seed, t), get<index>(t)); } };
-    template <class tuple_t> struct tuple_hash_calc<tuple_t, 0> { static size_t apply(size_t seed, tuple_t const &t) { return hash_combine(seed, get<0>(t)); } };
-    template <class... T> struct hash<tuple<T...>> { size_t operator()(tuple<T...> const &t) const { return tuple_hash_calc<tuple<T...>>::apply(0, t); } };
-    // iostream
     template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) { return is >> p.first >> p.second; }
     template <class T, class U> ostream &operator<<(ostream &os, const pair<T, U> &p) { return os << p.first << ' ' << p.second; }
     template <class tuple_t, size_t index> struct tupleis { static istream &apply(istream &is, tuple_t &t) { tupleis<tuple_t, index - 1>::apply(is, t); return is >> get<index>(t); } };
@@ -91,49 +155,8 @@ namespace std
     istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-} // namespace std
-#pragma endregion
-
-#pragma region config
-namespace config
-{
-    const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed()
-    {
-        using namespace std::chrono;
-        const auto end_time{std::chrono::system_clock::now()};
-        return duration_cast<milliseconds>(end_time - start_time).count();
-    }
-    __attribute__((constructor)) void setup()
-    {
-        using namespace std;
-        if(__iostream_untie__) ios::sync_with_stdio(false), cin.tie(nullptr);
-                cout << fixed << setprecision(__precision__);
-        #ifdef DEBUG
-                freopen("debug.out","w",stdout);
-                freopen("debug.err","w",stderr);
-                if(!freopen("debug.in","r",stdin))
-                {
-                    cerr << "error: \"./debug.in\" not found.\n";
-                    exit(EXIT_FAILURE);
-                }
-        #endif
-        #ifdef stderr_path
-                freopen(stderr_path, "a", stderr);
-        #endif
-        #ifdef LOCAL
-                cerr << fixed << setprecision(__precision__) << boolalpha << "\n----- stderr at LOCAL -----\n\n";
-                atexit([]{ cerr << "\n----- Exec time : " << elapsed() << " ms -----\n\n"; });
-        #endif
-        #ifdef __buffer_check__
-                atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-        #endif
-    }
-} // namespace config
-#pragma endregion
-
-#pragma region utility
-// lambda wrapper for recursive method.
+}
+#line 1 "utils/fixed_point.hpp"
 template <class lambda_type>
 class fixed_point
 {
@@ -142,6 +165,7 @@ public:
     fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
+#line 1 "utils/read.hpp"
 // read with std::cin.
 template <class T = void>
 struct read
@@ -157,121 +181,62 @@ struct read<void>
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
 };
-// substitute y for x if x > y.
-template <class T> inline bool chmin(T &x, const T &y) { return x > y ? x = y, true : false; }
-// substitute y for x if x < y.
-template <class T> inline bool chmax(T &x, const T &y) { return x < y ? x = y, true : false; }
+#line 2 "utils/chval.hpp"
+template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
+template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
+#line 1 "utils/binary_search.hpp"
 // binary search on discrete range.
 template <class iter_type, class pred_type>
-iter_type binary(iter_type __ok, iter_type __ng, pred_type pred)
+iter_type binary(iter_type ok, iter_type ng, pred_type pred)
 {
-    assert(__ok != __ng);
-    std::ptrdiff_t dist(__ng - __ok);
+    assert(ok != ng);
+    long long dist(ng - ok);
     while(std::abs(dist) > 1)
     {
-        iter_type mid(__ok + dist / 2);
-        if(pred(mid)) __ok = mid, dist -= dist / 2;
-        else __ng = mid, dist /= 2;
+        iter_type mid(ok + dist / 2);
+        if(pred(mid)) ok = mid, dist -= dist / 2;
+        else ng = mid, dist /= 2;
     }
-    return __ok;
+    return ok;
 }
 // binary search on real numbers.
 template <class pred_type>
-long double binary(long double __ok, long double __ng, const long double eps, pred_type pred)
+long double binary(long double ok, long double ng, const long double eps, pred_type pred)
 {
-    assert(__ok != __ng);
-    while(std::abs(__ok - __ng) > eps)
+    assert(ok != ng);
+    while(std::abs(ok - ng) > eps)
     {
-        long double mid{(__ok + __ng) / 2};
-        (pred(mid) ? __ok : __ng) = mid;
+        long double mid{(ok + ng) / 2};
+        (pred(mid) ? ok : ng) = mid;
     }
-    return __ok;
+    return ok;
 }
-// trinary search on discrete range.
-template <class iter_type, class comp_type>
-iter_type trinary(iter_type __first, iter_type __last, comp_type comp)
-{
-    assert(__first < __last);
-    std::ptrdiff_t dist(__last - __first);
-    while(dist > 2)
-    {
-        iter_type __left(__first + dist / 3), __right = (__first + dist * 2 / 3);
-        if(comp(__left, __right)) __last = __right, dist = dist * 2 / 3;
-        else __first = __left, dist -= dist / 3;
-    }
-    if(dist > 1 && comp(next(__first), __first)) ++__first;
-    return __first;
-}
-// trinary search on real numbers.
-template <class comp_type>
-long double trinary(long double __first, long double __last, const long double eps, comp_type comp)
-{
-    assert(__first < __last);
-    while(__last - __first > eps)
-    {
-        long double __left{(__first * 2 + __last) / 3}, __right{(__first + __last * 2) / 3};
-        if(comp(__left, __right)) __last = __right;
-        else __first = __left;
-    }
-    return __first;
-}
-// size of array.
-template <class A, size_t N> size_t size(A (&array)[N]) { return N; }
-// be careful that val is type-sensitive.
-template <class T, class A, size_t N> void init(A (&array)[N], const T &val) { std::fill((T*)array, (T*)(array + N), val); }
-#pragma endregion
+#line 19 "template.cpp"
 
 #pragma region alias
-using namespace std;
-using i32 = int_least32_t; using i64 = int_least64_t; using u32 = uint_least32_t; using u64 = uint_least64_t;
+using namespace std; using namespace __gnu_cxx;
+using i32 = int_least32_t; using i64 = int_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
 template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
-using namespace __gnu_cxx;
 #pragma endregion
 
-#pragma region library
-
-
-
-#pragma endregion
-
-struct solver; template <class> void main_(); int main() { main_<solver>(); }
-template <class solver> void main_()
+unsigned config::cases()
 {
     unsigned t = 1;
-#ifdef LOCAL
-    t = 1;
-#endif
-    // t = -1; // infinite loop
-    // cin >> t; // case number given
-
-    while(t--) solver();
+    // t = -1;
+    // cin >> t;
+    return t;
 }
 
 struct solver
 {
-
     solver()
     {
         
     }
 };
-```
-{% endraw %}
-
-<a id="bundled"></a>
-{% raw %}
-```cpp
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/docs.py", line 349, in write_contents
-    bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
-  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
-    bundler.update(path)
-  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 306, in update
-    raise BundleErrorAt(path, i + 1, "unable to process #include in #if / #ifdef / #ifndef other than include guards")
-onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: template.cpp: line 19: unable to process #include in #if / #ifdef / #ifndef other than include guards
 
 ```
 {% endraw %}
