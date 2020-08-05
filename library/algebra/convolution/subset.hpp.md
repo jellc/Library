@@ -25,15 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :warning: algebra/convolution/subset.hpp
+# :heavy_check_mark: algebra/convolution/subset.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#3cd9fd076f2d75c19d145e9eb33bfef8">algebra/convolution</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebra/convolution/subset.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 13:47:47+09:00
+    - Last commit date: 2020-08-06 06:09:12+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../../verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 
 
 ## Code
@@ -55,7 +60,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     {
         for(size_t i = k + 1; ~i; --i)
         {
-            for(size_t s = 0; s != 1 << n; ++s)
+            for(size_t s = 0; s != 1u << n; ++s)
             {
                 if(s >> k & 1)
                 {
@@ -76,7 +81,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t i = n; ~i; --i)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             ff[i][s] *= gg[0][s];
             for(size_t j = i; j; --j)
@@ -87,7 +92,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t k = n - 1; ~k; --k)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             if(~s >> k & 1)
             {
@@ -101,6 +106,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     return ff[n];
 }
+
 ```
 {% endraw %}
 
@@ -122,7 +128,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     {
         for(size_t i = k + 1; ~i; --i)
         {
-            for(size_t s = 0; s != 1 << n; ++s)
+            for(size_t s = 0; s != 1u << n; ++s)
             {
                 if(s >> k & 1)
                 {
@@ -143,7 +149,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t i = n; ~i; --i)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             ff[i][s] *= gg[0][s];
             for(size_t j = i; j; --j)
@@ -154,7 +160,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     for(size_t k = n - 1; ~k; --k)
     {
-        for(size_t s = 0; s != 1 << n; ++s)
+        for(size_t s = 0; s != 1u << n; ++s)
         {
             if(~s >> k & 1)
             {

@@ -59,7 +59,7 @@ layout: default
 
 * :warning: <a href="library/algebra/convolution/fast_Fourier_transform.hpp.html">algebra/convolution/fast_Fourier_transform.hpp</a>
 * :warning: <a href="library/algebra/convolution/number_theoretic_transform.hpp.html">algebra/convolution/number_theoretic_transform.hpp</a>
-* :warning: <a href="library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
+* :heavy_check_mark: <a href="library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
 
 
 <div id="c95c870e4534787ab6d160f2417ab752"></div>
@@ -237,6 +237,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/segment_add_get_min.test.cpp.html">test/library-checker/segment_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
