@@ -45,6 +45,13 @@ layout: default
 * :warning: <a href="library/template.cpp.html">template.cpp</a>
 
 
+<div id="384712ec65183407ac811fff2f4c4798"></div>
+
+### algebra
+
+* :warning: <a href="library/algebra/xor_elimination.hpp.html">algebra/xor_elimination.hpp</a>
+
+
 <div id="3cd9fd076f2d75c19d145e9eb33bfef8"></div>
 
 ### algebra/convolution
@@ -210,7 +217,6 @@ layout: default
 * :warning: <a href="library/utils/Prime_factorizer.hpp.html">utils/Prime_factorizer.hpp</a>
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
-* :warning: <a href="library/utils/xor_elimination.hpp.html">utils/xor_elimination.hpp</a>
 
 
 ## Verify Files

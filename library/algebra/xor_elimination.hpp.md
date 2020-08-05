@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/xor_elimination.hpp
+# :warning: algebra/xor_elimination.hpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
-* <a href="{{ site.github.repository_url }}/blob/master/utils/xor_elimination.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-08 02:35:35+09:00
+* category: <a href="../../index.html#384712ec65183407ac811fff2f4c4798">algebra</a>
+* <a href="{{ site.github.repository_url }}/blob/master/algebra/xor_elimination.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-06 01:13:39+09:00
 
 
 
@@ -54,14 +54,15 @@ struct xor_elimination
         return e;
     }
     size_t dim() const { return base.size(); }
-}; // struct binary_elimination
+};
+
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/xor_elimination.hpp"
+#line 1 "algebra/xor_elimination.hpp"
 #include <vector>
 
 template <class expr>
@@ -75,7 +76,7 @@ struct xor_elimination
         return e;
     }
     size_t dim() const { return base.size(); }
-}; // struct binary_elimination
+};
 
 ```
 {% endraw %}
