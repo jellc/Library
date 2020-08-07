@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/bipartitematching.test.cpp
+# :heavy_check_mark: test/library-checker/bipartitematching.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 00:48:25+09:00
+    - Last commit date: 2020-08-08 00:51:07+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :x: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
+* :heavy_check_mark: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
+* :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -62,7 +62,7 @@ int main()
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read()<int>,b=read<int>()+l;
+        int a=read<int>(),b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)
@@ -289,7 +289,7 @@ int main()
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read()<int>,b=read<int>()+l;
+        int a=read<int>(),b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)

@@ -43,7 +43,7 @@ layout: default
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
-* :x: <a href="utils/read.hpp.html">utils/read.hpp</a>
+* :heavy_check_mark: <a href="utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
