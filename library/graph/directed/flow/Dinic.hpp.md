@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/Dinic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 01:28:55+09:00
+    - Last commit date: 2020-08-08 01:35:02+09:00
 
 
 
@@ -70,17 +70,13 @@ class Dinic : public flow_base<cap_t, bool>
         if(src == dst || bound == 0) return bound;
         cap_t flow(0);
         for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
-        {
             if(e->rev->avbl() && level[e->dst] < level[dst])
-            {
                 if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
                 {
                     e->rev->flow(achv);
                     flow += achv, bound -= achv;
                     if(bound == 0) break;
                 }
-            }
-        }
         return flow;
     }
 
@@ -93,11 +89,7 @@ public:
 
     Dinic &operator=(const Dinic &rhs)
     {
-        if(this != &rhs)
-        {
-            base::operator=(rhs);
-            level = rhs.level, itr = rhs.itr;
-        }
+        if(this != &rhs) base::operator=(rhs), level = rhs.level, itr = rhs.itr;
         return *this;
     }
 
@@ -114,11 +106,9 @@ public:
         {
             level[que.front() = src] = 0;
             for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
-            {
                 for(const edge_t &e : adjs[*ql])
                     if(e.avbl() && level[e.dst] == level_infty)
                         level[*qr++ = e.dst] = level[*ql] + 1;
-            }
             if(level[dst] == level_infty) break;
             for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
             flow += dfs(src, dst, bound);
@@ -243,17 +233,13 @@ class Dinic : public flow_base<cap_t, bool>
         if(src == dst || bound == 0) return bound;
         cap_t flow(0);
         for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
-        {
             if(e->rev->avbl() && level[e->dst] < level[dst])
-            {
                 if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
                 {
                     e->rev->flow(achv);
                     flow += achv, bound -= achv;
                     if(bound == 0) break;
                 }
-            }
-        }
         return flow;
     }
 
@@ -266,11 +252,7 @@ public:
 
     Dinic &operator=(const Dinic &rhs)
     {
-        if(this != &rhs)
-        {
-            base::operator=(rhs);
-            level = rhs.level, itr = rhs.itr;
-        }
+        if(this != &rhs) base::operator=(rhs), level = rhs.level, itr = rhs.itr;
         return *this;
     }
 
@@ -287,11 +269,9 @@ public:
         {
             level[que.front() = src] = 0;
             for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
-            {
                 for(const edge_t &e : adjs[*ql])
                     if(e.avbl() && level[e.dst] == level_infty)
                         level[*qr++ = e.dst] = level[*ql] + 1;
-            }
             if(level[dst] == level_infty) break;
             for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
             flow += dfs(src, dst, bound);
