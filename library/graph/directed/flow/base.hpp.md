@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/base.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-07 21:13:26+09:00
+    - Last commit date: 2020-08-08 01:28:55+09:00
 
 
 
@@ -66,6 +66,7 @@ struct flow_base
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
         void flow(cap_t f) { cap -= f, rev->cap += f; }
+        bool avbl() const { return cap > 0; }
     }; // class edge_t
 
     class adj_type
@@ -164,6 +165,7 @@ struct flow_base
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
         void flow(cap_t f) { cap -= f, rev->cap += f; }
+        bool avbl() const { return cap > 0; }
     }; // class edge_t
 
     class adj_type

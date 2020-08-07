@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 00:51:07+09:00
+    - Last commit date: 2020-08-08 01:28:55+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -111,6 +111,7 @@ struct flow_base
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
         void flow(cap_t f) { cap -= f, rev->cap += f; }
+        bool avbl() const { return cap > 0; }
     }; // class edge_t
 
     class adj_type
@@ -206,7 +207,7 @@ class Dinic : public flow_base<cap_t, bool>
         cap_t flow(0);
         for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
         {
-            if(e->rev->cap > 0 && level[e->dst] < level[dst])
+            if(e->rev->avbl() && level[e->dst] < level[dst])
             {
                 if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
                 {
@@ -251,7 +252,7 @@ public:
             for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
             {
                 for(const edge_t &e : adjs[*ql])
-                    if(e.cap > 0 && level[e.dst] == level_infty)
+                    if(e.avbl() && level[e.dst] == level_infty)
                         level[*qr++ = e.dst] = level[*ql] + 1;
             }
             if(level[dst] == level_infty) break;
