@@ -5,14 +5,13 @@
 
 int main()
 {
-    const int l=read(), r=read(), m=read();
+    const int l=read<int>(), r=read<int>(), m=read<int>();
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read(),b=read();
-        b+=l;
+        int a=read()<int>,b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)
