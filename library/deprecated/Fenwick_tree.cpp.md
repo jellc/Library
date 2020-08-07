@@ -21,17 +21,17 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: Fenwick_tree.cpp
+# :warning: deprecated/Fenwick_tree.cpp
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 
-* category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
-* <a href="{{ site.github.repository_url }}/blob/master/Fenwick_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2019-12-24 00:46:14+09:00
+* category: <a href="../../index.html#54dac5afe1fcac2f65c059fc97b44a58">deprecated</a>
+* <a href="{{ site.github.repository_url }}/blob/master/deprecated/Fenwick_tree.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-08 03:26:16+09:00
 
 
 
@@ -235,13 +235,14 @@ struct Bidirectional_fenwick_tree
         return res;
     }
 };
+
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "Fenwick_tree.cpp"
+#line 1 "deprecated/Fenwick_tree.cpp"
 template <class Abel>
 // Abel must be an abelian group.
 class Fenwick_tree
@@ -440,5 +441,5 @@ struct Bidirectional_fenwick_tree
 ```
 {% endraw %}
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 

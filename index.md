@@ -38,10 +38,7 @@ layout: default
 
 ### .
 
-* :warning: <a href="library/Fenwick_tree.cpp.html">Fenwick_tree.cpp</a>
-* :warning: <a href="library/SplayTree.cpp.html">SplayTree.cpp</a>
 * :warning: <a href="library/config.hpp.html">config.hpp</a>
-* :warning: <a href="library/math_utility.cpp.html">math_utility.cpp</a>
 * :warning: <a href="library/template.cpp.html">template.cpp</a>
 
 
@@ -129,6 +126,15 @@ layout: default
 * :warning: <a href="library/data_structure/union_find/union_find.hpp.html">data_structure/union_find/union_find.hpp</a>
 
 
+<div id="54dac5afe1fcac2f65c059fc97b44a58"></div>
+
+### deprecated
+
+* :warning: <a href="library/deprecated/Fenwick_tree.cpp.html">deprecated/Fenwick_tree.cpp</a>
+* :warning: <a href="library/deprecated/SplayTree.cpp.html">deprecated/SplayTree.cpp</a>
+* :warning: <a href="library/deprecated/math_utility.cpp.html">deprecated/math_utility.cpp</a>
+
+
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>
 
 ### graph/directed
@@ -157,14 +163,6 @@ layout: default
 
 * :warning: <a href="library/graph/undirected/tree/centroid_decomposition.hpp.html">graph/undirected/tree/centroid_decomposition.hpp</a>
 * :heavy_check_mark: <a href="library/graph/undirected/tree/lowest_common_ancestor.hpp.html">graph/undirected/tree/lowest_common_ancestor.hpp</a>
-
-
-<div id="228c70bfc5589c58c044e03fff0e17eb"></div>
-
-### legacy
-
-* :warning: <a href="library/legacy/Lazy_segment_tree.hpp.html">legacy/Lazy_segment_tree.hpp</a>
-* :warning: <a href="library/legacy/Segment_tree.hpp.html">legacy/Segment_tree.hpp</a>
 
 
 <div id="f5ddaf0ca7929578b408c909429f68f2"></div>
