@@ -1,84 +1,75 @@
-#include <queue>
-
-// Computing the maximum flow
-// depends on base.hpp
-template <class cap_t>
+#pragma once
+#include "base.hpp"
+// compute the maximum flow.
+template <class cap_t = int>
 class Dinic : public flow_base<cap_t, bool>
 {
     using base = flow_base<cap_t, bool>;
-    std::vector<size_t> level, itr;
-    cap_t max_cap;
+    using edge_t = typename base::edge_t;
+    using base::adjs;
 
-    bool bfs(size_t src, size_t dst)
+    std::vector<size_t> level;
+    std::vector<edge_t*> itr;
+    constexpr static size_t level_infty = -1;
+
+    cap_t dfs(const size_t &src, const size_t &dst, cap_t bound)
     {
-        fill(level.begin(), level.end(), -1);
-        std::queue<size_t> que;
-        que.emplace(src);
-        level[src] = 0;
-        while(!que.empty())
+        if(src == dst || bound == 0) return bound;
+        cap_t flow(0);
+        for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
         {
-            size_t node = que.front(); que.pop();
-            for(const auto &e : base::adj[node])
+            if(e->rev->cap > 0 && level[e->dst] < level[dst])
             {
-                if(e.cap > 0 && level[e.dst] == size_t(-1))
+                if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
                 {
-                    level[e.dst] = level[node] + 1;
-                    que.emplace(e.dst);
+                    e->rev->flow(achv);
+                    flow += achv, bound -= achv;
+                    if(bound == 0) break;
                 }
             }
-        }
-        return ~level[dst];
-    }
-
-    cap_t dfs(size_t node, size_t dst, cap_t f)
-    {
-        if(node == dst) return f;
-        cap_t res(0);
-        while(itr[node] < base::adj[node].size())
-        {
-            auto &e = base::adj[node][itr[node]];
-            if(e.cap > 0 && level[node] < level[e.dst])
-            {
-                cap_t d = dfs(e.dst, dst, std::min(f, e.cap));
-                e.cap -= d;
-                base::adj[e.dst][e.rev].cap += d;
-                res += d;
-                if((f -= d) == 0) break;
-            }
-            ++itr[node];
-        }
-        return res;
-    }
-
-public:
-    Dinic(size_t _n = 0) : base::flow_base(_n), level(_n), itr(_n), max_cap(0) {}
-
-    void add_edge(size_t src, size_t dst, cap_t cap)
-    {
-        max_cap = std::max(max_cap, cap);
-        base::add_edge(src, dst, cap, 0);
-    }
-
-    cap_t max_flow(size_t src, size_t dst)
-    {
-        cap_t flow(0);
-        while(bfs(src, dst))
-        {
-            fill(itr.begin(), itr.end(), 0);
-            cap_t resid; while((resid = dfs(src, dst, max_cap)) > 0) flow += resid;
         }
         return flow;
     }
 
-    std::vector<bool> min_cut(size_t src, size_t dst)
+public:
+    using base::size;
+
+    Dinic(size_t n = 0) : base::flow_base(n), level(n, level_infty), itr(n) {}
+
+    Dinic(const Dinic &other) : base::flow_base(other), level(other.level), itr(other.itr)  {}
+
+    Dinic &operator=(const Dinic &rhs)
     {
-        while(bfs(src, dst))
+        if(this != &rhs)
         {
-            fill(itr.begin(), itr.end(), 0);
-            while(dfs(src, dst, max_cap) > 0);
+            base::operator=(rhs);
+            level = rhs.level, itr = rhs.itr;
         }
-        std::vector<bool> res(base::size());
-        for(size_t node = base::size(); node--; ) if(~level[node]) res[node] = true;
-        return res;
+        return *this;
+    }
+
+    void add_edge(size_t src, size_t dst, cap_t cap) { base::add_edge(src, dst, cap, false); }
+
+    void add_undirected_edge(size_t src, size_t dst, cap_t cap) { base::add_undirected_edge(src, dst, cap, false); }
+
+    cap_t max_flow(size_t src, size_t dst)
+    {
+        assert(src < size()); assert(dst < size());
+        cap_t flow(0), bound(0);
+        for(const edge_t &e : adjs[src]) bound += e.cap;
+        for(std::vector<size_t> que(size()); ; std::fill(level.begin(), level.end(), level_infty))
+        {
+            level[que.front() = src] = 0;
+            for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
+            {
+                for(const edge_t &e : adjs[*ql])
+                    if(e.cap > 0 && level[e.dst] == level_infty)
+                        level[*qr++ = e.dst] = level[*ql] + 1;
+            }
+            if(level[dst] == level_infty) break;
+            for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
+            flow += dfs(src, dst, bound);
+        }
+        return flow;
     }
 }; // class Dinic

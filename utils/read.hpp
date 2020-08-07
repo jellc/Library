@@ -1,3 +1,4 @@
+#include <iostream>
 // read with std::cin.
 template <class T = void>
 struct read
