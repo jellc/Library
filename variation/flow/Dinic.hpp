@@ -31,7 +31,7 @@ struct Dinic
     void add_undirected_edge(size_t src, size_t dst, cap_t cap)
     {
         assert(src < size()); assert(dst < size());
-        if(!(cap > 0) || src == dist) return;
+        if(!(cap > 0) || src == dst) return;
         adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
         adjs[dst].emplace_back(dst, src, cap, adjs[src].size() - 1);
     }
