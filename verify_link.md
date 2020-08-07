@@ -6,6 +6,8 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 
 - number theoretic transform
   - <https://codeforces.com/contest/1251/problem/F>
+  - <https://yukicoder.me/problems/no/931>
+  - <https://www.hackerrank.com/contests/eeic-programming-contest-1/challenges/piyo-and-bingo-game-hard>
 
 - matrix
   - basic
@@ -36,6 +38,8 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 - segment tree
   - basic
     - <https://atcoder.jp/contests/arc008/tasks/arc008_4>
+    - <https://codeforces.com/contest/1380/problem/F>
+    - <https://atcoder.jp/contests/abc174/tasks/abc174_f>
 
   - binary search
     - <https://atcoder.jp/contests/tkppc4-1/tasks/tkppc4_1_n>
@@ -82,6 +86,7 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
     - <https://codeforces.com/gym/102428/problem/A>
 
   - minimum cost flow
+    - <https://atcoder.jp/contests/past202005-2/tasks/past202005_o>
     - <https://codeforces.com/contest/863/problem/F>
     - <https://codeforces.com/contest/1187/problem/G>
 
@@ -98,3 +103,8 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 
 - binary trie
   - <https://atcoder.jp/contests/dwacon5th-final/tasks/dwacon5th_final_b>
+
+## Utils
+
+- Mo's algorithm
+  - <https://codeforces.com/contest/375/problem/D>
