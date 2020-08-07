@@ -18,7 +18,7 @@ class Dinic : public flow_base<cap_t, bool>
         cap_t flow(0);
         for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
         {
-            if(e->rev->cap > 0 && level[e->dst] < level[dst])
+            if(e->rev->avbl() && level[e->dst] < level[dst])
             {
                 if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
                 {
@@ -63,7 +63,7 @@ public:
             for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
             {
                 for(const edge_t &e : adjs[*ql])
-                    if(e.cap > 0 && level[e.dst] == level_infty)
+                    if(e.avbl() && level[e.dst] == level_infty)
                         level[*qr++ = e.dst] = level[*ql] + 1;
             }
             if(level[dst] == level_infty) break;

@@ -13,6 +13,7 @@ struct flow_base
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
         void flow(cap_t f) { cap -= f, rev->cap += f; }
+        bool avbl() const { return cap > 0; }
     }; // class edge_t
 
     class adj_type
