@@ -11,7 +11,7 @@ int main()
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read()<int>,b=read<int>()+l;
+        int a=read<int>(),b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)
