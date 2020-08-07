@@ -1,18 +1,17 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
 #include "graph/directed/flow/Dinic.hpp"
-#include "utils/read.hpp"
 #include <cstdio>
 
 int main()
 {
-    const int l=read<int>(), r=read<int>(), m=read<int>();
+    int l,r,m; scanf("%d%d%d",&l,&r,&m);
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
-    for(int i = 0; i < m; ++i)
+    for(int i = 0,a,b; i < m; ++i)
     {
-        int a=read<int>(),b=read<int>()+l;
-        dinic.add_edge(a,b,1);
+        scanf("%d%d",&a,&b);
+        dinic.add_edge(a,b+l,1);
     }
     for(int i = 0; i < l; ++i)
     {

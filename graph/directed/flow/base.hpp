@@ -45,9 +45,6 @@ struct flow_base
         edge_t *end() const { return lst; }
     }; // class adj_type
 
-    std::vector<adj_type> adjs;
-
-public:
     flow_base(size_t n = 0) : adjs(n) {}
 
     flow_base(const flow_base& other) : adjs(other.size())
@@ -89,4 +86,7 @@ public:
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
         ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
     }
+
+protected:
+    std::vector<adj_type> adjs;
 }; // class flow_base
