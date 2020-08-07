@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-06 05:22:13+09:00
+    - Last commit date: 2020-08-07 21:13:26+09:00
 
 
 
@@ -43,7 +43,7 @@ layout: default
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
-* :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
+* :x: <a href="utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -165,7 +165,7 @@ public:
     fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
-#line 1 "utils/read.hpp"
+#line 2 "utils/read.hpp"
 // read with std::cin.
 template <class T = void>
 struct read

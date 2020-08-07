@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/read.hpp
+# :x: utils/read.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/read.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-06 05:08:48+09:00
+    - Last commit date: 2020-08-07 21:13:26+09:00
 
 
 
@@ -41,11 +41,17 @@ layout: default
 * :warning: <a href="../template.cpp.html">template.cpp</a>
 
 
+## Verified with
+
+* :x: <a href="../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
+
+
 ## Code
 
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#include <iostream>
 // read with std::cin.
 template <class T = void>
 struct read
@@ -61,6 +67,7 @@ struct read<void>
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
 };
+
 ```
 {% endraw %}
 
@@ -68,6 +75,7 @@ struct read<void>
 {% raw %}
 ```cpp
 #line 1 "utils/read.hpp"
+#include <iostream>
 // read with std::cin.
 template <class T = void>
 struct read

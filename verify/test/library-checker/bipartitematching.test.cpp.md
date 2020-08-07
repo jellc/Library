@@ -21,29 +21,27 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../../../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../../../../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: graph/directed/flow/Dinic.hpp
+# :x: test/library-checker/bipartitematching.test.cpp
 
-<a href="../../../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 
-* category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
-* <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/Dinic.hpp">View this file on GitHub</a>
+* category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-08-07 21:13:26+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
 
 
 ## Depends on
 
-* :x: <a href="base.hpp.html">graph/directed/flow/base.hpp</a>
-
-
-## Verified with
-
-* :x: <a href="../../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
+* :x: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
+* :x: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -51,81 +49,45 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
-#include "base.hpp"
-// compute the maximum flow.
-template <class cap_t = int>
-class Dinic : public flow_base<cap_t, bool>
+#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
+#include "graph/directed/flow/Dinic.hpp"
+#include "utils/read.hpp"
+#include <cstdio>
+
+int main()
 {
-    using base = flow_base<cap_t, bool>;
-    using edge_t = typename base::edge_t;
-    using base::adjs;
+    const int l=read(), r=read(), m=read();
+    Dinic<int> dinic(l+r+2);
+    const int s=l+r,t=s+1;
 
-    std::vector<size_t> level;
-    std::vector<edge_t*> itr;
-    constexpr static size_t level_infty = -1;
-
-    cap_t dfs(const size_t &src, const size_t &dst, cap_t bound)
+    for(int i = 0; i < m; ++i)
     {
-        if(src == dst || bound == 0) return bound;
-        cap_t flow(0);
-        for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
+        int a=read(),b=read();
+        b+=l;
+        dinic.add_edge(a,b,1);
+    }
+    for(int i = 0; i < l; ++i)
+    {
+        dinic.add_edge(s,i,1);
+    }
+    for(int i = 0; i < r; ++i)
+    {
+        dinic.add_edge(i+l,t,1);
+    }
+
+    printf("%d\n",dinic.max_flow(s,t));
+
+    for(int i = 0; i < l; ++i)
+    {
+        for(const auto &e: dinic[i])
         {
-            if(e->rev->cap > 0 && level[e->dst] < level[dst])
+            if(!e.cap and e.dst<l+r)
             {
-                if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
-                {
-                    e->rev->flow(achv);
-                    flow += achv, bound -= achv;
-                    if(bound == 0) break;
-                }
+                printf("%d %d\n", i, e.dst-l);
             }
         }
-        return flow;
     }
-
-public:
-    using base::size;
-
-    Dinic(size_t n = 0) : base::flow_base(n), level(n, level_infty), itr(n) {}
-
-    Dinic(const Dinic &other) : base::flow_base(other), level(other.level), itr(other.itr)  {}
-
-    Dinic &operator=(const Dinic &rhs)
-    {
-        if(this != &rhs)
-        {
-            base::operator=(rhs);
-            level = rhs.level, itr = rhs.itr;
-        }
-        return *this;
-    }
-
-    void add_edge(size_t src, size_t dst, cap_t cap) { base::add_edge(src, dst, cap, false); }
-
-    void add_undirected_edge(size_t src, size_t dst, cap_t cap) { base::add_undirected_edge(src, dst, cap, false); }
-
-    cap_t max_flow(size_t src, size_t dst)
-    {
-        assert(src < size()); assert(dst < size());
-        cap_t flow(0), bound(0);
-        for(const edge_t &e : adjs[src]) bound += e.cap;
-        for(std::vector<size_t> que(size()); ; std::fill(level.begin(), level.end(), level_infty))
-        {
-            level[que.front() = src] = 0;
-            for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
-            {
-                for(const edge_t &e : adjs[*ql])
-                    if(e.cap > 0 && level[e.dst] == level_infty)
-                        level[*qr++ = e.dst] = level[*ql] + 1;
-            }
-            if(level[dst] == level_infty) break;
-            for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
-            flow += dfs(src, dst, bound);
-        }
-        return flow;
-    }
-}; // class Dinic
+}
 
 ```
 {% endraw %}
@@ -133,6 +95,8 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/library-checker/bipartitematching.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
 #line 2 "graph/directed/flow/base.hpp"
 #include <cassert>
 #include <vector>
@@ -298,9 +262,63 @@ public:
         return flow;
     }
 }; // class Dinic
+#line 1 "utils/read.hpp"
+#include <iostream>
+// read with std::cin.
+template <class T = void>
+struct read
+{
+    typename std::remove_const<T>::type value;
+    template <class... types>
+    read(types... args) : value(args...) { std::cin >> value; }
+    operator T() const { return value; }
+};
+template <>
+struct read<void>
+{
+    template <class T>
+    operator T() const { T value; std::cin >> value; return value; }
+};
+#line 4 "test/library-checker/bipartitematching.test.cpp"
+#include <cstdio>
+
+int main()
+{
+    const int l=read(), r=read(), m=read();
+    Dinic<int> dinic(l+r+2);
+    const int s=l+r,t=s+1;
+
+    for(int i = 0; i < m; ++i)
+    {
+        int a=read(),b=read();
+        b+=l;
+        dinic.add_edge(a,b,1);
+    }
+    for(int i = 0; i < l; ++i)
+    {
+        dinic.add_edge(s,i,1);
+    }
+    for(int i = 0; i < r; ++i)
+    {
+        dinic.add_edge(i+l,t,1);
+    }
+
+    printf("%d\n",dinic.max_flow(s,t));
+
+    for(int i = 0; i < l; ++i)
+    {
+        for(const auto &e: dinic[i])
+        {
+            if(!e.cap and e.dst<l+r)
+            {
+                printf("%d %d\n", i, e.dst-l);
+            }
+        }
+    }
+}
 
 ```
 {% endraw %}
 
-<a href="../../../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 
