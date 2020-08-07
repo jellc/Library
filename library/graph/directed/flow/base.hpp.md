@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/base.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 01:28:55+09:00
+    - Last commit date: 2020-08-08 02:36:13+09:00
 
 
 
@@ -98,9 +98,6 @@ struct flow_base
         edge_t *end() const { return lst; }
     }; // class adj_type
 
-    std::vector<adj_type> adjs;
-
-public:
     flow_base(size_t n = 0) : adjs(n) {}
 
     flow_base(const flow_base& other) : adjs(other.size())
@@ -142,6 +139,9 @@ public:
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
         ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
     }
+
+protected:
+    std::vector<adj_type> adjs;
 }; // class flow_base
 
 ```
@@ -197,9 +197,6 @@ struct flow_base
         edge_t *end() const { return lst; }
     }; // class adj_type
 
-    std::vector<adj_type> adjs;
-
-public:
     flow_base(size_t n = 0) : adjs(n) {}
 
     flow_base(const flow_base& other) : adjs(other.size())
@@ -241,6 +238,9 @@ public:
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
         ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
     }
+
+protected:
+    std::vector<adj_type> adjs;
 }; // class flow_base
 
 ```

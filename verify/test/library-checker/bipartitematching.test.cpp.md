@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 01:35:02+09:00
+    - Last commit date: 2020-08-08 02:36:13+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -41,7 +41,6 @@ layout: default
 
 * :heavy_check_mark: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
 * :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -51,19 +50,18 @@ layout: default
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
 #include "graph/directed/flow/Dinic.hpp"
-#include "utils/read.hpp"
 #include <cstdio>
 
 int main()
 {
-    const int l=read<int>(), r=read<int>(), m=read<int>();
+    int l,r,m; scanf("%d%d%d",&l,&r,&m);
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
-    for(int i = 0; i < m; ++i)
+    for(int i = 0,a,b; i < m; ++i)
     {
-        int a=read<int>(),b=read<int>()+l;
-        dinic.add_edge(a,b,1);
+        scanf("%d%d",&a,&b);
+        dinic.add_edge(a,b+l,1);
     }
     for(int i = 0; i < l; ++i)
     {
@@ -143,9 +141,6 @@ struct flow_base
         edge_t *end() const { return lst; }
     }; // class adj_type
 
-    std::vector<adj_type> adjs;
-
-public:
     flow_base(size_t n = 0) : adjs(n) {}
 
     flow_base(const flow_base& other) : adjs(other.size())
@@ -187,6 +182,9 @@ public:
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
         ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
     }
+
+protected:
+    std::vector<adj_type> adjs;
 }; // class flow_base
 #line 3 "graph/directed/flow/Dinic.hpp"
 // compute the maximum flow.
@@ -252,36 +250,19 @@ public:
         return flow;
     }
 }; // class Dinic
-#line 1 "utils/read.hpp"
-#include <iostream>
-// read with std::cin.
-template <class T = void>
-struct read
-{
-    typename std::remove_const<T>::type value;
-    template <class... types>
-    read(types... args) : value(args...) { std::cin >> value; }
-    operator T() const { return value; }
-};
-template <>
-struct read<void>
-{
-    template <class T>
-    operator T() const { T value; std::cin >> value; return value; }
-};
-#line 4 "test/library-checker/bipartitematching.test.cpp"
+#line 3 "test/library-checker/bipartitematching.test.cpp"
 #include <cstdio>
 
 int main()
 {
-    const int l=read<int>(), r=read<int>(), m=read<int>();
+    int l,r,m; scanf("%d%d%d",&l,&r,&m);
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
-    for(int i = 0; i < m; ++i)
+    for(int i = 0,a,b; i < m; ++i)
     {
-        int a=read<int>(),b=read<int>()+l;
-        dinic.add_edge(a,b,1);
+        scanf("%d%d",&a,&b);
+        dinic.add_edge(a,b+l,1);
     }
     for(int i = 0; i < l; ++i)
     {
