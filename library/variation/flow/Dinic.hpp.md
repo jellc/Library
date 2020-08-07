@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: variation/flow/Dinic.hpp
+# :heavy_check_mark: variation/flow/Dinic.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#0b46cfa7c37bdbd50ef33fa005a2319c">variation/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/variation/flow/Dinic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 02:40:47+09:00
+    - Last commit date: 2020-08-08 03:12:37+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
+* :heavy_check_mark: <a href="../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 
 
 ## Code
@@ -79,7 +79,7 @@ struct Dinic
     void add_undirected_edge(size_t src, size_t dst, cap_t cap)
     {
         assert(src < size()); assert(dst < size());
-        if(!(cap > 0) || src == dist) return;
+        if(!(cap > 0) || src == dst) return;
         adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
         adjs[dst].emplace_back(dst, src, cap, adjs[src].size() - 1);
     }
@@ -171,7 +171,7 @@ struct Dinic
     void add_undirected_edge(size_t src, size_t dst, cap_t cap)
     {
         assert(src < size()); assert(dst < size());
-        if(!(cap > 0) || src == dist) return;
+        if(!(cap > 0) || src == dst) return;
         adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
         adjs[dst].emplace_back(dst, src, cap, adjs[src].size() - 1);
     }

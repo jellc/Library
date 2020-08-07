@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/bipartitematching.test.cpp
+# :heavy_check_mark: test/library-checker/bipartitematching.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 03:08:56+09:00
+    - Last commit date: 2020-08-08 03:12:37+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
+* :heavy_check_mark: <a href="../../../library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
 
 
 ## Code
@@ -127,7 +127,7 @@ struct Dinic
     void add_undirected_edge(size_t src, size_t dst, cap_t cap)
     {
         assert(src < size()); assert(dst < size());
-        if(!(cap > 0) || src == dist) return;
+        if(!(cap > 0) || src == dst) return;
         adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
         adjs[dst].emplace_back(dst, src, cap, adjs[src].size() - 1);
     }
