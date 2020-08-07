@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-07 21:13:26+09:00
+    - Last commit date: 2020-08-08 00:48:25+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -56,14 +56,13 @@ layout: default
 
 int main()
 {
-    const int l=read(), r=read(), m=read();
+    const int l=read<int>(), r=read<int>(), m=read<int>();
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read(),b=read();
-        b+=l;
+        int a=read()<int>,b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)
@@ -284,14 +283,13 @@ struct read<void>
 
 int main()
 {
-    const int l=read(), r=read(), m=read();
+    const int l=read<int>(), r=read<int>(), m=read<int>();
     Dinic<int> dinic(l+r+2);
     const int s=l+r,t=s+1;
 
     for(int i = 0; i < m; ++i)
     {
-        int a=read(),b=read();
-        b+=l;
+        int a=read()<int>,b=read<int>()+l;
         dinic.add_edge(a,b,1);
     }
     for(int i = 0; i < l; ++i)
