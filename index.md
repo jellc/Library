@@ -140,8 +140,8 @@ layout: default
 
 ### graph/directed/flow
 
-* :heavy_check_mark: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :heavy_check_mark: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :warning: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
+* :warning: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
 
 
 <div id="89915d49ca05c805c82a9fa3819995df"></div>
@@ -212,12 +212,12 @@ layout: default
 
 ### variation/flow
 
-* :warning: <a href="library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
+* :x: <a href="library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
 
 
 ## Verify Files
 
-* :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
+* :x: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>

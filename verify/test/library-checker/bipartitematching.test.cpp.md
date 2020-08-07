@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/bipartitematching.test.cpp
+# :x: test/library-checker/bipartitematching.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 02:36:13+09:00
+    - Last commit date: 2020-08-08 03:08:56+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -39,8 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :x: <a href="../../../library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
 
 
 ## Code
@@ -49,7 +48,7 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
-#include "graph/directed/flow/Dinic.hpp"
+#include "variation/flow/Dinic.hpp"
 #include <cstdio>
 
 int main()
@@ -94,162 +93,91 @@ int main()
 ```cpp
 #line 1 "test/library-checker/bipartitematching.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
-#line 2 "graph/directed/flow/base.hpp"
+#line 1 "variation/flow/Dinic.hpp"
 #include <cassert>
 #include <vector>
-// the base class of flow algorithms.
-template <class cap_t, class cost_t>
-struct flow_base
+// compute the maximum flow.
+template <class cap_t = int>
+struct Dinic
 {
     struct edge_t
     {
         size_t src, dst;
-        cap_t cap; cost_t cost; edge_t *rev;
-        edge_t() {}
-        edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
-        edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
-        void flow(cap_t f) { cap -= f, rev->cap += f; }
-        bool avbl() const { return cap > 0; }
-    }; // class edge_t
+        cap_t cap; size_t rev;
+        edge_t(size_t src, size_t dst, cap_t cap, size_t rev) : src(src), dst(dst), cap(cap), rev(rev) {}
+    };
 
-    class adj_type
-    {
-        friend flow_base;
-        edge_t *fst, *lst, *clst;
-        template <class ...Args>
-        edge_t *emplace(Args&& ...args)
-        {
-            if(lst == clst)
-            {
-                size_t len(clst - fst);
-                edge_t *nfst = new edge_t[len << 1];
-                lst = nfst;
-                for(edge_t *p{fst}; p != clst; ++p, ++lst) p->rev->rev = lst, *lst = *p;
-                delete[] fst;
-                fst = nfst;
-                clst = lst + len;
-            }
-            *lst = edge_t(args...);
-            return lst++;
-        }
-    public:
-        adj_type() : fst(new edge_t[1]), lst(fst), clst(fst + 1) {}
-        ~adj_type() { delete[] fst; }
-        edge_t &operator[](size_t i) { assert(i < size()); return *(fst + i); }
-        size_t size() const { return lst - fst; }
-        edge_t *begin() const { return fst; }
-        edge_t *end() const { return lst; }
-    }; // class adj_type
+    using adj_type = std::vector<edge_t>;
 
-    flow_base(size_t n = 0) : adjs(n) {}
-
-    flow_base(const flow_base& other) : adjs(other.size())
-    {
-        for(size_t node{}; node != size(); ++node)
-        {
-            for(const auto &[src, dst, cap, cost, rev] : other[node])
-            {
-                if(src == node)
-                {
-                    edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-                    ptr->rev = adjs[dst].emplace(dst, src, rev->cap, -cost, ptr);
-                    rev->src = -1;
-                }
-                else rev->rev->src = node;
-            }
-        }
-    }
-
-    flow_base &operator=(const flow_base &rhs)
-    {
-        if(this != &rhs)
-        {
-            flow_base copy(rhs);
-            std::swap(adjs, copy.adjs);
-        }
-        return *this;
-    }
+    Dinic(size_t n = 0) : adjs(n), level(n), itr(n) {}
 
     size_t size() const { return adjs.size(); }
 
     adj_type &operator[](size_t node) { assert(node < size()); return adjs[node]; }
     const adj_type &operator[](size_t node) const { assert(node < size()); return adjs[node]; }
 
-    void add_edge(size_t src, size_t dst, cap_t cap, cost_t cost)
+    void add_edge(size_t src, size_t dst, cap_t cap)
     {
         assert(src < size()); assert(dst < size());
         if(!(cap > 0) || src == dst) return;
-        edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
+        adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
+        adjs[dst].emplace_back(dst, src, 0, adjs[src].size() - 1);
     }
 
-protected:
-    std::vector<adj_type> adjs;
-}; // class flow_base
-#line 3 "graph/directed/flow/Dinic.hpp"
-// compute the maximum flow.
-template <class cap_t = int>
-class Dinic : public flow_base<cap_t, bool>
-{
-    using base = flow_base<cap_t, bool>;
-    using edge_t = typename base::edge_t;
-    using base::adjs;
-
-    std::vector<size_t> level;
-    std::vector<edge_t*> itr;
-    constexpr static size_t level_infty = -1;
-
-    cap_t dfs(const size_t &src, const size_t &dst, cap_t bound)
+    void add_undirected_edge(size_t src, size_t dst, cap_t cap)
     {
-        if(src == dst || bound == 0) return bound;
-        cap_t flow(0);
-        for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
-            if(e->rev->avbl() && level[e->dst] < level[dst])
-                if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
-                {
-                    e->rev->flow(achv);
-                    flow += achv, bound -= achv;
-                    if(bound == 0) break;
-                }
-        return flow;
+        assert(src < size()); assert(dst < size());
+        if(!(cap > 0) || src == dist) return;
+        adjs[src].emplace_back(src, dst, cap, adjs[dst].size());
+        adjs[dst].emplace_back(dst, src, cap, adjs[src].size() - 1);
     }
-
-public:
-    using base::size;
-
-    Dinic(size_t n = 0) : base::flow_base(n), level(n, level_infty), itr(n) {}
-
-    Dinic(const Dinic &other) : base::flow_base(other), level(other.level), itr(other.itr)  {}
-
-    Dinic &operator=(const Dinic &rhs)
-    {
-        if(this != &rhs) base::operator=(rhs), level = rhs.level, itr = rhs.itr;
-        return *this;
-    }
-
-    void add_edge(size_t src, size_t dst, cap_t cap) { base::add_edge(src, dst, cap, false); }
-
-    void add_undirected_edge(size_t src, size_t dst, cap_t cap) { base::add_undirected_edge(src, dst, cap, false); }
 
     cap_t max_flow(size_t src, size_t dst)
     {
         assert(src < size()); assert(dst < size());
         cap_t flow(0), bound(0);
         for(const edge_t &e : adjs[src]) bound += e.cap;
-        for(std::vector<size_t> que(size()); ; std::fill(level.begin(), level.end(), level_infty))
+        for(std::vector<size_t> que(size()); ; std::fill(itr.begin(), itr.end(), 0))
         {
+            std::fill(level.begin(), level.end(), level_infty);
             level[que.front() = src] = 0;
             for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
+            {
                 for(const edge_t &e : adjs[*ql])
-                    if(e.avbl() && level[e.dst] == level_infty)
+                    if(e.cap > 0 && level[e.dst] == level_infty)
                         level[*qr++ = e.dst] = level[*ql] + 1;
+            }
             if(level[dst] == level_infty) break;
-            for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
             flow += dfs(src, dst, bound);
         }
         return flow;
     }
-}; // class Dinic
+
+protected:
+    std::vector<adj_type> adjs;
+    std::vector<size_t> level, itr;
+    constexpr static size_t level_infty = -1;
+
+    cap_t dfs(const size_t &src, const size_t &dst, cap_t bound)
+    {
+        if(src == dst || bound == 0) return bound;
+        cap_t flow(0);
+        for(size_t &i{itr[dst]}; i != adjs[dst].size(); ++i)
+        {
+            auto &e = adjs[dst][i], &re = adjs[e.dst][e.rev];
+            if(re.cap > 0 && level[e.dst] < level[dst])
+            {
+                if(cap_t achv = dfs(src, e.dst, std::min(bound, re.cap)); achv > 0)
+                {
+                    e.cap += achv, re.cap -= achv;
+                    flow += achv, bound -= achv;
+                    if(bound == 0) break;
+                }
+            }
+        }
+        return flow;
+    }
+}; // struct Dinic
 #line 3 "test/library-checker/bipartitematching.test.cpp"
 #include <cstdio>
 
