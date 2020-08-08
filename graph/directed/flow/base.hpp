@@ -47,9 +47,7 @@ struct flow_base
     flow_base(const flow_base& other) : adjs(other.size())
     {
         for(size_t node{}; node != size(); ++node)
-        {
             for(const auto &[src, dst, cap, cost, rev] : other[node])
-            {
                 if(src == node)
                 {
                     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
@@ -57,8 +55,6 @@ struct flow_base
                     rev->src = -1;
                 }
                 else rev->rev->src = node;
-            }
-        }
     }
 
     flow_base &operator=(const flow_base &rhs)
