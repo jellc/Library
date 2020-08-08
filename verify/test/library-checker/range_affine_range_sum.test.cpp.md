@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_affine_range_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 15:55:53+09:00
+    - Last commit date: 2020-08-08 23:17:57+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -284,30 +284,25 @@ public:
         return size_orig;
     }
 }; //class lazy_segment_tree
-#line 1 "modulus/compile-time/modint.hpp"
-
-
-#line 4 "modulus/compile-time/modint.hpp"
+#line 3 "modulus/compile-time/modint.hpp"
 #include <iostream>
-
-template <int mod>
-class modint
+template <int_fast64_t mod>
+struct modint
 {
-    int val;
-public:
+    using value_type = int_fast64_t;
     static constexpr modint one() noexcept { return 1; }
     constexpr modint() noexcept : val(0) {}
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
     constexpr modint(int_type _val) noexcept : val((_val %= mod) < 0 ? mod + _val : _val) {}
-    constexpr long long value() const noexcept { return val; }
-    constexpr modint operator++(int) noexcept { modint t = *this; return operator+=(1), t; }
-    constexpr modint operator--(int) noexcept { modint t = *this; return operator-=(1), t; }
+    constexpr value_type value() const noexcept { return val; }
+    constexpr modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
+    constexpr modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     constexpr modint &operator++() noexcept { return operator+=(1); }
     constexpr modint &operator--() noexcept { return operator-=(1); }
     constexpr modint operator-() const noexcept { return modint(-val); }
     constexpr modint &operator+=(const modint &rhs) noexcept { return (val += rhs.val) < mod ? 0 : val -= mod, *this; }
     constexpr modint &operator-=(const modint &rhs) noexcept { return (val += mod - rhs.val) < mod ? 0 : val -= mod, *this; }
-    constexpr modint &operator*=(const modint &rhs) noexcept { return val = (long long)val * rhs.val % mod, *this; }
+    constexpr modint &operator*=(const modint &rhs) noexcept { return val = val * rhs.val % mod, *this; }
     constexpr modint &operator/=(const modint &rhs) noexcept { return *this *= inverse(rhs); }
     constexpr modint operator+(const modint &rhs) const noexcept { return modint(*this) += rhs; }
     constexpr modint operator-(const modint &rhs) const noexcept { return modint(*this) -= rhs; }
@@ -316,18 +311,18 @@ public:
     constexpr bool operator==(const modint &rhs) const noexcept { return val == rhs.val; }
     constexpr bool operator!=(const modint &rhs) const noexcept { return val != rhs.val; }
     constexpr bool operator!() const noexcept { return !val; }
-    friend constexpr modint operator+(long long lhs, modint rhs) noexcept { return modint(lhs) + rhs; }
-    friend constexpr modint operator-(long long lhs, modint rhs) noexcept { return modint(lhs) - rhs; }
-    friend constexpr modint operator*(long long lhs, modint rhs) noexcept { return modint(lhs) * rhs; }
-    friend constexpr modint operator/(long long lhs, modint rhs) noexcept { return modint(lhs) / rhs; }
+    friend constexpr modint operator+(value_type lhs, modint rhs) noexcept { return modint(lhs) + rhs; }
+    friend constexpr modint operator-(value_type lhs, modint rhs) noexcept { return modint(lhs) - rhs; }
+    friend constexpr modint operator*(value_type lhs, modint rhs) noexcept { return modint(lhs) * rhs; }
+    friend constexpr modint operator/(value_type lhs, modint rhs) noexcept { return modint(lhs) / rhs; }
     static constexpr modint inverse(const modint &rhs) noexcept
     {
         assert(rhs != 0);
-        int a{mod}, b{rhs.val}, u{}, v{1}, t{};
+        value_type a{mod}, b{rhs.val}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
         return {u};
     }
-    static constexpr modint pow(modint rhs, long long e) noexcept
+    static constexpr modint pow(modint rhs, int_fast64_t e) noexcept
     {
         if(e < 0) e = e % (mod - 1) + mod - 1;
         modint res{1};
@@ -335,9 +330,10 @@ public:
         return res;
     }
     friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.val; }
-    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long val; rhs = {(is >> val, val)}; return is; }
+    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { value_type val; rhs = (is >> val, val); return is; }
+protected:
+    value_type val;
 }; // class modint
-
 // specialization for modulo 2.
 template <>
 class modint<2>
@@ -369,8 +365,6 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.val; }
     friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long val; rhs.val = (is >> val, val & 1); return is; }
 }; // class modint<2>
-
-
 #line 4 "test/library-checker/range_affine_range_sum.test.cpp"
 #include <cstdio>
 
