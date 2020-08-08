@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
-#include "variation/flow/Dinic.hpp"
+#include "graph/directed/flow/Dinic.hpp"
 #include <cstdio>
 
 int main()
