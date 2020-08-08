@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../../../assets/css/copy-button.css" />
 
 
-# :warning: graph/directed/flow/Dinic.hpp
+# :heavy_check_mark: graph/directed/flow/Dinic.hpp
 
 <a href="../../../../index.html">Back to top page</a>
 
@@ -38,7 +38,12 @@ layout: default
 
 ## Depends on
 
-* :warning: <a href="base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="base.hpp.html">graph/directed/flow/base.hpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 
 
 ## Code

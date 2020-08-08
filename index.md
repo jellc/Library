@@ -146,8 +146,8 @@ layout: default
 
 ### graph/directed/flow
 
-* :warning: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :warning: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
+* :heavy_check_mark: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
 
 
 <div id="89915d49ca05c805c82a9fa3819995df"></div>
@@ -210,7 +210,7 @@ layout: default
 
 ### variation/flow
 
-* :heavy_check_mark: <a href="library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
+* :warning: <a href="library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
 
 
 ## Verify Files
