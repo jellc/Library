@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 23:09:46+09:00
+    - Last commit date: 2020-08-09 02:22:50+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -104,27 +104,26 @@ struct flow_base
     struct edge_t
     {
         size_t src, dst; cap_t cap; cost_t cost; edge_t *rev;
-        edge_t() {}
+        edge_t() = default;
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
         void flow(cap_t f) { cap -= f, rev->cap += f; }
         bool avbl() const { return cap > 0; }
     }; // class edge_t
 
-    struct adj_type
+    class adj_type
     {
         edge_t *fst, *lst, *clst;
+    public:
         template <class ...Args>
         edge_t *emplace(Args&& ...args)
         {
             if(lst == clst)
             {
                 size_t len(clst - fst);
-                edge_t *nfst = new edge_t[len << 1];
-                lst = nfst;
+                edge_t *nfst = lst = new edge_t[len << 1];
                 for(edge_t *p{fst}; p != clst; ++p, ++lst) p->rev->rev = lst, *lst = *p;
-                delete[] fst;
-                fst = nfst;
+                delete[] fst; fst = nfst;
                 clst = lst + len;
             }
             *lst = edge_t(args...);
