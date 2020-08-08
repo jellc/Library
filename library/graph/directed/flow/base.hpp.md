@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/base.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 14:19:42+09:00
+    - Last commit date: 2020-08-08 14:23:48+09:00
 
 
 
@@ -95,9 +95,7 @@ struct flow_base
     flow_base(const flow_base& other) : adjs(other.size())
     {
         for(size_t node{}; node != size(); ++node)
-        {
             for(const auto &[src, dst, cap, cost, rev] : other[node])
-            {
                 if(src == node)
                 {
                     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
@@ -105,8 +103,6 @@ struct flow_base
                     rev->src = -1;
                 }
                 else rev->rev->src = node;
-            }
-        }
     }
 
     flow_base &operator=(const flow_base &rhs)
@@ -187,9 +183,7 @@ struct flow_base
     flow_base(const flow_base& other) : adjs(other.size())
     {
         for(size_t node{}; node != size(); ++node)
-        {
             for(const auto &[src, dst, cap, cost, rev] : other[node])
-            {
                 if(src == node)
                 {
                     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
@@ -197,8 +191,6 @@ struct flow_base
                     rev->src = -1;
                 }
                 else rev->rev->src = node;
-            }
-        }
     }
 
     flow_base &operator=(const flow_base &rhs)
