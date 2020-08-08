@@ -73,7 +73,7 @@ struct flow_base
         assert(src < size()); assert(dst < size());
         if(!(cap > 0) || src == dst) return;
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
+        ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
     }
 
 protected:
