@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/bipartitematching.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 14:26:50+09:00
+    - Last commit date: 2020-08-08 23:09:46+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -169,7 +169,7 @@ struct flow_base
         assert(src < size()); assert(dst < size());
         if(!(cap > 0) || src == dst) return;
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
+        ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
     }
 
 protected:

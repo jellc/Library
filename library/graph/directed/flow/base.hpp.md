@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/base.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 14:23:48+09:00
+    - Last commit date: 2020-08-08 23:09:46+09:00
 
 
 
@@ -39,10 +39,12 @@ layout: default
 ## Required by
 
 * :heavy_check_mark: <a href="Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
+* :heavy_check_mark: <a href="min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
 
 
 ## Verified with
 
+* :heavy_check_mark: <a href="../../../../verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="../../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 
 
@@ -126,7 +128,7 @@ struct flow_base
         assert(src < size()); assert(dst < size());
         if(!(cap > 0) || src == dst) return;
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
+        ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
     }
 
 protected:
@@ -214,7 +216,7 @@ struct flow_base
         assert(src < size()); assert(dst < size());
         if(!(cap > 0) || src == dst) return;
         edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-        ptr->rev = adjs[dst].emplace(dst, src, 0, cost, ptr);
+        ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
     }
 
 protected:
