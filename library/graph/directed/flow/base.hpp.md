@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../../index.html#13554c95f4603c3979d32881e43d19e6">graph/directed/flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/directed/flow/base.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 02:36:13+09:00
+    - Last commit date: 2020-08-08 14:19:42+09:00
 
 
 
@@ -55,8 +55,7 @@ struct flow_base
 {
     struct edge_t
     {
-        size_t src, dst;
-        cap_t cap; cost_t cost; edge_t *rev;
+        size_t src, dst; cap_t cap; cost_t cost; edge_t *rev;
         edge_t() {}
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
@@ -64,9 +63,8 @@ struct flow_base
         bool avbl() const { return cap > 0; }
     }; // class edge_t
 
-    class adj_type
+    struct adj_type
     {
-        friend flow_base;
         edge_t *fst, *lst, *clst;
         template <class ...Args>
         edge_t *emplace(Args&& ...args)
@@ -84,7 +82,6 @@ struct flow_base
             *lst = edge_t(args...);
             return lst++;
         }
-    public:
         adj_type() : fst(new edge_t[1]), lst(fst), clst(fst + 1) {}
         ~adj_type() { delete[] fst; }
         edge_t &operator[](size_t i) { assert(i < size()); return *(fst + i); }
@@ -114,11 +111,7 @@ struct flow_base
 
     flow_base &operator=(const flow_base &rhs)
     {
-        if(this != &rhs)
-        {
-            flow_base copy(rhs);
-            std::swap(adjs, copy.adjs);
-        }
+        if(this != &rhs) std::swap(adjs, flow_base(rhs).adjs);
         return *this;
     }
 
@@ -154,8 +147,7 @@ struct flow_base
 {
     struct edge_t
     {
-        size_t src, dst;
-        cap_t cap; cost_t cost; edge_t *rev;
+        size_t src, dst; cap_t cap; cost_t cost; edge_t *rev;
         edge_t() {}
         edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev) : src(src), dst(dst), cap(cap), rev(rev) {}
         edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev) : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
@@ -163,9 +155,8 @@ struct flow_base
         bool avbl() const { return cap > 0; }
     }; // class edge_t
 
-    class adj_type
+    struct adj_type
     {
-        friend flow_base;
         edge_t *fst, *lst, *clst;
         template <class ...Args>
         edge_t *emplace(Args&& ...args)
@@ -183,7 +174,6 @@ struct flow_base
             *lst = edge_t(args...);
             return lst++;
         }
-    public:
         adj_type() : fst(new edge_t[1]), lst(fst), clst(fst + 1) {}
         ~adj_type() { delete[] fst; }
         edge_t &operator[](size_t i) { assert(i < size()); return *(fst + i); }
@@ -213,11 +203,7 @@ struct flow_base
 
     flow_base &operator=(const flow_base &rhs)
     {
-        if(this != &rhs)
-        {
-            flow_base copy(rhs);
-            std::swap(adjs, copy.adjs);
-        }
+        if(this != &rhs) std::swap(adjs, flow_base(rhs).adjs);
         return *this;
     }
 
