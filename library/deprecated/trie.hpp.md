@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: string/trie.hpp
+# :warning: deprecated/trie.hpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
-* <a href="{{ site.github.repository_url }}/blob/master/string/trie.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-02-10 09:04:49+09:00
+* category: <a href="../../index.html#54dac5afe1fcac2f65c059fc97b44a58">deprecated</a>
+* <a href="{{ site.github.repository_url }}/blob/master/deprecated/trie.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-10 20:33:17+09:00
 
 
 
@@ -633,7 +633,7 @@ struct trie
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "string/trie.hpp"
+#line 1 "deprecated/trie.hpp"
 // verified at https://codeforces.com/contest/1202/submission/69079919
 #ifndef Trie_hpp
 #define Trie_hpp

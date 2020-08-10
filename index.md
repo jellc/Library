@@ -133,6 +133,7 @@ layout: default
 * :warning: <a href="library/deprecated/Fenwick_tree.cpp.html">deprecated/Fenwick_tree.cpp</a>
 * :warning: <a href="library/deprecated/SplayTree.cpp.html">deprecated/SplayTree.cpp</a>
 * :warning: <a href="library/deprecated/math_utility.cpp.html">deprecated/math_utility.cpp</a>
+* :warning: <a href="library/deprecated/trie.hpp.html">deprecated/trie.hpp</a>
 
 
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>
@@ -189,7 +190,6 @@ layout: default
 * :heavy_check_mark: <a href="library/string/Z_algorithm.hpp.html">string/Z_algorithm.hpp</a>
 * :warning: <a href="library/string/binary_trie.hpp.html">string/binary_trie.hpp</a>
 * :heavy_check_mark: <a href="library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
-* :warning: <a href="library/string/trie.hpp.html">string/trie.hpp</a>
 
 
 <div id="2b3583e6e17721c54496bd04e57a0c15"></div>
