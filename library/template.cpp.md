@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 20:45:35+09:00
+    - Last commit date: 2020-08-11 23:42:36+09:00
 
 
 
@@ -156,7 +156,8 @@ namespace std
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 }
-#line 1 "utils/fixed_point.hpp"
+#line 2 "utils/fixed_point.hpp"
+// specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
 {

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/fixed_point.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-06 05:21:07+09:00
+    - Last commit date: 2020-08-11 23:42:36+09:00
 
 
 
@@ -46,6 +46,8 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+// specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
 {
@@ -61,7 +63,8 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/fixed_point.hpp"
+#line 2 "utils/fixed_point.hpp"
+// specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
 {
