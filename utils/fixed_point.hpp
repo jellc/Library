@@ -1,3 +1,5 @@
+#pragma once
+// specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
 {
