@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/chval.hpp">View this file on GitHub</a>
-    - Last commit date: 1970-01-01 00:00:00+00:00
+    - Last commit date: 2020-08-11 20:45:35+09:00
 
 
+
+
+## Required by
+
+* :warning: <a href="../template.cpp.html">template.cpp</a>
 
 
 ## Code
@@ -41,7 +46,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#include once
+#pragma once
 #include <functional>
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
@@ -52,8 +57,7 @@ template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp c
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/chval.hpp"
-#include once
+#line 2 "utils/chval.hpp"
 #include <functional>
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }

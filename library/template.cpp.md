@@ -31,9 +31,19 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 1970-01-01 00:00:00+00:00
+    - Last commit date: 2020-08-11 20:45:35+09:00
 
 
+
+
+## Depends on
+
+* :warning: <a href="config.hpp.html">config.hpp</a>
+* :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
+* :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
+* :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
+* :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -171,8 +181,6 @@ struct read<void>
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
 };
-#line 1 "utils/chval.hpp"
-#include once
 #line 3 "utils/chval.hpp"
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
