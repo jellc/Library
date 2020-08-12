@@ -31,15 +31,18 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 23:42:36+09:00
+    - Last commit date: 2020-08-12 16:12:22+09:00
 
 
 
 
 ## Depends on
 
+* :warning: <a href="alias.hpp.html">alias.hpp</a>
 * :warning: <a href="config.hpp.html">config.hpp</a>
+* :warning: <a href="gcc_option.hpp.html">gcc_option.hpp</a>
 * :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
@@ -51,49 +54,31 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#ifdef LOCAL
-    #define _GLIBCXX_DEBUG
-#else
-    #pragma GCC optimize("O3")
-    #pragma GCC target("avx,avx2")
-    #pragma GCC optimize("unroll-loops")
-#endif
-// #define NDEBUG
-
-#include <bits/stdc++.h>
-#include <ext/rope>
-
+#include "gcc_option.hpp"
 #include "config.hpp"
+#include "alias.hpp"
+#include <ext/rope>
 #include "utils/iostream_overload.hpp"
-#include "utils/fixed_point.hpp"
 #include "utils/read.hpp"
+#include "utils/casefmt.hpp"
+#include "utils/fixed_point.hpp"
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
 
-#pragma region alias
-using namespace std; using namespace __gnu_cxx;
-using i32 = int_least32_t; using i64 = int_least64_t;
-using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
-#pragma endregion
-
 unsigned config::cases()
 {
-    unsigned t = 1;
-    // t = -1;
-    // cin >> t;
-    return t;
+    // return -1; // not specify
+    // return read(); // given
+    return 1;
 }
 
 struct solver
+{ // start here!
+
+solver()
 {
-    solver()
-    {
-        
-    }
-};
+    
+}};
 
 ```
 {% endraw %}
@@ -101,7 +86,7 @@ struct solver
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "template.cpp"
+#line 2 "gcc_option.hpp"
 #ifdef LOCAL
     #define _GLIBCXX_DEBUG
 #else
@@ -109,12 +94,10 @@ struct solver
     #pragma GCC target("avx,avx2")
     #pragma GCC optimize("unroll-loops")
 #endif
-// #define NDEBUG
-
-#include <bits/stdc++.h>
-#line 12 "template.cpp"
-
-#line 4 "config.hpp"
+#line 2 "config.hpp"
+#include <chrono>
+#include <iostream>
+#include <iomanip>
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
@@ -130,14 +113,22 @@ namespace config
         ios::sync_with_stdio(false);
         cin.tie(nullptr);
         cout << fixed << setprecision(15);
-        #ifdef _buffer_check
-            atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-        #endif
+    #ifdef _buffer_check
+        atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+    #endif
     }
-    unsigned cases(void);
-    template <class C> void main() { for(unsigned t = cases(); t; --t) C(); }
+    unsigned cases(void), caseid = 1;
+    template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 }
 struct solver; int main() { config::main<solver>(); }
+#line 2 "alias.hpp"
+#include <bits/stdc++.h>
+using namespace std; using namespace __gnu_cxx;
+using i32 = int_least32_t; using i64 = int_least64_t;
+using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
+template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
+template <class T> using hashset = unordered_set<T>;
+template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 #line 2 "utils/iostream_overload.hpp"
 namespace std
 {
@@ -156,16 +147,6 @@ namespace std
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 }
-#line 2 "utils/fixed_point.hpp"
-// specify the return type of lambda.
-template <class lambda_type>
-class fixed_point
-{
-    lambda_type func;
-public:
-    fixed_point(lambda_type &&f) : func(std::move(f)) {}
-    template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
-};
 #line 2 "utils/read.hpp"
 // read with std::cin.
 template <class T = void>
@@ -181,6 +162,18 @@ struct read<void>
 {
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
+};
+#line 3 "utils/casefmt.hpp"
+std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
+#line 2 "utils/fixed_point.hpp"
+// specify the return type of lambda.
+template <class lambda_type>
+class fixed_point
+{
+    lambda_type func;
+public:
+    fixed_point(lambda_type &&f) : func(std::move(f)) {}
+    template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
 #line 3 "utils/chval.hpp"
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
@@ -212,32 +205,22 @@ long double binary(long double ok, long double ng, const long double eps, pred_t
     }
     return ok;
 }
-#line 19 "template.cpp"
-
-#pragma region alias
-using namespace std; using namespace __gnu_cxx;
-using i32 = int_least32_t; using i64 = int_least64_t;
-using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
-#pragma endregion
+#line 11 "template.cpp"
 
 unsigned config::cases()
 {
-    unsigned t = 1;
-    // t = -1;
-    // cin >> t;
-    return t;
+    // return -1; // not specify
+    // return read(); // given
+    return 1;
 }
 
 struct solver
+{ // start here!
+
+solver()
 {
-    solver()
-    {
-        
-    }
-};
+    
+}};
 
 ```
 {% endraw %}

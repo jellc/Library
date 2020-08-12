@@ -21,25 +21,29 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: config.hpp
+# :warning: utils/casefmt.hpp
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 
-* category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
-* <a href="{{ site.github.repository_url }}/blob/master/config.hpp">View this file on GitHub</a>
+* category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
+* <a href="{{ site.github.repository_url }}/blob/master/utils/casefmt.hpp">View this file on GitHub</a>
     - Last commit date: 2020-08-12 16:12:22+09:00
 
 
 
 
+## Depends on
+
+* :warning: <a href="../config.hpp.html">config.hpp</a>
+
+
 ## Required by
 
-* :warning: <a href="template.cpp.html">template.cpp</a>
-* :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
+* :warning: <a href="../template.cpp.html">template.cpp</a>
 
 
 ## Code
@@ -48,32 +52,8 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
-#include <chrono>
-#include <iostream>
-#include <iomanip>
-namespace config
-{
-    const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed()
-    {
-        using namespace std::chrono;
-        const auto end_time{system_clock::now()};
-        return duration_cast<milliseconds>(end_time - start_time).count();
-    }
-    __attribute__((constructor)) void setup()
-    {
-        using namespace std;
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout << fixed << setprecision(15);
-    #ifdef _buffer_check
-        atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-    #endif
-    }
-    unsigned cases(void), caseid = 1;
-    template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+#include "config.hpp"
+std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 
 ```
 {% endraw %}
@@ -108,9 +88,11 @@ namespace config
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 }
 struct solver; int main() { config::main<solver>(); }
+#line 3 "utils/casefmt.hpp"
+std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 
 ```
 {% endraw %}
 
-<a href="../index.html">Back to top page</a>
+<a href="../../index.html">Back to top page</a>
 

@@ -38,7 +38,9 @@ layout: default
 
 ### .
 
+* :warning: <a href="library/alias.hpp.html">alias.hpp</a>
 * :warning: <a href="library/config.hpp.html">config.hpp</a>
+* :warning: <a href="library/gcc_option.hpp.html">gcc_option.hpp</a>
 * :warning: <a href="library/template.cpp.html">template.cpp</a>
 
 
@@ -205,6 +207,7 @@ layout: default
 
 * :warning: <a href="library/utils/Prime_factorizer.hpp.html">utils/Prime_factorizer.hpp</a>
 * :warning: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :warning: <a href="library/utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
