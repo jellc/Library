@@ -181,6 +181,7 @@ layout: default
 
 ### math
 
+* :warning: <a href="library/math/Prime_factorizer.hpp.html">math/Prime_factorizer.hpp</a>
 * :warning: <a href="library/math/ext_gcd.hpp.html">math/ext_gcd.hpp</a>
 
 
@@ -205,7 +206,6 @@ layout: default
 
 ### utils
 
-* :warning: <a href="library/utils/Prime_factorizer.hpp.html">utils/Prime_factorizer.hpp</a>
 * :warning: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
 * :warning: <a href="library/utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
