@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/casefmt.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-12 16:12:22+09:00
+    - Last commit date: 2020-08-14 02:50:22+09:00
 
 
 
@@ -86,8 +86,7 @@ namespace config
     }
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+} // namespace config
 #line 3 "utils/casefmt.hpp"
 std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 

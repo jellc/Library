@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/config.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-12 16:12:22+09:00
+    - Last commit date: 2020-08-14 02:50:22+09:00
 
 
 
@@ -72,8 +72,7 @@ namespace config
     }
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+} // namespace config
 
 ```
 {% endraw %}
@@ -106,8 +105,7 @@ namespace config
     }
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+} // namespace config
 
 ```
 {% endraw %}

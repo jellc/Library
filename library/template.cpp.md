@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 02:33:34+09:00
+    - Last commit date: 2020-08-14 02:50:22+09:00
 
 
 
@@ -65,15 +65,15 @@ layout: default
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
 
-unsigned config::cases()
-{
+struct solver; int main() { config::main<solver>(); }
+
+unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
     return 1;
 }
 
-struct solver
-{ // start here!
+struct solver { // start here!
 
 solver()
 {
@@ -119,8 +119,7 @@ namespace config
     }
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+} // namespace config
 #line 2 "alias.hpp"
 #include <bits/stdc++.h>
 using namespace std; using namespace __gnu_cxx;
@@ -207,15 +206,15 @@ long double binary(long double ok, long double ng, const long double eps, pred_t
 }
 #line 11 "template.cpp"
 
-unsigned config::cases()
-{
+struct solver; int main() { config::main<solver>(); }
+
+unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
     return 1;
 }
 
-struct solver
-{ // start here!
+struct solver { // start here!
 
 solver()
 {
