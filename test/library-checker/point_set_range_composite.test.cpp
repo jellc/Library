@@ -5,8 +5,7 @@
 
 int main()
 {
-    using mint=modint_runtime;
-    mint::mod()=998244353;
+    using mint=modint<998244353>;
     int n,q;
     scanf("%d%d",&n,&q);
     struct mono

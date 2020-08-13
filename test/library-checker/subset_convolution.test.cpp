@@ -5,8 +5,7 @@
 
 int main()
 {
-    using mint=modint_runtime;
-    mint::mod()=998244353;
+    using mint=modint<998244353>;
     using std::cin;
     int n; cin>>n;
     std::vector<mint> a(1<<n),b(1<<n);
