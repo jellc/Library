@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 02:50:22+09:00
+    - Last commit date: 2020-08-14 03:00:28+09:00
 
 
 
@@ -64,9 +64,7 @@ layout: default
 #include "utils/fixed_point.hpp"
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
-
 struct solver; int main() { config::main<solver>(); }
-
 unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
@@ -205,9 +203,7 @@ long double binary(long double ok, long double ng, const long double eps, pred_t
     return ok;
 }
 #line 11 "template.cpp"
-
 struct solver; int main() { config::main<solver>(); }
-
 unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
