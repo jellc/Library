@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/binary_search.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-06 05:19:48+09:00
+    - Last commit date: 2020-08-14 02:33:34+09:00
 
 
 
@@ -46,12 +46,16 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+#include <cassert>
+#include <cstdint>
+#include <cmath>
 // binary search on discrete range.
 template <class iter_type, class pred_type>
 iter_type binary(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
-    long long dist(ng - ok);
+    intmax_t dist(ng - ok);
     while(std::abs(dist) > 1)
     {
         iter_type mid(ok + dist / 2);
@@ -79,13 +83,16 @@ long double binary(long double ok, long double ng, const long double eps, pred_t
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/binary_search.hpp"
+#line 2 "utils/binary_search.hpp"
+#include <cassert>
+#include <cstdint>
+#include <cmath>
 // binary search on discrete range.
 template <class iter_type, class pred_type>
 iter_type binary(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
-    long long dist(ng - ok);
+    intmax_t dist(ng - ok);
     while(std::abs(dist) > 1)
     {
         iter_type mid(ok + dist / 2);

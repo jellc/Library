@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-12 16:12:22+09:00
+    - Last commit date: 2020-08-14 02:33:34+09:00
 
 
 
@@ -178,13 +178,13 @@ public:
 #line 3 "utils/chval.hpp"
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
-#line 1 "utils/binary_search.hpp"
+#line 5 "utils/binary_search.hpp"
 // binary search on discrete range.
 template <class iter_type, class pred_type>
 iter_type binary(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
-    long long dist(ng - ok);
+    intmax_t dist(ng - ok);
     while(std::abs(dist) > 1)
     {
         iter_type mid(ok + dist / 2);
