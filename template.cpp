@@ -8,9 +8,7 @@
 #include "utils/fixed_point.hpp"
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
-
 struct solver; int main() { config::main<solver>(); }
-
 unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
