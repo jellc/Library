@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_affine_range_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-08 23:17:57+09:00
+    - Last commit date: 2020-08-13 18:48:05+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy_segment_tree.hpp.html">data_structure/segment_tree/lazy_segment_tree.hpp</a>
-* :heavy_check_mark: <a href="../../../library/modulus/compile-time/modint.hpp.html">modulus/compile-time/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Code
@@ -50,7 +50,7 @@ layout: default
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
 #include "../../data_structure/segment_tree/lazy_segment_tree.hpp"
-#include "../../modulus/compile-time/modint.hpp"
+#include "../../modulus/modint.hpp"
 #include <cstdio>
 
 int main()
@@ -98,7 +98,7 @@ int main()
         scanf("%d%d%d",&t,&l,&r);
         if(t)
         {
-            printf("%d\n",seg.fold(l,r).v.value());
+            printf("%d\n",seg.fold(l,r).v);
         }
         else
         {
@@ -107,6 +107,7 @@ int main()
         }
     }
 }
+
 ```
 {% endraw %}
 
@@ -284,87 +285,125 @@ public:
         return size_orig;
     }
 }; //class lazy_segment_tree
-#line 3 "modulus/compile-time/modint.hpp"
+#line 3 "modulus/modint.hpp"
 #include <iostream>
-template <int_fast64_t mod>
+template <int_fast64_t mod = 0> // compile-time defined modulo.
 struct modint
 {
+    static_assert(mod > 0);
     using value_type = int_fast64_t;
-    static constexpr modint one() noexcept { return 1; }
-    constexpr modint() noexcept : val(0) {}
+    constexpr static modint one() noexcept { return 1; }
+    constexpr operator value_type() const noexcept { return value; }
+    constexpr modint() noexcept = default;
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-    constexpr modint(int_type _val) noexcept : val((_val %= mod) < 0 ? mod + _val : _val) {}
-    constexpr value_type value() const noexcept { return val; }
+    constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
     constexpr modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
     constexpr modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     constexpr modint &operator++() noexcept { return operator+=(1); }
     constexpr modint &operator--() noexcept { return operator-=(1); }
-    constexpr modint operator-() const noexcept { return modint(-val); }
-    constexpr modint &operator+=(const modint &rhs) noexcept { return (val += rhs.val) < mod ? 0 : val -= mod, *this; }
-    constexpr modint &operator-=(const modint &rhs) noexcept { return (val += mod - rhs.val) < mod ? 0 : val -= mod, *this; }
-    constexpr modint &operator*=(const modint &rhs) noexcept { return val = val * rhs.val % mod, *this; }
-    constexpr modint &operator/=(const modint &rhs) noexcept { return *this *= inverse(rhs); }
-    constexpr modint operator+(const modint &rhs) const noexcept { return modint(*this) += rhs; }
-    constexpr modint operator-(const modint &rhs) const noexcept { return modint(*this) -= rhs; }
-    constexpr modint operator*(const modint &rhs) const noexcept { return modint(*this) *= rhs; }
-    constexpr modint operator/(const modint &rhs) const noexcept { return modint(*this) /= rhs; }
-    constexpr bool operator==(const modint &rhs) const noexcept { return val == rhs.val; }
-    constexpr bool operator!=(const modint &rhs) const noexcept { return val != rhs.val; }
-    constexpr bool operator!() const noexcept { return !val; }
-    friend constexpr modint operator+(value_type lhs, modint rhs) noexcept { return modint(lhs) + rhs; }
-    friend constexpr modint operator-(value_type lhs, modint rhs) noexcept { return modint(lhs) - rhs; }
-    friend constexpr modint operator*(value_type lhs, modint rhs) noexcept { return modint(lhs) * rhs; }
-    friend constexpr modint operator/(value_type lhs, modint rhs) noexcept { return modint(lhs) / rhs; }
-    static constexpr modint inverse(const modint &rhs) noexcept
+    constexpr modint operator-() const noexcept { return modint(-value); }
+    constexpr modint &operator+=(const modint &rhs) noexcept { return (value += rhs.value) < mod ? 0 : value -= mod, *this; }
+    constexpr modint &operator-=(const modint &rhs) noexcept { return (value += mod - rhs.value) < mod ? 0 : value -= mod, *this; }
+    constexpr modint &operator*=(const modint &rhs) noexcept { return value = value * rhs.value % mod, *this; }
+    constexpr modint &operator/=(const modint &rhs) noexcept { return operator*=(rhs.inverse()); }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr modint operator+(const int_type &rhs) const noexcept { return modint{*this} += rhs; }
+    constexpr modint operator+(const modint &rhs) const noexcept { return modint{*this} += rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr modint operator-(const int_type &rhs) const noexcept { return modint{*this} -= rhs; }
+    constexpr modint operator-(const modint &rhs) const noexcept { return modint{*this} -= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr modint operator*(const int_type &rhs) const noexcept { return modint{*this} *= rhs; }
+    constexpr modint operator*(const modint &rhs) const noexcept { return modint{*this} *= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr modint operator/(const int_type &rhs) const noexcept { return modint{*this} /= rhs; }
+    constexpr modint operator/(const modint &rhs) const noexcept { return modint{*this} /= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr friend modint operator+(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) + rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr friend modint operator-(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) - rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr friend modint operator*(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) * rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    constexpr friend modint operator/(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) / rhs; }
+    constexpr modint inverse() const noexcept
     {
-        assert(rhs != 0);
-        value_type a{mod}, b{rhs.val}, u{}, v{1}, t{};
+        assert(value);
+        value_type a{mod}, b{value}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
         return {u};
     }
-    static constexpr modint pow(modint rhs, int_fast64_t e) noexcept
+    constexpr static modint pow(modint rhs, int_fast64_t e) noexcept
     {
         if(e < 0) e = e % (mod - 1) + mod - 1;
         modint res{1};
         while(e) { if(e & 1) res *= rhs; rhs *= rhs, e >>= 1; }
         return res;
     }
-    friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.val; }
-    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { value_type val; rhs = (is >> val, val); return is; }
+    friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.value; }
+    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { value_type value; rhs = (is >> value, value); return is; }
 protected:
-    value_type val;
+    value_type value = 0;
 }; // class modint
-// specialization for modulo 2.
-template <>
-class modint<2>
+template <> // runtime defined modulo as default(mod = 0).
+struct modint<0>
 {
-    bool val;
-public:
-    static constexpr modint one() noexcept { return 1; }
-    constexpr modint() noexcept : val(false) {}
+    using value_type = int_fast64_t;
+    static value_type &mod() noexcept { static value_type mod{}; return mod; }
+    static modint one() noexcept { return 1; }
+    operator value_type() const noexcept { return value; }
+    modint() noexcept = default;
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-    constexpr modint(int_type _val) noexcept : val(_val & 1) {}
-    constexpr operator bool() const noexcept { return val; }
-    constexpr bool value() const noexcept { return val; }
-    constexpr modint &operator+=(const modint &rhs) noexcept { return val ^= rhs.val, *this; }
-    constexpr modint &operator-=(const modint &rhs) noexcept { return val ^= rhs.val, *this; }
-    constexpr modint &operator*=(const modint &rhs) noexcept { return val &= rhs.val, *this; }
-    constexpr modint &operator/=(const modint &rhs) noexcept { assert(rhs.val); return *this; }
-    constexpr modint operator!() const noexcept { return !val; }
-    constexpr modint operator-() const noexcept { return *this; }
-    constexpr modint operator+(const modint &rhs) const noexcept { return val != rhs.val; }
-    constexpr modint operator-(const modint &rhs) const noexcept { return val != rhs.val; }
-    constexpr modint operator*(const modint &rhs) const noexcept { return val && rhs.val; }
-    constexpr modint operator/(const modint &rhs) const noexcept { assert(rhs.val); return *this; }
-    constexpr bool operator==(const modint &rhs) const noexcept { return val == rhs.val; }
-    constexpr bool operator!=(const modint &rhs) const noexcept { return val != rhs.val; }
-    friend constexpr modint operator+(long long lhs, modint rhs) noexcept { return lhs & 1 ? !rhs : rhs; }
-    friend constexpr modint operator-(long long lhs, modint rhs) noexcept { return lhs & 1 ? !rhs : rhs; }
-    friend constexpr modint operator*(long long lhs, modint rhs) noexcept { return lhs & 1 ? rhs : modint<2>{0}; }
-    friend constexpr modint operator/(long long lhs, modint rhs) noexcept { assert(rhs.val); return lhs & 1 ? rhs : modint<2>{0}; }
-    friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.val; }
-    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long val; rhs.val = (is >> val, val & 1); return is; }
-}; // class modint<2>
+    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod()) < 0 ? n + mod() : n} {}
+    modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
+    modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
+    modint &operator++() noexcept { return operator+=(1); }
+    modint &operator--() noexcept { return operator-=(1); }
+    modint operator-() const noexcept { return modint(-value); }
+    modint &operator+=(const modint &rhs) noexcept { return (value += rhs.value) < mod() ? 0 : value -= mod(), *this; }
+    modint &operator-=(const modint &rhs) noexcept { return (value += mod() - rhs.value) < mod() ? 0 : value -= mod(), *this; }
+    modint &operator*=(const modint &rhs) noexcept { return (value *= rhs.value) %= mod(), *this; }
+    modint &operator/=(const modint &rhs) noexcept { return operator*=(rhs.inverse()); }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    modint operator+(const int_type &rhs) const noexcept { return modint{*this} += rhs; }
+    modint operator+(const modint &rhs) const noexcept { return modint{*this} += rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    modint operator-(const int_type &rhs) const noexcept { return modint{*this} -= rhs; }
+    modint operator-(const modint &rhs) const noexcept { return modint{*this} -= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    modint operator*(const int_type &rhs) const noexcept { return modint{*this} *= rhs; }
+    modint operator*(const modint &rhs) const noexcept { return modint{*this} *= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    modint operator/(const int_type &rhs) const noexcept { return modint{*this} /= rhs; }
+    modint operator/(const modint &rhs) const noexcept { return modint{*this} /= rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    friend modint operator+(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) + rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    friend modint operator-(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) - rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    friend modint operator*(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) * rhs; }
+    template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
+    friend modint operator/(const int_type &lhs, const modint &rhs) noexcept { return modint(lhs) / rhs; }
+    modint inverse() const noexcept
+    {
+        assert(mod() && value);
+        long long a{mod()}, b{value}, u{}, v{1}, t{};
+        while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
+        return {u};
+    }
+    static modint pow(modint rhs, int_fast64_t e) noexcept
+    {
+        if(e < 0) e = e % (mod() - 1) + mod() - 1;
+        modint res{1};
+        while(e) { if(e & 1) res *= rhs; rhs *= rhs, e >>= 1; }
+        return res;
+    }
+    friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.value; }
+    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long value; rhs = modint((is >> value, value)); return is; }
+protected:
+    value_type value = 0;
+}; // class modint<0>
+using modint_runtime = modint<0>;
 #line 4 "test/library-checker/range_affine_range_sum.test.cpp"
 #include <cstdio>
 
@@ -413,7 +452,7 @@ int main()
         scanf("%d%d%d",&t,&l,&r);
         if(t)
         {
-            printf("%d\n",seg.fold(l,r).v.value());
+            printf("%d\n",seg.fold(l,r).v);
         }
         else
         {
