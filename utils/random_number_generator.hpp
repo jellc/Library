@@ -1,5 +1,5 @@
+#pragma once
 #include <random>
-
 template <typename num_t>
 class random_number_generator
 {
@@ -23,4 +23,4 @@ class random_number_generator
     // generate random number in [lower, upper].
     random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
     num_t operator()() { return unif(engine); }
-}; // class random_number_generator 
+}; // class random_number_generator
