@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/subset_convolution.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-13 19:32:55+09:00
+    - Last commit date: 2020-08-14 01:46:04+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/subset_convolution">https://judge.yosupo.jp/problem/subset_convolution</a>
@@ -55,8 +55,7 @@ layout: default
 
 int main()
 {
-    using mint=modint_runtime;
-    mint::mod()=998244353;
+    using mint=modint<998244353>;
     using std::cin;
     int n; cin>>n;
     std::vector<mint> a(1<<n),b(1<<n);
@@ -142,7 +141,10 @@ template <int_fast64_t mod = 0> // compile-time defined modulo.
 struct modint
 {
     static_assert(mod > 0);
-    using value_type = int_fast64_t;
+    template <bool i32, class = void>
+    struct modif { using value_type = int_fast32_t; };
+    template <class void_t> struct modif<false, void_t> { using value_type = int_fast64_t; };
+    using value_type = typename modif<mod < (1 << 30)>::value_type;
     constexpr static modint one() noexcept { return 1; }
     constexpr operator value_type() const noexcept { return value; }
     constexpr modint() noexcept = default;
@@ -152,10 +154,10 @@ struct modint
     constexpr modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     constexpr modint &operator++() noexcept { return operator+=(1); }
     constexpr modint &operator--() noexcept { return operator-=(1); }
-    constexpr modint operator-() const noexcept { return modint(-value); }
+    constexpr modint operator-() const noexcept { return value ? mod - value : 0; }
     constexpr modint &operator+=(const modint &rhs) noexcept { return (value += rhs.value) < mod ? 0 : value -= mod, *this; }
     constexpr modint &operator-=(const modint &rhs) noexcept { return (value += mod - rhs.value) < mod ? 0 : value -= mod, *this; }
-    constexpr modint &operator*=(const modint &rhs) noexcept { return value = value * rhs.value % mod, *this; }
+    constexpr modint &operator*=(const modint &rhs) noexcept { return value = (int_fast64_t)value * rhs.value % mod, *this; }
     constexpr modint &operator/=(const modint &rhs) noexcept { return operator*=(rhs.inverse()); }
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
     constexpr modint operator+(const int_type &rhs) const noexcept { return modint{*this} += rhs; }
@@ -210,7 +212,7 @@ struct modint<0>
     modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     modint &operator++() noexcept { return operator+=(1); }
     modint &operator--() noexcept { return operator-=(1); }
-    modint operator-() const noexcept { return modint(-value); }
+    modint operator-() const noexcept { return value ? mod() - value : 0; }
     modint &operator+=(const modint &rhs) noexcept { return (value += rhs.value) < mod() ? 0 : value -= mod(), *this; }
     modint &operator-=(const modint &rhs) noexcept { return (value += mod() - rhs.value) < mod() ? 0 : value -= mod(), *this; }
     modint &operator*=(const modint &rhs) noexcept { return (value *= rhs.value) %= mod(), *this; }
@@ -259,8 +261,7 @@ using modint_runtime = modint<0>;
 
 int main()
 {
-    using mint=modint_runtime;
-    mint::mod()=998244353;
+    using mint=modint<998244353>;
     using std::cin;
     int n; cin>>n;
     std::vector<mint> a(1<<n),b(1<<n);
