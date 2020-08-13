@@ -1,9 +1,13 @@
+#pragma once
+#include <cassert>
+#include <cstdint>
+#include <cmath>
 // binary search on discrete range.
 template <class iter_type, class pred_type>
 iter_type binary(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
-    long long dist(ng - ok);
+    intmax_t dist(ng - ok);
     while(std::abs(dist) > 1)
     {
         iter_type mid(ok + dist / 2);
