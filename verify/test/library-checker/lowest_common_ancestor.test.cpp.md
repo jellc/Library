@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/lowest_common_ancestor.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 22:50:20+09:00
+    - Last commit date: 2020-08-14 03:49:19+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/lca">https://judge.yosupo.jp/problem/lca</a>
@@ -50,6 +50,7 @@ layout: default
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 #include "../../graph/undirected/tree/lowest_common_ancestor.hpp"
 
+#include <ext/rope>
 #include <cstdio>
 
 int main()
@@ -69,6 +70,7 @@ int main()
         printf("%d\n",(int)lca.query(u,v));
     }
 }
+
 ```
 {% endraw %}
 
@@ -144,6 +146,7 @@ public:
 }; // class lowest_common_ancestor
 #line 3 "test/library-checker/lowest_common_ancestor.test.cpp"
 
+#include <ext/rope>
 #include <cstdio>
 
 int main()
