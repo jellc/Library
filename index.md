@@ -192,13 +192,6 @@ layout: default
 * :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
-<div id="6a766f280bf2a78039d52a3337357612"></div>
-
-### modulus/compile-time
-
-* :warning: <a href="library/modulus/compile-time/modint.hpp.html">modulus/compile-time/modint.hpp</a>
-
-
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
 
 ### string

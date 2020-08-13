@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/point_set_range_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 02:08:10+09:00
+    - Last commit date: 2020-08-14 02:35:26+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -271,8 +271,7 @@ template <int_fast64_t mod = 0> // compile-time defined modulo.
 struct modint
 {
     static_assert(mod > 0);
-    template <bool i32, class = void>
-    struct modif { using value_type = int_least32_t; };
+    template <bool i32, class = void> struct modif { using value_type = int_least32_t; };
     template <class void_t> struct modif<false, void_t> { using value_type = int_least64_t; };
     using value_type = typename modif<mod < (1 << 30)>::value_type;
     constexpr static modint one() noexcept { return 1; }
