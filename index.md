@@ -215,6 +215,7 @@ layout: default
 * :warning: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
+* :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
 
 <div id="0b46cfa7c37bdbd50ef33fa005a2319c"></div>
