@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
 #include "../../data_structure/segment_tree/lazy_segment_tree.hpp"
-#include "../../modulus/compile-time/modint.hpp"
+#include "../../modulus/modint.hpp"
 #include <cstdio>
 
 int main()
@@ -48,7 +48,7 @@ int main()
         scanf("%d%d%d",&t,&l,&r);
         if(t)
         {
-            printf("%d\n",seg.fold(l,r).v.value());
+            printf("%d\n",seg.fold(l,r).v);
         }
         else
         {

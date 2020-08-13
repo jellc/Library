@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/subset_convolution"
 #include "../../algebra/convolution/subset.hpp"
-#include "../../modulus/compile-time/modint.hpp"
+#include "../../modulus/modint.hpp"
 #include <iostream>
 
 int main()
@@ -12,6 +12,6 @@ int main()
     for(auto &x: a) cin>>x;
     for(auto &x: b) cin>>x;
     a=subset_convolute(a,b);
-    for(auto x: a) printf("%d ",x.value());
+    for(auto x: a) printf("%d ",x);
     puts("");
 }

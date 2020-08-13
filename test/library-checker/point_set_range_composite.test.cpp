@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_set_range_composite"
 #include "../../data_structure/segment_tree/segment_tree.hpp"
-#include "../../modulus/compile-time/modint.hpp"
+#include "../../modulus/modint.hpp"
 #include <cstdio>
 
 int main()
@@ -32,7 +32,7 @@ int main()
         scanf("%d%d%d%d",&t,&a,&b,&c);
         if(t)
         {
-            printf("%d\n",seg.fold(a,b).eval(c).value());
+            printf("%d\n",seg.fold(a,b).eval(c));
         }
         else
         {
