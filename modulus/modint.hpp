@@ -6,8 +6,8 @@ struct modint
 {
     static_assert(mod > 0);
     template <bool i32, class = void>
-    struct modif { using value_type = int_fast32_t; };
-    template <class void_t> struct modif<false, void_t> { using value_type = int_fast64_t; };
+    struct modif { using value_type = int_least32_t; };
+    template <class void_t> struct modif<false, void_t> { using value_type = int_least64_t; };
     using value_type = typename modif<mod < (1 << 30)>::value_type;
     constexpr static modint one() noexcept { return 1; }
     constexpr operator value_type() const noexcept { return value; }
