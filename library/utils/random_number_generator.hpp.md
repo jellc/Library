@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/random_number_generator.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-29 00:17:37+09:00
+    - Last commit date: 2020-08-14 02:27:35+09:00
 
 
 
@@ -41,8 +41,8 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 #include <random>
-
 template <typename num_t>
 class random_number_generator
 {
@@ -66,7 +66,7 @@ class random_number_generator
     // generate random number in [lower, upper].
     random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
     num_t operator()() { return unif(engine); }
-}; // class random_number_generator 
+}; // class random_number_generator
 
 ```
 {% endraw %}
@@ -74,9 +74,8 @@ class random_number_generator
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/random_number_generator.hpp"
+#line 2 "utils/random_number_generator.hpp"
 #include <random>
-
 template <typename num_t>
 class random_number_generator
 {
@@ -100,7 +99,7 @@ class random_number_generator
     // generate random number in [lower, upper].
     random_number_generator(num_t lower = std::numeric_limits<num_t>::min(), num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}()) {}
     num_t operator()() { return unif(engine); }
-}; // class random_number_generator 
+}; // class random_number_generator
 
 ```
 {% endraw %}
