@@ -23,5 +23,4 @@ namespace config
     }
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
-}
-struct solver; int main() { config::main<solver>(); }
+} // namespace config

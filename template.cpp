@@ -9,15 +9,15 @@
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
 
-unsigned config::cases()
-{
+struct solver; int main() { config::main<solver>(); }
+
+unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
     return 1;
 }
 
-struct solver
-{ // start here!
+struct solver { // start here!
 
 solver()
 {
