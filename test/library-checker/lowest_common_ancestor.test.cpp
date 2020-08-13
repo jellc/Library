@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 #include "../../graph/undirected/tree/lowest_common_ancestor.hpp"
 
+#include <ext/rope>
 #include <cstdio>
 
 int main()
