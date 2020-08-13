@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/modint.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 01:43:40+09:00
+    - Last commit date: 2020-08-14 02:08:10+09:00
 
 
 
@@ -56,8 +56,8 @@ struct modint
 {
     static_assert(mod > 0);
     template <bool i32, class = void>
-    struct modif { using value_type = int_fast32_t; };
-    template <class void_t> struct modif<false, void_t> { using value_type = int_fast64_t; };
+    struct modif { using value_type = int_least32_t; };
+    template <class void_t> struct modif<false, void_t> { using value_type = int_least64_t; };
     using value_type = typename modif<mod < (1 << 30)>::value_type;
     constexpr static modint one() noexcept { return 1; }
     constexpr operator value_type() const noexcept { return value; }
@@ -186,8 +186,8 @@ struct modint
 {
     static_assert(mod > 0);
     template <bool i32, class = void>
-    struct modif { using value_type = int_fast32_t; };
-    template <class void_t> struct modif<false, void_t> { using value_type = int_fast64_t; };
+    struct modif { using value_type = int_least32_t; };
+    template <class void_t> struct modif<false, void_t> { using value_type = int_least64_t; };
     using value_type = typename modif<mod < (1 << 30)>::value_type;
     constexpr static modint one() noexcept { return 1; }
     constexpr operator value_type() const noexcept { return value; }
