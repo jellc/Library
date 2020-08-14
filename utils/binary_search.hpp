@@ -4,7 +4,7 @@
 #include <cmath>
 namespace workspace {
 // binary search on discrete range.
-template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, nullptr_t> = nullptr>
+template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
 iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
@@ -18,7 +18,7 @@ iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
     return ok;
 }
 // binary search on real numbers.
-template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, nullptr_t> = nullptr>
+template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, std::nullptr_t> = nullptr>
 real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred)
 {
     assert(ok != ng);
