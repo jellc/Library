@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 18:10:57+09:00
+    - Last commit date: 2020-08-14 18:13:43+09:00
 
 
 
@@ -119,7 +119,7 @@ namespace config
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
-#line 2 "utils/iostream_overload.hpp"
+#line 3 "utils/iostream_overload.hpp"
 namespace std
 {
     template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) { return is >> p.first >> p.second; }
@@ -136,7 +136,7 @@ namespace std
     istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-}
+} // namespace std
 #line 3 "utils/read.hpp"
 namespace workspace {
 // read with std::cin.

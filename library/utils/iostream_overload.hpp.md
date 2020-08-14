@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/iostream_overload.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-06 05:09:18+09:00
+    - Last commit date: 2020-08-14 18:13:43+09:00
 
 
 
@@ -46,6 +46,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 #include <iostream>
 namespace std
 {
@@ -63,7 +64,7 @@ namespace std
     istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-}
+} // namespace std
 
 ```
 {% endraw %}
@@ -71,7 +72,7 @@ namespace std
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "utils/iostream_overload.hpp"
+#line 2 "utils/iostream_overload.hpp"
 #include <iostream>
 namespace std
 {
@@ -89,7 +90,7 @@ namespace std
     istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-}
+} // namespace std
 
 ```
 {% endraw %}
