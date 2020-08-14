@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 namespace std
 {
@@ -15,4 +16,4 @@ namespace std
     istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-}
+} // namespace std
