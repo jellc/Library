@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 03:00:28+09:00
+    - Last commit date: 2020-08-14 18:02:25+09:00
 
 
 
@@ -144,7 +144,8 @@ namespace std
     template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
     ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
 }
-#line 2 "utils/read.hpp"
+#line 3 "utils/read.hpp"
+namespace workspace {
 // read with std::cin.
 template <class T = void>
 struct read
@@ -160,9 +161,13 @@ struct read<void>
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
 };
+} // namespace workspace
 #line 3 "utils/casefmt.hpp"
+namespace workspace {
 std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
-#line 2 "utils/fixed_point.hpp"
+} // namespace workspace
+#line 3 "utils/fixed_point.hpp"
+namespace workspace {
 // specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
@@ -172,13 +177,17 @@ public:
     fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
+} // namespace workspace
 #line 3 "utils/chval.hpp"
+namespace workspace {
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
+} // namespace workspace
 #line 5 "utils/binary_search.hpp"
+namespace workspace {
 // binary search on discrete range.
-template <class iter_type, class pred_type>
-iter_type binary(iter_type ok, iter_type ng, pred_type pred)
+template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, nullptr_t> = nullptr>
+iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
     intmax_t dist(ng - ok);
@@ -191,17 +200,18 @@ iter_type binary(iter_type ok, iter_type ng, pred_type pred)
     return ok;
 }
 // binary search on real numbers.
-template <class pred_type>
-long double binary(long double ok, long double ng, const long double eps, pred_type pred)
+template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, nullptr_t> = nullptr>
+real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred)
 {
     assert(ok != ng);
     while(std::abs(ok - ng) > eps)
     {
-        long double mid{(ok + ng) / 2};
+        real_type mid{(ok + ng) / 2};
         (pred(mid) ? ok : ng) = mid;
     }
     return ok;
 }
+} // namespace workspace
 #line 11 "template.cpp"
 struct solver; int main() { config::main<solver>(); }
 unsigned config::cases() {

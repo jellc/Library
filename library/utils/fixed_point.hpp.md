@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/fixed_point.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 23:42:36+09:00
+    - Last commit date: 2020-08-14 18:02:25+09:00
 
 
 
@@ -47,6 +47,8 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
+#include <utility>
+namespace workspace {
 // specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
@@ -56,6 +58,7 @@ public:
     fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
+} // namespace workspace
 
 ```
 {% endraw %}
@@ -64,6 +67,8 @@ public:
 {% raw %}
 ```cpp
 #line 2 "utils/fixed_point.hpp"
+#include <utility>
+namespace workspace {
 // specify the return type of lambda.
 template <class lambda_type>
 class fixed_point
@@ -73,6 +78,7 @@ public:
     fixed_point(lambda_type &&f) : func(std::move(f)) {}
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
+} // namespace workspace
 
 ```
 {% endraw %}
