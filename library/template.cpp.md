@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 18:02:25+09:00
+    - Last commit date: 2020-08-14 18:07:11+09:00
 
 
 
@@ -186,7 +186,7 @@ template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp c
 #line 5 "utils/binary_search.hpp"
 namespace workspace {
 // binary search on discrete range.
-template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, nullptr_t> = nullptr>
+template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
 iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
 {
     assert(ok != ng);
@@ -200,7 +200,7 @@ iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
     return ok;
 }
 // binary search on real numbers.
-template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, nullptr_t> = nullptr>
+template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, std::nullptr_t> = nullptr>
 real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred)
 {
     assert(ok != ng);
