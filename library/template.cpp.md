@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 18:07:11+09:00
+    - Last commit date: 2020-08-14 18:10:57+09:00
 
 
 
@@ -40,6 +40,7 @@ layout: default
 
 * :warning: <a href="alias.hpp.html">alias.hpp</a>
 * :warning: <a href="config.hpp.html">config.hpp</a>
+* :warning: <a href="extlib.hpp.html">extlib.hpp</a>
 * :warning: <a href="gcc_option.hpp.html">gcc_option.hpp</a>
 * :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
@@ -55,23 +56,24 @@ layout: default
 {% raw %}
 ```cpp
 #include "gcc_option.hpp"
+#include <bits/stdc++.h>
+#include "extlib.hpp"
 #include "config.hpp"
-#include "alias.hpp"
-#include <ext/rope>
 #include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
 #include "utils/casefmt.hpp"
 #include "utils/fixed_point.hpp"
 #include "utils/chval.hpp"
 #include "utils/binary_search.hpp"
-struct solver; int main() { config::main<solver>(); }
+#include "alias.hpp"
+namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
     return 1;
 }
 
-struct solver { // start here!
+struct workspace::solver { // start here!
 
 solver()
 {
@@ -92,10 +94,9 @@ solver()
     #pragma GCC target("avx,avx2")
     #pragma GCC optimize("unroll-loops")
 #endif
-#line 2 "config.hpp"
-#include <chrono>
-#include <iostream>
-#include <iomanip>
+#line 2 "template.cpp"
+#include <bits/stdc++.h>
+#line 5 "config.hpp"
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
@@ -118,14 +119,6 @@ namespace config
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
-#line 2 "alias.hpp"
-#include <bits/stdc++.h>
-using namespace std; using namespace __gnu_cxx;
-using i32 = int_least32_t; using i64 = int_least64_t;
-using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 #line 2 "utils/iostream_overload.hpp"
 namespace std
 {
@@ -212,15 +205,22 @@ real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_ty
     return ok;
 }
 } // namespace workspace
-#line 11 "template.cpp"
-struct solver; int main() { config::main<solver>(); }
+#line 3 "alias.hpp"
+using namespace std; using namespace __gnu_cxx;
+using i32 = int_least32_t; using i64 = int_least64_t;
+using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
+template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
+template <class T> using hashset = unordered_set<T>;
+template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
+#line 12 "template.cpp"
+namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
     // return read(); // given
     return 1;
 }
 
-struct solver { // start here!
+struct workspace::solver { // start here!
 
 solver()
 {
