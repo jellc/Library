@@ -1,4 +1,6 @@
+#pragma once
 #include <iostream>
+namespace workspace {
 // read with std::cin.
 template <class T = void>
 struct read
@@ -14,3 +16,4 @@ struct read<void>
     template <class T>
     operator T() const { T value; std::cin >> value; return value; }
 };
+} // namespace workspace
