@@ -1,5 +1,4 @@
 #pragma once
-#include <bits/stdc++.h>
 using namespace std; using namespace __gnu_cxx;
 using i32 = int_least32_t; using i64 = int_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
