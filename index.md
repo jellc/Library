@@ -120,7 +120,7 @@ layout: default
 
 ### data_structure/union_find
 
-* :warning: <a href="library/data_structure/union_find/basic.hpp.html">data_structure/union_find/basic.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/union_find/basic.hpp.html">data_structure/union_find/basic.hpp</a>
 * :warning: <a href="library/data_structure/union_find/partially_persistent_union_find.hpp.html">data_structure/union_find/partially_persistent_union_find.hpp</a>
 * :warning: <a href="library/data_structure/union_find/potentialized_union_find.hpp.html">data_structure/union_find/potentialized_union_find.hpp</a>
 
@@ -245,6 +245,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/unionfind.test.cpp.html">test/library-checker/unionfind.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 
 
