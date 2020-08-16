@@ -69,6 +69,13 @@ layout: default
 * :warning: <a href="library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
 
 
+<div id="ac1ed416572b96a9f5d69740d174ef3d"></div>
+
+### combinatorics
+
+* :warning: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+
+
 <div id="dfc668f450222e8dc05cbabf0a30df41"></div>
 
 ### combinatorics/compile-time
