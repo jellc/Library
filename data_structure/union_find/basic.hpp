@@ -1,16 +1,12 @@
-// verified at https://judge.yosupo.jp/submission/3400
-#ifndef union_find_hpp
-#define union_find_hpp
-
+#pragma once
 #include <cassert>
 #include <vector>
-
 class union_find
 {
     std::vector<int> link;
 
 public:
-    explicit union_find(const unsigned n = 0) : link(n, -1) {}
+    union_find(const unsigned n = 0) : link(n, -1) {}
 
     unsigned find(unsigned x)
     {
@@ -43,5 +39,3 @@ public:
         return true;
     }
 }; // class union_find
-
-#endif // union_find_hpp
