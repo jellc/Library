@@ -12,7 +12,7 @@
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
-    // return read(); // given
+    // int t; std::cin >> t; return t; // given
     return 1;
 }
 
