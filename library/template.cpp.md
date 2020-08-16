@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-15 23:24:05+09:00
+    - Last commit date: 2020-08-17 03:42:32+09:00
 
 
 
@@ -69,7 +69,7 @@ layout: default
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
-    // return read(); // given
+    // int t; std::cin >> t; return t; // given
     return 1;
 }
 
@@ -216,7 +216,7 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
-    // return read(); // given
+    // int t; std::cin >> t; return t; // given
     return 1;
 }
 
