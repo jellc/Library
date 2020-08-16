@@ -91,7 +91,6 @@ layout: default
 * :warning: <a href="library/combinatorics/runtime/Factorial_runtime.hpp.html">combinatorics/runtime/Factorial_runtime.hpp</a>
 * :warning: <a href="library/combinatorics/runtime/Inverse_factorial_runtime.hpp.html">combinatorics/runtime/Inverse_factorial_runtime.hpp</a>
 * :warning: <a href="library/combinatorics/runtime/Inverse_runtime.hpp.html">combinatorics/runtime/Inverse_runtime.hpp</a>
-* :warning: <a href="library/combinatorics/runtime/modint_runtime.hpp.html">combinatorics/runtime/modint_runtime.hpp</a>
 
 
 <div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
