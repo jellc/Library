@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#179a1779a4b5d0e82b6c0fb4370c45e9">data_structure/union_find</a>
 * <a href="{{ site.github.repository_url }}/blob/master/data_structure/union_find/basic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-16 13:07:08+09:00
+    - Last commit date: 2020-08-16 13:11:08+09:00
 
 
 
@@ -41,19 +41,15 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-// verified at https://judge.yosupo.jp/submission/3400
-#ifndef union_find_hpp
-#define union_find_hpp
-
+#pragma once
 #include <cassert>
 #include <vector>
-
 class union_find
 {
     std::vector<int> link;
 
 public:
-    explicit union_find(const unsigned n = 0) : link(n, -1) {}
+    union_find(const unsigned n = 0) : link(n, -1) {}
 
     unsigned find(unsigned x)
     {
@@ -87,27 +83,21 @@ public:
     }
 }; // class union_find
 
-#endif // union_find_hpp
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "data_structure/union_find/basic.hpp"
-// verified at https://judge.yosupo.jp/submission/3400
-#ifndef union_find_hpp
-#define union_find_hpp
-
+#line 2 "data_structure/union_find/basic.hpp"
 #include <cassert>
 #include <vector>
-
 class union_find
 {
     std::vector<int> link;
 
 public:
-    explicit union_find(const unsigned n = 0) : link(n, -1) {}
+    union_find(const unsigned n = 0) : link(n, -1) {}
 
     unsigned find(unsigned x)
     {
@@ -140,8 +130,6 @@ public:
         return true;
     }
 }; // class union_find
-
-#endif // union_find_hpp
 
 ```
 {% endraw %}
