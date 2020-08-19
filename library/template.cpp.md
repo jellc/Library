@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-19 16:32:45+09:00
+    - Last commit date: 2020-08-19 17:30:24+09:00
 
 
 
@@ -55,7 +55,6 @@ layout: default
 {% raw %}
 ```cpp
 #include "gcc_option.hpp"
-#include <bits/stdc++.h>
 #include <bits/extc++.h>
 #include "config.hpp"
 #include "utils/iostream_overload.hpp"
@@ -76,7 +75,7 @@ struct workspace::solver { // start here!
 
 solver()
 {
-    
+
 }};
 
 ```
@@ -94,8 +93,11 @@ solver()
     #pragma GCC optimize("unroll-loops")
 #endif
 #line 2 "template.cpp"
-#include <bits/stdc++.h>
-#line 5 "config.hpp"
+#include <bits/extc++.h>
+#line 2 "config.hpp"
+#include <chrono>
+#include <iostream>
+#include <iomanip>
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
@@ -158,7 +160,8 @@ struct read<void>
 namespace workspace {
 std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 } // namespace workspace
-#line 3 "utils/fixed_point.hpp"
+#line 2 "utils/fixed_point.hpp"
+#include <utility>
 namespace workspace {
 // specify the return type of lambda.
 template <class lambda_type>
@@ -170,12 +173,16 @@ public:
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
 } // namespace workspace
-#line 3 "utils/chval.hpp"
+#line 2 "utils/chval.hpp"
+#include <functional>
 namespace workspace {
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
 } // namespace workspace
-#line 5 "utils/binary_search.hpp"
+#line 2 "utils/binary_search.hpp"
+#include <cassert>
+#include <cstdint>
+#include <cmath>
 namespace workspace {
 // binary search on discrete range.
 template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
@@ -211,7 +218,7 @@ using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
 template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
-#line 12 "template.cpp"
+#line 11 "template.cpp"
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
@@ -223,7 +230,7 @@ struct workspace::solver { // start here!
 
 solver()
 {
-    
+
 }};
 
 ```
