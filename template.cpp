@@ -1,6 +1,6 @@
 #include "gcc_option.hpp"
 #include <bits/stdc++.h>
-#include "extlib.hpp"
+#include <bits/extc++.h>
 #include "config.hpp"
 #include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
