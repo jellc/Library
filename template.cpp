@@ -1,5 +1,4 @@
 #include "gcc_option.hpp"
-#include <bits/stdc++.h>
 #include <bits/extc++.h>
 #include "config.hpp"
 #include "utils/iostream_overload.hpp"
@@ -20,5 +19,5 @@ struct workspace::solver { // start here!
 
 solver()
 {
-    
+
 }};
