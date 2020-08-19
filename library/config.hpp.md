@@ -38,6 +38,7 @@ layout: default
 
 ## Required by
 
+* :warning: <a href="template.cpp.html">template.cpp</a>
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 
 
