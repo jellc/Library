@@ -41,11 +41,6 @@ layout: default
 * :warning: <a href="../config.hpp.html">config.hpp</a>
 
 
-## Required by
-
-* :warning: <a href="../template.cpp.html">template.cpp</a>
-
-
 ## Code
 
 <a id="unbundled"></a>
