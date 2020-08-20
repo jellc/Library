@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#89915d49ca05c805c82a9fa3819995df">graph/undirected</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/undirected/two_edge_connected_components.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 15:04:40+09:00
+    - Last commit date: 2020-08-21 01:25:04+09:00
 
 
 
@@ -93,8 +93,7 @@ class two_edge_connected_component
 public:
     two_edge_connected_component(size_t n) : made(false), comp(n), graph(n)
     {
-        stack.reserve(n); comp.reserve(n);
-        tree.reserve(n); memb.reserve(n);
+        stack.reserve(n), tree.reserve(n), memb.reserve(n);
     }
 
     void add_edge(size_t u, size_t v)
@@ -181,8 +180,7 @@ class two_edge_connected_component
 public:
     two_edge_connected_component(size_t n) : made(false), comp(n), graph(n)
     {
-        stack.reserve(n); comp.reserve(n);
-        tree.reserve(n); memb.reserve(n);
+        stack.reserve(n), tree.reserve(n), memb.reserve(n);
     }
 
     void add_edge(size_t u, size_t v)

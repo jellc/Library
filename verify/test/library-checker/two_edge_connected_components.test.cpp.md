@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/two_edge_connected_components.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 16:56:46+09:00
+    - Last commit date: 2020-08-21 01:25:04+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/two_edge_connected_components">https://judge.yosupo.jp/problem/two_edge_connected_components</a>
@@ -131,8 +131,7 @@ class two_edge_connected_component
 public:
     two_edge_connected_component(size_t n) : made(false), comp(n), graph(n)
     {
-        stack.reserve(n); comp.reserve(n);
-        tree.reserve(n); memb.reserve(n);
+        stack.reserve(n), tree.reserve(n), memb.reserve(n);
     }
 
     void add_edge(size_t u, size_t v)
