@@ -70,7 +70,7 @@ struct modint<0>
     operator value_type() const noexcept { return value; }
     modint() noexcept = default;
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod()) < 0 ? n + mod() : n} {}
+    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod() < 0 ? n + mod() : n) } {}
     modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
     modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     modint &operator++() noexcept { return operator+=(1); }
