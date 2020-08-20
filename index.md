@@ -213,6 +213,7 @@ layout: default
 
 ### variation
 
+* :warning: <a href="library/variation/deque_aggregation.hpp.html">variation/deque_aggregation.hpp</a>
 * :warning: <a href="library/variation/modular.hpp.html">variation/modular.hpp</a>
 
 

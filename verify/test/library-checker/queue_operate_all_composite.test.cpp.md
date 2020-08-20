@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/queue_operate_all_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-21 01:55:26+09:00
+    - Last commit date: 2020-08-21 02:00:03+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -97,9 +97,9 @@ int main()
 #line 1 "test/library-checker/queue_operate_all_composite.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/queue_operate_all_composite"
 #line 2 "data_structure/deque_aggregation.hpp"
-//* implementation with dynamic memory allocation.
 #include <cassert>
 #include <iterator>
+// implementation with dynamic memory allocation.
 template <class monoid>
 class deque_aggregation
 {
@@ -248,135 +248,6 @@ public:
 
     monoid fold() { return left.fold() + right.fold(); }
 }; // class deque_aggregation
-
-/*/ // implementation with std::vector
-#include <cassert>
-#include <iterator>
-#include <vector>
-template <class monoid>
-class deque_aggregation
-{
-    struct data { monoid value, acc; };
-
-    template <bool left_operand_added>
-    struct stack_aggregation : public std::vector<data>
-    {
-        using base = std::vector<data>;
-        bool top_referred = false;
-
-        void recalc()
-        {
-            if(top_referred)
-            {
-                assert(!base::empty());
-                top_referred = false;
-                monoid top_val{top().value};
-                pop();
-                push(top_val);
-            }
-        }
-
-        // copy of the element at the index.
-        data operator[](size_t index) const
-        {
-            assert(index < base::size());
-            recalc();
-            return base::operator[](index);
-        }
-
-        // reference to the last element
-        data &top()
-        {
-            assert(!base::empty());
-            top_referred = true;
-            return base::back();
-        }
-
-        void pop()
-        {
-            assert(!base::empty());
-            top_referred = false;
-            base::pop_back();
-        }
-
-        void push(const monoid &mono)
-        {
-            recalc();
-            if(left_operand_added) base::push_back({mono, mono + fold()});
-            else base::push_back({mono, fold() + mono});
-        }
-
-        monoid fold()
-        {
-            if(base::empty()) return monoid();
-            recalc();
-            return base::back().acc;
-        }
-    }; // class stack_aggregation
-
-    stack_aggregation<true> left;
-    stack_aggregation<false> right;
-
-    void share_right()
-    {
-        if(!left.empty() || right.empty()) return;
-        left.recalc(); right.recalc();
-        auto mid = right.begin() + (right.size() + 1) / 2;
-        for(auto itr = mid; itr != right.begin(); ) left.push((--itr)->value);
-        right.erase(right.begin(), mid);
-        monoid nacc;
-        for(auto &[value, acc] : right) nacc = acc = nacc + value;
-    }
-
-    void share_left()
-    {
-        if(!right.empty() || left.empty()) return;
-        left.recalc(); right.recalc();
-        auto mid = left.begin() + (left.size() + 1) / 2;
-        for(auto itr = mid; itr != left.begin(); ) right.push((--itr)->value);
-        left.erase(left.begin(), mid);
-        monoid nacc;
-        for(auto &[value, acc] : left) nacc = acc = nacc + value;
-    }
-
-public:
-    bool empty() const { return left.empty() && right.empty(); }
-    size_t size() const { return left.size() + right.size(); }
-
-    // reference to the first element.
-    monoid &front() { assert(!empty()); return share_right(), left.top().value; }
-
-    // reference to the last element.
-    monoid &back() { assert(!empty()); return share_left(), right.top().value; }
-
-    // copy of the element at the index.
-    monoid operator[](size_t index) const
-    {
-        assert(index < left.size() + right.size());
-        return index < left.size() ? left[index].value : right[index - left.size()].value;
-    }
-
-    void push_front(const monoid &mono) { left.push(mono); }
-
-    void push_back(const monoid &mono) { right.push(mono); }
-
-    void pop_front()
-    {
-        assert(!empty());
-        share_right();
-        left.pop();
-    }
-
-    void pop_back()
-    {
-        assert(!empty());
-        share_left();
-        right.pop();
-    }
-
-    monoid fold() { return left.fold() + right.fold(); }
-}; // class deque_aggregation
-//*/
 #line 3 "modulus/modint.hpp"
 #include <iostream>
 template <int_fast64_t mod = 0> // compile-time defined modulo.
