@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: variation/deque_aggregation.hpp
+# :heavy_check_mark: variation/deque_aggregation.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,6 +34,11 @@ layout: default
     - Last commit date: 2020-08-21 02:00:03+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
 
 
 ## Code

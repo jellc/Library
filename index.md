@@ -83,7 +83,7 @@ layout: default
 * :warning: <a href="library/data_structure/Additional_union_find.hpp.html">data_structure/Additional_union_find.hpp</a>
 * :heavy_check_mark: <a href="library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
 * :warning: <a href="library/data_structure/Skew_heap.hpp.html">data_structure/Skew_heap.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
+* :warning: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
 
 
 <div id="85c1e2c9a6a68b0da546cc8076233cc6"></div>
@@ -213,7 +213,7 @@ layout: default
 
 ### variation
 
-* :warning: <a href="library/variation/deque_aggregation.hpp.html">variation/deque_aggregation.hpp</a>
+* :heavy_check_mark: <a href="library/variation/deque_aggregation.hpp.html">variation/deque_aggregation.hpp</a>
 * :warning: <a href="library/variation/modular.hpp.html">variation/modular.hpp</a>
 
 
