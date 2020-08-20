@@ -83,7 +83,7 @@ layout: default
 * :warning: <a href="library/data_structure/Additional_union_find.hpp.html">data_structure/Additional_union_find.hpp</a>
 * :heavy_check_mark: <a href="library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
 * :warning: <a href="library/data_structure/Skew_heap.hpp.html">data_structure/Skew_heap.hpp</a>
-* :warning: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
 
 
 <div id="85c1e2c9a6a68b0da546cc8076233cc6"></div>
@@ -233,6 +233,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
