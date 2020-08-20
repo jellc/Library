@@ -21,17 +21,17 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../../../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../../../../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :warning: combinatorics/compile-time/constexpr/binomial.hpp
+# :warning: deprecated/constexpr/binomial.hpp
 
-<a href="../../../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 
-* category: <a href="../../../../index.html#9b42923a08378df87ca8c99d4e4e8f68">combinatorics/compile-time/constexpr</a>
-* <a href="{{ site.github.repository_url }}/blob/master/combinatorics/compile-time/constexpr/binomial.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-05-18 14:28:16+09:00
+* category: <a href="../../../index.html#687b3fe2f296e7c5f7e4c4d583f8b9a2">deprecated/constexpr</a>
+* <a href="{{ site.github.repository_url }}/blob/master/deprecated/constexpr/binomial.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-21 00:54:42+09:00
 
 
 
@@ -169,10 +169,10 @@ Traceback (most recent call last):
     bundler.update(path)
   File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 282, in update
     raise BundleErrorAt(path, i + 1, "found codes out of include guard")
-onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: combinatorics/compile-time/constexpr/binomial.hpp: line 53: found codes out of include guard
+onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: deprecated/constexpr/binomial.hpp: line 53: found codes out of include guard
 
 ```
 {% endraw %}
 
-<a href="../../../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 

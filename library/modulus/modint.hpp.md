@@ -31,13 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/modint.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 02:35:26+09:00
+    - Last commit date: 2020-08-21 00:49:56+09:00
 
 
 
 
 ## Required by
 
+* :warning: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 * :warning: <a href="inverse.hpp.html">modulus/inverse.hpp</a>
 
 
@@ -125,7 +126,7 @@ struct modint<0>
     operator value_type() const noexcept { return value; }
     modint() noexcept = default;
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod()) < 0 ? n + mod() : n} {}
+    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod() < 0 ? n + mod() : n) } {}
     modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
     modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     modint &operator++() noexcept { return operator+=(1); }
@@ -254,7 +255,7 @@ struct modint<0>
     operator value_type() const noexcept { return value; }
     modint() noexcept = default;
     template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod()) < 0 ? n + mod() : n} {}
+    modint(int_type n) noexcept : value{ (assert(mod()), n %= mod() < 0 ? n + mod() : n) } {}
     modint operator++(int) noexcept { modint t{*this}; return operator+=(1), t; }
     modint operator--(int) noexcept { modint t{*this}; return operator-=(1), t; }
     modint &operator++() noexcept { return operator+=(1); }

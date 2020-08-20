@@ -72,21 +72,8 @@ layout: default
 
 ### combinatorics
 
+* :warning: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 * :warning: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
-
-
-<div id="dfc668f450222e8dc05cbabf0a30df41"></div>
-
-### combinatorics/compile-time
-
-* :warning: <a href="library/combinatorics/compile-time/binomial.hpp.html">combinatorics/compile-time/binomial.hpp</a>
-
-
-<div id="9b42923a08378df87ca8c99d4e4e8f68"></div>
-
-### combinatorics/compile-time/constexpr
-
-* :warning: <a href="library/combinatorics/compile-time/constexpr/binomial.hpp.html">combinatorics/compile-time/constexpr/binomial.hpp</a>
 
 
 <div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
@@ -132,6 +119,13 @@ layout: default
 * :warning: <a href="library/deprecated/SplayTree.cpp.html">deprecated/SplayTree.cpp</a>
 * :warning: <a href="library/deprecated/math_utility.cpp.html">deprecated/math_utility.cpp</a>
 * :warning: <a href="library/deprecated/trie.hpp.html">deprecated/trie.hpp</a>
+
+
+<div id="687b3fe2f296e7c5f7e4c4d583f8b9a2"></div>
+
+### deprecated/constexpr
+
+* :warning: <a href="library/deprecated/constexpr/binomial.hpp.html">deprecated/constexpr/binomial.hpp</a>
 
 
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>

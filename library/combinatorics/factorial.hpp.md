@@ -36,6 +36,11 @@ layout: default
 
 
 
+## Required by
+
+* :warning: <a href="binomial.hpp.html">combinatorics/binomial.hpp</a>
+
+
 ## Code
 
 <a id="unbundled"></a>
