@@ -1,6 +1,7 @@
 #pragma once
 #include "modint.hpp"
 #include <vector>
+// mod must be prime.
 template <int_fast64_t mod = 0>
 struct inverse
 {
