@@ -172,7 +172,7 @@ layout: default
 ### math
 
 * :warning: <a href="library/math/Prime_factorizer.hpp.html">math/Prime_factorizer.hpp</a>
-* :warning: <a href="library/math/ext_gcd.hpp.html">math/ext_gcd.hpp</a>
+* :heavy_check_mark: <a href="library/math/ext_gcd.hpp.html">math/ext_gcd.hpp</a>
 
 
 <div id="06efba23b1f3a9b846a25c6b49f30348"></div>
@@ -203,7 +203,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :warning: <a href="library/utils/hash_overload.hpp.html">utils/hash_overload.hpp</a>
-* :warning: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
+* :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
@@ -225,6 +225,7 @@ layout: default
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
