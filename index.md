@@ -72,8 +72,8 @@ layout: default
 
 ### combinatorics
 
-* :warning: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :warning: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
 
 
 <div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
@@ -179,7 +179,7 @@ layout: default
 
 ### modulus
 
-* :warning: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
 * :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
@@ -225,6 +225,7 @@ layout: default
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>

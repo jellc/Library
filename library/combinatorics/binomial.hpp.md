@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: combinatorics/binomial.hpp
+# :heavy_check_mark: combinatorics/binomial.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,9 +38,14 @@ layout: default
 
 ## Depends on
 
-* :warning: <a href="factorial.hpp.html">combinatorics/factorial.hpp</a>
-* :warning: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
 * :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 
 
 ## Code

@@ -21,34 +21,28 @@ layout: default
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="../../assets/css/copy-button.css" />
+<script type="text/javascript" src="../../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: modulus/inverse.hpp
+# :heavy_check_mark: test/aizu-online-judge/balls_and_boxes_4.test.cpp
 
-<a href="../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
-* <a href="{{ site.github.repository_url }}/blob/master/modulus/inverse.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-21 00:49:56+09:00
+* category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/balls_and_boxes_4.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-21 01:17:18+09:00
 
 
+* see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D">https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modint.hpp.html">modulus/modint.hpp</a>
-
-
-## Required by
-
-* :heavy_check_mark: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Code
@@ -56,43 +50,15 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
-#include "modint.hpp"
-#include <vector>
-// mod must be prime.
-template <int_fast64_t mod = 0>
-struct inverse
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
+#include "combinatorics/binomial.hpp"
+#include <cstdio>
+
+int main()
 {
-    using value_type = modint<mod>;
-    value_type operator()(int n) const
-    {
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <>
-struct inverse<0>
-{
-    using value_type = modint_runtime;
-    value_type operator()(int n) const
-    {
-        int_fast64_t mod = value_type::mod();
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        if(inv.empty()) inv = {1, mod != 1};
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<mod>::inv = {1, 1};
-std::vector<modint_runtime> inverse<0>::inv;
-using inverse_runtime = inverse<0>;
+    int n,k; scanf("%d%d",&n,&k);
+    printf("%d\n",binomial<1000000007>()(n+k-1,n));
+}
 
 ```
 {% endraw %}
@@ -100,6 +66,25 @@ using inverse_runtime = inverse<0>;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
+#line 2 "combinatorics/factorial.hpp"
+#include <functional>
+#include <vector>
+template <class T, class Op = std::multiplies<T>>
+class factorial
+{
+    std::vector<T> fact;
+    Op op;
+public:
+    factorial(T init = 1, Op op = Op()) : fact{init}, op{op} {}
+    T operator()(const int &n)
+    {
+        if(n < 0) return 0;
+        for(int m(fact.size()); m <= n; ++m) fact.emplace_back(op(fact.back(), m));
+        return fact[n];
+    }
+}; // class factorial
 #line 2 "modulus/modint.hpp"
 #include <cassert>
 #include <iostream>
@@ -222,8 +207,7 @@ protected:
     value_type value = 0;
 }; // class modint<0>
 using modint_runtime = modint<0>;
-#line 3 "modulus/inverse.hpp"
-#include <vector>
+#line 4 "modulus/inverse.hpp"
 // mod must be prime.
 template <int_fast64_t mod = 0>
 struct inverse
@@ -258,9 +242,35 @@ private:
 template <int_fast64_t mod> std::vector<modint<mod>> inverse<mod>::inv = {1, 1};
 std::vector<modint_runtime> inverse<0>::inv;
 using inverse_runtime = inverse<0>;
+#line 5 "combinatorics/binomial.hpp"
+template <int_fast64_t mod>
+struct binomial
+{
+    using value_type = modint<mod>;
+    struct mulinv_Op
+    {
+        inverse<mod> &inv;
+        value_type operator()(value_type f, size_t n) const { return f * inv(n); }
+    };
+    static inverse<mod> inv;
+    static factorial<value_type, mulinv_Op> invfact;
+    static factorial<value_type> fact;
+    value_type operator()(int n, int k) { return invfact(k) * invfact(n - k) * fact(n); }
+};
+template <int_fast64_t mod> inverse<mod> binomial<mod>::inv;
+template <int_fast64_t mod> factorial<modint<mod>, class binomial<mod>::mulinv_Op> binomial<mod>::invfact{1, mulinv_Op{binomial<mod>::inv}};
+template <int_fast64_t mod> factorial<modint<mod>> binomial<mod>::fact;
+#line 3 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
+#include <cstdio>
+
+int main()
+{
+    int n,k; scanf("%d%d",&n,&k);
+    printf("%d\n",binomial<1000000007>()(n+k-1,n));
+}
 
 ```
 {% endraw %}
 
-<a href="../../index.html">Back to top page</a>
+<a href="../../../index.html">Back to top page</a>
 
