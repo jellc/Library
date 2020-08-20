@@ -45,8 +45,7 @@ class two_edge_connected_component
 public:
     two_edge_connected_component(size_t n) : made(false), comp(n), graph(n)
     {
-        stack.reserve(n); comp.reserve(n);
-        tree.reserve(n); memb.reserve(n);
+        stack.reserve(n), tree.reserve(n), memb.reserve(n);
     }
 
     void add_edge(size_t u, size_t v)
