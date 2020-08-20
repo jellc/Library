@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#dfc668f450222e8dc05cbabf0a30df41">combinatorics/compile-time</a>
 * <a href="{{ site.github.repository_url }}/blob/master/combinatorics/compile-time/binomial.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-05-18 14:28:16+09:00
+    - Last commit date: 2020-08-21 00:41:45+09:00
 
 
 
@@ -99,7 +99,11 @@ public:
 
 namespace binomial
 {
-    constexpr int mod = 998244353;
+    constexpr int mod = //*
+                        998244353
+                        /*/
+                        1000000007
+                        /**/;
     constexpr int size = 1 << 20;
     using mint = modint<mod>;
     namespace

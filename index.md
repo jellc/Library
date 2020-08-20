@@ -185,6 +185,7 @@ layout: default
 
 ### modulus
 
+* :warning: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
 * :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
