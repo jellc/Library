@@ -56,7 +56,11 @@ public:
 
 namespace binomial
 {
-    constexpr int mod = 998244353;
+    constexpr int mod = //*
+                        998244353
+                        /*/
+                        1000000007
+                        /**/;
     constexpr int size = 1 << 20;
     using mint = modint<mod>;
     namespace
