@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/inverse.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-21 00:41:21+09:00
+    - Last commit date: 2020-08-21 00:45:01+09:00
 
 
 
@@ -49,6 +49,7 @@ layout: default
 #pragma once
 #include "modint.hpp"
 #include <vector>
+// mod must be prime.
 template <int_fast64_t mod = 0>
 struct inverse
 {
@@ -213,6 +214,7 @@ protected:
 using modint_runtime = modint<0>;
 #line 3 "modulus/inverse.hpp"
 #include <vector>
+// mod must be prime.
 template <int_fast64_t mod = 0>
 struct inverse
 {
