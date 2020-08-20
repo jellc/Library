@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/queue_operate_all_composite"
-#include "variation/deque_aggregation.hpp"
+#include "data_structure/deque_aggregation.hpp"
 #include "modulus/modint.hpp"
 #include <cstdio>
 
