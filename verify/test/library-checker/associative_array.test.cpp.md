@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 01:19:25+09:00
+    - Last commit date: 2020-08-25 03:08:15+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -83,11 +83,6 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 namespace workspace {
 template <class T, class = void>
 struct hash : std::hash<T> {};
-struct std_hash_combine
-{
-    template <class Key>
-    size_t operator()(size_t seed, const Key &key) const { return seed ^ (std::hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
-};
 template <class int_type>
 struct hash<int_type, enable_if_trait_type<int_type, std::is_integral>>
 {
@@ -99,18 +94,27 @@ public:
 template <class T1, class T2>
 class hash<std::pair<T1, T2>>
 {
-    std_hash_combine comb;
+    hash<T1> gen1; hash<T2> gen2;
 public:
-    size_t operator()(const std::pair<T1, T2> &pair) const { return comb(comb(0, pair.first), pair.second); }
+    size_t operator()(const std::pair<T1, T2> &pair) const
+    {
+        size_t seed = gen1(pair.first);
+        return seed ^= gen2(pair.second) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    }
 };
 template <class... T>
 class hash<std::tuple<T...>>
 {
-    template <class Tuple, size_t index = std::tuple_size<Tuple>::value - 1> struct tuple_hasher { template <class Comb> static size_t apply(size_t seed, const Tuple &t, Comb comb = Comb()) { return comb(tuple_hasher<Tuple, index - 1>::apply(seed, t, comb), std::get<index>(t)); } };
-    template <class Tuple> struct tuple_hasher<Tuple, 0> { template <class Comb> static size_t apply(size_t seed, const Tuple &t, Comb comb = Comb()) { return comb(seed, std::get<0>(t)); } };
-    std_hash_combine comb;
+    template <class Key>
+    static size_t join(const size_t &seed, const Key &key)
+    {
+        static hash<Key> gen;
+        return seed ^ (gen(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
+    }
+    template <class Tuple, size_t index = std::tuple_size<Tuple>::value - 1> struct tuple_hash { static size_t apply(const Tuple &t) { return join(tuple_hash<Tuple, index - 1>::apply(t), std::get<index>(t)); } };
+    template <class Tuple> struct tuple_hash<Tuple, size_t(-1)> { static size_t apply(const Tuple &t) { return 0; } };
 public:
-    size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
+    size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
 struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
