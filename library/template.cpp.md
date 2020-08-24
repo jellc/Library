@@ -94,10 +94,7 @@ solver()
 #endif
 #line 2 "template.cpp"
 #include <bits/extc++.h>
-#line 2 "config.hpp"
-#include <chrono>
-#include <iostream>
-#include <iomanip>
+#line 5 "config.hpp"
 namespace config
 {
     const auto start_time{std::chrono::system_clock::now()};
@@ -160,8 +157,7 @@ struct read<void>
 namespace workspace {
 std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 } // namespace workspace
-#line 2 "utils/fixed_point.hpp"
-#include <utility>
+#line 3 "utils/fixed_point.hpp"
 namespace workspace {
 // specify the return type of lambda.
 template <class lambda_type>
@@ -173,16 +169,12 @@ public:
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
 } // namespace workspace
-#line 2 "utils/chval.hpp"
-#include <functional>
+#line 3 "utils/chval.hpp"
 namespace workspace {
 template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
 template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
 } // namespace workspace
-#line 2 "utils/binary_search.hpp"
-#include <cassert>
-#include <cstdint>
-#include <cmath>
+#line 5 "utils/binary_search.hpp"
 namespace workspace {
 // binary search on discrete range.
 template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
