@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 namespace workspace {
-template <class T> class hash : std::hash<T> { size_t operator()(const T&) const; };
+template <class T> struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
@@ -23,4 +23,12 @@ class hash<std::tuple<T...>>
 public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
 };
+template <class Key, class Mapped>
+struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+{
+    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
+    size_t count(const Key &key) const { return base::find(key) != base::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+};
+template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
 } // namespace workspace
