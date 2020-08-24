@@ -6,7 +6,5 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     steps:
-    - run: ls
-    - run: tree 
+    - uses: actions/checkout@master
     - run: g++ template.cpp -std=c++17 -Wall
-      working-directory: ./
