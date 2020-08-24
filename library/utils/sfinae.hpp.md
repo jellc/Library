@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: utils/sfinae.hpp
+# :heavy_check_mark: utils/sfinae.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/sfinae.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 23:44:11+09:00
+    - Last commit date: 2020-08-25 01:04:36+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 
 
 ## Code
@@ -48,8 +48,8 @@ layout: default
 ```cpp
 #pragma once
 #include <type_traits>
-template <class type, template <class> class trait, typename = std::enable_if_t<trait<type>::value, void>>
-using enable_if_trait = type;
+template <class type, template <class> class trait>
+using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 
 ```
 {% endraw %}
@@ -59,8 +59,8 @@ using enable_if_trait = type;
 ```cpp
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
-template <class type, template <class> class trait, typename = std::enable_if_t<trait<type>::value, void>>
-using enable_if_trait = type;
+template <class type, template <class> class trait>
+using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 
 ```
 {% endraw %}

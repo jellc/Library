@@ -206,7 +206,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
-* :x: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
 
@@ -230,7 +230,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
-* :x: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
