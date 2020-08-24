@@ -31,14 +31,13 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 01:27:19+09:00
+    - Last commit date: 2020-08-25 03:00:39+09:00
 
 
 
 
 ## Depends on
 
-* :warning: <a href="alias.hpp.html">alias.hpp</a>
 * :warning: <a href="config.hpp.html">config.hpp</a>
 * :warning: <a href="gcc_option.hpp.html">gcc_option.hpp</a>
 * :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
@@ -66,8 +65,13 @@ layout: default
 #include "utils/hash.hpp"
 #include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
-#include "alias.hpp"
-namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
+namespace workspace {
+    using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
+    using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
+    template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+    struct solver;
+}
+int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
     // int t; std::cin >> t; return t; // given
@@ -250,15 +254,14 @@ struct read<void>
     operator T() const { T value; std::cin >> value; return value; }
 };
 } // namespace workspace
-#line 2 "alias.hpp"
+#line 11 "template.cpp"
 namespace workspace {
-using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
-using i32 = int_least32_t; using i64 = int_least64_t;
-using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
-} // namespace workspace
-#line 12 "template.cpp"
-namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
+    using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
+    using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
+    template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+    struct solver;
+}
+int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
     // int t; std::cin >> t; return t; // given
