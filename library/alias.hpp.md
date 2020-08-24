@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/alias.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-15 23:24:05+09:00
+    - Last commit date: 2020-08-24 17:33:24+09:00
 
 
 
@@ -47,12 +47,12 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
-using namespace std; using namespace __gnu_cxx;
+namespace workspace {
+using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
 using i32 = int_least32_t; using i64 = int_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
+template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+} // namespace workspace
 
 ```
 {% endraw %}
@@ -61,12 +61,12 @@ template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
 {% raw %}
 ```cpp
 #line 2 "alias.hpp"
-using namespace std; using namespace __gnu_cxx;
+namespace workspace {
+using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
 using i32 = int_least32_t; using i64 = int_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
+template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+} // namespace workspace
 
 ```
 {% endraw %}

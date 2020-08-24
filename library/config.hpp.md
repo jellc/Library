@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/config.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 02:50:22+09:00
+    - Last commit date: 2020-08-24 16:20:52+09:00
 
 
 
@@ -51,27 +51,26 @@ layout: default
 #include <chrono>
 #include <iostream>
 #include <iomanip>
-namespace config
+namespace config {
+const auto start_time{std::chrono::system_clock::now()};
+int64_t elapsed()
 {
-    const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed()
-    {
-        using namespace std::chrono;
-        const auto end_time{system_clock::now()};
-        return duration_cast<milliseconds>(end_time - start_time).count();
-    }
-    __attribute__((constructor)) void setup()
-    {
-        using namespace std;
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout << fixed << setprecision(15);
-    #ifdef _buffer_check
-        atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-    #endif
-    }
-    unsigned cases(void), caseid = 1;
-    template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
+    using namespace std::chrono;
+    const auto end_time{system_clock::now()};
+    return duration_cast<milliseconds>(end_time - start_time).count();
+}
+__attribute__((constructor)) void setup()
+{
+    using namespace std;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout << fixed << setprecision(15);
+#ifdef _buffer_check
+    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+#endif
+}
+unsigned cases(void), caseid = 1;
+template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
 
 ```
@@ -84,27 +83,26 @@ namespace config
 #include <chrono>
 #include <iostream>
 #include <iomanip>
-namespace config
+namespace config {
+const auto start_time{std::chrono::system_clock::now()};
+int64_t elapsed()
 {
-    const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed()
-    {
-        using namespace std::chrono;
-        const auto end_time{system_clock::now()};
-        return duration_cast<milliseconds>(end_time - start_time).count();
-    }
-    __attribute__((constructor)) void setup()
-    {
-        using namespace std;
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout << fixed << setprecision(15);
-    #ifdef _buffer_check
-        atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-    #endif
-    }
-    unsigned cases(void), caseid = 1;
-    template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
+    using namespace std::chrono;
+    const auto end_time{system_clock::now()};
+    return duration_cast<milliseconds>(end_time - start_time).count();
+}
+__attribute__((constructor)) void setup()
+{
+    using namespace std;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout << fixed << setprecision(15);
+#ifdef _buffer_check
+    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+#endif
+}
+unsigned cases(void), caseid = 1;
+template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
 
 ```

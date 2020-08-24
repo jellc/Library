@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 16:14:11+09:00
+    - Last commit date: 2020-08-24 17:10:25+09:00
 
 
 
@@ -49,7 +49,7 @@ layout: default
 #pragma once
 #include <functional>
 namespace workspace {
-template <class T> class hash : std::hash<T> { size_t operator()(const T&) const; };
+template <class T> struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
@@ -71,6 +71,14 @@ class hash<std::tuple<T...>>
 public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
 };
+template <class Key, class Mapped>
+struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+{
+    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
+    size_t count(const Key &key) const { return base::find(key) != base::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+};
+template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 
 ```
@@ -82,7 +90,7 @@ public:
 #line 2 "utils/hash.hpp"
 #include <functional>
 namespace workspace {
-template <class T> class hash : std::hash<T> { size_t operator()(const T&) const; };
+template <class T> struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
@@ -104,6 +112,14 @@ class hash<std::tuple<T...>>
 public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
 };
+template <class Key, class Mapped>
+struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+{
+    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
+    size_t count(const Key &key) const { return base::find(key) != base::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+};
+template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 
 ```

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 16:18:54+09:00
+    - Last commit date: 2020-08-24 17:33:24+09:00
 
 
 
@@ -97,27 +97,26 @@ solver()
 #line 2 "template.cpp"
 #include <bits/extc++.h>
 #line 5 "config.hpp"
-namespace config
+namespace config {
+const auto start_time{std::chrono::system_clock::now()};
+int64_t elapsed()
 {
-    const auto start_time{std::chrono::system_clock::now()};
-    int64_t elapsed()
-    {
-        using namespace std::chrono;
-        const auto end_time{system_clock::now()};
-        return duration_cast<milliseconds>(end_time - start_time).count();
-    }
-    __attribute__((constructor)) void setup()
-    {
-        using namespace std;
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout << fixed << setprecision(15);
-    #ifdef _buffer_check
-        atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
-    #endif
-    }
-    unsigned cases(void), caseid = 1;
-    template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
+    using namespace std::chrono;
+    const auto end_time{system_clock::now()};
+    return duration_cast<milliseconds>(end_time - start_time).count();
+}
+__attribute__((constructor)) void setup()
+{
+    using namespace std;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout << fixed << setprecision(15);
+#ifdef _buffer_check
+    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+#endif
+}
+unsigned cases(void), caseid = 1;
+template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
 #line 5 "utils/binary_search.hpp"
 namespace workspace {
@@ -171,7 +170,7 @@ public:
 } // namespace workspace
 #line 3 "utils/hash.hpp"
 namespace workspace {
-template <class T> class hash : std::hash<T> { size_t operator()(const T&) const; };
+template <class T> struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
@@ -193,6 +192,14 @@ class hash<std::tuple<T...>>
 public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
 };
+template <class Key, class Mapped>
+struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+{
+    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
+    size_t count(const Key &key) const { return base::find(key) != base::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+};
+template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 #line 3 "utils/iostream_overload.hpp"
 namespace std
@@ -231,12 +238,12 @@ struct read<void>
 };
 } // namespace workspace
 #line 2 "alias.hpp"
-using namespace std; using namespace __gnu_cxx;
+namespace workspace {
+using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
 using i32 = int_least32_t; using i64 = int_least64_t;
 using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
-template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
-template <class T> using hashset = unordered_set<T>;
-template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
+template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+} // namespace workspace
 #line 12 "template.cpp"
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
