@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/casefmt.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 16:20:52+09:00
+    - Last commit date: 2020-08-24 18:06:09+09:00
 
 
 
@@ -52,7 +52,7 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
-#include "config.hpp"
+#include "../config.hpp"
 namespace workspace {
 std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
 } // namespace workspace
