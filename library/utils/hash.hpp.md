@@ -25,20 +25,30 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/hash.hpp
+# :heavy_check_mark: utils/hash.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 23:43:26+09:00
+    - Last commit date: 2020-08-25 01:19:25+09:00
 
 
+
+
+## Depends on
+
+* :heavy_check_mark: <a href="sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Required by
 
 * :warning: <a href="../template.cpp.html">template.cpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 
 
 ## Code
@@ -49,12 +59,23 @@ layout: default
 #pragma once
 #include <ext/pb_ds/assoc_container.hpp>
 #include <functional>
+#include <random>
+#include "sfinae.hpp"
 namespace workspace {
-template <class T> struct hash : std::hash<T> {};
+template <class T, class = void>
+struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
     size_t operator()(size_t seed, const Key &key) const { return seed ^ (std::hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
+};
+template <class int_type>
+struct hash<int_type, enable_if_trait_type<int_type, std::is_integral>>
+{
+    const uint64_t seed[2], offset;
+public:
+    hash() : seed{std::random_device{}(), std::random_device{}()}, offset{std::random_device{}()} {}
+    size_t operator()(const uint64_t &x) const { return (offset + x * seed[0] + (x >> 32) * seed[1]) >> 32; }
 };
 template <class T1, class T2>
 class hash<std::pair<T1, T2>>
@@ -91,12 +112,27 @@ template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
 #line 2 "utils/hash.hpp"
 #include <ext/pb_ds/assoc_container.hpp>
 #include <functional>
+#include <random>
+#line 2 "utils/sfinae.hpp"
+#include <type_traits>
+template <class type, template <class> class trait>
+using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+#line 6 "utils/hash.hpp"
 namespace workspace {
-template <class T> struct hash : std::hash<T> {};
+template <class T, class = void>
+struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
     size_t operator()(size_t seed, const Key &key) const { return seed ^ (std::hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
+};
+template <class int_type>
+struct hash<int_type, enable_if_trait_type<int_type, std::is_integral>>
+{
+    const uint64_t seed[2], offset;
+public:
+    hash() : seed{std::random_device{}(), std::random_device{}()}, offset{std::random_device{}()} {}
+    size_t operator()(const uint64_t &x) const { return (offset + x * seed[0] + (x >> 32) * seed[1]) >> 32; }
 };
 template <class T1, class T2>
 class hash<std::pair<T1, T2>>

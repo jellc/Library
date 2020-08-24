@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 23:43:26+09:00
+    - Last commit date: 2020-08-25 01:19:25+09:00
 
 
 
@@ -45,9 +45,10 @@ layout: default
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
-* :warning: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
+* :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
+* :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -168,13 +169,26 @@ public:
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
 } // namespace workspace
-#line 4 "utils/hash.hpp"
+#line 2 "utils/sfinae.hpp"
+#include <type_traits>
+template <class type, template <class> class trait>
+using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+#line 6 "utils/hash.hpp"
 namespace workspace {
-template <class T> struct hash : std::hash<T> {};
+template <class T, class = void>
+struct hash : std::hash<T> {};
 struct std_hash_combine
 {
     template <class Key>
     size_t operator()(size_t seed, const Key &key) const { return seed ^ (std::hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
+};
+template <class int_type>
+struct hash<int_type, enable_if_trait_type<int_type, std::is_integral>>
+{
+    const uint64_t seed[2], offset;
+public:
+    hash() : seed{std::random_device{}(), std::random_device{}()}, offset{std::random_device{}()} {}
+    size_t operator()(const uint64_t &x) const { return (offset + x * seed[0] + (x >> 32) * seed[1]) >> 32; }
 };
 template <class T1, class T2>
 class hash<std::pair<T1, T2>>

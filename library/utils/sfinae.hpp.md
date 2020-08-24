@@ -36,6 +36,12 @@ layout: default
 
 
 
+## Required by
+
+* :warning: <a href="../template.cpp.html">template.cpp</a>
+* :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
+
+
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
