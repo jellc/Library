@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#ac1ed416572b96a9f5d69740d174ef3d">combinatorics</a>
 * <a href="{{ site.github.repository_url }}/blob/master/combinatorics/binomial.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-21 00:51:16+09:00
+    - Last commit date: 2020-08-24 22:40:12+09:00
 
 
 
@@ -157,7 +157,7 @@ struct modint
         return res;
     }
     friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.value; }
-    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { value_type value; rhs = (is >> value, value); return is; }
+    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { int_fast64_t value; rhs = (is >> value, value); return is; }
 protected:
     value_type value = 0;
 }; // class modint
@@ -203,7 +203,7 @@ struct modint<0>
     modint inverse() const noexcept
     {
         assert(mod() && value);
-        long long a{mod()}, b{value}, u{}, v{1}, t{};
+        value_type a{mod()}, b{value}, u{}, v{1}, t{};
         while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;
         return {u};
     }
@@ -215,7 +215,7 @@ struct modint<0>
         return res;
     }
     friend std::ostream &operator<<(std::ostream &os, const modint &rhs) noexcept { return os << rhs.value; }
-    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { long long value; rhs = modint((is >> value, value)); return is; }
+    friend std::istream &operator>>(std::istream &is, modint &rhs) noexcept { int_fast64_t value; rhs = modint((is >> value, value)); return is; }
 protected:
     value_type value = 0;
 }; // class modint<0>
