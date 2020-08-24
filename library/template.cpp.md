@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-19 17:30:24+09:00
+    - Last commit date: 2020-08-24 16:18:54+09:00
 
 
 
@@ -45,6 +45,7 @@ layout: default
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
+* :warning: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
 
@@ -57,12 +58,13 @@ layout: default
 #include "gcc_option.hpp"
 #include <bits/extc++.h>
 #include "config.hpp"
+#include "utils/binary_search.hpp"
+#include "utils/casefmt.hpp"
+#include "utils/chval.hpp"
+#include "utils/fixed_point.hpp"
+#include "utils/hash.hpp"
 #include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
-#include "utils/casefmt.hpp"
-#include "utils/fixed_point.hpp"
-#include "utils/chval.hpp"
-#include "utils/binary_search.hpp"
 #include "alias.hpp"
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
@@ -75,7 +77,7 @@ struct workspace::solver { // start here!
 
 solver()
 {
-
+    
 }};
 
 ```
@@ -117,6 +119,81 @@ namespace config
     unsigned cases(void), caseid = 1;
     template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
+#line 5 "utils/binary_search.hpp"
+namespace workspace {
+// binary search on discrete range.
+template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
+iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
+{
+    assert(ok != ng);
+    intmax_t dist(ng - ok);
+    while(std::abs(dist) > 1)
+    {
+        iter_type mid(ok + dist / 2);
+        if(pred(mid)) ok = mid, dist -= dist / 2;
+        else ng = mid, dist /= 2;
+    }
+    return ok;
+}
+// binary search on real numbers.
+template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, std::nullptr_t> = nullptr>
+real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred)
+{
+    assert(ok != ng);
+    while(std::abs(ok - ng) > eps)
+    {
+        real_type mid{(ok + ng) / 2};
+        (pred(mid) ? ok : ng) = mid;
+    }
+    return ok;
+}
+} // namespace workspace
+#line 3 "utils/casefmt.hpp"
+namespace workspace {
+std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
+} // namespace workspace
+#line 3 "utils/chval.hpp"
+namespace workspace {
+template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
+template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
+} // namespace workspace
+#line 3 "utils/fixed_point.hpp"
+namespace workspace {
+// specify the return type of lambda.
+template <class lambda_type>
+class fixed_point
+{
+    lambda_type func;
+public:
+    fixed_point(lambda_type &&f) : func(std::move(f)) {}
+    template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
+};
+} // namespace workspace
+#line 3 "utils/hash.hpp"
+namespace workspace {
+template <class T> class hash : std::hash<T> { size_t operator()(const T&) const; };
+struct std_hash_combine
+{
+    template <class Key>
+    size_t operator()(size_t seed, const Key &key) const { return seed ^ (std::hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2)); }
+};
+template <class T1, class T2>
+class hash<std::pair<T1, T2>>
+{
+    std_hash_combine comb;
+public:
+    size_t operator()(const std::pair<T1, T2> &pair) const { return comb(comb(0, pair.first), pair.second); }
+};
+template <class... T>
+class hash<std::tuple<T...>>
+{
+    template <class Tuple, size_t index = std::tuple_size<Tuple>::value - 1> struct tuple_hasher { template <class Comb> static size_t apply(size_t seed, const Tuple &t, Comb comb = Comb()) { return comb(tuple_hasher<Tuple, index - 1>::apply(seed, t, comb), std::get<index>(t)); } };
+    template <class Tuple> struct tuple_hasher<Tuple, 0> { template <class Comb> static size_t apply(size_t seed, const Tuple &t, Comb comb = Comb()) { return comb(seed, std::get<0>(t)); } };
+    std_hash_combine comb;
+public:
+    size_t operator()(const std::tuple<T...> &t) const { return tuple_hasher<std::tuple<T...>>::apply(0, t, comb); }
+};
+} // namespace workspace
 #line 3 "utils/iostream_overload.hpp"
 namespace std
 {
@@ -153,56 +230,6 @@ struct read<void>
     operator T() const { T value; std::cin >> value; return value; }
 };
 } // namespace workspace
-#line 3 "utils/casefmt.hpp"
-namespace workspace {
-std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid << ": "; }
-} // namespace workspace
-#line 3 "utils/fixed_point.hpp"
-namespace workspace {
-// specify the return type of lambda.
-template <class lambda_type>
-class fixed_point
-{
-    lambda_type func;
-public:
-    fixed_point(lambda_type &&f) : func(std::move(f)) {}
-    template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
-};
-} // namespace workspace
-#line 3 "utils/chval.hpp"
-namespace workspace {
-template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }
-template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x, y) ? x = y, true : false; }
-} // namespace workspace
-#line 5 "utils/binary_search.hpp"
-namespace workspace {
-// binary search on discrete range.
-template <class iter_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>, std::nullptr_t> = nullptr>
-iter_type binary_search(iter_type ok, iter_type ng, pred_type pred)
-{
-    assert(ok != ng);
-    intmax_t dist(ng - ok);
-    while(std::abs(dist) > 1)
-    {
-        iter_type mid(ok + dist / 2);
-        if(pred(mid)) ok = mid, dist -= dist / 2;
-        else ng = mid, dist /= 2;
-    }
-    return ok;
-}
-// binary search on real numbers.
-template <class real_type, class pred_type, std::enable_if_t<std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>, std::nullptr_t> = nullptr>
-real_type binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred)
-{
-    assert(ok != ng);
-    while(std::abs(ok - ng) > eps)
-    {
-        real_type mid{(ok + ng) / 2};
-        (pred(mid) ? ok : ng) = mid;
-    }
-    return ok;
-}
-} // namespace workspace
 #line 2 "alias.hpp"
 using namespace std; using namespace __gnu_cxx;
 using i32 = int_least32_t; using i64 = int_least64_t;
@@ -210,7 +237,7 @@ using p32 = pair<i32, i32>; using p64 = pair<i64, i64>;
 template <class T, class Comp = less<T>> using heap = priority_queue<T, vector<T>, Comp>;
 template <class T> using hashset = unordered_set<T>;
 template <class Key, class Value> using hashmap = unordered_map<Key, Value>;
-#line 11 "template.cpp"
+#line 12 "template.cpp"
 namespace workspace { struct solver; } int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
     // return -1; // not specify
@@ -222,7 +249,7 @@ struct workspace::solver { // start here!
 
 solver()
 {
-
+    
 }};
 
 ```
