@@ -202,7 +202,7 @@ layout: default
 * :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
-* :x: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
+* :warning: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/read.hpp.html">utils/read.hpp</a>

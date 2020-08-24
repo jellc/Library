@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: utils/hash.hpp
+# :warning: utils/hash.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,11 +39,6 @@ layout: default
 ## Required by
 
 * :warning: <a href="../template.cpp.html">template.cpp</a>
-
-
-## Verified with
-
-* :x: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 
 
 ## Code
