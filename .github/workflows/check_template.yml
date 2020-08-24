@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: g++ template.cpp -std=c++17 -Wall
-    - working-directory: ./
+      working-directory: ./
