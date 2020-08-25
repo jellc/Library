@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 03:08:15+09:00
+    - Last commit date: 2020-08-25 12:11:18+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -86,10 +86,10 @@ struct hash : std::hash<T> {};
 template <class int_type>
 struct hash<int_type, enable_if_trait_type<int_type, std::is_integral>>
 {
-    const uint64_t seed[2], offset;
+    const uint64_t seed[3];
 public:
-    hash() : seed{std::random_device{}(), std::random_device{}()}, offset{std::random_device{}()} {}
-    size_t operator()(const uint64_t &x) const { return (offset + x * seed[0] + (x >> 32) * seed[1]) >> 32; }
+    template <class URBG = std::random_device> hash(URBG urbg = URBG()) : seed{urbg(), urbg(), urbg()} {}
+    size_t operator()(const uint64_t &x) const { return (x * seed[0] + (x >> 32) * seed[1] + seed[2]) >> 32; }
 };
 template <class T1, class T2>
 class hash<std::pair<T1, T2>>
