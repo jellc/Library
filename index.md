@@ -39,6 +39,7 @@ layout: default
 ### .
 
 * :warning: <a href="library/config.hpp.html">config.hpp</a>
+* :warning: <a href="library/gcc_builtin.hpp.html">gcc_builtin.hpp</a>
 * :warning: <a href="library/gcc_option.hpp.html">gcc_option.hpp</a>
 * :warning: <a href="library/template.cpp.html">template.cpp</a>
 
