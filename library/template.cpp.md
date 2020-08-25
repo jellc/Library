@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 17:25:58+09:00
+    - Last commit date: 2020-08-25 21:23:23+09:00
 
 
 
@@ -177,6 +177,8 @@ public:
 #include <type_traits>
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+template <class Container>
+using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
 #line 6 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>
