@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: data_structure/segment_tree/segment_tree.hpp
+# :warning: data_structure/segment_tree/basic.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#fba856dbe1aaa5374a50a27f6dcea717">data_structure/segment_tree</a>
-* <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/segment_tree.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-26 02:54:24+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/basic.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-26 03:00:19+09:00
 
 
 
@@ -39,12 +39,6 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 
 
 ## Code
@@ -222,7 +216,7 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "data_structure/segment_tree/segment_tree.hpp"
+#line 1 "data_structure/segment_tree/basic.hpp"
 #include <cassert>
 #include <vector>
 #line 2 "utils/sfinae.hpp"
@@ -231,7 +225,7 @@ template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
-#line 4 "data_structure/segment_tree/segment_tree.hpp"
+#line 4 "data_structure/segment_tree/basic.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree
 {
