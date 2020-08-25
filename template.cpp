@@ -13,7 +13,7 @@ namespace workspace {
     constexpr char eol = '\n';
     using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+    using __gnu_pbds::priority_queue;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
