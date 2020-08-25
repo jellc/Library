@@ -38,6 +38,7 @@ layout: default
 
 ## Required by
 
+* :heavy_check_mark: <a href="../data_structure/segment_tree/segment_tree.hpp.html">data_structure/segment_tree/segment_tree.hpp</a>
 * :warning: <a href="../template.cpp.html">template.cpp</a>
 * :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
 
@@ -45,6 +46,8 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 
 
 ## Code
