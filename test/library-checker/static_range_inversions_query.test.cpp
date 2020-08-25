@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/static_range_inversions_query"
-#include "../../data_structure/Mo.hpp"
-#include "../../utils/coordinate_compression.hpp"
-#include "../../data_structure/segment_tree/segment_tree.hpp"
+#include "data_structure/Mo.hpp"
+#include "utils/coordinate_compression.hpp"
+#include "data_structure/segment_tree/basic.hpp"
 #include <cstdio>
 using i64=int64_t;
 

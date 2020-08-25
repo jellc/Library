@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_set_range_composite"
-#include "../../data_structure/segment_tree/segment_tree.hpp"
-#include "../../modulus/modint.hpp"
+#include "data_structure/segment_tree/basic.hpp"
+#include "modulus/modint.hpp"
 #include <cstdio>
 
 int main()
