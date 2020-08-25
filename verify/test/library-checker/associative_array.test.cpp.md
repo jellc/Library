@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/associative_array.test.cpp
+# :x: test/library-checker/associative_array.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 12:11:18+09:00
+    - Last commit date: 2020-08-25 17:25:58+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :x: <a href="../../../library/utils/hash.hpp.html">utils/hash.hpp</a>
+* :x: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -117,13 +117,13 @@ public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
-struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
 {
     using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
     size_t count(const Key &key) const { return base::find(key) != base::end(); }
     template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
 };
-template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
+template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 #line 3 "test/library-checker/associative_array.test.cpp"
 

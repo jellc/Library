@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 12:11:18+09:00
+    - Last commit date: 2020-08-25 17:25:58+09:00
 
 
 
@@ -44,10 +44,10 @@ layout: default
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
-* :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
+* :x: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
-* :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :x: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -215,13 +215,13 @@ public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
-struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
 {
     using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
     size_t count(const Key &key) const { return base::find(key) != base::end(); }
     template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
 };
-template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
+template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 #line 3 "utils/iostream_overload.hpp"
 namespace std

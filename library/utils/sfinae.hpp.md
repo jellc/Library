@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: utils/sfinae.hpp
+# :x: utils/sfinae.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,12 +39,12 @@ layout: default
 ## Required by
 
 * :warning: <a href="../template.cpp.html">template.cpp</a>
-* :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
+* :x: <a href="hash.hpp.html">utils/hash.hpp</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
+* :x: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 
 
 ## Code

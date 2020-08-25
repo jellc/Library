@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: utils/hash.hpp
+# :x: utils/hash.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 12:11:18+09:00
+    - Last commit date: 2020-08-25 17:25:58+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="sfinae.hpp.html">utils/sfinae.hpp</a>
+* :x: <a href="sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Required by
@@ -48,7 +48,7 @@ layout: default
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
+* :x: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 
 
 ## Code
@@ -98,13 +98,13 @@ public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
-struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
 {
     using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
     size_t count(const Key &key) const { return base::find(key) != base::end(); }
     template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
 };
-template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
+template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 
 ```
@@ -159,13 +159,13 @@ public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
-struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
 {
     using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
     size_t count(const Key &key) const { return base::find(key) != base::end(); }
     template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
 };
-template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
+template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 } // namespace workspace
 
 ```
