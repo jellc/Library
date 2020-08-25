@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_affine_range_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 22:40:12+09:00
+    - Last commit date: 2020-08-26 03:05:24+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy_segment_tree.hpp.html">data_structure/segment_tree/lazy_segment_tree.hpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
 * :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
@@ -49,8 +49,8 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-#include "../../data_structure/segment_tree/lazy_segment_tree.hpp"
-#include "../../modulus/modint.hpp"
+#include "data_structure/segment_tree/lazy.hpp"
+#include "modulus/modint.hpp"
 #include <cstdio>
 
 int main()
@@ -116,7 +116,7 @@ int main()
 ```cpp
 #line 1 "test/library-checker/range_affine_range_sum.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-#line 1 "data_structure/segment_tree/lazy_segment_tree.hpp"
+#line 1 "data_structure/segment_tree/lazy.hpp"
 #include <cassert>
 #include <vector>
 
