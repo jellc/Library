@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/associative_array.test.cpp
+# :heavy_check_mark: test/library-checker/associative_array.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 21:23:23+09:00
+    - Last commit date: 2020-08-25 21:25:58+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :x: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/hash.hpp.html">utils/hash.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -54,7 +54,7 @@ layout: default
 int main()
 {
     int q; scanf("%d",&q);
-    workspace::hashmap<long long, long long> a;
+    workspace::hash_map<long long, long long> a;
     while(q--)
     {
         int t; long long k,v; scanf("%d%lld",&t,&k);
@@ -132,7 +132,7 @@ template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 int main()
 {
     int q; scanf("%d",&q);
-    workspace::hashmap<long long, long long> a;
+    workspace::hash_map<long long, long long> a;
     while(q--)
     {
         int t; long long k,v; scanf("%d%lld",&t,&k);
