@@ -40,11 +40,11 @@ public:
     size_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
 template <class Key, class Mapped>
-struct hashmap : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
 {
     using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
     size_t count(const Key &key) const { return base::find(key) != base::end(); }
     template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
 };
-template <class Key> using hashset = hashmap<Key, __gnu_pbds::null_type>;
+template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 } // namespace workspace
