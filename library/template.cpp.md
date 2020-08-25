@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 22:00:58+09:00
+    - Last commit date: 2020-08-25 22:12:32+09:00
 
 
 
@@ -71,7 +71,7 @@ namespace workspace {
     constexpr char eol = '\n';
     using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+    using __gnu_pbds::priority_queue;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
@@ -276,7 +276,7 @@ namespace workspace {
     constexpr char eol = '\n';
     using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    template <class T, class Comp = less<T>> using heap = std::priority_queue<T, vector<T>, Comp>;
+    using __gnu_pbds::priority_queue;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
