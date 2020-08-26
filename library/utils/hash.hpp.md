@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-26 18:01:48+09:00
+    - Last commit date: 2020-08-26 18:24:50+09:00
 
 
 
@@ -75,13 +75,13 @@ struct hash<Unique_bits_type, enable_if_trait_type<Unique_bits_type, std::has_un
         // x *= 0x2127599bf4325c37ULL;
         x ^= m;
         x ^= x >> 47;
-        return x;
+        return x - (x >> 32);
     }
 };
 template <class Key>
 size_t hash_combine(const size_t &seed, const Key &key)
 {
-    return seed ^ (hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
+    return seed ^ (hash<Key>()(key) + 0x9e3779b9 /* + (seed << 6) + (seed >> 2) */ );
 }
 template <class T1, class T2>
 struct hash<std::pair<T1, T2>>
@@ -145,13 +145,13 @@ struct hash<Unique_bits_type, enable_if_trait_type<Unique_bits_type, std::has_un
         // x *= 0x2127599bf4325c37ULL;
         x ^= m;
         x ^= x >> 47;
-        return x;
+        return x - (x >> 32);
     }
 };
 template <class Key>
 size_t hash_combine(const size_t &seed, const Key &key)
 {
-    return seed ^ (hash<Key>()(key) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
+    return seed ^ (hash<Key>()(key) + 0x9e3779b9 /* + (seed << 6) + (seed >> 2) */ );
 }
 template <class T1, class T2>
 struct hash<std::pair<T1, T2>>
