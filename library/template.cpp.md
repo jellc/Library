@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-26 17:38:08+09:00
+    - Last commit date: 2020-08-26 18:01:48+09:00
 
 
 
@@ -201,7 +201,7 @@ struct hash<Unique_bits_type, enable_if_trait_type<Unique_bits_type, std::has_un
     {
         static const uint64_t m = std::random_device{}();
         x ^= x >> 23;
-        x *= 0x2127599bf4325c37ULL;
+        // x *= 0x2127599bf4325c37ULL;
         x ^= m;
         x ^= x >> 47;
         return x;
