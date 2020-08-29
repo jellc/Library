@@ -54,4 +54,6 @@ template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 template <class Key, class Mapped> using hash_map = std::unordered_map<Key, Mapped, hash<Key>>;
 template <class Key> using hash_set = std::unordered_set<Key, hash<Key>>;
 /**/
+template <class Key, class Mapped> using hash_multimap = std::unordered_multimap<Key, Mapped, hash<Key>>;
+template <class Key> using hash_multiset = std::unordered_multiset<Key, hash<Key>>;
 } // namespace workspace
