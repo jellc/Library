@@ -1,34 +1,31 @@
 #pragma once
 #include <cassert>
 #include <vector>
-class union_find
+struct union_find
 {
-    std::vector<int> link;
+    union_find(const size_t &n = 0) : link(n, -1) {}
 
-public:
-    union_find(const unsigned n = 0) : link(n, -1) {}
-
-    unsigned find(unsigned x)
+    size_t find(const size_t &x)
     {
         assert(x < size());
         return link[x] < 0 ? x : (link[x] = find(link[x]));
     }
 
-    unsigned size() const { return link.size(); }
+    size_t size() const { return link.size(); }
 
-    unsigned size(const unsigned x)
+    size_t size(const size_t &x)
     {
         assert(x < size());
         return -link[find(x)];
     }
 
-    bool same(const unsigned x, const unsigned y)
+    bool same(const size_t &x, const size_t &y)
     {
         assert(x < size() && y < size());
         return find(x) == find(y);
     }
 
-    bool unite(unsigned x, unsigned y)
+    virtual bool unite(size_t x, size_t y)
     {
         assert(x < size() && y < size());
         x = find(x), y = find(y);
@@ -38,4 +35,7 @@ public:
         link[y] = x;
         return true;
     }
+
+protected:
+    std::vector<int> link;
 }; // class union_find
