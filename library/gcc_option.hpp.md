@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/gcc_option.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-12 16:12:22+09:00
+    - Last commit date: 2020-08-29 23:04:40+09:00
 
 
 
@@ -47,9 +47,7 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
-#ifdef LOCAL
-    #define _GLIBCXX_DEBUG
-#else
+#ifdef ONLINE_JUDGE
     #pragma GCC optimize("O3")
     #pragma GCC target("avx,avx2")
     #pragma GCC optimize("unroll-loops")
@@ -62,9 +60,7 @@ layout: default
 {% raw %}
 ```cpp
 #line 2 "gcc_option.hpp"
-#ifdef LOCAL
-    #define _GLIBCXX_DEBUG
-#else
+#ifdef ONLINE_JUDGE
     #pragma GCC optimize("O3")
     #pragma GCC target("avx,avx2")
     #pragma GCC optimize("unroll-loops")
