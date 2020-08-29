@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-26 18:24:50+09:00
+    - Last commit date: 2020-08-29 13:56:22+09:00
 
 
 
@@ -112,6 +112,8 @@ template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 template <class Key, class Mapped> using hash_map = std::unordered_map<Key, Mapped, hash<Key>>;
 template <class Key> using hash_set = std::unordered_set<Key, hash<Key>>;
 /**/
+template <class Key, class Mapped> using hash_multimap = std::unordered_multimap<Key, Mapped, hash<Key>>;
+template <class Key> using hash_multiset = std::unordered_multiset<Key, hash<Key>>;
 } // namespace workspace
 
 ```
@@ -182,6 +184,8 @@ template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
 template <class Key, class Mapped> using hash_map = std::unordered_map<Key, Mapped, hash<Key>>;
 template <class Key> using hash_set = std::unordered_set<Key, hash<Key>>;
 /**/
+template <class Key, class Mapped> using hash_multimap = std::unordered_multimap<Key, Mapped, hash<Key>>;
+template <class Key> using hash_multiset = std::unordered_multiset<Key, hash<Key>>;
 } // namespace workspace
 
 ```
