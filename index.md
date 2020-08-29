@@ -109,6 +109,7 @@ layout: default
 * :heavy_check_mark: <a href="library/data_structure/union_find/basic.hpp.html">data_structure/union_find/basic.hpp</a>
 * :warning: <a href="library/data_structure/union_find/partially_persistent_union_find.hpp.html">data_structure/union_find/partially_persistent_union_find.hpp</a>
 * :warning: <a href="library/data_structure/union_find/potentialized_union_find.hpp.html">data_structure/union_find/potentialized_union_find.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/union_find/unbalanced.hpp.html">data_structure/union_find/unbalanced.hpp</a>
 
 
 <div id="54dac5afe1fcac2f65c059fc97b44a58"></div>
