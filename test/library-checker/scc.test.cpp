@@ -13,10 +13,15 @@ int main()
         scc.add_edge(a,b);
     }
     printf("%d\n",scc.count());
-    for(size_t i=0; i<scc.count(); i++)
+    std::vector<std::vector<size_t>> comps(scc.count());
+    for(int i=0; i<n; i++)
     {
-        printf("%d",scc.size(i));
-        for(int v: scc.component(i)) printf(" %d",v);
+        comps[scc[i]].emplace_back(i);
+    }
+    for(auto &comp: comps)
+    {
+        printf("%d",size(comp));
+        for(int v: comp) printf(" %d",v);
         puts("");
     }
 }
