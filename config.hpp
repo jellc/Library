@@ -17,7 +17,7 @@ __attribute__((constructor)) void setup()
     cin.tie(nullptr);
     cout << fixed << setprecision(15);
 #ifdef _buffer_check
-    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[43m\033[30mwarning: buffer not empty.\033[0m\n\n"; });
 #endif
 }
 unsigned cases(void), caseid = 1;
