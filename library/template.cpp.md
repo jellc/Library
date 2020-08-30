@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-29 23:04:40+09:00
+    - Last commit date: 2020-08-31 02:48:44+09:00
 
 
 
@@ -126,7 +126,7 @@ __attribute__((constructor)) void setup()
     cin.tie(nullptr);
     cout << fixed << setprecision(15);
 #ifdef _buffer_check
-    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[1;35mwarning\033[0m: buffer not empty.\n\n"; });
+    atexit([]{ ofstream cnsl("CON"); char bufc; if(cin >> bufc) cnsl << "\n\033[43m\033[30mwarning: buffer not empty.\033[0m\n\n"; });
 #endif
 }
 unsigned cases(void), caseid = 1;
