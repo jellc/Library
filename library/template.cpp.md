@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-31 02:48:44+09:00
+    - Last commit date: 2020-08-31 23:03:34+09:00
 
 
 
@@ -226,21 +226,21 @@ class hash<std::tuple<T...>>
 public:
     uint64_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
-/*
-template <class Key, class Mapped>
-struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+template <class hash_table>
+struct hash_table_wrapper : hash_table
 {
-    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
-    size_t count(const Key &key) const { return base::find(key) != base::end(); }
-    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+    using key_type = typename hash_table::key_type;
+    size_t count(const key_type &key) const { return hash_table::find(key) != hash_table::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return hash_table::insert(typename hash_table::value_type(args...)); }
 };
-template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
-/*/
-template <class Key, class Mapped> using hash_map = std::unordered_map<Key, Mapped, hash<Key>>;
-template <class Key> using hash_set = std::unordered_set<Key, hash<Key>>;
-/**/
-template <class Key, class Mapped> using hash_multimap = std::unordered_multimap<Key, Mapped, hash<Key>>;
-template <class Key> using hash_multiset = std::unordered_multiset<Key, hash<Key>>;
+template <class Key, class Mapped = __gnu_pbds::null_type>
+using cc_hash_table = hash_table_wrapper<__gnu_pbds::cc_hash_table<Key, Mapped, hash<Key>>>;
+template <class Key, class Mapped = __gnu_pbds::null_type>
+using gp_hash_table = hash_table_wrapper<__gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>>;
+template <class Key, class Mapped>
+using unordered_map = std::unordered_map<Key, Mapped, hash<Key>>;
+template <class Key>
+using unordered_set = std::unordered_set<Key, hash<Key>>;
 } // namespace workspace
 #line 3 "utils/iostream_overload.hpp"
 namespace std

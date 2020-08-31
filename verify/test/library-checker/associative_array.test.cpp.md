@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-29 13:56:22+09:00
+    - Last commit date: 2020-08-31 23:03:34+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -51,15 +51,29 @@ layout: default
 #define PROBLEM "https://judge.yosupo.jp/problem/associative_array"
 #include "utils/hash.hpp"
 
+using namespace workspace;
+
 int main()
 {
     int q; scanf("%d",&q);
-    workspace::hash_map<long long, long long> a;
+    unordered_map<long long, long long> a;
+    gp_hash_table<long long, long long> b;
+    cc_hash_table<long long, long long> c;
+
     while(q--)
     {
-        int t; long long k,v; scanf("%d%lld",&t,&k);
-        if(t) printf("%lld\n",a[k]);
-        else scanf("%lld",&v),a[k]=v;
+        int t; long long k,v;
+        scanf("%d%lld", &t, &k);
+        if(t)
+        {
+            printf("%lld\n", a[k]);
+            assert(a[k] == b[k] && a[k] == c[k]);
+        }
+        else
+        {
+            scanf("%lld", &v);
+            a[k] = b[k] = c[k] = v;
+        }
     }
 }
 
@@ -120,33 +134,47 @@ class hash<std::tuple<T...>>
 public:
     uint64_t operator()(const std::tuple<T...> &t) const { return tuple_hash<std::tuple<T...>>::apply(t); }
 };
-/*
-template <class Key, class Mapped>
-struct hash_map : public __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>
+template <class hash_table>
+struct hash_table_wrapper : hash_table
 {
-    using base = __gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>;
-    size_t count(const Key &key) const { return base::find(key) != base::end(); }
-    template <class... Args> auto emplace(Args&&... args) { return base::insert(typename base::value_type(args...)); }
+    using key_type = typename hash_table::key_type;
+    size_t count(const key_type &key) const { return hash_table::find(key) != hash_table::end(); }
+    template <class... Args> auto emplace(Args&&... args) { return hash_table::insert(typename hash_table::value_type(args...)); }
 };
-template <class Key> using hash_set = hash_map<Key, __gnu_pbds::null_type>;
-/*/
-template <class Key, class Mapped> using hash_map = std::unordered_map<Key, Mapped, hash<Key>>;
-template <class Key> using hash_set = std::unordered_set<Key, hash<Key>>;
-/**/
-template <class Key, class Mapped> using hash_multimap = std::unordered_multimap<Key, Mapped, hash<Key>>;
-template <class Key> using hash_multiset = std::unordered_multiset<Key, hash<Key>>;
+template <class Key, class Mapped = __gnu_pbds::null_type>
+using cc_hash_table = hash_table_wrapper<__gnu_pbds::cc_hash_table<Key, Mapped, hash<Key>>>;
+template <class Key, class Mapped = __gnu_pbds::null_type>
+using gp_hash_table = hash_table_wrapper<__gnu_pbds::gp_hash_table<Key, Mapped, hash<Key>>>;
+template <class Key, class Mapped>
+using unordered_map = std::unordered_map<Key, Mapped, hash<Key>>;
+template <class Key>
+using unordered_set = std::unordered_set<Key, hash<Key>>;
 } // namespace workspace
 #line 3 "test/library-checker/associative_array.test.cpp"
+
+using namespace workspace;
 
 int main()
 {
     int q; scanf("%d",&q);
-    workspace::hash_map<long long, long long> a;
+    unordered_map<long long, long long> a;
+    gp_hash_table<long long, long long> b;
+    cc_hash_table<long long, long long> c;
+
     while(q--)
     {
-        int t; long long k,v; scanf("%d%lld",&t,&k);
-        if(t) printf("%lld\n",a[k]);
-        else scanf("%lld",&v),a[k]=v;
+        int t; long long k,v;
+        scanf("%d%lld", &t, &k);
+        if(t)
+        {
+            printf("%lld\n", a[k]);
+            assert(a[k] == b[k] && a[k] == c[k]);
+        }
+        else
+        {
+            scanf("%lld", &v);
+            a[k] = b[k] = c[k] = v;
+        }
     }
 }
 
