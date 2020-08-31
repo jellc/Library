@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-31 23:03:34+09:00
+    - Last commit date: 2020-09-01 01:18:38+09:00
 
 
 
@@ -69,9 +69,8 @@ layout: default
 #include "utils/read.hpp"
 namespace workspace {
     constexpr char eol = '\n';
-    using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
+    using namespace std;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    using __gnu_pbds::priority_queue;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
@@ -280,9 +279,8 @@ struct read<void>
 #line 12 "template.cpp"
 namespace workspace {
     constexpr char eol = '\n';
-    using namespace std; using namespace __gnu_pbds; using namespace __gnu_cxx;
+    using namespace std;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    using __gnu_pbds::priority_queue;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
