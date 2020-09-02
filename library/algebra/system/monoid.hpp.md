@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#c95c870e4534787ab6d160f2417ab752">algebra/system</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebra/system/monoid.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-08 02:42:14+09:00
+    - Last commit date: 2020-09-03 02:05:06+09:00
 
 
 
@@ -41,103 +41,69 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-struct mono
-{
-    mono() {}
-
-    // binary operation
-    mono operator+(const mono& rhs) const { return mono{*this} += rhs; }
-
-    // operation assignment
-    mono &operator+=(const mono &rhs);
-};
-
-
+#pragma once
+#include <limits>
 template <class T>
-struct min_mono
+struct min_monoid
 {
-    T val;
-    min_mono(T v) : val(v) {}
-
-    // binary operation
-    min_mono operator+(const min_mono& rhs) const { return min_mono{*this} += rhs; }
-
-    // operation assignment
-    min_mono &operator+=(const min_mono &rhs)
+    using value_type = T;
+    static T min, max;
+    T value;
+    min_monoid() : value(max) {}
+    min_monoid(const T &value) : value(value) {}
+    operator T() const { return value; }
+    min_monoid operator+(const min_monoid &rhs) const
     {
-        if(val > rhs.val) val = rhs.val;
-        return *this;
+        return value < rhs.value ? *this : rhs;
+    }
+};
+template <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();
+template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();
+template <class T>
+struct max_monoid : min_monoid<T>
+{
+    using base = min_monoid<T>;
+    using base::min_monoid;
+    max_monoid() : base(base::min) {}
+    max_monoid operator+(const max_monoid &rhs) const
+    {
+        return !(base::value < rhs.value) ? *this : rhs;
     }
 };
 
-
-template <class T>
-struct max_mono
-{
-    T val;
-    max_mono(T v) : val(v) {}
-
-    // binary operation
-    max_mono operator+(const max_mono& rhs) const { return max_mono{*this} += rhs; }
-
-    // operation assignment
-    max_mono &operator+=(const max_mono &rhs)
-    {
-        if(val < rhs.val) val = rhs.val;
-        return *this;
-    }
-};
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebra/system/monoid.hpp"
-struct mono
-{
-    mono() {}
-
-    // binary operation
-    mono operator+(const mono& rhs) const { return mono{*this} += rhs; }
-
-    // operation assignment
-    mono &operator+=(const mono &rhs);
-};
-
-
+#line 2 "algebra/system/monoid.hpp"
+#include <limits>
 template <class T>
-struct min_mono
+struct min_monoid
 {
-    T val;
-    min_mono(T v) : val(v) {}
-
-    // binary operation
-    min_mono operator+(const min_mono& rhs) const { return min_mono{*this} += rhs; }
-
-    // operation assignment
-    min_mono &operator+=(const min_mono &rhs)
+    using value_type = T;
+    static T min, max;
+    T value;
+    min_monoid() : value(max) {}
+    min_monoid(const T &value) : value(value) {}
+    operator T() const { return value; }
+    min_monoid operator+(const min_monoid &rhs) const
     {
-        if(val > rhs.val) val = rhs.val;
-        return *this;
+        return value < rhs.value ? *this : rhs;
     }
 };
-
-
+template <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();
+template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();
 template <class T>
-struct max_mono
+struct max_monoid : min_monoid<T>
 {
-    T val;
-    max_mono(T v) : val(v) {}
-
-    // binary operation
-    max_mono operator+(const max_mono& rhs) const { return max_mono{*this} += rhs; }
-
-    // operation assignment
-    max_mono &operator+=(const max_mono &rhs)
+    using base = min_monoid<T>;
+    using base::min_monoid;
+    max_monoid() : base(base::min) {}
+    max_monoid operator+(const max_monoid &rhs) const
     {
-        if(val < rhs.val) val = rhs.val;
-        return *this;
+        return !(base::value < rhs.value) ? *this : rhs;
     }
 };
 
