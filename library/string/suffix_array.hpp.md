@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/suffix_array.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 00:23:34+09:00
+    - Last commit date: 2020-09-03 02:41:39+09:00
 
 
+
+
+## Depends on
+
+* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with
@@ -47,13 +52,11 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#ifndef suffix_array_hpp
-#define suffix_array_hpp
-
+#pragma once
 #include <algorithm>
 #include <vector>
 #include <numeric>
-
+#include "utils/sfinae.hpp"
 template <class str_type>
 class suffix_array
 {
@@ -101,7 +104,7 @@ class suffix_array
     }
 
 public:
-    using value_type = typename str_type::value_type;
+    using value_type = element_type<str_type>;
 
     std::vector<size_t>::const_iterator begin() const { return sa.begin() + 1; }
     std::vector<size_t>::const_iterator end() const { return sa.end(); }
@@ -156,21 +159,23 @@ public:
     const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
 
-#endif // suffix_array_hpp
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "string/suffix_array.hpp"
-
-
-
+#line 2 "string/suffix_array.hpp"
 #include <algorithm>
 #include <vector>
 #include <numeric>
-
+#line 2 "utils/sfinae.hpp"
+#include <type_traits>
+template <class type, template <class> class trait>
+using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+template <class Container>
+using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+#line 6 "string/suffix_array.hpp"
 template <class str_type>
 class suffix_array
 {
@@ -218,7 +223,7 @@ class suffix_array
     }
 
 public:
-    using value_type = typename str_type::value_type;
+    using value_type = element_type<str_type>;
 
     std::vector<size_t>::const_iterator begin() const { return sa.begin() + 1; }
     std::vector<size_t>::const_iterator end() const { return sa.end(); }
@@ -272,8 +277,6 @@ public:
 
     const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
-
-
 
 ```
 {% endraw %}
