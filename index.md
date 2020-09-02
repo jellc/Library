@@ -187,7 +187,7 @@ layout: default
 
 ### number_theory
 
-* :warning: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
+* :heavy_check_mark: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
 
 
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
@@ -210,7 +210,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :warning: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
+* :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :warning: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
@@ -235,7 +235,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
-* :x: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
