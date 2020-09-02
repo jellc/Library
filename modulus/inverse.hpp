@@ -1,9 +1,10 @@
 #pragma once
 #include "modint.hpp"
 #include <vector>
+template <class> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod = 0>
-struct inverse
+template <int_fast64_t mod>
+struct inverse<modint<mod>>
 {
     using value_type = modint<mod>;
     value_type operator()(int n) const
@@ -17,7 +18,7 @@ private:
     static std::vector<value_type> inv;
 };
 template <>
-struct inverse<0>
+struct inverse<modint_runtime>
 {
     using value_type = modint_runtime;
     value_type operator()(int n) const
@@ -32,6 +33,5 @@ struct inverse<0>
 private:
     static std::vector<value_type> inv;
 };
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<mod>::inv = {1, 1};
-std::vector<modint_runtime> inverse<0>::inv;
-using inverse_runtime = inverse<0>;
+template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
+std::vector<modint_runtime> inverse<modint_runtime>::inv;

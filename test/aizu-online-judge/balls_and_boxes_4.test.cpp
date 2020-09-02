@@ -4,6 +4,7 @@
 
 int main()
 {
+    using modint = modint<1000000007>;
     int n,k; scanf("%d%d",&n,&k);
-    printf("%d\n",binomial<1000000007>()(n+k-1,n));
+    printf("%d\n",binomial<modint>()(n+k-1,n));
 }
