@@ -187,7 +187,7 @@ layout: default
 
 ### number_theory
 
-* :warning: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
+* :heavy_check_mark: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
 
 
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
