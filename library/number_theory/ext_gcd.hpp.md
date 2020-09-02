@@ -25,20 +25,15 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: math/ext_gcd.hpp
+# :warning: number_theory/ext_gcd.hpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
-* <a href="{{ site.github.repository_url }}/blob/master/math/ext_gcd.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 16:02:40+09:00
+* category: <a href="../../index.html#814c07620aec62314b2fd23fc462e282">number_theory</a>
+* <a href="{{ site.github.repository_url }}/blob/master/number_theory/ext_gcd.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-03 02:16:21+09:00
 
 
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 
 
 ## Code
@@ -68,7 +63,7 @@ constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 2 "math/ext_gcd.hpp"
+#line 2 "number_theory/ext_gcd.hpp"
 #include <tuple>
 template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
 constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)

@@ -25,22 +25,15 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+# :x: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 01:27:19+09:00
+    - Last commit date: 1970-01-01 00:00:00+00:00
 
 
-* see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
-
-
-## Depends on
-
-* :heavy_check_mark: <a href="../../../library/math/ext_gcd.hpp.html">math/ext_gcd.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 
 
 ## Code
@@ -68,52 +61,16 @@ int main()
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/aizu-online-judge/extended_euclid_algorithm.test.cpp"
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E"
-#line 2 "math/ext_gcd.hpp"
-#include <tuple>
-template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
-{
-    bool neg_a = a < 0, neg_b = b < 0;
-    int_type p{1}, q{}, r{}, s{1}, t{};
-    while(b)
-    {
-        r ^= p ^= r ^= p -= (t = a / b) * r;
-        s ^= q ^= s ^= q -= t * s;
-        b ^= a ^= b ^= a %= b;
-    }
-    return {neg_a ? -p : p, neg_b ? -q : q};
-}
-#line 2 "utils/iostream_overload.hpp"
-#include <iostream>
-namespace std
-{
-    template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) { return is >> p.first >> p.second; }
-    template <class T, class U> ostream &operator<<(ostream &os, const pair<T, U> &p) { return os << p.first << ' ' << p.second; }
-    template <class tuple_t, size_t index> struct tuple_is { static istream &apply(istream &is, tuple_t &t) { tuple_is<tuple_t, index - 1>::apply(is, t); return is >> get<index>(t); } };
-    template <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> { static istream &apply(istream &is, tuple_t &t) { return is; } };
-    template <class... T> istream &operator>>(istream &is, tuple<T...> &t) { return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(is, t); }
-    template <class tuple_t, size_t index> struct tuple_os { static ostream &apply(ostream &os, const tuple_t &t) { tuple_os<tuple_t, index - 1>::apply(os, t); return os << ' ' << get<index>(t); } };
-    template <class tuple_t> struct tuple_os<tuple_t, 0> { static ostream &apply(ostream &os, const tuple_t &t) { return os << get<0>(t); } };
-    template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> { static ostream &apply(ostream &os, const tuple_t &t) { return os; } };
-    template <class... T> ostream &operator<<(ostream &os, const tuple<T...> &t) { return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(os, t); }
-    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-    istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
-    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-    ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-} // namespace std
-#line 4 "test/aizu-online-judge/extended_euclid_algorithm.test.cpp"
-
-int main()
-{
-    int a,b;
-    std::cin>>a>>b;
-    auto [x,y]=ext_gcd(a,b);
-    if(x>0) x-=b,y+=a;
-    if((long long)(y-x)*2>a+b) x+=b,y-=a;
-    std::cout<<x<<" "<<y<<"\n";
-}
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/docs.py", line 349, in write_contents
+    bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
+    bundler.update(path)
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 399, in update
+    self.update(self._resolve(pathlib.Path(included), included_from=path))
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 258, in _resolve
+    raise BundleErrorAt(path, -1, "no such header")
+onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: math/ext_gcd.hpp: line -1: no such header
 
 ```
 {% endraw %}

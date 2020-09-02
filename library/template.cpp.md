@@ -46,7 +46,7 @@ layout: default
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
-* :heavy_check_mark: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
+* :warning: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 

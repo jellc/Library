@@ -31,13 +31,14 @@ layout: default
 
 * category: <a href="../../../index.html#fba856dbe1aaa5374a50a27f6dcea717">data_structure/segment_tree</a>
 * <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/basic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-26 03:00:19+09:00
+    - Last commit date: 2020-09-03 02:13:50+09:00
 
 
 
 
 ## Depends on
 
+* :heavy_check_mark: <a href="../../algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
 * :heavy_check_mark: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
@@ -55,6 +56,7 @@ layout: default
 #include <cassert>
 #include <vector>
 #include "utils/sfinae.hpp"
+#include "algebra/system/monoid.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree
 {
@@ -231,7 +233,36 @@ template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
-#line 4 "data_structure/segment_tree/basic.hpp"
+#line 2 "algebra/system/monoid.hpp"
+#include <limits>
+template <class T>
+struct min_monoid
+{
+    using value_type = T;
+    static T min, max;
+    T value;
+    min_monoid() : value(max) {}
+    min_monoid(const T &value) : value(value) {}
+    operator T() const { return value; }
+    min_monoid operator+(const min_monoid &rhs) const
+    {
+        return value < rhs.value ? *this : rhs;
+    }
+};
+template <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();
+template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();
+template <class T>
+struct max_monoid : min_monoid<T>
+{
+    using base = min_monoid<T>;
+    using base::min_monoid;
+    max_monoid() : base(base::min) {}
+    max_monoid operator+(const max_monoid &rhs) const
+    {
+        return !(base::value < rhs.value) ? *this : rhs;
+    }
+};
+#line 5 "data_structure/segment_tree/basic.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree
 {
