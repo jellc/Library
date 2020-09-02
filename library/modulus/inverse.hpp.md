@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/inverse.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 22:40:12+09:00
+    - Last commit date: 2020-09-03 02:01:43+09:00
 
 
 
@@ -59,9 +59,10 @@ layout: default
 #pragma once
 #include "modint.hpp"
 #include <vector>
+template <class> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod = 0>
-struct inverse
+template <int_fast64_t mod>
+struct inverse<modint<mod>>
 {
     using value_type = modint<mod>;
     value_type operator()(int n) const
@@ -75,7 +76,7 @@ private:
     static std::vector<value_type> inv;
 };
 template <>
-struct inverse<0>
+struct inverse<modint_runtime>
 {
     using value_type = modint_runtime;
     value_type operator()(int n) const
@@ -90,9 +91,8 @@ struct inverse<0>
 private:
     static std::vector<value_type> inv;
 };
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<mod>::inv = {1, 1};
-std::vector<modint_runtime> inverse<0>::inv;
-using inverse_runtime = inverse<0>;
+template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
+std::vector<modint_runtime> inverse<modint_runtime>::inv;
 
 ```
 {% endraw %}
@@ -224,9 +224,10 @@ protected:
 using modint_runtime = modint<0>;
 #line 3 "modulus/inverse.hpp"
 #include <vector>
+template <class> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod = 0>
-struct inverse
+template <int_fast64_t mod>
+struct inverse<modint<mod>>
 {
     using value_type = modint<mod>;
     value_type operator()(int n) const
@@ -240,7 +241,7 @@ private:
     static std::vector<value_type> inv;
 };
 template <>
-struct inverse<0>
+struct inverse<modint_runtime>
 {
     using value_type = modint_runtime;
     value_type operator()(int n) const
@@ -255,9 +256,8 @@ struct inverse<0>
 private:
     static std::vector<value_type> inv;
 };
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<mod>::inv = {1, 1};
-std::vector<modint_runtime> inverse<0>::inv;
-using inverse_runtime = inverse<0>;
+template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
+std::vector<modint_runtime> inverse<modint_runtime>::inv;
 
 ```
 {% endraw %}
