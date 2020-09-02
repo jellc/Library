@@ -1,10 +1,8 @@
-#ifndef suffix_array_hpp
-#define suffix_array_hpp
-
+#pragma once
 #include <algorithm>
 #include <vector>
 #include <numeric>
-
+#include "utils/sfinae.hpp"
 template <class str_type>
 class suffix_array
 {
@@ -52,7 +50,7 @@ class suffix_array
     }
 
 public:
-    using value_type = typename str_type::value_type;
+    using value_type = element_type<str_type>;
 
     std::vector<size_t>::const_iterator begin() const { return sa.begin() + 1; }
     std::vector<size_t>::const_iterator end() const { return sa.end(); }
@@ -106,5 +104,3 @@ public:
 
     const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
-
-#endif // suffix_array_hpp
