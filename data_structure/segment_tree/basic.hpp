@@ -1,6 +1,7 @@
 #include <cassert>
 #include <vector>
 #include "utils/sfinae.hpp"
+#include "algebra/system/monoid.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree
 {
