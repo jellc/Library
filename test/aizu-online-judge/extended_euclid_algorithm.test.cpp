@@ -1,5 +1,5 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E"
-#include "math/ext_gcd.hpp"
+#include "number_theory/ext_gcd.hpp"
 #include "utils/iostream_overload.hpp"
 
 int main()
