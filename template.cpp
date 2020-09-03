@@ -13,6 +13,8 @@ namespace workspace {
     constexpr char eol = '\n';
     using namespace std;
     using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
+    template <class T, class Comp = std::less<T>> using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
+    template <class T> using stack = std::stack<T, std::vector<T>>;
     struct solver;
 }
 int main() { config::main<workspace::solver>(); }
