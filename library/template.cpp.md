@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-03 15:33:50+09:00
+    - Last commit date: 2020-09-04 03:08:04+09:00
 
 
 
@@ -56,10 +56,11 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#include "gcc_option.hpp"
-#include "gcc_builtin.hpp"
 #include <bits/extc++.h>
+
 #include "config.hpp"
+#include "gcc_builtin.hpp"
+#include "gcc_option.hpp"
 #include "utils/binary_search.hpp"
 #include "utils/casefmt.hpp"
 #include "utils/chval.hpp"
@@ -67,27 +68,30 @@ layout: default
 #include "utils/hash.hpp"
 #include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
+
 namespace workspace {
-    constexpr char eol = '\n';
-    using namespace std;
-    using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    template <class T, class Comp = std::less<T>> using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
-    template <class T> using stack = std::stack<T, std::vector<T>>;
-    struct solver;
-}
+constexpr char eol = '\n';
+using namespace std;
+using i64 = int_least64_t;
+using p32 = pair<int, int>;
+using p64 = pair<i64, i64>;
+template <class T, class Comp = std::less<T>>
+using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
+template <class T> using stack = std::stack<T, std::vector<T>>;
+struct solver;
+}  // namespace workspace
 int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
-    // return -1; // not specify
-    // int t; std::cin >> t; return t; // given
-    return 1;
+  // return -1; // not specify
+  // int t; std::cin >> t; return t; // given
+  return 1;
 }
 
-struct workspace::solver { // start here!
-
-solver()
-{
-    
-}};
+struct workspace::solver {
+  solver() {
+    // start here!
+  }
+};
 
 ```
 {% endraw %}
@@ -95,22 +99,9 @@ solver()
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 2 "gcc_option.hpp"
-#ifdef ONLINE_JUDGE
-    #pragma GCC optimize("O3")
-    #pragma GCC target("avx,avx2")
-    #pragma GCC optimize("unroll-loops")
-#endif
-#line 2 "gcc_builtin.hpp"
-#include <cstdint>
-namespace workspace {
-constexpr int clz32(const uint32_t &n) noexcept { return __builtin_clz(n); }
-constexpr int clz64(const uint64_t &n) noexcept{ return __builtin_clzll(n); }
-constexpr int ctz(const uint64_t &n) noexcept { return __builtin_ctzll(n); }
-constexpr int popcnt(const uint64_t &n) noexcept { return __builtin_popcountll(n); }
-} // namespace workspace
-#line 3 "template.cpp"
+#line 1 "template.cpp"
 #include <bits/extc++.h>
+
 #line 5 "config.hpp"
 namespace config {
 const auto start_time{std::chrono::system_clock::now()};
@@ -133,6 +124,19 @@ __attribute__((constructor)) void setup()
 unsigned cases(void), caseid = 1;
 template <class C> void main() { for(const unsigned total = cases(); caseid <= total; ++caseid) C(); }
 } // namespace config
+#line 3 "gcc_builtin.hpp"
+namespace workspace {
+constexpr int clz32(const uint32_t &n) noexcept { return __builtin_clz(n); }
+constexpr int clz64(const uint64_t &n) noexcept{ return __builtin_clzll(n); }
+constexpr int ctz(const uint64_t &n) noexcept { return __builtin_ctzll(n); }
+constexpr int popcnt(const uint64_t &n) noexcept { return __builtin_popcountll(n); }
+} // namespace workspace
+#line 2 "gcc_option.hpp"
+#ifdef ONLINE_JUDGE
+    #pragma GCC optimize("O3")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("unroll-loops")
+#endif
 #line 5 "utils/binary_search.hpp"
 namespace workspace {
 // binary search on discrete range.
@@ -278,28 +282,31 @@ struct read<void>
     operator T() const { T value; std::cin >> value; return value; }
 };
 } // namespace workspace
-#line 12 "template.cpp"
+#line 13 "template.cpp"
+
 namespace workspace {
-    constexpr char eol = '\n';
-    using namespace std;
-    using i64 = int_least64_t; using p32 = pair<int, int>; using p64 = pair<i64, i64>;
-    template <class T, class Comp = std::less<T>> using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
-    template <class T> using stack = std::stack<T, std::vector<T>>;
-    struct solver;
-}
+constexpr char eol = '\n';
+using namespace std;
+using i64 = int_least64_t;
+using p32 = pair<int, int>;
+using p64 = pair<i64, i64>;
+template <class T, class Comp = std::less<T>>
+using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
+template <class T> using stack = std::stack<T, std::vector<T>>;
+struct solver;
+}  // namespace workspace
 int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
-    // return -1; // not specify
-    // int t; std::cin >> t; return t; // given
-    return 1;
+  // return -1; // not specify
+  // int t; std::cin >> t; return t; // given
+  return 1;
 }
 
-struct workspace::solver { // start here!
-
-solver()
-{
-    
-}};
+struct workspace::solver {
+  solver() {
+    // start here!
+  }
+};
 
 ```
 {% endraw %}
