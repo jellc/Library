@@ -1,0 +1,3 @@
+BasedOnStyle: Google
+AlwaysBreakTemplateDeclarations: MultiLine
+PenaltyBreakTemplateDeclaration: 0
