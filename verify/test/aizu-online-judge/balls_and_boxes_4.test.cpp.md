@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/balls_and_boxes_4.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-03 02:01:43+09:00
+    - Last commit date: 2020-09-04 00:31:34+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D">https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D</a>
@@ -249,18 +249,14 @@ template <int_fast64_t mod>
 struct binomial<modint<mod>>
 {
     using value_type = modint<mod>;
-    struct mulinv_Op
-    {
-        inverse<value_type> &inv;
-        value_type operator()(value_type f, size_t n) const { return f * inv(n); }
-    };
+    struct mulinv_Op { value_type operator()(const value_type &f, const size_t &n) const { return f * inv(n); } };
     static inverse<value_type> inv;
     static factorial<value_type, mulinv_Op> fact_inv;
     static factorial<value_type> fact;
-    value_type operator()(int n, int k) { return fact_inv(k) * fact_inv(n - k) * fact(n); }
+    value_type operator()(const int &n, const int &k) { return fact_inv(k) * fact_inv(n - k) * fact(n); }
 };
 template <int_fast64_t mod> inverse<modint<mod>> binomial<modint<mod>>::inv;
-template <int_fast64_t mod> factorial<modint<mod>, class binomial<modint<mod>>::mulinv_Op> binomial<modint<mod>>::fact_inv{1, mulinv_Op{binomial<modint<mod>>::inv}};
+template <int_fast64_t mod> factorial<modint<mod>, class binomial<modint<mod>>::mulinv_Op> binomial<modint<mod>>::fact_inv{1};
 template <int_fast64_t mod> factorial<modint<mod>> binomial<modint<mod>>::fact;
 #line 3 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
 #include <cstdio>
