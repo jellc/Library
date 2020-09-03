@@ -25,22 +25,23 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/assignment.test.cpp
+# :x: test/aizu-online-judge/aors_score.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
-* category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/assignment.test.cpp">View this file on GitHub</a>
+* category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/aors_score.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-09-04 04:48:51+09:00
 
 
-* see: <a href="https://judge.yosupo.jp/problem/assignment">https://judge.yosupo.jp/problem/assignment</a>
+* see: <a href="https://onlinejudge.u-aizu.ac.jp/challenges/search/titles/2815">https://onlinejudge.u-aizu.ac.jp/challenges/search/titles/2815</a>
 
 
 ## Depends on
 
 * :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
 * :question: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -48,35 +49,33 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#define PROBLEM "https://judge.yosupo.jp/problem/assignment"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/challenges/search/titles/2815"
 #include "graph/directed/flow/min_cost_flow.hpp"
-#include <cstdio>
-#include <cstdint>
-using i64=int64_t;
+#include "utils/read.hpp"
 
-int main()
-{
-    int n; scanf("%d",&n);
-    min_cost_flow<int,i64> mcf(n*2);
-    for(int i=0;i<n;i++)
-    {
-        mcf.supply(i,1);
-        mcf.supply(i+n,-1);
-        for(int j=0;j<n;j++)
-        {
-            int a; scanf("%d",&a);
-            mcf.add_edge(i,j+n,1,a);
-        }
+using namespace workspace;
+
+int main() {
+  const int n = read(), m = read(), k = read();
+  const int total = n + m + 2;
+  const int dst = total - 1;
+  const int dst2 = total - 2;
+  min_cost_flow<int, int> mcf(total);
+  mcf.supply(dst, k - n);
+  mcf.supply(dst2, -k);
+  for (int i = 0; i < n; ++i) {
+    mcf.supply(i, 1);
+    mcf.add_edge(i, dst2, 1, -read<int>());
+  }
+  for (int j = 0; j < m; j++) {
+    for (int i = 0; i < n; i++) {
+      mcf.add_edge(i, j + n, 1, -read<int>());
     }
-    printf("%lld\n",mcf.optimal());
-    for(int i=0;i<n;i++)
-    {
-        for(auto &e:mcf[i])
-        {
-            if(!e.cap) printf("%d ",e.dst-n);
-        }
-    }
-    puts("");
+  }
+  for (int j = 0; j < m; j++) {
+    mcf.add_edge(j + n, dst, read<int>(), 0);
+  }
+  std::cout << -mcf.optimal() << "\n";
 }
 
 ```
@@ -85,8 +84,8 @@ int main()
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/library-checker/assignment.test.cpp"
-#define PROBLEM "https://judge.yosupo.jp/problem/assignment"
+#line 1 "test/aizu-online-judge/aors_score.test.cpp"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/challenges/search/titles/2815"
 #line 2 "graph/directed/flow/base.hpp"
 #include <cassert>
 #include <vector>
@@ -371,34 +370,50 @@ public:
 
     cost_t optimal() { assert(flow()); return min_cost; }
 }; // class min_cost_flow
-#line 3 "test/library-checker/assignment.test.cpp"
-#include <cstdio>
-#include <cstdint>
-using i64=int64_t;
-
-int main()
+#line 2 "utils/read.hpp"
+#include <iostream>
+namespace workspace {
+// read with std::cin.
+template <class T = void>
+struct read
 {
-    int n; scanf("%d",&n);
-    min_cost_flow<int,i64> mcf(n*2);
-    for(int i=0;i<n;i++)
-    {
-        mcf.supply(i,1);
-        mcf.supply(i+n,-1);
-        for(int j=0;j<n;j++)
-        {
-            int a; scanf("%d",&a);
-            mcf.add_edge(i,j+n,1,a);
-        }
+    typename std::remove_const<T>::type value;
+    template <class... types>
+    read(types... args) : value(args...) { std::cin >> value; }
+    operator T() const { return value; }
+};
+template <>
+struct read<void>
+{
+    template <class T>
+    operator T() const { T value; std::cin >> value; return value; }
+};
+} // namespace workspace
+#line 4 "test/aizu-online-judge/aors_score.test.cpp"
+
+using namespace workspace;
+
+int main() {
+  const int n = read(), m = read(), k = read();
+  const int total = n + m + 2;
+  const int dst = total - 1;
+  const int dst2 = total - 2;
+  min_cost_flow<int, int> mcf(total);
+  mcf.supply(dst, k - n);
+  mcf.supply(dst2, -k);
+  for (int i = 0; i < n; ++i) {
+    mcf.supply(i, 1);
+    mcf.add_edge(i, dst2, 1, -read<int>());
+  }
+  for (int j = 0; j < m; j++) {
+    for (int i = 0; i < n; i++) {
+      mcf.add_edge(i, j + n, 1, -read<int>());
     }
-    printf("%lld\n",mcf.optimal());
-    for(int i=0;i<n;i++)
-    {
-        for(auto &e:mcf[i])
-        {
-            if(!e.cap) printf("%d ",e.dst-n);
-        }
-    }
-    puts("");
+  }
+  for (int j = 0; j < m; j++) {
+    mcf.add_edge(j + n, dst, read<int>(), 0);
+  }
+  std::cout << -mcf.optimal() << "\n";
 }
 
 ```

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/read.hpp
+# :x: utils/read.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,6 +39,11 @@ layout: default
 ## Required by
 
 * :warning: <a href="../template.cpp.html">template.cpp</a>
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
 
 
 ## Code
