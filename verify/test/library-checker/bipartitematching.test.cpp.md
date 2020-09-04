@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
 
 
 ## Code

@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/aizu-online-judge/aors_score.test.cpp
+# :heavy_check_mark: test/aizu-online-judge/aors_score.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/aors_score.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-04 13:48:47+09:00
+    - Last commit date: 2020-09-04 14:02:16+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017">https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :question: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
-* :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
+* :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -56,7 +56,7 @@ layout: default
 using namespace workspace;
 
 int main() {
-  const int n = read(), m = read(), k = read();
+  const int n = read<int>(), m = read<int>(), k = read<int>();
   const int total = n + m + 3;
   const int dst = total - 1;
   const int dst2 = total - 2;
@@ -385,7 +385,7 @@ struct read<void>
 using namespace workspace;
 
 int main() {
-  const int n = read(), m = read(), k = read();
+  const int n = read<int>(), m = read<int>(), k = read<int>();
   const int total = n + m + 3;
   const int dst = total - 1;
   const int dst2 = total - 2;
