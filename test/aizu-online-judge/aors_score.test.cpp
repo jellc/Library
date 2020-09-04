@@ -5,7 +5,7 @@
 using namespace workspace;
 
 int main() {
-  const int n = read(), m = read(), k = read();
+  const int n = read<int>(), m = read<int>(), k = read<int>();
   const int total = n + m + 3;
   const int dst = total - 1;
   const int dst2 = total - 2;
