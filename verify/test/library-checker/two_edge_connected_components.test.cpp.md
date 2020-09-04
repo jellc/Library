@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/two_edge_connected_components.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-21 01:25:04+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/two_edge_connected_components">https://judge.yosupo.jp/problem/two_edge_connected_components</a>
@@ -48,33 +48,31 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/two_edge_connected_components"
-#include "../../graph/undirected/two_edge_connected_components.hpp"
-#include <cstdio>
 #include <algorithm>
+#include <cstdio>
 
-signed main()
-{
-    int v,e;
-    scanf("%d%d",&v,&e);
-    two_edge_connected_component becc(v);
-    for(int a,b; e--;)
-    {
-        scanf("%d%d",&a,&b);
-        becc.add_edge(a,b);
+#include "graph/undirected/two_edge_connected_components.hpp"
+
+signed main() {
+  int v, e;
+  scanf("%d%d", &v, &e);
+  two_edge_connected_component becc(v);
+  for (int a, b; e--;) {
+    scanf("%d%d", &a, &b);
+    becc.add_edge(a, b);
+  }
+  becc.make();
+  printf("%d\n", becc.count());
+  for (size_t i = 0; i < becc.count(); i++) {
+    const auto &lst = becc.component(i);
+    printf("%d", lst.size());
+    for (int v : lst) {
+      printf(" %d", v);
     }
-    becc.make();
-    printf("%d\n",becc.count());
-    for(size_t i=0; i<becc.count(); i++)
-    {
-        const auto &lst=becc.component(i);
-        printf("%d",lst.size());
-        for(int v: lst)
-        {
-            printf(" %d",v);
-        }
-        puts("");
-    }
+    puts("");
+  }
 }
+
 ```
 {% endraw %}
 
@@ -83,6 +81,9 @@ signed main()
 ```cpp
 #line 1 "test/library-checker/two_edge_connected_components.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/two_edge_connected_components"
+#include <algorithm>
+#include <cstdio>
+
 #line 1 "graph/undirected/two_edge_connected_components.hpp"
 #include <cassert>
 #include <vector>
@@ -163,32 +164,26 @@ public:
 
     const std::vector<std::vector<size_t>> &bridge_tree() { make(); return tree; }
 }; // class two_edge_connected_component
-#line 3 "test/library-checker/two_edge_connected_components.test.cpp"
-#include <cstdio>
-#include <algorithm>
+#line 6 "test/library-checker/two_edge_connected_components.test.cpp"
 
-signed main()
-{
-    int v,e;
-    scanf("%d%d",&v,&e);
-    two_edge_connected_component becc(v);
-    for(int a,b; e--;)
-    {
-        scanf("%d%d",&a,&b);
-        becc.add_edge(a,b);
+signed main() {
+  int v, e;
+  scanf("%d%d", &v, &e);
+  two_edge_connected_component becc(v);
+  for (int a, b; e--;) {
+    scanf("%d%d", &a, &b);
+    becc.add_edge(a, b);
+  }
+  becc.make();
+  printf("%d\n", becc.count());
+  for (size_t i = 0; i < becc.count(); i++) {
+    const auto &lst = becc.component(i);
+    printf("%d", lst.size());
+    for (int v : lst) {
+      printf(" %d", v);
     }
-    becc.make();
-    printf("%d\n",becc.count());
-    for(size_t i=0; i<becc.count(); i++)
-    {
-        const auto &lst=becc.component(i);
-        printf("%d",lst.size());
-        for(int v: lst)
-        {
-            printf(" %d",v);
-        }
-        puts("");
-    }
+    puts("");
+  }
 }
 
 ```

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/suffix_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-03 02:41:39+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/suffixarray">https://judge.yosupo.jp/problem/suffixarray</a>
@@ -40,6 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
@@ -49,24 +50,22 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/suffixarray"
-#include "../../string/suffix_array.hpp"
 #include <bits/stdc++.h>
+
+#include "string/suffix_array.hpp"
+#include "utils/iostream_overload.hpp"
+
 using namespace std;
 
-template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
-template <class T, class... types> T read(types... args) noexcept { T obj(args...); std::cin >> obj; return obj; }
-template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
+int main() {
+  cin.tie(nullptr);
+  ios::sync_with_stdio(false);
 
-int main()
-{
-    cin.tie(nullptr);
-    ios::sync_with_stdio(false);
-
-    string s; cin>>s;
-    cout << suffix_array<string>(s) << "\n";
+  string s;
+  cin >> s;
+  cout << suffix_array<string>(s) << "\n";
 }
+
 ```
 {% endraw %}
 
@@ -75,10 +74,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/suffix_array.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/suffixarray"
-#line 2 "string/suffix_array.hpp"
-#include <algorithm>
-#include <vector>
-#include <numeric>
+#include <bits/stdc++.h>
+
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
 template <class type, template <class> class trait>
@@ -187,23 +184,34 @@ public:
 
     const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
-#line 3 "test/library-checker/suffix_array.test.cpp"
-#include <bits/stdc++.h>
+#line 3 "utils/iostream_overload.hpp"
+namespace std
+{
+    template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) { return is >> p.first >> p.second; }
+    template <class T, class U> ostream &operator<<(ostream &os, const pair<T, U> &p) { return os << p.first << ' ' << p.second; }
+    template <class tuple_t, size_t index> struct tuple_is { static istream &apply(istream &is, tuple_t &t) { tuple_is<tuple_t, index - 1>::apply(is, t); return is >> get<index>(t); } };
+    template <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> { static istream &apply(istream &is, tuple_t &t) { return is; } };
+    template <class... T> istream &operator>>(istream &is, tuple<T...> &t) { return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(is, t); }
+    template <class tuple_t, size_t index> struct tuple_os { static ostream &apply(ostream &os, const tuple_t &t) { tuple_os<tuple_t, index - 1>::apply(os, t); return os << ' ' << get<index>(t); } };
+    template <class tuple_t> struct tuple_os<tuple_t, 0> { static ostream &apply(ostream &os, const tuple_t &t) { return os << get<0>(t); } };
+    template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> { static ostream &apply(ostream &os, const tuple_t &t) { return os; } };
+    template <class... T> ostream &operator<<(ostream &os, const tuple<T...> &t) { return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(os, t); }
+    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
+    istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
+    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
+    ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
+} // namespace std
+#line 6 "test/library-checker/suffix_array.test.cpp"
+
 using namespace std;
 
-template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
-template <class T, class... types> T read(types... args) noexcept { T obj(args...); std::cin >> obj; return obj; }
-template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
+int main() {
+  cin.tie(nullptr);
+  ios::sync_with_stdio(false);
 
-int main()
-{
-    cin.tie(nullptr);
-    ios::sync_with_stdio(false);
-
-    string s; cin>>s;
-    cout << suffix_array<string>(s) << "\n";
+  string s;
+  cin >> s;
+  cout << suffix_array<string>(s) << "\n";
 }
 
 ```

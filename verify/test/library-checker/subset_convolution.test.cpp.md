@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/subset_convolution.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-24 22:40:12+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/subset_convolution">https://judge.yosupo.jp/problem/subset_convolution</a>
@@ -49,21 +49,22 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/subset_convolution"
-#include "../../algebra/convolution/subset.hpp"
-#include "../../modulus/modint.hpp"
 #include <iostream>
 
-int main()
-{
-    using mint=modint<998244353>;
-    using std::cin;
-    int n; cin>>n;
-    std::vector<mint> a(1<<n),b(1<<n);
-    for(auto &x: a) cin>>x;
-    for(auto &x: b) cin>>x;
-    a=subset_convolute(a,b);
-    for(auto x: a) printf("%d ",x);
-    puts("");
+#include "algebra/convolution/subset.hpp"
+#include "modulus/modint.hpp"
+
+int main() {
+  using mint = modint<998244353>;
+  using std::cin;
+  int n;
+  cin >> n;
+  std::vector<mint> a(1 << n), b(1 << n);
+  for (auto &x : a) cin >> x;
+  for (auto &x : b) cin >> x;
+  a = subset_convolute(a, b);
+  for (auto x : a) printf("%d ", x);
+  puts("");
 }
 
 ```
@@ -74,6 +75,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/subset_convolution.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/subset_convolution"
+#include <iostream>
+
 #line 1 "algebra/convolution/subset.hpp"
 #include <cassert>
 #include <vector>
@@ -135,8 +138,7 @@ std::vector<Ring> subset_convolute(const std::vector<Ring> &f, const std::vector
     }
     return ff[n];
 }
-#line 3 "modulus/modint.hpp"
-#include <iostream>
+#line 4 "modulus/modint.hpp"
 template <int_fast64_t mod = 0> // compile-time defined modulo.
 struct modint
 {
@@ -256,19 +258,19 @@ protected:
     value_type value = 0;
 }; // class modint<0>
 using modint_runtime = modint<0>;
-#line 5 "test/library-checker/subset_convolution.test.cpp"
+#line 6 "test/library-checker/subset_convolution.test.cpp"
 
-int main()
-{
-    using mint=modint<998244353>;
-    using std::cin;
-    int n; cin>>n;
-    std::vector<mint> a(1<<n),b(1<<n);
-    for(auto &x: a) cin>>x;
-    for(auto &x: b) cin>>x;
-    a=subset_convolute(a,b);
-    for(auto x: a) printf("%d ",x);
-    puts("");
+int main() {
+  using mint = modint<998244353>;
+  using std::cin;
+  int n;
+  cin >> n;
+  std::vector<mint> a(1 << n), b(1 << n);
+  for (auto &x : a) cin >> x;
+  for (auto &x : b) cin >> x;
+  a = subset_convolute(a, b);
+  for (auto x : a) printf("%d ", x);
+  puts("");
 }
 
 ```

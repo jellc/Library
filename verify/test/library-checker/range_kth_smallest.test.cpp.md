@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_kth_smallest.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 02:47:43+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_kth_smallest">https://judge.yosupo.jp/problem/range_kth_smallest</a>
@@ -49,61 +49,53 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/range_kth_smallest"
-#include "../../data_structure/Mo.hpp"
-#include "../../utils/coordinate_compression.hpp"
 #include <cstdio>
 
-int main()
-{
-    int n,q;
-    scanf("%d%d",&n,&q);
-    std::vector<int> a(n);
-    for(int &e: a) scanf("%d",&e);
-    coordinate_compression ccmp(a);
-    int bsize=std::sqrt(ccmp.count())+1;
-    std::vector<int> cnt(ccmp.count()),bcnt(bsize);
-    auto add=[&](int i)
-    {
-        int now=ccmp[i];
-        cnt[now]++;
-        bcnt[now/bsize]++;
-    };
-    auto del=[&](int i)
-    {
-        int now=ccmp[i];
-        cnt[now]--;
-        bcnt[now/bsize]--;
-    };
-    Mo mo(n,add,del);
-    std::vector<int> k(q),ans(q);
-    for(int l,r,i=0; i<q; i++)
-    {
-        scanf("%d%d%d",&l,&r,&k[i]);
-        mo.set(l,r);
-    }
-    for(int t=0; t<q; t++)
-    {
-        int qid=mo.process();
-        for(int i=0,j=0,nk=k[qid]; i<bsize; i++,j+=bsize)
-        {
-            if(bcnt[i]>nk)
-            {
-                int h;
-                for(h=j; nk>=cnt[h]; h++)
-                {
-                    nk-=cnt[h];
-                }
-                ans[qid]=ccmp.value_of(h);
-                break;
-            }
-            else
-            {
-                nk-=bcnt[i];
-            }
+#include "data_structure/Mo.hpp"
+#include "utils/coordinate_compression.hpp"
+
+int main() {
+  int n, q;
+  scanf("%d%d", &n, &q);
+  std::vector<int> a(n);
+  for (int &e : a) scanf("%d", &e);
+  coordinate_compression ccmp(a);
+  int bsize = std::sqrt(ccmp.count()) + 1;
+  std::vector<int> cnt(ccmp.count()), bcnt(bsize);
+  auto add = [&](int i) {
+    int now = ccmp[i];
+    cnt[now]++;
+    bcnt[now / bsize]++;
+  };
+  auto del = [&](int i) {
+    int now = ccmp[i];
+    cnt[now]--;
+    bcnt[now / bsize]--;
+  };
+  Mo mo(n, add, del);
+  std::vector<int> k(q), ans(q);
+  for (int l, r, i = 0; i < q; i++) {
+    scanf("%d%d%d", &l, &r, &k[i]);
+    mo.set(l, r);
+  }
+  for (int t = 0; t < q; t++) {
+    int qid = mo.process();
+    for (int i = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {
+      if (bcnt[i] > nk) {
+        int h;
+        for (h = j; nk >= cnt[h]; h++) {
+          nk -= cnt[h];
         }
+        ans[qid] = ccmp.value_of(h);
+        break;
+      } else {
+        nk -= bcnt[i];
+      }
     }
-    for(int e: ans) printf("%d\n",e);
+  }
+  for (int e : ans) printf("%d\n", e);
 }
+
 ```
 {% endraw %}
 
@@ -112,6 +104,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/range_kth_smallest.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/range_kth_smallest"
+#include <cstdio>
+
 #line 1 "data_structure/Mo.hpp"
 #include <cassert>
 #include <cmath>
@@ -207,59 +201,48 @@ public:
     std::vector<size_t>::reverse_iterator rbegin() { return compressed.rbegin(); }
     std::vector<size_t>::reverse_iterator rend() { return compressed.rend(); }
 };
-#line 4 "test/library-checker/range_kth_smallest.test.cpp"
-#include <cstdio>
+#line 6 "test/library-checker/range_kth_smallest.test.cpp"
 
-int main()
-{
-    int n,q;
-    scanf("%d%d",&n,&q);
-    std::vector<int> a(n);
-    for(int &e: a) scanf("%d",&e);
-    coordinate_compression ccmp(a);
-    int bsize=std::sqrt(ccmp.count())+1;
-    std::vector<int> cnt(ccmp.count()),bcnt(bsize);
-    auto add=[&](int i)
-    {
-        int now=ccmp[i];
-        cnt[now]++;
-        bcnt[now/bsize]++;
-    };
-    auto del=[&](int i)
-    {
-        int now=ccmp[i];
-        cnt[now]--;
-        bcnt[now/bsize]--;
-    };
-    Mo mo(n,add,del);
-    std::vector<int> k(q),ans(q);
-    for(int l,r,i=0; i<q; i++)
-    {
-        scanf("%d%d%d",&l,&r,&k[i]);
-        mo.set(l,r);
-    }
-    for(int t=0; t<q; t++)
-    {
-        int qid=mo.process();
-        for(int i=0,j=0,nk=k[qid]; i<bsize; i++,j+=bsize)
-        {
-            if(bcnt[i]>nk)
-            {
-                int h;
-                for(h=j; nk>=cnt[h]; h++)
-                {
-                    nk-=cnt[h];
-                }
-                ans[qid]=ccmp.value_of(h);
-                break;
-            }
-            else
-            {
-                nk-=bcnt[i];
-            }
+int main() {
+  int n, q;
+  scanf("%d%d", &n, &q);
+  std::vector<int> a(n);
+  for (int &e : a) scanf("%d", &e);
+  coordinate_compression ccmp(a);
+  int bsize = std::sqrt(ccmp.count()) + 1;
+  std::vector<int> cnt(ccmp.count()), bcnt(bsize);
+  auto add = [&](int i) {
+    int now = ccmp[i];
+    cnt[now]++;
+    bcnt[now / bsize]++;
+  };
+  auto del = [&](int i) {
+    int now = ccmp[i];
+    cnt[now]--;
+    bcnt[now / bsize]--;
+  };
+  Mo mo(n, add, del);
+  std::vector<int> k(q), ans(q);
+  for (int l, r, i = 0; i < q; i++) {
+    scanf("%d%d%d", &l, &r, &k[i]);
+    mo.set(l, r);
+  }
+  for (int t = 0; t < q; t++) {
+    int qid = mo.process();
+    for (int i = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {
+      if (bcnt[i] > nk) {
+        int h;
+        for (h = j; nk >= cnt[h]; h++) {
+          nk -= cnt[h];
         }
+        ans[qid] = ccmp.value_of(h);
+        break;
+      } else {
+        nk -= bcnt[i];
+      }
     }
-    for(int e: ans) printf("%d\n",e);
+  }
+  for (int e : ans) printf("%d\n", e);
 }
 
 ```

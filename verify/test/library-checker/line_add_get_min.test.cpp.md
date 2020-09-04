@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/line_add_get_min.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-04 02:53:37+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/line_add_get_min">https://judge.yosupo.jp/problem/line_add_get_min</a>
@@ -48,38 +48,35 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/line_add_get_min"
-#include "../../data_structure/convex_hull_trick/Li_Chao_tree.hpp"
 #include <cstdio>
-using i64=int64_t;
 
-int main()
-{
-    int n,q;
-    scanf("%d%d",&n,&q);
-    Li_Chao_tree<i64> cht(-1e9,1e9+1);
-    while(n--)
-    {
-        int a; i64 b;
-        scanf("%d%lld",&a,&b);
-        cht.insert(a,b);
+#include "data_structure/convex_hull_trick/Li_Chao_tree.hpp"
+using i64 = int64_t;
+
+int main() {
+  int n, q;
+  scanf("%d%d", &n, &q);
+  Li_Chao_tree<i64> cht(-1e9, 1e9 + 1);
+  while (n--) {
+    int a;
+    i64 b;
+    scanf("%d%lld", &a, &b);
+    cht.insert(a, b);
+  }
+  while (q--) {
+    int t;
+    scanf("%d", &t);
+    if (t) {
+      int p;
+      scanf("%d", &p);
+      printf("%lld\n", cht.get(p));
+    } else {
+      int a;
+      i64 b;
+      scanf("%d%lld", &a, &b);
+      cht.insert(a, b);
     }
-    while(q--)
-    {
-        int t;
-        scanf("%d",&t);
-        if(t)
-        {
-            int p;
-            scanf("%d",&p);
-            printf("%lld\n",cht.get(p));
-        }
-        else
-        {
-            int a; i64 b;
-            scanf("%d%lld",&a,&b);
-            cht.insert(a,b);
-        }
-    }
+  }
 }
 
 ```
@@ -90,6 +87,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/line_add_get_min.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/line_add_get_min"
+#include <cstdio>
+
 #line 1 "data_structure/convex_hull_trick/Li_Chao_tree.hpp"
 #include <cassert>
 #include <functional>
@@ -197,38 +196,33 @@ public:
         return res;
     }
 }; // class Li_Chao_tree
-#line 3 "test/library-checker/line_add_get_min.test.cpp"
-#include <cstdio>
-using i64=int64_t;
+#line 5 "test/library-checker/line_add_get_min.test.cpp"
+using i64 = int64_t;
 
-int main()
-{
-    int n,q;
-    scanf("%d%d",&n,&q);
-    Li_Chao_tree<i64> cht(-1e9,1e9+1);
-    while(n--)
-    {
-        int a; i64 b;
-        scanf("%d%lld",&a,&b);
-        cht.insert(a,b);
+int main() {
+  int n, q;
+  scanf("%d%d", &n, &q);
+  Li_Chao_tree<i64> cht(-1e9, 1e9 + 1);
+  while (n--) {
+    int a;
+    i64 b;
+    scanf("%d%lld", &a, &b);
+    cht.insert(a, b);
+  }
+  while (q--) {
+    int t;
+    scanf("%d", &t);
+    if (t) {
+      int p;
+      scanf("%d", &p);
+      printf("%lld\n", cht.get(p));
+    } else {
+      int a;
+      i64 b;
+      scanf("%d%lld", &a, &b);
+      cht.insert(a, b);
     }
-    while(q--)
-    {
-        int t;
-        scanf("%d",&t);
-        if(t)
-        {
-            int p;
-            scanf("%d",&p);
-            printf("%lld\n",cht.get(p));
-        }
-        else
-        {
-            int a; i64 b;
-            scanf("%d%lld",&a,&b);
-            cht.insert(a,b);
-        }
-    }
+  }
 }
 
 ```

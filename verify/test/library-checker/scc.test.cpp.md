@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/scc.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-30 13:04:58+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/scc">https://judge.yosupo.jp/problem/scc</a>
@@ -48,31 +48,28 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/scc"
-#include "../../graph/directed/strongly_connected_components.hpp"
 #include <cstdio>
 
-int main()
-{
-    int n,m;
-    scanf("%d%d",&n,&m);
-    strongly_connected_components scc(n);
-    for(int a,b; m--; )
-    {
-        scanf("%d%d",&a,&b);
-        scc.add_edge(a,b);
-    }
-    printf("%d\n",scc.count());
-    std::vector<std::vector<size_t>> comps(scc.count());
-    for(int i=0; i<n; i++)
-    {
-        comps[scc[i]].emplace_back(i);
-    }
-    for(auto &comp: comps)
-    {
-        printf("%d",size(comp));
-        for(int v: comp) printf(" %d",v);
-        puts("");
-    }
+#include "graph/directed/strongly_connected_components.hpp"
+
+int main() {
+  int n, m;
+  scanf("%d%d", &n, &m);
+  strongly_connected_components scc(n);
+  for (int a, b; m--;) {
+    scanf("%d%d", &a, &b);
+    scc.add_edge(a, b);
+  }
+  printf("%d\n", scc.count());
+  std::vector<std::vector<size_t>> comps(scc.count());
+  for (int i = 0; i < n; i++) {
+    comps[scc[i]].emplace_back(i);
+  }
+  for (auto &comp : comps) {
+    printf("%d", size(comp));
+    for (int v : comp) printf(" %d", v);
+    puts("");
+  }
 }
 
 ```
@@ -83,6 +80,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/scc.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/scc"
+#include <cstdio>
+
 #line 2 "graph/directed/strongly_connected_components.hpp"
 #include <algorithm>
 #include <cassert>
@@ -164,31 +163,26 @@ protected:
         return low[src];
     }
 }; // class strongly_connected_components
-#line 3 "test/library-checker/scc.test.cpp"
-#include <cstdio>
+#line 5 "test/library-checker/scc.test.cpp"
 
-int main()
-{
-    int n,m;
-    scanf("%d%d",&n,&m);
-    strongly_connected_components scc(n);
-    for(int a,b; m--; )
-    {
-        scanf("%d%d",&a,&b);
-        scc.add_edge(a,b);
-    }
-    printf("%d\n",scc.count());
-    std::vector<std::vector<size_t>> comps(scc.count());
-    for(int i=0; i<n; i++)
-    {
-        comps[scc[i]].emplace_back(i);
-    }
-    for(auto &comp: comps)
-    {
-        printf("%d",size(comp));
-        for(int v: comp) printf(" %d",v);
-        puts("");
-    }
+int main() {
+  int n, m;
+  scanf("%d%d", &n, &m);
+  strongly_connected_components scc(n);
+  for (int a, b; m--;) {
+    scanf("%d%d", &a, &b);
+    scc.add_edge(a, b);
+  }
+  printf("%d\n", scc.count());
+  std::vector<std::vector<size_t>> comps(scc.count());
+  for (int i = 0; i < n; i++) {
+    comps[scc[i]].emplace_back(i);
+  }
+  for (auto &comp : comps) {
+    printf("%d", size(comp));
+    for (int v : comp) printf(" %d", v);
+    puts("");
+  }
 }
 
 ```

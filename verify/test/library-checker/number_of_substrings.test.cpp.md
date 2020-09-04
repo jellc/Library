@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/number_of_substrings.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-03 02:41:39+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/number_of_substrings">https://judge.yosupo.jp/problem/number_of_substrings</a>
@@ -49,20 +49,19 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/number_of_substrings"
-#include "../../string/suffix_array.hpp"
 #include <iostream>
 
-int main()
-{
-    std::string s;
-    std::cin>>s;
-    suffix_array sa(s);
-    long long ans=0;
-    for(size_t i=0; i<s.size(); i++)
-    {
-        ans+=s.size()-sa[i]-sa.lcp_array()[i];
-    }
-    printf("%lld\n",ans);
+#include "string/suffix_array.hpp"
+
+int main() {
+  std::string s;
+  std::cin >> s;
+  suffix_array sa(s);
+  long long ans = 0;
+  for (size_t i = 0; i < s.size(); i++) {
+    ans += s.size() - sa[i] - sa.lcp_array()[i];
+  }
+  printf("%lld\n", ans);
 }
 
 ```
@@ -73,6 +72,8 @@ int main()
 ```cpp
 #line 1 "test/library-checker/number_of_substrings.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/number_of_substrings"
+#include <iostream>
+
 #line 2 "string/suffix_array.hpp"
 #include <algorithm>
 #include <vector>
@@ -185,20 +186,17 @@ public:
 
     const std::vector<size_t> &lcp_array() const { return lcp; }
 }; // class suffix_array
-#line 3 "test/library-checker/number_of_substrings.test.cpp"
-#include <iostream>
+#line 5 "test/library-checker/number_of_substrings.test.cpp"
 
-int main()
-{
-    std::string s;
-    std::cin>>s;
-    suffix_array sa(s);
-    long long ans=0;
-    for(size_t i=0; i<s.size(); i++)
-    {
-        ans+=s.size()-sa[i]-sa.lcp_array()[i];
-    }
-    printf("%lld\n",ans);
+int main() {
+  std::string s;
+  std::cin >> s;
+  suffix_array sa(s);
+  long long ans = 0;
+  for (size_t i = 0; i < s.size(); i++) {
+    ans += s.size() - sa[i] - sa.lcp_array()[i];
+  }
+  printf("%lld\n", ans);
 }
 
 ```

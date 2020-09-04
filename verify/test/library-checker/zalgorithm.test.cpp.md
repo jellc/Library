@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/zalgorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 01:03:44+09:00
+    - Last commit date: 2020-09-04 20:59:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/zalgorithm">https://judge.yosupo.jp/problem/zalgorithm</a>
@@ -48,16 +48,16 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
-#include "../../string/Z_algorithm.hpp"
 #include <bits/stdc++.h>
 
-int main()
-{
-    std::string s;
-    std::cin>>s;
-    Z_algorithm z(s);
-    for(int e: z) printf(" %d",e);
-    puts("");
+#include "string/Z_algorithm.hpp"
+
+int main() {
+  std::string s;
+  std::cin >> s;
+  Z_algorithm z(s);
+  for (int e : z) printf(" %d", e);
+  puts("");
 }
 
 ```
@@ -68,12 +68,13 @@ int main()
 ```cpp
 #line 1 "test/library-checker/zalgorithm.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
+#include <bits/stdc++.h>
+
 #line 1 "string/Z_algorithm.hpp"
 
 
 
-#include <string>
-#include <vector>
+#line 6 "string/Z_algorithm.hpp"
 
 template <class str_type = std::string>
 class Z_algorithm
@@ -123,16 +124,14 @@ public:
 };
 
 
-#line 3 "test/library-checker/zalgorithm.test.cpp"
-#include <bits/stdc++.h>
+#line 5 "test/library-checker/zalgorithm.test.cpp"
 
-int main()
-{
-    std::string s;
-    std::cin>>s;
-    Z_algorithm z(s);
-    for(int e: z) printf(" %d",e);
-    puts("");
+int main() {
+  std::string s;
+  std::cin >> s;
+  Z_algorithm z(s);
+  for (int e : z) printf(" %d", e);
+  puts("");
 }
 
 ```
