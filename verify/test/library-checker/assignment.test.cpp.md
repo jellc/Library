@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/assignment.test.cpp
+# :heavy_check_mark: test/library-checker/assignment.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/assignment.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-05 13:28:40+09:00
+    - Last commit date: 2020-09-05 16:19:04+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/assignment">https://judge.yosupo.jp/problem/assignment</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :x: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :question: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
 
 
 ## Code
@@ -314,7 +314,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   }
 
   bool flow() {
-    for (bool aug; aug;) {
+    for (bool aug = true; aug;) {
       aug = false;
       std::vector<edge_t *> last(size());
       Dijkstra(last);

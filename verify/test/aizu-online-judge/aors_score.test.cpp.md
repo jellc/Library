@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/aors_score.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-05 13:28:40+09:00
+    - Last commit date: 2020-09-05 16:19:04+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017">https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :x: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :question: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
 * :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
@@ -316,7 +316,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   }
 
   bool flow() {
-    for (bool aug; aug;) {
+    for (bool aug = true; aug;) {
       aug = false;
       std::vector<edge_t *> last(size());
       Dijkstra(last);

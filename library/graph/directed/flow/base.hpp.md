@@ -39,13 +39,13 @@ layout: default
 ## Required by
 
 * :heavy_check_mark: <a href="Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :x: <a href="min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :question: <a href="min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
 
 
 ## Verified with
 
 * :x: <a href="../../../../verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
-* :x: <a href="../../../../verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
+* :heavy_check_mark: <a href="../../../../verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="../../../../verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 
 
