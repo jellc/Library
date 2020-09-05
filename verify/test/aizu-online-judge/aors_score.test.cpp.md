@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/aizu-online-judge/aors_score.test.cpp
+# :x: test/aizu-online-judge/aors_score.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/aors_score.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-04 14:02:16+09:00
+    - Last commit date: 2020-09-05 13:28:40+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017">https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :heavy_check_mark: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
+* :question: <a href="../../../library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :x: <a href="../../../library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :x: <a href="../../../library/utils/read.hpp.html">utils/read.hpp</a>
 
 
 ## Code
@@ -90,6 +90,7 @@ int main() {
 #define PROBLEM \
   "https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017"
 #line 1 "graph/directed/flow/min_cost_flow.hpp"
+#include <algorithm>
 #include <queue>
 
 #line 2 "graph/directed/flow/base.hpp"
@@ -180,7 +181,7 @@ template <class cap_t, class cost_t> struct flow_base {
  protected:
   std::vector<adj_type> adjs;
 };  // class flow_base
-#line 4 "graph/directed/flow/min_cost_flow.hpp"
+#line 5 "graph/directed/flow/min_cost_flow.hpp"
 // Successive shortest paths algorithm.
 template <class cap_t, class cost_t>
 class min_cost_flow : public flow_base<cap_t, cost_t> {
@@ -315,7 +316,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   }
 
   bool flow() {
-    for (bool aug = true; aug;) {
+    for (bool aug; aug;) {
       aug = false;
       std::vector<edge_t *> last(size());
       Dijkstra(last);
@@ -325,13 +326,13 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
           cap_t resid{-supp[dst]};
           size_t src{dst}, block(-1);
           while (last[src] && !shut[src]) {
-            if (resid >= last[src]->cap) resid = last[block = src]->cap;
+            if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
             src = last[src]->src;
           }
           if (shut[src])
             block = src;
           else {
-            if (resid >= supp[src]) {
+            if (!(resid < supp[src])) {
               resid = supp[src];
               block = src;
             }
@@ -345,16 +346,16 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
             aug = true;
           }
           if (~block) {
-            for (size_t node{dst}; node != block; node = last[node]->src)
+            for (size_t node{dst};; node = last[node]->src) {
               shut[node] = true;
-            shut[block] = true;
+              if (node == block) break;
+            }
           }
         }
       }
     }
-    for (cap_t s : supp)
-      if (s > static_cast<cap_t>(0)) return false;
-    return true;
+    return std::none_of(begin(supp), end(supp),
+                        [](cap_t s) { return s < 0 || 0 < s; });
   }
 
   cost_t optimal() {

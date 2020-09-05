@@ -141,8 +141,8 @@ layout: default
 ### graph/directed/flow
 
 * :heavy_check_mark: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :heavy_check_mark: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :heavy_check_mark: <a href="library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
+* :question: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
+* :x: <a href="library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
 
 
 <div id="89915d49ca05c805c82a9fa3819995df"></div>
@@ -212,7 +212,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
-* :heavy_check_mark: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
+* :x: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
@@ -234,10 +234,10 @@ layout: default
 
 ## Verify Files
 
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
+* :x: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
+* :x: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
