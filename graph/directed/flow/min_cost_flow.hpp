@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <queue>
 
 #include "base.hpp"
@@ -135,7 +136,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   }
 
   bool flow() {
-    for (bool aug = true; aug;) {
+    for (bool aug; aug;) {
       aug = false;
       std::vector<edge_t *> last(size());
       Dijkstra(last);
@@ -145,13 +146,13 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
           cap_t resid{-supp[dst]};
           size_t src{dst}, block(-1);
           while (last[src] && !shut[src]) {
-            if (resid >= last[src]->cap) resid = last[block = src]->cap;
+            if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
             src = last[src]->src;
           }
           if (shut[src])
             block = src;
           else {
-            if (resid >= supp[src]) {
+            if (!(resid < supp[src])) {
               resid = supp[src];
               block = src;
             }
@@ -165,16 +166,16 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
             aug = true;
           }
           if (~block) {
-            for (size_t node{dst}; node != block; node = last[node]->src)
+            for (size_t node{dst};; node = last[node]->src) {
               shut[node] = true;
-            shut[block] = true;
+              if (node == block) break;
+            }
           }
         }
       }
     }
-    for (cap_t s : supp)
-      if (s > static_cast<cap_t>(0)) return false;
-    return true;
+    return std::none_of(begin(supp), end(supp),
+                        [](cap_t s) { return s < 0 || 0 < s; });
   }
 
   cost_t optimal() {
