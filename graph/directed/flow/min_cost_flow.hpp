@@ -136,7 +136,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   }
 
   bool flow() {
-    for (bool aug; aug;) {
+    for (bool aug = true; aug;) {
       aug = false;
       std::vector<edge_t *> last(size());
       Dijkstra(last);
