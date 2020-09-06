@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 #include "string/suffix_array.hpp"
-#include "utils/iostream_overload.hpp"
+#include "utils/stream.hpp"
 
 using namespace std;
 
