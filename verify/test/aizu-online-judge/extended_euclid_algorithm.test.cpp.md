@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 1970-01-01 00:00:00+00:00
+    - Last commit date: 2020-09-07 04:15:36+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
@@ -89,6 +89,7 @@ constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
 }
 #line 2 "utils/stream.hpp"
 #include <iostream>
+#line 4 "utils/stream.hpp"
 
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
@@ -97,7 +98,7 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
-#line 5 "utils/stream.hpp"
+#line 6 "utils/stream.hpp"
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {
   return is >> p.first >> p.second;

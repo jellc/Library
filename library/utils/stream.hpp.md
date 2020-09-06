@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/stream.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 03:51:28+09:00
+    - Last commit date: 2020-09-07 04:15:36+09:00
 
 
 
@@ -60,6 +60,7 @@ layout: default
 ```cpp
 #pragma once
 #include <iostream>
+#include <tuple>
 
 #include "sfinae.hpp"
 namespace std {
@@ -128,6 +129,7 @@ operator<<(ostream &os, const Container &cont) {
 ```cpp
 #line 2 "utils/stream.hpp"
 #include <iostream>
+#include <tuple>
 
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
@@ -136,7 +138,7 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
-#line 5 "utils/stream.hpp"
+#line 6 "utils/stream.hpp"
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {
   return is >> p.first >> p.second;

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 03:53:38+09:00
+    - Last commit date: 2020-09-07 04:15:36+09:00
 
 
 
@@ -270,9 +270,9 @@ struct read<void>
     operator T() const { T value; std::cin >> value; return value; }
 };
 } // namespace workspace
-#line 3 "utils/stream.hpp"
+#line 4 "utils/stream.hpp"
 
-#line 5 "utils/stream.hpp"
+#line 6 "utils/stream.hpp"
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {
   return is >> p.first >> p.second;
