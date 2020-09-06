@@ -25,21 +25,15 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/zalgorithm.test.cpp
+# :x: test/library-checker/zalgorithm.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/zalgorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-04 20:59:06+09:00
+    - Last commit date: 1970-01-01 00:00:00+00:00
 
 
-* see: <a href="https://judge.yosupo.jp/problem/zalgorithm">https://judge.yosupo.jp/problem/zalgorithm</a>
-
-
-## Depends on
-
-* :heavy_check_mark: <a href="../../../library/string/Z_algorithm.hpp.html">string/Z_algorithm.hpp</a>
 
 
 ## Code
@@ -66,73 +60,16 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/library-checker/zalgorithm.test.cpp"
-#define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
-#include <bits/stdc++.h>
-
-#line 1 "string/Z_algorithm.hpp"
-
-
-
-#line 6 "string/Z_algorithm.hpp"
-
-template <class str_type = std::string>
-class Z_algorithm
-{
-    str_type key;
-    std::vector<size_t> z;
-
-    void make()
-    {
-        if(z.empty()) return;
-        for(size_t i{1}, j{0}; i != size(); ++i)
-        {
-            if(z[i - j] + i < z[j] + j)
-            {
-                z[i] = z[i - j];
-            }
-            else
-            {
-                size_t k{z[j] + j > i ? z[j] + j - i : 0};
-                while(k + i < size() && key[k] == key[k + i]) ++k;
-                z[i] = k;
-                j = i;
-            }
-        }
-        z.front() = size();
-    }
-
-public:
-    Z_algorithm(const str_type &key) : key(key), z(size()) { make(); }
-
-    std::vector<size_t>::const_iterator begin() const { return z.begin(); }
-    std::vector<size_t>::const_iterator end() const { return z.end(); }
-
-    size_t size() const { return key.size(); }
-
-    size_t operator[](size_t i) { assert(i < size()); return z[i]; }
-
-    std::vector<size_t> pattern_search(const str_type &str) const
-    {
-        str_type ccat(key);
-        ccat.insert(end(ccat), begin(str), end(str));
-        Z_algorithm z(ccat);
-        std::vector<size_t> res(z.begin() + size(), z.end());
-        for(size_t &x : res) if(x > size()) x = size();
-        return res;
-    }
-};
-
-
-#line 5 "test/library-checker/zalgorithm.test.cpp"
-
-int main() {
-  std::string s;
-  std::cin >> s;
-  Z_algorithm z(s);
-  for (int e : z) printf(" %d", e);
-  puts("");
-}
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/docs.py", line 349, in write_contents
+    bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
+    bundler.update(path)
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 399, in update
+    self.update(self._resolve(pathlib.Path(included), included_from=path))
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 258, in _resolve
+    raise BundleErrorAt(path, -1, "no such header")
+onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: string/Z_algorithm.hpp: line -1: no such header
 
 ```
 {% endraw %}
