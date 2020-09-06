@@ -18,6 +18,5 @@
 "test/library-checker/subset_convolution.test.cpp": "2020-09-04 20:59:06 +0900",
 "test/library-checker/suffix_array.test.cpp": "2020-09-04 20:59:06 +0900",
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-09-04 20:59:06 +0900",
-"test/library-checker/unionfind.test.cpp": "2020-08-30 00:35:46 +0900",
-"test/library-checker/zalgorithm.test.cpp": "2020-09-04 20:59:06 +0900"
+"test/library-checker/unionfind.test.cpp": "2020-08-30 00:35:46 +0900"
 }
