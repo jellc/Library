@@ -38,7 +38,7 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="base.hpp.html">graph/directed/flow/base.hpp</a>
+* :heavy_check_mark: <a href="base.hpp.html">graph/directed/flow/base.hpp</a>
 
 
 ## Verified with
