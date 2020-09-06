@@ -8,8 +8,8 @@
 #include "utils/chval.hpp"
 #include "utils/fixed_point.hpp"
 #include "utils/hash.hpp"
-#include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
+#include "utils/stream.hpp"
 
 namespace workspace {
 constexpr char eol = '\n';
