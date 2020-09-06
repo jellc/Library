@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-31 23:03:34+09:00
+    - Last commit date: 2020-09-07 03:51:28+09:00
 
 
 
@@ -132,7 +132,8 @@ using unordered_set = std::unordered_set<Key, hash<Key>>;
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
-using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+using element_type = typename std::decay<decltype(
+    *std::begin(std::declval<Container&>()))>::type;
 #line 7 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>

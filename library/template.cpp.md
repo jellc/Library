@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 03:02:26+09:00
+    - Last commit date: 2020-09-07 03:53:38+09:00
 
 
 
@@ -46,9 +46,9 @@ layout: default
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
-* :heavy_check_mark: <a href="utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :heavy_check_mark: <a href="utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="utils/stream.hpp.html">utils/stream.hpp</a>
 
 
 ## Code
@@ -66,8 +66,8 @@ layout: default
 #include "utils/chval.hpp"
 #include "utils/fixed_point.hpp"
 #include "utils/hash.hpp"
-#include "utils/iostream_overload.hpp"
 #include "utils/read.hpp"
+#include "utils/stream.hpp"
 
 namespace workspace {
 constexpr char eol = '\n';
@@ -196,7 +196,8 @@ public:
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
-using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+using element_type = typename std::decay<decltype(
+    *std::begin(std::declval<Container&>()))>::type;
 #line 7 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>
@@ -251,23 +252,6 @@ using unordered_map = std::unordered_map<Key, Mapped, hash<Key>>;
 template <class Key>
 using unordered_set = std::unordered_set<Key, hash<Key>>;
 } // namespace workspace
-#line 3 "utils/iostream_overload.hpp"
-namespace std
-{
-    template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) { return is >> p.first >> p.second; }
-    template <class T, class U> ostream &operator<<(ostream &os, const pair<T, U> &p) { return os << p.first << ' ' << p.second; }
-    template <class tuple_t, size_t index> struct tuple_is { static istream &apply(istream &is, tuple_t &t) { tuple_is<tuple_t, index - 1>::apply(is, t); return is >> get<index>(t); } };
-    template <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> { static istream &apply(istream &is, tuple_t &t) { return is; } };
-    template <class... T> istream &operator>>(istream &is, tuple<T...> &t) { return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(is, t); }
-    template <class tuple_t, size_t index> struct tuple_os { static ostream &apply(ostream &os, const tuple_t &t) { tuple_os<tuple_t, index - 1>::apply(os, t); return os << ' ' << get<index>(t); } };
-    template <class tuple_t> struct tuple_os<tuple_t, 0> { static ostream &apply(ostream &os, const tuple_t &t) { return os << get<0>(t); } };
-    template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> { static ostream &apply(ostream &os, const tuple_t &t) { return os; } };
-    template <class... T> ostream &operator<<(ostream &os, const tuple<T...> &t) { return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(os, t); }
-    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-    istream& operator>>(istream& is, Container &cont) { for(auto&& e : cont) is >> e; return is; }
-    template <class Container, typename Value = typename Container::value_type, enable_if_t<!is_same<decay_t<Container>, string>::value, nullptr_t> = nullptr>
-    ostream& operator<<(ostream& os, const Container &cont) { bool flag = 1; for(auto&& e : cont) flag ? flag = 0 : (os << ' ', 0), os << e; return os; }
-} // namespace std
 #line 3 "utils/read.hpp"
 namespace workspace {
 // read with std::cin.
@@ -286,6 +270,66 @@ struct read<void>
     operator T() const { T value; std::cin >> value; return value; }
 };
 } // namespace workspace
+#line 3 "utils/stream.hpp"
+
+#line 5 "utils/stream.hpp"
+namespace std {
+template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {
+  return is >> p.first >> p.second;
+}
+template <class T, class U>
+ostream &operator<<(ostream &os, const pair<T, U> &p) {
+  return os << p.first << ' ' << p.second;
+}
+template <class tuple_t, size_t index> struct tuple_is {
+  static istream &apply(istream &is, tuple_t &t) {
+    tuple_is<tuple_t, index - 1>::apply(is, t);
+    return is >> get<index>(t);
+  }
+};
+template <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {
+  static istream &apply(istream &is, tuple_t &t) { return is; }
+};
+template <class... T> istream &operator>>(istream &is, tuple<T...> &t) {
+  return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(is,
+                                                                          t);
+}
+template <class tuple_t, size_t index> struct tuple_os {
+  static ostream &apply(ostream &os, const tuple_t &t) {
+    tuple_os<tuple_t, index - 1>::apply(os, t);
+    return os << ' ' << get<index>(t);
+  }
+};
+template <class tuple_t> struct tuple_os<tuple_t, 0> {
+  static ostream &apply(ostream &os, const tuple_t &t) {
+    return os << get<0>(t);
+  }
+};
+template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {
+  static ostream &apply(ostream &os, const tuple_t &t) { return os; }
+};
+template <class... T> ostream &operator<<(ostream &os, const tuple<T...> &t) {
+  return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(os,
+                                                                          t);
+}
+template <class Container, typename Value = element_type<Container>>
+typename enable_if<!is_same<typename decay<Container>::type, string>::value &&
+                       !is_same<typename decay<Container>::type, char *>::value,
+                   istream &>::type
+operator>>(istream &is, Container &cont) {
+  for (auto &&e : cont) is >> e;
+  return is;
+}
+template <class Container, typename Value = element_type<Container>>
+typename enable_if<!is_same<typename decay<Container>::type, string>::value &&
+                       !is_same<typename decay<Container>::type, char *>::value,
+                   ostream &>::type
+operator<<(ostream &os, const Container &cont) {
+  bool head = true;
+  for (auto &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;
+  return os;
+}
+}  // namespace std
 #line 13 "template.cpp"
 
 namespace workspace {

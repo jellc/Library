@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/sfinae.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-25 21:23:23+09:00
+    - Last commit date: 2020-09-07 03:51:28+09:00
 
 
 
@@ -42,6 +42,7 @@ layout: default
 * :heavy_check_mark: <a href="../string/suffix_array.hpp.html">string/suffix_array.hpp</a>
 * :warning: <a href="../template.cpp.html">template.cpp</a>
 * :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
+* :heavy_check_mark: <a href="stream.hpp.html">utils/stream.hpp</a>
 
 
 ## Verified with
@@ -51,6 +52,7 @@ layout: default
 * :heavy_check_mark: <a href="../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 
 
 ## Code
@@ -63,7 +65,8 @@ layout: default
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
-using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+using element_type = typename std::decay<decltype(
+    *std::begin(std::declval<Container&>()))>::type;
 
 ```
 {% endraw %}
@@ -76,7 +79,8 @@ using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
-using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+using element_type = typename std::decay<decltype(
+    *std::begin(std::declval<Container&>()))>::type;
 
 ```
 {% endraw %}

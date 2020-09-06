@@ -187,7 +187,7 @@ layout: default
 
 ### number_theory
 
-* :heavy_check_mark: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
+* :warning: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
 
 
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
@@ -197,7 +197,7 @@ layout: default
 * :warning: <a href="library/string/Manacher.hpp.html">string/Manacher.hpp</a>
 * :warning: <a href="library/string/binary_trie.hpp.html">string/binary_trie.hpp</a>
 * :heavy_check_mark: <a href="library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
-* :warning: <a href="library/string/z_algorithm.hpp.html">string/z_algorithm.hpp</a>
+* :heavy_check_mark: <a href="library/string/z_algorithm.hpp.html">string/z_algorithm.hpp</a>
 
 
 <div id="2b3583e6e17721c54496bd04e57a0c15"></div>
@@ -210,10 +210,10 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
 * :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :heavy_check_mark: <a href="library/utils/iostream_overload.hpp.html">utils/iostream_overload.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :heavy_check_mark: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="library/utils/stream.hpp.html">utils/stream.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
 
@@ -236,7 +236,7 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
+* :x: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
@@ -254,6 +254,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/unionfind.test.cpp.html">test/library-checker/unionfind.test.cpp</a>
-* :x: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 
 

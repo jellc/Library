@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#fba856dbe1aaa5374a50a27f6dcea717">data_structure/segment_tree</a>
 * <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/basic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-03 02:13:50+09:00
+    - Last commit date: 2020-09-07 03:51:28+09:00
 
 
 
@@ -232,7 +232,8 @@ public:
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
-using element_type = std::remove_const_t<std::remove_reference_t<decltype(*std::begin(std::declval<Container&>()))>>;
+using element_type = typename std::decay<decltype(
+    *std::begin(std::declval<Container&>()))>::type;
 #line 2 "algebra/system/monoid.hpp"
 #include <limits>
 template <class T>
