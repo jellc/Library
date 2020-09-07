@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: utils/binary_search.hpp
+# :heavy_check_mark: utils/binary_search.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,6 +39,11 @@ layout: default
 ## Required by
 
 * :warning: <a href="../template.cpp.html">template.cpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/dont_burst_the_ballon.test.cpp.html">test/aizu-online-judge/dont_burst_the_ballon.test.cpp</a>
 
 
 ## Code

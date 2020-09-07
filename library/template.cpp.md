@@ -41,7 +41,7 @@ layout: default
 * :warning: <a href="config.hpp.html">config.hpp</a>
 * :warning: <a href="gcc_builtin.hpp.html">gcc_builtin.hpp</a>
 * :warning: <a href="gcc_option.hpp.html">gcc_option.hpp</a>
-* :warning: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :heavy_check_mark: <a href="utils/binary_search.hpp.html">utils/binary_search.hpp</a>
 * :warning: <a href="utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>

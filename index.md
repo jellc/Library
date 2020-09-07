@@ -204,7 +204,7 @@ layout: default
 
 ### utils
 
-* :warning: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
+* :heavy_check_mark: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
 * :warning: <a href="library/utils/casefmt.hpp.html">utils/casefmt.hpp</a>
 * :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
 * :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
@@ -236,6 +236,7 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aizu-online-judge/dont_burst_the_ballon.test.cpp.html">test/aizu-online-judge/dont_burst_the_ballon.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
