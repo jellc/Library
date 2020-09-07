@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 23:22:34+09:00
+    - Last commit date: 2020-09-08 01:03:56+09:00
 
 
 
@@ -170,16 +170,16 @@ binary_search(std::vector<std::pair<iter_type, iter_type>> ends,
               pred_type pred) {
   std::vector<iter_type> mids(ends.size());
   for (;;) {
-    bool solved = true;
+    bool all_found = true;
     for (size_t i{}; i != ends.size(); ++i) {
       auto [ok, ng] = ends[i];
       iter_type mid(ok + (ng - ok) / 2);
       if (mids[i] != mid) {
-        solved = false;
+        all_found = false;
         mids[i] = mid;
       }
     }
-    if (solved) break;
+    if (all_found) break;
     auto res = pred(mids);
     for (size_t i{}; i != ends.size(); ++i) {
       (res[i] ? ends[i].first : ends[i].second) = mids[i];
@@ -194,7 +194,7 @@ std::enable_if_t<
     real_type>
 binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred) {
   assert(ok != ng);
-  while (eps < std::abs(ok - ng)) {
+  while (ok + eps < ng || ng + eps < ok) {
     real_type mid{(ok + ng) / 2};
     (pred(mid) ? ok : ng) = mid;
   }
@@ -210,16 +210,15 @@ binary_search(std::vector<std::pair<real_type, real_type>> ends,
               const real_type eps, pred_type pred) {
   std::vector<real_type> mids(ends.size());
   for (;;) {
-    bool solved = true;
+    bool all_found = true;
     for (size_t i{}; i != ends.size(); ++i) {
       auto [ok, ng] = ends[i];
-      real_type mid(ok + (ng - ok) / 2);
-      if (mids[i] + eps < mid || mid + eps < mids[i]) {
-        solved = false;
-        mids[i] = mid;
+      if (ok + eps < ng || ng + eps < ok) {
+        all_found = false;
+        mids[i] = (ok + ng) / 2;
       }
     }
-    if (solved) break;
+    if (all_found) break;
     auto res = pred(mids);
     for (size_t i{}; i != ends.size(); ++i) {
       (res[i] ? ends[i].first : ends[i].second) = mids[i];
