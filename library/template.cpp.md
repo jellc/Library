@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 23:19:08+09:00
+    - Last commit date: 2020-09-07 23:22:34+09:00
 
 
 
@@ -151,7 +151,7 @@ std::enable_if_t<
 binary_search(iter_type ok, iter_type ng, pred_type pred) {
   assert(ok != ng);
   __int128_t dist(ng - ok);
-  while (std::abs(dist) > 1) {
+  while (dist > 1 || dist < -1) {
     iter_type mid(ok + dist / 2);
     if (pred(mid))
       ok = mid, dist -= dist / 2;
