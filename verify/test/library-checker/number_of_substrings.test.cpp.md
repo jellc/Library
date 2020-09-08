@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/number_of_substrings.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:36:03+09:00
+    - Last commit date: 2020-09-09 06:25:45+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/number_of_substrings">https://judge.yosupo.jp/problem/number_of_substrings</a>
