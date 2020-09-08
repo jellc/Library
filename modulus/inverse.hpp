@@ -23,7 +23,7 @@ struct inverse<modint_runtime>
     using value_type = modint_runtime;
     value_type operator()(int n) const
     {
-        int_fast64_t mod = value_type::mod();
+        int_fast64_t mod = value_type::mod;
         assert(n %= mod);
         if(n < 0) n += mod;
         if(inv.empty()) inv = {1, mod != 1};
