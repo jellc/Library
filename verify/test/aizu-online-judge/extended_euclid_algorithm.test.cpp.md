@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="../../../library/utils/stream.hpp.html">utils/stream.hpp</a>
 
 
@@ -92,6 +92,7 @@ constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
 #line 4 "utils/stream.hpp"
 
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

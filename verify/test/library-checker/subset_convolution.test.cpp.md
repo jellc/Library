@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
-* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Code

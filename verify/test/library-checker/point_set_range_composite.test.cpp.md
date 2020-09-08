@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/point_set_range_composite.test.cpp
+# :heavy_check_mark: test/library-checker/point_set_range_composite.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/point_set_range_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -39,10 +39,10 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
-* :question: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -135,6 +135,7 @@ struct max_monoid : min_monoid<T>
     }
 };
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/associative_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/associative_array">https://judge.yosupo.jp/problem/associative_array</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -91,6 +91,7 @@ int main()
 #include <random>
 #include <unordered_set>
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

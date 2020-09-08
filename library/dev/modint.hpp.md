@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#e77989ed21758e78331b20e477fc5582">dev</a>
 * <a href="{{ site.github.repository_url }}/blob/master/dev/modint.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:29:17+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with
@@ -238,6 +238,7 @@ using modint_runtime = modint<0>;
 #include <iostream>
 
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

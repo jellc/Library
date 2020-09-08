@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Required by
@@ -128,6 +128,7 @@ using unordered_set = std::unordered_set<Key, hash<Key>>;
 #include <random>
 #include <unordered_set>
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

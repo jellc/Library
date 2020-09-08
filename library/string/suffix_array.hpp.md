@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/suffix_array.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with
@@ -170,6 +170,7 @@ public:
 #include <vector>
 #include <numeric>
 #line 2 "utils/sfinae.hpp"
+#include <cstdint>
 #include <type_traits>
 
 template <class type, template <class> class trait>

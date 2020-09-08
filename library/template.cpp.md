@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:25:45+09:00
+    - Last commit date: 2020-09-09 06:36:03+09:00
 
 
 
@@ -47,7 +47,7 @@ layout: default
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="utils/read.hpp.html">utils/read.hpp</a>
-* :question: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="utils/stream.hpp.html">utils/stream.hpp</a>
 
 
@@ -248,7 +248,7 @@ public:
     template <class... Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...); }
 };
 } // namespace workspace
-#line 2 "utils/sfinae.hpp"
+#line 3 "utils/sfinae.hpp"
 #include <type_traits>
 
 template <class type, template <class> class trait>
