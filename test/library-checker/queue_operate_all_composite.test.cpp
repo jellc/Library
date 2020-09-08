@@ -2,7 +2,7 @@
 #include <cstdio>
 
 #include "data_structure/deque_aggregation.hpp"
-#include "dev/modint.hpp"
+#include "modulus/modint.hpp"
 
 int main() {
   using mint = modint<998244353>;
