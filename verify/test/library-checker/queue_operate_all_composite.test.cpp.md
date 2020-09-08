@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/queue_operate_all_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:29:17+09:00
+    - Last commit date: 2020-09-09 07:00:56+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -40,8 +40,8 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
-* :heavy_check_mark: <a href="../../../library/dev/modint.hpp.html">dev/modint.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -53,7 +53,7 @@ layout: default
 #include <cstdio>
 
 #include "data_structure/deque_aggregation.hpp"
-#include "dev/modint.hpp"
+#include "modulus/modint.hpp"
 
 int main() {
   using mint = modint<998244353>;
@@ -247,7 +247,7 @@ public:
 
     monoid fold() { return left.fold() + right.fold(); }
 }; // class deque_aggregation
-#line 3 "dev/modint.hpp"
+#line 3 "modulus/modint.hpp"
 #include <iostream>
 
 #line 2 "utils/sfinae.hpp"
@@ -282,7 +282,7 @@ template <typename T>
 struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
   using type = __uint128_t;
 };
-#line 6 "dev/modint.hpp"
+#line 6 "modulus/modint.hpp"
 
 template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   static_assert(is_integral_ext<decltype(Mod)>::value,

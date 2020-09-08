@@ -72,8 +72,8 @@ layout: default
 
 ### combinatorics
 
-* :heavy_check_mark: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :heavy_check_mark: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :x: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :x: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
 
 
 <div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
@@ -119,6 +119,7 @@ layout: default
 * :warning: <a href="library/deprecated/Fenwick_tree.cpp.html">deprecated/Fenwick_tree.cpp</a>
 * :warning: <a href="library/deprecated/SplayTree.cpp.html">deprecated/SplayTree.cpp</a>
 * :warning: <a href="library/deprecated/math_utility.cpp.html">deprecated/math_utility.cpp</a>
+* :warning: <a href="library/deprecated/modint.hpp.html">deprecated/modint.hpp</a>
 * :warning: <a href="library/deprecated/trie.hpp.html">deprecated/trie.hpp</a>
 
 
@@ -127,13 +128,6 @@ layout: default
 ### deprecated/constexpr
 
 * :warning: <a href="library/deprecated/constexpr/binomial.hpp.html">deprecated/constexpr/binomial.hpp</a>
-
-
-<div id="e77989ed21758e78331b20e477fc5582"></div>
-
-### dev
-
-* :heavy_check_mark: <a href="library/dev/modint.hpp.html">dev/modint.hpp</a>
 
 
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>
@@ -186,8 +180,8 @@ layout: default
 
 ### modulus
 
-* :heavy_check_mark: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :x: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :question: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 <div id="814c07620aec62314b2fd23fc462e282"></div>
@@ -219,7 +213,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :heavy_check_mark: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
-* :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="library/utils/stream.hpp.html">utils/stream.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
@@ -229,6 +223,7 @@ layout: default
 ### variation
 
 * :warning: <a href="library/variation/deque_aggregation.hpp.html">variation/deque_aggregation.hpp</a>
+* :warning: <a href="library/variation/modint.hpp.html">variation/modint.hpp</a>
 * :warning: <a href="library/variation/modular.hpp.html">variation/modular.hpp</a>
 
 
@@ -242,7 +237,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :x: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/dont_burst_the_ballon.test.cpp.html">test/aizu-online-judge/dont_burst_the_ballon.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
