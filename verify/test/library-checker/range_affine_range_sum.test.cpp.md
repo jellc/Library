@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
-* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Code

@@ -42,7 +42,7 @@ layout: default
 * :heavy_check_mark: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 * :heavy_check_mark: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
 * :heavy_check_mark: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Code

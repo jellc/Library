@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 05:57:31+09:00
+    - Last commit date: 2020-09-09 06:25:45+09:00
 
 
 
@@ -47,7 +47,7 @@ layout: default
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
 * :heavy_check_mark: <a href="utils/read.hpp.html">utils/read.hpp</a>
-* :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="utils/stream.hpp.html">utils/stream.hpp</a>
 
 
@@ -250,11 +250,14 @@ public:
 } // namespace workspace
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
+
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+
 template <class T, class = void> struct is_integral_ext : std::false_type {};
 template <class T>
 struct is_integral_ext<
@@ -264,6 +267,18 @@ template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+
+template <typename T, typename = void> struct multiplicable_uint {
+  using type = uint_least32_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type> {
+  using type = uint_least64_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
+  using type = __uint128_t;
+};
 #line 7 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: algebra/system/monoid.hpp
+# :question: algebra/system/monoid.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
@@ -38,12 +38,12 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../../data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :question: <a href="../../data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :x: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="../../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 
 

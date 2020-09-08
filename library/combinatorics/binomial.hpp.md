@@ -40,7 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="factorial.hpp.html">combinatorics/factorial.hpp</a>
 * :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Verified with

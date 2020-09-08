@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 05:57:31+09:00
+    - Last commit date: 2020-09-09 06:25:45+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="../../../library/utils/stream.hpp.html">utils/stream.hpp</a>
 
 
@@ -93,11 +93,14 @@ constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
 
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
+
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+
 template <class T, class = void> struct is_integral_ext : std::false_type {};
 template <class T>
 struct is_integral_ext<
@@ -107,6 +110,18 @@ template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+
+template <typename T, typename = void> struct multiplicable_uint {
+  using type = uint_least32_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type> {
+  using type = uint_least64_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
+  using type = __uint128_t;
+};
 #line 6 "utils/stream.hpp"
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {

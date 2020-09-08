@@ -38,7 +38,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="modint.hpp.html">modulus/modint.hpp</a>
 
 
 ## Required by

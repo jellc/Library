@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/point_set_range_composite.test.cpp
+# :x: test/library-checker/point_set_range_composite.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/point_set_range_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 05:57:31+09:00
+    - Last commit date: 2020-09-09 06:25:45+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -39,10 +39,10 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
-* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
+* :question: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -136,11 +136,14 @@ struct max_monoid : min_monoid<T>
 };
 #line 2 "utils/sfinae.hpp"
 #include <type_traits>
+
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
+
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+
 template <class T, class = void> struct is_integral_ext : std::false_type {};
 template <class T>
 struct is_integral_ext<
@@ -150,6 +153,18 @@ template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+
+template <typename T, typename = void> struct multiplicable_uint {
+  using type = uint_least32_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type> {
+  using type = uint_least64_t;
+};
+template <typename T>
+struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
+  using type = __uint128_t;
+};
 #line 7 "data_structure/segment_tree/basic.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
