@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#fba856dbe1aaa5374a50a27f6dcea717">data_structure/segment_tree</a>
 * <a href="{{ site.github.repository_url }}/blob/master/data_structure/segment_tree/basic.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 04:18:33+09:00
+    - Last commit date: 2020-09-09 04:49:26+09:00
 
 
 
@@ -267,6 +267,13 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+template <class T, class = void> struct is_integral_ext : std::false_type {};
+template <class T>
+struct is_integral_ext<
+    T, typename std::enable_if<std::is_integral<T>::value>::type>
+    : std::true_type {};
+template <> struct is_integral_ext<__int128_t> : std::true_type {};
+template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 #line 7 "data_structure/segment_tree/basic.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {

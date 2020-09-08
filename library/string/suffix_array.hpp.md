@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/suffix_array.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-07 03:51:28+09:00
+    - Last commit date: 2020-09-09 04:49:26+09:00
 
 
 
@@ -176,6 +176,13 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+template <class T, class = void> struct is_integral_ext : std::false_type {};
+template <class T>
+struct is_integral_ext<
+    T, typename std::enable_if<std::is_integral<T>::value>::type>
+    : std::true_type {};
+template <> struct is_integral_ext<__int128_t> : std::true_type {};
+template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 #line 6 "string/suffix_array.hpp"
 template <class str_type>
 class suffix_array

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-08 01:03:56+09:00
+    - Last commit date: 2020-09-09 04:49:26+09:00
 
 
 
@@ -255,6 +255,13 @@ using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
+template <class T, class = void> struct is_integral_ext : std::false_type {};
+template <class T>
+struct is_integral_ext<
+    T, typename std::enable_if<std::is_integral<T>::value>::type>
+    : std::true_type {};
+template <> struct is_integral_ext<__int128_t> : std::true_type {};
+template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 #line 7 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>
