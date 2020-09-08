@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 04:49:26+09:00
+    - Last commit date: 2020-09-09 05:57:31+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
@@ -105,6 +105,8 @@ struct is_integral_ext<
     : std::true_type {};
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+template <class T>
+constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
 #line 6 "utils/stream.hpp"
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {

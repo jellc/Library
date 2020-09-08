@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/suffix_array.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 04:49:26+09:00
+    - Last commit date: 2020-09-09 05:57:31+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/suffixarray">https://judge.yosupo.jp/problem/suffixarray</a>
@@ -90,6 +90,8 @@ struct is_integral_ext<
     : std::true_type {};
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+template <class T>
+constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
 #line 6 "string/suffix_array.hpp"
 template <class str_type>
 class suffix_array

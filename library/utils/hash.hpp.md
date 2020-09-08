@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/hash.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 04:49:26+09:00
+    - Last commit date: 2020-09-09 05:57:31+09:00
 
 
 
@@ -141,6 +141,8 @@ struct is_integral_ext<
     : std::true_type {};
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+template <class T>
+constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
 #line 7 "utils/hash.hpp"
 namespace workspace {
 template <class T, class = void>
