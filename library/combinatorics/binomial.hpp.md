@@ -25,28 +25,28 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: combinatorics/binomial.hpp
+# :heavy_check_mark: combinatorics/binomial.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#ac1ed416572b96a9f5d69740d174ef3d">combinatorics</a>
 * <a href="{{ site.github.repository_url }}/blob/master/combinatorics/binomial.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 07:02:42+09:00
+    - Last commit date: 2020-09-09 13:12:43+09:00
 
 
 
 
 ## Depends on
 
-* :x: <a href="factorial.hpp.html">combinatorics/factorial.hpp</a>
-* :x: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :question: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 
 
 ## Code
@@ -56,22 +56,34 @@ layout: default
 ```cpp
 #pragma once
 #include "factorial.hpp"
-#include "modulus/modint.hpp"
 #include "modulus/inverse.hpp"
-template <class> struct binomial;
-template <int_fast64_t mod>
-struct binomial<modint<mod>>
-{
-    using value_type = modint<mod>;
-    struct mulinv_Op { value_type operator()(const value_type &f, const size_t &n) const { return f * inv(n); } };
-    static inverse<value_type> inv;
-    static factorial<value_type, mulinv_Op> fact_inv;
-    static factorial<value_type> fact;
-    value_type operator()(const int &n, const int &k) { return fact_inv(k) * fact_inv(n - k) * fact(n); }
+#include "modulus/modint.hpp"
+template <class, class = int> struct binomial;
+template <class Modint>
+struct binomial<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  struct mulinv_Op {
+    value_type operator()(const value_type &f, const size_t &n) const {
+      return f * inv(n);
+    }
+  };
+  static inverse<value_type> inv;
+  static factorial<value_type, mulinv_Op> fact_inv;
+  static factorial<value_type> fact;
+  value_type operator()(const int &n, const int &k) {
+    return fact_inv(k) * fact_inv(n - k) * fact(n);
+  }
 };
-template <int_fast64_t mod> inverse<modint<mod>> binomial<modint<mod>>::inv;
-template <int_fast64_t mod> factorial<modint<mod>, class binomial<modint<mod>>::mulinv_Op> binomial<modint<mod>>::fact_inv{1};
-template <int_fast64_t mod> factorial<modint<mod>> binomial<modint<mod>>::fact;
+template <class Modint>
+inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
+template <class Modint>
+factorial<Modint,
+          class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
+  1
+};
+template <class Modint>
+factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
 
 ```
 {% endraw %}
@@ -96,6 +108,8 @@ public:
         return fact[n];
     }
 }; // class factorial
+#line 3 "modulus/inverse.hpp"
+
 #line 2 "modulus/modint.hpp"
 #include <cassert>
 #include <iostream>
@@ -303,56 +317,54 @@ template <auto Mod, typename Mod_type>
 typename modint<Mod, Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;
 
 using modint_runtime = modint<0>;
-#line 4 "modulus/inverse.hpp"
-template <class> struct inverse;
+#line 5 "modulus/inverse.hpp"
+template <class, class = int> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod>
-struct inverse<modint<mod>>
-{
-    using value_type = modint<mod>;
-    value_type operator()(int n) const
-    {
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
+template <class Modint>
+struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  constexpr value_type operator()(int n) const {
+    constexpr int_fast64_t mod = value_type::mod;
+    assert(n %= mod);
+    if (n < 0) n += mod;
+    if (inv.empty()) inv = {1, mod != 1};
+    for (int m(inv.size()); m <= n; ++m)
+      inv.emplace_back(mod / m * -inv[mod % m]);
+    return inv[n];
+  }
+
+ private:
+  static std::vector<value_type> inv;
 };
-template <>
-struct inverse<modint_runtime>
-{
-    using value_type = modint_runtime;
-    value_type operator()(int n) const
-    {
-        int_fast64_t mod = value_type::mod;
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        if(inv.empty()) inv = {1, mod != 1};
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
-std::vector<modint_runtime> inverse<modint_runtime>::inv;
+template <class Modint>
+std::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;
 #line 5 "combinatorics/binomial.hpp"
-template <class> struct binomial;
-template <int_fast64_t mod>
-struct binomial<modint<mod>>
-{
-    using value_type = modint<mod>;
-    struct mulinv_Op { value_type operator()(const value_type &f, const size_t &n) const { return f * inv(n); } };
-    static inverse<value_type> inv;
-    static factorial<value_type, mulinv_Op> fact_inv;
-    static factorial<value_type> fact;
-    value_type operator()(const int &n, const int &k) { return fact_inv(k) * fact_inv(n - k) * fact(n); }
+template <class, class = int> struct binomial;
+template <class Modint>
+struct binomial<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  struct mulinv_Op {
+    value_type operator()(const value_type &f, const size_t &n) const {
+      return f * inv(n);
+    }
+  };
+  static inverse<value_type> inv;
+  static factorial<value_type, mulinv_Op> fact_inv;
+  static factorial<value_type> fact;
+  value_type operator()(const int &n, const int &k) {
+    return fact_inv(k) * fact_inv(n - k) * fact(n);
+  }
 };
-template <int_fast64_t mod> inverse<modint<mod>> binomial<modint<mod>>::inv;
-template <int_fast64_t mod> factorial<modint<mod>, class binomial<modint<mod>>::mulinv_Op> binomial<modint<mod>>::fact_inv{1};
-template <int_fast64_t mod> factorial<modint<mod>> binomial<modint<mod>>::fact;
+template <class Modint>
+inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
+template <class Modint>
+factorial<Modint,
+          class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
+  1
+};
+template <class Modint>
+factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
 
 ```
 {% endraw %}

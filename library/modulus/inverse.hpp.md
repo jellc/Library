@@ -25,31 +25,31 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: modulus/inverse.hpp
+# :heavy_check_mark: modulus/inverse.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/inverse.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 07:02:42+09:00
+    - Last commit date: 2020-09-09 13:12:43+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Required by
 
-* :x: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 
 
 ## Code
@@ -58,42 +58,29 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
-#include "modint.hpp"
 #include <vector>
-template <class> struct inverse;
+
+#include "modint.hpp"
+template <class, class = int> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod>
-struct inverse<modint<mod>>
-{
-    using value_type = modint<mod>;
-    value_type operator()(int n) const
-    {
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
+template <class Modint>
+struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  constexpr value_type operator()(int n) const {
+    constexpr int_fast64_t mod = value_type::mod;
+    assert(n %= mod);
+    if (n < 0) n += mod;
+    if (inv.empty()) inv = {1, mod != 1};
+    for (int m(inv.size()); m <= n; ++m)
+      inv.emplace_back(mod / m * -inv[mod % m]);
+    return inv[n];
+  }
+
+ private:
+  static std::vector<value_type> inv;
 };
-template <>
-struct inverse<modint_runtime>
-{
-    using value_type = modint_runtime;
-    value_type operator()(int n) const
-    {
-        int_fast64_t mod = value_type::mod;
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        if(inv.empty()) inv = {1, mod != 1};
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
-std::vector<modint_runtime> inverse<modint_runtime>::inv;
+template <class Modint>
+std::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;
 
 ```
 {% endraw %}
@@ -101,6 +88,9 @@ std::vector<modint_runtime> inverse<modint_runtime>::inv;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 2 "modulus/inverse.hpp"
+#include <vector>
+
 #line 2 "modulus/modint.hpp"
 #include <cassert>
 #include <iostream>
@@ -308,42 +298,27 @@ template <auto Mod, typename Mod_type>
 typename modint<Mod, Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;
 
 using modint_runtime = modint<0>;
-#line 3 "modulus/inverse.hpp"
-#include <vector>
-template <class> struct inverse;
+#line 5 "modulus/inverse.hpp"
+template <class, class = int> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod>
-struct inverse<modint<mod>>
-{
-    using value_type = modint<mod>;
-    value_type operator()(int n) const
-    {
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
+template <class Modint>
+struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  constexpr value_type operator()(int n) const {
+    constexpr int_fast64_t mod = value_type::mod;
+    assert(n %= mod);
+    if (n < 0) n += mod;
+    if (inv.empty()) inv = {1, mod != 1};
+    for (int m(inv.size()); m <= n; ++m)
+      inv.emplace_back(mod / m * -inv[mod % m]);
+    return inv[n];
+  }
+
+ private:
+  static std::vector<value_type> inv;
 };
-template <>
-struct inverse<modint_runtime>
-{
-    using value_type = modint_runtime;
-    value_type operator()(int n) const
-    {
-        int_fast64_t mod = value_type::mod;
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        if(inv.empty()) inv = {1, mod != 1};
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
-std::vector<modint_runtime> inverse<modint_runtime>::inv;
+template <class Modint>
+std::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;
 
 ```
 {% endraw %}

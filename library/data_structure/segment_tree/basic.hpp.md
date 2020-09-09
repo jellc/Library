@@ -39,7 +39,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
-* :question: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with

@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+# :heavy_check_mark: test/aizu-online-judge/balls_and_boxes_4.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/balls_and_boxes_4.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 07:02:42+09:00
+    - Last commit date: 2020-09-09 13:12:43+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D">https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D</a>
@@ -39,11 +39,11 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :x: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
-* :x: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :question: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -51,15 +51,16 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
-#include "combinatorics/binomial.hpp"
+#define PROBLEM \
+  "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
 #include <cstdio>
 
-int main()
-{
-    using modint = modint<1000000007>;
-    int n,k; scanf("%d%d",&n,&k);
-    printf("%d\n",binomial<modint>()(n+k-1,n));
+#include "combinatorics/binomial.hpp"
+
+int main() {
+  int n, k;
+  scanf("%d%d", &n, &k);
+  printf("%d\n", binomial<modint<1000000007>>()(n + k - 1, n));
 }
 
 ```
@@ -69,7 +70,10 @@ int main()
 {% raw %}
 ```cpp
 #line 1 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
+#define PROBLEM \
+  "https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D"
+#include <cstdio>
+
 #line 2 "combinatorics/factorial.hpp"
 #include <functional>
 #include <vector>
@@ -87,6 +91,8 @@ public:
         return fact[n];
     }
 }; // class factorial
+#line 3 "modulus/inverse.hpp"
+
 #line 2 "modulus/modint.hpp"
 #include <cassert>
 #include <iostream>
@@ -294,64 +300,60 @@ template <auto Mod, typename Mod_type>
 typename modint<Mod, Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;
 
 using modint_runtime = modint<0>;
-#line 4 "modulus/inverse.hpp"
-template <class> struct inverse;
+#line 5 "modulus/inverse.hpp"
+template <class, class = int> struct inverse;
 // mod must be prime.
-template <int_fast64_t mod>
-struct inverse<modint<mod>>
-{
-    using value_type = modint<mod>;
-    value_type operator()(int n) const
-    {
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <>
-struct inverse<modint_runtime>
-{
-    using value_type = modint_runtime;
-    value_type operator()(int n) const
-    {
-        int_fast64_t mod = value_type::mod;
-        assert(n %= mod);
-        if(n < 0) n += mod;
-        if(inv.empty()) inv = {1, mod != 1};
-        for(int m(inv.size()); m <= n; ++m) inv.emplace_back(mod / m * -inv[mod % m]);
-        return inv[n];
-    }
-private:
-    static std::vector<value_type> inv;
-};
-template <int_fast64_t mod> std::vector<modint<mod>> inverse<modint<mod>>::inv = {1, 1};
-std::vector<modint_runtime> inverse<modint_runtime>::inv;
-#line 5 "combinatorics/binomial.hpp"
-template <class> struct binomial;
-template <int_fast64_t mod>
-struct binomial<modint<mod>>
-{
-    using value_type = modint<mod>;
-    struct mulinv_Op { value_type operator()(const value_type &f, const size_t &n) const { return f * inv(n); } };
-    static inverse<value_type> inv;
-    static factorial<value_type, mulinv_Op> fact_inv;
-    static factorial<value_type> fact;
-    value_type operator()(const int &n, const int &k) { return fact_inv(k) * fact_inv(n - k) * fact(n); }
-};
-template <int_fast64_t mod> inverse<modint<mod>> binomial<modint<mod>>::inv;
-template <int_fast64_t mod> factorial<modint<mod>, class binomial<modint<mod>>::mulinv_Op> binomial<modint<mod>>::fact_inv{1};
-template <int_fast64_t mod> factorial<modint<mod>> binomial<modint<mod>>::fact;
-#line 3 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
-#include <cstdio>
+template <class Modint>
+struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  constexpr value_type operator()(int n) const {
+    constexpr int_fast64_t mod = value_type::mod;
+    assert(n %= mod);
+    if (n < 0) n += mod;
+    if (inv.empty()) inv = {1, mod != 1};
+    for (int m(inv.size()); m <= n; ++m)
+      inv.emplace_back(mod / m * -inv[mod % m]);
+    return inv[n];
+  }
 
-int main()
-{
-    using modint = modint<1000000007>;
-    int n,k; scanf("%d%d",&n,&k);
-    printf("%d\n",binomial<modint>()(n+k-1,n));
+ private:
+  static std::vector<value_type> inv;
+};
+template <class Modint>
+std::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;
+#line 5 "combinatorics/binomial.hpp"
+template <class, class = int> struct binomial;
+template <class Modint>
+struct binomial<Modint, decltype((void *)Modint::mod, 0)> {
+  using value_type = Modint;
+  struct mulinv_Op {
+    value_type operator()(const value_type &f, const size_t &n) const {
+      return f * inv(n);
+    }
+  };
+  static inverse<value_type> inv;
+  static factorial<value_type, mulinv_Op> fact_inv;
+  static factorial<value_type> fact;
+  value_type operator()(const int &n, const int &k) {
+    return fact_inv(k) * fact_inv(n - k) * fact(n);
+  }
+};
+template <class Modint>
+inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
+template <class Modint>
+factorial<Modint,
+          class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
+  1
+};
+template <class Modint>
+factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
+#line 6 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
+
+int main() {
+  int n, k;
+  scanf("%d%d", &n, &k);
+  printf("%d\n", binomial<modint<1000000007>>()(n + k - 1, n));
 }
 
 ```
