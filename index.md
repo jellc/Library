@@ -216,6 +216,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="library/utils/stream.hpp.html">utils/stream.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
+* :warning: <a href="library/utils/wrapper.hpp.html">utils/wrapper.hpp</a>
 
 
 <div id="64037a31cae3aa224737c3dcdfb7bd46"></div>
