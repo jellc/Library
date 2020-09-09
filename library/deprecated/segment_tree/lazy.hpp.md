@@ -1,0 +1,396 @@
+---
+layout: default
+---
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: { equationNumbers: { autoNumber: "AMS" }},
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { matchFontHeight: false },
+    displayAlign: "left",
+    displayIndent: "2em"
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../../assets/js/copy-button.js"></script>
+<link rel="stylesheet" href="../../../assets/css/copy-button.css" />
+
+
+# :warning: deprecated/segment_tree/lazy.hpp
+
+<a href="../../../index.html">Back to top page</a>
+
+* category: <a href="../../../index.html#928ee23c34195d012387deb95161cc06">deprecated/segment_tree</a>
+* <a href="{{ site.github.repository_url }}/blob/master/deprecated/segment_tree/lazy.hpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-10 02:20:46+09:00
+
+
+
+
+## Code
+
+<a id="unbundled"></a>
+{% raw %}
+```cpp
+#pragma once
+#include <cassert>
+#include <vector>
+
+template <class monoid, class endomorphism> class lazy_segment_tree {
+  using size_type = typename std::vector<monoid>::size_type;
+  template <class T> using container_type = std::vector<T>;
+
+  size_type size_orig, height, size_ext;
+  container_type<monoid> data;
+  container_type<endomorphism> lazy;
+
+  void recalc(const size_type node) {
+    data[node] = data[node << 1] + data[node << 1 | 1];
+  }
+
+  void apply(size_type index, const endomorphism &endo) {
+    endo.apply(data[index]);
+    if (index < size_ext) lazy[index] *= endo;
+  }
+
+  void push(size_type index) {
+    if (index >= size_ext) return;
+    apply(index << 1, lazy[index]);
+    apply(index << 1 | 1, lazy[index]);
+    lazy[index] = endomorphism{};
+  }
+
+  template <class pred_type>
+  size_type left_search_subtree(size_type index, const pred_type pred,
+                                monoid mono) {
+    assert(index);
+    while (index < size_ext) {
+      push(index);
+      const monoid tmp = data[(index <<= 1) | 1] + mono;
+      if (pred(tmp))
+        mono = tmp;
+      else
+        ++index;
+    }
+    return ++index -= size_ext;
+  }
+
+  template <class pred_type>
+  size_type right_search_subtree(size_type index, const pred_type pred,
+                                 monoid mono) {
+    assert(index);
+    while (index < size_ext) {
+      push(index);
+      const monoid tmp = mono + data[index <<= 1];
+      if (pred(tmp)) ++index, mono = tmp;
+    }
+    return (index -= size_ext) < size_orig ? index : size_orig;
+  }
+
+ public:
+  lazy_segment_tree(const size_type n = 0)
+      : size_orig{n},
+        height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
+        size_ext{1u << height},
+        data(size_ext << 1),
+        lazy(size_ext) {}
+
+  lazy_segment_tree(const size_type n, const monoid &init)
+      : lazy_segment_tree(n) {
+    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
+    for (size_type i{size_ext}; --i;) recalc(i);
+  }
+
+  template <class iter_type, class value_type = typename std::iterator_traits<
+                                 iter_type>::value_type>
+  lazy_segment_tree(iter_type first, iter_type last)
+      : size_orig(std::distance(first, last)),
+        height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),
+        size_ext{1u << height},
+        data(size_ext << 1),
+        lazy(size_ext) {
+    static_assert(std::is_constructible<monoid, value_type>::value,
+                  "monoid(iter_type::value_type) is not constructible.");
+    for (auto iter{std::next(std::begin(data), size_ext)};
+         iter != std::end(data) && first != last; ++iter, ++first)
+      *iter = monoid(*first);
+    for (size_type i{size_ext}; --i;) recalc(i);
+  }
+
+  template <class container_type,
+            typename = typename container_type::value_type>
+  lazy_segment_tree(const container_type &cont)
+      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}
+
+  size_type size() const { return size_orig; }
+  size_type capacity() const { return size_ext; }
+
+  monoid operator[](size_type index) { return fold(index, index + 1); }
+
+  void update(const size_type index, const endomorphism &endo) {
+    update(index, index + 1, endo);
+  }
+
+  void update(size_type first, size_type last, const endomorphism &endo) {
+    assert(last <= size_orig);
+    if (first >= last) return;
+    first += size_ext, last += size_ext - 1;
+    for (size_type i = height; i; --i) push(first >> i), push(last >> i);
+    for (size_type l = first, r = last + 1; last; l >>= 1, r >>= 1) {
+      if (l < r) {
+        if (l & 1) apply(l++, endo);
+        if (r & 1) apply(--r, endo);
+      }
+      if (first >>= 1, last >>= 1) {
+        recalc(first), recalc(last);
+      }
+    }
+  }
+
+  monoid fold() { return fold(0, size_orig); }
+
+  monoid fold(size_type first, size_type last) {
+    assert(last <= size_orig);
+    if (first >= last) return monoid{};
+    first += size_ext, last += size_ext - 1;
+    monoid left_val{}, right_val{};
+    for (size_type l = first, r = last + 1; last; l >>= 1, r >>= 1) {
+      if (l < r) {
+        if (l & 1) left_val = left_val + data[l++];
+        if (r & 1) right_val = data[--r] + right_val;
+      }
+      if (first >>= 1, last >>= 1) {
+        lazy[first].apply(left_val);
+        lazy[last].apply(right_val);
+      }
+    }
+    return left_val + right_val;
+  }
+
+  template <class pred_type>
+  size_type left_search(size_type right, pred_type pred) {
+    assert(right <= size_orig);
+    right += size_ext - 1;
+    for (size_type i{height}; i; --i) push(right >> i);
+    ++right;
+    monoid mono{};
+    for (size_type left{size_ext}; left != right; left >>= 1, right >>= 1) {
+      if ((left & 1) != (right & 1)) {
+        const monoid tmp = data[--right] + mono;
+        if (!pred(tmp)) return left_search_subtree(right, pred, mono);
+        mono = tmp;
+      }
+    }
+    return 0;
+  }
+
+  template <class pred_type>
+  size_type right_search(size_type left, pred_type pred) {
+    assert(left <= size_orig);
+    left += size_ext;
+    for (size_type i{height}; i; --i) push(left >> i);
+    monoid mono{};
+    for (size_type right{size_ext << 1}; left != right;
+         left >>= 1, right >>= 1) {
+      if ((left & 1) != (right & 1)) {
+        const monoid tmp = mono + data[left];
+        if (!pred(tmp)) return right_search_subtree(left, pred, mono);
+        mono = tmp;
+        ++left;
+      }
+    }
+    return size_orig;
+  }
+};  // class lazy_segment_tree
+
+```
+{% endraw %}
+
+<a id="bundled"></a>
+{% raw %}
+```cpp
+#line 2 "deprecated/segment_tree/lazy.hpp"
+#include <cassert>
+#include <vector>
+
+template <class monoid, class endomorphism> class lazy_segment_tree {
+  using size_type = typename std::vector<monoid>::size_type;
+  template <class T> using container_type = std::vector<T>;
+
+  size_type size_orig, height, size_ext;
+  container_type<monoid> data;
+  container_type<endomorphism> lazy;
+
+  void recalc(const size_type node) {
+    data[node] = data[node << 1] + data[node << 1 | 1];
+  }
+
+  void apply(size_type index, const endomorphism &endo) {
+    endo.apply(data[index]);
+    if (index < size_ext) lazy[index] *= endo;
+  }
+
+  void push(size_type index) {
+    if (index >= size_ext) return;
+    apply(index << 1, lazy[index]);
+    apply(index << 1 | 1, lazy[index]);
+    lazy[index] = endomorphism{};
+  }
+
+  template <class pred_type>
+  size_type left_search_subtree(size_type index, const pred_type pred,
+                                monoid mono) {
+    assert(index);
+    while (index < size_ext) {
+      push(index);
+      const monoid tmp = data[(index <<= 1) | 1] + mono;
+      if (pred(tmp))
+        mono = tmp;
+      else
+        ++index;
+    }
+    return ++index -= size_ext;
+  }
+
+  template <class pred_type>
+  size_type right_search_subtree(size_type index, const pred_type pred,
+                                 monoid mono) {
+    assert(index);
+    while (index < size_ext) {
+      push(index);
+      const monoid tmp = mono + data[index <<= 1];
+      if (pred(tmp)) ++index, mono = tmp;
+    }
+    return (index -= size_ext) < size_orig ? index : size_orig;
+  }
+
+ public:
+  lazy_segment_tree(const size_type n = 0)
+      : size_orig{n},
+        height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
+        size_ext{1u << height},
+        data(size_ext << 1),
+        lazy(size_ext) {}
+
+  lazy_segment_tree(const size_type n, const monoid &init)
+      : lazy_segment_tree(n) {
+    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
+    for (size_type i{size_ext}; --i;) recalc(i);
+  }
+
+  template <class iter_type, class value_type = typename std::iterator_traits<
+                                 iter_type>::value_type>
+  lazy_segment_tree(iter_type first, iter_type last)
+      : size_orig(std::distance(first, last)),
+        height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),
+        size_ext{1u << height},
+        data(size_ext << 1),
+        lazy(size_ext) {
+    static_assert(std::is_constructible<monoid, value_type>::value,
+                  "monoid(iter_type::value_type) is not constructible.");
+    for (auto iter{std::next(std::begin(data), size_ext)};
+         iter != std::end(data) && first != last; ++iter, ++first)
+      *iter = monoid(*first);
+    for (size_type i{size_ext}; --i;) recalc(i);
+  }
+
+  template <class container_type,
+            typename = typename container_type::value_type>
+  lazy_segment_tree(const container_type &cont)
+      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}
+
+  size_type size() const { return size_orig; }
+  size_type capacity() const { return size_ext; }
+
+  monoid operator[](size_type index) { return fold(index, index + 1); }
+
+  void update(const size_type index, const endomorphism &endo) {
+    update(index, index + 1, endo);
+  }
+
+  void update(size_type first, size_type last, const endomorphism &endo) {
+    assert(last <= size_orig);
+    if (first >= last) return;
+    first += size_ext, last += size_ext - 1;
+    for (size_type i = height; i; --i) push(first >> i), push(last >> i);
+    for (size_type l = first, r = last + 1; last; l >>= 1, r >>= 1) {
+      if (l < r) {
+        if (l & 1) apply(l++, endo);
+        if (r & 1) apply(--r, endo);
+      }
+      if (first >>= 1, last >>= 1) {
+        recalc(first), recalc(last);
+      }
+    }
+  }
+
+  monoid fold() { return fold(0, size_orig); }
+
+  monoid fold(size_type first, size_type last) {
+    assert(last <= size_orig);
+    if (first >= last) return monoid{};
+    first += size_ext, last += size_ext - 1;
+    monoid left_val{}, right_val{};
+    for (size_type l = first, r = last + 1; last; l >>= 1, r >>= 1) {
+      if (l < r) {
+        if (l & 1) left_val = left_val + data[l++];
+        if (r & 1) right_val = data[--r] + right_val;
+      }
+      if (first >>= 1, last >>= 1) {
+        lazy[first].apply(left_val);
+        lazy[last].apply(right_val);
+      }
+    }
+    return left_val + right_val;
+  }
+
+  template <class pred_type>
+  size_type left_search(size_type right, pred_type pred) {
+    assert(right <= size_orig);
+    right += size_ext - 1;
+    for (size_type i{height}; i; --i) push(right >> i);
+    ++right;
+    monoid mono{};
+    for (size_type left{size_ext}; left != right; left >>= 1, right >>= 1) {
+      if ((left & 1) != (right & 1)) {
+        const monoid tmp = data[--right] + mono;
+        if (!pred(tmp)) return left_search_subtree(right, pred, mono);
+        mono = tmp;
+      }
+    }
+    return 0;
+  }
+
+  template <class pred_type>
+  size_type right_search(size_type left, pred_type pred) {
+    assert(left <= size_orig);
+    left += size_ext;
+    for (size_type i{height}; i; --i) push(left >> i);
+    monoid mono{};
+    for (size_type right{size_ext << 1}; left != right;
+         left >>= 1, right >>= 1) {
+      if ((left & 1) != (right & 1)) {
+        const monoid tmp = mono + data[left];
+        if (!pred(tmp)) return right_search_subtree(left, pred, mono);
+        mono = tmp;
+        ++left;
+      }
+    }
+    return size_orig;
+  }
+};  // class lazy_segment_tree
+
+```
+{% endraw %}
+
+<a href="../../../index.html">Back to top page</a>
+

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_affine_range_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-10 02:12:20+09:00
+    - Last commit date: 2020-09-10 02:20:46+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/dev/lazyseg.hpp.html">dev/lazyseg.hpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
 * :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 * :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
@@ -50,11 +50,10 @@ layout: default
 {% raw %}
 ```cpp
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-// #include "data_structure/segment_tree/lazy.hpp"
 #include <cstdio>
 #include <vector>
 
-#include "dev/lazyseg.hpp"
+#include "data_structure/segment_tree/lazy.hpp"
 #include "modulus/modint.hpp"
 
 int main() {
@@ -101,13 +100,12 @@ int main() {
 ```cpp
 #line 1 "test/library-checker/range_affine_range_sum.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-// #include "data_structure/segment_tree/lazy.hpp"
 #include <cstdio>
 #include <vector>
 
-#line 2 "dev/lazyseg.hpp"
+#line 2 "data_structure/segment_tree/lazy.hpp"
 #include <cassert>
-#line 4 "dev/lazyseg.hpp"
+#line 4 "data_structure/segment_tree/lazy.hpp"
 
 #line 2 "utils/sfinae.hpp"
 #include <cstdint>
@@ -141,7 +139,7 @@ template <typename T>
 struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
   using type = __uint128_t;
 };
-#line 6 "dev/lazyseg.hpp"
+#line 6 "data_structure/segment_tree/lazy.hpp"
 template <class Monoid, class Endomorphism,
           template <class...> class Container_tmpl = std::vector>
 class lazy_segment_tree {
@@ -488,7 +486,7 @@ template <auto Mod, typename Mod_type>
 typename modint<Mod, Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;
 
 using modint_runtime = modint<0>;
-#line 8 "test/library-checker/range_affine_range_sum.test.cpp"
+#line 7 "test/library-checker/range_affine_range_sum.test.cpp"
 
 int main() {
   using mint = modint<998244353>;
