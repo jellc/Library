@@ -24,7 +24,10 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   template <class int_type,
             typename std::enable_if<is_integral_ext<int_type>::value>::type * =
                 nullptr>
-  constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
+  constexpr modint(const int_type &n) noexcept
+      : value((n %= mod) < 0 ? mod + n : n) {}
+
+  constexpr modint(bool n) noexcept : modint(int(n)) {}
 
   constexpr modint operator++(int) noexcept {
     modint t{*this};
