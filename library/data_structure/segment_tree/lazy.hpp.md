@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: data_structure/segment_tree/lazy.hpp
+# :warning: data_structure/segment_tree/lazy.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
@@ -34,11 +34,6 @@ layout: default
     - Last commit date: 2020-08-26 03:05:24+09:00
 
 
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 
 
 ## Code

@@ -99,7 +99,7 @@ layout: default
 ### data_structure/segment_tree
 
 * :heavy_check_mark: <a href="library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
+* :warning: <a href="library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
 
 
 <div id="179a1779a4b5d0e82b6c0fb4370c45e9"></div>
@@ -135,6 +135,7 @@ layout: default
 ### dev
 
 * :warning: <a href="library/dev/fraction.hpp.html">dev/fraction.hpp</a>
+* :heavy_check_mark: <a href="library/dev/lazyseg.hpp.html">dev/lazyseg.hpp</a>
 
 
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>

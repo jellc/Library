@@ -41,6 +41,7 @@ layout: default
 * :heavy_check_mark: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 * :heavy_check_mark: <a href="../data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
 * :warning: <a href="../dev/fraction.hpp.html">dev/fraction.hpp</a>
+* :heavy_check_mark: <a href="../dev/lazyseg.hpp.html">dev/lazyseg.hpp</a>
 * :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
 * :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
 * :heavy_check_mark: <a href="../string/suffix_array.hpp.html">string/suffix_array.hpp</a>
