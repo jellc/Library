@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../../library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code

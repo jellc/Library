@@ -25,31 +25,31 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: modulus/inverse.hpp
+# :x: modulus/inverse.hpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#06efba23b1f3a9b846a25c6b49f30348">modulus</a>
 * <a href="{{ site.github.repository_url }}/blob/master/modulus/inverse.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 13:12:43+09:00
+    - Last commit date: 2020-09-09 13:32:41+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modint.hpp.html">modulus/modint.hpp</a>
-* :heavy_check_mark: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :x: <a href="modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Required by
 
-* :heavy_check_mark: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :x: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :x: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 
 
 ## Code
@@ -149,7 +149,10 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   template <class int_type,
             typename std::enable_if<is_integral_ext<int_type>::value>::type * =
                 nullptr>
-  constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
+  constexpr modint(const int_type &n) noexcept
+      : value((n %= mod) < 0 ? mod + n : n) {}
+
+  constexpr modint(bool n) noexcept : modint(int(n)) {}
 
   constexpr modint operator++(int) noexcept {
     modint t{*this};

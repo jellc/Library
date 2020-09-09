@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/library-checker/queue_operate_all_composite.test.cpp
+# :x: test/library-checker/queue_operate_all_composite.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/queue_operate_all_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 07:00:56+09:00
+    - Last commit date: 2020-09-09 13:32:41+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../../library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
-* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :x: <a href="../../../library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
+* :x: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -304,7 +304,10 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   template <class int_type,
             typename std::enable_if<is_integral_ext<int_type>::value>::type * =
                 nullptr>
-  constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
+  constexpr modint(const int_type &n) noexcept
+      : value((n %= mod) < 0 ? mod + n : n) {}
+
+  constexpr modint(bool n) noexcept : modint(int(n)) {}
 
   constexpr modint operator++(int) noexcept {
     modint t{*this};

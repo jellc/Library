@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: algebra/convolution/subset.hpp
+# :x: algebra/convolution/subset.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
@@ -38,7 +38,7 @@ layout: default
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../../verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
+* :x: <a href="../../../verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 
 
 ## Code
