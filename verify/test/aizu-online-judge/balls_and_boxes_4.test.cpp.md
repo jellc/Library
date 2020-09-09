@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+# :heavy_check_mark: test/aizu-online-judge/balls_and_boxes_4.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/balls_and_boxes_4.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 13:32:41+09:00
+    - Last commit date: 2020-09-09 13:38:41+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D">https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D</a>
@@ -39,11 +39,11 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :x: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
-* :x: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :x: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -151,8 +151,7 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   template <class int_type,
             typename std::enable_if<is_integral_ext<int_type>::value>::type * =
                 nullptr>
-  constexpr modint(const int_type &n) noexcept
-      : value((n %= mod) < 0 ? mod + n : n) {}
+  constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
 
   constexpr modint(bool n) noexcept : modint(int(n)) {}
 

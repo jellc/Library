@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :x: test/library-checker/range_affine_range_sum.test.cpp
+# :heavy_check_mark: test/library-checker/range_affine_range_sum.test.cpp
 
 <a href="../../../index.html">Back to top page</a>
 
 * category: <a href="../../../index.html#8a40f8ed03f4cdb6c2fe0a2d4731a143">test/library-checker</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/library-checker/range_affine_range_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 13:32:41+09:00
+    - Last commit date: 2020-09-09 13:38:41+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../../library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
-* :x: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
+* :heavy_check_mark: <a href="../../../library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code
@@ -343,8 +343,7 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   template <class int_type,
             typename std::enable_if<is_integral_ext<int_type>::value>::type * =
                 nullptr>
-  constexpr modint(const int_type &n) noexcept
-      : value((n %= mod) < 0 ? mod + n : n) {}
+  constexpr modint(int_type n) noexcept : value((n %= mod) < 0 ? mod + n : n) {}
 
   constexpr modint(bool n) noexcept : modint(int(n)) {}
 

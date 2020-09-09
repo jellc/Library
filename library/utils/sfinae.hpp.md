@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: utils/sfinae.hpp
+# :heavy_check_mark: utils/sfinae.hpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,10 +38,10 @@ layout: default
 
 ## Required by
 
-* :x: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :question: <a href="../data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :x: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :x: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="../data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
 * :heavy_check_mark: <a href="../string/suffix_array.hpp.html">string/suffix_array.hpp</a>
 * :warning: <a href="../template.cpp.html">template.cpp</a>
 * :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
@@ -50,15 +50,15 @@ layout: default
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
-* :x: <a href="../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
-* :x: <a href="../../verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
-* :x: <a href="../../verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
-* :x: <a href="../../verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
 

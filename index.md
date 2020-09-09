@@ -57,7 +57,7 @@ layout: default
 
 * :warning: <a href="library/algebra/convolution/fast_Fourier_transform.hpp.html">algebra/convolution/fast_Fourier_transform.hpp</a>
 * :warning: <a href="library/algebra/convolution/number_theoretic_transform.hpp.html">algebra/convolution/number_theoretic_transform.hpp</a>
-* :x: <a href="library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
+* :heavy_check_mark: <a href="library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
 
 
 <div id="c95c870e4534787ab6d160f2417ab752"></div>
@@ -65,15 +65,15 @@ layout: default
 ### algebra/system
 
 * :warning: <a href="library/algebra/system/endomorphism.hpp.html">algebra/system/endomorphism.hpp</a>
-* :question: <a href="library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
+* :heavy_check_mark: <a href="library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
 
 
 <div id="ac1ed416572b96a9f5d69740d174ef3d"></div>
 
 ### combinatorics
 
-* :x: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :x: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
+* :heavy_check_mark: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
+* :heavy_check_mark: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
 
 
 <div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
@@ -83,7 +83,7 @@ layout: default
 * :warning: <a href="library/data_structure/Additional_union_find.hpp.html">data_structure/Additional_union_find.hpp</a>
 * :heavy_check_mark: <a href="library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
 * :warning: <a href="library/data_structure/Skew_heap.hpp.html">data_structure/Skew_heap.hpp</a>
-* :x: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
 
 
 <div id="85c1e2c9a6a68b0da546cc8076233cc6"></div>
@@ -98,8 +98,8 @@ layout: default
 
 ### data_structure/segment_tree
 
-* :question: <a href="library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :x: <a href="library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :heavy_check_mark: <a href="library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
 
 
 <div id="179a1779a4b5d0e82b6c0fb4370c45e9"></div>
@@ -180,8 +180,8 @@ layout: default
 
 ### modulus
 
-* :x: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :x: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
+* :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
 
 
 <div id="814c07620aec62314b2fd23fc462e282"></div>
@@ -213,7 +213,7 @@ layout: default
 * :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
 * :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
 * :heavy_check_mark: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
-* :question: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="library/utils/stream.hpp.html">utils/stream.hpp</a>
 * :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
 
@@ -237,7 +237,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
-* :x: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/dont_burst_the_ballon.test.cpp.html">test/aizu-online-judge/dont_burst_the_ballon.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
@@ -246,14 +246,14 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
-* :x: <a href="verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
-* :x: <a href="verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
-* :x: <a href="verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/segment_add_get_min.test.cpp.html">test/library-checker/segment_add_get_min.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
-* :x: <a href="verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/library-checker/unionfind.test.cpp.html">test/library-checker/unionfind.test.cpp</a>

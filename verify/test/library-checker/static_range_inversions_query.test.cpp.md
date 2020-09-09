@@ -39,11 +39,11 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
+* :heavy_check_mark: <a href="../../../library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
 * :heavy_check_mark: <a href="../../../library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
-* :question: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
+* :heavy_check_mark: <a href="../../../library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
 * :heavy_check_mark: <a href="../../../library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
-* :question: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../../library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Code

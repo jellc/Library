@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../../assets/css/copy-button.css" />
 
 
-# :question: data_structure/segment_tree/basic.hpp
+# :heavy_check_mark: data_structure/segment_tree/basic.hpp
 
 <a href="../../../index.html">Back to top page</a>
 
@@ -38,13 +38,13 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
-* :question: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
+* :heavy_check_mark: <a href="../../algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
+* :heavy_check_mark: <a href="../../utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
+* :heavy_check_mark: <a href="../../../verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="../../../verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
 
 
