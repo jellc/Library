@@ -130,6 +130,13 @@ layout: default
 * :warning: <a href="library/deprecated/constexpr/binomial.hpp.html">deprecated/constexpr/binomial.hpp</a>
 
 
+<div id="e77989ed21758e78331b20e477fc5582"></div>
+
+### dev
+
+* :warning: <a href="library/dev/fraction.hpp.html">dev/fraction.hpp</a>
+
+
 <div id="969c55f60d4e435b31ce9719112e0fcf"></div>
 
 ### graph/directed
