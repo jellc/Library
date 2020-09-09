@@ -23,8 +23,6 @@ inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
 template <class Modint>
 factorial<Modint,
           class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
-    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
-  1
-};
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;
 template <class Modint>
 factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
