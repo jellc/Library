@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#ac1ed416572b96a9f5d69740d174ef3d">combinatorics</a>
 * <a href="{{ site.github.repository_url }}/blob/master/combinatorics/binomial.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 13:38:41+09:00
+    - Last commit date: 2020-09-10 03:16:15+09:00
 
 
 
@@ -79,9 +79,7 @@ inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
 template <class Modint>
 factorial<Modint,
           class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
-    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
-  1
-};
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;
 template <class Modint>
 factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
 
@@ -362,9 +360,7 @@ inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
 template <class Modint>
 factorial<Modint,
           class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
-    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
-  1
-};
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;
 template <class Modint>
 factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
 

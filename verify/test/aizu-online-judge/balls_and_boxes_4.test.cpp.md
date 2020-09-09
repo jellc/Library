@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/balls_and_boxes_4.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 13:38:41+09:00
+    - Last commit date: 2020-09-10 03:16:15+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D">https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D</a>
@@ -345,9 +345,7 @@ inverse<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;
 template <class Modint>
 factorial<Modint,
           class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>
-    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv {
-  1
-};
+    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;
 template <class Modint>
 factorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;
 #line 6 "test/aizu-online-judge/balls_and_boxes_4.test.cpp"
