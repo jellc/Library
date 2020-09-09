@@ -1,9 +1,8 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-// #include "data_structure/segment_tree/lazy.hpp"
 #include <cstdio>
 #include <vector>
 
-#include "dev/lazyseg.hpp"
+#include "data_structure/segment_tree/lazy.hpp"
 #include "modulus/modint.hpp"
 
 int main() {
