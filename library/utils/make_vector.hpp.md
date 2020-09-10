@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#2b3583e6e17721c54496bd04e57a0c15">utils</a>
 * <a href="{{ site.github.repository_url }}/blob/master/utils/make_vector.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-11 03:22:24+09:00
+    - Last commit date: 2020-09-11 03:33:31+09:00
 
 
 
@@ -51,15 +51,14 @@ layout: default
 namespace workspace {
 template <typename T, size_t N>
 constexpr auto make_vector(size_t* sizes, T const& init = T()) {
-  if constexpr (N) {
+  if constexpr (N)
     return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes), init));
-  } else {
-    return std::vector(*sizes, init);
-  }
+  else
+    return init;
 }
 template <typename T, size_t N>
 constexpr auto make_vector(const size_t (&sizes)[N], T const& init = T()) {
-  return make_vector<T, N - 1>((size_t*)sizes, init);
+  return make_vector<T, N>((size_t*)sizes, init);
 }
 }  // namespace workspace
 
@@ -74,15 +73,14 @@ constexpr auto make_vector(const size_t (&sizes)[N], T const& init = T()) {
 namespace workspace {
 template <typename T, size_t N>
 constexpr auto make_vector(size_t* sizes, T const& init = T()) {
-  if constexpr (N) {
+  if constexpr (N)
     return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes), init));
-  } else {
-    return std::vector(*sizes, init);
-  }
+  else
+    return init;
 }
 template <typename T, size_t N>
 constexpr auto make_vector(const size_t (&sizes)[N], T const& init = T()) {
-  return make_vector<T, N - 1>((size_t*)sizes, init);
+  return make_vector<T, N>((size_t*)sizes, init);
 }
 }  // namespace workspace
 

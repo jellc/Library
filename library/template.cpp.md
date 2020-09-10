@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-11 03:22:24+09:00
+    - Last commit date: 2020-09-11 03:33:31+09:00
 
 
 
@@ -338,15 +338,14 @@ using unordered_set = std::unordered_set<Key, hash<Key>>;
 namespace workspace {
 template <typename T, size_t N>
 constexpr auto make_vector(size_t* sizes, T const& init = T()) {
-  if constexpr (N) {
+  if constexpr (N)
     return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes), init));
-  } else {
-    return std::vector(*sizes, init);
-  }
+  else
+    return init;
 }
 template <typename T, size_t N>
 constexpr auto make_vector(const size_t (&sizes)[N], T const& init = T()) {
-  return make_vector<T, N - 1>((size_t*)sizes, init);
+  return make_vector<T, N>((size_t*)sizes, init);
 }
 }  // namespace workspace
 #line 3 "utils/read.hpp"
