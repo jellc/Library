@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:36:03+09:00
+    - Last commit date: 2020-09-11 03:22:24+09:00
 
 
 
@@ -46,6 +46,7 @@ layout: default
 * :warning: <a href="utils/chval.hpp.html">utils/chval.hpp</a>
 * :warning: <a href="utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
 * :heavy_check_mark: <a href="utils/hash.hpp.html">utils/hash.hpp</a>
+* :warning: <a href="utils/make_vector.hpp.html">utils/make_vector.hpp</a>
 * :heavy_check_mark: <a href="utils/read.hpp.html">utils/read.hpp</a>
 * :heavy_check_mark: <a href="utils/sfinae.hpp.html">utils/sfinae.hpp</a>
 * :heavy_check_mark: <a href="utils/stream.hpp.html">utils/stream.hpp</a>
@@ -66,9 +67,9 @@ layout: default
 #include "utils/chval.hpp"
 #include "utils/fixed_point.hpp"
 #include "utils/hash.hpp"
+#include "utils/make_vector.hpp"
 #include "utils/read.hpp"
 #include "utils/stream.hpp"
-
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
@@ -333,6 +334,21 @@ using unordered_map = std::unordered_map<Key, Mapped, hash<Key>>;
 template <class Key>
 using unordered_set = std::unordered_set<Key, hash<Key>>;
 } // namespace workspace
+#line 3 "utils/make_vector.hpp"
+namespace workspace {
+template <typename T, size_t N>
+constexpr auto make_vector(size_t* sizes, T const& init = T()) {
+  if constexpr (N) {
+    return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes), init));
+  } else {
+    return std::vector(*sizes, init);
+  }
+}
+template <typename T, size_t N>
+constexpr auto make_vector(const size_t (&sizes)[N], T const& init = T()) {
+  return make_vector<T, N - 1>((size_t*)sizes, init);
+}
+}  // namespace workspace
 #line 3 "utils/read.hpp"
 namespace workspace {
 // read with std::cin.
@@ -411,8 +427,7 @@ operator<<(ostream &os, const Container &cont) {
   return os;
 }
 }  // namespace std
-#line 13 "template.cpp"
-
+#line 14 "template.cpp"
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
