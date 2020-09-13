@@ -14,8 +14,11 @@
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
+using i32 = int_least32_t;
 using i64 = int_least64_t;
-using p32 = pair<int, int>;
+using u32 = uint_least32_t;
+using u64 = uint_least64_t;
+using p32 = pair<i32, i32>;
 using p64 = pair<i64, i64>;
 template <class T, class Comp = std::less<T>>
 using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
@@ -24,7 +27,7 @@ struct solver;
 }  // namespace workspace
 int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
-  // return -1; // not specify
+  // return -1; // not specified
   // int t; std::cin >> t; return t; // given
   return 1;
 }
