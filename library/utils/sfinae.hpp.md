@@ -44,6 +44,7 @@ layout: default
 * :warning: <a href="../dev/fraction.hpp.html">dev/fraction.hpp</a>
 * :heavy_check_mark: <a href="../modulus/inverse.hpp.html">modulus/inverse.hpp</a>
 * :heavy_check_mark: <a href="../modulus/modint.hpp.html">modulus/modint.hpp</a>
+* :heavy_check_mark: <a href="../number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
 * :heavy_check_mark: <a href="../string/suffix_array.hpp.html">string/suffix_array.hpp</a>
 * :warning: <a href="../template.cpp.html">template.cpp</a>
 * :heavy_check_mark: <a href="hash.hpp.html">utils/hash.hpp</a>
