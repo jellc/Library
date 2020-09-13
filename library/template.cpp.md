@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-13 13:34:13+09:00
+    - Last commit date: 2020-09-13 23:36:49+09:00
 
 
 
@@ -75,10 +75,10 @@ constexpr char eol = '\n';
 using namespace std;
 using i32 = int_least32_t;
 using i64 = int_least64_t;
+using i128 = __int128_t;
 using u32 = uint_least32_t;
 using u64 = uint_least64_t;
-using p32 = pair<i32, i32>;
-using p64 = pair<i64, i64>;
+using u128 = __uint128_t;
 template <class T, class Comp = std::less<T>>
 using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
 template <class T> using stack = std::stack<T, std::vector<T>>;
@@ -435,10 +435,10 @@ constexpr char eol = '\n';
 using namespace std;
 using i32 = int_least32_t;
 using i64 = int_least64_t;
+using i128 = __int128_t;
 using u32 = uint_least32_t;
 using u64 = uint_least64_t;
-using p32 = pair<i32, i32>;
-using p64 = pair<i64, i64>;
+using u128 = __uint128_t;
 template <class T, class Comp = std::less<T>>
 using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
 template <class T> using stack = std::stack<T, std::vector<T>>;
