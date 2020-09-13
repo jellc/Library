@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../../index.html#8067ffd948dddbb51ecccf5f861740e7">test/aizu-online-judge</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aizu-online-judge/extended_euclid_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 06:36:03+09:00
+    - Last commit date: 2020-09-13 14:19:55+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E">https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E</a>
@@ -74,18 +74,18 @@ int main() {
   "https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E"
 #line 2 "number_theory/ext_gcd.hpp"
 #include <tuple>
-template <class int_type, std::enable_if_t<std::is_integral<int_type>::value, std::nullptr_t> = nullptr>
-constexpr std::pair<int_type, int_type> ext_gcd(int_type a, int_type b)
-{
-    bool neg_a = a < 0, neg_b = b < 0;
-    int_type p{1}, q{}, r{}, s{1}, t{};
-    while(b)
-    {
-        r ^= p ^= r ^= p -= (t = a / b) * r;
-        s ^= q ^= s ^= q -= t * s;
-        b ^= a ^= b ^= a %= b;
-    }
-    return {neg_a ? -p : p, neg_b ? -q : q};
+template <class int_type>
+constexpr typename std::enable_if<std::is_integral<int_type>::value,
+                                  std::pair<int_type, int_type>>::type
+ext_gcd(int_type a, int_type b) {
+  bool neg_a = a < 0, neg_b = b < 0;
+  int_type p{1}, q{}, r{}, s{1}, t{};
+  while (b) {
+    r ^= p ^= r ^= p -= (t = a / b) * r;
+    s ^= q ^= s ^= q -= t * s;
+    b ^= a ^= b ^= a %= b;
+  }
+  return {neg_a ? -p : p, neg_b ? -q : q};
 }
 #line 2 "utils/stream.hpp"
 #include <iostream>
