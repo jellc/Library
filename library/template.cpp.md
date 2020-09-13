@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../index.html#5058f1af8388633f609cadb75a75dc9d">.</a>
 * <a href="{{ site.github.repository_url }}/blob/master/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-11 03:33:31+09:00
+    - Last commit date: 2020-09-13 13:34:13+09:00
 
 
 
@@ -73,8 +73,11 @@ layout: default
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
+using i32 = int_least32_t;
 using i64 = int_least64_t;
-using p32 = pair<int, int>;
+using u32 = uint_least32_t;
+using u64 = uint_least64_t;
+using p32 = pair<i32, i32>;
 using p64 = pair<i64, i64>;
 template <class T, class Comp = std::less<T>>
 using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
@@ -83,7 +86,7 @@ struct solver;
 }  // namespace workspace
 int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
-  // return -1; // not specify
+  // return -1; // not specified
   // int t; std::cin >> t; return t; // given
   return 1;
 }
@@ -430,8 +433,11 @@ operator<<(ostream &os, const Container &cont) {
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
+using i32 = int_least32_t;
 using i64 = int_least64_t;
-using p32 = pair<int, int>;
+using u32 = uint_least32_t;
+using u64 = uint_least64_t;
+using p32 = pair<i32, i32>;
 using p64 = pair<i64, i64>;
 template <class T, class Comp = std::less<T>>
 using priority_queue = std::priority_queue<T, std::vector<T>, Comp>;
@@ -440,7 +446,7 @@ struct solver;
 }  // namespace workspace
 int main() { config::main<workspace::solver>(); }
 unsigned config::cases() {
-  // return -1; // not specify
+  // return -1; // not specified
   // int t; std::cin >> t; return t; // given
   return 1;
 }
