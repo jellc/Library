@@ -1,7 +1,9 @@
 #pragma once
 #include <tuple>
+
+#include "utils/sfinae.hpp"
 template <class int_type>
-constexpr typename std::enable_if<std::is_integral<int_type>::value,
+constexpr typename std::enable_if<is_integral_ext<int_type>::value,
                                   std::pair<int_type, int_type>>::type
 ext_gcd(int_type a, int_type b) {
   bool neg_a = a < 0, neg_b = b < 0;
