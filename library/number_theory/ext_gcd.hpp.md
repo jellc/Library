@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#814c07620aec62314b2fd23fc462e282">number_theory</a>
 * <a href="{{ site.github.repository_url }}/blob/master/number_theory/ext_gcd.hpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-13 15:12:39+09:00
+    - Last commit date: 2020-09-13 23:59:20+09:00
 
 
 
@@ -96,8 +96,10 @@ struct is_integral_ext<
     : std::true_type {};
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+#if __cplusplus >= 201402
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+#endif
 
 template <typename T, typename = void> struct multiplicable_uint {
   using type = uint_least32_t;
