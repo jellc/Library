@@ -59,7 +59,7 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n\n#line 6 \"alias.hpp\"\
+  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n\n#line 7 \"alias.hpp\"\
     \nnamespace workspace {\nconstexpr char eol = '\\n';\nusing namespace std;\nusing\
     \ i32 = int_least32_t;\nusing i64 = int_least64_t;\nusing i128 = __int128_t;\n\
     using u32 = uint_least32_t;\nusing u64 = uint_least64_t;\nusing u128 = __uint128_t;\n\
@@ -293,7 +293,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-09-17 20:09:05+09:00'
+  timestamp: '2020-09-17 21:16:08+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

@@ -13,6 +13,8 @@ data:
     links: []
   bundledCode: '#line 2 "alias.hpp"
 
+    #include <cstdint>
+
     #include <functional>
 
     #include <queue>
@@ -58,6 +60,8 @@ data:
 
     '
   code: '#pragma once
+
+    #include <cstdint>
 
     #include <functional>
 
@@ -108,7 +112,7 @@ data:
   path: alias.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-09-17 20:09:05+09:00'
+  timestamp: '2020-09-17 21:16:08+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: alias.hpp
