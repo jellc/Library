@@ -1,278 +1,324 @@
 ---
-layout: default
+data:
+  libraryCategories:
+  - name: algebra/convolution
+    pages:
+    - icon: ':warning:'
+      path: algebra/convolution/fast_Fourier_transform.hpp
+      title: algebra/convolution/fast_Fourier_transform.hpp
+    - icon: ':warning:'
+      path: algebra/convolution/number_theoretic_transform.hpp
+      title: algebra/convolution/number_theoretic_transform.hpp
+    - icon: ':heavy_check_mark:'
+      path: algebra/convolution/subset.hpp
+      title: algebra/convolution/subset.hpp
+  - name: algebra/system
+    pages:
+    - icon: ':warning:'
+      path: algebra/system/endomorphism.hpp
+      title: algebra/system/endomorphism.hpp
+    - icon: ':heavy_check_mark:'
+      path: algebra/system/monoid.hpp
+      title: algebra/system/monoid.hpp
+  - name: algebra
+    pages:
+    - icon: ':warning:'
+      path: algebra/xor_elimination.hpp
+      title: algebra/xor_elimination.hpp
+  - name: combinatorics
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: combinatorics/binomial.hpp
+      title: combinatorics/binomial.hpp
+    - icon: ':heavy_check_mark:'
+      path: combinatorics/factorial.hpp
+      title: combinatorics/factorial.hpp
+  - name: .
+    pages:
+    - icon: ':warning:'
+      path: config.hpp
+      title: config.hpp
+    - icon: ':warning:'
+      path: gcc_builtin.hpp
+      title: gcc_builtin.hpp
+    - icon: ':warning:'
+      path: gcc_option.hpp
+      title: gcc_option.hpp
+    - icon: ':warning:'
+      path: template.cpp
+      title: template.cpp
+  - name: data_structure
+    pages:
+    - icon: ':warning:'
+      path: data_structure/Additional_union_find.hpp
+      title: data_structure/Additional_union_find.hpp
+    - icon: ':heavy_check_mark:'
+      path: data_structure/Mo.hpp
+      title: data_structure/Mo.hpp
+    - icon: ':warning:'
+      path: data_structure/Skew_heap.hpp
+      title: data_structure/Skew_heap.hpp
+    - icon: ':heavy_check_mark:'
+      path: data_structure/deque_aggregation.hpp
+      title: data_structure/deque_aggregation.hpp
+  - name: data_structure/convex_hull_trick
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+      title: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+    - icon: ':warning:'
+      path: data_structure/convex_hull_trick/monotone.hpp
+      title: data_structure/convex_hull_trick/monotone.hpp
+  - name: data_structure/segment_tree
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: data_structure/segment_tree/basic.hpp
+      title: data_structure/segment_tree/basic.hpp
+    - icon: ':heavy_check_mark:'
+      path: data_structure/segment_tree/lazy.hpp
+      title: data_structure/segment_tree/lazy.hpp
+  - name: data_structure/union_find
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: data_structure/union_find/basic.hpp
+      title: data_structure/union_find/basic.hpp
+    - icon: ':warning:'
+      path: data_structure/union_find/partially_persistent_union_find.hpp
+      title: data_structure/union_find/partially_persistent_union_find.hpp
+    - icon: ':warning:'
+      path: data_structure/union_find/potentialized_union_find.hpp
+      title: data_structure/union_find/potentialized_union_find.hpp
+    - icon: ':heavy_check_mark:'
+      path: data_structure/union_find/unbalanced.hpp
+      title: data_structure/union_find/unbalanced.hpp
+  - name: deprecated
+    pages:
+    - icon: ':warning:'
+      path: deprecated/Fenwick_tree.cpp
+      title: deprecated/Fenwick_tree.cpp
+    - icon: ':warning:'
+      path: deprecated/SplayTree.cpp
+      title: deprecated/SplayTree.cpp
+    - icon: ':warning:'
+      path: deprecated/math_utility.cpp
+      title: deprecated/math_utility.cpp
+    - icon: ':warning:'
+      path: deprecated/modint.hpp
+      title: deprecated/modint.hpp
+    - icon: ':warning:'
+      path: deprecated/trie.hpp
+      title: deprecated/trie.hpp
+  - name: deprecated/constexpr
+    pages:
+    - icon: ':warning:'
+      path: deprecated/constexpr/binomial.hpp
+      title: deprecated/constexpr/binomial.hpp
+  - name: deprecated/segment_tree
+    pages:
+    - icon: ':warning:'
+      path: deprecated/segment_tree/lazy.hpp
+      title: deprecated/segment_tree/lazy.hpp
+  - name: dev
+    pages:
+    - icon: ':warning:'
+      path: dev/fraction.hpp
+      title: dev/fraction.hpp
+  - name: graph/directed/flow
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: graph/directed/flow/Dinic.hpp
+      title: graph/directed/flow/Dinic.hpp
+    - icon: ':heavy_check_mark:'
+      path: graph/directed/flow/base.hpp
+      title: graph/directed/flow/base.hpp
+    - icon: ':heavy_check_mark:'
+      path: graph/directed/flow/min_cost_flow.hpp
+      title: graph/directed/flow/min_cost_flow.hpp
+  - name: graph/directed
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: graph/directed/strongly_connected_components.hpp
+      title: graph/directed/strongly_connected_components.hpp
+  - name: graph/undirected/tree
+    pages:
+    - icon: ':warning:'
+      path: graph/undirected/tree/centroid_decomposition.hpp
+      title: graph/undirected/tree/centroid_decomposition.hpp
+    - icon: ':heavy_check_mark:'
+      path: graph/undirected/tree/lowest_common_ancestor.hpp
+      title: graph/undirected/tree/lowest_common_ancestor.hpp
+  - name: graph/undirected
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: graph/undirected/two_edge_connected_components.hpp
+      title: graph/undirected/two_edge_connected_components.hpp
+  - name: local
+    pages:
+    - icon: ':warning:'
+      path: local/clock.hpp
+      title: local/clock.hpp
+    - icon: ':warning:'
+      path: local/dump.hpp
+      title: local/dump.hpp
+  - name: math
+    pages:
+    - icon: ':warning:'
+      path: math/Prime_factorizer.hpp
+      title: math/Prime_factorizer.hpp
+  - name: modulus
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: modulus/inverse.hpp
+      title: modulus/inverse.hpp
+    - icon: ':heavy_check_mark:'
+      path: modulus/modint.hpp
+      title: modulus/modint.hpp
+  - name: number_theory
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: number_theory/ext_gcd.hpp
+      title: number_theory/ext_gcd.hpp
+  - name: string
+    pages:
+    - icon: ':warning:'
+      path: string/Manacher.hpp
+      title: string/Manacher.hpp
+    - icon: ':warning:'
+      path: string/binary_trie.hpp
+      title: string/binary_trie.hpp
+    - icon: ':heavy_check_mark:'
+      path: string/suffix_array.hpp
+      title: string/suffix_array.hpp
+    - icon: ':heavy_check_mark:'
+      path: string/z_algorithm.hpp
+      title: string/z_algorithm.hpp
+  - name: utils
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: utils/binary_search.hpp
+      title: utils/binary_search.hpp
+    - icon: ':warning:'
+      path: utils/casefmt.hpp
+      title: utils/casefmt.hpp
+    - icon: ':warning:'
+      path: utils/chval.hpp
+      title: utils/chval.hpp
+    - icon: ':heavy_check_mark:'
+      path: utils/coordinate_compression.hpp
+      title: utils/coordinate_compression.hpp
+    - icon: ':warning:'
+      path: utils/fixed_point.hpp
+      title: utils/fixed_point.hpp
+    - icon: ':heavy_check_mark:'
+      path: utils/hash.hpp
+      title: utils/hash.hpp
+    - icon: ':warning:'
+      path: utils/make_vector.hpp
+      title: utils/make_vector.hpp
+    - icon: ':warning:'
+      path: utils/random_number_generator.hpp
+      title: utils/random_number_generator.hpp
+    - icon: ':heavy_check_mark:'
+      path: utils/read.hpp
+      title: utils/read.hpp
+    - icon: ':heavy_check_mark:'
+      path: utils/sfinae.hpp
+      title: utils/sfinae.hpp
+    - icon: ':heavy_check_mark:'
+      path: utils/stream.hpp
+      title: utils/stream.hpp
+    - icon: ':warning:'
+      path: utils/trinary_search.hpp
+      title: utils/trinary_search.hpp
+    - icon: ':warning:'
+      path: utils/wrapper.hpp
+      title: utils/wrapper.hpp
+  - name: variation
+    pages:
+    - icon: ':warning:'
+      path: variation/deque_aggregation.hpp
+      title: variation/deque_aggregation.hpp
+    - icon: ':warning:'
+      path: variation/modint.hpp
+      title: variation/modint.hpp
+    - icon: ':warning:'
+      path: variation/modular.hpp
+      title: variation/modular.hpp
+  - name: variation/flow
+    pages:
+    - icon: ':warning:'
+      path: variation/flow/Dinic.hpp
+      title: variation/flow/Dinic.hpp
+  verificationCategories:
+  - name: test/aizu-online-judge
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/aors_score.test.cpp
+      title: test/aizu-online-judge/aors_score.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+      title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
+      title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+      title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+  - name: test/library-checker
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/assignment.test.cpp
+      title: test/library-checker/assignment.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/associative_array.test.cpp
+      title: test/library-checker/associative_array.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/bipartitematching.test.cpp
+      title: test/library-checker/bipartitematching.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/line_add_get_min.test.cpp
+      title: test/library-checker/line_add_get_min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/lowest_common_ancestor.test.cpp
+      title: test/library-checker/lowest_common_ancestor.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/number_of_substrings.test.cpp
+      title: test/library-checker/number_of_substrings.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/point_set_range_composite.test.cpp
+      title: test/library-checker/point_set_range_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/queue_operate_all_composite.test.cpp
+      title: test/library-checker/queue_operate_all_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/range_affine_range_sum.test.cpp
+      title: test/library-checker/range_affine_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/range_kth_smallest.test.cpp
+      title: test/library-checker/range_kth_smallest.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/scc.test.cpp
+      title: test/library-checker/scc.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/segment_add_get_min.test.cpp
+      title: test/library-checker/segment_add_get_min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/static_range_inversions_query.test.cpp
+      title: test/library-checker/static_range_inversions_query.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/subset_convolution.test.cpp
+      title: test/library-checker/subset_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/suffix_array.test.cpp
+      title: test/library-checker/suffix_array.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/two_edge_connected_components.test.cpp
+      title: test/library-checker/two_edge_connected_components.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/unionfind.test.cpp
+      title: test/library-checker/unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/zalgorithm.test.cpp
+      title: test/library-checker/zalgorithm.test.cpp
+layout: toppage
 ---
-
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    TeX: { equationNumbers: { autoNumber: "AMS" }},
-    tex2jax: {
-      inlineMath: [ ['$','$'] ],
-      processEscapes: true
-    },
-    "HTML-CSS": { matchFontHeight: false },
-    displayAlign: "left",
-    displayIndent: "2em"
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="assets/css/copy-button.css" />
-
-
-# {{ site.title }}
-
-[![Actions Status]({{ site.github.repository_url }}/workflows/verify/badge.svg)]({{ site.github.repository_url }}/actions)
-<a href="{{ site.github.repository_url }}"><img src="https://img.shields.io/github/last-commit/{{ site.github.owner_name }}/{{ site.github.repository_name }}" /></a>
-
-{% if site.github.project_tagline %}{{ site.github.project_tagline }}{% else %}This documentation is automatically generated by <a href="https://github.com/online-judge-tools/verification-helper">online-judge-tools/verification-helper</a>.{% endif %}
-
-## Library Files
-
-<div id="5058f1af8388633f609cadb75a75dc9d"></div>
-
-### .
-
-* :warning: <a href="library/config.hpp.html">config.hpp</a>
-* :warning: <a href="library/gcc_builtin.hpp.html">gcc_builtin.hpp</a>
-* :warning: <a href="library/gcc_option.hpp.html">gcc_option.hpp</a>
-* :warning: <a href="library/template.cpp.html">template.cpp</a>
-
-
-<div id="384712ec65183407ac811fff2f4c4798"></div>
-
-### algebra
-
-* :warning: <a href="library/algebra/xor_elimination.hpp.html">algebra/xor_elimination.hpp</a>
-
-
-<div id="3cd9fd076f2d75c19d145e9eb33bfef8"></div>
-
-### algebra/convolution
-
-* :warning: <a href="library/algebra/convolution/fast_Fourier_transform.hpp.html">algebra/convolution/fast_Fourier_transform.hpp</a>
-* :warning: <a href="library/algebra/convolution/number_theoretic_transform.hpp.html">algebra/convolution/number_theoretic_transform.hpp</a>
-* :heavy_check_mark: <a href="library/algebra/convolution/subset.hpp.html">algebra/convolution/subset.hpp</a>
-
-
-<div id="c95c870e4534787ab6d160f2417ab752"></div>
-
-### algebra/system
-
-* :warning: <a href="library/algebra/system/endomorphism.hpp.html">algebra/system/endomorphism.hpp</a>
-* :heavy_check_mark: <a href="library/algebra/system/monoid.hpp.html">algebra/system/monoid.hpp</a>
-
-
-<div id="ac1ed416572b96a9f5d69740d174ef3d"></div>
-
-### combinatorics
-
-* :heavy_check_mark: <a href="library/combinatorics/binomial.hpp.html">combinatorics/binomial.hpp</a>
-* :heavy_check_mark: <a href="library/combinatorics/factorial.hpp.html">combinatorics/factorial.hpp</a>
-
-
-<div id="c8f6850ec2ec3fb32f203c1f4e3c2fd2"></div>
-
-### data_structure
-
-* :warning: <a href="library/data_structure/Additional_union_find.hpp.html">data_structure/Additional_union_find.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/Mo.hpp.html">data_structure/Mo.hpp</a>
-* :warning: <a href="library/data_structure/Skew_heap.hpp.html">data_structure/Skew_heap.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/deque_aggregation.hpp.html">data_structure/deque_aggregation.hpp</a>
-
-
-<div id="85c1e2c9a6a68b0da546cc8076233cc6"></div>
-
-### data_structure/convex_hull_trick
-
-* :heavy_check_mark: <a href="library/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html">data_structure/convex_hull_trick/Li_Chao_tree.hpp</a>
-* :warning: <a href="library/data_structure/convex_hull_trick/monotone.hpp.html">data_structure/convex_hull_trick/monotone.hpp</a>
-
-
-<div id="fba856dbe1aaa5374a50a27f6dcea717"></div>
-
-### data_structure/segment_tree
-
-* :heavy_check_mark: <a href="library/data_structure/segment_tree/basic.hpp.html">data_structure/segment_tree/basic.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/segment_tree/lazy.hpp.html">data_structure/segment_tree/lazy.hpp</a>
-
-
-<div id="179a1779a4b5d0e82b6c0fb4370c45e9"></div>
-
-### data_structure/union_find
-
-* :heavy_check_mark: <a href="library/data_structure/union_find/basic.hpp.html">data_structure/union_find/basic.hpp</a>
-* :warning: <a href="library/data_structure/union_find/partially_persistent_union_find.hpp.html">data_structure/union_find/partially_persistent_union_find.hpp</a>
-* :warning: <a href="library/data_structure/union_find/potentialized_union_find.hpp.html">data_structure/union_find/potentialized_union_find.hpp</a>
-* :heavy_check_mark: <a href="library/data_structure/union_find/unbalanced.hpp.html">data_structure/union_find/unbalanced.hpp</a>
-
-
-<div id="54dac5afe1fcac2f65c059fc97b44a58"></div>
-
-### deprecated
-
-* :warning: <a href="library/deprecated/Fenwick_tree.cpp.html">deprecated/Fenwick_tree.cpp</a>
-* :warning: <a href="library/deprecated/SplayTree.cpp.html">deprecated/SplayTree.cpp</a>
-* :warning: <a href="library/deprecated/math_utility.cpp.html">deprecated/math_utility.cpp</a>
-* :warning: <a href="library/deprecated/modint.hpp.html">deprecated/modint.hpp</a>
-* :warning: <a href="library/deprecated/trie.hpp.html">deprecated/trie.hpp</a>
-
-
-<div id="687b3fe2f296e7c5f7e4c4d583f8b9a2"></div>
-
-### deprecated/constexpr
-
-* :warning: <a href="library/deprecated/constexpr/binomial.hpp.html">deprecated/constexpr/binomial.hpp</a>
-
-
-<div id="928ee23c34195d012387deb95161cc06"></div>
-
-### deprecated/segment_tree
-
-* :warning: <a href="library/deprecated/segment_tree/lazy.hpp.html">deprecated/segment_tree/lazy.hpp</a>
-
-
-<div id="e77989ed21758e78331b20e477fc5582"></div>
-
-### dev
-
-* :warning: <a href="library/dev/fraction.hpp.html">dev/fraction.hpp</a>
-
-
-<div id="969c55f60d4e435b31ce9719112e0fcf"></div>
-
-### graph/directed
-
-* :heavy_check_mark: <a href="library/graph/directed/strongly_connected_components.hpp.html">graph/directed/strongly_connected_components.hpp</a>
-
-
-<div id="13554c95f4603c3979d32881e43d19e6"></div>
-
-### graph/directed/flow
-
-* :heavy_check_mark: <a href="library/graph/directed/flow/Dinic.hpp.html">graph/directed/flow/Dinic.hpp</a>
-* :heavy_check_mark: <a href="library/graph/directed/flow/base.hpp.html">graph/directed/flow/base.hpp</a>
-* :heavy_check_mark: <a href="library/graph/directed/flow/min_cost_flow.hpp.html">graph/directed/flow/min_cost_flow.hpp</a>
-
-
-<div id="89915d49ca05c805c82a9fa3819995df"></div>
-
-### graph/undirected
-
-* :heavy_check_mark: <a href="library/graph/undirected/two_edge_connected_components.hpp.html">graph/undirected/two_edge_connected_components.hpp</a>
-
-
-<div id="3c61d25aab7013cc226acec7f73e0920"></div>
-
-### graph/undirected/tree
-
-* :warning: <a href="library/graph/undirected/tree/centroid_decomposition.hpp.html">graph/undirected/tree/centroid_decomposition.hpp</a>
-* :heavy_check_mark: <a href="library/graph/undirected/tree/lowest_common_ancestor.hpp.html">graph/undirected/tree/lowest_common_ancestor.hpp</a>
-
-
-<div id="f5ddaf0ca7929578b408c909429f68f2"></div>
-
-### local
-
-* :warning: <a href="library/local/clock.hpp.html">local/clock.hpp</a>
-* :warning: <a href="library/local/dump.hpp.html">local/dump.hpp</a>
-
-
-<div id="7e676e9e663beb40fd133f5ee24487c2"></div>
-
-### math
-
-* :warning: <a href="library/math/Prime_factorizer.hpp.html">math/Prime_factorizer.hpp</a>
-
-
-<div id="06efba23b1f3a9b846a25c6b49f30348"></div>
-
-### modulus
-
-* :heavy_check_mark: <a href="library/modulus/inverse.hpp.html">modulus/inverse.hpp</a>
-* :heavy_check_mark: <a href="library/modulus/modint.hpp.html">modulus/modint.hpp</a>
-
-
-<div id="814c07620aec62314b2fd23fc462e282"></div>
-
-### number_theory
-
-* :heavy_check_mark: <a href="library/number_theory/ext_gcd.hpp.html">number_theory/ext_gcd.hpp</a>
-
-
-<div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
-
-### string
-
-* :warning: <a href="library/string/Manacher.hpp.html">string/Manacher.hpp</a>
-* :warning: <a href="library/string/binary_trie.hpp.html">string/binary_trie.hpp</a>
-* :heavy_check_mark: <a href="library/string/suffix_array.hpp.html">string/suffix_array.hpp</a>
-* :heavy_check_mark: <a href="library/string/z_algorithm.hpp.html">string/z_algorithm.hpp</a>
-
-
-<div id="2b3583e6e17721c54496bd04e57a0c15"></div>
-
-### utils
-
-* :heavy_check_mark: <a href="library/utils/binary_search.hpp.html">utils/binary_search.hpp</a>
-* :warning: <a href="library/utils/casefmt.hpp.html">utils/casefmt.hpp</a>
-* :warning: <a href="library/utils/chval.hpp.html">utils/chval.hpp</a>
-* :heavy_check_mark: <a href="library/utils/coordinate_compression.hpp.html">utils/coordinate_compression.hpp</a>
-* :warning: <a href="library/utils/fixed_point.hpp.html">utils/fixed_point.hpp</a>
-* :heavy_check_mark: <a href="library/utils/hash.hpp.html">utils/hash.hpp</a>
-* :warning: <a href="library/utils/make_vector.hpp.html">utils/make_vector.hpp</a>
-* :warning: <a href="library/utils/random_number_generator.hpp.html">utils/random_number_generator.hpp</a>
-* :heavy_check_mark: <a href="library/utils/read.hpp.html">utils/read.hpp</a>
-* :heavy_check_mark: <a href="library/utils/sfinae.hpp.html">utils/sfinae.hpp</a>
-* :heavy_check_mark: <a href="library/utils/stream.hpp.html">utils/stream.hpp</a>
-* :warning: <a href="library/utils/trinary_search.hpp.html">utils/trinary_search.hpp</a>
-* :warning: <a href="library/utils/wrapper.hpp.html">utils/wrapper.hpp</a>
-
-
-<div id="64037a31cae3aa224737c3dcdfb7bd46"></div>
-
-### variation
-
-* :warning: <a href="library/variation/deque_aggregation.hpp.html">variation/deque_aggregation.hpp</a>
-* :warning: <a href="library/variation/modint.hpp.html">variation/modint.hpp</a>
-* :warning: <a href="library/variation/modular.hpp.html">variation/modular.hpp</a>
-
-
-<div id="0b46cfa7c37bdbd50ef33fa005a2319c"></div>
-
-### variation/flow
-
-* :warning: <a href="library/variation/flow/Dinic.hpp.html">variation/flow/Dinic.hpp</a>
-
-
-## Verify Files
-
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/aors_score.test.cpp.html">test/aizu-online-judge/aors_score.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html">test/aizu-online-judge/balls_and_boxes_4.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/dont_burst_the_ballon.test.cpp.html">test/aizu-online-judge/dont_burst_the_ballon.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html">test/aizu-online-judge/extended_euclid_algorithm.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/assignment.test.cpp.html">test/library-checker/assignment.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/associative_array.test.cpp.html">test/library-checker/associative_array.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/bipartitematching.test.cpp.html">test/library-checker/bipartitematching.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/line_add_get_min.test.cpp.html">test/library-checker/line_add_get_min.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/lowest_common_ancestor.test.cpp.html">test/library-checker/lowest_common_ancestor.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/number_of_substrings.test.cpp.html">test/library-checker/number_of_substrings.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/point_set_range_composite.test.cpp.html">test/library-checker/point_set_range_composite.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/queue_operate_all_composite.test.cpp.html">test/library-checker/queue_operate_all_composite.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/range_affine_range_sum.test.cpp.html">test/library-checker/range_affine_range_sum.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/range_kth_smallest.test.cpp.html">test/library-checker/range_kth_smallest.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/scc.test.cpp.html">test/library-checker/scc.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/segment_add_get_min.test.cpp.html">test/library-checker/segment_add_get_min.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/static_range_inversions_query.test.cpp.html">test/library-checker/static_range_inversions_query.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/subset_convolution.test.cpp.html">test/library-checker/subset_convolution.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/suffix_array.test.cpp.html">test/library-checker/suffix_array.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/two_edge_connected_components.test.cpp.html">test/library-checker/two_edge_connected_components.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/unionfind.test.cpp.html">test/library-checker/unionfind.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/library-checker/zalgorithm.test.cpp.html">test/library-checker/zalgorithm.test.cpp</a>
-
-
