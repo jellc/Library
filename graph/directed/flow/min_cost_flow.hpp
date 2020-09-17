@@ -1,3 +1,4 @@
+#pragma once
 #include <algorithm>
 #include <queue>
 
@@ -8,6 +9,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   using base = flow_base<cap_t, cost_t>;
   using edge_t = typename base::edge_t;
   using base::adjs;
+  using base::nil;
 
   cost_t min_cost, total_cost;
   std::vector<cap_t> supp;
@@ -64,11 +66,11 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     /*/ // O(V^2)
     std::vector<bool> used(size());
     for (size_t src{}; src != size(); ++src) {
-      if (supp[src] > static_cast<cap_t>(0)) {
+      if (static_cast<cap_t>(0) < supp[src]) {
         used[src] = true;
         nptnl[src] = 0;
         for (edge_t &e : adjs[src]) {
-          if (supp[e.dst] > static_cast<cap_t>(0)) continue;
+          if (static_cast<cap_t>(0) < supp[e.dst]) continue;
           if (e.avbl() && nptnl[e.dst] > e.cost) {
             nptnl[e.dst] = e.cost;
             last[e.dst] = &e;
@@ -77,7 +79,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       }
     }
     for (;;) {
-      size_t src(-1);
+      size_t src(nil);
       cost_t sp{infty};
       for (size_t node{}; node != size(); ++node) {
         if (used[node] || nptnl[node] == infty) continue;
@@ -87,7 +89,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
           src = node;
         }
       }
-      if (src == static_cast<size_t>(-1)) break;
+      if (src == nil) break;
       used[src] = true;
       for (edge_t &e : adjs[src]) {
         if (e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost) {
@@ -103,7 +105,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
  public:
   using base::size;
 
-  min_cost_flow(const size_t &n = 0)
+  min_cost_flow(size_t n = 0)
       : base::flow_base(n), min_cost(0), total_cost(0), supp(n), ptnl(n) {}
 
   min_cost_flow(const min_cost_flow &other) : base::flow_base(other) {
@@ -116,8 +118,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     return *this;
   }
 
-  void add_edge(const size_t &src, const size_t &dst, const cap_t &cap,
-                const cost_t &cost) {
+  void add_edge(size_t src, size_t dst, const cap_t &cap, const cost_t &cost) {
     assert(src != dst);
     if (cost < static_cast<cost_t>(0)) {
       supp[src] -= cap;
@@ -131,8 +132,8 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     }
   }
 
-  void add_edge(const size_t &src, const size_t &dst, const cap_t &lower,
-                const cap_t &upper, const cost_t &cost) {
+  void add_edge(size_t src, size_t dst, const cap_t &lower, const cap_t &upper,
+                const cost_t &cost) {
     assert(!(upper < lower));
     supp[src] -= lower;
     supp[dst] += lower;
@@ -140,7 +141,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     add_edge(src, dst, upper - lower, cost);
   }
 
-  void supply(const size_t &node, const cap_t &vol) {
+  void supply(size_t node, const cap_t &vol) {
     assert(node < size());
     supp[node] += vol;
   }
@@ -154,7 +155,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       for (size_t dst{}; dst != size(); ++dst) {
         if (supp[dst] < static_cast<cap_t>(0) and last[dst]) {
           cap_t resid{-supp[dst]};
-          size_t src{dst}, block(-1);
+          size_t src{dst}, block(nil);
           while (last[src] && !shut[src]) {
             if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
             src = last[src]->src;
@@ -185,7 +186,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       }
     }
     return std::none_of(begin(supp), end(supp),
-                        [](cap_t s) { return s < 0 || 0 < s; });
+                        [](const cap_t &s) { return s < 0 || 0 < s; });
   }
 
   cost_t optimal() {

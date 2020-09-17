@@ -9,12 +9,13 @@ template <class cap_t, class cost_t> struct flow_base {
     cost_t cost;
     edge_t *rev;
     edge_t() = default;
-    edge_t(size_t src, size_t dst, cap_t cap, edge_t *rev)
+    edge_t(size_t src, size_t dst, const cap_t &cap, edge_t *rev)
         : src(src), dst(dst), cap(cap), rev(rev) {}
-    edge_t(size_t src, size_t dst, cap_t cap, cost_t cost, edge_t *rev)
+    edge_t(size_t src, size_t dst, const cap_t &cap, const cost_t &cost,
+           edge_t *rev)
         : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
-    void flow(cap_t f) { cap -= f, rev->cap += f; }
-    bool avbl() const { return cap > 0; }
+    void flow(const cap_t &f) { cap -= f, rev->cap += f; }
+    bool avbl() const { return static_cast<cap_t>(0) < cap; }
   };  // class edge_t
 
   class adj_type {
@@ -45,7 +46,7 @@ template <class cap_t, class cost_t> struct flow_base {
     edge_t *end() const { return lst; }
   };  // class adj_type
 
-  flow_base(const size_t &n = 0) : adjs(n) {}
+  flow_base(size_t n = 0) : adjs(n) {}
 
   flow_base(const flow_base &other) : adjs(other.size()) {
     for (size_t node{}; node != size(); ++node)
@@ -66,25 +67,26 @@ template <class cap_t, class cost_t> struct flow_base {
 
   size_t size() const { return adjs.size(); }
 
-  adj_type &operator[](const size_t &node) {
+  adj_type &operator[](size_t node) {
     assert(node < size());
     return adjs[node];
   }
-  const adj_type &operator[](const size_t &node) const {
+  const adj_type &operator[](size_t node) const {
     assert(node < size());
     return adjs[node];
   }
 
-  virtual void add_edge(const size_t &src, const size_t &dst, const cap_t &cap,
+  virtual void add_edge(size_t src, size_t dst, const cap_t &cap,
                         const cost_t &cost) {
     assert(src < size());
     assert(dst < size());
-    assert(!(cap < 0));
-    if (!(0 < cap) || src == dst) return;
+    assert(!(cap < static_cast<cap_t>(0)));
+    if (!(static_cast<cap_t>(0) < cap) || src == dst) return;
     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
     ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
   }
 
  protected:
+  constexpr static size_t nil = -1;
   std::vector<adj_type> adjs;
 };  // class flow_base
