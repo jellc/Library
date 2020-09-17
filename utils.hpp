@@ -1,3 +1,4 @@
+#pragma once
 #include "utils/binary_search.hpp"
 #include "utils/casefmt.hpp"
 #include "utils/chval.hpp"

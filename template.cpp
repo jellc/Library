@@ -3,14 +3,7 @@
 #include "config.hpp"
 #include "gcc_builtin.hpp"
 #include "gcc_option.hpp"
-#include "utils/binary_search.hpp"
-#include "utils/casefmt.hpp"
-#include "utils/chval.hpp"
-#include "utils/fixed_point.hpp"
-#include "utils/hash.hpp"
-#include "utils/make_vector.hpp"
-#include "utils/read.hpp"
-#include "utils/stream.hpp"
+#include "utils.hpp"
 namespace workspace {
 constexpr char eol = '\n';
 using namespace std;
