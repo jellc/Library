@@ -11,7 +11,7 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: "#line 2 \"gcc_option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"\
+  bundledCode: "#line 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"\
     O3\")\n    #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\
     )\n#endif\n"
   code: "#pragma once\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"O3\")\n   \
@@ -19,16 +19,16 @@ data:
     )\n#endif\n"
   dependsOn: []
   isVerificationFile: false
-  path: gcc_option.hpp
+  path: option.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-08-29 23:04:40+09:00'
+  timestamp: '2020-09-17 20:09:05+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: gcc_option.hpp
+documentation_of: option.hpp
 layout: document
 redirect_from:
-- /library/gcc_option.hpp
-- /library/gcc_option.hpp.html
-title: gcc_option.hpp
+- /library/option.hpp
+- /library/option.hpp.html
+title: option.hpp
 ---

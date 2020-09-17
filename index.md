@@ -25,6 +25,23 @@ data:
     - icon: ':warning:'
       path: algebra/xor_elimination.hpp
       title: algebra/xor_elimination.hpp
+  - name: .
+    pages:
+    - icon: ':warning:'
+      path: alias.hpp
+      title: alias.hpp
+    - icon: ':warning:'
+      path: config.hpp
+      title: config.hpp
+    - icon: ':warning:'
+      path: option.hpp
+      title: option.hpp
+    - icon: ':warning:'
+      path: template.cpp
+      title: template.cpp
+    - icon: ':warning:'
+      path: utils.hpp
+      title: utils.hpp
   - name: combinatorics
     pages:
     - icon: ':heavy_check_mark:'
@@ -33,23 +50,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: combinatorics/factorial.hpp
       title: combinatorics/factorial.hpp
-  - name: .
-    pages:
-    - icon: ':warning:'
-      path: config.hpp
-      title: config.hpp
-    - icon: ':warning:'
-      path: gcc_builtin.hpp
-      title: gcc_builtin.hpp
-    - icon: ':warning:'
-      path: gcc_option.hpp
-      title: gcc_option.hpp
-    - icon: ':warning:'
-      path: template.cpp
-      title: template.cpp
-    - icon: ':warning:'
-      path: utils.hpp
-      title: utils.hpp
   - name: data_structure
     pages:
     - icon: ':warning:'
