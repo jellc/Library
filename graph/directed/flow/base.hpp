@@ -45,7 +45,7 @@ template <class cap_t, class cost_t> struct flow_base {
     edge_t *end() const { return lst; }
   };  // class adj_type
 
-  flow_base(size_t n = 0) : adjs(n) {}
+  flow_base(const size_t &n = 0) : adjs(n) {}
 
   flow_base(const flow_base &other) : adjs(other.size()) {
     for (size_t node{}; node != size(); ++node)
@@ -66,19 +66,21 @@ template <class cap_t, class cost_t> struct flow_base {
 
   size_t size() const { return adjs.size(); }
 
-  adj_type &operator[](size_t node) {
+  adj_type &operator[](const size_t &node) {
     assert(node < size());
     return adjs[node];
   }
-  const adj_type &operator[](size_t node) const {
+  const adj_type &operator[](const size_t &node) const {
     assert(node < size());
     return adjs[node];
   }
 
-  virtual void add_edge(size_t src, size_t dst, cap_t cap, cost_t cost) {
+  virtual void add_edge(const size_t &src, const size_t &dst, const cap_t &cap,
+                        const cost_t &cost) {
     assert(src < size());
     assert(dst < size());
-    if (!(cap > 0) || src == dst) return;
+    assert(!(cap < 0));
+    if (!(0 < cap) || src == dst) return;
     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
     ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
   }

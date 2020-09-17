@@ -103,8 +103,8 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
  public:
   using base::size;
 
-  min_cost_flow(size_t _n = 0)
-      : base::flow_base(_n), min_cost(0), total_cost(0), supp(_n), ptnl(_n) {}
+  min_cost_flow(const size_t &n = 0)
+      : base::flow_base(n), min_cost(0), total_cost(0), supp(n), ptnl(n) {}
 
   min_cost_flow(const min_cost_flow &other) : base::flow_base(other) {
     copy_member(other);
@@ -116,7 +116,8 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     return *this;
   }
 
-  void add_edge(size_t src, size_t dst, cap_t cap, cost_t cost) {
+  void add_edge(const size_t &src, const size_t &dst, const cap_t &cap,
+                const cost_t &cost) {
     assert(src != dst);
     if (cost < static_cast<cost_t>(0)) {
       supp[src] -= cap;
@@ -130,7 +131,16 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     }
   }
 
-  void supply(size_t node, cap_t vol) {
+  void add_edge(const size_t &src, const size_t &dst, const cap_t &lower,
+                const cap_t &upper, const cost_t &cost) {
+    assert(!(upper < lower));
+    supp[src] -= lower;
+    supp[dst] += lower;
+    min_cost += lower * cost;
+    add_edge(src, dst, upper - lower, cost);
+  }
+
+  void supply(const size_t &node, const cap_t &vol) {
     assert(node < size());
     supp[node] += vol;
   }
