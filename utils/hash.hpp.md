@@ -8,6 +8,9 @@ data:
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
@@ -102,6 +105,7 @@ data:
   path: utils/hash.hpp
   requiredBy:
   - template.cpp
+  - utils.hpp
   timestamp: '2020-09-17 16:45:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

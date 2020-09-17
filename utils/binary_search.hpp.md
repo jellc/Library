@@ -5,6 +5,9 @@ data:
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
@@ -90,6 +93,7 @@ data:
   path: utils/binary_search.hpp
   requiredBy:
   - template.cpp
+  - utils.hpp
   timestamp: '2020-09-08 01:03:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

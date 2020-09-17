@@ -47,6 +47,9 @@ data:
     - icon: ':warning:'
       path: template.cpp
       title: template.cpp
+    - icon: ':warning:'
+      path: utils.hpp
+      title: utils.hpp
   - name: data_structure
     pages:
     - icon: ':warning:'

@@ -5,6 +5,9 @@ data:
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/aors_score.test.cpp
@@ -32,6 +35,7 @@ data:
   path: utils/read.hpp
   requiredBy:
   - template.cpp
+  - utils.hpp
   timestamp: '2020-08-14 18:02:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

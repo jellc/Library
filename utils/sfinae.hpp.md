@@ -26,6 +26,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
     title: number_theory/ext_gcd.hpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: string/suffix_array.hpp
@@ -123,6 +126,7 @@ data:
   - modulus/modint.hpp
   - modulus/inverse.hpp
   - number_theory/ext_gcd.hpp
+  - utils.hpp
   - string/suffix_array.hpp
   - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp

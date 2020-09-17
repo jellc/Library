@@ -5,6 +5,9 @@ data:
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -29,6 +32,7 @@ data:
   path: utils/make_vector.hpp
   requiredBy:
   - template.cpp
+  - utils.hpp
   timestamp: '2020-09-11 03:33:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

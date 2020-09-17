@@ -8,6 +8,9 @@ data:
   - icon: ':warning:'
     path: utils/casefmt.hpp
     title: utils/casefmt.hpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -40,6 +43,7 @@ data:
   requiredBy:
   - template.cpp
   - utils/casefmt.hpp
+  - utils.hpp
   timestamp: '2020-09-07 03:02:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
