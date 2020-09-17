@@ -6,7 +6,7 @@
 #include "utils/sfinae.hpp"
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
-  static_assert(std::is_same<Monoid, element_type<Container>>::value);
+  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);
 
   class unique_queue {
     size_t *que, *begin, *end;

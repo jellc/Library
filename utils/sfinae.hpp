@@ -9,6 +9,16 @@ template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
 
+template <class T, class = int> struct mapped_of {
+  using type = element_type<T>;
+};
+template <class T>
+struct mapped_of<T,
+                 typename std::pair<int, typename T::mapped_type>::first_type> {
+  using type = typename T::mapped_type;
+};
+template <class T> using mapped_type = typename mapped_of<T>::type;
+
 template <class T, class = void> struct is_integral_ext : std::false_type {};
 template <class T>
 struct is_integral_ext<
