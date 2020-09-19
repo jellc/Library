@@ -71,7 +71,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
         nptnl[src] = 0;
         for (edge_t &e : adjs[src]) {
           if (static_cast<cap_t>(0) < supp[e.dst]) continue;
-          if (e.avbl() && nptnl[e.dst] > e.cost) {
+          if (e.avbl() && e.cost < nptnl[e.dst]) {
             nptnl[e.dst] = e.cost;
             last[e.dst] = &e;
           }
@@ -84,7 +84,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       for (size_t node{}; node != size(); ++node) {
         if (used[node] || nptnl[node] == infty) continue;
         cost_t dist{nptnl[node] - ptnl[node]};
-        if (sp > dist) {
+        if (dist < sp) {
           sp = dist;
           src = node;
         }
@@ -92,7 +92,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       if (src == nil) break;
       used[src] = true;
       for (edge_t &e : adjs[src]) {
-        if (e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost) {
+        if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {
           nptnl[e.dst] = nptnl[src] + e.cost;
           last[e.dst] = &e;
         }
@@ -152,8 +152,6 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     return supply(node, -vol);
   }
 
-  bool flow(const cap_t &limit);
-
   bool flow() {
     for (bool aug = true; aug;) {
       aug = false;
@@ -163,7 +161,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       for (size_t dst{}; dst != size(); ++dst) {
         if (supp[dst] < static_cast<cap_t>(0) and last[dst]) {
           cap_t resid{-supp[dst]};
-          size_t src{dst}, block(nil);
+          size_t src{dst}, block{nil};
           while (last[src] && !shut[src]) {
             if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
             src = last[src]->src;
