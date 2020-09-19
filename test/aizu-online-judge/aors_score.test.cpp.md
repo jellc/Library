@@ -89,7 +89,7 @@ data:
     \ for (edge_t &e : adjs[src]) {\n          if (static_cast<cap_t>(0) < supp[e.dst])\
     \ continue;\n          if (e.avbl() && e.cost < nptnl[e.dst]) {\n            nptnl[e.dst]\
     \ = e.cost;\n            last[e.dst] = &e;\n          }\n        }\n      }\n\
-    \    }\n    for (;;) {\n      size_t src(nil);\n      cost_t sp{infty};\n    \
+    \    }\n    for (;;) {\n      size_t src{nil};\n      cost_t sp{infty};\n    \
     \  for (size_t node{}; node != size(); ++node) {\n        if (used[node] || nptnl[node]\
     \ == infty) continue;\n        cost_t dist{nptnl[node] - ptnl[node]};\n      \
     \  if (dist < sp) {\n          sp = dist;\n          src = node;\n        }\n\
@@ -168,7 +168,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/aors_score.test.cpp
   requiredBy: []
-  timestamp: '2020-09-20 01:53:06+09:00'
+  timestamp: '2020-09-20 02:00:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/aors_score.test.cpp
