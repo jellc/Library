@@ -85,14 +85,14 @@ data:
     \ src != size(); ++src) {\n      if (static_cast<cap_t>(0) < supp[src]) {\n  \
     \      used[src] = true;\n        nptnl[src] = 0;\n        for (edge_t &e : adjs[src])\
     \ {\n          if (static_cast<cap_t>(0) < supp[e.dst]) continue;\n          if\
-    \ (e.avbl() && nptnl[e.dst] > e.cost) {\n            nptnl[e.dst] = e.cost;\n\
+    \ (e.avbl() && e.cost < nptnl[e.dst]) {\n            nptnl[e.dst] = e.cost;\n\
     \            last[e.dst] = &e;\n          }\n        }\n      }\n    }\n    for\
     \ (;;) {\n      size_t src(nil);\n      cost_t sp{infty};\n      for (size_t node{};\
     \ node != size(); ++node) {\n        if (used[node] || nptnl[node] == infty) continue;\n\
-    \        cost_t dist{nptnl[node] - ptnl[node]};\n        if (sp > dist) {\n  \
+    \        cost_t dist{nptnl[node] - ptnl[node]};\n        if (dist < sp) {\n  \
     \        sp = dist;\n          src = node;\n        }\n      }\n      if (src\
     \ == nil) break;\n      used[src] = true;\n      for (edge_t &e : adjs[src]) {\n\
-    \        if (e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost) {\n          nptnl[e.dst]\
+    \        if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {\n          nptnl[e.dst]\
     \ = nptnl[src] + e.cost;\n          last[e.dst] = &e;\n        }\n      }\n  \
     \  }\n    //*/\n    ptnl.swap(nptnl);\n  }\n\n public:\n  using base::size;\n\n\
     \  min_cost_flow(size_t n = 0)\n      : base::flow_base(n), min_cost(0), total_cost(0),\
@@ -112,16 +112,16 @@ data:
     \ dst, upper - lower, cost);\n  }\n\n  const cap_t &supply(size_t node, const\
     \ cap_t &vol = 0) {\n    assert(node < size());\n    return supp[node] += vol;\n\
     \  }\n\n  const cap_t &demand(size_t node, const cap_t &vol) {\n    return supply(node,\
-    \ -vol);\n  }\n\n  bool flow(const cap_t &limit);\n\n  bool flow() {\n    for\
-    \ (bool aug = true; aug;) {\n      aug = false;\n      std::vector<edge_t *> last(size());\n\
-    \      Dijkstra(last);\n      std::vector<bool> shut(size());\n      for (size_t\
-    \ dst{}; dst != size(); ++dst) {\n        if (supp[dst] < static_cast<cap_t>(0)\
-    \ and last[dst]) {\n          cap_t resid{-supp[dst]};\n          size_t src{dst},\
-    \ block(nil);\n          while (last[src] && !shut[src]) {\n            if (!(resid\
-    \ < last[src]->cap)) resid = last[block = src]->cap;\n            src = last[src]->src;\n\
-    \          }\n          if (shut[src])\n            block = src;\n          else\
-    \ {\n            if (!(resid < supp[src])) {\n              resid = supp[src];\n\
-    \              block = src;\n            }\n            for (edge_t *e{last[dst]};\
+    \ -vol);\n  }\n\n  bool flow() {\n    for (bool aug = true; aug;) {\n      aug\
+    \ = false;\n      std::vector<edge_t *> last(size());\n      Dijkstra(last);\n\
+    \      std::vector<bool> shut(size());\n      for (size_t dst{}; dst != size();\
+    \ ++dst) {\n        if (supp[dst] < static_cast<cap_t>(0) and last[dst]) {\n \
+    \         cap_t resid{-supp[dst]};\n          size_t src{dst}, block{nil};\n \
+    \         while (last[src] && !shut[src]) {\n            if (!(resid < last[src]->cap))\
+    \ resid = last[block = src]->cap;\n            src = last[src]->src;\n       \
+    \   }\n          if (shut[src])\n            block = src;\n          else {\n\
+    \            if (!(resid < supp[src])) {\n              resid = supp[src];\n \
+    \             block = src;\n            }\n            for (edge_t *e{last[dst]};\
     \ e; e = last[e->src]) {\n              e->cap -= resid;\n              e->rev->cap\
     \ += resid;\n            }\n            supp[src] -= resid;\n            supp[dst]\
     \ += resid;\n            min_cost += ptnl[dst] * resid;\n            aug = true;\n\
@@ -153,7 +153,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/assignment.test.cpp
   requiredBy: []
-  timestamp: '2020-09-19 23:59:59+09:00'
+  timestamp: '2020-09-20 01:53:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/assignment.test.cpp
