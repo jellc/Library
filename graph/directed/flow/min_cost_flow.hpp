@@ -79,7 +79,7 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
       }
     }
     for (;;) {
-      size_t src(nil);
+      size_t src{nil};
       cost_t sp{infty};
       for (size_t node{}; node != size(); ++node) {
         if (used[node] || nptnl[node] == infty) continue;
