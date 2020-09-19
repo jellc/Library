@@ -152,8 +152,12 @@ data:
     \ v;\n    return {u};\n  }\n\n  template <class int_type>\n  constexpr\n     \
     \ typename std::enable_if<is_integral_ext<int_type>::value, modint>::type\n  \
     \    power(int_type e) noexcept {\n    if (e < 0) e = e % (mod - 1) + mod - 1;\n\
-    \    modint res{1}, p{*this};\n    for (modint p{value}; e; e >>= 1, p *= p) {\n\
-    \      if (e & 1) res *= p;\n    }\n    return res;\n  }\n\n  friend std::ostream\
+    \    modint res{1};\n    for (modint p{value}; e; e >>= 1, p *= p) {\n      if\
+    \ (e & 1) res *= p;\n    }\n    return res;\n  }\n\n  template <class int_type>\n\
+    \  friend constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
+    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    if (e < 0) e\
+    \ = e % (mod - 1) + mod - 1;\n    modint res{1};\n    for (; e; e >>= 1, b *=\
+    \ b) {\n      if (e & 1) res *= b;\n    }\n    return res;\n  }\n\n  friend std::ostream\
     \ &operator<<(std::ostream &os,\n                                  const modint\
     \ &rhs) noexcept {\n    return os << rhs.value;\n  }\n\n  friend std::istream\
     \ &operator>>(std::istream &is, modint &rhs) noexcept {\n    intmax_t value;\n\
@@ -187,7 +191,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-09-20 03:00:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/queue_operate_all_composite.test.cpp
