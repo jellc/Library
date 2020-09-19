@@ -14,7 +14,7 @@ template <class cap_t, class cost_t> struct flow_base {
     edge_t(size_t src, size_t dst, const cap_t &cap, const cost_t &cost,
            edge_t *rev)
         : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
-    void flow(const cap_t &f) { cap -= f, rev->cap += f; }
+    const cap_t &flow(const cap_t &f = 0) { return cap -= f, rev->cap += f; }
     bool avbl() const { return static_cast<cap_t>(0) < cap; }
   };  // class edge_t
 
@@ -54,7 +54,7 @@ template <class cap_t, class cost_t> struct flow_base {
         if (src == node) {
           edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
           ptr->rev = adjs[dst].emplace(dst, src, rev->cap, -cost, ptr);
-          rev->src = -1;
+          rev->src = nil;
         } else {
           rev->rev->src = node;
         }
@@ -76,14 +76,15 @@ template <class cap_t, class cost_t> struct flow_base {
     return adjs[node];
   }
 
-  virtual void add_edge(size_t src, size_t dst, const cap_t &cap,
-                        const cost_t &cost) {
+  virtual edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,
+                           const cost_t &cost) {
     assert(src < size());
     assert(dst < size());
     assert(!(cap < static_cast<cap_t>(0)));
-    if (!(static_cast<cap_t>(0) < cap) || src == dst) return;
+    if (!(static_cast<cap_t>(0) < cap) || src == dst) return nullptr;
     edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
     ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
+    return ptr;
   }
 
  protected:

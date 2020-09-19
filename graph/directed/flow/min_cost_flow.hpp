@@ -118,33 +118,41 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
     return *this;
   }
 
-  void add_edge(size_t src, size_t dst, const cap_t &cap, const cost_t &cost) {
+  edge_t *add_edge(size_t src, size_t dst, const cost_t &cost);
+
+  edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,
+                   const cost_t &cost) override {
     assert(src != dst);
     if (cost < static_cast<cost_t>(0)) {
       supp[src] -= cap;
       supp[dst] += cap;
       min_cost += cap * cost;
       total_cost -= cap * cost;
-      base::add_edge(dst, src, cap, -cost);
-    } else {
-      total_cost += cap * cost;
-      base::add_edge(src, dst, cap, cost);
+      return base::add_edge(dst, src, cap, -cost);
     }
+    total_cost += cap * cost;
+    return base::add_edge(src, dst, cap, cost);
   }
 
-  void add_edge(size_t src, size_t dst, const cap_t &lower, const cap_t &upper,
-                const cost_t &cost) {
+  edge_t *add_edge(size_t src, size_t dst, const cap_t &lower,
+                   const cap_t &upper, const cost_t &cost) {
     assert(!(upper < lower));
     supp[src] -= lower;
     supp[dst] += lower;
     min_cost += lower * cost;
-    add_edge(src, dst, upper - lower, cost);
+    return add_edge(src, dst, upper - lower, cost);
   }
 
-  void supply(size_t node, const cap_t &vol) {
+  const cap_t &supply(size_t node, const cap_t &vol = 0) {
     assert(node < size());
-    supp[node] += vol;
+    return supp[node] += vol;
   }
+
+  const cap_t &demand(size_t node, const cap_t &vol) {
+    return supply(node, -vol);
+  }
+
+  bool flow(const cap_t &limit);
 
   bool flow() {
     for (bool aug = true; aug;) {
