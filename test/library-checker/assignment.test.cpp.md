@@ -17,36 +17,37 @@ data:
     links:
     - https://judge.yosupo.jp/problem/assignment
   bundledCode: "#line 1 \"test/library-checker/assignment.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/assignment\"\n#line 2 \"graph/directed/flow/min_cost_flow.hpp\"\
-    \n#include <algorithm>\n#include <queue>\n\n#line 2 \"graph/directed/flow/base.hpp\"\
-    \n#include <cassert>\n#include <vector>\n// the base class of flow algorithms.\n\
-    template <class cap_t, class cost_t> struct flow_base {\n  struct edge_t {\n \
-    \   size_t src, dst;\n    cap_t cap;\n    cost_t cost;\n    edge_t *rev;\n   \
-    \ edge_t() = default;\n    edge_t(size_t src, size_t dst, const cap_t &cap, edge_t\
-    \ *rev)\n        : src(src), dst(dst), cap(cap), rev(rev) {}\n    edge_t(size_t\
-    \ src, size_t dst, const cap_t &cap, const cost_t &cost,\n           edge_t *rev)\n\
-    \        : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}\n    const cap_t\
-    \ &flow(const cap_t &f = 0) { return cap -= f, rev->cap += f; }\n    bool avbl()\
-    \ const { return static_cast<cap_t>(0) < cap; }\n  };  // class edge_t\n\n  class\
-    \ adj_type {\n    edge_t *fst, *lst, *clst;\n\n   public:\n    template <class...\
-    \ Args> edge_t *emplace(Args &&... args) {\n      if (lst == clst) {\n       \
-    \ size_t len(clst - fst);\n        edge_t *nfst = lst = new edge_t[len << 1];\n\
-    \        for (edge_t *p{fst}; p != clst; ++p, ++lst)\n          p->rev->rev =\
-    \ lst, *lst = *p;\n        delete[] fst;\n        fst = nfst;\n        clst =\
-    \ lst + len;\n      }\n      *lst = edge_t(args...);\n      return lst++;\n  \
-    \  }\n    adj_type() : fst(new edge_t[1]), lst(fst), clst(fst + 1) {}\n    ~adj_type()\
-    \ { delete[] fst; }\n    edge_t &operator[](size_t i) {\n      assert(i < size());\n\
-    \      return *(fst + i);\n    }\n    size_t size() const { return lst - fst;\
-    \ }\n    edge_t *begin() const { return fst; }\n    edge_t *end() const { return\
-    \ lst; }\n  };  // class adj_type\n\n  flow_base(size_t n = 0) : adjs(n) {}\n\n\
-    \  flow_base(const flow_base &other) : adjs(other.size()) {\n    for (size_t node{};\
-    \ node != size(); ++node)\n      for (const auto &[src, dst, cap, cost, rev] :\
-    \ other[node])\n        if (src == node) {\n          edge_t *ptr = adjs[src].emplace(src,\
-    \ dst, cap, cost, nullptr);\n          ptr->rev = adjs[dst].emplace(dst, src,\
-    \ rev->cap, -cost, ptr);\n          rev->src = nil;\n        } else {\n      \
-    \    rev->rev->src = node;\n        }\n  }\n\n  flow_base &operator=(const flow_base\
-    \ &rhs) {\n    if (this != &rhs) adjs.swap(flow_base(rhs).adjs);\n    return *this;\n\
-    \  }\n\n  size_t size() const { return adjs.size(); }\n\n  adj_type &operator[](size_t\
+    \ \"https://judge.yosupo.jp/problem/assignment\"\n#include <cstdint>\n#include\
+    \ <cstdio>\n\n#line 2 \"graph/directed/flow/min_cost_flow.hpp\"\n#include <algorithm>\n\
+    #include <queue>\n\n#line 2 \"graph/directed/flow/base.hpp\"\n#include <cassert>\n\
+    #include <vector>\n// the base class of flow algorithms.\ntemplate <class cap_t,\
+    \ class cost_t> struct flow_base {\n  struct edge_t {\n    size_t src, dst;\n\
+    \    cap_t cap;\n    cost_t cost;\n    edge_t *rev;\n    edge_t() = default;\n\
+    \    edge_t(size_t src, size_t dst, const cap_t &cap, edge_t *rev)\n        :\
+    \ src(src), dst(dst), cap(cap), rev(rev) {}\n    edge_t(size_t src, size_t dst,\
+    \ const cap_t &cap, const cost_t &cost,\n           edge_t *rev)\n        : src(src),\
+    \ dst(dst), cap(cap), cost(cost), rev(rev) {}\n    const cap_t &flow(const cap_t\
+    \ &f = 0) { return cap -= f, rev->cap += f; }\n    bool avbl() const { return\
+    \ static_cast<cap_t>(0) < cap; }\n  };  // class edge_t\n\n  class adj_type {\n\
+    \    edge_t *fst, *lst, *clst;\n\n   public:\n    template <class... Args> edge_t\
+    \ *emplace(Args &&... args) {\n      if (lst == clst) {\n        size_t len(clst\
+    \ - fst);\n        edge_t *nfst = lst = new edge_t[len << 1];\n        for (edge_t\
+    \ *p{fst}; p != clst; ++p, ++lst)\n          p->rev->rev = lst, *lst = *p;\n \
+    \       delete[] fst;\n        fst = nfst;\n        clst = lst + len;\n      }\n\
+    \      *lst = edge_t(args...);\n      return lst++;\n    }\n    adj_type() : fst(new\
+    \ edge_t[1]), lst(fst), clst(fst + 1) {}\n    ~adj_type() { delete[] fst; }\n\
+    \    edge_t &operator[](size_t i) {\n      assert(i < size());\n      return *(fst\
+    \ + i);\n    }\n    size_t size() const { return lst - fst; }\n    edge_t *begin()\
+    \ const { return fst; }\n    edge_t *end() const { return lst; }\n  };  // class\
+    \ adj_type\n\n  flow_base(size_t n = 0) : adjs(n) {}\n\n  flow_base(const flow_base\
+    \ &other) : adjs(other.size()) {\n    for (size_t node{}; node != size(); ++node)\n\
+    \      for (const auto &[src, dst, cap, cost, rev] : other[node])\n        if\
+    \ (src == node) {\n          edge_t *ptr = adjs[src].emplace(src, dst, cap, cost,\
+    \ nullptr);\n          ptr->rev = adjs[dst].emplace(dst, src, rev->cap, -cost,\
+    \ ptr);\n          rev->src = nil;\n        } else {\n          rev->rev->src\
+    \ = node;\n        }\n  }\n\n  flow_base &operator=(const flow_base &rhs) {\n\
+    \    if (this != &rhs) adjs.swap(flow_base(rhs).adjs);\n    return *this;\n  }\n\
+    \n  size_t size() const { return adjs.size(); }\n\n  adj_type &operator[](size_t\
     \ node) {\n    assert(node < size());\n    return adjs[node];\n  }\n  const adj_type\
     \ &operator[](size_t node) const {\n    assert(node < size());\n    return adjs[node];\n\
     \  }\n\n  virtual edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,\n\
@@ -129,31 +130,30 @@ data:
     \ == block) break;\n            }\n          }\n        }\n      }\n    }\n  \
     \  return std::none_of(begin(supp), end(supp),\n                        [](const\
     \ cap_t &s) { return s < 0 || 0 < s; });\n  }\n\n  cost_t optimal() {\n    assert(flow());\n\
-    \    return min_cost;\n  }\n};  // class min_cost_flow\n#line 3 \"test/library-checker/assignment.test.cpp\"\
-    \n#include <cstdio>\n#include <cstdint>\nusing i64=int64_t;\n\nint main()\n{\n\
-    \    int n; scanf(\"%d\",&n);\n    min_cost_flow<int,i64> mcf(n*2);\n    for(int\
-    \ i=0;i<n;i++)\n    {\n        mcf.supply(i,1);\n        mcf.supply(i+n,-1);\n\
-    \        for(int j=0;j<n;j++)\n        {\n            int a; scanf(\"%d\",&a);\n\
-    \            mcf.add_edge(i,j+n,1,a);\n        }\n    }\n    printf(\"%lld\\n\"\
-    ,mcf.optimal());\n    for(int i=0;i<n;i++)\n    {\n        for(auto &e:mcf[i])\n\
-    \        {\n            if(!e.cap) printf(\"%d \",e.dst-n);\n        }\n    }\n\
-    \    puts(\"\");\n}\n"
+    \    return min_cost;\n  }\n};  // class min_cost_flow\n#line 6 \"test/library-checker/assignment.test.cpp\"\
+    \n\nint main() {\n  int n;\n  scanf(\"%d\", &n);\n  min_cost_flow<int, int64_t>\
+    \ mcf(n * 2);\n  for (int i = 0; i < n; i++) {\n    mcf.supply(i, 1);\n    mcf.supply(i\
+    \ + n, -1);\n    for (int j = 0; j < n; j++) {\n      int a;\n      scanf(\"%d\"\
+    , &a);\n      mcf.add_edge(i, j + n, 1, a);\n    }\n  }\n  printf(\"%lld\\n\"\
+    , mcf.optimal());\n  for (int i = 0; i < n; i++) {\n    for (auto &e : mcf[i])\
+    \ {\n      if (!e.cap) printf(\"%d \", e.dst - n);\n    }\n  }\n  puts(\"\");\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n#include\
-    \ \"graph/directed/flow/min_cost_flow.hpp\"\n#include <cstdio>\n#include <cstdint>\n\
-    using i64=int64_t;\n\nint main()\n{\n    int n; scanf(\"%d\",&n);\n    min_cost_flow<int,i64>\
-    \ mcf(n*2);\n    for(int i=0;i<n;i++)\n    {\n        mcf.supply(i,1);\n     \
-    \   mcf.supply(i+n,-1);\n        for(int j=0;j<n;j++)\n        {\n           \
-    \ int a; scanf(\"%d\",&a);\n            mcf.add_edge(i,j+n,1,a);\n        }\n\
-    \    }\n    printf(\"%lld\\n\",mcf.optimal());\n    for(int i=0;i<n;i++)\n   \
-    \ {\n        for(auto &e:mcf[i])\n        {\n            if(!e.cap) printf(\"\
-    %d \",e.dst-n);\n        }\n    }\n    puts(\"\");\n}\n"
+    \ <cstdint>\n#include <cstdio>\n\n#include \"graph/directed/flow/min_cost_flow.hpp\"\
+    \n\nint main() {\n  int n;\n  scanf(\"%d\", &n);\n  min_cost_flow<int, int64_t>\
+    \ mcf(n * 2);\n  for (int i = 0; i < n; i++) {\n    mcf.supply(i, 1);\n    mcf.supply(i\
+    \ + n, -1);\n    for (int j = 0; j < n; j++) {\n      int a;\n      scanf(\"%d\"\
+    , &a);\n      mcf.add_edge(i, j + n, 1, a);\n    }\n  }\n  printf(\"%lld\\n\"\
+    , mcf.optimal());\n  for (int i = 0; i < n; i++) {\n    for (auto &e : mcf[i])\
+    \ {\n      if (!e.cap) printf(\"%d \", e.dst - n);\n    }\n  }\n  puts(\"\");\n\
+    }\n"
   dependsOn:
   - graph/directed/flow/min_cost_flow.hpp
   - graph/directed/flow/base.hpp
   isVerificationFile: true
   path: test/library-checker/assignment.test.cpp
   requiredBy: []
-  timestamp: '2020-09-19 20:49:19+09:00'
+  timestamp: '2020-09-19 23:59:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/assignment.test.cpp
