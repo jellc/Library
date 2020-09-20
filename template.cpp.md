@@ -139,13 +139,13 @@ data:
     \ { return compressed.end(); }\n    std::vector<size_t>::reverse_iterator rbegin()\
     \ { return compressed.rbegin(); }\n    std::vector<size_t>::reverse_iterator rend()\
     \ { return compressed.rend(); }\n};\n#line 3 \"utils/fixed_point.hpp\"\nnamespace\
-    \ workspace {\n// specify the return type of lambda.\ntemplate <class lambda_type>\n\
-    class fixed_point\n{\n    lambda_type func;\npublic:\n    fixed_point(lambda_type\
-    \ &&f) : func(std::move(f)) {}\n    template <class... Args> auto operator()(Args\
-    \ &&... args) const { return func(*this, std::forward<Args>(args)...); }\n};\n\
-    } // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 3 \"utils/sfinae.hpp\"\
-    \n#include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
-    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ workspace {\n// specify the return type of lambda.\ntemplate <class lambda_type>\
+    \ class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
+    \ &&f) : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args\
+    \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
+    \  }\n};\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 3 \"\
+    utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template <class>\
+    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
@@ -293,7 +293,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-09-17 21:16:08+09:00'
+  timestamp: '2020-09-21 04:06:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

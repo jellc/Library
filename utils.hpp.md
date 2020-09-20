@@ -125,10 +125,10 @@ data:
     \ { return compressed.rbegin(); }\n    std::vector<size_t>::reverse_iterator rend()\
     \ { return compressed.rend(); }\n};\n#line 2 \"utils/fixed_point.hpp\"\n#include\
     \ <utility>\nnamespace workspace {\n// specify the return type of lambda.\ntemplate\
-    \ <class lambda_type>\nclass fixed_point\n{\n    lambda_type func;\npublic:\n\
-    \    fixed_point(lambda_type &&f) : func(std::move(f)) {}\n    template <class...\
-    \ Args> auto operator()(Args &&... args) const { return func(*this, std::forward<Args>(args)...);\
-    \ }\n};\n} // namespace workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
+    \ <class lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n \
+    \ fixed_point(lambda_type &&f) : func(std::move(f)) {}\n  template <class... Args>\
+    \ auto operator()(Args &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
+    \  }\n};\n}  // namespace workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
     #line 4 \"utils/hash.hpp\"\n#include <random>\n#include <unordered_set>\n\n#line\
     \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
@@ -296,7 +296,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-09-17 18:24:13+09:00'
+  timestamp: '2020-09-21 04:06:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
