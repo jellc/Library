@@ -58,54 +58,54 @@ data:
     \ src, 0, -cost, ptr);\n    return ptr;\n  }\n\n protected:\n  constexpr static\
     \ size_t nil = -1;\n  std::vector<adj_type> adjs;\n};  // class flow_base\n#line\
     \ 6 \"graph/directed/flow/min_cost_flow.hpp\"\n// Successive shortest paths algorithm.\n\
-    template <class cap_t, class cost_t>\nclass min_cost_flow : public flow_base<cap_t,\
-    \ cost_t> {\n  using base = flow_base<cap_t, cost_t>;\n  using edge_t = typename\
-    \ base::edge_t;\n  using base::adjs;\n  using base::nil;\n\n  cost_t min_cost,\
-    \ total_cost;\n  std::vector<cap_t> supp;\n  std::vector<cost_t> ptnl;\n\n  void\
-    \ copy_member(const min_cost_flow &other) {\n    min_cost = other.min_cost;\n\
+    template <class cap_t, class cost_t, bool density_tag = false>\nclass min_cost_flow\
+    \ : public flow_base<cap_t, cost_t> {\n  using base = flow_base<cap_t, cost_t>;\n\
+    \  using edge_t = typename base::edge_t;\n  using base::adjs;\n  using base::nil;\n\
+    \n  cost_t min_cost, total_cost;\n  std::vector<cap_t> supp;\n  std::vector<cost_t>\
+    \ ptnl;\n\n  void copy_member(const min_cost_flow &other) {\n    min_cost = other.min_cost;\n\
     \    total_cost = other.total_cost;\n    supp = other.supp;\n    ptnl = other.ptnl;\n\
     \  }\n\n  void Dijkstra(std::vector<edge_t *> &last) {\n    const cost_t infty(total_cost\
-    \ + 1);\n    std::vector<cost_t> nptnl(size(), infty);\n    /*/ // O((V + E)logV)\n\
-    \    struct node_t\n    {\n        size_t id; cost_t dist;\n        node_t(size_t\
-    \ id, cost_t dist) : id(id), dist(dist) {}\n        bool operator<(const node_t\
-    \ &rhs) const { return rhs.dist < dist; }\n    };\n    std::priority_queue<node_t>\
-    \ que;\n    for(size_t src{}; src != size(); ++src)\n    {\n        if(supp[src]\
-    \ > static_cast<cap_t>(0))\n        {\n            nptnl[src] = 0;\n         \
-    \   for(edge_t &e : adjs[src])\n            {\n                if(supp[e.dst]\
-    \ > static_cast<cap_t>(0)) continue;\n                if(e.avbl() && nptnl[e.dst]\
-    \ > e.cost)\n                {\n                    que.emplace(e.dst, (nptnl[e.dst]\
-    \ = e.cost) - ptnl[e.dst]);\n                    last[e.dst] = &e;\n         \
-    \       }\n            }\n        }\n    }\n    while(!que.empty())\n    {\n \
-    \       auto [src, ndist] = que.top();\n        que.pop();\n        if(ndist +\
-    \ ptnl[src] != nptnl[src]) continue;\n        for(edge_t &e : adjs[src])\n   \
-    \     {\n            if(e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost)\n    \
-    \        {\n                que.emplace(e.dst, (nptnl[e.dst] = nptnl[src] + e.cost)\
-    \ -\n    ptnl[e.dst]); last[e.dst] = &e;\n            }\n        }\n    }\n  \
-    \  /*/ // O(V^2)\n    std::vector<bool> used(size());\n    for (size_t src{};\
-    \ src != size(); ++src) {\n      if (static_cast<cap_t>(0) < supp[src]) {\n  \
-    \      used[src] = true;\n        nptnl[src] = 0;\n        for (edge_t &e : adjs[src])\
-    \ {\n          if (static_cast<cap_t>(0) < supp[e.dst]) continue;\n          if\
-    \ (e.avbl() && e.cost < nptnl[e.dst]) {\n            nptnl[e.dst] = e.cost;\n\
-    \            last[e.dst] = &e;\n          }\n        }\n      }\n    }\n    for\
-    \ (;;) {\n      size_t src{nil};\n      cost_t sp{infty};\n      for (size_t node{};\
-    \ node != size(); ++node) {\n        if (used[node] || nptnl[node] == infty) continue;\n\
-    \        cost_t dist{nptnl[node] - ptnl[node]};\n        if (dist < sp) {\n  \
-    \        sp = dist;\n          src = node;\n        }\n      }\n      if (src\
-    \ == nil) break;\n      used[src] = true;\n      for (edge_t &e : adjs[src]) {\n\
-    \        if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {\n          nptnl[e.dst]\
-    \ = nptnl[src] + e.cost;\n          last[e.dst] = &e;\n        }\n      }\n  \
-    \  }\n    //*/\n    ptnl.swap(nptnl);\n  }\n\n public:\n  using base::size;\n\n\
-    \  min_cost_flow(size_t n = 0)\n      : base::flow_base(n), min_cost(0), total_cost(0),\
-    \ supp(n), ptnl(n) {}\n\n  min_cost_flow(const min_cost_flow &other) : base::flow_base(other)\
-    \ {\n    copy_member(other);\n  }\n\n  min_cost_flow &operator=(const min_cost_flow\
-    \ &other) {\n    base::operator=(other);\n    copy_member(other);\n    return\
-    \ *this;\n  }\n\n  edge_t *add_edge(size_t src, size_t dst, const cost_t &cost);\n\
-    \n  edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,\n             \
-    \      const cost_t &cost) override {\n    assert(src != dst);\n    if (cost <\
-    \ static_cast<cost_t>(0)) {\n      supp[src] -= cap;\n      supp[dst] += cap;\n\
-    \      min_cost += cap * cost;\n      total_cost -= cap * cost;\n      return\
-    \ base::add_edge(dst, src, cap, -cost);\n    }\n    total_cost += cap * cost;\n\
-    \    return base::add_edge(src, dst, cap, cost);\n  }\n\n  edge_t *add_edge(size_t\
+    \ + 1);\n    std::vector<cost_t> nptnl(size(), infty);\n    if constexpr (density_tag)\
+    \ {\n      // O(V^2)\n      std::vector<bool> used(size());\n      for (size_t\
+    \ src{}; src != size(); ++src) {\n        if (static_cast<cap_t>(0) < supp[src])\
+    \ {\n          used[src] = true;\n          nptnl[src] = 0;\n          for (edge_t\
+    \ &e : adjs[src]) {\n            if (static_cast<cap_t>(0) < supp[e.dst]) continue;\n\
+    \            if (e.avbl() && e.cost < nptnl[e.dst]) {\n              nptnl[e.dst]\
+    \ = e.cost;\n              last[e.dst] = &e;\n            }\n          }\n   \
+    \     }\n      }\n      for (;;) {\n        size_t src{nil};\n        cost_t sp{infty};\n\
+    \        for (size_t node{}; node != size(); ++node) {\n          if (used[node]\
+    \ || nptnl[node] == infty) continue;\n          cost_t dist{nptnl[node] - ptnl[node]};\n\
+    \          if (dist < sp) {\n            sp = dist;\n            src = node;\n\
+    \          }\n        }\n        if (src == nil) break;\n        used[src] = true;\n\
+    \        for (edge_t &e : adjs[src]) {\n          if (e.avbl() && nptnl[src] +\
+    \ e.cost < nptnl[e.dst]) {\n            nptnl[e.dst] = nptnl[src] + e.cost;\n\
+    \            last[e.dst] = &e;\n          }\n        }\n      }\n    } else {\n\
+    \      // O((V + E)logV)\n      struct node_t {\n        size_t id;\n        cost_t\
+    \ dist;\n        node_t(size_t id, cost_t dist) : id(id), dist(dist) {}\n    \
+    \    bool operator<(const node_t &rhs) const { return rhs.dist < dist; }\n   \
+    \   };\n      std::priority_queue<node_t> que;\n      for (size_t src{}; src !=\
+    \ size(); ++src) {\n        if (supp[src] > static_cast<cap_t>(0)) {\n       \
+    \   nptnl[src] = 0;\n          for (edge_t &e : adjs[src]) {\n            if (supp[e.dst]\
+    \ > static_cast<cap_t>(0)) continue;\n            if (e.avbl() && nptnl[e.dst]\
+    \ > e.cost) {\n              que.emplace(e.dst, (nptnl[e.dst] = e.cost) - ptnl[e.dst]);\n\
+    \              last[e.dst] = &e;\n            }\n          }\n        }\n    \
+    \  }\n      while (!que.empty()) {\n        auto [src, ndist] = que.top();\n \
+    \       que.pop();\n        if (ndist + ptnl[src] != nptnl[src]) continue;\n \
+    \       for (edge_t &e : adjs[src]) {\n          if (e.avbl() && nptnl[e.dst]\
+    \ > nptnl[src] + e.cost) {\n            que.emplace(e.dst,\n                 \
+    \       (nptnl[e.dst] = nptnl[src] + e.cost) - ptnl[e.dst]);\n            last[e.dst]\
+    \ = &e;\n          }\n        }\n      }\n    }\n    ptnl.swap(nptnl);\n  }\n\n\
+    \ public:\n  using base::size;\n\n  min_cost_flow(size_t n = 0)\n      : base::flow_base(n),\
+    \ min_cost(0), total_cost(0), supp(n), ptnl(n) {}\n\n  min_cost_flow(const min_cost_flow\
+    \ &other) : base::flow_base(other) {\n    copy_member(other);\n  }\n\n  min_cost_flow\
+    \ &operator=(const min_cost_flow &other) {\n    base::operator=(other);\n    copy_member(other);\n\
+    \    return *this;\n  }\n\n  edge_t *add_edge(size_t src, size_t dst, const cost_t\
+    \ &cost);\n\n  edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,\n  \
+    \                 const cost_t &cost) override {\n    assert(src != dst);\n  \
+    \  if (cost < static_cast<cost_t>(0)) {\n      supp[src] -= cap;\n      supp[dst]\
+    \ += cap;\n      min_cost += cap * cost;\n      total_cost -= cap * cost;\n  \
+    \    return base::add_edge(dst, src, cap, -cost);\n    }\n    total_cost += cap\
+    \ * cost;\n    return base::add_edge(src, dst, cap, cost);\n  }\n\n  edge_t *add_edge(size_t\
     \ src, size_t dst, const cap_t &lower,\n                   const cap_t &upper,\
     \ const cost_t &cost) {\n    assert(!(upper < lower));\n    supp[src] -= lower;\n\
     \    supp[dst] += lower;\n    min_cost += lower * cost;\n    return add_edge(src,\
@@ -153,7 +153,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/assignment.test.cpp
   requiredBy: []
-  timestamp: '2020-09-20 02:00:21+09:00'
+  timestamp: '2020-09-21 01:25:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/assignment.test.cpp
