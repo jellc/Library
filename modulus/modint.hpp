@@ -160,11 +160,9 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   friend constexpr
       typename std::enable_if<is_integral_ext<int_type>::value, modint>::type
       pow(modint b, int_type e) noexcept {
-    if (e < 0) e = e % (mod - 1) + mod - 1;
     modint res{1};
-    for (; e; e >>= 1, b *= b) {
+    for ((e %= mod - 1) < 0 ? e += mod - 1 : 0; e; e >>= 1, b *= b)
       if (e & 1) res *= b;
-    }
     return res;
   }
 
