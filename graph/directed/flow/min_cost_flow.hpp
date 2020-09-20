@@ -4,7 +4,7 @@
 
 #include "base.hpp"
 // Successive shortest paths algorithm.
-template <class cap_t, class cost_t>
+template <class cap_t, class cost_t, bool density_tag = false>
 class min_cost_flow : public flow_base<cap_t, cost_t> {
   using base = flow_base<cap_t, cost_t>;
   using edge_t = typename base::edge_t;
@@ -25,80 +25,76 @@ class min_cost_flow : public flow_base<cap_t, cost_t> {
   void Dijkstra(std::vector<edge_t *> &last) {
     const cost_t infty(total_cost + 1);
     std::vector<cost_t> nptnl(size(), infty);
-    /*/ // O((V + E)logV)
-    struct node_t
-    {
-        size_t id; cost_t dist;
+    if constexpr (density_tag) {
+      // O(V^2)
+      std::vector<bool> used(size());
+      for (size_t src{}; src != size(); ++src) {
+        if (static_cast<cap_t>(0) < supp[src]) {
+          used[src] = true;
+          nptnl[src] = 0;
+          for (edge_t &e : adjs[src]) {
+            if (static_cast<cap_t>(0) < supp[e.dst]) continue;
+            if (e.avbl() && e.cost < nptnl[e.dst]) {
+              nptnl[e.dst] = e.cost;
+              last[e.dst] = &e;
+            }
+          }
+        }
+      }
+      for (;;) {
+        size_t src{nil};
+        cost_t sp{infty};
+        for (size_t node{}; node != size(); ++node) {
+          if (used[node] || nptnl[node] == infty) continue;
+          cost_t dist{nptnl[node] - ptnl[node]};
+          if (dist < sp) {
+            sp = dist;
+            src = node;
+          }
+        }
+        if (src == nil) break;
+        used[src] = true;
+        for (edge_t &e : adjs[src]) {
+          if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {
+            nptnl[e.dst] = nptnl[src] + e.cost;
+            last[e.dst] = &e;
+          }
+        }
+      }
+    } else {
+      // O((V + E)logV)
+      struct node_t {
+        size_t id;
+        cost_t dist;
         node_t(size_t id, cost_t dist) : id(id), dist(dist) {}
         bool operator<(const node_t &rhs) const { return rhs.dist < dist; }
-    };
-    std::priority_queue<node_t> que;
-    for(size_t src{}; src != size(); ++src)
-    {
-        if(supp[src] > static_cast<cap_t>(0))
-        {
-            nptnl[src] = 0;
-            for(edge_t &e : adjs[src])
-            {
-                if(supp[e.dst] > static_cast<cap_t>(0)) continue;
-                if(e.avbl() && nptnl[e.dst] > e.cost)
-                {
-                    que.emplace(e.dst, (nptnl[e.dst] = e.cost) - ptnl[e.dst]);
-                    last[e.dst] = &e;
-                }
+      };
+      std::priority_queue<node_t> que;
+      for (size_t src{}; src != size(); ++src) {
+        if (supp[src] > static_cast<cap_t>(0)) {
+          nptnl[src] = 0;
+          for (edge_t &e : adjs[src]) {
+            if (supp[e.dst] > static_cast<cap_t>(0)) continue;
+            if (e.avbl() && nptnl[e.dst] > e.cost) {
+              que.emplace(e.dst, (nptnl[e.dst] = e.cost) - ptnl[e.dst]);
+              last[e.dst] = &e;
             }
+          }
         }
-    }
-    while(!que.empty())
-    {
+      }
+      while (!que.empty()) {
         auto [src, ndist] = que.top();
         que.pop();
-        if(ndist + ptnl[src] != nptnl[src]) continue;
-        for(edge_t &e : adjs[src])
-        {
-            if(e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost)
-            {
-                que.emplace(e.dst, (nptnl[e.dst] = nptnl[src] + e.cost) -
-    ptnl[e.dst]); last[e.dst] = &e;
-            }
-        }
-    }
-    /*/ // O(V^2)
-    std::vector<bool> used(size());
-    for (size_t src{}; src != size(); ++src) {
-      if (static_cast<cap_t>(0) < supp[src]) {
-        used[src] = true;
-        nptnl[src] = 0;
+        if (ndist + ptnl[src] != nptnl[src]) continue;
         for (edge_t &e : adjs[src]) {
-          if (static_cast<cap_t>(0) < supp[e.dst]) continue;
-          if (e.avbl() && e.cost < nptnl[e.dst]) {
-            nptnl[e.dst] = e.cost;
+          if (e.avbl() && nptnl[e.dst] > nptnl[src] + e.cost) {
+            que.emplace(e.dst,
+                        (nptnl[e.dst] = nptnl[src] + e.cost) - ptnl[e.dst]);
             last[e.dst] = &e;
           }
         }
       }
     }
-    for (;;) {
-      size_t src{nil};
-      cost_t sp{infty};
-      for (size_t node{}; node != size(); ++node) {
-        if (used[node] || nptnl[node] == infty) continue;
-        cost_t dist{nptnl[node] - ptnl[node]};
-        if (dist < sp) {
-          sp = dist;
-          src = node;
-        }
-      }
-      if (src == nil) break;
-      used[src] = true;
-      for (edge_t &e : adjs[src]) {
-        if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {
-          nptnl[e.dst] = nptnl[src] + e.cost;
-          last[e.dst] = &e;
-        }
-      }
-    }
-    //*/
     ptnl.swap(nptnl);
   }
 
