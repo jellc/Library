@@ -111,16 +111,15 @@ data:
     \    modint res{1};\n    for (modint p{value}; e; e >>= 1, p *= p) {\n      if\
     \ (e & 1) res *= p;\n    }\n    return res;\n  }\n\n  template <class int_type>\n\
     \  friend constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    if (e < 0) e\
-    \ = e % (mod - 1) + mod - 1;\n    modint res{1};\n    for (; e; e >>= 1, b *=\
-    \ b) {\n      if (e & 1) res *= b;\n    }\n    return res;\n  }\n\n  friend std::ostream\
-    \ &operator<<(std::ostream &os,\n                                  const modint\
-    \ &rhs) noexcept {\n    return os << rhs.value;\n  }\n\n  friend std::istream\
-    \ &operator>>(std::istream &is, modint &rhs) noexcept {\n    intmax_t value;\n\
-    \    rhs = (is >> value, value);\n    return is;\n  }\n\n protected:\n  value_type\
-    \ value = 0;\n};\n\ntemplate <auto Mod, typename Mod_type>\ntypename modint<Mod,\
-    \ Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;\n\nusing modint_runtime\
-    \ = modint<0>;\n"
+    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    modint res{1};\n\
+    \    for ((e %= mod - 1) < 0 ? e += mod - 1 : 0; e; e >>= 1, b *= b)\n      if\
+    \ (e & 1) res *= b;\n    return res;\n  }\n\n  friend std::ostream &operator<<(std::ostream\
+    \ &os,\n                                  const modint &rhs) noexcept {\n    return\
+    \ os << rhs.value;\n  }\n\n  friend std::istream &operator>>(std::istream &is,\
+    \ modint &rhs) noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n\
+    \    return is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto\
+    \ Mod, typename Mod_type>\ntypename modint<Mod, Mod_type>::mod_type modint<Mod,\
+    \ Mod_type>::mod = Mod;\n\nusing modint_runtime = modint<0>;\n"
   code: "#pragma once\n#include <cassert>\n#include <iostream>\n\n#include \"utils/sfinae.hpp\"\
     \n\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {\n\
     \  static_assert(is_integral_ext<decltype(Mod)>::value,\n                \"Mod\
@@ -182,16 +181,15 @@ data:
     \    modint res{1};\n    for (modint p{value}; e; e >>= 1, p *= p) {\n      if\
     \ (e & 1) res *= p;\n    }\n    return res;\n  }\n\n  template <class int_type>\n\
     \  friend constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    if (e < 0) e\
-    \ = e % (mod - 1) + mod - 1;\n    modint res{1};\n    for (; e; e >>= 1, b *=\
-    \ b) {\n      if (e & 1) res *= b;\n    }\n    return res;\n  }\n\n  friend std::ostream\
-    \ &operator<<(std::ostream &os,\n                                  const modint\
-    \ &rhs) noexcept {\n    return os << rhs.value;\n  }\n\n  friend std::istream\
-    \ &operator>>(std::istream &is, modint &rhs) noexcept {\n    intmax_t value;\n\
-    \    rhs = (is >> value, value);\n    return is;\n  }\n\n protected:\n  value_type\
-    \ value = 0;\n};\n\ntemplate <auto Mod, typename Mod_type>\ntypename modint<Mod,\
-    \ Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;\n\nusing modint_runtime\
-    \ = modint<0>;\n"
+    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    modint res{1};\n\
+    \    for ((e %= mod - 1) < 0 ? e += mod - 1 : 0; e; e >>= 1, b *= b)\n      if\
+    \ (e & 1) res *= b;\n    return res;\n  }\n\n  friend std::ostream &operator<<(std::ostream\
+    \ &os,\n                                  const modint &rhs) noexcept {\n    return\
+    \ os << rhs.value;\n  }\n\n  friend std::istream &operator>>(std::istream &is,\
+    \ modint &rhs) noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n\
+    \    return is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto\
+    \ Mod, typename Mod_type>\ntypename modint<Mod, Mod_type>::mod_type modint<Mod,\
+    \ Mod_type>::mod = Mod;\n\nusing modint_runtime = modint<0>;\n"
   dependsOn:
   - utils/sfinae.hpp
   isVerificationFile: false
@@ -199,7 +197,7 @@ data:
   requiredBy:
   - combinatorics/binomial.hpp
   - modulus/inverse.hpp
-  timestamp: '2020-09-20 03:00:00+09:00'
+  timestamp: '2020-09-21 02:49:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/subset_convolution.test.cpp
