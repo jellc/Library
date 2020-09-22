@@ -3,7 +3,6 @@
 "test/aizu-online-judge/balls_and_boxes_4.test.cpp": "2020-09-21 02:49:05 +0900",
 "test/aizu-online-judge/dont_burst_the_ballon.test.cpp": "2020-09-08 01:03:56 +0900",
 "test/aizu-online-judge/extended_euclid_algorithm.test.cpp": "2020-09-17 16:18:47 +0900",
-"test/aizu-online-judge/pattern_search.test.cpp": "2020-09-22 22:02:39 +0900",
 "test/library-checker/assignment.test.cpp": "2020-09-21 01:25:13 +0900",
 "test/library-checker/associative_array.test.cpp": "2020-09-17 16:45:44 +0900",
 "test/library-checker/bipartitematching.test.cpp": "2020-09-19 20:49:19 +0900",
@@ -22,5 +21,5 @@
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-09-04 20:59:06 +0900",
 "test/library-checker/unionfind.test.cpp": "2020-08-30 00:35:46 +0900",
 "test/library-checker/zalgorithm.test.cpp": "2020-09-17 16:18:47 +0900",
-"test/library-checker/zalgorithm_2.test.cpp": "2020-09-22 20:34:56 +0900"
+"test/library-checker/zalgorithm_2.test.cpp": "2020-09-22 22:28:34 +0900"
 }
