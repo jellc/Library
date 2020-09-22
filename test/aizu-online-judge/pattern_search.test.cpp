@@ -4,23 +4,24 @@
 #include "utils/stream.hpp"
 
 int main() {
-  size_t h, w, r, c;
-  std::cin >> h >> w;
-  std::vector<std::string> grid(h);
-  std::cin >> grid >> r >> c;
-  std::vector<std::string> pattern(r);
-  std::cin >> pattern;
+  std::ios::sync_with_stdio(0);
+  cin.tie(0);
 
-  std::string oneln;
-  for (size_t j = c; j--;) {
-    for (size_t i = 0; i < r; ++i) {
-      oneln += pattern[i][j];
+  size_t h, w, r, c;
+
+  std::cin >> h >> w;
+  std::string transposed(h * w, '?');
+  for (size_t i = 0; i < h; ++i) {
+    for (size_t j = 0; j < w; ++j) {
+      std::cin >> transposed[j * h + i];
     }
   }
-  std::string transposed;
-  for (size_t j = 0; j < w; ++j) {
-    for (size_t i = 0; i < h; ++i) {
-      transposed += grid[i][j];
+
+  std::cin >> r >> c;
+  std::string oneln(r * c, '?');
+  for (size_t i = 0; i < r; ++i) {
+    for (size_t j = c; j--;) {
+      std::cin >> oneln[j * r + i];
     }
   }
 
@@ -32,7 +33,7 @@ int main() {
     for (size_t j = 0; j < w; ++j) {
       hash = grid_hash_table.substr(h * j + i, r) + hash;
       if (j >= c) {
-        hash = hash - grid_hash_table.substr(h * (j - c) + i, r);
+        hash -= grid_hash_table.substr(h * (j - c) + i, r);
       }
       if (hash == pattern_hash) std::cout << i << " " << j - c + 1 << "\n";
     }

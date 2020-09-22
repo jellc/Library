@@ -36,10 +36,18 @@ struct rolling_hashed {
             length + rhs.length};
   }
 
+  rolling_hashed operator+=(const rolling_hashed &rhs) {
+    return *this = operator+(rhs);
+  }
+
   rolling_hashed operator-(const rolling_hashed &rhs) const {
     assert(!(length < rhs.length));
     return {minus(value, mult(rhs.value, base_pow(length - rhs.length))),
             length - rhs.length};
+  }
+
+  rolling_hashed operator-=(const rolling_hashed &rhs) {
+    return *this = operator-(rhs);
   }
 
   static u64 base_pow(size_t exp) {
