@@ -22,19 +22,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':warning:'
     path: utils/make_vector.hpp
     title: utils/make_vector.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   - icon: ':heavy_check_mark:'
     path: utils/read.hpp
     title: utils/read.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
   - icon: ':warning:'

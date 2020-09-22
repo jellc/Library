@@ -5,7 +5,7 @@ data:
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
   - icon: ':heavy_check_mark:'
@@ -69,14 +69,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
@@ -134,7 +134,7 @@ data:
   - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp
   timestamp: '2020-09-17 16:18:47+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp

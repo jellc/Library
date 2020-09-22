@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/lazy.hpp
     title: data_structure/segment_tree/lazy.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'

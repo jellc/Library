@@ -1,22 +1,22 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/all/ALDS1_14_C
@@ -118,10 +118,10 @@ data:
     operator<<(ostream &os, const Container &cont) {\n  bool head = true;\n  for (auto\
     \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
     \ // namespace std\n#line 5 \"test/aizu-online-judge/pattern_search.test.cpp\"\
-    \n\nint main() {\n  std::ios::sync_with_stdio(0);\n  cin.tie(0);\n\n  size_t h,\
-    \ w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n \
-    \ for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n   \
-    \   std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >> r >> c;\n\
+    \n\nint main() {\n  std::ios::sync_with_stdio(0);\n  std::cin.tie(0);\n\n  size_t\
+    \ h, w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n\
+    \  for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n  \
+    \    std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >> r >> c;\n\
     \  std::string oneln(r * c, '?');\n  for (size_t i = 0; i < r; ++i) {\n    for\
     \ (size_t j = c; j--;) {\n      std::cin >> oneln[j * r + i];\n    }\n  }\n\n\
     \  rolling_hash_table grid_hash_table(transposed);\n  auto pattern_hash = rolling_hash_table(oneln).substr();\n\
@@ -132,9 +132,9 @@ data:
     \ c + 1 << \"\\n\";\n    }\n  }\n}\n"
   code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/all/ALDS1_14_C\"\
     \n#include \"string/rolling_hash.hpp\"\n#include \"utils/stream.hpp\"\n\nint main()\
-    \ {\n  std::ios::sync_with_stdio(0);\n  cin.tie(0);\n\n  size_t h, w, r, c;\n\n\
-    \  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n  for (size_t i\
-    \ = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n      std::cin >>\
+    \ {\n  std::ios::sync_with_stdio(0);\n  std::cin.tie(0);\n\n  size_t h, w, r,\
+    \ c;\n\n  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n  for (size_t\
+    \ i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n      std::cin >>\
     \ transposed[j * h + i];\n    }\n  }\n\n  std::cin >> r >> c;\n  std::string oneln(r\
     \ * c, '?');\n  for (size_t i = 0; i < r; ++i) {\n    for (size_t j = c; j--;)\
     \ {\n      std::cin >> oneln[j * r + i];\n    }\n  }\n\n  rolling_hash_table grid_hash_table(transposed);\n\
@@ -152,8 +152,8 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/pattern_search.test.cpp
   requiredBy: []
-  timestamp: '2020-09-22 22:28:34+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-09-22 22:34:04+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/pattern_search.test.cpp
 layout: document

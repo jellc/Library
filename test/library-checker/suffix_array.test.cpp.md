@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: string/suffix_array.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
   _extendedRequiredBy: []
