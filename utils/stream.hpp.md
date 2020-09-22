@@ -19,6 +19,9 @@ data:
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/pattern_search.test.cpp
+    title: test/aizu-online-judge/pattern_search.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   _pathExtension: hpp
@@ -119,6 +122,7 @@ data:
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp
+  - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
 documentation_of: utils/stream.hpp
 layout: document

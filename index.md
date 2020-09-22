@@ -270,6 +270,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
       title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/pattern_search.test.cpp
+      title: test/aizu-online-judge/pattern_search.test.cpp
   - name: test/library-checker
     pages:
     - icon: ':heavy_check_mark:'

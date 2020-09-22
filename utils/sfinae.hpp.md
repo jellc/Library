@@ -70,6 +70,9 @@ data:
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/pattern_search.test.cpp
+    title: test/aizu-online-judge/pattern_search.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   _pathExtension: hpp
@@ -143,6 +146,7 @@ data:
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
 documentation_of: utils/sfinae.hpp
 layout: document

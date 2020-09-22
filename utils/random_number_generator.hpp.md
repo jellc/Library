@@ -15,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/pattern_search.test.cpp
+    title: test/aizu-online-judge/pattern_search.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -51,6 +54,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
+  - test/aizu-online-judge/pattern_search.test.cpp
 documentation_of: utils/random_number_generator.hpp
 layout: document
 redirect_from:
