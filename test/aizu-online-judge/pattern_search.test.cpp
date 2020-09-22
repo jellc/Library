@@ -5,7 +5,7 @@
 
 int main() {
   std::ios::sync_with_stdio(0);
-  cin.tie(0);
+  std::cin.tie(0);
 
   size_t h, w, r, c;
 
