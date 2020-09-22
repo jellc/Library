@@ -15,11 +15,21 @@ struct rolling_hashed {
   u64 value = 0;
   size_t length = 0;
 
+  rolling_hashed() = default;
+
+  template <class char_type, typename std::enable_if<std::is_convertible<
+                                 char_type, u64>::value>::type * = nullptr>
+  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}
+
+  rolling_hashed(u64 value, size_t length) : value(value), length(length) {}
+
   operator std::pair<u64, size_t>() const { return {value, length}; }
 
   bool operator==(const rolling_hashed &rhs) const {
     return value == rhs.value && length == rhs.length;
   }
+
+  bool operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }
 
   rolling_hashed operator+(const rolling_hashed &rhs) const {
     return {plus(value, mult(rhs.value, base_pow(length))),
@@ -66,17 +76,14 @@ template <class str_type> struct rolling_hash_table {
 
   rolling_hash_table(str_type str) {
     std::reverse(std::begin(str), std::end(str));
-    for (auto &&c : str)
-      suffix.emplace_back(
-          rolling_hashed{static_cast<rolling_hashed::u64>(c) + 1, 1} +
-          suffix.back());
+    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());
     std::reverse(suffix.begin(), suffix.end());
   }
 
   size_t size() const { return suffix.size() - 1; }
 
-  rolling_hashed substr(size_t pos, size_t n = npos) const {
-    assert(pos < size());
+  rolling_hashed substr(size_t pos = 0, size_t n = npos) const {
+    assert(!(size() < pos));
     return suffix[pos] - suffix[pos + std::min(n, size() - pos)];
   }
 
