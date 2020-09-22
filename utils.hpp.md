@@ -28,7 +28,7 @@ data:
   - icon: ':warning:'
     path: utils/make_vector.hpp
     title: utils/make_vector.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   - icon: ':heavy_check_mark:'

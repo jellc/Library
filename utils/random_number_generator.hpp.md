@@ -8,12 +8,15 @@ data:
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
@@ -45,8 +48,9 @@ data:
   - utils.hpp
   - string/rolling_hash.hpp
   timestamp: '2020-09-22 15:16:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/zalgorithm_2.test.cpp
 documentation_of: utils/random_number_generator.hpp
 layout: document
 redirect_from:

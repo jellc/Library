@@ -10,6 +10,9 @@ data:
     title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
     title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   _pathExtension: hpp
@@ -97,6 +100,7 @@ data:
   timestamp: '2020-09-08 01:03:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/dont_burst_the_ballon.test.cpp
 documentation_of: utils/binary_search.hpp
 layout: document
