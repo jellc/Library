@@ -183,27 +183,24 @@ data:
     }\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(const size_t (&sizes)[N],\
     \ T const& init = T()) {\n  return make_vector<T, N>((size_t*)sizes, init);\n\
     }\n}  // namespace workspace\n#line 3 \"utils/random_number_generator.hpp\"\n\
-    template <typename num_t>\nclass random_number_generator\n{\n    template <bool\
-    \ is_int, class = void>\n    struct unif_t\n    {\n        std::uniform_int_distribution<num_t>\
-    \ unif;\n        unif_t(num_t lower, num_t upper) : unif(lower, upper) {}\n  \
-    \      num_t operator()(std::mt19937 &engine) { return unif(engine); }\n    };\n\
-    \    template <class void_t>\n    struct unif_t<false, void_t>\n    {\n      \
-    \  std::uniform_real_distribution<num_t> unif;\n        unif_t(num_t lower, num_t\
-    \ upper) : unif(lower, upper) {}\n        num_t operator()(std::mt19937 &engine)\
-    \ { return unif(engine); }\n    };\n    unif_t<std::is_integral<num_t>::value>\
-    \ unif;\n    std::mt19937 engine;\n  public:\n    // generate random number in\
-    \ [lower, upper].\n    random_number_generator(num_t lower = std::numeric_limits<num_t>::min(),\
-    \ num_t upper = std::numeric_limits<num_t>::max()) : unif(lower, upper), engine(std::random_device{}())\
-    \ {}\n    num_t operator()() { return unif(engine); }\n}; // class random_number_generator\n\
-    #line 3 \"utils/read.hpp\"\nnamespace workspace {\n// read with std::cin.\ntemplate\
-    \ <class T = void>\nstruct read\n{\n    typename std::remove_const<T>::type value;\n\
-    \    template <class... types>\n    read(types... args) : value(args...) { std::cin\
-    \ >> value; }\n    operator T() const { return value; }\n};\ntemplate <>\nstruct\
-    \ read<void>\n{\n    template <class T>\n    operator T() const { T value; std::cin\
-    \ >> value; return value; }\n};\n} // namespace workspace\n#line 3 \"utils/stream.hpp\"\
-    \n#include <tuple>\n\n#line 6 \"utils/stream.hpp\"\nnamespace std {\ntemplate\
-    \ <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {\n  return\
-    \ is >> p.first >> p.second;\n}\ntemplate <class T, class U>\nostream &operator<<(ostream\
+    template <typename num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
+    \                            std::uniform_int_distribution<num_type>,\n      \
+    \                      std::uniform_real_distribution<num_type>>::type\n     \
+    \ unif;\n\n  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type\
+    \ min = std::numeric_limits<num_type>::min(),\n                          num_type\
+    \ max = std::numeric_limits<num_type>::max())\n      : unif(min, max), engine(std::random_device{}())\
+    \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
+    \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
+    \  num_type operator()() { return unif(engine); }\n};\n#line 3 \"utils/read.hpp\"\
+    \nnamespace workspace {\n// read with std::cin.\ntemplate <class T = void>\nstruct\
+    \ read\n{\n    typename std::remove_const<T>::type value;\n    template <class...\
+    \ types>\n    read(types... args) : value(args...) { std::cin >> value; }\n  \
+    \  operator T() const { return value; }\n};\ntemplate <>\nstruct read<void>\n\
+    {\n    template <class T>\n    operator T() const { T value; std::cin >> value;\
+    \ return value; }\n};\n} // namespace workspace\n#line 3 \"utils/stream.hpp\"\n\
+    #include <tuple>\n\n#line 6 \"utils/stream.hpp\"\nnamespace std {\ntemplate <class\
+    \ T, class U> istream &operator>>(istream &is, pair<T, U> &p) {\n  return is >>\
+    \ p.first >> p.second;\n}\ntemplate <class T, class U>\nostream &operator<<(ostream\
     \ &os, const pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n}\n\
     template <class tuple_t, size_t index> struct tuple_is {\n  static istream &apply(istream\
     \ &is, tuple_t &t) {\n    tuple_is<tuple_t, index - 1>::apply(is, t);\n    return\
@@ -296,7 +293,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-09-21 04:06:55+09:00'
+  timestamp: '2020-09-22 15:16:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
