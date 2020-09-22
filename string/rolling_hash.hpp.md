@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   _extendedRequiredBy: []
@@ -9,11 +9,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
@@ -41,25 +41,28 @@ data:
     \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
     \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
     \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
-    \n  rolling_hashed operator-(const rolling_hashed &rhs) const {\n    assert(!(length\
-    \ < rhs.length));\n    return {minus(value, mult(rhs.value, base_pow(length -\
-    \ rhs.length))),\n            length - rhs.length};\n  }\n\n  static u64 base_pow(size_t\
-    \ exp) {\n    static std::vector<u64> pow{1};\n    while (pow.size() <= exp) {\n\
-    \      pow.emplace_back(mult(pow.back(), base));\n    }\n    return pow[exp];\n\
-    \  }\n\n private:\n  static u64 plus(u64 lhs, u64 rhs) {\n    return (lhs += rhs)\
-    \ < mod ? lhs : lhs - mod;\n  }\n\n  static u64 minus(u64 lhs, u64 rhs) {\n  \
-    \  return (lhs -= rhs) < mod ? lhs : lhs + mod;\n  }\n\n  static u64 mult(u128\
-    \ lhs, u64 rhs) {\n    lhs *= rhs;\n    lhs = (lhs >> 61) + (lhs & mod);\n   \
-    \ return lhs < mod ? lhs : lhs - mod;\n  }\n};\n\nrolling_hashed::u64 rolling_hashed::base\
-    \ =\n    random_number_generator<u64>(1 << 30, mod - 1)();\n\ntemplate <class\
-    \ str_type> struct rolling_hash_table {\n  constexpr static size_t npos = -1;\n\
-    \n  rolling_hash_table() = default;\n\n  rolling_hash_table(str_type str) {\n\
-    \    std::reverse(std::begin(str), std::end(str));\n    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c}\
-    \ + suffix.back());\n    std::reverse(suffix.begin(), suffix.end());\n  }\n\n\
-    \  size_t size() const { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t\
-    \ pos = 0, size_t n = npos) const {\n    assert(!(size() < pos));\n    return\
-    \ suffix[pos] - suffix[pos + std::min(n, size() - pos)];\n  }\n\n private:\n \
-    \ std::vector<rolling_hashed> suffix{{}};\n};\n"
+    \n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator+(rhs);\n  }\n\n  rolling_hashed operator-(const rolling_hashed &rhs)\
+    \ const {\n    assert(!(length < rhs.length));\n    return {minus(value, mult(rhs.value,\
+    \ base_pow(length - rhs.length))),\n            length - rhs.length};\n  }\n\n\
+    \  rolling_hashed operator-=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator-(rhs);\n  }\n\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64>\
+    \ pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
+    \ base));\n    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64\
+    \ lhs, u64 rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n \
+    \ static u64 minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs :\
+    \ lhs + mod;\n  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n\
+    \    lhs = (lhs >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n\
+    \  }\n};\n\nrolling_hashed::u64 rolling_hashed::base =\n    random_number_generator<u64>(1\
+    \ << 30, mod - 1)();\n\ntemplate <class str_type> struct rolling_hash_table {\n\
+    \  constexpr static size_t npos = -1;\n\n  rolling_hash_table() = default;\n\n\
+    \  rolling_hash_table(str_type str) {\n    std::reverse(std::begin(str), std::end(str));\n\
+    \    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());\n\
+    \    std::reverse(suffix.begin(), suffix.end());\n  }\n\n  size_t size() const\
+    \ { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t pos = 0, size_t\
+    \ n = npos) const {\n    assert(!(size() < pos));\n    return suffix[pos] - suffix[pos\
+    \ + std::min(n, size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed>\
+    \ suffix{{}};\n};\n"
   code: "#pragma once\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\
     \n#include \"utils/random_number_generator.hpp\"\n\nstruct rolling_hashed {\n\
     \  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  constexpr static\
@@ -74,32 +77,35 @@ data:
     \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
     \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
     \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
-    \n  rolling_hashed operator-(const rolling_hashed &rhs) const {\n    assert(!(length\
-    \ < rhs.length));\n    return {minus(value, mult(rhs.value, base_pow(length -\
-    \ rhs.length))),\n            length - rhs.length};\n  }\n\n  static u64 base_pow(size_t\
-    \ exp) {\n    static std::vector<u64> pow{1};\n    while (pow.size() <= exp) {\n\
-    \      pow.emplace_back(mult(pow.back(), base));\n    }\n    return pow[exp];\n\
-    \  }\n\n private:\n  static u64 plus(u64 lhs, u64 rhs) {\n    return (lhs += rhs)\
-    \ < mod ? lhs : lhs - mod;\n  }\n\n  static u64 minus(u64 lhs, u64 rhs) {\n  \
-    \  return (lhs -= rhs) < mod ? lhs : lhs + mod;\n  }\n\n  static u64 mult(u128\
-    \ lhs, u64 rhs) {\n    lhs *= rhs;\n    lhs = (lhs >> 61) + (lhs & mod);\n   \
-    \ return lhs < mod ? lhs : lhs - mod;\n  }\n};\n\nrolling_hashed::u64 rolling_hashed::base\
-    \ =\n    random_number_generator<u64>(1 << 30, mod - 1)();\n\ntemplate <class\
-    \ str_type> struct rolling_hash_table {\n  constexpr static size_t npos = -1;\n\
-    \n  rolling_hash_table() = default;\n\n  rolling_hash_table(str_type str) {\n\
-    \    std::reverse(std::begin(str), std::end(str));\n    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c}\
-    \ + suffix.back());\n    std::reverse(suffix.begin(), suffix.end());\n  }\n\n\
-    \  size_t size() const { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t\
-    \ pos = 0, size_t n = npos) const {\n    assert(!(size() < pos));\n    return\
-    \ suffix[pos] - suffix[pos + std::min(n, size() - pos)];\n  }\n\n private:\n \
-    \ std::vector<rolling_hashed> suffix{{}};\n};\n"
+    \n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator+(rhs);\n  }\n\n  rolling_hashed operator-(const rolling_hashed &rhs)\
+    \ const {\n    assert(!(length < rhs.length));\n    return {minus(value, mult(rhs.value,\
+    \ base_pow(length - rhs.length))),\n            length - rhs.length};\n  }\n\n\
+    \  rolling_hashed operator-=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator-(rhs);\n  }\n\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64>\
+    \ pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
+    \ base));\n    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64\
+    \ lhs, u64 rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n \
+    \ static u64 minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs :\
+    \ lhs + mod;\n  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n\
+    \    lhs = (lhs >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n\
+    \  }\n};\n\nrolling_hashed::u64 rolling_hashed::base =\n    random_number_generator<u64>(1\
+    \ << 30, mod - 1)();\n\ntemplate <class str_type> struct rolling_hash_table {\n\
+    \  constexpr static size_t npos = -1;\n\n  rolling_hash_table() = default;\n\n\
+    \  rolling_hash_table(str_type str) {\n    std::reverse(std::begin(str), std::end(str));\n\
+    \    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());\n\
+    \    std::reverse(suffix.begin(), suffix.end());\n  }\n\n  size_t size() const\
+    \ { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t pos = 0, size_t\
+    \ n = npos) const {\n    assert(!(size() < pos));\n    return suffix[pos] - suffix[pos\
+    \ + std::min(n, size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed>\
+    \ suffix{{}};\n};\n"
   dependsOn:
   - utils/random_number_generator.hpp
   isVerificationFile: false
   path: string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2020-09-22 18:04:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2020-09-22 22:28:34+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/pattern_search.test.cpp

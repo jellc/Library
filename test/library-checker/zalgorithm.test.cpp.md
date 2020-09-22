@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/z_algorithm.hpp
     title: string/z_algorithm.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/stream.hpp
     title: utils/stream.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy:
@@ -18,14 +18,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
@@ -118,7 +118,7 @@ data:
   - template.cpp
   - utils.hpp
   timestamp: '2020-09-17 16:18:47+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp

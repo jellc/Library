@@ -189,7 +189,7 @@ data:
     - icon: ':warning:'
       path: string/binary_trie.hpp
       title: string/binary_trie.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: string/rolling_hash.hpp
       title: string/rolling_hash.hpp
     - icon: ':heavy_check_mark:'
@@ -221,16 +221,16 @@ data:
     - icon: ':warning:'
       path: utils/make_vector.hpp
       title: utils/make_vector.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
     - icon: ':heavy_check_mark:'
       path: utils/read.hpp
       title: utils/read.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: utils/stream.hpp
       title: utils/stream.hpp
     - icon: ':warning:'
@@ -270,7 +270,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
       title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/pattern_search.test.cpp
       title: test/aizu-online-judge/pattern_search.test.cpp
   - name: test/library-checker

@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'

@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
     title: number_theory/ext_gcd.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/stream.hpp
     title: utils/stream.hpp
   _extendedRequiredBy: []

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   - icon: ':heavy_check_mark:'
@@ -45,50 +45,53 @@ data:
     \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
     \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
     \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
-    \n  rolling_hashed operator-(const rolling_hashed &rhs) const {\n    assert(!(length\
-    \ < rhs.length));\n    return {minus(value, mult(rhs.value, base_pow(length -\
-    \ rhs.length))),\n            length - rhs.length};\n  }\n\n  static u64 base_pow(size_t\
-    \ exp) {\n    static std::vector<u64> pow{1};\n    while (pow.size() <= exp) {\n\
-    \      pow.emplace_back(mult(pow.back(), base));\n    }\n    return pow[exp];\n\
-    \  }\n\n private:\n  static u64 plus(u64 lhs, u64 rhs) {\n    return (lhs += rhs)\
-    \ < mod ? lhs : lhs - mod;\n  }\n\n  static u64 minus(u64 lhs, u64 rhs) {\n  \
-    \  return (lhs -= rhs) < mod ? lhs : lhs + mod;\n  }\n\n  static u64 mult(u128\
-    \ lhs, u64 rhs) {\n    lhs *= rhs;\n    lhs = (lhs >> 61) + (lhs & mod);\n   \
-    \ return lhs < mod ? lhs : lhs - mod;\n  }\n};\n\nrolling_hashed::u64 rolling_hashed::base\
-    \ =\n    random_number_generator<u64>(1 << 30, mod - 1)();\n\ntemplate <class\
-    \ str_type> struct rolling_hash_table {\n  constexpr static size_t npos = -1;\n\
-    \n  rolling_hash_table() = default;\n\n  rolling_hash_table(str_type str) {\n\
-    \    std::reverse(std::begin(str), std::end(str));\n    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c}\
-    \ + suffix.back());\n    std::reverse(suffix.begin(), suffix.end());\n  }\n\n\
-    \  size_t size() const { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t\
-    \ pos = 0, size_t n = npos) const {\n    assert(!(size() < pos));\n    return\
-    \ suffix[pos] - suffix[pos + std::min(n, size() - pos)];\n  }\n\n private:\n \
-    \ std::vector<rolling_hashed> suffix{{}};\n};\n#line 3 \"utils/binary_search.hpp\"\
-    \n#include <cmath>\n#line 5 \"utils/binary_search.hpp\"\nnamespace workspace {\n\
-    // binary search on discrete range.\ntemplate <class iter_type, class pred_type>\n\
-    std::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>,\
-    \ bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type\
-    \ pred) {\n  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while (dist > 1\
-    \ || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n   \
-    \   ok = mid, dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n \
-    \ return ok;\n}\n// parallel binary search on discrete range.\ntemplate <class\
-    \ iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
-    \                std::invoke_result_t<pred_type, std::vector<iter_type>>,\n  \
-    \                   std::vector<bool>>,\n                 std::vector<iter_type>>\n\
-    binary_search(std::vector<std::pair<iter_type, iter_type>> ends,\n           \
-    \   pred_type pred) {\n  std::vector<iter_type> mids(ends.size());\n  for (;;)\
-    \ {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n\
-    \      auto [ok, ng] = ends[i];\n      iter_type mid(ok + (ng - ok) / 2);\n  \
-    \    if (mids[i] != mid) {\n        all_found = false;\n        mids[i] = mid;\n\
-    \      }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for\
-    \ (size_t i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
-    \ = mids[i];\n    }\n  }\n  return mids;\n}\n// binary search on real numbers.\n\
-    template <class real_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
-    \ real_type>, bool>,\n    real_type>\nbinary_search(real_type ok, real_type ng,\
-    \ const real_type eps, pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps\
-    \ < ng || ng + eps < ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid)\
-    \ ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel binary search on real numbers.\n\
-    template <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+    \n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator+(rhs);\n  }\n\n  rolling_hashed operator-(const rolling_hashed &rhs)\
+    \ const {\n    assert(!(length < rhs.length));\n    return {minus(value, mult(rhs.value,\
+    \ base_pow(length - rhs.length))),\n            length - rhs.length};\n  }\n\n\
+    \  rolling_hashed operator-=(const rolling_hashed &rhs) {\n    return *this =\
+    \ operator-(rhs);\n  }\n\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64>\
+    \ pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
+    \ base));\n    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64\
+    \ lhs, u64 rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n \
+    \ static u64 minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs :\
+    \ lhs + mod;\n  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n\
+    \    lhs = (lhs >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n\
+    \  }\n};\n\nrolling_hashed::u64 rolling_hashed::base =\n    random_number_generator<u64>(1\
+    \ << 30, mod - 1)();\n\ntemplate <class str_type> struct rolling_hash_table {\n\
+    \  constexpr static size_t npos = -1;\n\n  rolling_hash_table() = default;\n\n\
+    \  rolling_hash_table(str_type str) {\n    std::reverse(std::begin(str), std::end(str));\n\
+    \    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());\n\
+    \    std::reverse(suffix.begin(), suffix.end());\n  }\n\n  size_t size() const\
+    \ { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t pos = 0, size_t\
+    \ n = npos) const {\n    assert(!(size() < pos));\n    return suffix[pos] - suffix[pos\
+    \ + std::min(n, size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed>\
+    \ suffix{{}};\n};\n#line 3 \"utils/binary_search.hpp\"\n#include <cmath>\n#line\
+    \ 5 \"utils/binary_search.hpp\"\nnamespace workspace {\n// binary search on discrete\
+    \ range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n   \
+    \ std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n \
+    \   iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
+    \  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while (dist > 1 || dist <\
+    \ -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n      ok = mid,\
+    \ dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n  return ok;\n\
+    }\n// parallel binary search on discrete range.\ntemplate <class iter_type, class\
+    \ pred_type>\nstd::enable_if_t<std::is_convertible_v<\n                     std::invoke_result_t<pred_type,\
+    \ std::vector<iter_type>>,\n                     std::vector<bool>>,\n       \
+    \          std::vector<iter_type>>\nbinary_search(std::vector<std::pair<iter_type,\
+    \ iter_type>> ends,\n              pred_type pred) {\n  std::vector<iter_type>\
+    \ mids(ends.size());\n  for (;;) {\n    bool all_found = true;\n    for (size_t\
+    \ i{}; i != ends.size(); ++i) {\n      auto [ok, ng] = ends[i];\n      iter_type\
+    \ mid(ok + (ng - ok) / 2);\n      if (mids[i] != mid) {\n        all_found = false;\n\
+    \        mids[i] = mid;\n      }\n    }\n    if (all_found) break;\n    auto res\
+    \ = pred(mids);\n    for (size_t i{}; i != ends.size(); ++i) {\n      (res[i]\
+    \ ? ends[i].first : ends[i].second) = mids[i];\n    }\n  }\n  return mids;\n}\n\
+    // binary search on real numbers.\ntemplate <class real_type, class pred_type>\n\
+    std::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>,\
+    \ bool>,\n    real_type>\nbinary_search(real_type ok, real_type ng, const real_type\
+    \ eps, pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps < ng || ng +\
+    \ eps < ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) =\
+    \ mid;\n  }\n  return ok;\n}\n// parallel binary search on real numbers.\ntemplate\
+    \ <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
     \                     std::invoke_result_t<pred_type, std::vector<real_type>>,\n\
     \                     std::vector<bool>>,\n                 std::vector<real_type>>\n\
     binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
@@ -118,7 +121,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-09-22 20:34:56+09:00'
+  timestamp: '2020-09-22 22:28:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
