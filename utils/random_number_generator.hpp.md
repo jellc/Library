@@ -8,6 +8,9 @@ data:
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
+  - icon: ':warning:'
+    path: string/rolling_hash.hpp
+    title: string/rolling_hash.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -40,6 +43,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
+  - string/rolling_hash.hpp
   timestamp: '2020-09-22 15:16:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

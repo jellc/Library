@@ -189,6 +189,9 @@ data:
     - icon: ':warning:'
       path: string/binary_trie.hpp
       title: string/binary_trie.hpp
+    - icon: ':warning:'
+      path: string/rolling_hash.hpp
+      title: string/rolling_hash.hpp
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
       title: string/suffix_array.hpp
