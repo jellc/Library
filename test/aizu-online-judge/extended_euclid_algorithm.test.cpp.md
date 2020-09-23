@@ -42,18 +42,19 @@ data:
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 5 \"number_theory/ext_gcd.hpp\"\
     \ntemplate <class int_type>\nconstexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
     \                                  std::pair<int_type, int_type>>::type\next_gcd(int_type\
-    \ a, int_type b) {\n  bool neg_a = a < 0, neg_b = b < 0;\n  int_type p{1}, q{},\
-    \ r{}, s{1}, t{};\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b) * r;\n \
-    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  return {neg_a\
-    \ ? -p : p, neg_b ? -q : q};\n}\n#line 2 \"utils/stream.hpp\"\n#include <iostream>\n\
-    #line 4 \"utils/stream.hpp\"\n\n#line 6 \"utils/stream.hpp\"\nnamespace std {\n\
-    template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {\n\
-    \  return is >> p.first >> p.second;\n}\ntemplate <class T, class U>\nostream\
-    \ &operator<<(ostream &os, const pair<T, U> &p) {\n  return os << p.first << '\
-    \ ' << p.second;\n}\ntemplate <class tuple_t, size_t index> struct tuple_is {\n\
-    \  static istream &apply(istream &is, tuple_t &t) {\n    tuple_is<tuple_t, index\
-    \ - 1>::apply(is, t);\n    return is >> get<index>(t);\n  }\n};\ntemplate <class\
-    \ tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {\n  static istream &apply(istream\
+    \ a, int_type b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n  \
+    \  std::tie(p, q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p,\
+    \ q) = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p\
+    \ ^= r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^=\
+    \ a ^= b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n#line 2 \"utils/stream.hpp\"\
+    \n#include <iostream>\n#line 4 \"utils/stream.hpp\"\n\n#line 6 \"utils/stream.hpp\"\
+    \nnamespace std {\ntemplate <class T, class U> istream &operator>>(istream &is,\
+    \ pair<T, U> &p) {\n  return is >> p.first >> p.second;\n}\ntemplate <class T,\
+    \ class U>\nostream &operator<<(ostream &os, const pair<T, U> &p) {\n  return\
+    \ os << p.first << ' ' << p.second;\n}\ntemplate <class tuple_t, size_t index>\
+    \ struct tuple_is {\n  static istream &apply(istream &is, tuple_t &t) {\n    tuple_is<tuple_t,\
+    \ index - 1>::apply(is, t);\n    return is >> get<index>(t);\n  }\n};\ntemplate\
+    \ <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {\n  static istream &apply(istream\
     \ &is, tuple_t &t) { return is; }\n};\ntemplate <class... T> istream &operator>>(istream\
     \ &is, tuple<T...> &t) {\n  return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value\
     \ - 1>::apply(is,\n                                                          \
@@ -94,7 +95,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-09-24 00:53:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/extended_euclid_algorithm.test.cpp

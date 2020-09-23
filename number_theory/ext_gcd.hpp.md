@@ -36,23 +36,25 @@ data:
     };\n#line 5 \"number_theory/ext_gcd.hpp\"\ntemplate <class int_type>\nconstexpr\
     \ typename std::enable_if<is_integral_ext<int_type>::value,\n                \
     \                  std::pair<int_type, int_type>>::type\next_gcd(int_type a, int_type\
-    \ b) {\n  bool neg_a = a < 0, neg_b = b < 0;\n  int_type p{1}, q{}, r{}, s{1},\
-    \ t{};\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b) * r;\n    s ^= q ^=\
-    \ s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  return {neg_a ? -p : p,\
-    \ neg_b ? -q : q};\n}\n"
+    \ b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p,\
+    \ q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q)\
+    \ = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^=\
+    \ r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^=\
+    \ b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n"
   code: "#pragma once\n#include <tuple>\n\n#include \"utils/sfinae.hpp\"\ntemplate\
     \ <class int_type>\nconstexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
     \                                  std::pair<int_type, int_type>>::type\next_gcd(int_type\
-    \ a, int_type b) {\n  bool neg_a = a < 0, neg_b = b < 0;\n  int_type p{1}, q{},\
-    \ r{}, s{1}, t{};\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b) * r;\n \
-    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  return {neg_a\
-    \ ? -p : p, neg_b ? -q : q};\n}\n"
+    \ a, int_type b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n  \
+    \  std::tie(p, q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p,\
+    \ q) = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p\
+    \ ^= r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^=\
+    \ a ^= b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n"
   dependsOn:
   - utils/sfinae.hpp
   isVerificationFile: false
   path: number_theory/ext_gcd.hpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-09-24 00:53:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
