@@ -4,13 +4,13 @@
 
 #include "utils/sfinae.hpp"
 
+// A non-positive Mod corresponds a runtime type of modint.
 template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   static_assert(is_integral_ext<decltype(Mod)>::value,
                 "Mod must be integral type.");
-  static_assert(!(Mod < 0), "Mod must be non-negative.");
 
   using mod_type = typename std::conditional<
-      Mod != 0, typename std::add_const<Mod_type>::type, Mod_type>::type;
+      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;
   static mod_type mod;
 
   using value_type = typename std::decay<mod_type>::type;
@@ -184,4 +184,5 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
 template <auto Mod, typename Mod_type>
 typename modint<Mod, Mod_type>::mod_type modint<Mod, Mod_type>::mod = Mod;
 
-using modint_runtime = modint<0>;
+template <unsigned type_id = 0> using modint_runtime = modint<-(signed)type_id>;
+// #define modint_newtype modint<-__COUNTER__>
