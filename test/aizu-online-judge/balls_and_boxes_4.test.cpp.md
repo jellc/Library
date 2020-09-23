@@ -52,12 +52,12 @@ data:
     \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 6 \"modulus/modint.hpp\"\n\ntemplate <auto Mod = 0, typename Mod_type\
-    \ = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
-    \                \"Mod must be integral type.\");\n  static_assert(!(Mod < 0),\
-    \ \"Mod must be non-negative.\");\n\n  using mod_type = typename std::conditional<\n\
-    \      Mod != 0, typename std::add_const<Mod_type>::type, Mod_type>::type;\n \
-    \ static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
+    };\n#line 6 \"modulus/modint.hpp\"\n\n// A non-positive Mod corresponds a runtime\
+    \ type of modint.\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)>\
+    \ struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n  \
+    \              \"Mod must be integral type.\");\n\n  using mod_type = typename\
+    \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
+    \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
     \n  constexpr operator value_type() const noexcept { return value; }\n\n  constexpr\
     \ static modint one() noexcept { return 1; }\n\n  constexpr modint() noexcept\
     \ = default;\n\n  template <class int_type,\n            typename std::enable_if<is_integral_ext<int_type>::value>::type\
@@ -120,13 +120,14 @@ data:
     \ modint &rhs) noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n\
     \    return is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto\
     \ Mod, typename Mod_type>\ntypename modint<Mod, Mod_type>::mod_type modint<Mod,\
-    \ Mod_type>::mod = Mod;\n\nusing modint_runtime = modint<0>;\n#line 5 \"modulus/inverse.hpp\"\
-    \ntemplate <class, class = int> struct inverse;\n// mod must be prime.\ntemplate\
-    \ <class Modint>\nstruct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n\
-    \  using value_type = Modint;\n  constexpr value_type operator()(int n) const\
-    \ {\n    constexpr int_fast64_t mod = value_type::mod;\n    assert(n %= mod);\n\
-    \    if (n < 0) n += mod;\n    if (inv.empty()) inv = {1, mod != 1};\n    for\
-    \ (int m(inv.size()); m <= n; ++m)\n      inv.emplace_back(mod / m * -inv[mod\
+    \ Mod_type>::mod = Mod;\n\ntemplate <unsigned type_id = 0> using modint_runtime\
+    \ = modint<-(signed)type_id>;\n// #define modint_newtype modint<-__COUNTER__>\n\
+    #line 5 \"modulus/inverse.hpp\"\ntemplate <class, class = int> struct inverse;\n\
+    // mod must be prime.\ntemplate <class Modint>\nstruct inverse<Modint, decltype((void\
+    \ *)Modint::mod, 0)> {\n  using value_type = Modint;\n  constexpr value_type operator()(int\
+    \ n) const {\n    constexpr int_fast64_t mod = value_type::mod;\n    assert(n\
+    \ %= mod);\n    if (n < 0) n += mod;\n    if (inv.empty()) inv = {1, mod != 1};\n\
+    \    for (int m(inv.size()); m <= n; ++m)\n      inv.emplace_back(mod / m * -inv[mod\
     \ % m]);\n    return inv[n];\n  }\n\n private:\n  static std::vector<value_type>\
     \ inv;\n};\ntemplate <class Modint>\nstd::vector<Modint> inverse<Modint, decltype((void\
     \ *)Modint::mod, 0)>::inv;\n#line 5 \"combinatorics/binomial.hpp\"\ntemplate <class,\
@@ -157,7 +158,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   requiredBy: []
-  timestamp: '2020-09-21 02:49:05+09:00'
+  timestamp: '2020-09-23 23:35:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp

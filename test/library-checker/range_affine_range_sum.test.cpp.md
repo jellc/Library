@@ -114,12 +114,12 @@ data:
     \        if (!pred(tmp)) return right_search_subtree(left, pred, mono);\n    \
     \    mono = tmp;\n        ++left;\n      }\n    }\n    return size_orig;\n  }\n\
     };  // class lazy_segment_tree\n#line 3 \"modulus/modint.hpp\"\n#include <iostream>\n\
-    \n#line 6 \"modulus/modint.hpp\"\n\ntemplate <auto Mod = 0, typename Mod_type\
-    \ = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
-    \                \"Mod must be integral type.\");\n  static_assert(!(Mod < 0),\
-    \ \"Mod must be non-negative.\");\n\n  using mod_type = typename std::conditional<\n\
-    \      Mod != 0, typename std::add_const<Mod_type>::type, Mod_type>::type;\n \
-    \ static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
+    \n#line 6 \"modulus/modint.hpp\"\n\n// A non-positive Mod corresponds a runtime\
+    \ type of modint.\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)>\
+    \ struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n  \
+    \              \"Mod must be integral type.\");\n\n  using mod_type = typename\
+    \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
+    \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
     \n  constexpr operator value_type() const noexcept { return value; }\n\n  constexpr\
     \ static modint one() noexcept { return 1; }\n\n  constexpr modint() noexcept\
     \ = default;\n\n  template <class int_type,\n            typename std::enable_if<is_integral_ext<int_type>::value>::type\
@@ -182,12 +182,14 @@ data:
     \ modint &rhs) noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n\
     \    return is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto\
     \ Mod, typename Mod_type>\ntypename modint<Mod, Mod_type>::mod_type modint<Mod,\
-    \ Mod_type>::mod = Mod;\n\nusing modint_runtime = modint<0>;\n#line 7 \"test/library-checker/range_affine_range_sum.test.cpp\"\
-    \n\nint main() {\n  using mint = modint<998244353>;\n  struct endo {\n    mint\
-    \ a = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b};\
-    \ }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) { return\
-    \ {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a\
-    \ + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
+    \ Mod_type>::mod = Mod;\n\ntemplate <unsigned type_id = 0> using modint_runtime\
+    \ = modint<-(signed)type_id>;\n// #define modint_newtype modint<-__COUNTER__>\n\
+    #line 7 \"test/library-checker/range_affine_range_sum.test.cpp\"\n\nint main()\
+    \ {\n  using mint = modint<998244353>;\n  struct endo {\n    mint a = 1, b;\n\
+    \    endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b}; }\n  };\n\
+    \  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) { return {v + rhs.v,\
+    \ c + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a + c * rhs.b,\
+    \ c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
     \ endo> seg;\n  {\n    std::vector<mono> a(n);\n    for (auto &[v, c] : a) {\n\
     \      int _v;\n      scanf(\"%d\", &_v);\n      v = _v;\n      c = 1;\n    }\n\
     \    seg = a;\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\", &t,\
@@ -214,7 +216,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-09-21 02:49:05+09:00'
+  timestamp: '2020-09-23 23:35:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
