@@ -45,62 +45,61 @@ data:
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
     \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  class\
     \ unique_queue {\n    std::queue<size_t> que;\n    std::vector<bool> in;\n\n \
-    \  public:\n    unique_queue(size_t n) : in(n) {}\n\n    void clear() { decltype(que)().swap(que);\
-    \ }\n\n    bool empty() const { return que.empty(); }\n\n    bool push(size_t\
-    \ index) {\n      if (in[index]) return false;\n      que.emplace(index);\n  \
-    \    return in[index] = true;\n    }\n\n    size_t pop() {\n      auto front =\
-    \ que.front();\n      que.pop();\n      return front;\n    }\n  };  // struct\
-    \ unique_queue\n\n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n\
-    \  Endomorphism_container lazy;\n  unique_queue que;\n\n  void repair() {\n  \
-    \  while (!que.empty()) {\n      const size_t index = que.pop() >> 1;\n      if\
-    \ (index && que.push(index)) pull(index);\n    }\n    que.clear();\n  }\n\n  void\
-    \ apply(size_t node, const Endomorphism &endo) {\n    data[node] = data[node]\
-    \ * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n \
-    \ void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
-    \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
-    \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
-    \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n\
-    \      if (pred(tmp))\n        mono = tmp;\n      else\n        ++node;\n    }\n\
-    \    return ++node -= size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = mono + data[node <<= 1];\n \
-    \     if (pred(tmp)) ++node, mono = tmp;\n    }\n    return (node -= size_ext)\
-    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  using value_type = Monoid;\n\
-    \n  lazy_segment_tree(size_t n = 0)\n      : size_orig{n},\n        height(n >\
-    \ 1 ? 32 - __builtin_clz(n - 1) : 0),\n        size_ext{1u << height},\n     \
-    \   data(size_ext << 1),\n        lazy(size_ext),\n        que(size_ext << 1)\
-    \ {}\n\n  lazy_segment_tree(size_t n, const Monoid &init) : lazy_segment_tree(n)\
-    \ {\n    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);\n\
-    \    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template <class iter_type,\
-    \ class value_type = typename std::iterator_traits<\n                        \
-    \         iter_type>::value_type>\n  lazy_segment_tree(iter_type first, iter_type\
-    \ last)\n      : size_orig(std::distance(first, last)),\n        height(size_orig\
-    \ > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n        size_ext{1u << height},\n\
-    \        data(size_ext << 1),\n        lazy(size_ext),\n        que(size_ext <<\
-    \ 1) {\n    static_assert(std::is_constructible<Monoid, value_type>::value,\n\
-    \                  \"Monoid(iter_type::value_type) is not constructible.\");\n\
-    \    for (auto iter{std::next(std::begin(data), size_ext)};\n         iter !=\
-    \ std::end(data) && first != last; ++iter, ++first)\n      *iter = Monoid(*first);\n\
-    \    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template <class Container,\
-    \ typename = element_type<Container>>\n  lazy_segment_tree(const Container &cont)\n\
-    \      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}\n\n  size_t size()\
-    \ const { return size_orig; }\n\n  size_t capacity() const { return size_ext;\
-    \ }\n\n  Monoid &operator[](size_t index) {\n    assert(index < size_orig);\n\
-    \    index |= size_ext;\n    que.push(index);\n    for (size_t i = height; i;\
-    \ --i) push(index >> i);\n    return data[index];\n  }\n\n  void update(size_t\
-    \ index, const Endomorphism &endo) {\n    update(index, index + 1, endo);\n  }\n\
-    \n  void update(size_t first, size_t last, const Endomorphism &endo) {\n    assert(last\
-    \ <= size_orig);\n    repair();\n    if (first >= last) return;\n    first +=\
-    \ size_ext, last += size_ext - 1;\n    for (size_t i = height; i; --i) push(first\
-    \ >> i), push(last >> i);\n    for (size_t l = first, r = last + 1; last; l >>=\
-    \ 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) apply(l++, endo);\n  \
-    \      if (r & 1) apply(--r, endo);\n      }\n      if (first >>= 1, last >>=\
-    \ 1) {\n        pull(first), pull(last);\n      }\n    }\n  }\n\n  Monoid fold()\
-    \ { return fold(0, size_orig); }\n\n  Monoid fold(size_t first, size_t last) {\n\
-    \    assert(last <= size_orig);\n    repair();\n    if (first >= last) return\
-    \ Monoid{};\n    first += size_ext, last += size_ext - 1;\n    Monoid left_val{},\
+    \  public:\n    unique_queue(size_t n) : in(n) {}\n\n    bool empty() const {\
+    \ return que.empty(); }\n\n    bool push(size_t index) {\n      if (in[index])\
+    \ return false;\n      que.emplace(index);\n      return in[index] = true;\n \
+    \   }\n\n    size_t pop() {\n      auto front = que.front();\n      que.pop();\n\
+    \      in[front] = false;\n      return front;\n    }\n  };  // struct unique_queue\n\
+    \n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
+    \ lazy;\n  unique_queue que;\n\n  void repair() {\n    while (!que.empty()) {\n\
+    \      const size_t index = que.pop() >> 1;\n      if (index && que.push(index))\
+    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
+    \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
+    \ = lazy[node] * endo;\n  }\n\n  void push(size_t node) {\n    if (!(node < size_ext))\
+    \ return;\n    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n\
+    \    lazy[node] = Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node]\
+    \ = data[node << 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  size_t\
+    \ left_search_subtree(size_t node, Pred pred, Monoid mono) {\n    assert(node);\n\
+    \    while (node < size_ext) {\n      push(node);\n      const Monoid &tmp = data[(node\
+    \ <<= 1) | 1] + mono;\n      if (pred(tmp))\n        mono = tmp;\n      else\n\
+    \        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
+    \ Pred>\n  size_t right_search_subtree(size_t node, Pred pred, Monoid mono) {\n\
+    \    assert(node);\n    while (node < size_ext) {\n      push(node);\n      const\
+    \ Monoid &tmp = mono + data[node <<= 1];\n      if (pred(tmp)) ++node, mono =\
+    \ tmp;\n    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n\
+    \  }\n\n public:\n  using value_type = Monoid;\n\n  lazy_segment_tree(size_t n\
+    \ = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n - 1)\
+    \ : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n     \
+    \   lazy(size_ext),\n        que(size_ext << 1) {}\n\n  lazy_segment_tree(size_t\
+    \ n, const Monoid &init) : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
+    \ size_ext), std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n\
+    \  }\n\n  template <class iter_type, class value_type = typename std::iterator_traits<\n\
+    \                                 iter_type>::value_type>\n  lazy_segment_tree(iter_type\
+    \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
+    \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
+    \ size_ext{1u << height},\n        data(size_ext << 1),\n        lazy(size_ext),\n\
+    \        que(size_ext << 1) {\n    static_assert(std::is_constructible<Monoid,\
+    \ value_type>::value,\n                  \"Monoid(iter_type::value_type) is not\
+    \ constructible.\");\n    for (auto iter{std::next(std::begin(data), size_ext)};\n\
+    \         iter != std::end(data) && first != last; ++iter, ++first)\n      *iter\
+    \ = Monoid(*first);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template\
+    \ <class Container, typename = element_type<Container>>\n  lazy_segment_tree(const\
+    \ Container &cont)\n      : lazy_segment_tree(std::begin(cont), std::end(cont))\
+    \ {}\n\n  size_t size() const { return size_orig; }\n\n  size_t capacity() const\
+    \ { return size_ext; }\n\n  Monoid &operator[](size_t index) {\n    assert(index\
+    \ < size_orig);\n    index |= size_ext;\n    que.push(index);\n    for (size_t\
+    \ i = height; i; --i) push(index >> i);\n    return data[index];\n  }\n\n  void\
+    \ update(size_t index, const Endomorphism &endo) {\n    update(index, index +\
+    \ 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
+    \ &endo) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
+    \ return;\n    first += size_ext, last += size_ext - 1;\n    for (size_t i = height;\
+    \ i; --i) push(first >> i), push(last >> i);\n    for (size_t l = first, r = last\
+    \ + 1; last; l >>= 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) apply(l++,\
+    \ endo);\n        if (r & 1) apply(--r, endo);\n      }\n      if (first >>= 1,\
+    \ last >>= 1) {\n        pull(first), pull(last);\n      }\n    }\n  }\n\n  Monoid\
+    \ fold() { return fold(0, size_orig); }\n\n  Monoid fold(size_t first, size_t\
+    \ last) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
+    \ return Monoid{};\n    first += size_ext, last += size_ext - 1;\n    Monoid left_val{},\
     \ right_val{};\n    for (size_t l = first, r = last + 1; last; l >>= 1, r >>=\
     \ 1) {\n      if (l < r) {\n        if (l & 1) left_val = left_val + data[l++];\n\
     \        if (r & 1) right_val = data[--r] + right_val;\n      }\n      if (first\
@@ -133,62 +132,61 @@ data:
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
     \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  class\
     \ unique_queue {\n    std::queue<size_t> que;\n    std::vector<bool> in;\n\n \
-    \  public:\n    unique_queue(size_t n) : in(n) {}\n\n    void clear() { decltype(que)().swap(que);\
-    \ }\n\n    bool empty() const { return que.empty(); }\n\n    bool push(size_t\
-    \ index) {\n      if (in[index]) return false;\n      que.emplace(index);\n  \
-    \    return in[index] = true;\n    }\n\n    size_t pop() {\n      auto front =\
-    \ que.front();\n      que.pop();\n      return front;\n    }\n  };  // struct\
-    \ unique_queue\n\n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n\
-    \  Endomorphism_container lazy;\n  unique_queue que;\n\n  void repair() {\n  \
-    \  while (!que.empty()) {\n      const size_t index = que.pop() >> 1;\n      if\
-    \ (index && que.push(index)) pull(index);\n    }\n    que.clear();\n  }\n\n  void\
-    \ apply(size_t node, const Endomorphism &endo) {\n    data[node] = data[node]\
-    \ * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n \
-    \ void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
-    \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
-    \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
-    \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n\
-    \      if (pred(tmp))\n        mono = tmp;\n      else\n        ++node;\n    }\n\
-    \    return ++node -= size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = mono + data[node <<= 1];\n \
-    \     if (pred(tmp)) ++node, mono = tmp;\n    }\n    return (node -= size_ext)\
-    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  using value_type = Monoid;\n\
-    \n  lazy_segment_tree(size_t n = 0)\n      : size_orig{n},\n        height(n >\
-    \ 1 ? 32 - __builtin_clz(n - 1) : 0),\n        size_ext{1u << height},\n     \
-    \   data(size_ext << 1),\n        lazy(size_ext),\n        que(size_ext << 1)\
-    \ {}\n\n  lazy_segment_tree(size_t n, const Monoid &init) : lazy_segment_tree(n)\
-    \ {\n    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);\n\
-    \    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template <class iter_type,\
-    \ class value_type = typename std::iterator_traits<\n                        \
-    \         iter_type>::value_type>\n  lazy_segment_tree(iter_type first, iter_type\
-    \ last)\n      : size_orig(std::distance(first, last)),\n        height(size_orig\
-    \ > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n        size_ext{1u << height},\n\
-    \        data(size_ext << 1),\n        lazy(size_ext),\n        que(size_ext <<\
-    \ 1) {\n    static_assert(std::is_constructible<Monoid, value_type>::value,\n\
-    \                  \"Monoid(iter_type::value_type) is not constructible.\");\n\
-    \    for (auto iter{std::next(std::begin(data), size_ext)};\n         iter !=\
-    \ std::end(data) && first != last; ++iter, ++first)\n      *iter = Monoid(*first);\n\
-    \    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template <class Container,\
-    \ typename = element_type<Container>>\n  lazy_segment_tree(const Container &cont)\n\
-    \      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}\n\n  size_t size()\
-    \ const { return size_orig; }\n\n  size_t capacity() const { return size_ext;\
-    \ }\n\n  Monoid &operator[](size_t index) {\n    assert(index < size_orig);\n\
-    \    index |= size_ext;\n    que.push(index);\n    for (size_t i = height; i;\
-    \ --i) push(index >> i);\n    return data[index];\n  }\n\n  void update(size_t\
-    \ index, const Endomorphism &endo) {\n    update(index, index + 1, endo);\n  }\n\
-    \n  void update(size_t first, size_t last, const Endomorphism &endo) {\n    assert(last\
-    \ <= size_orig);\n    repair();\n    if (first >= last) return;\n    first +=\
-    \ size_ext, last += size_ext - 1;\n    for (size_t i = height; i; --i) push(first\
-    \ >> i), push(last >> i);\n    for (size_t l = first, r = last + 1; last; l >>=\
-    \ 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) apply(l++, endo);\n  \
-    \      if (r & 1) apply(--r, endo);\n      }\n      if (first >>= 1, last >>=\
-    \ 1) {\n        pull(first), pull(last);\n      }\n    }\n  }\n\n  Monoid fold()\
-    \ { return fold(0, size_orig); }\n\n  Monoid fold(size_t first, size_t last) {\n\
-    \    assert(last <= size_orig);\n    repair();\n    if (first >= last) return\
-    \ Monoid{};\n    first += size_ext, last += size_ext - 1;\n    Monoid left_val{},\
+    \  public:\n    unique_queue(size_t n) : in(n) {}\n\n    bool empty() const {\
+    \ return que.empty(); }\n\n    bool push(size_t index) {\n      if (in[index])\
+    \ return false;\n      que.emplace(index);\n      return in[index] = true;\n \
+    \   }\n\n    size_t pop() {\n      auto front = que.front();\n      que.pop();\n\
+    \      in[front] = false;\n      return front;\n    }\n  };  // struct unique_queue\n\
+    \n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
+    \ lazy;\n  unique_queue que;\n\n  void repair() {\n    while (!que.empty()) {\n\
+    \      const size_t index = que.pop() >> 1;\n      if (index && que.push(index))\
+    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
+    \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
+    \ = lazy[node] * endo;\n  }\n\n  void push(size_t node) {\n    if (!(node < size_ext))\
+    \ return;\n    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n\
+    \    lazy[node] = Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node]\
+    \ = data[node << 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  size_t\
+    \ left_search_subtree(size_t node, Pred pred, Monoid mono) {\n    assert(node);\n\
+    \    while (node < size_ext) {\n      push(node);\n      const Monoid &tmp = data[(node\
+    \ <<= 1) | 1] + mono;\n      if (pred(tmp))\n        mono = tmp;\n      else\n\
+    \        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
+    \ Pred>\n  size_t right_search_subtree(size_t node, Pred pred, Monoid mono) {\n\
+    \    assert(node);\n    while (node < size_ext) {\n      push(node);\n      const\
+    \ Monoid &tmp = mono + data[node <<= 1];\n      if (pred(tmp)) ++node, mono =\
+    \ tmp;\n    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n\
+    \  }\n\n public:\n  using value_type = Monoid;\n\n  lazy_segment_tree(size_t n\
+    \ = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n - 1)\
+    \ : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n     \
+    \   lazy(size_ext),\n        que(size_ext << 1) {}\n\n  lazy_segment_tree(size_t\
+    \ n, const Monoid &init) : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
+    \ size_ext), std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n\
+    \  }\n\n  template <class iter_type, class value_type = typename std::iterator_traits<\n\
+    \                                 iter_type>::value_type>\n  lazy_segment_tree(iter_type\
+    \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
+    \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
+    \ size_ext{1u << height},\n        data(size_ext << 1),\n        lazy(size_ext),\n\
+    \        que(size_ext << 1) {\n    static_assert(std::is_constructible<Monoid,\
+    \ value_type>::value,\n                  \"Monoid(iter_type::value_type) is not\
+    \ constructible.\");\n    for (auto iter{std::next(std::begin(data), size_ext)};\n\
+    \         iter != std::end(data) && first != last; ++iter, ++first)\n      *iter\
+    \ = Monoid(*first);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  template\
+    \ <class Container, typename = element_type<Container>>\n  lazy_segment_tree(const\
+    \ Container &cont)\n      : lazy_segment_tree(std::begin(cont), std::end(cont))\
+    \ {}\n\n  size_t size() const { return size_orig; }\n\n  size_t capacity() const\
+    \ { return size_ext; }\n\n  Monoid &operator[](size_t index) {\n    assert(index\
+    \ < size_orig);\n    index |= size_ext;\n    que.push(index);\n    for (size_t\
+    \ i = height; i; --i) push(index >> i);\n    return data[index];\n  }\n\n  void\
+    \ update(size_t index, const Endomorphism &endo) {\n    update(index, index +\
+    \ 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
+    \ &endo) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
+    \ return;\n    first += size_ext, last += size_ext - 1;\n    for (size_t i = height;\
+    \ i; --i) push(first >> i), push(last >> i);\n    for (size_t l = first, r = last\
+    \ + 1; last; l >>= 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) apply(l++,\
+    \ endo);\n        if (r & 1) apply(--r, endo);\n      }\n      if (first >>= 1,\
+    \ last >>= 1) {\n        pull(first), pull(last);\n      }\n    }\n  }\n\n  Monoid\
+    \ fold() { return fold(0, size_orig); }\n\n  Monoid fold(size_t first, size_t\
+    \ last) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
+    \ return Monoid{};\n    first += size_ext, last += size_ext - 1;\n    Monoid left_val{},\
     \ right_val{};\n    for (size_t l = first, r = last + 1; last; l >>= 1, r >>=\
     \ 1) {\n      if (l < r) {\n        if (l & 1) left_val = left_val + data[l++];\n\
     \        if (r & 1) right_val = data[--r] + right_val;\n      }\n      if (first\
@@ -213,7 +211,7 @@ data:
   isVerificationFile: false
   path: data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2020-09-25 02:41:57+09:00'
+  timestamp: '2020-09-25 02:56:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
