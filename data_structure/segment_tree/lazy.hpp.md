@@ -34,11 +34,14 @@ data:
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 6 \"data_structure/segment_tree/lazy.hpp\"\
-    \ntemplate <class Monoid, class Endomorphism,\n          template <class...> class\
-    \ Container_tmpl = std::vector>\nclass lazy_segment_tree {\n  size_t size_orig,\
-    \ height, size_ext;\n  Container_tmpl<Monoid> data;\n  Container_tmpl<Endomorphism>\
-    \ lazy;\n\n  static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,\n\
-    \                \"\\'Monoid\\' has no proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
+    \ntemplate <class Monoid, class Endomorphism,\n          class Monoid_container\
+    \ = std::vector<Monoid>,\n          class Endomorphism_container = std::vector<Endomorphism>>\n\
+    class lazy_segment_tree {\n  size_t size_orig, height, size_ext;\n  Monoid_container\
+    \ data;\n  Endomorphism_container lazy;\n\n  static_assert(std::is_same<Monoid,\
+    \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
+    \ decltype(Monoid{} + Monoid{})>::value,\n                \"\\'Monoid\\' has no\
+    \ proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
@@ -107,11 +110,14 @@ data:
     \    mono = tmp;\n        ++left;\n      }\n    }\n    return size_orig;\n  }\n\
     };  // class lazy_segment_tree\n"
   code: "#pragma once\n#include <cassert>\n#include <vector>\n\n#include \"utils/sfinae.hpp\"\
-    \ntemplate <class Monoid, class Endomorphism,\n          template <class...> class\
-    \ Container_tmpl = std::vector>\nclass lazy_segment_tree {\n  size_t size_orig,\
-    \ height, size_ext;\n  Container_tmpl<Monoid> data;\n  Container_tmpl<Endomorphism>\
-    \ lazy;\n\n  static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,\n\
-    \                \"\\'Monoid\\' has no proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
+    \ntemplate <class Monoid, class Endomorphism,\n          class Monoid_container\
+    \ = std::vector<Monoid>,\n          class Endomorphism_container = std::vector<Endomorphism>>\n\
+    class lazy_segment_tree {\n  size_t size_orig, height, size_ext;\n  Monoid_container\
+    \ data;\n  Endomorphism_container lazy;\n\n  static_assert(std::is_same<Monoid,\
+    \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
+    \ decltype(Monoid{} + Monoid{})>::value,\n                \"\\'Monoid\\' has no\
+    \ proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
@@ -184,7 +190,7 @@ data:
   isVerificationFile: false
   path: data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-09-24 23:22:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

@@ -42,11 +42,13 @@ data:
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
     };\n#line 6 \"data_structure/segment_tree/lazy.hpp\"\ntemplate <class Monoid,\
-    \ class Endomorphism,\n          template <class...> class Container_tmpl = std::vector>\n\
-    class lazy_segment_tree {\n  size_t size_orig, height, size_ext;\n  Container_tmpl<Monoid>\
-    \ data;\n  Container_tmpl<Endomorphism> lazy;\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype(Monoid{} + Monoid{})>::value,\n                \"\\'Monoid\\' has no\
-    \ proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
+    \ class Endomorphism,\n          class Monoid_container = std::vector<Monoid>,\n\
+    \          class Endomorphism_container = std::vector<Endomorphism>>\nclass lazy_segment_tree\
+    \ {\n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
+    \ lazy;\n\n  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);\n\
+    \n  static_assert(\n      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);\n\
+    \n  static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,\n\
+    \                \"\\'Monoid\\' has no proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
@@ -216,7 +218,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-09-23 23:35:05+09:00'
+  timestamp: '2020-09-24 23:22:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
