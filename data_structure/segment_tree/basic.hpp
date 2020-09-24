@@ -15,16 +15,21 @@ class segment_tree {
    public:
     unique_queue(size_t n)
         : que(new size_t[n]), begin(que), end(que), in(new bool[n]{}) {}
+
     ~unique_queue() {
       delete[] que;
       delete[] in;
     }
+
     void clear() { begin = end = que; }
+
     bool empty() const { return begin == end; }
+
     bool push(size_t index) {
       if (in[index]) return false;
       return in[*end++ = index] = true;
     }
+
     size_t pop() { return in[*begin] = false, *begin++; }
   };  // struct unique_queue
 
@@ -32,16 +37,16 @@ class segment_tree {
   Container data;
   unique_queue que;
 
-  void recalc(const size_t node) {
-    data[node] = data[node << 1] + data[node << 1 | 1];
-  }
-
   void repair() {
     while (!que.empty()) {
       const size_t index = que.pop() >> 1;
-      if (index && que.push(index)) recalc(index);
+      if (index && que.push(index)) pull(index);
     }
     que.clear();
+  }
+
+  void pull(const size_t node) {
+    data[node] = data[node << 1] + data[node << 1 | 1];
   }
 
   template <class Pred>
@@ -80,7 +85,7 @@ class segment_tree {
 
   segment_tree(const size_t n, const Monoid &init) : segment_tree(n) {
     std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
-    for (size_t i{size_ext}; --i;) recalc(i);
+    for (size_t i{size_ext}; --i;) pull(i);
   }
 
   template <class iter_type, class value_type = typename std::iterator_traits<
@@ -96,7 +101,7 @@ class segment_tree {
     for (auto iter{std::next(std::begin(data), size_ext)};
          iter != std::end(data) && first != last; ++iter, ++first)
       *iter = Monoid{*first};
-    for (size_t i{size_ext}; --i;) recalc(i);
+    for (size_t i{size_ext}; --i;) pull(i);
   }
 
   template <class Cont, typename = typename Cont::value_type>
