@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+#include <queue>
 #include <vector>
 
 #include "utils/sfinae.hpp"
@@ -24,28 +25,27 @@ class lazy_segment_tree {
       "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
   class unique_queue {
-    size_t *que, *begin, *end;
-    bool *in;
+    std::queue<size_t> que;
+    std::vector<bool> in;
 
    public:
-    unique_queue(size_t n)
-        : que(new size_t[n]), begin(que), end(que), in(new bool[n]{}) {}
+    unique_queue(size_t n) : in(n) {}
 
-    ~unique_queue() {
-      delete[] que;
-      delete[] in;
-    }
+    void clear() { decltype(que)().swap(que); }
 
-    void clear() { begin = end = que; }
-
-    bool empty() const { return begin == end; }
+    bool empty() const { return que.empty(); }
 
     bool push(size_t index) {
       if (in[index]) return false;
-      return in[*end++ = index] = true;
+      que.emplace(index);
+      return in[index] = true;
     }
 
-    size_t pop() { return in[*begin] = false, *begin++; }
+    size_t pop() {
+      auto front = que.front();
+      que.pop();
+      return front;
+    }
   };  // struct unique_queue
 
   size_t size_orig, height, size_ext;
@@ -67,7 +67,7 @@ class lazy_segment_tree {
   }
 
   void push(size_t node) {
-    if (node >= size_ext) return;
+    if (!(node < size_ext)) return;
     apply(node << 1, lazy[node]);
     apply(node << 1 | 1, lazy[node]);
     lazy[node] = Endomorphism{};
@@ -101,6 +101,8 @@ class lazy_segment_tree {
   }
 
  public:
+  using value_type = Monoid;
+
   lazy_segment_tree(size_t n = 0)
       : size_orig{n},
         height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
