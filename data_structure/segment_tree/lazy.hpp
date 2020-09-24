@@ -27,16 +27,14 @@ class lazy_segment_tree {
       std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,
       "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
-  void pull(const size_t &node) {
-    data[node] = data[node << 1] + data[node << 1 | 1];
-  }
+  void pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
-  void apply(const size_t &node, const Endomorphism &endo) {
+  void apply(size_t node, const Endomorphism &endo) {
     data[node] = data[node] * endo;
     if (node < size_ext) lazy[node] = lazy[node] * endo;
   }
 
-  void push(const size_t &node) {
+  void push(size_t node) {
     if (node >= size_ext) return;
     apply(node << 1, lazy[node]);
     apply(node << 1 | 1, lazy[node]);
@@ -69,15 +67,14 @@ class lazy_segment_tree {
   }
 
  public:
-  lazy_segment_tree(const size_t n = 0)
+  lazy_segment_tree(size_t n = 0)
       : size_orig{n},
         height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
         size_ext{1u << height},
         data(size_ext << 1),
         lazy(size_ext) {}
 
-  lazy_segment_tree(const size_t &n, const Monoid &init)
-      : lazy_segment_tree(n) {
+  lazy_segment_tree(size_t n, const Monoid &init) : lazy_segment_tree(n) {
     std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
     for (size_t i{size_ext}; --i;) pull(i);
   }
@@ -105,9 +102,9 @@ class lazy_segment_tree {
   size_t size() const { return size_orig; }
   size_t capacity() const { return size_ext; }
 
-  Monoid operator[](const size_t &index) { return fold(index, index + 1); }
+  Monoid operator[](size_t index) { return fold(index, index + 1); }
 
-  void update(const size_t &index, const Endomorphism &endo) {
+  void update(size_t index, const Endomorphism &endo) {
     update(index, index + 1, endo);
   }
 
