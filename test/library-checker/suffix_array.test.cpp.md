@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: string/suffix_array.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'
