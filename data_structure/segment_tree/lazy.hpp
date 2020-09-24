@@ -31,8 +31,6 @@ class lazy_segment_tree {
    public:
     unique_queue(size_t n) : in(n) {}
 
-    void clear() { decltype(que)().swap(que); }
-
     bool empty() const { return que.empty(); }
 
     bool push(size_t index) {
@@ -44,6 +42,7 @@ class lazy_segment_tree {
     size_t pop() {
       auto front = que.front();
       que.pop();
+      in[front] = false;
       return front;
     }
   };  // struct unique_queue
@@ -58,7 +57,6 @@ class lazy_segment_tree {
       const size_t index = que.pop() >> 1;
       if (index && que.push(index)) pull(index);
     }
-    que.clear();
   }
 
   void apply(size_t node, const Endomorphism &endo) {
