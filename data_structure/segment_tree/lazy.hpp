@@ -4,11 +4,17 @@
 
 #include "utils/sfinae.hpp"
 template <class Monoid, class Endomorphism,
-          template <class...> class Container_tmpl = std::vector>
+          class Monoid_container = std::vector<Monoid>,
+          class Endomorphism_container = std::vector<Endomorphism>>
 class lazy_segment_tree {
   size_t size_orig, height, size_ext;
-  Container_tmpl<Monoid> data;
-  Container_tmpl<Endomorphism> lazy;
+  Monoid_container data;
+  Endomorphism_container lazy;
+
+  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);
+
+  static_assert(
+      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);
 
   static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,
                 "\'Monoid\' has no proper binary operator+.");
