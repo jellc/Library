@@ -7,10 +7,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
     title: modulus/modint.hpp
   _extendedRequiredBy: []

@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []

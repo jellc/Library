@@ -77,7 +77,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/basic.hpp
       title: data_structure/segment_tree/basic.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/lazy.hpp
       title: data_structure/segment_tree/lazy.hpp
   - name: data_structure/union_find
@@ -173,7 +173,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: modulus/inverse.hpp
       title: modulus/inverse.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: modulus/modint.hpp
       title: modulus/modint.hpp
   - name: number_theory
@@ -227,7 +227,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: utils/read.hpp
       title: utils/read.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
     - icon: ':heavy_check_mark:'
@@ -299,7 +299,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
