@@ -45,27 +45,27 @@ data:
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
-    \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  void pull(const\
-    \ size_t &node) {\n    data[node] = data[node << 1] + data[node << 1 | 1];\n \
-    \ }\n\n  void apply(const size_t &node, const Endomorphism &endo) {\n    data[node]\
-    \ = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n\
-    \  }\n\n  void push(const size_t &node) {\n    if (node >= size_ext) return;\n\
-    \    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n  \
-    \  lazy[node] = Endomorphism{};\n  }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n\
-    \      if (pred(tmp))\n        mono = tmp;\n      else\n        ++node;\n    }\n\
-    \    return ++node -= size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
+    \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  void pull(size_t\
+    \ node) { data[node] = data[node << 1] + data[node << 1 | 1]; }\n\n  void apply(size_t\
+    \ node, const Endomorphism &endo) {\n    data[node] = data[node] * endo;\n   \
+    \ if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n  void push(size_t\
+    \ node) {\n    if (node >= size_ext) return;\n    apply(node << 1, lazy[node]);\n\
+    \    apply(node << 1 | 1, lazy[node]);\n    lazy[node] = Endomorphism{};\n  }\n\
+    \n  template <class Pred>\n  size_t left_search_subtree(size_t node, Pred pred,\
+    \ Monoid mono) {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n\
+    \      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n      if (pred(tmp))\n\
+    \        mono = tmp;\n      else\n        ++node;\n    }\n    return ++node -=\
+    \ size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
     \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
     \ {\n      push(node);\n      const Monoid &tmp = mono + data[node <<= 1];\n \
     \     if (pred(tmp)) ++node, mono = tmp;\n    }\n    return (node -= size_ext)\
-    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  lazy_segment_tree(const\
-    \ size_t n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n\
-    \ - 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n\
-    \        lazy(size_ext) {}\n\n  lazy_segment_tree(const size_t &n, const Monoid\
-    \ &init)\n      : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
-    \ size_ext), std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n\
-    \  }\n\n  template <class iter_type, class value_type = typename std::iterator_traits<\n\
+    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  lazy_segment_tree(size_t\
+    \ n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n -\
+    \ 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n  \
+    \      lazy(size_ext) {}\n\n  lazy_segment_tree(size_t n, const Monoid &init)\
+    \ : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data), size_ext),\
+    \ std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n\
+    \  template <class iter_type, class value_type = typename std::iterator_traits<\n\
     \                                 iter_type>::value_type>\n  lazy_segment_tree(iter_type\
     \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
     \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
@@ -78,9 +78,9 @@ data:
     \ typename Container::value_type>\n  lazy_segment_tree(const Container &cont)\n\
     \      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}\n\n  size_t size()\
     \ const { return size_orig; }\n  size_t capacity() const { return size_ext; }\n\
-    \n  Monoid operator[](const size_t &index) { return fold(index, index + 1); }\n\
-    \n  void update(const size_t &index, const Endomorphism &endo) {\n    update(index,\
-    \ index + 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
+    \n  Monoid operator[](size_t index) { return fold(index, index + 1); }\n\n  void\
+    \ update(size_t index, const Endomorphism &endo) {\n    update(index, index +\
+    \ 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
     \ &endo) {\n    assert(last <= size_orig);\n    if (first >= last) return;\n \
     \   first += size_ext, last += size_ext - 1;\n    for (size_t i = height; i; --i)\
     \ push(first >> i), push(last >> i);\n    for (size_t l = first, r = last + 1;\
@@ -121,27 +121,27 @@ data:
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
-    \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  void pull(const\
-    \ size_t &node) {\n    data[node] = data[node << 1] + data[node << 1 | 1];\n \
-    \ }\n\n  void apply(const size_t &node, const Endomorphism &endo) {\n    data[node]\
-    \ = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n\
-    \  }\n\n  void push(const size_t &node) {\n    if (node >= size_ext) return;\n\
-    \    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n  \
-    \  lazy[node] = Endomorphism{};\n  }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
-    \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
-    \ {\n      push(node);\n      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n\
-    \      if (pred(tmp))\n        mono = tmp;\n      else\n        ++node;\n    }\n\
-    \    return ++node -= size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
+    \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  void pull(size_t\
+    \ node) { data[node] = data[node << 1] + data[node << 1 | 1]; }\n\n  void apply(size_t\
+    \ node, const Endomorphism &endo) {\n    data[node] = data[node] * endo;\n   \
+    \ if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n  void push(size_t\
+    \ node) {\n    if (node >= size_ext) return;\n    apply(node << 1, lazy[node]);\n\
+    \    apply(node << 1 | 1, lazy[node]);\n    lazy[node] = Endomorphism{};\n  }\n\
+    \n  template <class Pred>\n  size_t left_search_subtree(size_t node, Pred pred,\
+    \ Monoid mono) {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n\
+    \      const Monoid &tmp = data[(node <<= 1) | 1] + mono;\n      if (pred(tmp))\n\
+    \        mono = tmp;\n      else\n        ++node;\n    }\n    return ++node -=\
+    \ size_ext;\n  }\n\n  template <class Pred>\n  size_t right_search_subtree(size_t\
     \ node, Pred pred, Monoid mono) {\n    assert(node);\n    while (node < size_ext)\
     \ {\n      push(node);\n      const Monoid &tmp = mono + data[node <<= 1];\n \
     \     if (pred(tmp)) ++node, mono = tmp;\n    }\n    return (node -= size_ext)\
-    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  lazy_segment_tree(const\
-    \ size_t n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n\
-    \ - 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n\
-    \        lazy(size_ext) {}\n\n  lazy_segment_tree(const size_t &n, const Monoid\
-    \ &init)\n      : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
-    \ size_ext), std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n\
-    \  }\n\n  template <class iter_type, class value_type = typename std::iterator_traits<\n\
+    \ < size_orig ? node : size_orig;\n  }\n\n public:\n  lazy_segment_tree(size_t\
+    \ n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n -\
+    \ 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n  \
+    \      lazy(size_ext) {}\n\n  lazy_segment_tree(size_t n, const Monoid &init)\
+    \ : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data), size_ext),\
+    \ std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n\
+    \  template <class iter_type, class value_type = typename std::iterator_traits<\n\
     \                                 iter_type>::value_type>\n  lazy_segment_tree(iter_type\
     \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
     \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
@@ -154,9 +154,9 @@ data:
     \ typename Container::value_type>\n  lazy_segment_tree(const Container &cont)\n\
     \      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}\n\n  size_t size()\
     \ const { return size_orig; }\n  size_t capacity() const { return size_ext; }\n\
-    \n  Monoid operator[](const size_t &index) { return fold(index, index + 1); }\n\
-    \n  void update(const size_t &index, const Endomorphism &endo) {\n    update(index,\
-    \ index + 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
+    \n  Monoid operator[](size_t index) { return fold(index, index + 1); }\n\n  void\
+    \ update(size_t index, const Endomorphism &endo) {\n    update(index, index +\
+    \ 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
     \ &endo) {\n    assert(last <= size_orig);\n    if (first >= last) return;\n \
     \   first += size_ext, last += size_ext - 1;\n    for (size_t i = height; i; --i)\
     \ push(first >> i), push(last >> i);\n    for (size_t l = first, r = last + 1;\
@@ -190,7 +190,7 @@ data:
   isVerificationFile: false
   path: data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2020-09-24 23:22:15+09:00'
+  timestamp: '2020-09-24 23:43:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
