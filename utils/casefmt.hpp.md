@@ -24,10 +24,10 @@ data:
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
     \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
     \   char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
-    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(void),\
-    \ caseid = 1;\ntemplate <class C> void main() {\n  for (const unsigned total =\
-    \ cases(); caseid <= total; ++caseid) C();\n}\n}  // namespace config\n#line 3\
-    \ \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
+    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
+    \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
+    \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
+    \ 3 \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
     \ os) { return os << \"Case #\" << config::caseid << \": \"; }\n} // namespace\
     \ workspace\n"
   code: '#pragma once
@@ -49,7 +49,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-09-07 03:02:26+09:00'
+  timestamp: '2020-09-26 01:36:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/casefmt.hpp

@@ -72,14 +72,14 @@ data:
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
     \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
     \   char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
-    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(void),\
-    \ caseid = 1;\ntemplate <class C> void main() {\n  for (const unsigned total =\
-    \ cases(); caseid <= total; ++caseid) C();\n}\n}  // namespace config\n#line 2\
-    \ \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"O3\")\n    #pragma\
-    \ GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\")\n#endif\n\
-    #line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include <cassert>\n\
-    #include <cmath>\n#include <vector>\nnamespace workspace {\n// binary search on\
-    \ discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
+    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
+    \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
+    \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
+    \ 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"O3\")\n  \
+    \  #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\
+    )\n#endif\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include\
+    \ <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n// binary\
+    \ search on discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n\
     \    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
     \  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while (dist > 1 || dist <\
@@ -257,18 +257,17 @@ data:
     \ class reversed {\n  Container &ref, copy;\n\n public:\n  reversed(Container\
     \ &ref) : ref(ref) {}\n  reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  auto begin() const { return ref.rbegin(); }\n  auto end() const\
-    \ { return ref.rend(); }\n};\n#line 9 \"template.cpp\"\nnamespace workspace {\n\
-    struct solver;\n}  // namespace workspace\nint main() { config::main<workspace::solver>();\
-    \ }\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t; std::cin\
-    \ >> t; return t; // given\n  return 1;\n}\n\nstruct workspace::solver {\n  solver()\
-    \ {\n    // start here!\n  }\n};\n"
+    \ { return ref.rend(); }\n};\n#line 9 \"template.cpp\"\n\nnamespace workspace\
+    \ {\nvoid main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned\
+    \ config::cases() {\n  // return -1; // unspecified\n  // int t; std::cin >> t;\
+    \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
+    \  // start here!\n}\n}\n"
   code: "#include <bits/extc++.h>\n#if __has_include(<bit>)\n#include <bit>\n#endif\n\
     #include \"alias.hpp\"\n#include \"config.hpp\"\n#include \"option.hpp\"\n#include\
-    \ \"utils.hpp\"\nnamespace workspace {\nstruct solver;\n}  // namespace workspace\n\
-    int main() { config::main<workspace::solver>(); }\nunsigned config::cases() {\n\
-    \  // return -1; // unspecified\n  // int t; std::cin >> t; return t; // given\n\
-    \  return 1;\n}\n\nstruct workspace::solver {\n  solver() {\n    // start here!\n\
-    \  }\n};\n"
+    \ \"utils.hpp\"\n\nnamespace workspace {\nvoid main();\n}\nint main() { config::loop(workspace::main);\
+    \ }\n\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t;\
+    \ std::cin >> t; return t; // given\n  return 1;\n}\n\nnamespace workspace {\n\
+    void main() {\n  // start here!\n}\n}\n"
   dependsOn:
   - alias.hpp
   - config.hpp
@@ -290,7 +289,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-09-25 13:36:45+09:00'
+  timestamp: '2020-09-26 01:36:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
