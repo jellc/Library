@@ -20,9 +20,9 @@ class lowest_common_ancestor {
   void make_table() {
     const size_t len = sorted.size();
     for (size_t w = 2; w < len; w <<= 1) {
-      auto &cur(table.back()), next(cur);
+      auto &curr(table.back()), next(curr);
       for (size_t i = 0, j = w >> 1; j != len; ++i, ++j)
-        if (index[cur[j]] < index[cur[i]]) next[i] = cur[j];
+        if (index[curr[j]] < index[curr[i]]) next[i] = curr[j];
       table.emplace_back(next);
     }
   }
