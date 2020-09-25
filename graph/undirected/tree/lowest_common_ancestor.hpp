@@ -20,10 +20,10 @@ class lowest_common_ancestor {
   void make_table() {
     const size_t len = sorted.size();
     for (size_t w = 2; w < len; w <<= 1) {
-      std::vector<size_t> &crt(table.back()), nxt(crt);
+      auto &cur(table.back()), next(cur);
       for (size_t i = 0, j = w >> 1; j != len; ++i, ++j)
-        if (index[crt[j]] < index[crt[i]]) nxt[i] = crt[j];
-      table.emplace_back(nxt);
+        if (index[cur[j]] < index[cur[i]]) next[i] = cur[j];
+      table.emplace_back(next);
     }
   }
 
