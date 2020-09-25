@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - run: g++ template.cpp -std=c++17 -Wall
-    - run: ./a
+    - run: g++ template.cpp -std=c++17 -Wall -o a.o
+    - run: ./a.o
