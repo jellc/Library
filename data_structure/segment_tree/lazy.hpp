@@ -24,27 +24,24 @@ class lazy_segment_tree {
       std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,
       "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
-  class unique_queue {
-    std::queue<size_t> que;
-    std::vector<bool> in;
-
-   public:
+  struct unique_queue : std::queue<size_t> {
     unique_queue(size_t n) : in(n) {}
-
-    bool empty() const { return que.empty(); }
 
     bool push(size_t index) {
       if (in[index]) return false;
-      que.emplace(index);
+      std::queue<size_t>::emplace(index);
       return in[index] = true;
     }
 
     size_t pop() {
-      auto front = que.front();
-      que.pop();
+      auto front = std::queue<size_t>::front();
+      std::queue<size_t>::pop();
       in[front] = false;
       return front;
     }
+
+   private:
+    std::vector<bool> in;
   };  // struct unique_queue
 
   size_t size_orig, height, size_ext;
