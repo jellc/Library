@@ -18,9 +18,9 @@ data:
     \    for (const size_t to : tree[node]) {\n      if (to != prev) {\n        tour(to,\
     \ node);\n        sorted.emplace_back(node);\n      }\n    }\n  }\n\n  void make_table()\
     \ {\n    const size_t len = sorted.size();\n    for (size_t w = 2; w < len; w\
-    \ <<= 1) {\n      auto &cur(table.back()), next(cur);\n      for (size_t i = 0,\
-    \ j = w >> 1; j != len; ++i, ++j)\n        if (index[cur[j]] < index[cur[i]])\
-    \ next[i] = cur[j];\n      table.emplace_back(next);\n    }\n  }\n\n public:\n\
+    \ <<= 1) {\n      auto &curr(table.back()), next(curr);\n      for (size_t i =\
+    \ 0, j = w >> 1; j != len; ++i, ++j)\n        if (index[curr[j]] < index[curr[i]])\
+    \ next[i] = curr[j];\n      table.emplace_back(next);\n    }\n  }\n\n public:\n\
     \  lowest_common_ancestor(const size_t n = 0)\n      : tree(n), table(1), sorted(table.front()),\
     \ index(n) {}\n\n  size_t size() const { return tree.size(); }\n\n  void add_edge(const\
     \ size_t u, const size_t v) {\n    assert(u < size());\n    assert(v < size());\n\
@@ -37,9 +37,9 @@ data:
     \ = sorted.size();\n    sorted.emplace_back(node);\n    for (const size_t to :\
     \ tree[node]) {\n      if (to != prev) {\n        tour(to, node);\n        sorted.emplace_back(node);\n\
     \      }\n    }\n  }\n\n  void make_table() {\n    const size_t len = sorted.size();\n\
-    \    for (size_t w = 2; w < len; w <<= 1) {\n      auto &cur(table.back()), next(cur);\n\
-    \      for (size_t i = 0, j = w >> 1; j != len; ++i, ++j)\n        if (index[cur[j]]\
-    \ < index[cur[i]]) next[i] = cur[j];\n      table.emplace_back(next);\n    }\n\
+    \    for (size_t w = 2; w < len; w <<= 1) {\n      auto &curr(table.back()), next(curr);\n\
+    \      for (size_t i = 0, j = w >> 1; j != len; ++i, ++j)\n        if (index[curr[j]]\
+    \ < index[curr[i]]) next[i] = curr[j];\n      table.emplace_back(next);\n    }\n\
     \  }\n\n public:\n  lowest_common_ancestor(const size_t n = 0)\n      : tree(n),\
     \ table(1), sorted(table.front()), index(n) {}\n\n  size_t size() const { return\
     \ tree.size(); }\n\n  void add_edge(const size_t u, const size_t v) {\n    assert(u\
@@ -54,7 +54,7 @@ data:
   isVerificationFile: false
   path: graph/undirected/tree/lowest_common_ancestor.hpp
   requiredBy: []
-  timestamp: '2020-09-25 15:37:31+09:00'
+  timestamp: '2020-09-25 17:28:18+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/lowest_common_ancestor.test.cpp
