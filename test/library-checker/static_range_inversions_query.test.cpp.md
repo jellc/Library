@@ -5,9 +5,6 @@ data:
     path: data_structure/Mo.hpp
     title: data_structure/Mo.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/coordinate_compression.hpp
-    title: utils/coordinate_compression.hpp
-  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/basic.hpp
     title: data_structure/segment_tree/basic.hpp
   - icon: ':heavy_check_mark:'
@@ -16,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/coordinate_compression.hpp
+    title: utils/coordinate_compression.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -27,47 +27,30 @@ data:
     - https://judge.yosupo.jp/problem/static_range_inversions_query
   bundledCode: "#line 1 \"test/library-checker/static_range_inversions_query.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n#line 1 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n#include\
-    \ <functional>\n#include <vector>\n\ntemplate <class Add, class Del>\nclass Mo\n\
-    {\n    Add add; Del del;\n    std::vector<size_t> lft, rgt, ord;\n    std::vector<size_t>::iterator\
-    \ itr;\n    bool made;\n    size_t width, nl, nr;\n\n    void make()\n    {\n\
-    \        made = true;\n        ord.resize(size());\n        for(size_t i = 0;\
-    \ i != size(); ++i) ord[i] = i;\n        std::sort(ord.begin(), ord.end(),\n \
-    \       [&](size_t x, size_t y)\n        {\n            if(lft[x] / width != lft[y]\
-    \ / width) return lft[x] < lft[y];\n            return rgt[x] < rgt[y];\n    \
-    \    });\n        itr = ord.begin();\n    }\n\npublic:\n    Mo(size_t n = 0, Add\
-    \ add = Add(), Del del = Del())\n        : add(add), del(del), made(), width(sqrt(n)),\
-    \ nl(), nr() {}\n\n    size_t size() const { return lft.size(); }\n\n    void\
-    \ set(size_t l, size_t r)\n    {\n        assert(!made);\n        lft.emplace_back(l),\
-    \ rgt.emplace_back(r);\n    }\n\n    size_t process()\n    {\n        if(!made)\
-    \ make();\n        if(itr == ord.end()) return ord.size();\n        const size_t\
-    \ id = *itr++, l = lft[id], r = rgt[id];\n        while(nl > l) add(--nl);\n \
-    \       while(nr < r) add(nr++);\n        while(nl < l) del(nl++);\n        while(nr\
-    \ > r) del(--nr);\n        return id;\n    }\n};\n#line 1 \"utils/coordinate_compression.hpp\"\
-    \n#include <algorithm>\n#line 4 \"utils/coordinate_compression.hpp\"\n\ntemplate\
-    \ <class T>\nclass coordinate_compression\n{\n    std::vector<T> uniquely;\n \
-    \   std::vector<size_t> compressed;\n\npublic:\n    coordinate_compression(const\
-    \ std::vector<T> &raw) : uniquely(raw), compressed(raw.size())\n    {\n      \
-    \  std::sort(uniquely.begin(), uniquely.end());\n        uniquely.erase(std::unique(uniquely.begin(),\
-    \ uniquely.end()), uniquely.end());\n        for(size_t i = 0; i != size(); ++i)\n\
-    \            compressed[i] = std::lower_bound(uniquely.begin(), uniquely.end(),\
-    \ raw[i]) - uniquely.begin();\n    }\n\n    size_t operator[](const size_t idx)\
-    \ const\n    {\n        assert(idx < size());\n        return compressed[idx];\n\
-    \    }\n\n    size_t size() const { return compressed.size(); }\n\n    size_t\
-    \ count() const { return uniquely.size(); }\n\n    T value_of(const size_t ord)\
-    \ const\n    {\n        assert(ord < count());\n        return uniquely[ord];\n\
-    \    }\n\n    size_t order_of(const T &val) const { return std::lower_bound(uniquely.begin(),\
-    \ uniquely.end(), val) - uniquely.begin(); }\n\n    std::vector<size_t>::iterator\
-    \ begin() { return compressed.begin(); }\n    std::vector<size_t>::iterator end()\
-    \ { return compressed.end(); }\n    std::vector<size_t>::reverse_iterator rbegin()\
-    \ { return compressed.rbegin(); }\n    std::vector<size_t>::reverse_iterator rend()\
-    \ { return compressed.rend(); }\n};\n#line 4 \"data_structure/segment_tree/basic.hpp\"\
-    \n\n#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\ntemplate <class\
-    \ T>\nstruct min_monoid\n{\n    using value_type = T;\n    static T min, max;\n\
-    \    T value;\n    min_monoid() : value(max) {}\n    min_monoid(const T &value)\
-    \ : value(value) {}\n    operator T() const { return value; }\n    min_monoid\
-    \ operator+(const min_monoid &rhs) const\n    {\n        return value < rhs.value\
-    \ ? *this : rhs;\n    }\n};\ntemplate <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();\n\
+    \n#include <cstdio>\n\n#line 1 \"data_structure/Mo.hpp\"\n#include <cassert>\n\
+    #include <cmath>\n#include <functional>\n#include <vector>\n\ntemplate <class\
+    \ Add, class Del>\nclass Mo\n{\n    Add add; Del del;\n    std::vector<size_t>\
+    \ lft, rgt, ord;\n    std::vector<size_t>::iterator itr;\n    bool made;\n   \
+    \ size_t width, nl, nr;\n\n    void make()\n    {\n        made = true;\n    \
+    \    ord.resize(size());\n        for(size_t i = 0; i != size(); ++i) ord[i] =\
+    \ i;\n        std::sort(ord.begin(), ord.end(),\n        [&](size_t x, size_t\
+    \ y)\n        {\n            if(lft[x] / width != lft[y] / width) return lft[x]\
+    \ < lft[y];\n            return rgt[x] < rgt[y];\n        });\n        itr = ord.begin();\n\
+    \    }\n\npublic:\n    Mo(size_t n = 0, Add add = Add(), Del del = Del())\n  \
+    \      : add(add), del(del), made(), width(sqrt(n)), nl(), nr() {}\n\n    size_t\
+    \ size() const { return lft.size(); }\n\n    void set(size_t l, size_t r)\n  \
+    \  {\n        assert(!made);\n        lft.emplace_back(l), rgt.emplace_back(r);\n\
+    \    }\n\n    size_t process()\n    {\n        if(!made) make();\n        if(itr\
+    \ == ord.end()) return ord.size();\n        const size_t id = *itr++, l = lft[id],\
+    \ r = rgt[id];\n        while(nl > l) add(--nl);\n        while(nr < r) add(nr++);\n\
+    \        while(nl < l) del(nl++);\n        while(nr > r) del(--nr);\n        return\
+    \ id;\n    }\n};\n#line 4 \"data_structure/segment_tree/basic.hpp\"\n\n#line 2\
+    \ \"algebra/system/monoid.hpp\"\n#include <limits>\ntemplate <class T>\nstruct\
+    \ min_monoid\n{\n    using value_type = T;\n    static T min, max;\n    T value;\n\
+    \    min_monoid() : value(max) {}\n    min_monoid(const T &value) : value(value)\
+    \ {}\n    operator T() const { return value; }\n    min_monoid operator+(const\
+    \ min_monoid &rhs) const\n    {\n        return value < rhs.value ? *this : rhs;\n\
+    \    }\n};\ntemplate <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();\n\
     template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();\ntemplate\
     \ <class T>\nstruct max_monoid : min_monoid<T>\n{\n    using base = min_monoid<T>;\n\
     \    using base::min_monoid;\n    max_monoid() : base(base::min) {}\n    max_monoid\
@@ -154,51 +137,63 @@ data:
     \        const Monoid tmp = mono + data[left];\n        if (!pred(tmp)) return\
     \ right_search_subtree(left, pred, mono);\n        mono = tmp;\n        ++left;\n\
     \      }\n    }\n    return size_orig;\n  }\n};  // class segment_tree\n#line\
-    \ 5 \"test/library-checker/static_range_inversions_query.test.cpp\"\n#include\
-    \ <cstdio>\nusing i64=int64_t;\n\nint main()\n{\n    int n,q;\n    scanf(\"%d%d\"\
-    ,&n,&q);\n    std::vector<int> a(n);\n    for(int &x: a) scanf(\"%d\",&x);\n \
-    \   coordinate_compression ccmp(a);\n    std::vector<int> cnt(ccmp.count());\n\
-    \    segment_tree<int> seg(n);\n    int nl=0,nr=0;\n    i64 invs=0;\n    auto\
-    \ add=[&](int i)\n    {\n        int nv=ccmp[i];\n        if(i<nl) // left end\n\
-    \        {\n            invs+=seg.fold(0,nv);\n            nl--;\n        }\n\
-    \        else // right end\n        {\n            invs+=seg.fold(nv+1,n);\n \
-    \           nr++;\n        }\n        seg[nv]++;\n    };\n    auto del=[&](int\
-    \ i)\n    {\n        int nv=ccmp[i];\n        if(i==nl) // left end\n        {\n\
-    \            invs-=seg.fold(0,nv);\n            nl++;\n        }\n        else\
-    \ // right end\n        {\n            assert(nr==i+1);\n            invs-=seg.fold(nv+1,n);\n\
-    \            nr--;\n        }\n        seg[nv]--;\n    };\n    Mo mo(n,add,del);\n\
-    \    for(int i=0; i<q; i++)\n    {\n        int l,r;\n        scanf(\"%d%d\",&l,&r);\n\
-    \        mo.set(l,r);\n    }\n    std::vector<i64> ans(q);\n    for(int i=0; i<q;\
-    \ i++)\n    {\n        int id=mo.process();\n        ans[id]=invs;\n    }\n  \
-    \  for(i64 x: ans) printf(\"%lld\\n\",x);\n}\n"
+    \ 2 \"utils/coordinate_compression.hpp\"\n#include <algorithm>\n#line 5 \"utils/coordinate_compression.hpp\"\
+    \n\ntemplate <class T> class coordinate_compression {\n  std::vector<T> uniquely;\n\
+    \  std::vector<size_t> compressed;\n\n public:\n  coordinate_compression(const\
+    \ std::vector<T> &raw)\n      : uniquely(raw), compressed(raw.size()) {\n    std::sort(uniquely.begin(),\
+    \ uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),\n\
+    \                   uniquely.end());\n    for (size_t i = 0; i != size(); ++i)\n\
+    \      compressed[i] =\n          std::lower_bound(uniquely.begin(), uniquely.end(),\
+    \ raw[i]) -\n          uniquely.begin();\n  }\n\n  size_t operator[](const size_t\
+    \ idx) const {\n    assert(idx < size());\n    return compressed[idx];\n  }\n\n\
+    \  size_t size() const { return compressed.size(); }\n\n  size_t count() const\
+    \ { return uniquely.size(); }\n\n  T value(const size_t ord) const {\n    assert(ord\
+    \ < count());\n    return uniquely[ord];\n  }\n\n  size_t order(const T &value)\
+    \ const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(), value)\
+    \ -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
+    \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
+    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 7 \"test/library-checker/static_range_inversions_query.test.cpp\"\
+    \nusing i64 = int64_t;\n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
+    \  std::vector<int> a(n);\n  for (int &x : a) scanf(\"%d\", &x);\n  coordinate_compression\
+    \ ccmp(a);\n  std::vector<int> cnt(ccmp.count());\n  segment_tree<int> seg(n);\n\
+    \  int nl = 0, nr = 0;\n  i64 invs = 0;\n  auto add = [&](int i) {\n    int nv\
+    \ = ccmp[i];\n    if (i < nl)  // left end\n    {\n      invs += seg.fold(0, nv);\n\
+    \      nl--;\n    } else  // right end\n    {\n      invs += seg.fold(nv + 1,\
+    \ n);\n      nr++;\n    }\n    seg[nv]++;\n  };\n  auto del = [&](int i) {\n \
+    \   int nv = ccmp[i];\n    if (i == nl)  // left end\n    {\n      invs -= seg.fold(0,\
+    \ nv);\n      nl++;\n    } else  // right end\n    {\n      assert(nr == i + 1);\n\
+    \      invs -= seg.fold(nv + 1, n);\n      nr--;\n    }\n    seg[nv]--;\n  };\n\
+    \  Mo mo(n, add, del);\n  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"\
+    %d%d\", &l, &r);\n    mo.set(l, r);\n  }\n  std::vector<i64> ans(q);\n  for (int\
+    \ i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n  }\n\
+    \  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n#include \"data_structure/Mo.hpp\"\n#include \"utils/coordinate_compression.hpp\"\
-    \n#include \"data_structure/segment_tree/basic.hpp\"\n#include <cstdio>\nusing\
-    \ i64=int64_t;\n\nint main()\n{\n    int n,q;\n    scanf(\"%d%d\",&n,&q);\n  \
-    \  std::vector<int> a(n);\n    for(int &x: a) scanf(\"%d\",&x);\n    coordinate_compression\
-    \ ccmp(a);\n    std::vector<int> cnt(ccmp.count());\n    segment_tree<int> seg(n);\n\
-    \    int nl=0,nr=0;\n    i64 invs=0;\n    auto add=[&](int i)\n    {\n       \
-    \ int nv=ccmp[i];\n        if(i<nl) // left end\n        {\n            invs+=seg.fold(0,nv);\n\
-    \            nl--;\n        }\n        else // right end\n        {\n        \
-    \    invs+=seg.fold(nv+1,n);\n            nr++;\n        }\n        seg[nv]++;\n\
-    \    };\n    auto del=[&](int i)\n    {\n        int nv=ccmp[i];\n        if(i==nl)\
-    \ // left end\n        {\n            invs-=seg.fold(0,nv);\n            nl++;\n\
-    \        }\n        else // right end\n        {\n            assert(nr==i+1);\n\
-    \            invs-=seg.fold(nv+1,n);\n            nr--;\n        }\n        seg[nv]--;\n\
-    \    };\n    Mo mo(n,add,del);\n    for(int i=0; i<q; i++)\n    {\n        int\
-    \ l,r;\n        scanf(\"%d%d\",&l,&r);\n        mo.set(l,r);\n    }\n    std::vector<i64>\
-    \ ans(q);\n    for(int i=0; i<q; i++)\n    {\n        int id=mo.process();\n \
-    \       ans[id]=invs;\n    }\n    for(i64 x: ans) printf(\"%lld\\n\",x);\n}\n"
+    \n#include <cstdio>\n\n#include \"data_structure/Mo.hpp\"\n#include \"data_structure/segment_tree/basic.hpp\"\
+    \n#include \"utils/coordinate_compression.hpp\"\nusing i64 = int64_t;\n\nint main()\
+    \ {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int> a(n);\n  for\
+    \ (int &x : a) scanf(\"%d\", &x);\n  coordinate_compression ccmp(a);\n  std::vector<int>\
+    \ cnt(ccmp.count());\n  segment_tree<int> seg(n);\n  int nl = 0, nr = 0;\n  i64\
+    \ invs = 0;\n  auto add = [&](int i) {\n    int nv = ccmp[i];\n    if (i < nl)\
+    \  // left end\n    {\n      invs += seg.fold(0, nv);\n      nl--;\n    } else\
+    \  // right end\n    {\n      invs += seg.fold(nv + 1, n);\n      nr++;\n    }\n\
+    \    seg[nv]++;\n  };\n  auto del = [&](int i) {\n    int nv = ccmp[i];\n    if\
+    \ (i == nl)  // left end\n    {\n      invs -= seg.fold(0, nv);\n      nl++;\n\
+    \    } else  // right end\n    {\n      assert(nr == i + 1);\n      invs -= seg.fold(nv\
+    \ + 1, n);\n      nr--;\n    }\n    seg[nv]--;\n  };\n  Mo mo(n, add, del);\n\
+    \  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n\
+    \    mo.set(l, r);\n  }\n  std::vector<i64> ans(q);\n  for (int i = 0; i < q;\
+    \ i++) {\n    int id = mo.process();\n    ans[id] = invs;\n  }\n  for (i64 x :\
+    \ ans) printf(\"%lld\\n\", x);\n}\n"
   dependsOn:
   - data_structure/Mo.hpp
-  - utils/coordinate_compression.hpp
   - data_structure/segment_tree/basic.hpp
   - algebra/system/monoid.hpp
   - utils/sfinae.hpp
+  - utils/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 00:26:35+09:00'
+  timestamp: '2020-09-26 02:24:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp

@@ -119,26 +119,24 @@ data:
     \ T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp comp = Comp())\
     \ { return comp(y, x) ? x = y, true : false; }\ntemplate <class T, class Comp\
     \ = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp()) { return comp(x,\
-    \ y) ? x = y, true : false; }\n} // namespace workspace\n#line 4 \"utils/coordinate_compression.hpp\"\
-    \n\ntemplate <class T>\nclass coordinate_compression\n{\n    std::vector<T> uniquely;\n\
-    \    std::vector<size_t> compressed;\n\npublic:\n    coordinate_compression(const\
-    \ std::vector<T> &raw) : uniquely(raw), compressed(raw.size())\n    {\n      \
-    \  std::sort(uniquely.begin(), uniquely.end());\n        uniquely.erase(std::unique(uniquely.begin(),\
-    \ uniquely.end()), uniquely.end());\n        for(size_t i = 0; i != size(); ++i)\n\
-    \            compressed[i] = std::lower_bound(uniquely.begin(), uniquely.end(),\
-    \ raw[i]) - uniquely.begin();\n    }\n\n    size_t operator[](const size_t idx)\
-    \ const\n    {\n        assert(idx < size());\n        return compressed[idx];\n\
-    \    }\n\n    size_t size() const { return compressed.size(); }\n\n    size_t\
-    \ count() const { return uniquely.size(); }\n\n    T value_of(const size_t ord)\
-    \ const\n    {\n        assert(ord < count());\n        return uniquely[ord];\n\
-    \    }\n\n    size_t order_of(const T &val) const { return std::lower_bound(uniquely.begin(),\
-    \ uniquely.end(), val) - uniquely.begin(); }\n\n    std::vector<size_t>::iterator\
-    \ begin() { return compressed.begin(); }\n    std::vector<size_t>::iterator end()\
-    \ { return compressed.end(); }\n    std::vector<size_t>::reverse_iterator rbegin()\
-    \ { return compressed.rbegin(); }\n    std::vector<size_t>::reverse_iterator rend()\
-    \ { return compressed.rend(); }\n};\n#line 3 \"utils/fixed_point.hpp\"\nnamespace\
-    \ workspace {\n// specify the return type of lambda.\ntemplate <class lambda_type>\
-    \ class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
+    \ y) ? x = y, true : false; }\n} // namespace workspace\n#line 5 \"utils/coordinate_compression.hpp\"\
+    \n\ntemplate <class T> class coordinate_compression {\n  std::vector<T> uniquely;\n\
+    \  std::vector<size_t> compressed;\n\n public:\n  coordinate_compression(const\
+    \ std::vector<T> &raw)\n      : uniquely(raw), compressed(raw.size()) {\n    std::sort(uniquely.begin(),\
+    \ uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),\n\
+    \                   uniquely.end());\n    for (size_t i = 0; i != size(); ++i)\n\
+    \      compressed[i] =\n          std::lower_bound(uniquely.begin(), uniquely.end(),\
+    \ raw[i]) -\n          uniquely.begin();\n  }\n\n  size_t operator[](const size_t\
+    \ idx) const {\n    assert(idx < size());\n    return compressed[idx];\n  }\n\n\
+    \  size_t size() const { return compressed.size(); }\n\n  size_t count() const\
+    \ { return uniquely.size(); }\n\n  T value(const size_t ord) const {\n    assert(ord\
+    \ < count());\n    return uniquely[ord];\n  }\n\n  size_t order(const T &value)\
+    \ const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(), value)\
+    \ -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
+    \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
+    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/fixed_point.hpp\"\
+    \nnamespace workspace {\n// specify the return type of lambda.\ntemplate <class\
+    \ lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
     \ &&f) : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args\
     \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
     \  }\n};\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 3 \"\
@@ -289,7 +287,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-09-26 01:36:33+09:00'
+  timestamp: '2020-09-26 02:24:45+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
