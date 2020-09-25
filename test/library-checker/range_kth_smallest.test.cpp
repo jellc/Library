@@ -36,7 +36,7 @@ int main() {
         for (h = j; nk >= cnt[h]; h++) {
           nk -= cnt[h];
         }
-        ans[qid] = ccmp.value_of(h);
+        ans[qid] = ccmp.value(h);
         break;
       } else {
         nk -= bcnt[i];
