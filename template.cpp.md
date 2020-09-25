@@ -1,75 +1,19 @@
 ---
 data:
-  _extendedDependsOn:
-  - icon: ':warning:'
-    path: alias.hpp
-    title: alias.hpp
-  - icon: ':warning:'
-    path: config.hpp
-    title: config.hpp
-  - icon: ':warning:'
-    path: option.hpp
-    title: option.hpp
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/binary_search.hpp
-    title: utils/binary_search.hpp
-  - icon: ':warning:'
-    path: utils/casefmt.hpp
-    title: utils/casefmt.hpp
-  - icon: ':warning:'
-    path: utils/chval.hpp
-    title: utils/chval.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/coordinate_compression.hpp
-    title: utils/coordinate_compression.hpp
-  - icon: ':warning:'
-    path: utils/fixed_point.hpp
-    title: utils/fixed_point.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/hash.hpp
-    title: utils/hash.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
-  - icon: ':warning:'
-    path: utils/make_vector.hpp
-    title: utils/make_vector.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/random_number_generator.hpp
-    title: utils/random_number_generator.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/read.hpp
-    title: utils/read.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/stream.hpp
-    title: utils/stream.hpp
-  - icon: ':warning:'
-    path: utils/trinary_search.hpp
-    title: utils/trinary_search.hpp
-  - icon: ':warning:'
-    path: utils/wrapper.hpp
-    title: utils/wrapper.hpp
+  _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
-  attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    links: []
-  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n\n#line 7 \"alias.hpp\"\
-    \nnamespace workspace {\nconstexpr char eol = '\\n';\nusing namespace std;\nusing\
-    \ i32 = int_least32_t;\nusing i64 = int_least64_t;\nusing i128 = __int128_t;\n\
-    using u32 = uint_least32_t;\nusing u64 = uint_least64_t;\nusing u128 = __uint128_t;\n\
-    template <class T, class Comp = less<T>>\nusing priority_queue = std::priority_queue<T,\
-    \ vector<T>, Comp>;\ntemplate <class T> using stack = std::stack<T, vector<T>>;\n\
-    constexpr i32 clz32(const u32 &n) noexcept { return __builtin_clz(n); }\nconstexpr\
-    \ i32 clz64(const u64 &n) noexcept { return __builtin_clzll(n); }\nconstexpr i32\
-    \ ctz(const u64 &n) noexcept { return __builtin_ctzll(n); }\nconstexpr i32 popcnt(const\
-    \ u64 &n) noexcept { return __builtin_popcountll(n); }\n}  // namespace workspace\n\
-    #line 5 \"config.hpp\"\nnamespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
+  attributes: {}
+  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n\n#include <bit>\n\
+    \n#line 7 \"alias.hpp\"\nnamespace workspace {\nconstexpr char eol = '\\n';\n\
+    using namespace std;\nusing i32 = int_least32_t;\nusing i64 = int_least64_t;\n\
+    using i128 = __int128_t;\nusing u32 = uint_least32_t;\nusing u64 = uint_least64_t;\n\
+    using u128 = __uint128_t;\ntemplate <class T, class Comp = less<T>>\nusing priority_queue\
+    \ = std::priority_queue<T, vector<T>, Comp>;\ntemplate <class T> using stack =\
+    \ std::stack<T, vector<T>>;\n}  // namespace workspace\n#line 5 \"config.hpp\"\
+    \nnamespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
     int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
     \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
@@ -258,39 +202,22 @@ data:
     \ class reversed {\n  Container &ref, copy;\n\n public:\n  reversed(Container\
     \ &ref) : ref(ref) {}\n  reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  auto begin() const { return ref.rbegin(); }\n  auto end() const\
-    \ { return ref.rend(); }\n};\n#line 7 \"template.cpp\"\nnamespace workspace {\n\
+    \ { return ref.rend(); }\n};\n#line 9 \"template.cpp\"\nnamespace workspace {\n\
     struct solver;\n}  // namespace workspace\nint main() { config::main<workspace::solver>();\
     \ }\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t; std::cin\
     \ >> t; return t; // given\n  return 1;\n}\n\nstruct workspace::solver {\n  solver()\
     \ {\n    // start here!\n  }\n};\n"
-  code: "#include <bits/extc++.h>\n\n#include \"alias.hpp\"\n#include \"config.hpp\"\
-    \n#include \"option.hpp\"\n#include \"utils.hpp\"\nnamespace workspace {\nstruct\
-    \ solver;\n}  // namespace workspace\nint main() { config::main<workspace::solver>();\
+  code: "#include <bits/extc++.h>\n\n#include <bit>\n\n#include \"alias.hpp\"\n#include\
+    \ \"config.hpp\"\n#include \"option.hpp\"\n#include \"utils.hpp\"\nnamespace workspace\
+    \ {\nstruct solver;\n}  // namespace workspace\nint main() { config::main<workspace::solver>();\
     \ }\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t; std::cin\
     \ >> t; return t; // given\n  return 1;\n}\n\nstruct workspace::solver {\n  solver()\
     \ {\n    // start here!\n  }\n};\n"
-  dependsOn:
-  - alias.hpp
-  - config.hpp
-  - option.hpp
-  - utils.hpp
-  - utils/binary_search.hpp
-  - utils/casefmt.hpp
-  - utils/chval.hpp
-  - utils/coordinate_compression.hpp
-  - utils/fixed_point.hpp
-  - utils/hash.hpp
-  - utils/sfinae.hpp
-  - utils/make_vector.hpp
-  - utils/random_number_generator.hpp
-  - utils/read.hpp
-  - utils/stream.hpp
-  - utils/trinary_search.hpp
-  - utils/wrapper.hpp
+  dependsOn: []
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-09-22 15:16:13+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

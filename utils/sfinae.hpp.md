@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: template.cpp
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
@@ -121,7 +118,6 @@ data:
   isVerificationFile: false
   path: utils/sfinae.hpp
   requiredBy:
-  - template.cpp
   - utils/stream.hpp
   - utils/hash.hpp
   - combinatorics/binomial.hpp

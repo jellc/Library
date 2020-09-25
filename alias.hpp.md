@@ -1,10 +1,7 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: template.cpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -47,15 +44,6 @@ data:
 
     template <class T> using stack = std::stack<T, vector<T>>;
 
-    constexpr i32 clz32(const u32 &n) noexcept { return __builtin_clz(n); }
-
-    constexpr i32 clz64(const u64 &n) noexcept { return __builtin_clzll(n); }
-
-    constexpr i32 ctz(const u64 &n) noexcept { return __builtin_ctzll(n); }
-
-    constexpr i32 popcnt(const u64 &n) noexcept { return __builtin_popcountll(n);
-    }
-
     }  // namespace workspace
 
     '
@@ -95,24 +83,14 @@ data:
 
     template <class T> using stack = std::stack<T, vector<T>>;
 
-    constexpr i32 clz32(const u32 &n) noexcept { return __builtin_clz(n); }
-
-    constexpr i32 clz64(const u64 &n) noexcept { return __builtin_clzll(n); }
-
-    constexpr i32 ctz(const u64 &n) noexcept { return __builtin_ctzll(n); }
-
-    constexpr i32 popcnt(const u64 &n) noexcept { return __builtin_popcountll(n);
-    }
-
     }  // namespace workspace
 
     '
   dependsOn: []
   isVerificationFile: false
   path: alias.hpp
-  requiredBy:
-  - template.cpp
-  timestamp: '2020-09-17 21:16:08+09:00'
+  requiredBy: []
+  timestamp: '2020-09-25 13:06:28+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: alias.hpp

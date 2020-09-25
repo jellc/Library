@@ -3,9 +3,6 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: template.cpp
-    title: template.cpp
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   _extendedVerifiedWith:
@@ -34,7 +31,6 @@ data:
   isVerificationFile: false
   path: utils/read.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
   timestamp: '2020-08-14 18:02:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
