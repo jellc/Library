@@ -1,7 +1,7 @@
 #include <bits/extc++.h>
-
+#if __has_include(<bit>)
 #include <bit>
-
+#endif
 #include "alias.hpp"
 #include "config.hpp"
 #include "option.hpp"
