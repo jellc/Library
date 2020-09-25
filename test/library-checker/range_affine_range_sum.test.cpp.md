@@ -203,12 +203,11 @@ data:
     \  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) { return {v + rhs.v,\
     \ c + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a + c * rhs.b,\
     \ c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
-    \ endo> seg;\n  {\n    std::vector<mono> a(n);\n    for (auto &[v, c] : a) {\n\
-    \      int _v;\n      scanf(\"%d\", &_v);\n      v = _v;\n      c = 1;\n    }\n\
-    \    seg = a;\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\", &t,\
-    \ &l, &r);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(l, r).v);\n    } else\
-    \ {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l, r, {a, b});\n    }\n\
-    \  }\n}\n"
+    \ endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n    scanf(\"%d\", &v);\n\
+    \    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\"\
+    , &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(l, r).v);\n   \
+    \ } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l, r, {a, b});\n\
+    \    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
     \n#include <cstdio>\n#include <vector>\n\n#include \"data_structure/segment_tree/lazy.hpp\"\
     \n#include \"modulus/modint.hpp\"\n\nint main() {\n  using mint = modint<998244353>;\n\
@@ -216,12 +215,11 @@ data:
     \ * rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono\
     \ operator+(mono rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo\
     \ rhs) { return {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"\
-    %d%d\", &n, &q);\n  lazy_segment_tree<mono, endo> seg;\n  {\n    std::vector<mono>\
-    \ a(n);\n    for (auto &[v, c] : a) {\n      int _v;\n      scanf(\"%d\", &_v);\n\
-    \      v = _v;\n      c = 1;\n    }\n    seg = a;\n  }\n  for (int t, l, r, a,\
-    \ b; q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"\
-    %d\\n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\", &a, &b);\n  \
-    \    seg.update(l, r, {a, b});\n    }\n  }\n}\n"
+    %d%d\", &n, &q);\n  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v;\
+    \ i < n; i++) {\n    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int\
+    \ t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n \
+    \     printf(\"%d\\n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\"\
+    , &a, &b);\n      seg.update(l, r, {a, b});\n    }\n  }\n}\n"
   dependsOn:
   - data_structure/segment_tree/lazy.hpp
   - utils/sfinae.hpp
@@ -229,7 +227,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 02:56:12+09:00'
+  timestamp: '2020-09-25 11:28:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
