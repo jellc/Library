@@ -7,6 +7,7 @@
 #include "sfinae.hpp"
 namespace workspace {
 template <class T, class = void> struct hash : std::hash<T> {};
+#if __cplusplus >= 201703L
 template <class Unique_bits_type>
 struct hash<Unique_bits_type,
             enable_if_trait_type<Unique_bits_type,
@@ -19,6 +20,7 @@ struct hash<Unique_bits_type,
     return x - (x >> 32);
   }
 };
+#endif
 template <class Key> size_t hash_combine(const size_t &seed, const Key &key) {
   return seed ^
          (hash<Key>()(key) + 0x9e3779b9 /* + (seed << 6) + (seed >> 2) */);

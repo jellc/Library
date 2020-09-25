@@ -1,4 +1,5 @@
 #pragma once
+#if __cplusplus >= 201703L
 #include <cassert>
 #include <cmath>
 #include <vector>
@@ -87,3 +88,4 @@ binary_search(std::vector<std::pair<real_type, real_type>> ends,
   return mids;
 }
 }  // namespace workspace
+#endif
