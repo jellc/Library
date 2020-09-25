@@ -6,18 +6,20 @@
 #include "config.hpp"
 #include "option.hpp"
 #include "utils.hpp"
+
 namespace workspace {
-struct solver;
-}  // namespace workspace
-int main() { config::main<workspace::solver>(); }
+void main();
+}
+int main() { config::loop(workspace::main); }
+
 unsigned config::cases() {
   // return -1; // unspecified
   // int t; std::cin >> t; return t; // given
   return 1;
 }
 
-struct workspace::solver {
-  solver() {
-    // start here!
-  }
-};
+namespace workspace {
+void main() {
+  // start here!
+}
+}

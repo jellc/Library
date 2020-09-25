@@ -22,8 +22,8 @@ __attribute__((constructor)) void setup() {
   });
 #endif
 }
-unsigned cases(void), caseid = 1;
-template <class C> void main() {
-  for (const unsigned total = cases(); caseid <= total; ++caseid) C();
+unsigned cases(), caseid = 1;
+template <class F> void loop(F main) {
+  for (const unsigned total = cases(); caseid <= total; ++caseid) main();
 }
 }  // namespace config
