@@ -22,19 +22,19 @@ data:
     \    for (const size_t to : tree[node]) {\n      if (to != prev) {\n        tour(to,\
     \ node);\n        sorted.emplace_back(node);\n      }\n    }\n  }\n\n  void make_table()\
     \ {\n    const size_t len = sorted.size();\n    for (size_t w = 2; w < len; w\
-    \ <<= 1) {\n      std::vector<size_t> &crt(table.back()), nxt(crt);\n      for\
-    \ (size_t i = 0, j = w >> 1; j != len; ++i, ++j)\n        if (index[crt[j]] <\
-    \ index[crt[i]]) nxt[i] = crt[j];\n      table.emplace_back(nxt);\n    }\n  }\n\
-    \n public:\n  lowest_common_ancestor(const size_t n = 0)\n      : tree(n), table(1),\
-    \ sorted(table.front()), index(n) {}\n\n  size_t size() const { return tree.size();\
-    \ }\n\n  void add_edge(const size_t u, const size_t v) {\n    assert(u < size());\n\
-    \    assert(v < size());\n    tree[u].emplace_back(v);\n    tree[v].emplace_back(u);\n\
-    \  }\n\n  // O(n log(n))\n  void make(const size_t root) {\n    assert(root <\
-    \ size());\n    tour(root, root);\n    make_table();\n  }\n\n  // O(1)\n  size_t\
-    \ query(size_t u, size_t v) const {\n    assert(u < size());\n    assert(v < size());\n\
-    \    if (u == v) return u;\n    if ((v = index[v]) < (u = index[u])) std::swap(u,\
-    \ v);\n    size_t h = std::__lg(v - u);\n    return std::min(table[h][u], table[h][v\
-    \ - (1 << h)]);\n  }\n};  // class lowest_common_ancestor\n#line 6 \"test/library-checker/lowest_common_ancestor.test.cpp\"\
+    \ <<= 1) {\n      auto &cur(table.back()), next(cur);\n      for (size_t i = 0,\
+    \ j = w >> 1; j != len; ++i, ++j)\n        if (index[cur[j]] < index[cur[i]])\
+    \ next[i] = cur[j];\n      table.emplace_back(next);\n    }\n  }\n\n public:\n\
+    \  lowest_common_ancestor(const size_t n = 0)\n      : tree(n), table(1), sorted(table.front()),\
+    \ index(n) {}\n\n  size_t size() const { return tree.size(); }\n\n  void add_edge(const\
+    \ size_t u, const size_t v) {\n    assert(u < size());\n    assert(v < size());\n\
+    \    tree[u].emplace_back(v);\n    tree[v].emplace_back(u);\n  }\n\n  // O(n log(n))\n\
+    \  void make(const size_t root) {\n    assert(root < size());\n    tour(root,\
+    \ root);\n    make_table();\n  }\n\n  // O(1)\n  size_t query(size_t u, size_t\
+    \ v) const {\n    assert(u < size());\n    assert(v < size());\n    if (u == v)\
+    \ return u;\n    if ((v = index[v]) < (u = index[u])) std::swap(u, v);\n    size_t\
+    \ h = std::__lg(v - u);\n    return std::min(table[h][u], table[h][v - (1 << h)]);\n\
+    \  }\n};  // class lowest_common_ancestor\n#line 6 \"test/library-checker/lowest_common_ancestor.test.cpp\"\
     \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lowest_common_ancestor\
     \ lca(n);\n  for (int i = 1, p; i < n; i++) {\n    scanf(\"%d\", &p);\n    lca.add_edge(i,\
     \ p);\n  }\n  lca.make(0);\n  for (int u, v; q--;) {\n    scanf(\"%d%d\", &u,\
@@ -50,7 +50,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/lowest_common_ancestor.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 14:52:32+09:00'
+  timestamp: '2020-09-25 15:37:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/lowest_common_ancestor.test.cpp
