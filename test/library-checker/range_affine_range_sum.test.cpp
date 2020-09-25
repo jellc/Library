@@ -19,16 +19,10 @@ int main() {
 
   int n, q;
   scanf("%d%d", &n, &q);
-  lazy_segment_tree<mono, endo> seg;
-  {
-    std::vector<mono> a(n);
-    for (auto &[v, c] : a) {
-      int _v;
-      scanf("%d", &_v);
-      v = _v;
-      c = 1;
-    }
-    seg = a;
+  lazy_segment_tree<mono, endo> seg(n);
+  for (int i = 0, v; i < n; i++) {
+    scanf("%d", &v);
+    seg[i] = {v, 1};
   }
   for (int t, l, r, a, b; q--;) {
     scanf("%d%d%d", &t, &l, &r);
