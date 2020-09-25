@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
+  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
@@ -44,6 +47,7 @@ data:
   isVerificationFile: false
   path: utils/random_number_generator.hpp
   requiredBy:
+  - template.cpp
   - utils.hpp
   - string/rolling_hash.hpp
   timestamp: '2020-09-22 15:16:13+09:00'
