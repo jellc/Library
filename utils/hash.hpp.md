@@ -41,27 +41,27 @@ data:
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
     };\n#line 8 \"utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
-    \ = void> struct hash : std::hash<T> {};\ntemplate <class Unique_bits_type>\n\
-    struct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
+    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
+    \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
     \                                 std::has_unique_object_representations>> {\n\
     \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
     \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
-    \  }\n};\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
-    \ &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9 /* + (seed\
-    \ << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct hash<std::pair<T1,\
-    \ T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair) const {\n    return\
-    \ hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n};\ntemplate <class...\
-    \ T> class hash<std::tuple<T...>> {\n  template <class Tuple, size_t index = std::tuple_size<Tuple>::value\
-    \ - 1>\n  struct tuple_hash {\n    static uint64_t apply(const Tuple &t) {\n \
-    \     return hash_combine(tuple_hash<Tuple, index - 1>::apply(t),\n          \
-    \                std::get<index>(t));\n    }\n  };\n  template <class Tuple> struct\
-    \ tuple_hash<Tuple, size_t(-1)> {\n    static uint64_t apply(const Tuple &t) {\
-    \ return 0; }\n  };\n\n public:\n  uint64_t operator()(const std::tuple<T...>\
-    \ &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n  }\n};\ntemplate\
-    \ <class hash_table> struct hash_table_wrapper : hash_table {\n  using key_type\
-    \ = typename hash_table::key_type;\n  size_t count(const key_type &key) const\
-    \ {\n    return hash_table::find(key) != hash_table::end();\n  }\n  template <class...\
-    \ Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
+    \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
+    \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
+    \ /* + (seed << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct\
+    \ hash<std::pair<T1, T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair)\
+    \ const {\n    return hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n\
+    };\ntemplate <class... T> class hash<std::tuple<T...>> {\n  template <class Tuple,\
+    \ size_t index = std::tuple_size<Tuple>::value - 1>\n  struct tuple_hash {\n \
+    \   static uint64_t apply(const Tuple &t) {\n      return hash_combine(tuple_hash<Tuple,\
+    \ index - 1>::apply(t),\n                          std::get<index>(t));\n    }\n\
+    \  };\n  template <class Tuple> struct tuple_hash<Tuple, size_t(-1)> {\n    static\
+    \ uint64_t apply(const Tuple &t) { return 0; }\n  };\n\n public:\n  uint64_t operator()(const\
+    \ std::tuple<T...> &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n\
+    \  }\n};\ntemplate <class hash_table> struct hash_table_wrapper : hash_table {\n\
+    \  using key_type = typename hash_table::key_type;\n  size_t count(const key_type\
+    \ &key) const {\n    return hash_table::find(key) != hash_table::end();\n  }\n\
+    \  template <class... Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
     \ hash_table::value_type(args...));\n  }\n};\ntemplate <class Key, class Mapped\
     \ = __gnu_pbds::null_type>\nusing cc_hash_table =\n    hash_table_wrapper<__gnu_pbds::cc_hash_table<Key,\
     \ Mapped, hash<Key>>>;\ntemplate <class Key, class Mapped = __gnu_pbds::null_type>\n\
@@ -72,11 +72,12 @@ data:
   code: "#pragma once\n#include <ext/pb_ds/assoc_container.hpp>\n#include <functional>\n\
     #include <random>\n#include <unordered_set>\n\n#include \"sfinae.hpp\"\nnamespace\
     \ workspace {\ntemplate <class T, class = void> struct hash : std::hash<T> {};\n\
-    template <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n           \
-    \ enable_if_trait_type<Unique_bits_type,\n                                 std::has_unique_object_representations>>\
-    \ {\n  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
-    \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
-    \  }\n};\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
+    #if __cplusplus >= 201703L\ntemplate <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n\
+    \            enable_if_trait_type<Unique_bits_type,\n                        \
+    \         std::has_unique_object_representations>> {\n  size_t operator()(uint64_t\
+    \ x) const {\n    static const uint64_t m = std::random_device{}();\n    x ^=\
+    \ x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n  }\n};\n\
+    #endif\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
     \ &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9 /* + (seed\
     \ << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct hash<std::pair<T1,\
     \ T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair) const {\n    return\
@@ -106,7 +107,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-09-17 16:45:44+09:00'
+  timestamp: '2020-09-25 13:36:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/associative_array.test.cpp

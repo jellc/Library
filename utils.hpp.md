@@ -53,32 +53,32 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: "#line 2 \"utils/binary_search.hpp\"\n#include <cassert>\n#include\
-    \ <cmath>\n#include <vector>\nnamespace workspace {\n// binary search on discrete\
-    \ range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n   \
-    \ std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n \
-    \   iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
-    \  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while (dist > 1 || dist <\
-    \ -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n      ok = mid,\
-    \ dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n  return ok;\n\
-    }\n// parallel binary search on discrete range.\ntemplate <class iter_type, class\
-    \ pred_type>\nstd::enable_if_t<std::is_convertible_v<\n                     std::invoke_result_t<pred_type,\
-    \ std::vector<iter_type>>,\n                     std::vector<bool>>,\n       \
-    \          std::vector<iter_type>>\nbinary_search(std::vector<std::pair<iter_type,\
-    \ iter_type>> ends,\n              pred_type pred) {\n  std::vector<iter_type>\
-    \ mids(ends.size());\n  for (;;) {\n    bool all_found = true;\n    for (size_t\
-    \ i{}; i != ends.size(); ++i) {\n      auto [ok, ng] = ends[i];\n      iter_type\
-    \ mid(ok + (ng - ok) / 2);\n      if (mids[i] != mid) {\n        all_found = false;\n\
-    \        mids[i] = mid;\n      }\n    }\n    if (all_found) break;\n    auto res\
-    \ = pred(mids);\n    for (size_t i{}; i != ends.size(); ++i) {\n      (res[i]\
-    \ ? ends[i].first : ends[i].second) = mids[i];\n    }\n  }\n  return mids;\n}\n\
-    // binary search on real numbers.\ntemplate <class real_type, class pred_type>\n\
-    std::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>,\
-    \ bool>,\n    real_type>\nbinary_search(real_type ok, real_type ng, const real_type\
-    \ eps, pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps < ng || ng +\
-    \ eps < ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) =\
-    \ mid;\n  }\n  return ok;\n}\n// parallel binary search on real numbers.\ntemplate\
-    \ <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+  bundledCode: "#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n\
+    #include <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n\
+    // binary search on discrete range.\ntemplate <class iter_type, class pred_type>\n\
+    std::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>,\
+    \ bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type\
+    \ pred) {\n  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while (dist > 1\
+    \ || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n   \
+    \   ok = mid, dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n \
+    \ return ok;\n}\n// parallel binary search on discrete range.\ntemplate <class\
+    \ iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
+    \                std::invoke_result_t<pred_type, std::vector<iter_type>>,\n  \
+    \                   std::vector<bool>>,\n                 std::vector<iter_type>>\n\
+    binary_search(std::vector<std::pair<iter_type, iter_type>> ends,\n           \
+    \   pred_type pred) {\n  std::vector<iter_type> mids(ends.size());\n  for (;;)\
+    \ {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n\
+    \      auto [ok, ng] = ends[i];\n      iter_type mid(ok + (ng - ok) / 2);\n  \
+    \    if (mids[i] != mid) {\n        all_found = false;\n        mids[i] = mid;\n\
+    \      }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for\
+    \ (size_t i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n// binary search on real numbers.\n\
+    template <class real_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
+    \ real_type>, bool>,\n    real_type>\nbinary_search(real_type ok, real_type ng,\
+    \ const real_type eps, pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps\
+    \ < ng || ng + eps < ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid)\
+    \ ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel binary search on real numbers.\n\
+    template <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
     \                     std::invoke_result_t<pred_type, std::vector<real_type>>,\n\
     \                     std::vector<bool>>,\n                 std::vector<real_type>>\n\
     binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
@@ -88,8 +88,8 @@ data:
     \ < ok) {\n        all_found = false;\n        mids[i] = (ok + ng) / 2;\n    \
     \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
-    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#line\
-    \ 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include <iostream>\n\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
+    #line 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include <iostream>\n\
     namespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
     int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
     \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
@@ -106,11 +106,11 @@ data:
     \ Comp comp = Comp()) { return comp(y, x) ? x = y, true : false; }\ntemplate <class\
     \ T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp comp = Comp())\
     \ { return comp(x, y) ? x = y, true : false; }\n} // namespace workspace\n#line\
-    \ 1 \"utils/coordinate_compression.hpp\"\n#include <algorithm>\n#line 4 \"utils/coordinate_compression.hpp\"\
-    \n\ntemplate <class T>\nclass coordinate_compression\n{\n    std::vector<T> uniquely;\n\
-    \    std::vector<size_t> compressed;\n\npublic:\n    coordinate_compression(const\
-    \ std::vector<T> &raw) : uniquely(raw), compressed(raw.size())\n    {\n      \
-    \  std::sort(uniquely.begin(), uniquely.end());\n        uniquely.erase(std::unique(uniquely.begin(),\
+    \ 1 \"utils/coordinate_compression.hpp\"\n#include <algorithm>\n#include <cassert>\n\
+    #include <vector>\n\ntemplate <class T>\nclass coordinate_compression\n{\n   \
+    \ std::vector<T> uniquely;\n    std::vector<size_t> compressed;\n\npublic:\n \
+    \   coordinate_compression(const std::vector<T> &raw) : uniquely(raw), compressed(raw.size())\n\
+    \    {\n        std::sort(uniquely.begin(), uniquely.end());\n        uniquely.erase(std::unique(uniquely.begin(),\
     \ uniquely.end()), uniquely.end());\n        for(size_t i = 0; i != size(); ++i)\n\
     \            compressed[i] = std::lower_bound(uniquely.begin(), uniquely.end(),\
     \ raw[i]) - uniquely.begin();\n    }\n\n    size_t operator[](const size_t idx)\
@@ -149,41 +149,42 @@ data:
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
     };\n#line 8 \"utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
-    \ = void> struct hash : std::hash<T> {};\ntemplate <class Unique_bits_type>\n\
-    struct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
+    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
+    \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
     \                                 std::has_unique_object_representations>> {\n\
     \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
     \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
-    \  }\n};\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
-    \ &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9 /* + (seed\
-    \ << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct hash<std::pair<T1,\
-    \ T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair) const {\n    return\
-    \ hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n};\ntemplate <class...\
-    \ T> class hash<std::tuple<T...>> {\n  template <class Tuple, size_t index = std::tuple_size<Tuple>::value\
-    \ - 1>\n  struct tuple_hash {\n    static uint64_t apply(const Tuple &t) {\n \
-    \     return hash_combine(tuple_hash<Tuple, index - 1>::apply(t),\n          \
-    \                std::get<index>(t));\n    }\n  };\n  template <class Tuple> struct\
-    \ tuple_hash<Tuple, size_t(-1)> {\n    static uint64_t apply(const Tuple &t) {\
-    \ return 0; }\n  };\n\n public:\n  uint64_t operator()(const std::tuple<T...>\
-    \ &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n  }\n};\ntemplate\
-    \ <class hash_table> struct hash_table_wrapper : hash_table {\n  using key_type\
-    \ = typename hash_table::key_type;\n  size_t count(const key_type &key) const\
-    \ {\n    return hash_table::find(key) != hash_table::end();\n  }\n  template <class...\
-    \ Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
+    \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
+    \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
+    \ /* + (seed << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct\
+    \ hash<std::pair<T1, T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair)\
+    \ const {\n    return hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n\
+    };\ntemplate <class... T> class hash<std::tuple<T...>> {\n  template <class Tuple,\
+    \ size_t index = std::tuple_size<Tuple>::value - 1>\n  struct tuple_hash {\n \
+    \   static uint64_t apply(const Tuple &t) {\n      return hash_combine(tuple_hash<Tuple,\
+    \ index - 1>::apply(t),\n                          std::get<index>(t));\n    }\n\
+    \  };\n  template <class Tuple> struct tuple_hash<Tuple, size_t(-1)> {\n    static\
+    \ uint64_t apply(const Tuple &t) { return 0; }\n  };\n\n public:\n  uint64_t operator()(const\
+    \ std::tuple<T...> &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n\
+    \  }\n};\ntemplate <class hash_table> struct hash_table_wrapper : hash_table {\n\
+    \  using key_type = typename hash_table::key_type;\n  size_t count(const key_type\
+    \ &key) const {\n    return hash_table::find(key) != hash_table::end();\n  }\n\
+    \  template <class... Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
     \ hash_table::value_type(args...));\n  }\n};\ntemplate <class Key, class Mapped\
     \ = __gnu_pbds::null_type>\nusing cc_hash_table =\n    hash_table_wrapper<__gnu_pbds::cc_hash_table<Key,\
     \ Mapped, hash<Key>>>;\ntemplate <class Key, class Mapped = __gnu_pbds::null_type>\n\
     using gp_hash_table =\n    hash_table_wrapper<__gnu_pbds::gp_hash_table<Key, Mapped,\
     \ hash<Key>>>;\ntemplate <class Key, class Mapped>\nusing unordered_map = std::unordered_map<Key,\
     \ Mapped, hash<Key>>;\ntemplate <class Key> using unordered_set = std::unordered_set<Key,\
-    \ hash<Key>>;\n}  // namespace workspace\n#line 3 \"utils/make_vector.hpp\"\n\
-    namespace workspace {\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(size_t*\
-    \ sizes, T const& init = T()) {\n  if constexpr (N)\n    return std::vector(*sizes,\
-    \ make_vector<T, N - 1>(std::next(sizes), init));\n  else\n    return init;\n\
-    }\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(const size_t (&sizes)[N],\
-    \ T const& init = T()) {\n  return make_vector<T, N>((size_t*)sizes, init);\n\
-    }\n}  // namespace workspace\n#line 3 \"utils/random_number_generator.hpp\"\n\
-    template <typename num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
+    \ hash<Key>>;\n}  // namespace workspace\n#line 2 \"utils/make_vector.hpp\"\n\
+    #if __cplusplus >= 201703L\n#line 4 \"utils/make_vector.hpp\"\nnamespace workspace\
+    \ {\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(size_t* sizes,\
+    \ T const& init = T()) {\n  if constexpr (N)\n    return std::vector(*sizes, make_vector<T,\
+    \ N - 1>(std::next(sizes), init));\n  else\n    return init;\n}\ntemplate <typename\
+    \ T, size_t N>\nconstexpr auto make_vector(const size_t (&sizes)[N], T const&\
+    \ init = T()) {\n  return make_vector<T, N>((size_t*)sizes, init);\n}\n}  // namespace\
+    \ workspace\n#endif\n#line 3 \"utils/random_number_generator.hpp\"\ntemplate <typename\
+    \ num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
     \                            std::uniform_int_distribution<num_type>,\n      \
     \                      std::uniform_real_distribution<num_type>>::type\n     \
     \ unif;\n\n  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type\
@@ -293,7 +294,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-09-22 15:16:13+09:00'
+  timestamp: '2020-09-25 13:36:45+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

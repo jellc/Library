@@ -14,26 +14,27 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: "#line 2 \"utils/make_vector.hpp\"\n#include <vector>\nnamespace workspace\
+  bundledCode: "#line 2 \"utils/make_vector.hpp\"\n#if __cplusplus >= 201703L\n#include\
+    \ <vector>\nnamespace workspace {\ntemplate <typename T, size_t N>\nconstexpr\
+    \ auto make_vector(size_t* sizes, T const& init = T()) {\n  if constexpr (N)\n\
+    \    return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes), init));\n\
+    \  else\n    return init;\n}\ntemplate <typename T, size_t N>\nconstexpr auto\
+    \ make_vector(const size_t (&sizes)[N], T const& init = T()) {\n  return make_vector<T,\
+    \ N>((size_t*)sizes, init);\n}\n}  // namespace workspace\n#endif\n"
+  code: "#pragma once\n#if __cplusplus >= 201703L\n#include <vector>\nnamespace workspace\
     \ {\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(size_t* sizes,\
     \ T const& init = T()) {\n  if constexpr (N)\n    return std::vector(*sizes, make_vector<T,\
     \ N - 1>(std::next(sizes), init));\n  else\n    return init;\n}\ntemplate <typename\
     \ T, size_t N>\nconstexpr auto make_vector(const size_t (&sizes)[N], T const&\
     \ init = T()) {\n  return make_vector<T, N>((size_t*)sizes, init);\n}\n}  // namespace\
-    \ workspace\n"
-  code: "#pragma once\n#include <vector>\nnamespace workspace {\ntemplate <typename\
-    \ T, size_t N>\nconstexpr auto make_vector(size_t* sizes, T const& init = T())\
-    \ {\n  if constexpr (N)\n    return std::vector(*sizes, make_vector<T, N - 1>(std::next(sizes),\
-    \ init));\n  else\n    return init;\n}\ntemplate <typename T, size_t N>\nconstexpr\
-    \ auto make_vector(const size_t (&sizes)[N], T const& init = T()) {\n  return\
-    \ make_vector<T, N>((size_t*)sizes, init);\n}\n}  // namespace workspace\n"
+    \ workspace\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: utils/make_vector.hpp
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-09-11 03:33:31+09:00'
+  timestamp: '2020-09-25 13:36:45+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/make_vector.hpp

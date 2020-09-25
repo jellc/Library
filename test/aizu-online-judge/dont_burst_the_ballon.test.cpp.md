@@ -16,9 +16,9 @@ data:
   bundledCode: "#line 1 \"test/aizu-online-judge/dont_burst_the_ballon.test.cpp\"\n\
     #define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/1342\"\n#include <algorithm>\n\
     #include <iostream>\n#include <vector>\n\n#line 2 \"utils/binary_search.hpp\"\n\
-    #include <cassert>\n#include <cmath>\n#line 5 \"utils/binary_search.hpp\"\nnamespace\
-    \ workspace {\n// binary search on discrete range.\ntemplate <class iter_type,\
-    \ class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
+    #if __cplusplus >= 201703L\n#include <cassert>\n#include <cmath>\n#line 6 \"utils/binary_search.hpp\"\
+    \nnamespace workspace {\n// binary search on discrete range.\ntemplate <class\
+    \ iter_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
     \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
     \ pred_type pred) {\n  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while\
     \ (dist > 1 || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n\
@@ -50,9 +50,9 @@ data:
     \ < ok) {\n        all_found = false;\n        mids[i] = (ok + ng) / 2;\n    \
     \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
-    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#line\
-    \ 7 \"test/aizu-online-judge/dont_burst_the_ballon.test.cpp\"\n\nint main() {\n\
-    \  using namespace std;\n  using namespace workspace;\n\n  static const double\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
+    #line 7 \"test/aizu-online-judge/dont_burst_the_ballon.test.cpp\"\n\nint main()\
+    \ {\n  using namespace std;\n  using namespace workspace;\n\n  static const double\
     \ eps = 1e-9;\n\n  struct point {\n    double x, y;\n    double dist(point rhs)\
     \ { return hypot(rhs.x - x, rhs.y - y); }\n    point normalized() { return {x\
     \ / hypot(x, y), y / hypot(x, y)}; }\n    point scalized(double len) {\n     \
@@ -151,7 +151,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   requiredBy: []
-  timestamp: '2020-09-08 01:03:56+09:00'
+  timestamp: '2020-09-25 13:36:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
