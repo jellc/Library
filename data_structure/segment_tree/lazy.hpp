@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "utils/sfinae.hpp"
+#include "waitlist.hpp"
+
 template <class Monoid, class Endomorphism,
           class Monoid_container = std::vector<Monoid>,
           class Endomorphism_container = std::vector<Endomorphism>>
@@ -24,35 +26,15 @@ class lazy_segment_tree {
       std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,
       "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
-  struct unique_queue : std::queue<size_t> {
-    unique_queue(size_t n) : in(n) {}
-
-    bool push(size_t index) {
-      if (in[index]) return false;
-      std::queue<size_t>::emplace(index);
-      return in[index] = true;
-    }
-
-    size_t pop() {
-      auto front = std::queue<size_t>::front();
-      std::queue<size_t>::pop();
-      in[front] = false;
-      return front;
-    }
-
-   private:
-    std::vector<bool> in;
-  };  // struct unique_queue
-
   size_t size_orig, height, size_ext;
   Monoid_container data;
   Endomorphism_container lazy;
-  unique_queue que;
+  internal::waitlist wait;
 
   void repair() {
-    while (!que.empty()) {
-      const size_t index = que.pop() >> 1;
-      if (index && que.push(index)) pull(index);
+    while (!wait.empty()) {
+      const size_t index = wait.pop() >> 1;
+      if (index && wait.push(index)) pull(index);
     }
   }
 
@@ -104,7 +86,7 @@ class lazy_segment_tree {
         size_ext{1u << height},
         data(size_ext << 1),
         lazy(size_ext),
-        que(size_ext << 1) {}
+        wait(size_ext << 1) {}
 
   lazy_segment_tree(size_t n, const Monoid &init) : lazy_segment_tree(n) {
     std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
@@ -119,7 +101,7 @@ class lazy_segment_tree {
         size_ext{1u << height},
         data(size_ext << 1),
         lazy(size_ext),
-        que(size_ext << 1) {
+        wait(size_ext << 1) {
     static_assert(std::is_constructible<Monoid, value_type>::value,
                   "Monoid(iter_type::value_type) is not constructible.");
     for (auto iter{std::next(std::begin(data), size_ext)};
@@ -139,7 +121,7 @@ class lazy_segment_tree {
   Monoid &operator[](size_t index) {
     assert(index < size_orig);
     index |= size_ext;
-    que.push(index);
+    wait.push(index);
     for (size_t i = height; i; --i) push(index >> i);
     return data[index];
   }

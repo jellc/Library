@@ -1,48 +1,25 @@
 #pragma once
 #include <cassert>
+#include <queue>
 #include <vector>
 
 #include "algebra/system/monoid.hpp"
 #include "utils/sfinae.hpp"
+#include "waitlist.hpp"
+
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
   static_assert(std::is_same<Monoid, mapped_type<Container>>::value);
 
-  class unique_queue {
-    size_t *que, *begin, *end;
-    bool *in;
-
-   public:
-    unique_queue(size_t n)
-        : que(new size_t[n]), begin(que), end(que), in(new bool[n]{}) {}
-
-    ~unique_queue() {
-      delete[] que;
-      delete[] in;
-    }
-
-    void clear() { begin = end = que; }
-
-    bool empty() const { return begin == end; }
-
-    bool push(size_t index) {
-      if (in[index]) return false;
-      return in[*end++ = index] = true;
-    }
-
-    size_t pop() { return in[*begin] = false, *begin++; }
-  };  // struct unique_queue
-
   size_t size_orig, height, size_ext;
   Container data;
-  unique_queue que;
+  internal::waitlist wait;
 
   void repair() {
-    while (!que.empty()) {
-      const size_t index = que.pop() >> 1;
-      if (index && que.push(index)) pull(index);
+    while (!wait.empty()) {
+      const size_t index = wait.pop() >> 1;
+      if (index && wait.push(index)) pull(index);
     }
-    que.clear();
   }
 
   void pull(const size_t node) {
@@ -81,7 +58,7 @@ class segment_tree {
         height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
         size_ext{1u << height},
         data(size_ext << 1),
-        que(size_ext << 1) {}
+        wait(size_ext << 1) {}
 
   segment_tree(const size_t n, const Monoid &init) : segment_tree(n) {
     std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
@@ -95,7 +72,7 @@ class segment_tree {
         height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),
         size_ext{1u << height},
         data(size_ext << 1),
-        que(size_ext << 1) {
+        wait(size_ext << 1) {
     static_assert(std::is_constructible<Monoid, value_type>::value,
                   "Monoid(iter_type::value_type) is not constructible.");
     for (auto iter{std::next(std::begin(data), size_ext)};
@@ -114,7 +91,7 @@ class segment_tree {
   // reference to the element at the index.
   Monoid &operator[](size_t index) {
     assert(index < size_orig);
-    que.push(index |= size_ext);
+    wait.push(index |= size_ext);
     return data[index];
   }
 
