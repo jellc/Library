@@ -70,14 +70,14 @@ data:
     \ return;\n    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n\
     \    lazy[node] = Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node]\
     \ = data[node << 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  size_t\
-    \ left_search_subtree(size_t node, Pred pred, Monoid mono) {\n    assert(node);\n\
+    \ left_partition_subtree(size_t node, Pred pred, Monoid mono) {\n    assert(node);\n\
     \    while (node < size_ext) {\n      push(node);\n      const Monoid &tmp = data[(node\
     \ <<= 1) | 1] + mono;\n      if (pred(tmp))\n        mono = tmp;\n      else\n\
     \        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
-    \ Pred>\n  size_t right_search_subtree(size_t node, Pred pred, Monoid mono) {\n\
-    \    assert(node);\n    while (node < size_ext) {\n      push(node);\n      const\
-    \ Monoid &tmp = mono + data[node <<= 1];\n      if (pred(tmp)) ++node, mono =\
-    \ tmp;\n    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n\
+    \ Pred>\n  size_t right_partition_subtree(size_t node, Pred pred, Monoid mono)\
+    \ {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n   \
+    \   const Monoid &tmp = mono + data[node <<= 1];\n      if (pred(tmp)) ++node,\
+    \ mono = tmp;\n    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n\
     \  }\n\n public:\n  using value_type = Monoid;\n\n  lazy_segment_tree(size_t n\
     \ = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n - 1)\
     \ : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n     \
@@ -116,23 +116,23 @@ data:
     \        if (r & 1) right_val = data[--r] + right_val;\n      }\n      if (first\
     \ >>= 1, last >>= 1) {\n        left_val = left_val * lazy[first];\n        right_val\
     \ = right_val * lazy[last];\n      }\n    }\n    return left_val + right_val;\n\
-    \  }\n\n  template <class Pred> size_t left_search(size_t right, Pred pred) {\n\
-    \    assert(right <= size_orig);\n    repair();\n    right += size_ext - 1;\n\
+    \  }\n\n  template <class Pred> size_t left_partition(size_t right, Pred pred)\
+    \ {\n    assert(right <= size_orig);\n    repair();\n    right += size_ext - 1;\n\
     \    for (size_t i{height}; i; --i) push(right >> i);\n    ++right;\n    Monoid\
     \ mono{};\n    for (size_t left{size_ext}; left != right; left >>= 1, right >>=\
     \ 1) {\n      if ((left & 1) != (right & 1)) {\n        const Monoid &tmp = data[--right]\
-    \ + mono;\n        if (!pred(tmp)) return left_search_subtree(right, pred, mono);\n\
-    \        mono = tmp;\n      }\n    }\n    return 0;\n  }\n\n  template <class\
-    \ Pred> size_t right_search(size_t left, Pred pred) {\n    assert(left <= size_orig);\n\
-    \    repair();\n    left += size_ext;\n    for (size_t i{height}; i; --i) push(left\
-    \ >> i);\n    Monoid mono{};\n    for (size_t right{size_ext << 1}; left != right;\
-    \ left >>= 1, right >>= 1) {\n      if ((left & 1) != (right & 1)) {\n       \
-    \ const Monoid &tmp = mono + data[left];\n        if (!pred(tmp)) return right_search_subtree(left,\
-    \ pred, mono);\n        mono = tmp;\n        ++left;\n      }\n    }\n    return\
-    \ size_orig;\n  }\n};  // class lazy_segment_tree\n#line 3 \"modulus/modint.hpp\"\
-    \n#include <iostream>\n\n#line 6 \"modulus/modint.hpp\"\n\n// A non-positive Mod\
-    \ corresponds a runtime type of modint.\ntemplate <auto Mod = 0, typename Mod_type\
-    \ = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \ + mono;\n        if (!pred(tmp)) return left_partition_subtree(right, pred,\
+    \ mono);\n        mono = tmp;\n      }\n    }\n    return 0;\n  }\n\n  template\
+    \ <class Pred> size_t right_partition(size_t left, Pred pred) {\n    assert(left\
+    \ <= size_orig);\n    repair();\n    left += size_ext;\n    for (size_t i{height};\
+    \ i; --i) push(left >> i);\n    Monoid mono{};\n    for (size_t right{size_ext\
+    \ << 1}; left != right; left >>= 1, right >>= 1) {\n      if ((left & 1) != (right\
+    \ & 1)) {\n        const Monoid &tmp = mono + data[left];\n        if (!pred(tmp))\
+    \ return right_partition_subtree(left, pred, mono);\n        mono = tmp;\n   \
+    \     ++left;\n      }\n    }\n    return size_orig;\n  }\n};  // class lazy_segment_tree\n\
+    #line 3 \"modulus/modint.hpp\"\n#include <iostream>\n\n#line 6 \"modulus/modint.hpp\"\
+    \n\n// A non-positive Mod corresponds a runtime type of modint.\ntemplate <auto\
+    \ Mod = 0, typename Mod_type = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type = typename\
     \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
     \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
@@ -231,7 +231,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-09-27 00:42:26+09:00'
+  timestamp: '2020-09-27 01:07:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
