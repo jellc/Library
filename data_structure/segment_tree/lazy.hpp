@@ -53,7 +53,7 @@ class lazy_segment_tree {
   void pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
   template <class Pred>
-  size_t left_search_subtree(size_t node, Pred pred, Monoid mono) {
+  size_t left_partition_subtree(size_t node, Pred pred, Monoid mono) {
     assert(node);
     while (node < size_ext) {
       push(node);
@@ -67,7 +67,7 @@ class lazy_segment_tree {
   }
 
   template <class Pred>
-  size_t right_search_subtree(size_t node, Pred pred, Monoid mono) {
+  size_t right_partition_subtree(size_t node, Pred pred, Monoid mono) {
     assert(node);
     while (node < size_ext) {
       push(node);
@@ -168,7 +168,7 @@ class lazy_segment_tree {
     return left_val + right_val;
   }
 
-  template <class Pred> size_t left_search(size_t right, Pred pred) {
+  template <class Pred> size_t left_partition(size_t right, Pred pred) {
     assert(right <= size_orig);
     repair();
     right += size_ext - 1;
@@ -178,14 +178,14 @@ class lazy_segment_tree {
     for (size_t left{size_ext}; left != right; left >>= 1, right >>= 1) {
       if ((left & 1) != (right & 1)) {
         const Monoid &tmp = data[--right] + mono;
-        if (!pred(tmp)) return left_search_subtree(right, pred, mono);
+        if (!pred(tmp)) return left_partition_subtree(right, pred, mono);
         mono = tmp;
       }
     }
     return 0;
   }
 
-  template <class Pred> size_t right_search(size_t left, Pred pred) {
+  template <class Pred> size_t right_partition(size_t left, Pred pred) {
     assert(left <= size_orig);
     repair();
     left += size_ext;
@@ -194,7 +194,7 @@ class lazy_segment_tree {
     for (size_t right{size_ext << 1}; left != right; left >>= 1, right >>= 1) {
       if ((left & 1) != (right & 1)) {
         const Monoid &tmp = mono + data[left];
-        if (!pred(tmp)) return right_search_subtree(left, pred, mono);
+        if (!pred(tmp)) return right_partition_subtree(left, pred, mono);
         mono = tmp;
         ++left;
       }
