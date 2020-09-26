@@ -80,6 +80,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/lazy.hpp
       title: data_structure/segment_tree/lazy.hpp
+    - icon: ':heavy_check_mark:'
+      path: data_structure/segment_tree/waitlist.hpp
+      title: data_structure/segment_tree/waitlist.hpp
   - name: data_structure/union_find
     pages:
     - icon: ':heavy_check_mark:'

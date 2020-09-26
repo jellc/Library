@@ -11,6 +11,9 @@ data:
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'
+    path: data_structure/segment_tree/waitlist.hpp
+    title: data_structure/segment_tree/waitlist.hpp
+  - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
     title: modulus/modint.hpp
   _extendedRequiredBy: []
@@ -25,10 +28,10 @@ data:
   bundledCode: "#line 1 \"test/library-checker/point_set_range_composite.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#line 2 \"data_structure/segment_tree/basic.hpp\"\n#include <cassert>\n#include\
-    \ <vector>\n\n#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\ntemplate\
-    \ <class T>\nstruct min_monoid\n{\n    using value_type = T;\n    static T min,\
-    \ max;\n    T value;\n    min_monoid() : value(max) {}\n    min_monoid(const T\
-    \ &value) : value(value) {}\n    operator T() const { return value; }\n    min_monoid\
+    \ <queue>\n#include <vector>\n\n#line 2 \"algebra/system/monoid.hpp\"\n#include\
+    \ <limits>\ntemplate <class T>\nstruct min_monoid\n{\n    using value_type = T;\n\
+    \    static T min, max;\n    T value;\n    min_monoid() : value(max) {}\n    min_monoid(const\
+    \ T &value) : value(value) {}\n    operator T() const { return value; }\n    min_monoid\
     \ operator+(const min_monoid &rhs) const\n    {\n        return value < rhs.value\
     \ ? *this : rhs;\n    }\n};\ntemplate <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();\n\
     template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();\ntemplate\
@@ -53,21 +56,20 @@ data:
     \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 7 \"data_structure/segment_tree/basic.hpp\"\
-    \ntemplate <class Monoid, class Container = std::vector<Monoid>>\nclass segment_tree\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 3 \"data_structure/segment_tree/waitlist.hpp\"\
+    \n\nnamespace internal {\nstruct waitlist : std::queue<size_t> {\n  waitlist(size_t\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
+    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
+    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
+    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n}\n#line 9 \"data_structure/segment_tree/basic.hpp\"\
+    \n\ntemplate <class Monoid, class Container = std::vector<Monoid>>\nclass segment_tree\
     \ {\n  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\n\
-    \  class unique_queue {\n    size_t *que, *begin, *end;\n    bool *in;\n\n   public:\n\
-    \    unique_queue(size_t n)\n        : que(new size_t[n]), begin(que), end(que),\
-    \ in(new bool[n]{}) {}\n\n    ~unique_queue() {\n      delete[] que;\n      delete[]\
-    \ in;\n    }\n\n    void clear() { begin = end = que; }\n\n    bool empty() const\
-    \ { return begin == end; }\n\n    bool push(size_t index) {\n      if (in[index])\
-    \ return false;\n      return in[*end++ = index] = true;\n    }\n\n    size_t\
-    \ pop() { return in[*begin] = false, *begin++; }\n  };  // struct unique_queue\n\
-    \n  size_t size_orig, height, size_ext;\n  Container data;\n  unique_queue que;\n\
-    \n  void repair() {\n    while (!que.empty()) {\n      const size_t index = que.pop()\
-    \ >> 1;\n      if (index && que.push(index)) pull(index);\n    }\n    que.clear();\n\
-    \  }\n\n  void pull(const size_t node) {\n    data[node] = data[node << 1] + data[node\
-    \ << 1 | 1];\n  }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
+    \  size_t size_orig, height, size_ext;\n  Container data;\n  internal::waitlist\
+    \ wait;\n\n  void repair() {\n    while (!wait.empty()) {\n      const size_t\
+    \ index = wait.pop() >> 1;\n      if (index && wait.push(index)) pull(index);\n\
+    \    }\n  }\n\n  void pull(const size_t node) {\n    data[node] = data[node <<\
+    \ 1] + data[node << 1 | 1];\n  }\n\n  template <class Pred>\n  size_t left_search_subtree(size_t\
     \ index, const Pred pred, Monoid mono) const {\n    assert(index);\n    while\
     \ (index < size_ext) {\n      const Monoid tmp = data[(index <<= 1) | 1] + mono;\n\
     \      if (pred(tmp))\n        mono = tmp;\n      else\n        ++index;\n   \
@@ -79,14 +81,14 @@ data:
     \ : size_orig;\n  }\n\n public:\n  using value_type = Monoid;\n\n  segment_tree(const\
     \ size_t n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n\
     \ - 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n\
-    \        que(size_ext << 1) {}\n\n  segment_tree(const size_t n, const Monoid\
+    \        wait(size_ext << 1) {}\n\n  segment_tree(const size_t n, const Monoid\
     \ &init) : segment_tree(n) {\n    std::fill(std::next(std::begin(data), size_ext),\
     \ std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n\
     \  template <class iter_type, class value_type = typename std::iterator_traits<\n\
     \                                 iter_type>::value_type>\n  segment_tree(iter_type\
     \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
     \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
-    \ size_ext{1u << height},\n        data(size_ext << 1),\n        que(size_ext\
+    \ size_ext{1u << height},\n        data(size_ext << 1),\n        wait(size_ext\
     \ << 1) {\n    static_assert(std::is_constructible<Monoid, value_type>::value,\n\
     \                  \"Monoid(iter_type::value_type) is not constructible.\");\n\
     \    for (auto iter{std::next(std::begin(data), size_ext)};\n         iter !=\
@@ -96,7 +98,7 @@ data:
     \ std::end(cont)) {}\n\n  size_t size() const { return size_orig; }\n  size_t\
     \ capacity() const { return size_ext; }\n\n  // reference to the element at the\
     \ index.\n  Monoid &operator[](size_t index) {\n    assert(index < size_orig);\n\
-    \    que.push(index |= size_ext);\n    return data[index];\n  }\n\n  // const\
+    \    wait.push(index |= size_ext);\n    return data[index];\n  }\n\n  // const\
     \ reference to the element at the index.\n  const Monoid &operator[](size_t index)\
     \ const {\n    assert(index < size_orig);\n    return data[index |= size_orig];\n\
     \  }\n\n  Monoid fold(size_t first, size_t last) {\n    assert(last <= size_orig);\n\
@@ -214,11 +216,12 @@ data:
   - data_structure/segment_tree/basic.hpp
   - algebra/system/monoid.hpp
   - utils/sfinae.hpp
+  - data_structure/segment_tree/waitlist.hpp
   - modulus/modint.hpp
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 00:26:35+09:00'
+  timestamp: '2020-09-27 00:42:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
