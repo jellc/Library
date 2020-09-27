@@ -4,6 +4,7 @@
 "test/aizu-online-judge/dont_burst_the_ballon.test.cpp": "2020-09-25 13:36:45 +0900",
 "test/aizu-online-judge/extended_euclid_algorithm.test.cpp": "2020-09-24 00:53:44 +0900",
 "test/aizu-online-judge/pattern_search.test.cpp": "2020-09-22 22:34:04 +0900",
+"test/aizu-online-judge/range_minimum_query.test.cpp": "2020-09-27 13:58:19 +0900",
 "test/library-checker/assignment.test.cpp": "2020-09-21 01:25:13 +0900",
 "test/library-checker/associative_array.test.cpp": "2020-09-27 13:39:20 +0900",
 "test/library-checker/bipartitematching.test.cpp": "2020-09-19 20:49:19 +0900",
