@@ -12,6 +12,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/range_minimum_query.test.cpp
+    title: test/aizu-online-judge/range_minimum_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -53,6 +56,7 @@ data:
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/aizu-online-judge/range_minimum_query.test.cpp
 documentation_of: algebra/system/monoid.hpp
 layout: document
 redirect_from:

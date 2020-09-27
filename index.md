@@ -276,6 +276,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/pattern_search.test.cpp
       title: test/aizu-online-judge/pattern_search.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/range_minimum_query.test.cpp
+      title: test/aizu-online-judge/range_minimum_query.test.cpp
   - name: test/library-checker
     pages:
     - icon: ':heavy_check_mark:'
