@@ -17,34 +17,38 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: "#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\ntemplate\
-    \ <class T>\nstruct min_monoid\n{\n    using value_type = T;\n    static T min,\
-    \ max;\n    T value;\n    min_monoid() : value(max) {}\n    min_monoid(const T\
-    \ &value) : value(value) {}\n    operator T() const { return value; }\n    min_monoid\
-    \ operator+(const min_monoid &rhs) const\n    {\n        return value < rhs.value\
-    \ ? *this : rhs;\n    }\n};\ntemplate <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();\n\
-    template <class T> T min_monoid<T>::max = std::numeric_limits<T>::max();\ntemplate\
-    \ <class T>\nstruct max_monoid : min_monoid<T>\n{\n    using base = min_monoid<T>;\n\
-    \    using base::min_monoid;\n    max_monoid() : base(base::min) {}\n    max_monoid\
-    \ operator+(const max_monoid &rhs) const\n    {\n        return !(base::value\
-    \ < rhs.value) ? *this : rhs;\n    }\n};\n"
-  code: "#pragma once\n#include <limits>\ntemplate <class T>\nstruct min_monoid\n\
-    {\n    using value_type = T;\n    static T min, max;\n    T value;\n    min_monoid()\
-    \ : value(max) {}\n    min_monoid(const T &value) : value(value) {}\n    operator\
-    \ T() const { return value; }\n    min_monoid operator+(const min_monoid &rhs)\
-    \ const\n    {\n        return value < rhs.value ? *this : rhs;\n    }\n};\ntemplate\
-    \ <class T> T min_monoid<T>::min = std::numeric_limits<T>::min();\ntemplate <class\
-    \ T> T min_monoid<T>::max = std::numeric_limits<T>::max();\ntemplate <class T>\n\
-    struct max_monoid : min_monoid<T>\n{\n    using base = min_monoid<T>;\n    using\
-    \ base::min_monoid;\n    max_monoid() : base(base::min) {}\n    max_monoid operator+(const\
-    \ max_monoid &rhs) const\n    {\n        return !(base::value < rhs.value) ? *this\
-    \ : rhs;\n    }\n};\n"
+  bundledCode: "#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
+    \ workspace {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type\
+    \ = T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
+    \ T &value) : value(value) {}\n  operator T() const { return value; }\n  min_monoid\
+    \ operator+(const min_monoid &rhs) const {\n    return value < rhs.value ? *this\
+    \ : rhs;\n  }\n  min_monoid operator*(const E &rhs) const;\n};\n\ntemplate <class\
+    \ T, class E>\nT min_monoid<T, E>::min = std::numeric_limits<T>::min() / 2;\n\
+    template <class T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max()\
+    \ / 2;\n\ntemplate <class T, class E = T> struct max_monoid : min_monoid<T, E>\
+    \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
+    \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
+    \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
+    \ E &rhs) const;\n};\n}\n"
+  code: "#pragma once\n#include <limits>\n\nnamespace workspace {\ntemplate <class\
+    \ T, class E = T> struct min_monoid {\n  using value_type = T;\n  static T min,\
+    \ max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const T &value)\
+    \ : value(value) {}\n  operator T() const { return value; }\n  min_monoid operator+(const\
+    \ min_monoid &rhs) const {\n    return value < rhs.value ? *this : rhs;\n  }\n\
+    \  min_monoid operator*(const E &rhs) const;\n};\n\ntemplate <class T, class E>\n\
+    T min_monoid<T, E>::min = std::numeric_limits<T>::min() / 2;\ntemplate <class\
+    \ T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max() / 2;\n\n\
+    template <class T, class E = T> struct max_monoid : min_monoid<T, E> {\n  using\
+    \ base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid() : base(base::min)\
+    \ {}\n  max_monoid operator+(const max_monoid &rhs) const {\n    return !(base::value\
+    \ < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const E &rhs) const;\n\
+    };\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: algebra/system/monoid.hpp
   requiredBy:
   - data_structure/segment_tree/basic.hpp
-  timestamp: '2020-09-03 02:05:06+09:00'
+  timestamp: '2020-09-27 13:46:39+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp

@@ -29,17 +29,19 @@ data:
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <cstdio>\n\n#line 2 \"data_structure/segment_tree/basic.hpp\"\n#include\
     \ <cassert>\n#include <queue>\n#include <vector>\n\n#line 2 \"algebra/system/monoid.hpp\"\
-    \n#include <limits>\ntemplate <class T>\nstruct min_monoid\n{\n    using value_type\
-    \ = T;\n    static T min, max;\n    T value;\n    min_monoid() : value(max) {}\n\
-    \    min_monoid(const T &value) : value(value) {}\n    operator T() const { return\
-    \ value; }\n    min_monoid operator+(const min_monoid &rhs) const\n    {\n   \
-    \     return value < rhs.value ? *this : rhs;\n    }\n};\ntemplate <class T> T\
-    \ min_monoid<T>::min = std::numeric_limits<T>::min();\ntemplate <class T> T min_monoid<T>::max\
-    \ = std::numeric_limits<T>::max();\ntemplate <class T>\nstruct max_monoid : min_monoid<T>\n\
-    {\n    using base = min_monoid<T>;\n    using base::min_monoid;\n    max_monoid()\
-    \ : base(base::min) {}\n    max_monoid operator+(const max_monoid &rhs) const\n\
-    \    {\n        return !(base::value < rhs.value) ? *this : rhs;\n    }\n};\n\
-    #line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\ntemplate\
+    \n#include <limits>\n\nnamespace workspace {\ntemplate <class T, class E = T>\
+    \ struct min_monoid {\n  using value_type = T;\n  static T min, max;\n  T value;\n\
+    \  min_monoid() : value(max) {}\n  min_monoid(const T &value) : value(value) {}\n\
+    \  operator T() const { return value; }\n  min_monoid operator+(const min_monoid\
+    \ &rhs) const {\n    return value < rhs.value ? *this : rhs;\n  }\n  min_monoid\
+    \ operator*(const E &rhs) const;\n};\n\ntemplate <class T, class E>\nT min_monoid<T,\
+    \ E>::min = std::numeric_limits<T>::min() / 2;\ntemplate <class T, class E>\n\
+    T min_monoid<T, E>::max = std::numeric_limits<T>::max() / 2;\n\ntemplate <class\
+    \ T, class E = T> struct max_monoid : min_monoid<T, E> {\n  using base = min_monoid<T,\
+    \ E>;\n  using base::min_monoid;\n  max_monoid() : base(base::min) {}\n  max_monoid\
+    \ operator+(const max_monoid &rhs) const {\n    return !(base::value < rhs.value)\
+    \ ? *this : rhs;\n  }\n  max_monoid operator*(const E &rhs) const;\n};\n}\n#line\
+    \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
     \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
@@ -218,7 +220,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-09-27 13:39:20+09:00'
+  timestamp: '2020-09-27 13:46:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
