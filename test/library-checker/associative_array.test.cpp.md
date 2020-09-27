@@ -67,28 +67,27 @@ data:
     \ hash<Key>>>;\ntemplate <class Key, class Mapped>\nusing unordered_map = std::unordered_map<Key,\
     \ Mapped, hash<Key>>;\ntemplate <class Key> using unordered_set = std::unordered_set<Key,\
     \ hash<Key>>;\n}  // namespace workspace\n#line 3 \"test/library-checker/associative_array.test.cpp\"\
-    \n\nusing namespace workspace;\n\nint main()\n{\n    int q; scanf(\"%d\",&q);\n\
-    \    unordered_map<long long, long long> a;\n    gp_hash_table<long long, long\
-    \ long> b;\n    cc_hash_table<long long, long long> c;\n\n    while(q--)\n   \
-    \ {\n        int t; long long k,v;\n        scanf(\"%d%lld\", &t, &k);\n     \
-    \   if(t)\n        {\n            printf(\"%lld\\n\", a[k]);\n            assert(a[k]\
-    \ == b[k] && a[k] == c[k]);\n        }\n        else\n        {\n            scanf(\"\
-    %lld\", &v);\n            a[k] = b[k] = c[k] = v;\n        }\n    }\n}\n"
+    \n\nusing namespace workspace;\n\nint main() {\n  int q;\n  scanf(\"%d\", &q);\n\
+    \  unordered_map<long long, long long> a;\n  gp_hash_table<long long, long long>\
+    \ b;\n  cc_hash_table<long long, long long> c;\n\n  while (q--) {\n    int t;\n\
+    \    long long k, v;\n    scanf(\"%d%lld\", &t, &k);\n    if (t) {\n      printf(\"\
+    %lld\\n\", a[k]);\n      assert(a[k] == b[k] && a[k] == c[k]);\n    } else {\n\
+    \      scanf(\"%lld\", &v);\n      a[k] = b[k] = c[k] = v;\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/associative_array\"\n#include\
-    \ \"utils/hash.hpp\"\n\nusing namespace workspace;\n\nint main()\n{\n    int q;\
-    \ scanf(\"%d\",&q);\n    unordered_map<long long, long long> a;\n    gp_hash_table<long\
-    \ long, long long> b;\n    cc_hash_table<long long, long long> c;\n\n    while(q--)\n\
-    \    {\n        int t; long long k,v;\n        scanf(\"%d%lld\", &t, &k);\n  \
-    \      if(t)\n        {\n            printf(\"%lld\\n\", a[k]);\n            assert(a[k]\
-    \ == b[k] && a[k] == c[k]);\n        }\n        else\n        {\n            scanf(\"\
-    %lld\", &v);\n            a[k] = b[k] = c[k] = v;\n        }\n    }\n}\n"
+    \ \"utils/hash.hpp\"\n\nusing namespace workspace;\n\nint main() {\n  int q;\n\
+    \  scanf(\"%d\", &q);\n  unordered_map<long long, long long> a;\n  gp_hash_table<long\
+    \ long, long long> b;\n  cc_hash_table<long long, long long> c;\n\n  while (q--)\
+    \ {\n    int t;\n    long long k, v;\n    scanf(\"%d%lld\", &t, &k);\n    if (t)\
+    \ {\n      printf(\"%lld\\n\", a[k]);\n      assert(a[k] == b[k] && a[k] == c[k]);\n\
+    \    } else {\n      scanf(\"%lld\", &v);\n      a[k] = b[k] = c[k] = v;\n   \
+    \ }\n  }\n}\n"
   dependsOn:
   - utils/hash.hpp
   - utils/sfinae.hpp
   isVerificationFile: true
   path: test/library-checker/associative_array.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 13:36:45+09:00'
+  timestamp: '2020-09-27 13:39:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/associative_array.test.cpp

@@ -14,43 +14,24 @@ data:
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     links: []
-  bundledCode: '#line 2 "utils/chval.hpp"
-
-    #include <functional>
-
-    namespace workspace {
-
-    template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp
-    comp = Comp()) { return comp(y, x) ? x = y, true : false; }
-
-    template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp
-    comp = Comp()) { return comp(x, y) ? x = y, true : false; }
-
-    } // namespace workspace
-
-    '
-  code: '#pragma once
-
-    #include <functional>
-
-    namespace workspace {
-
-    template <class T, class Comp = std::less<T>> bool chle(T &x, const T &y, Comp
-    comp = Comp()) { return comp(y, x) ? x = y, true : false; }
-
-    template <class T, class Comp = std::less<T>> bool chge(T &x, const T &y, Comp
-    comp = Comp()) { return comp(x, y) ? x = y, true : false; }
-
-    } // namespace workspace
-
-    '
+  bundledCode: "#line 2 \"utils/chval.hpp\"\n#include <functional>\nnamespace workspace\
+    \ {\ntemplate <class T, class Comp = std::less<T>>\nbool chle(T &x, const T &y,\
+    \ Comp comp = Comp()) {\n  return comp(y, x) ? x = y, true : false;\n}\ntemplate\
+    \ <class T, class Comp = std::less<T>>\nbool chge(T &x, const T &y, Comp comp\
+    \ = Comp()) {\n  return comp(x, y) ? x = y, true : false;\n}\n}  // namespace\
+    \ workspace\n"
+  code: "#pragma once\n#include <functional>\nnamespace workspace {\ntemplate <class\
+    \ T, class Comp = std::less<T>>\nbool chle(T &x, const T &y, Comp comp = Comp())\
+    \ {\n  return comp(y, x) ? x = y, true : false;\n}\ntemplate <class T, class Comp\
+    \ = std::less<T>>\nbool chge(T &x, const T &y, Comp comp = Comp()) {\n  return\
+    \ comp(x, y) ? x = y, true : false;\n}\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: utils/chval.hpp
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-08-14 18:02:25+09:00'
+  timestamp: '2020-09-27 13:39:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/chval.hpp
