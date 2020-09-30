@@ -2,6 +2,9 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: algebra/system/monoid.hpp
+    title: algebra/system/monoid.hpp
+  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/lazy.hpp
     title: data_structure/segment_tree/lazy.hpp
   - icon: ':heavy_check_mark:'
@@ -26,34 +29,46 @@ data:
     #define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n#include\
     \ <cstdio>\n#include <vector>\n\n#line 2 \"data_structure/segment_tree/lazy.hpp\"\
     \n#include <cassert>\n#include <queue>\n#line 5 \"data_structure/segment_tree/lazy.hpp\"\
-    \n\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\
-    \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
-    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
-    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 3 \"data_structure/segment_tree/waitlist.hpp\"\n\nnamespace internal\
-    \ {\nstruct waitlist : std::queue<size_t> {\n  waitlist(size_t n) : in(n) {}\n\
-    \n  bool push(size_t index) {\n    assert(index < in.size());\n    if (in[index])\
-    \ return false;\n    emplace(index);\n    return (in[index] = true);\n  }\n\n\
-    \  size_t pop() {\n    assert(!empty());\n    auto index = front();\n    std::queue<size_t>::pop();\n\
-    \    in[index] = false;\n    return index;\n  }\n\n private:\n  std::vector<int_least8_t>\
-    \ in;\n};\n}\n#line 8 \"data_structure/segment_tree/lazy.hpp\"\n\ntemplate <class\
-    \ Monoid, class Endomorphism,\n          class Monoid_container = std::vector<Monoid>,\n\
-    \          class Endomorphism_container = std::vector<Endomorphism>>\nclass lazy_segment_tree\
-    \ {\n  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);\n\
+    \n\n#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace workspace\
+    \ {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type =\
+    \ T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
+    \ T &value) : value(value) {}\n  operator T() const { return value; }\n  min_monoid\
+    \ operator+(const min_monoid &rhs) const {\n    return value < rhs.value ? *this\
+    \ : rhs;\n  }\n  min_monoid operator*(const E &rhs) const;\n};\n\ntemplate <class\
+    \ T, class E>\nT min_monoid<T, E>::min = std::numeric_limits<T>::min() / 2;\n\
+    template <class T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max()\
+    \ / 2;\n\ntemplate <class T, class E = T> struct max_monoid : min_monoid<T, E>\
+    \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
+    \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
+    \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
+    \ E &rhs) const;\n};\n}\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include\
+    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
+    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
+    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
+    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 3 \"data_structure/segment_tree/waitlist.hpp\"\
+    \n\nnamespace internal {\nstruct waitlist : std::queue<size_t> {\n  waitlist(size_t\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
+    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
+    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
+    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n}\n#line 9 \"data_structure/segment_tree/lazy.hpp\"\
+    \n\ntemplate <class Monoid, class Endomorphism,\n          class Monoid_container\
+    \ = std::vector<Monoid>,\n          class Endomorphism_container = std::vector<Endomorphism>>\n\
+    class lazy_segment_tree {\n  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);\n\
     \n  static_assert(\n      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);\n\
     \n  static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,\n\
     \                \"\\'Monoid\\' has no proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
@@ -225,13 +240,14 @@ data:
     , &a, &b);\n      seg.update(l, r, {a, b});\n    }\n  }\n}\n"
   dependsOn:
   - data_structure/segment_tree/lazy.hpp
+  - algebra/system/monoid.hpp
   - utils/sfinae.hpp
   - data_structure/segment_tree/waitlist.hpp
   - modulus/modint.hpp
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-09-27 01:07:58+09:00'
+  timestamp: '2020-09-30 15:35:22+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

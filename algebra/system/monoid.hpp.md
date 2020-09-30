@@ -5,13 +5,22 @@ data:
   - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/basic.hpp
     title: data_structure/segment_tree/basic.hpp
+  - icon: ':heavy_check_mark:'
+    path: data_structure/segment_tree/lazy.hpp
+    title: data_structure/segment_tree/lazy.hpp
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/range_minimum_query.test.cpp
     title: test/aizu-online-judge/range_minimum_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
@@ -49,12 +58,15 @@ data:
   isVerificationFile: false
   path: algebra/system/monoid.hpp
   requiredBy:
+  - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp
   timestamp: '2020-09-27 13:46:39+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/aizu-online-judge/do_use_segment_tree.test.cpp
   - test/aizu-online-judge/range_minimum_query.test.cpp
 documentation_of: algebra/system/monoid.hpp
 layout: document
