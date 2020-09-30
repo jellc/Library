@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"data_structure/convex_hull_trick/monotone.hpp\"\n#include\
     \ <cassert>\n#include <vector>\n\ntemplate <class T = long long>\nclass lower_convex_monotone\n\

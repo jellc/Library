@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/fixed_point.hpp\"\n#include <utility>\nnamespace workspace\
     \ {\n// specify the return type of lambda.\ntemplate <class lambda_type> class\

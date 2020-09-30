@@ -15,7 +15,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/read.hpp\"\n#include <iostream>\nnamespace workspace\
     \ {\n// read with std::cin.\ntemplate <class T = void>\nstruct read\n{\n    typename\

@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"graph/undirected/tree/centroid_decomposition.hpp\"\n#include\
     \ <cassert>\n#include <vector>\n\nclass centroid_decomposition\n{\n    std::vector<std::vector<size_t>>\

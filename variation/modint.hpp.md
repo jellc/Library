@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"variation/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\
     template <auto &mod>  // compile-time defined modulo.\nstruct modint {\n  using\

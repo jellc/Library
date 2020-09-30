@@ -9,7 +9,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"\
     O3\")\n    #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\

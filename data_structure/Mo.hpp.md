@@ -4,15 +4,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_kth_smallest.test.cpp
     title: test/library-checker/range_kth_smallest.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n\
     #include <functional>\n#include <vector>\n\ntemplate <class Add, class Del>\n\

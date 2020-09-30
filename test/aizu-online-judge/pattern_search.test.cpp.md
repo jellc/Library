@@ -8,11 +8,11 @@ data:
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/stream.hpp
-    title: utils/stream.hpp
-  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/stream.hpp
+    title: utils/stream.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

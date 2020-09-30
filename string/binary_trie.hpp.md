@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links:
     - https://atcoder.jp/contests/dwacon5th-final/submissions/7200502
   bundledCode: "#line 1 \"string/binary_trie.hpp\"\n// verified at https://atcoder.jp/contests/dwacon5th-final/submissions/7200502\n\

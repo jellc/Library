@@ -1,15 +1,15 @@
 ---
 data:
   _extendedDependsOn:
+  - icon: ':warning:'
+    path: config.hpp
+    title: config.hpp
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
     title: utils/binary_search.hpp
   - icon: ':warning:'
     path: utils/casefmt.hpp
     title: utils/casefmt.hpp
-  - icon: ':warning:'
-    path: config.hpp
-    title: config.hpp
   - icon: ':warning:'
     path: utils/chval.hpp
     title: utils/chval.hpp
@@ -22,9 +22,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
   - icon: ':warning:'
     path: utils/make_vector.hpp
     title: utils/make_vector.hpp
@@ -34,6 +31,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/read.hpp
     title: utils/read.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/sfinae.hpp
+    title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
@@ -51,7 +51,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n\
     #include <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n\

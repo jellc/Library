@@ -2,20 +2,20 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: data_structure/segment_tree/basic.hpp
-    title: data_structure/segment_tree/basic.hpp
-  - icon: ':heavy_check_mark:'
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
+    path: data_structure/segment_tree/basic.hpp
+    title: data_structure/segment_tree/basic.hpp
   - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
     title: modulus/modint.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/sfinae.hpp
+    title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

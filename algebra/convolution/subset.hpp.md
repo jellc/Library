@@ -9,7 +9,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"algebra/convolution/subset.hpp\"\n#include <cassert>\n#include\
     \ <vector>\n\ntemplate <class Ring>\nstd::vector<Ring> subset_convolute(const\

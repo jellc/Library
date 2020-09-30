@@ -21,7 +21,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"combinatorics/factorial.hpp\"\n#include <functional>\n#include\
     \ <vector>\ntemplate <class T, class Op = std::multiplies<T>>\nclass factorial\n\

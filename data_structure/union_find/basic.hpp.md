@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"data_structure/union_find/basic.hpp\"\n#include <cassert>\n\
     #include <vector>\nstruct union_find\n{\n    union_find(const size_t &n = 0) :\

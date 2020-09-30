@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: graph/directed/flow/min_cost_flow.hpp
-    title: graph/directed/flow/min_cost_flow.hpp
-  - icon: ':heavy_check_mark:'
     path: graph/directed/flow/base.hpp
     title: graph/directed/flow/base.hpp
+  - icon: ':heavy_check_mark:'
+    path: graph/directed/flow/min_cost_flow.hpp
+    title: graph/directed/flow/min_cost_flow.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

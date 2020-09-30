@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"algebra/convolution/number_theoretic_transform.hpp\"\n\n\
     \n\n#include <algorithm>\n#include <cassert>\n#include <iostream>\n#include <vector>\n\

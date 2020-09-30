@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
-  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/sfinae.hpp
+    title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -15,7 +15,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"data_structure/segment_tree/lazy.hpp\"\n#include <cassert>\n\
     #include <queue>\n#include <vector>\n\n#line 2 \"utils/sfinae.hpp\"\n#include\

@@ -18,7 +18,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
     #include <functional>\n#include <random>\n#include <unordered_set>\n\n#line 2\

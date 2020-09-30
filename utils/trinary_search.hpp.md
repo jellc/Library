@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/trinary_search.hpp\"\n#include <cassert>\n#include\
     \ <cstdint>\n// trinary search on discrete range.\ntemplate <class iter_type,\

@@ -9,7 +9,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"graph/undirected/two_edge_connected_components.hpp\"\n#include\
     \ <cassert>\n#include <vector>\n\n// instance: an undirected and not necessarily\

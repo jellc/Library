@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"math/Prime_factorizer.hpp\"\n\n\n\n// calculate the least\
     \ prime factor for positive integers less than N in compile time.\ntemplate <int\

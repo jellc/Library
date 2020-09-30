@@ -151,6 +151,9 @@ data:
       path: graph/undirected/tree/centroid_decomposition.hpp
       title: graph/undirected/tree/centroid_decomposition.hpp
     - icon: ':heavy_check_mark:'
+      path: graph/undirected/tree/heavy_light_decomposition.hpp
+      title: graph/undirected/tree/heavy_light_decomposition.hpp
+    - icon: ':heavy_check_mark:'
       path: graph/undirected/tree/lowest_common_ancestor.hpp
       title: graph/undirected/tree/lowest_common_ancestor.hpp
   - name: graph/undirected

@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"deprecated/SplayTree.cpp\"\n#include <bits/stdc++.h>\n\n\
     \ntemplate< typename Monoid = int >\nstruct SplayTree {\n  using F = function<\

@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"variation/deque_aggregation.hpp\"\n#include <cassert>\n\
     #include <iterator>\n#include <vector>\n// implementation with std::vector\ntemplate\

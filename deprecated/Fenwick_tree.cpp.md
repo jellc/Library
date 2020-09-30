@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"deprecated/Fenwick_tree.cpp\"\ntemplate <class Abel>\n//\
     \ Abel must be an abelian group.\nclass Fenwick_tree\n{\n    using ary_t = vector<Abel>;\n\

@@ -5,11 +5,11 @@ data:
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/random_number_generator.hpp
-    title: utils/random_number_generator.hpp
-  - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
     title: utils/binary_search.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/random_number_generator.hpp
+    title: utils/random_number_generator.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

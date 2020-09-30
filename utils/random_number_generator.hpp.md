@@ -2,26 +2,25 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: string/rolling_hash.hpp
+    title: string/rolling_hash.hpp
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
-  - icon: ':heavy_check_mark:'
-    path: string/rolling_hash.hpp
-    title: string/rolling_hash.hpp
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm_2.test.cpp
-    title: test/library-checker/zalgorithm_2.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/random_number_generator.hpp\"\n#include <random>\n\
     template <typename num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\

@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"deprecated/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\
     template <int_fast64_t mod = 0> // compile-time defined modulo.\nstruct modint\n\

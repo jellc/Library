@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links:
     - https://codeforces.com/contest/1202/submission/69079919
   bundledCode: "#line 1 \"deprecated/trie.hpp\"\n// verified at https://codeforces.com/contest/1202/submission/69079919\n\

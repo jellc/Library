@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"deprecated/segment_tree/lazy.hpp\"\n#include <cassert>\n\
     #include <vector>\n\ntemplate <class monoid, class endomorphism> class lazy_segment_tree\

@@ -18,7 +18,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"modulus/inverse.hpp\"\n#include <vector>\n\n#line 2 \"modulus/modint.hpp\"\
     \n#include <cassert>\n#include <iostream>\n\n#line 2 \"utils/sfinae.hpp\"\n#include\

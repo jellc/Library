@@ -2,73 +2,49 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: template.cpp
-  - icon: ':heavy_check_mark:'
-    path: utils/stream.hpp
-    title: utils/stream.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/hash.hpp
-    title: utils/hash.hpp
   - icon: ':heavy_check_mark:'
     path: combinatorics/binomial.hpp
     title: combinatorics/binomial.hpp
+  - icon: ':heavy_check_mark:'
+    path: data_structure/segment_tree/basic.hpp
+    title: data_structure/segment_tree/basic.hpp
+  - icon: ':heavy_check_mark:'
+    path: data_structure/segment_tree/lazy.hpp
+    title: data_structure/segment_tree/lazy.hpp
   - icon: ':warning:'
     path: dev/fraction.hpp
     title: dev/fraction.hpp
   - icon: ':heavy_check_mark:'
-    path: modulus/modint.hpp
-    title: modulus/modint.hpp
-  - icon: ':heavy_check_mark:'
     path: modulus/inverse.hpp
     title: modulus/inverse.hpp
   - icon: ':heavy_check_mark:'
+    path: modulus/modint.hpp
+    title: modulus/modint.hpp
+  - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
     title: number_theory/ext_gcd.hpp
+  - icon: ':heavy_check_mark:'
+    path: string/suffix_array.hpp
+    title: string/suffix_array.hpp
+  - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
-    path: string/suffix_array.hpp
-    title: string/suffix_array.hpp
+    path: utils/hash.hpp
+    title: utils/hash.hpp
   - icon: ':heavy_check_mark:'
-    path: data_structure/segment_tree/lazy.hpp
-    title: data_structure/segment_tree/lazy.hpp
-  - icon: ':heavy_check_mark:'
-    path: data_structure/segment_tree/basic.hpp
-    title: data_structure/segment_tree/basic.hpp
+    path: utils/stream.hpp
+    title: utils/stream.hpp
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/associative_array.test.cpp
-    title: test/library-checker/associative_array.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/subset_convolution.test.cpp
-    title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/queue_operate_all_composite.test.cpp
-    title: test/library-checker/queue_operate_all_composite.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/suffix_array.test.cpp
-    title: test/library-checker/suffix_array.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/range_affine_range_sum.test.cpp
-    title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/point_set_range_composite.test.cpp
-    title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm.test.cpp
-    title: test/library-checker/zalgorithm.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/number_of_substrings.test.cpp
-    title: test/library-checker/number_of_substrings.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+    title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
@@ -76,12 +52,35 @@ data:
     path: test/aizu-online-judge/range_minimum_query.test.cpp
     title: test/aizu-online-judge/range_minimum_query.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-    title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+    path: test/library-checker/associative_array.test.cpp
+    title: test/library-checker/associative_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/number_of_substrings.test.cpp
+    title: test/library-checker/number_of_substrings.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/queue_operate_all_composite.test.cpp
+    title: test/library-checker/queue_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/subset_convolution.test.cpp
+    title: test/library-checker/subset_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm.test.cpp
+    title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\

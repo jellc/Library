@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"variation/modular.hpp\"\n#include <cassert>\n#include <iostream>\n\
     // modulo individually set\nclass modular\n{\n    long long val;\n    int mod;\n\

@@ -13,8 +13,11 @@ data:
     title: modulus/inverse.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/subset_convolution.test.cpp
-    title: test/library-checker/subset_convolution.test.cpp
+    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
@@ -22,15 +25,11 @@ data:
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/point_set_range_composite.test.cpp
-    title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    path: test/library-checker/subset_convolution.test.cpp
+    title: test/library-checker/subset_convolution.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"modulus/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\
     \n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\n\

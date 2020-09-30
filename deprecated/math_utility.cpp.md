@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"deprecated/math_utility.cpp\"\n#include <bits/stdc++.h>\n\
     \nnamespace math\n{\n    template <class int_t> std::vector<int_t> prime_factorization(int_t\

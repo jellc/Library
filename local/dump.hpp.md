@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"local/dump.hpp\"\n#include <iostream>\n\n#define dump(...)\
     \ std::cerr << \"[ \" << __LINE__ << \" : \" << __FUNCTION__ << \" ]\\n\", dump_func(#__VA_ARGS__,\

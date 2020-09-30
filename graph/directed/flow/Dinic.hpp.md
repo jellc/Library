@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"graph/directed/flow/base.hpp\"\n#include <cassert>\n#include\
     \ <vector>\n// the base class of flow algorithms.\ntemplate <class cap_t, class\

@@ -9,7 +9,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\

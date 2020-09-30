@@ -5,26 +5,25 @@ data:
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
-  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/sfinae.hpp
+    title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
+    path: test/aizu-online-judge/range_minimum_query.test.cpp
+    title: test/aizu-online-judge/range_minimum_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/range_minimum_query.test.cpp
-    title: test/aizu-online-judge/range_minimum_query.test.cpp
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"data_structure/segment_tree/basic.hpp\"\n#include <cassert>\n\
     #include <queue>\n#include <vector>\n\n#line 2 \"algebra/system/monoid.hpp\"\n\

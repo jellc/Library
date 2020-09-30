@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/wrapper.hpp\"\ntemplate <class Container> class reversed\
     \ {\n  Container &ref, copy;\n\n public:\n  reversed(Container &ref) : ref(ref)\

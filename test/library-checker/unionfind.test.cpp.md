@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: data_structure/union_find/unbalanced.hpp
-    title: data_structure/union_find/unbalanced.hpp
-  - icon: ':heavy_check_mark:'
     path: data_structure/union_find/basic.hpp
     title: data_structure/union_find/basic.hpp
+  - icon: ':heavy_check_mark:'
+    path: data_structure/union_find/unbalanced.hpp
+    title: data_structure/union_find/unbalanced.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

@@ -10,15 +10,14 @@ data:
     title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_kth_smallest.test.cpp
     title: test/library-checker/range_kth_smallest.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/coordinate_compression.hpp\"\n#include <algorithm>\n\
     #include <cassert>\n#include <vector>\n\ntemplate <class T> class coordinate_compression\

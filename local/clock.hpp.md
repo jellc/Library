@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"local/clock.hpp\"\n#include <chrono>\n#include <iostream>\n\
     #include <string>\n\nclass\n{\n    std::chrono::system_clock::time_point built_pt,\

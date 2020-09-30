@@ -7,15 +7,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/suffix_array.test.cpp
-    title: test/library-checker/suffix_array.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"string/suffix_array.hpp\"\n#include <algorithm>\n#include\
     \ <vector>\n#include <numeric>\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n\

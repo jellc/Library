@@ -7,15 +7,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/assignment.test.cpp
-    title: test/library-checker/assignment.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/aors_score.test.cpp
     title: test/aizu-online-judge/aors_score.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/assignment.test.cpp
+    title: test/library-checker/assignment.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"graph/directed/flow/min_cost_flow.hpp\"\n#include <algorithm>\n\
     #include <queue>\n\n#line 2 \"graph/directed/flow/base.hpp\"\n#include <cassert>\n\

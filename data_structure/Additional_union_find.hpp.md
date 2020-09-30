@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"data_structure/Additional_union_find.hpp\"\n// #line 2 \"\
     Additional_union_find.hpp\"\n#ifndef Additional_union_find_hpp\n#define Additional_union_find_hpp\n\

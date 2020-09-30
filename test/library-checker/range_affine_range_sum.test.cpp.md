@@ -5,14 +5,14 @@ data:
     path: data_structure/segment_tree/lazy.hpp
     title: data_structure/segment_tree/lazy.hpp
   - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
-  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
     title: modulus/modint.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/sfinae.hpp
+    title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

@@ -3,25 +3,24 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: graph/directed/flow/min_cost_flow.hpp
-    title: graph/directed/flow/min_cost_flow.hpp
-  - icon: ':heavy_check_mark:'
     path: graph/directed/flow/Dinic.hpp
     title: graph/directed/flow/Dinic.hpp
+  - icon: ':heavy_check_mark:'
+    path: graph/directed/flow/min_cost_flow.hpp
+    title: graph/directed/flow/min_cost_flow.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/bipartitematching.test.cpp
-    title: test/library-checker/bipartitematching.test.cpp
+    path: test/aizu-online-judge/aors_score.test.cpp
+    title: test/aizu-online-judge/aors_score.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/assignment.test.cpp
     title: test/library-checker/assignment.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/aors_score.test.cpp
-    title: test/aizu-online-judge/aors_score.test.cpp
+    path: test/library-checker/bipartitematching.test.cpp
+    title: test/library-checker/bipartitematching.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"graph/directed/flow/base.hpp\"\n#include <cassert>\n#include\
     \ <vector>\n// the base class of flow algorithms.\ntemplate <class cap_t, class\

@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"variation/flow/Dinic.hpp\"\n#include <cassert>\n#include\
     \ <vector>\n// compute the maximum flow.\ntemplate <class cap_t = int>\nstruct\

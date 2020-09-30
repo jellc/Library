@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/make_vector.hpp\"\n#if __cplusplus >= 201703L\n#include\
     \ <vector>\nnamespace workspace {\ntemplate <typename T, size_t N>\nconstexpr\

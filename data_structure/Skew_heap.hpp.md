@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"data_structure/Skew_heap.hpp\"\n// #line 2 \"Skew_heap.hpp\"\
     \n#ifndef Skew_heap_hpp\n#define Skew_heap_hpp\n\ntemplate <class T>\nclass skew_heap\n\

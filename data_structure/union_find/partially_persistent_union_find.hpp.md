@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links:
     - https://atcoder.jp/contests/agc002/submissions/9514048
   bundledCode: "#line 1 \"data_structure/union_find/partially_persistent_union_find.hpp\"\

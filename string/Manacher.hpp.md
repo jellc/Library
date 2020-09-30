@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"string/Manacher.hpp\"\n// #line 2 \"Manacher.hpp\"\n#ifndef\
     \ Manacher_hpp\n#define Manacher_hpp\n#include <iostream>\n#include <string>\n\

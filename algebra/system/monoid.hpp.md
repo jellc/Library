@@ -7,18 +7,17 @@ data:
     title: data_structure/segment_tree/basic.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
+    path: test/aizu-online-judge/range_minimum_query.test.cpp
+    title: test/aizu-online-judge/range_minimum_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/range_minimum_query.test.cpp
-    title: test/aizu-online-judge/range_minimum_query.test.cpp
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
     \ workspace {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type\

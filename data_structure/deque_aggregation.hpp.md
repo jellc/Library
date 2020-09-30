@@ -9,7 +9,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"data_structure/deque_aggregation.hpp\"\n#include <cassert>\n\
     #include <iterator>\n// implementation with dynamic memory allocation.\ntemplate\

@@ -4,15 +4,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/segment_add_get_min.test.cpp
-    title: test/library-checker/segment_add_get_min.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/line_add_get_min.test.cpp
     title: test/library-checker/line_add_get_min.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/segment_add_get_min.test.cpp
+    title: test/library-checker/segment_add_get_min.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\n#include\
     \ <cassert>\n#include <functional>\n\ntemplate <class T = long long, class Comp\

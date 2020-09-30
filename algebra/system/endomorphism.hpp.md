@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 1 \"algebra/system/endomorphism.hpp\"\nstruct endo\n{\n    //\
     \ compose.\n    void operator*=(const endo& rhs);\n\n    // apply self to an element\

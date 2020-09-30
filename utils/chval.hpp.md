@@ -12,7 +12,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/chval.hpp\"\n#include <functional>\nnamespace workspace\
     \ {\ntemplate <class T, class Comp = std::less<T>>\nbool chle(T &x, const T &y,\

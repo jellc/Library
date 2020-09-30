@@ -7,15 +7,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm_2.test.cpp
-    title: test/library-checker/zalgorithm_2.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp
     title: test/aizu-online-judge/pattern_search.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"string/rolling_hash.hpp\"\n#include <algorithm>\n#include\
     \ <cassert>\n#include <vector>\n\n#line 2 \"utils/random_number_generator.hpp\"\

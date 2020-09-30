@@ -10,15 +10,14 @@ data:
     title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm_2.test.cpp
-    title: test/library-checker/zalgorithm_2.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
     title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n\
     #include <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n\

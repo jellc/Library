@@ -6,7 +6,6 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links:
     - https://atcoder.jp/contests/abc087/submissions/9511701
   bundledCode: "#line 1 \"data_structure/union_find/potentialized_union_find.hpp\"\
