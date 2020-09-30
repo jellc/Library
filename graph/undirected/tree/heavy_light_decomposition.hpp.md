@@ -42,14 +42,17 @@ data:
     \ size() ? head[node] : node;\n  }\n\n  // O(log(n))\n  size_t lca(size_t u, size_t\
     \ v) {\n    if (in[v] < in[u]) std::swap(u, v);\n    if (in[v] < out[u]) return\
     \ u;\n    while (in[u] < in[v]) v = parent(top(v));\n    return v;\n  }\n\n  //\
-    \ O(log(n))\n  std::vector<interval> path_decomposition(size_t u, size_t v) const\
-    \ {\n    std::vector<interval> paths;\n    size_t utop = top(u), vtop = top(v);\n\
-    \    while (utop != vtop) {\n      if (in[v] < in[u]) std::swap(u, v), std::swap(utop,\
-    \ vtop);\n      paths.emplace_back(in[vtop], in[v] + 1);\n      vtop = top(v =\
-    \ parent(vtop));\n    }\n    if (in[v] < in[u]) std::swap(u, v);\n    paths.emplace_back(in[u],\
-    \ in[v] + 1);\n    return paths;\n  }\n\n  // O(log(n))\n  std::vector<interval>\
-    \ path_decomposition(size_t node) const {\n    return path_decomposition(root(),\
-    \ node);\n  }\n};\n"
+    \ O(log(n))\n  std::pair<std::vector<interval>, std::vector<interval>> path_decomposition(\n\
+    \      size_t u, size_t v) const {\n    if (in[v] < in[u]) std::swap(u, v);\n\
+    \    std::vector<interval> left, right;\n    size_t utop = top(u), vtop = top(v);\n\
+    \    while (utop != vtop) {\n      left.emplace_back(in[vtop], in[v] + 1);\n \
+    \     vtop = top(v = parent(vtop));\n      if (in[v] < in[u]) {\n        std::swap(u,\
+    \ v);\n        std::swap(utop, vtop);\n        std::swap(left, right);\n     \
+    \ }\n    }\n    left.emplace_back(in[u], in[v] + 1);\n    return std::make_pair(left,\
+    \ right);\n  }\n\n  // O(log(n))\n  std::vector<interval> path_decomposition(size_t\
+    \ node) const {\n    auto [left, right] = path_decomposition(root(), node);\n\
+    \    assert(left.size() == 1);\n    right.insert(right.begin(), left.front());\n\
+    \    return right;\n  }\n};\n"
   code: "#pragma once\n#include <cassert>\n#include <numeric>\n#include <vector>\n\
     \nclass heavy_light_decomposition {\n  std::vector<std::vector<size_t>> tree;\n\
     \  std::vector<size_t> sorted, in, out, head;\n\n  size_t sort_children(size_t\
@@ -81,19 +84,22 @@ data:
     \ head[node] < size() ? head[node] : node;\n  }\n\n  // O(log(n))\n  size_t lca(size_t\
     \ u, size_t v) {\n    if (in[v] < in[u]) std::swap(u, v);\n    if (in[v] < out[u])\
     \ return u;\n    while (in[u] < in[v]) v = parent(top(v));\n    return v;\n  }\n\
-    \n  // O(log(n))\n  std::vector<interval> path_decomposition(size_t u, size_t\
-    \ v) const {\n    std::vector<interval> paths;\n    size_t utop = top(u), vtop\
-    \ = top(v);\n    while (utop != vtop) {\n      if (in[v] < in[u]) std::swap(u,\
-    \ v), std::swap(utop, vtop);\n      paths.emplace_back(in[vtop], in[v] + 1);\n\
-    \      vtop = top(v = parent(vtop));\n    }\n    if (in[v] < in[u]) std::swap(u,\
-    \ v);\n    paths.emplace_back(in[u], in[v] + 1);\n    return paths;\n  }\n\n \
-    \ // O(log(n))\n  std::vector<interval> path_decomposition(size_t node) const\
-    \ {\n    return path_decomposition(root(), node);\n  }\n};\n"
+    \n  // O(log(n))\n  std::pair<std::vector<interval>, std::vector<interval>> path_decomposition(\n\
+    \      size_t u, size_t v) const {\n    if (in[v] < in[u]) std::swap(u, v);\n\
+    \    std::vector<interval> left, right;\n    size_t utop = top(u), vtop = top(v);\n\
+    \    while (utop != vtop) {\n      left.emplace_back(in[vtop], in[v] + 1);\n \
+    \     vtop = top(v = parent(vtop));\n      if (in[v] < in[u]) {\n        std::swap(u,\
+    \ v);\n        std::swap(utop, vtop);\n        std::swap(left, right);\n     \
+    \ }\n    }\n    left.emplace_back(in[u], in[v] + 1);\n    return std::make_pair(left,\
+    \ right);\n  }\n\n  // O(log(n))\n  std::vector<interval> path_decomposition(size_t\
+    \ node) const {\n    auto [left, right] = path_decomposition(root(), node);\n\
+    \    assert(left.size() == 1);\n    right.insert(right.begin(), left.front());\n\
+    \    return right;\n  }\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/undirected/tree/heavy_light_decomposition.hpp
   requiredBy: []
-  timestamp: '2020-09-30 11:41:34+09:00'
+  timestamp: '2020-09-30 13:03:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/lowest_common_ancestor.test.cpp

@@ -50,14 +50,17 @@ data:
     \ size() ? head[node] : node;\n  }\n\n  // O(log(n))\n  size_t lca(size_t u, size_t\
     \ v) {\n    if (in[v] < in[u]) std::swap(u, v);\n    if (in[v] < out[u]) return\
     \ u;\n    while (in[u] < in[v]) v = parent(top(v));\n    return v;\n  }\n\n  //\
-    \ O(log(n))\n  std::vector<interval> path_decomposition(size_t u, size_t v) const\
-    \ {\n    std::vector<interval> paths;\n    size_t utop = top(u), vtop = top(v);\n\
-    \    while (utop != vtop) {\n      if (in[v] < in[u]) std::swap(u, v), std::swap(utop,\
-    \ vtop);\n      paths.emplace_back(in[vtop], in[v] + 1);\n      vtop = top(v =\
-    \ parent(vtop));\n    }\n    if (in[v] < in[u]) std::swap(u, v);\n    paths.emplace_back(in[u],\
-    \ in[v] + 1);\n    return paths;\n  }\n\n  // O(log(n))\n  std::vector<interval>\
-    \ path_decomposition(size_t node) const {\n    return path_decomposition(root(),\
-    \ node);\n  }\n};\n#line 4 \"graph/undirected/tree/lowest_common_ancestor.hpp\"\
+    \ O(log(n))\n  std::pair<std::vector<interval>, std::vector<interval>> path_decomposition(\n\
+    \      size_t u, size_t v) const {\n    if (in[v] < in[u]) std::swap(u, v);\n\
+    \    std::vector<interval> left, right;\n    size_t utop = top(u), vtop = top(v);\n\
+    \    while (utop != vtop) {\n      left.emplace_back(in[vtop], in[v] + 1);\n \
+    \     vtop = top(v = parent(vtop));\n      if (in[v] < in[u]) {\n        std::swap(u,\
+    \ v);\n        std::swap(utop, vtop);\n        std::swap(left, right);\n     \
+    \ }\n    }\n    left.emplace_back(in[u], in[v] + 1);\n    return std::make_pair(left,\
+    \ right);\n  }\n\n  // O(log(n))\n  std::vector<interval> path_decomposition(size_t\
+    \ node) const {\n    auto [left, right] = path_decomposition(root(), node);\n\
+    \    assert(left.size() == 1);\n    right.insert(right.begin(), left.front());\n\
+    \    return right;\n  }\n};\n#line 4 \"graph/undirected/tree/lowest_common_ancestor.hpp\"\
     \n\nclass lowest_common_ancestor {\n  std::vector<std::vector<size_t>> tree, table;\n\
     \  std::vector<size_t> index;\n\n  void tour(const size_t node, const size_t prev)\
     \ {\n    index[node] = table.front().size();\n    table.front().emplace_back(node);\n\
@@ -80,8 +83,10 @@ data:
     \ lca(n);\n  heavy_light_decomposition hld(n);\n  for (size_t i = 1, p; i < n;\
     \ i++) {\n    scanf(\"%lu\", &p);\n    lca.add_edge(i, p);\n    hld.add_edge(i,\
     \ p);\n  }\n  lca.make(0);\n  hld.make(0);\n  for (size_t u, v; q--;) {\n    scanf(\"\
-    %lu%lu\", &u, &v);\n    std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u,\
-    \ v));\n    assert(u == v);\n    printf(\"%lu\\n\", u);\n  }\n}\n"
+    %lu%lu\", &u, &v);\n    auto [left, right] = hld.path_decomposition(u, v);\n \
+    \   std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u, v));\n    assert(u\
+    \ == v);\n    assert(u == hld.node(left.back().first));\n    printf(\"%lu\\n\"\
+    , u);\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n#include <cstdio>\n\
     #include <ext/rope>\n\n#include \"graph/undirected/tree/heavy_light_decomposition.hpp\"\
     \n#include \"graph/undirected/tree/lowest_common_ancestor.hpp\"\n\nint main()\
@@ -89,15 +94,17 @@ data:
     \  heavy_light_decomposition hld(n);\n  for (size_t i = 1, p; i < n; i++) {\n\
     \    scanf(\"%lu\", &p);\n    lca.add_edge(i, p);\n    hld.add_edge(i, p);\n \
     \ }\n  lca.make(0);\n  hld.make(0);\n  for (size_t u, v; q--;) {\n    scanf(\"\
-    %lu%lu\", &u, &v);\n    std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u,\
-    \ v));\n    assert(u == v);\n    printf(\"%lu\\n\", u);\n  }\n}\n"
+    %lu%lu\", &u, &v);\n    auto [left, right] = hld.path_decomposition(u, v);\n \
+    \   std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u, v));\n    assert(u\
+    \ == v);\n    assert(u == hld.node(left.back().first));\n    printf(\"%lu\\n\"\
+    , u);\n  }\n}\n"
   dependsOn:
   - graph/undirected/tree/heavy_light_decomposition.hpp
   - graph/undirected/tree/lowest_common_ancestor.hpp
   isVerificationFile: true
   path: test/library-checker/lowest_common_ancestor.test.cpp
   requiredBy: []
-  timestamp: '2020-09-30 11:41:34+09:00'
+  timestamp: '2020-09-30 13:03:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/lowest_common_ancestor.test.cpp
