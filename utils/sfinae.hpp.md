@@ -43,6 +43,9 @@ data:
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - icon: ':heavy_check_mark:'
@@ -147,6 +150,7 @@ data:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
+  - test/aizu-online-judge/do_use_segment_tree.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/range_minimum_query.test.cpp

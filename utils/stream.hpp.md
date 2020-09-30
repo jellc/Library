@@ -13,6 +13,9 @@ data:
     title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
     title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - icon: ':heavy_check_mark:'
@@ -124,6 +127,7 @@ data:
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp
+  - test/aizu-online-judge/do_use_segment_tree.test.cpp
   - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/range_minimum_query.test.cpp
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp

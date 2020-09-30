@@ -271,6 +271,9 @@ data:
       path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+      title: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
       title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
     - icon: ':heavy_check_mark:'
