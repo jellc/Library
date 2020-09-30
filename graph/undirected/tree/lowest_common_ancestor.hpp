@@ -4,32 +4,30 @@
 
 class lowest_common_ancestor {
   std::vector<std::vector<size_t>> tree, table;
-  std::vector<size_t> &sorted, index;
+  std::vector<size_t> index;
 
   void tour(const size_t node, const size_t prev) {
-    index[node] = sorted.size();
-    sorted.emplace_back(node);
+    index[node] = table.front().size();
+    table.front().emplace_back(node);
     for (const size_t to : tree[node]) {
       if (to != prev) {
         tour(to, node);
-        sorted.emplace_back(node);
+        table.front().emplace_back(node);
       }
     }
   }
 
   void make_table() {
-    const size_t len = sorted.size();
-    for (size_t w = 2; w < len; w <<= 1) {
+    for (size_t w = 1; w < size(); w <<= 1) {
       auto &curr(table.back()), next(curr);
-      for (size_t i = 0, j = w >> 1; j != len; ++i, ++j)
+      for (size_t i = 0, j = w; j != curr.size(); ++i, ++j)
         if (index[curr[j]] < index[curr[i]]) next[i] = curr[j];
       table.emplace_back(next);
     }
   }
 
  public:
-  lowest_common_ancestor(const size_t n = 0)
-      : tree(n), table(1), sorted(table.front()), index(n) {}
+  lowest_common_ancestor(const size_t n = 0) : tree(n), table(1), index(n) {}
 
   size_t size() const { return tree.size(); }
 

@@ -2,19 +2,25 @@
 #include <cstdio>
 #include <ext/rope>
 
+#include "graph/undirected/tree/heavy_light_decomposition.hpp"
 #include "graph/undirected/tree/lowest_common_ancestor.hpp"
 
 int main() {
-  int n, q;
-  scanf("%d%d", &n, &q);
+  size_t n, q;
+  scanf("%lu%lu", &n, &q);
   lowest_common_ancestor lca(n);
-  for (int i = 1, p; i < n; i++) {
-    scanf("%d", &p);
+  heavy_light_decomposition hld(n);
+  for (size_t i = 1, p; i < n; i++) {
+    scanf("%lu", &p);
     lca.add_edge(i, p);
+    hld.add_edge(i, p);
   }
   lca.make(0);
-  for (int u, v; q--;) {
-    scanf("%d%d", &u, &v);
-    printf("%d\n", (int)lca.query(u, v));
+  hld.make(0);
+  for (size_t u, v; q--;) {
+    scanf("%lu%lu", &u, &v);
+    std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u, v));
+    assert(u == v);
+    printf("%lu\n", u);
   }
 }
