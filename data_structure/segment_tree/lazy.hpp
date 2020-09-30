@@ -3,6 +3,7 @@
 #include <queue>
 #include <vector>
 
+#include "algebra/system/monoid.hpp"
 #include "utils/sfinae.hpp"
 #include "waitlist.hpp"
 
