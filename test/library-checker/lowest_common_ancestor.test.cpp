@@ -19,8 +19,10 @@ int main() {
   hld.make(0);
   for (size_t u, v; q--;) {
     scanf("%lu%lu", &u, &v);
+    auto [left, right] = hld.path_decomposition(u, v);
     std::tie(u, v) = std::make_pair(lca.query(u, v), hld.lca(u, v));
     assert(u == v);
+    assert(u == hld.node(left.back().first));
     printf("%lu\n", u);
   }
 }

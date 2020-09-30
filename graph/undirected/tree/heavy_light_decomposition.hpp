@@ -94,21 +94,29 @@ class heavy_light_decomposition {
   }
 
   // O(log(n))
-  std::vector<interval> path_decomposition(size_t u, size_t v) const {
-    std::vector<interval> paths;
+  std::pair<std::vector<interval>, std::vector<interval>> path_decomposition(
+      size_t u, size_t v) const {
+    if (in[v] < in[u]) std::swap(u, v);
+    std::vector<interval> left, right;
     size_t utop = top(u), vtop = top(v);
     while (utop != vtop) {
-      if (in[v] < in[u]) std::swap(u, v), std::swap(utop, vtop);
-      paths.emplace_back(in[vtop], in[v] + 1);
+      left.emplace_back(in[vtop], in[v] + 1);
       vtop = top(v = parent(vtop));
+      if (in[v] < in[u]) {
+        std::swap(u, v);
+        std::swap(utop, vtop);
+        std::swap(left, right);
+      }
     }
-    if (in[v] < in[u]) std::swap(u, v);
-    paths.emplace_back(in[u], in[v] + 1);
-    return paths;
+    left.emplace_back(in[u], in[v] + 1);
+    return std::make_pair(left, right);
   }
 
   // O(log(n))
   std::vector<interval> path_decomposition(size_t node) const {
-    return path_decomposition(root(), node);
+    auto [left, right] = path_decomposition(root(), node);
+    assert(left.size() == 1);
+    right.insert(right.begin(), left.front());
+    return right;
   }
 };
