@@ -11,7 +11,7 @@ std::enable_if_t<
     iter_type>
 binary_search(iter_type ok, iter_type ng, pred_type pred) {
   assert(ok != ng);
-  auto dist(ng - ok);
+  std::make_signed_t<decltype(ng - ok)> dist(ng - ok);
   while (1 < dist || dist < -1) {
     iter_type mid(ok + dist / 2);
     if (pred(mid))
