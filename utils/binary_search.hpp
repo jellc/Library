@@ -4,15 +4,15 @@
 #include <cmath>
 #include <vector>
 namespace workspace {
-// binary search on discrete range.
+// binary search on a discrete range.
 template <class iter_type, class pred_type>
 std::enable_if_t<
     std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,
     iter_type>
 binary_search(iter_type ok, iter_type ng, pred_type pred) {
   assert(ok != ng);
-  __int128_t dist(ng - ok);
-  while (dist > 1 || dist < -1) {
+  auto dist(ng - ok);
+  while (1 < dist || dist < -1) {
     iter_type mid(ok + dist / 2);
     if (pred(mid))
       ok = mid, dist -= dist / 2;
@@ -21,7 +21,7 @@ binary_search(iter_type ok, iter_type ng, pred_type pred) {
   }
   return ok;
 }
-// parallel binary search on discrete range.
+// parallel binary search on each discrete range.
 template <class iter_type, class pred_type>
 std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<iter_type>>,
@@ -48,7 +48,7 @@ binary_search(std::vector<std::pair<iter_type, iter_type>> ends,
   }
   return mids;
 }
-// binary search on real numbers.
+// binary search on a real number interval.
 template <class real_type, class pred_type>
 std::enable_if_t<
     std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,
@@ -61,7 +61,7 @@ binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred) {
   }
   return ok;
 }
-// parallel binary search on real numbers.
+// parallel binary search on each real interval.
 template <class real_type, class pred_type>
 std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<real_type>>,
