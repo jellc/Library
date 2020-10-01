@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
     title: utils/binary_search.hpp
   _extendedRequiredBy: []
@@ -20,11 +20,11 @@ data:
     \nnamespace workspace {\n// binary search on a discrete range.\ntemplate <class\
     \ iter_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
     \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  auto dist(ng - ok);\n  while (1 <\
-    \ dist || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n\
-    \      ok = mid, dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n\
-    \  return ok;\n}\n// parallel binary search on each discrete range.\ntemplate\
-    \ <class iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+    \ pred_type pred) {\n  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)>\
+    \ dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist\
+    \ / 2);\n    if (pred(mid))\n      ok = mid, dist -= dist / 2;\n    else\n   \
+    \   ng = mid, dist /= 2;\n  }\n  return ok;\n}\n// parallel binary search on each\
+    \ discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
     \                     std::invoke_result_t<pred_type, std::vector<iter_type>>,\n\
     \                     std::vector<bool>>,\n                 std::vector<iter_type>>\n\
     binary_search(std::vector<std::pair<iter_type, iter_type>> ends,\n           \
@@ -152,7 +152,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   requiredBy: []
-  timestamp: '2020-10-01 11:57:26+09:00'
+  timestamp: '2020-10-01 13:17:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
