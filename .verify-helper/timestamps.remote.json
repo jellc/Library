@@ -2,7 +2,7 @@
 "test/aizu-online-judge/aors_score.test.cpp": "2020-09-21 01:25:13 +0900",
 "test/aizu-online-judge/balls_and_boxes_4.test.cpp": "2020-09-23 23:35:05 +0900",
 "test/aizu-online-judge/do_use_segment_tree.test.cpp": "2020-09-30 15:35:22 +0900",
-"test/aizu-online-judge/dont_burst_the_ballon.test.cpp": "2020-09-25 13:36:45 +0900",
+"test/aizu-online-judge/dont_burst_the_ballon.test.cpp": "2020-10-01 11:57:26 +0900",
 "test/aizu-online-judge/extended_euclid_algorithm.test.cpp": "2020-09-24 00:53:44 +0900",
 "test/aizu-online-judge/pattern_search.test.cpp": "2020-09-22 22:34:04 +0900",
 "test/aizu-online-judge/range_minimum_query.test.cpp": "2020-09-27 13:58:19 +0900",
@@ -23,6 +23,5 @@
 "test/library-checker/suffix_array.test.cpp": "2020-09-17 16:18:47 +0900",
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-09-04 20:59:06 +0900",
 "test/library-checker/unionfind.test.cpp": "2020-09-27 13:39:20 +0900",
-"test/library-checker/zalgorithm.test.cpp": "2020-09-17 16:18:47 +0900",
-"test/library-checker/zalgorithm_2.test.cpp": "2020-09-25 13:36:45 +0900"
+"test/library-checker/zalgorithm.test.cpp": "2020-09-17 16:18:47 +0900"
 }
