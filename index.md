@@ -195,7 +195,7 @@ data:
     - icon: ':warning:'
       path: string/binary_trie.hpp
       title: string/binary_trie.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: string/rolling_hash.hpp
       title: string/rolling_hash.hpp
     - icon: ':heavy_check_mark:'
@@ -206,7 +206,7 @@ data:
       title: string/z_algorithm.hpp
   - name: utils
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: utils/binary_search.hpp
       title: utils/binary_search.hpp
     - icon: ':warning:'
@@ -227,7 +227,7 @@ data:
     - icon: ':warning:'
       path: utils/make_vector.hpp
       title: utils/make_vector.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
     - icon: ':heavy_check_mark:'
@@ -341,7 +341,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage

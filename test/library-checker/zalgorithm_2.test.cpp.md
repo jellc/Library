@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/binary_search.hpp
     title: utils/binary_search.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/zalgorithm
@@ -68,16 +68,16 @@ data:
     \ + std::min(n, size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed>\
     \ suffix{{}};\n};\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n\
     #line 4 \"utils/binary_search.hpp\"\n#include <cmath>\n#line 6 \"utils/binary_search.hpp\"\
-    \nnamespace workspace {\n// binary search on discrete range.\ntemplate <class\
+    \nnamespace workspace {\n// binary search on a discrete range.\ntemplate <class\
     \ iter_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
     \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  __int128_t dist(ng - ok);\n  while\
-    \ (dist > 1 || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n\
+    \ pred_type pred) {\n  assert(ok != ng);\n  auto dist(ng - ok);\n  while (1 <\
+    \ dist || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if (pred(mid))\n\
     \      ok = mid, dist -= dist / 2;\n    else\n      ng = mid, dist /= 2;\n  }\n\
-    \  return ok;\n}\n// parallel binary search on discrete range.\ntemplate <class\
-    \ iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
-    \                std::invoke_result_t<pred_type, std::vector<iter_type>>,\n  \
-    \                   std::vector<bool>>,\n                 std::vector<iter_type>>\n\
+    \  return ok;\n}\n// parallel binary search on each discrete range.\ntemplate\
+    \ <class iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+    \                     std::invoke_result_t<pred_type, std::vector<iter_type>>,\n\
+    \                     std::vector<bool>>,\n                 std::vector<iter_type>>\n\
     binary_search(std::vector<std::pair<iter_type, iter_type>> ends,\n           \
     \   pred_type pred) {\n  std::vector<iter_type> mids(ends.size());\n  for (;;)\
     \ {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n\
@@ -85,13 +85,14 @@ data:
     \    if (mids[i] != mid) {\n        all_found = false;\n        mids[i] = mid;\n\
     \      }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for\
     \ (size_t i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
-    \ = mids[i];\n    }\n  }\n  return mids;\n}\n// binary search on real numbers.\n\
-    template <class real_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
-    \ real_type>, bool>,\n    real_type>\nbinary_search(real_type ok, real_type ng,\
-    \ const real_type eps, pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps\
-    \ < ng || ng + eps < ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid)\
-    \ ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel binary search on real numbers.\n\
-    template <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n// binary search on a real number\
+    \ interval.\ntemplate <class real_type, class pred_type>\nstd::enable_if_t<\n\
+    \    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,\n\
+    \    real_type>\nbinary_search(real_type ok, real_type ng, const real_type eps,\
+    \ pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps < ng || ng + eps <\
+    \ ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n\
+    \  }\n  return ok;\n}\n// parallel binary search on each real interval.\ntemplate\
+    \ <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
     \                     std::invoke_result_t<pred_type, std::vector<real_type>>,\n\
     \                     std::vector<bool>>,\n                 std::vector<real_type>>\n\
     binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
@@ -121,8 +122,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-09-25 13:36:45+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2020-10-01 11:57:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
 layout: document
