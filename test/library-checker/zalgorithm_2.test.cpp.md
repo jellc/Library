@@ -89,25 +89,26 @@ data:
     \ interval.\ntemplate <class real_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,\n\
     \    real_type>\nbinary_search(real_type ok, real_type ng, const real_type eps,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  while (ok + eps < ng || ng + eps <\
-    \ ok) {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n\
-    \  }\n  return ok;\n}\n// parallel binary search on each real interval.\ntemplate\
-    \ <class real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
-    \                     std::invoke_result_t<pred_type, std::vector<real_type>>,\n\
-    \                     std::vector<bool>>,\n                 std::vector<real_type>>\n\
-    binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
-    \   const real_type eps, pred_type pred) {\n  std::vector<real_type> mids(ends.size());\n\
-    \  for (;;) {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size();\
-    \ ++i) {\n      auto [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps\
-    \ < ok) {\n        all_found = false;\n        mids[i] = (ok + ng) / 2;\n    \
-    \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
-    \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
-    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
-    #line 7 \"test/library-checker/zalgorithm_2.test.cpp\"\n\nint main() {\n  std::string\
-    \ s;\n  std::cin >> s;\n  rolling_hash_table hash(s);\n  for (size_t i = 0; i\
-    \ < size(s); ++i) {\n    if (i) std::cout << \" \";\n    std::cout << workspace::binary_search(\n\
-    \        size_t(0), size(s) + 1, [&](size_t len) -> bool {\n          return hash.substr(0,\
-    \ len) == hash.substr(i, len);\n        });\n  }\n  std::cout << \"\\n\";\n}\n"
+    \ pred_type pred) {\n  assert(ok != ng);\n  for (auto loops = 0; loops < 50 &&\
+    \ (ok + eps < ng || ng + eps < ok);\n       ++loops) {\n    real_type mid{(ok\
+    \ + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel\
+    \ binary search on each real interval.\ntemplate <class real_type, class pred_type>\n\
+    std::enable_if_t<std::is_convertible_v<\n                     std::invoke_result_t<pred_type,\
+    \ std::vector<real_type>>,\n                     std::vector<bool>>,\n       \
+    \          std::vector<real_type>>\nbinary_search(std::vector<std::pair<real_type,\
+    \ real_type>> ends,\n              const real_type eps, pred_type pred) {\n  std::vector<real_type>\
+    \ mids(ends.size());\n  for (auto loops = 0; loops < 50; ++loops) {\n    bool\
+    \ all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n      auto\
+    \ [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps < ok) {\n        all_found\
+    \ = false;\n        mids[i] = (ok + ng) / 2;\n      }\n    }\n    if (all_found)\
+    \ break;\n    auto res = pred(mids);\n    for (size_t i{}; i != ends.size(); ++i)\
+    \ {\n      (res[i] ? ends[i].first : ends[i].second) = mids[i];\n    }\n  }\n\
+    \  return mids;\n}\n}  // namespace workspace\n#endif\n#line 7 \"test/library-checker/zalgorithm_2.test.cpp\"\
+    \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  rolling_hash_table hash(s);\n\
+    \  for (size_t i = 0; i < size(s); ++i) {\n    if (i) std::cout << \" \";\n  \
+    \  std::cout << workspace::binary_search(\n        size_t(0), size(s) + 1, [&](size_t\
+    \ len) -> bool {\n          return hash.substr(0, len) == hash.substr(i, len);\n\
+    \        });\n  }\n  std::cout << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n#include\
     \ <iostream>\n#include <string>\n\n#include \"string/rolling_hash.hpp\"\n#include\
     \ \"utils/binary_search.hpp\"\n\nint main() {\n  std::string s;\n  std::cin >>\
@@ -122,7 +123,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-10-01 13:17:41+09:00'
+  timestamp: '2020-10-06 00:50:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
