@@ -55,7 +55,8 @@ std::enable_if_t<
     real_type>
 binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred) {
   assert(ok != ng);
-  for (auto loops = 0; loops < 50 && (ok + eps < ng || ng + eps < ok);
+  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits &&
+                       (ok + eps < ng || ng + eps < ok);
        ++loops) {
     real_type mid{(ok + ng) / 2};
     (pred(mid) ? ok : ng) = mid;
@@ -71,7 +72,8 @@ std::enable_if_t<std::is_convertible_v<
 binary_search(std::vector<std::pair<real_type, real_type>> ends,
               const real_type eps, pred_type pred) {
   std::vector<real_type> mids(ends.size());
-  for (auto loops = 0; loops < 50; ++loops) {
+  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits;
+       ++loops) {
     bool all_found = true;
     for (size_t i{}; i != ends.size(); ++i) {
       auto [ok, ng] = ends[i];
