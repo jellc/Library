@@ -99,41 +99,42 @@ data:
     \ interval.\ntemplate <class real_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,\n\
     \    real_type>\nbinary_search(real_type ok, real_type ng, const real_type eps,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  for (auto loops = 0; loops < 50 &&\
-    \ (ok + eps < ng || ng + eps < ok);\n       ++loops) {\n    real_type mid{(ok\
-    \ + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel\
-    \ binary search on each real interval.\ntemplate <class real_type, class pred_type>\n\
-    std::enable_if_t<std::is_convertible_v<\n                     std::invoke_result_t<pred_type,\
-    \ std::vector<real_type>>,\n                     std::vector<bool>>,\n       \
-    \          std::vector<real_type>>\nbinary_search(std::vector<std::pair<real_type,\
-    \ real_type>> ends,\n              const real_type eps, pred_type pred) {\n  std::vector<real_type>\
-    \ mids(ends.size());\n  for (auto loops = 0; loops < 50; ++loops) {\n    bool\
-    \ all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n      auto\
-    \ [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps < ok) {\n        all_found\
-    \ = false;\n        mids[i] = (ok + ng) / 2;\n      }\n    }\n    if (all_found)\
-    \ break;\n    auto res = pred(mids);\n    for (size_t i{}; i != ends.size(); ++i)\
-    \ {\n      (res[i] ? ends[i].first : ends[i].second) = mids[i];\n    }\n  }\n\
-    \  return mids;\n}\n}  // namespace workspace\n#endif\n#line 3 \"utils/casefmt.hpp\"\
-    \nnamespace workspace {\nstd::ostream &casefmt(std::ostream& os) { return os <<\
-    \ \"Case #\" << config::caseid << \": \"; }\n} // namespace workspace\n#line 3\
-    \ \"utils/chval.hpp\"\nnamespace workspace {\ntemplate <class T, class Comp =\
-    \ std::less<T>>\nbool chle(T &x, const T &y, Comp comp = Comp()) {\n  return comp(y,\
-    \ x) ? x = y, true : false;\n}\ntemplate <class T, class Comp = std::less<T>>\n\
-    bool chge(T &x, const T &y, Comp comp = Comp()) {\n  return comp(x, y) ? x = y,\
-    \ true : false;\n}\n}  // namespace workspace\n#line 5 \"utils/coordinate_compression.hpp\"\
-    \n\ntemplate <class T> class coordinate_compression {\n  std::vector<T> uniquely;\n\
-    \  std::vector<size_t> compressed;\n\n public:\n  coordinate_compression(const\
-    \ std::vector<T> &raw)\n      : uniquely(raw), compressed(raw.size()) {\n    std::sort(uniquely.begin(),\
-    \ uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),\n\
-    \                   uniquely.end());\n    for (size_t i = 0; i != size(); ++i)\n\
-    \      compressed[i] =\n          std::lower_bound(uniquely.begin(), uniquely.end(),\
-    \ raw[i]) -\n          uniquely.begin();\n  }\n\n  size_t operator[](const size_t\
-    \ idx) const {\n    assert(idx < size());\n    return compressed[idx];\n  }\n\n\
-    \  size_t size() const { return compressed.size(); }\n\n  size_t count() const\
-    \ { return uniquely.size(); }\n\n  T value(const size_t ord) const {\n    assert(ord\
-    \ < count());\n    return uniquely[ord];\n  }\n\n  size_t order(const T &value)\
-    \ const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(), value)\
-    \ -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
+    \ pred_type pred) {\n  assert(ok != ng);\n  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits\
+    \ &&\n                       (ok + eps < ng || ng + eps < ok);\n       ++loops)\
+    \ {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n  }\n\
+    \  return ok;\n}\n// parallel binary search on each real interval.\ntemplate <class\
+    \ real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
+    \                std::invoke_result_t<pred_type, std::vector<real_type>>,\n  \
+    \                   std::vector<bool>>,\n                 std::vector<real_type>>\n\
+    binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
+    \   const real_type eps, pred_type pred) {\n  std::vector<real_type> mids(ends.size());\n\
+    \  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits;\n   \
+    \    ++loops) {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size();\
+    \ ++i) {\n      auto [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps\
+    \ < ok) {\n        all_found = false;\n        mids[i] = (ok + ng) / 2;\n    \
+    \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
+    \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
+    #line 3 \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
+    \ os) { return os << \"Case #\" << config::caseid << \": \"; }\n} // namespace\
+    \ workspace\n#line 3 \"utils/chval.hpp\"\nnamespace workspace {\ntemplate <class\
+    \ T, class Comp = std::less<T>>\nbool chle(T &x, const T &y, Comp comp = Comp())\
+    \ {\n  return comp(y, x) ? x = y, true : false;\n}\ntemplate <class T, class Comp\
+    \ = std::less<T>>\nbool chge(T &x, const T &y, Comp comp = Comp()) {\n  return\
+    \ comp(x, y) ? x = y, true : false;\n}\n}  // namespace workspace\n#line 5 \"\
+    utils/coordinate_compression.hpp\"\n\ntemplate <class T> class coordinate_compression\
+    \ {\n  std::vector<T> uniquely;\n  std::vector<size_t> compressed;\n\n public:\n\
+    \  coordinate_compression(const std::vector<T> &raw)\n      : uniquely(raw), compressed(raw.size())\
+    \ {\n    std::sort(uniquely.begin(), uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(),\
+    \ uniquely.end()),\n                   uniquely.end());\n    for (size_t i = 0;\
+    \ i != size(); ++i)\n      compressed[i] =\n          std::lower_bound(uniquely.begin(),\
+    \ uniquely.end(), raw[i]) -\n          uniquely.begin();\n  }\n\n  size_t operator[](const\
+    \ size_t idx) const {\n    assert(idx < size());\n    return compressed[idx];\n\
+    \  }\n\n  size_t size() const { return compressed.size(); }\n\n  size_t count()\
+    \ const { return uniquely.size(); }\n\n  T value(const size_t ord) const {\n \
+    \   assert(ord < count());\n    return uniquely[ord];\n  }\n\n  size_t order(const\
+    \ T &value) const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(),\
+    \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
     \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
     \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/fixed_point.hpp\"\
     \nnamespace workspace {\n// specify the return type of lambda.\ntemplate <class\
@@ -288,7 +289,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-06 00:50:34+09:00'
+  timestamp: '2020-10-06 00:55:27+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

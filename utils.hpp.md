@@ -75,24 +75,25 @@ data:
     \ interval.\ntemplate <class real_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,\n\
     \    real_type>\nbinary_search(real_type ok, real_type ng, const real_type eps,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  for (auto loops = 0; loops < 50 &&\
-    \ (ok + eps < ng || ng + eps < ok);\n       ++loops) {\n    real_type mid{(ok\
-    \ + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n  }\n  return ok;\n}\n// parallel\
-    \ binary search on each real interval.\ntemplate <class real_type, class pred_type>\n\
-    std::enable_if_t<std::is_convertible_v<\n                     std::invoke_result_t<pred_type,\
-    \ std::vector<real_type>>,\n                     std::vector<bool>>,\n       \
-    \          std::vector<real_type>>\nbinary_search(std::vector<std::pair<real_type,\
-    \ real_type>> ends,\n              const real_type eps, pred_type pred) {\n  std::vector<real_type>\
-    \ mids(ends.size());\n  for (auto loops = 0; loops < 50; ++loops) {\n    bool\
-    \ all_found = true;\n    for (size_t i{}; i != ends.size(); ++i) {\n      auto\
-    \ [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps < ok) {\n        all_found\
-    \ = false;\n        mids[i] = (ok + ng) / 2;\n      }\n    }\n    if (all_found)\
-    \ break;\n    auto res = pred(mids);\n    for (size_t i{}; i != ends.size(); ++i)\
-    \ {\n      (res[i] ? ends[i].first : ends[i].second) = mids[i];\n    }\n  }\n\
-    \  return mids;\n}\n}  // namespace workspace\n#endif\n#line 2 \"config.hpp\"\n\
-    #include <chrono>\n#include <iomanip>\n#include <iostream>\nnamespace config {\n\
-    const auto start_time{std::chrono::system_clock::now()};\nint64_t elapsed() {\n\
-    \  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
+    \ pred_type pred) {\n  assert(ok != ng);\n  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits\
+    \ &&\n                       (ok + eps < ng || ng + eps < ok);\n       ++loops)\
+    \ {\n    real_type mid{(ok + ng) / 2};\n    (pred(mid) ? ok : ng) = mid;\n  }\n\
+    \  return ok;\n}\n// parallel binary search on each real interval.\ntemplate <class\
+    \ real_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
+    \                std::invoke_result_t<pred_type, std::vector<real_type>>,\n  \
+    \                   std::vector<bool>>,\n                 std::vector<real_type>>\n\
+    binary_search(std::vector<std::pair<real_type, real_type>> ends,\n           \
+    \   const real_type eps, pred_type pred) {\n  std::vector<real_type> mids(ends.size());\n\
+    \  for (auto loops = 0; loops != std::numeric_limits<real_type>::digits;\n   \
+    \    ++loops) {\n    bool all_found = true;\n    for (size_t i{}; i != ends.size();\
+    \ ++i) {\n      auto [ok, ng] = ends[i];\n      if (ok + eps < ng || ng + eps\
+    \ < ok) {\n        all_found = false;\n        mids[i] = (ok + ng) / 2;\n    \
+    \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
+    \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
+    \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
+    #line 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include <iostream>\n\
+    namespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
+    int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
     \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
     \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
@@ -293,7 +294,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-06 00:50:34+09:00'
+  timestamp: '2020-10-06 00:55:27+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
