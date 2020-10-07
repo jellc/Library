@@ -55,13 +55,13 @@ data:
   isVerificationFile: false
   path: utils/coordinate_compression.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
+  - template.cpp
   timestamp: '2020-09-26 02:24:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/range_kth_smallest.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
 documentation_of: utils/coordinate_compression.hpp
 layout: document
 redirect_from:

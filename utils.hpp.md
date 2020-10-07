@@ -242,10 +242,11 @@ data:
     \        long double left{(first * 2 + last) / 3}, right{(first + last * 2) /\
     \ 3};\n        if(comp(left, right)) last = right;\n        else first = left;\n\
     \    }\n    return first;\n}\n#line 2 \"utils/wrapper.hpp\"\ntemplate <class Container>\
-    \ class reversed {\n  Container &ref, copy;\n\n public:\n  reversed(Container\
-    \ &ref) : ref(ref) {}\n  reversed(Container &&ref = Container()) : ref(copy),\
-    \ copy(ref) {}\n  auto begin() const { return ref.rbegin(); }\n  auto end() const\
-    \ { return ref.rend(); }\n};\n#line 15 \"utils.hpp\"\n"
+    \ class reversed {\n  Container &ref, copy;\n\n public:\n  constexpr reversed(Container\
+    \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
+    \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
+    \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
+    \ { return ref; }\n};\n#line 15 \"utils.hpp\"\n"
   code: '#pragma once
 
     #include "utils/binary_search.hpp"
@@ -294,7 +295,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-06 00:55:27+09:00'
+  timestamp: '2020-10-07 23:27:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

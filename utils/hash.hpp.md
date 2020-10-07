@@ -104,8 +104,8 @@ data:
   isVerificationFile: false
   path: utils/hash.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
+  - template.cpp
   timestamp: '2020-09-25 13:36:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

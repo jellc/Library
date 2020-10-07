@@ -46,13 +46,13 @@ data:
   isVerificationFile: false
   path: data_structure/segment_tree/waitlist.hpp
   requiredBy:
-  - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp
+  - data_structure/segment_tree/lazy.hpp
   timestamp: '2020-09-27 00:42:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/aizu-online-judge/do_use_segment_tree.test.cpp
   - test/aizu-online-judge/range_minimum_query.test.cpp

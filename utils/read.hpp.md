@@ -33,8 +33,8 @@ data:
   isVerificationFile: false
   path: utils/read.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
+  - template.cpp
   timestamp: '2020-08-14 18:02:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

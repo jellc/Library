@@ -200,8 +200,8 @@ data:
   timestamp: '2020-09-23 23:35:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp

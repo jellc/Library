@@ -254,14 +254,15 @@ data:
     \        long double left{(first * 2 + last) / 3}, right{(first + last * 2) /\
     \ 3};\n        if(comp(left, right)) last = right;\n        else first = left;\n\
     \    }\n    return first;\n}\n#line 2 \"utils/wrapper.hpp\"\ntemplate <class Container>\
-    \ class reversed {\n  Container &ref, copy;\n\n public:\n  reversed(Container\
-    \ &ref) : ref(ref) {}\n  reversed(Container &&ref = Container()) : ref(copy),\
-    \ copy(ref) {}\n  auto begin() const { return ref.rbegin(); }\n  auto end() const\
-    \ { return ref.rend(); }\n};\n#line 9 \"template.cpp\"\n\nnamespace workspace\
-    \ {\nvoid main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned\
-    \ config::cases() {\n  // return -1; // unspecified\n  // int t; std::cin >> t;\
-    \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
-    \  // start here!\n}\n}\n"
+    \ class reversed {\n  Container &ref, copy;\n\n public:\n  constexpr reversed(Container\
+    \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
+    \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
+    \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
+    \ { return ref; }\n};\n#line 9 \"template.cpp\"\n\nnamespace workspace {\nvoid\
+    \ main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned config::cases()\
+    \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; return t; // given\n\
+    \  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n  // start here!\n}\n\
+    }\n"
   code: "#include <bits/extc++.h>\n#if __has_include(<bit>)\n#include <bit>\n#endif\n\
     #include \"alias.hpp\"\n#include \"config.hpp\"\n#include \"option.hpp\"\n#include\
     \ \"utils.hpp\"\n\nnamespace workspace {\nvoid main();\n}\nint main() { config::loop(workspace::main);\
@@ -289,7 +290,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-06 00:55:27+09:00'
+  timestamp: '2020-10-07 23:27:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

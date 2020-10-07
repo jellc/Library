@@ -46,9 +46,9 @@ data:
   isVerificationFile: false
   path: utils/random_number_generator.hpp
   requiredBy:
-  - template.cpp
-  - utils.hpp
   - string/rolling_hash.hpp
+  - utils.hpp
+  - template.cpp
   timestamp: '2020-09-22 15:16:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

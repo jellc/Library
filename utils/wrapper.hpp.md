@@ -14,21 +14,24 @@ data:
   attributes:
     links: []
   bundledCode: "#line 2 \"utils/wrapper.hpp\"\ntemplate <class Container> class reversed\
-    \ {\n  Container &ref, copy;\n\n public:\n  reversed(Container &ref) : ref(ref)\
-    \ {}\n  reversed(Container &&ref = Container()) : ref(copy), copy(ref) {}\n  auto\
-    \ begin() const { return ref.rbegin(); }\n  auto end() const { return ref.rend();\
-    \ }\n};\n"
+    \ {\n  Container &ref, copy;\n\n public:\n  constexpr reversed(Container &ref)\
+    \ : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
+    \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
+    \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
+    \ { return ref; }\n};\n"
   code: "#pragma once\ntemplate <class Container> class reversed {\n  Container &ref,\
-    \ copy;\n\n public:\n  reversed(Container &ref) : ref(ref) {}\n  reversed(Container\
-    \ &&ref = Container()) : ref(copy), copy(ref) {}\n  auto begin() const { return\
-    \ ref.rbegin(); }\n  auto end() const { return ref.rend(); }\n};\n"
+    \ copy;\n\n public:\n  constexpr reversed(Container &ref) : ref(ref) {}\n  constexpr\
+    \ reversed(Container &&ref = Container()) : ref(copy), copy(ref) {}\n  constexpr\
+    \ auto begin() const { return ref.rbegin(); }\n  constexpr auto end() const {\
+    \ return ref.rend(); }\n  constexpr operator Container() const { return ref; }\n\
+    };\n"
   dependsOn: []
   isVerificationFile: false
   path: utils/wrapper.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
-  timestamp: '2020-09-09 14:59:33+09:00'
+  - template.cpp
+  timestamp: '2020-10-07 23:27:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/wrapper.hpp

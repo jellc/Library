@@ -120,17 +120,17 @@ data:
   isVerificationFile: false
   path: utils/stream.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
+  - template.cpp
   timestamp: '2020-09-17 16:18:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/suffix_array.test.cpp
   - test/aizu-online-judge/do_use_segment_tree.test.cpp
+  - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/range_minimum_query.test.cpp
-  - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
 documentation_of: utils/stream.hpp
 layout: document
 redirect_from:
