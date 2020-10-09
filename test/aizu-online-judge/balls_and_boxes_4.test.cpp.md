@@ -156,7 +156,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   requiredBy: []
-  timestamp: '2020-10-10 00:34:52+09:00'
+  timestamp: '2020-09-23 23:35:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp

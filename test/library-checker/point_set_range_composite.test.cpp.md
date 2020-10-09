@@ -218,7 +218,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-10-10 00:34:52+09:00'
+  timestamp: '2020-09-27 13:46:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
