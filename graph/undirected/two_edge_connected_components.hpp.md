@@ -31,7 +31,7 @@ data:
     \ graph[v].emplace_back(u);\n  }\n\n  void make() {\n    low.assign(size(), nil);\n\
     \    for (size_t v = 0; v != size(); ++v)\n      if (low[v] == nil) make(v, nil);\n\
     \  }\n\n  size_t size() const { return graph.size(); }\n\n  size_t size(size_t\
-    \ i) {\n    assert(i < count());\n    return memb[i].size();\n  }\n\n  size_t\
+    \ i) const {\n    assert(i < count());\n    return memb[i].size();\n  }\n\n  size_t\
     \ count() const { return memb.size(); }\n\n  size_t operator[](size_t v) const\
     \ {\n    assert(v < size());\n    return comp[v];\n  }\n\n  const std::vector<size_t>\
     \ &bridge(size_t v) const {\n    assert(v < size());\n    return graph[v];\n \
@@ -58,7 +58,7 @@ data:
     \ graph[v].emplace_back(u);\n  }\n\n  void make() {\n    low.assign(size(), nil);\n\
     \    for (size_t v = 0; v != size(); ++v)\n      if (low[v] == nil) make(v, nil);\n\
     \  }\n\n  size_t size() const { return graph.size(); }\n\n  size_t size(size_t\
-    \ i) {\n    assert(i < count());\n    return memb[i].size();\n  }\n\n  size_t\
+    \ i) const {\n    assert(i < count());\n    return memb[i].size();\n  }\n\n  size_t\
     \ count() const { return memb.size(); }\n\n  size_t operator[](size_t v) const\
     \ {\n    assert(v < size());\n    return comp[v];\n  }\n\n  const std::vector<size_t>\
     \ &bridge(size_t v) const {\n    assert(v < size());\n    return graph[v];\n \
@@ -69,7 +69,7 @@ data:
   isVerificationFile: false
   path: graph/undirected/two_edge_connected_components.hpp
   requiredBy: []
-  timestamp: '2020-10-10 02:12:06+09:00'
+  timestamp: '2020-10-10 02:15:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/two_edge_connected_components.test.cpp
