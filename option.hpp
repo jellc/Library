@@ -1,6 +1,6 @@
 #pragma once
 #ifdef ONLINE_JUDGE
-    #pragma GCC optimize("O3")
-    #pragma GCC target("avx,avx2")
-    #pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("O3")
+#pragma GCC target("avx,avx2")
+#pragma GCC optimize("unroll-loops")
 #endif
