@@ -7,11 +7,11 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"deprecated/Prime_factorizer.hpp\"\n\n\n\n// calculate the\
-    \ least prime factor for positive integers less than N in compile time.\ntemplate\
-    \ <int N>\nclass prime_factorizer\n{\n    constexpr static int loop_limit = 1\
-    \ << 17;\n    int least[N], primes[N >> 3];\n    int n = 0;\n\n  public:\n   \
-    \ constexpr prime_factorizer() : least{1}, primes{}, n{}\n    {\n        for(int\
+  bundledCode: "#line 1 \"deprecated/constexpr/Prime_factorizer.hpp\"\n\n\n\n// calculate\
+    \ the least prime factor for positive integers less than N in compile time.\n\
+    template <int N>\nclass prime_factorizer\n{\n    constexpr static int loop_limit\
+    \ = 1 << 17;\n    int least[N], primes[N >> 3];\n    int n = 0;\n\n  public:\n\
+    \    constexpr prime_factorizer() : least{1}, primes{}, n{}\n    {\n        for(int\
     \ i = 2; i < N; )\n        {\n            for(int j = 0; j < loop_limit && i <\
     \ N; ++j, ++i)\n            {\n                if(!least[i]) primes[n++] = least[i]\
     \ = i;\n                int *p = primes;\n\n                while(*p && *p <=\
@@ -39,15 +39,15 @@ data:
     \ least[x]; }\n}; // class prime_factorizer\n\n#endif // Prime_factorizer_hpp\n"
   dependsOn: []
   isVerificationFile: false
-  path: deprecated/Prime_factorizer.hpp
+  path: deprecated/constexpr/Prime_factorizer.hpp
   requiredBy: []
-  timestamp: '2020-10-10 00:15:11+09:00'
+  timestamp: '2020-10-10 00:15:53+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: deprecated/Prime_factorizer.hpp
+documentation_of: deprecated/constexpr/Prime_factorizer.hpp
 layout: document
 redirect_from:
-- /library/deprecated/Prime_factorizer.hpp
-- /library/deprecated/Prime_factorizer.hpp.html
-title: deprecated/Prime_factorizer.hpp
+- /library/deprecated/constexpr/Prime_factorizer.hpp
+- /library/deprecated/constexpr/Prime_factorizer.hpp.html
+title: deprecated/constexpr/Prime_factorizer.hpp
 ---

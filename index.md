@@ -103,9 +103,6 @@ data:
       path: deprecated/Fenwick_tree.cpp
       title: deprecated/Fenwick_tree.cpp
     - icon: ':warning:'
-      path: deprecated/Prime_factorizer.hpp
-      title: deprecated/Prime_factorizer.hpp
-    - icon: ':warning:'
       path: deprecated/SplayTree.cpp
       title: deprecated/SplayTree.cpp
     - icon: ':warning:'
@@ -119,6 +116,9 @@ data:
       title: deprecated/trie.hpp
   - name: deprecated/constexpr
     pages:
+    - icon: ':warning:'
+      path: deprecated/constexpr/Prime_factorizer.hpp
+      title: deprecated/constexpr/Prime_factorizer.hpp
     - icon: ':warning:'
       path: deprecated/constexpr/binomial.hpp
       title: deprecated/constexpr/binomial.hpp
