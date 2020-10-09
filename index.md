@@ -103,6 +103,9 @@ data:
       path: deprecated/Fenwick_tree.cpp
       title: deprecated/Fenwick_tree.cpp
     - icon: ':warning:'
+      path: deprecated/Prime_factorizer.hpp
+      title: deprecated/Prime_factorizer.hpp
+    - icon: ':warning:'
       path: deprecated/SplayTree.cpp
       title: deprecated/SplayTree.cpp
     - icon: ':warning:'
@@ -169,11 +172,6 @@ data:
     - icon: ':warning:'
       path: local/dump.hpp
       title: local/dump.hpp
-  - name: math
-    pages:
-    - icon: ':warning:'
-      path: math/Prime_factorizer.hpp
-      title: math/Prime_factorizer.hpp
   - name: modulus
     pages:
     - icon: ':heavy_check_mark:'
