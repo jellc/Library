@@ -57,7 +57,7 @@ class two_edge_connected_component {
 
   size_t size() const { return graph.size(); }
 
-  size_t size(size_t i) {
+  size_t size(size_t i) const {
     assert(i < count());
     return memb[i].size();
   }
