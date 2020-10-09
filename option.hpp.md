@@ -10,18 +10,38 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"\
-    O3\")\n    #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\
-    )\n#endif\n"
-  code: "#pragma once\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"O3\")\n   \
-    \ #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\
-    )\n#endif\n"
+  bundledCode: '#line 2 "option.hpp"
+
+    #ifdef ONLINE_JUDGE
+
+    #pragma GCC optimize("O3")
+
+    #pragma GCC target("avx,avx2")
+
+    #pragma GCC optimize("unroll-loops")
+
+    #endif
+
+    '
+  code: '#pragma once
+
+    #ifdef ONLINE_JUDGE
+
+    #pragma GCC optimize("O3")
+
+    #pragma GCC target("avx,avx2")
+
+    #pragma GCC optimize("unroll-loops")
+
+    #endif
+
+    '
   dependsOn: []
   isVerificationFile: false
   path: option.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-09-17 20:09:05+09:00'
+  timestamp: '2020-10-10 01:29:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: option.hpp

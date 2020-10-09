@@ -23,6 +23,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
     title: number_theory/ext_gcd.hpp
+  - icon: ':warning:'
+    path: number_theory/least_factor.hpp
+    title: number_theory/least_factor.hpp
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: string/suffix_array.hpp
@@ -85,7 +88,26 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\
+  bundledCode: "#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
+    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
+    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
+    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n"
+  code: "#pragma once\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
     \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
     using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
@@ -104,24 +126,6 @@ data:
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
     };\n"
-  code: "#pragma once\n#include <cstdint>\n#include <type_traits>\n\ntemplate <class\
-    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
-    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
-    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
-    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
-    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: utils/sfinae.hpp
@@ -129,6 +133,7 @@ data:
   - dev/fraction.hpp
   - string/suffix_array.hpp
   - combinatorics/binomial.hpp
+  - number_theory/least_factor.hpp
   - number_theory/ext_gcd.hpp
   - modulus/modint.hpp
   - modulus/inverse.hpp
@@ -138,7 +143,7 @@ data:
   - template.cpp
   - data_structure/segment_tree/basic.hpp
   - data_structure/segment_tree/lazy.hpp
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm.test.cpp

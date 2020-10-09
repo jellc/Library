@@ -130,10 +130,10 @@ data:
     \ Args> auto operator()(Args &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
     \  }\n};\n}  // namespace workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
     #line 4 \"utils/hash.hpp\"\n#include <random>\n#include <unordered_set>\n\n#line\
-    \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
     \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
     };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
     \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
@@ -295,7 +295,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-07 23:27:03+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

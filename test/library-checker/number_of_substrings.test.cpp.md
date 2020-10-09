@@ -20,9 +20,9 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n#include <iostream>\n\
     \n#line 2 \"string/suffix_array.hpp\"\n#include <algorithm>\n#include <vector>\n\
     #include <numeric>\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include\
-    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
-    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
-    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \ <iterator>\n#include <type_traits>\n\ntemplate <class type, template <class>\
+    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
     \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
@@ -95,7 +95,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp

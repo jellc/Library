@@ -34,28 +34,28 @@ data:
     \        if(n < 0) return 0;\n        for(int m(fact.size()); m <= n; ++m) fact.emplace_back(op(fact.back(),\
     \ m));\n        return fact[n];\n    }\n}; // class factorial\n#line 3 \"modulus/inverse.hpp\"\
     \n\n#line 2 \"modulus/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\n\
-    #line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 6 \"modulus/modint.hpp\"\n\n// A non-positive Mod corresponds a runtime\
-    \ type of modint.\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)>\
-    \ struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n  \
-    \              \"Mod must be integral type.\");\n\n  using mod_type = typename\
+    #line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include\
+    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
+    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
+    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
+    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 6 \"modulus/modint.hpp\"\
+    \n\n// A non-positive Mod corresponds a runtime type of modint.\ntemplate <auto\
+    \ Mod = 0, typename Mod_type = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \                \"Mod must be integral type.\");\n\n  using mod_type = typename\
     \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
     \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
     \n  constexpr operator value_type() const noexcept { return value; }\n\n  constexpr\
@@ -156,7 +156,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   requiredBy: []
-  timestamp: '2020-09-23 23:35:05+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp

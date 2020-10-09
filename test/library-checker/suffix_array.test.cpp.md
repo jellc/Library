@@ -21,7 +21,7 @@ data:
     - https://judge.yosupo.jp/problem/suffixarray
   bundledCode: "#line 1 \"test/library-checker/suffix_array.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/suffixarray\"\n#include <bits/stdc++.h>\n\n\
-    #line 3 \"utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type,\
+    #line 4 \"utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type,\
     \ template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
@@ -126,7 +126,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/suffix_array.test.cpp

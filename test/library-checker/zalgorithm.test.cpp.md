@@ -36,7 +36,7 @@ data:
     \  str_type ccat(key);\n    ccat.insert(end(ccat), begin(str), end(str));\n  \
     \  z_algorithm z(ccat);\n    std::vector<size_t> res(z.begin() + size(), z.end());\n\
     \    for (size_t &x : res)\n      if (x > size()) x = size();\n    return res;\n\
-    \  }\n};\n#line 4 \"utils/stream.hpp\"\n\n#line 3 \"utils/sfinae.hpp\"\n#include\
+    \  }\n};\n#line 4 \"utils/stream.hpp\"\n\n#line 4 \"utils/sfinae.hpp\"\n#include\
     \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
     \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
     template <class Container>\nusing element_type = typename std::decay<decltype(\n\
@@ -98,7 +98,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm.test.cpp

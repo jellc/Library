@@ -185,6 +185,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: number_theory/ext_gcd.hpp
       title: number_theory/ext_gcd.hpp
+    - icon: ':warning:'
+      path: number_theory/least_factor.hpp
+      title: number_theory/least_factor.hpp
   - name: string
     pages:
     - icon: ':warning:'

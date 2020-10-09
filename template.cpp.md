@@ -74,11 +74,11 @@ data:
     \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
     \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
     \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
-    \ 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n    #pragma GCC optimize(\"O3\")\n  \
-    \  #pragma GCC target(\"avx,avx2\")\n    #pragma GCC optimize(\"unroll-loops\"\
-    )\n#endif\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include\
-    \ <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n// binary\
-    \ search on a discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
+    \ 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n#pragma GCC optimize(\"O3\")\n#pragma\
+    \ GCC target(\"avx,avx2\")\n#pragma GCC optimize(\"unroll-loops\")\n#endif\n#line\
+    \ 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include <cassert>\n\
+    #include <cmath>\n#include <vector>\nnamespace workspace {\n// binary search on\
+    \ a discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n\
     \    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
     \  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)> dist(ng - ok);\n\
@@ -141,7 +141,7 @@ data:
     \ lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
     \ &&f) : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args\
     \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 3 \"\
+    \  }\n};\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 4 \"\
     utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template <class>\
     \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
@@ -290,7 +290,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-07 23:27:03+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

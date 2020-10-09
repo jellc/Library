@@ -18,8 +18,8 @@ data:
     links: []
   bundledCode: "#line 2 \"string/suffix_array.hpp\"\n#include <algorithm>\n#include\
     \ <vector>\n#include <numeric>\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n\
-    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
-    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    #include <iterator>\n#include <type_traits>\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
@@ -128,7 +128,7 @@ data:
   isVerificationFile: false
   path: string/suffix_array.hpp
   requiredBy: []
-  timestamp: '2020-09-17 16:18:47+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp

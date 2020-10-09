@@ -44,8 +44,8 @@ data:
     \  ff[i][s ^ 1 << k] -= ff[i][s];\n                    if(i) ff[i][s] = ff[i -\
     \ 1][s];\n                }\n            }\n        }\n    }\n    return ff[n];\n\
     }\n#line 4 \"modulus/modint.hpp\"\n\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n\
-    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
-    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    #include <iterator>\n#include <type_traits>\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
@@ -147,7 +147,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-09-23 23:35:05+09:00'
+  timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp
