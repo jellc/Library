@@ -1,9 +1,8 @@
 #include <bits/extc++.h>
-#if __has_include(<bit>)
-#include <bit>
-#endif
+
 #include "alias.hpp"
 #include "config.hpp"
+#include "cxx20.hpp"
 #include "option.hpp"
 #include "utils.hpp"
 
