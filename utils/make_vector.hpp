@@ -3,17 +3,18 @@
 #include <tuple>
 #include <vector>
 namespace workspace {
-template <typename T, size_t N>
-constexpr auto make_vector(size_t* sizes, T const& init = T()) {
+template <typename T, typename S, size_t N>
+constexpr auto make_vector(S* sizes, T const& init = T()) {
   if constexpr (N)
-    return std::vector(*sizes, make_vector<T, N - 1>(sizes + 1, init));
+    return std::vector(*sizes,
+                       make_vector<T, S, N - 1>(std::next(sizes), init));
   else
     return init;
 }
 template <typename T, typename S, size_t N,
           std::enable_if_t<std::is_convertible_v<S, size_t>>* = nullptr>
 constexpr auto make_vector(const S (&sizes)[N], T const& init = T()) {
-  return make_vector<T, N>((size_t*)sizes, init);
+  return make_vector<T, S, N>((S*)sizes, init);
 }
 template <typename T, size_t N, size_t I = 0>
 constexpr auto make_vector(std::array<size_t, N> const& array,
