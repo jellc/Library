@@ -177,12 +177,26 @@ data:
     \ hash<Key>>>;\ntemplate <class Key, class Mapped>\nusing unordered_map = std::unordered_map<Key,\
     \ Mapped, hash<Key>>;\ntemplate <class Key> using unordered_set = std::unordered_set<Key,\
     \ hash<Key>>;\n}  // namespace workspace\n#line 2 \"utils/make_vector.hpp\"\n\
-    #if __cplusplus >= 201703L\n#line 4 \"utils/make_vector.hpp\"\nnamespace workspace\
-    \ {\ntemplate <typename T, size_t N>\nconstexpr auto make_vector(size_t* sizes,\
-    \ T const& init = T()) {\n  if constexpr (N)\n    return std::vector(*sizes, make_vector<T,\
-    \ N - 1>(std::next(sizes), init));\n  else\n    return init;\n}\ntemplate <typename\
-    \ T, size_t N>\nconstexpr auto make_vector(const size_t (&sizes)[N], T const&\
-    \ init = T()) {\n  return make_vector<T, N>((size_t*)sizes, init);\n}\n}  // namespace\
+    #if __cplusplus >= 201703L\n#include <tuple>\n#line 5 \"utils/make_vector.hpp\"\
+    \nnamespace workspace {\ntemplate <typename T, typename S, size_t N>\nconstexpr\
+    \ auto make_vector(S* sizes, T const& init = T()) {\n  if constexpr (N)\n    return\
+    \ std::vector(*sizes,\n                       make_vector<T, S, N - 1>(std::next(sizes),\
+    \ init));\n  else\n    return init;\n}\ntemplate <typename T, typename S, size_t\
+    \ N,\n          std::enable_if_t<std::is_convertible_v<S, size_t>>* = nullptr>\n\
+    constexpr auto make_vector(const S (&sizes)[N], T const& init = T()) {\n  return\
+    \ make_vector<T, S, N>((S*)sizes, init);\n}\ntemplate <typename T, size_t N, size_t\
+    \ I = 0>\nconstexpr auto make_vector(std::array<size_t, N> const& array,\n   \
+    \                        T const& init = T()) {\n  if constexpr (I == N)\n   \
+    \ return init;\n  else\n    return std::vector(array[I], make_vector<T, N, I +\
+    \ 1>(array, init));\n}\ntemplate <typename T, size_t I = 0, class... Args>\nconstexpr\
+    \ auto make_vector(std::tuple<Args...> const& tuple,\n                       \
+    \    T const& init = T()) {\n  using tuple_type = std::tuple<Args...>;\n  if constexpr\
+    \ (I == tuple_size_v<tuple_type>)\n    return init;\n  else {\n    static_assert(\n\
+    \        std::is_convertible_v<tuple_element_t<I, tuple_type>, size_t>);\n   \
+    \ return std::vector(get<I>(tuple), make_vector<T, I + 1>(tuple, init));\n  }\n\
+    }\ntemplate <typename T, class Fst, class Snd>\nconstexpr auto make_vector(std::pair<Fst,\
+    \ Snd> const& pair,\n                           T const& init = T()) {\n  return\
+    \ make_vector((size_t[2]){pair.first, pair.second}, init);\n}\n}  // namespace\
     \ workspace\n#endif\n#line 3 \"utils/random_number_generator.hpp\"\ntemplate <typename\
     \ num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
     \                            std::uniform_int_distribution<num_type>,\n      \
@@ -295,7 +309,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-10 01:30:31+09:00'
+  timestamp: '2020-10-18 14:24:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
