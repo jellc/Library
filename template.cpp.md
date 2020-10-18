@@ -8,6 +8,9 @@ data:
     path: config.hpp
     title: config.hpp
   - icon: ':warning:'
+    path: cxx20.hpp
+    title: cxx20.hpp
+  - icon: ':warning:'
     path: option.hpp
     title: option.hpp
   - icon: ':warning:'
@@ -58,27 +61,37 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n#if __has_include(<bit>)\n\
-    #include <bit>\n#endif\n#line 7 \"alias.hpp\"\nnamespace workspace {\nconstexpr\
-    \ char eol = '\\n';\nusing namespace std;\nusing i32 = int_least32_t;\nusing i64\
-    \ = int_least64_t;\nusing i128 = __int128_t;\nusing u32 = uint_least32_t;\nusing\
-    \ u64 = uint_least64_t;\nusing u128 = __uint128_t;\ntemplate <class T, class Comp\
-    \ = less<T>>\nusing priority_queue = std::priority_queue<T, vector<T>, Comp>;\n\
-    template <class T> using stack = std::stack<T, vector<T>>;\n}  // namespace workspace\n\
-    #line 5 \"config.hpp\"\nnamespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
-    int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
-    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
+  bundledCode: "#line 1 \"template.cpp\"\n#include <bits/extc++.h>\n\n#line 7 \"alias.hpp\"\
+    \nnamespace workspace {\nconstexpr char eol = '\\n';\nusing namespace std;\nusing\
+    \ i32 = int_least32_t;\nusing i64 = int_least64_t;\nusing i128 = __int128_t;\n\
+    using u32 = uint_least32_t;\nusing u64 = uint_least64_t;\nusing u128 = __uint128_t;\n\
+    template <class T, class Comp = less<T>>\nusing priority_queue = std::priority_queue<T,\
+    \ vector<T>, Comp>;\ntemplate <class T> using stack = std::stack<T, vector<T>>;\n\
+    }  // namespace workspace\n#line 5 \"config.hpp\"\nnamespace config {\nconst auto\
+    \ start_time{std::chrono::system_clock::now()};\nint64_t elapsed() {\n  using\
+    \ namespace std::chrono;\n  const auto end_time{system_clock::now()};\n  return\
+    \ duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
     \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
     \   char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
     \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
     \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
     \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
-    \ 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n#pragma GCC optimize(\"O3\")\n#pragma\
-    \ GCC target(\"avx,avx2\")\n#pragma GCC optimize(\"unroll-loops\")\n#endif\n#line\
-    \ 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include <cassert>\n\
-    #include <cmath>\n#include <vector>\nnamespace workspace {\n// binary search on\
-    \ a discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
+    \ 1 \"cxx20.hpp\"\n#if __cplusplus <= 201703L\n\n#if __has_include(<bit>)\n#include\
+    \ <bit>\n#endif\n\n#include <vector>\nnamespace std {\ntemplate <typename _Tp,\
+    \ typename _Alloc, typename _Predicate>\ninline typename vector<_Tp, _Alloc>::size_type\
+    \ erase_if(\n    vector<_Tp, _Alloc>& __cont, _Predicate __pred) {\n  const auto\
+    \ __osz = __cont.size();\n  __cont.erase(std::remove_if(__cont.begin(), __cont.end(),\
+    \ __pred),\n               __cont.end());\n  return __osz - __cont.size();\n}\n\
+    template <typename _Tp, typename _Alloc, typename _Up>\ninline typename vector<_Tp,\
+    \ _Alloc>::size_type erase(\n    vector<_Tp, _Alloc>& __cont, const _Up& __value)\
+    \ {\n  const auto __osz = __cont.size();\n  __cont.erase(std::remove(__cont.begin(),\
+    \ __cont.end(), __value),\n               __cont.end());\n  return __osz - __cont.size();\n\
+    }\n}\n\n#endif\n#line 2 \"option.hpp\"\n#ifdef ONLINE_JUDGE\n#pragma GCC optimize(\"\
+    O3\")\n#pragma GCC target(\"avx,avx2\")\n#pragma GCC optimize(\"unroll-loops\"\
+    )\n#endif\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n#include\
+    \ <cassert>\n#include <cmath>\n#include <vector>\nnamespace workspace {\n// binary\
+    \ search on a discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n\
     \    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n\
     \    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
     \  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)> dist(ng - ok);\n\
@@ -271,20 +284,21 @@ data:
     \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
     \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
-    \ { return ref; }\n};\n#line 9 \"template.cpp\"\n\nnamespace workspace {\nvoid\
+    \ { return ref; }\n};\n#line 8 \"template.cpp\"\n\nnamespace workspace {\nvoid\
     \ main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned config::cases()\
     \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; return t; // given\n\
     \  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n  // start here!\n}\n\
     }\n"
-  code: "#include <bits/extc++.h>\n#if __has_include(<bit>)\n#include <bit>\n#endif\n\
-    #include \"alias.hpp\"\n#include \"config.hpp\"\n#include \"option.hpp\"\n#include\
-    \ \"utils.hpp\"\n\nnamespace workspace {\nvoid main();\n}\nint main() { config::loop(workspace::main);\
+  code: "#include <bits/extc++.h>\n\n#include \"alias.hpp\"\n#include \"config.hpp\"\
+    \n#include \"cxx20.hpp\"\n#include \"option.hpp\"\n#include \"utils.hpp\"\n\n\
+    namespace workspace {\nvoid main();\n}\nint main() { config::loop(workspace::main);\
     \ }\n\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t;\
     \ std::cin >> t; return t; // given\n  return 1;\n}\n\nnamespace workspace {\n\
     void main() {\n  // start here!\n}\n}\n"
   dependsOn:
   - alias.hpp
   - config.hpp
+  - cxx20.hpp
   - option.hpp
   - utils.hpp
   - utils/binary_search.hpp
@@ -303,7 +317,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-18 14:24:41+09:00'
+  timestamp: '2020-10-18 20:34:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
