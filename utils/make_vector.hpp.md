@@ -59,8 +59,8 @@ data:
   isVerificationFile: false
   path: utils/make_vector.hpp
   requiredBy:
-  - utils.hpp
   - template.cpp
+  - utils.hpp
   timestamp: '2020-10-18 14:24:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

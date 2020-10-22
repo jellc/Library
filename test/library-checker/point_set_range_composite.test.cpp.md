@@ -123,8 +123,8 @@ data:
     \ right_partition_subtree(left, pred, mono);\n        mono = tmp;\n        ++left;\n\
     \      }\n    }\n    return size_orig;\n  }\n};  // class segment_tree\n#line\
     \ 3 \"modulus/modint.hpp\"\n#include <iostream>\n\n#line 6 \"modulus/modint.hpp\"\
-    \n\n// A non-positive Mod corresponds a runtime type of modint.\ntemplate <auto\
-    \ Mod = 0, typename Mod_type = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \n\n// A non-positive Mod corresponds to a unique type of runtime modint.\ntemplate\
+    \ <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type = typename\
     \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
     \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
@@ -218,7 +218,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-10-10 01:30:31+09:00'
+  timestamp: '2020-10-23 01:58:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp

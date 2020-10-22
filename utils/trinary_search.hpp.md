@@ -43,8 +43,8 @@ data:
   isVerificationFile: false
   path: utils/trinary_search.hpp
   requiredBy:
-  - utils.hpp
   - template.cpp
+  - utils.hpp
   timestamp: '2020-08-14 02:41:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

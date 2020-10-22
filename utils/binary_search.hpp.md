@@ -100,8 +100,8 @@ data:
   isVerificationFile: false
   path: utils/binary_search.hpp
   requiredBy:
-  - utils.hpp
   - template.cpp
+  - utils.hpp
   timestamp: '2020-10-06 00:55:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

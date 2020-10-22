@@ -102,8 +102,8 @@ data:
   isVerificationFile: false
   path: graph/directed/flow/base.hpp
   requiredBy:
-  - graph/directed/flow/Dinic.hpp
   - graph/directed/flow/min_cost_flow.hpp
+  - graph/directed/flow/Dinic.hpp
   timestamp: '2020-09-19 20:49:19+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

@@ -46,8 +46,8 @@ data:
   isVerificationFile: false
   path: utils/casefmt.hpp
   requiredBy:
-  - utils.hpp
   - template.cpp
+  - utils.hpp
   timestamp: '2020-09-26 01:36:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

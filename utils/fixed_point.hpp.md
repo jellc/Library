@@ -28,8 +28,8 @@ data:
   isVerificationFile: false
   path: utils/fixed_point.hpp
   requiredBy:
-  - utils.hpp
   - template.cpp
+  - utils.hpp
   timestamp: '2020-09-21 04:06:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
