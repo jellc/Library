@@ -4,7 +4,7 @@
 
 #include "utils/sfinae.hpp"
 
-// A non-positive Mod corresponds a runtime type of modint.
+// A non-positive Mod corresponds to a unique type of runtime modint.
 template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint {
   static_assert(is_integral_ext<decltype(Mod)>::value,
                 "Mod must be integral type.");
