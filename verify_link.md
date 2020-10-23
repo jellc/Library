@@ -50,6 +50,9 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
   - basic
     - <https://atcoder.jp/contests/arc056/tasks/arc056_d>
     - <https://atcoder.jp/contests/kupc2019/tasks/kupc2019_f>
+    - <https://atcoder.jp/contests/abc177/tasks/abc177_f>
+    - <https://atcoder.jp/contests/dp/tasks/dp_w>
+
   - binary search
     - <https://codeforces.com/contest/1237/problem/D>
 
@@ -81,9 +84,11 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 
 - flow
   - maximum flow
+    - <https://atcoder.jp/contests/arc031/tasks/arc031_4>
     - <https://atcoder.jp/contests/kupc2019/tasks/kupc2019_h>
     - <https://codeforces.com/contest/1214/problem/D>
     - <https://codeforces.com/gym/102428/problem/A>
+    - <http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2313>
 
   - minimum cost flow
     - <https://atcoder.jp/contests/past202005-2/tasks/past202005_o>
@@ -92,6 +97,7 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 
 - scc
   - <https://atcoder.jp/contests/arc030/tasks/arc030_3>
+  - <https://codeforces.com/contest/650/problem/C>
 
 ## String
 
@@ -103,6 +109,9 @@ Not including problems in [AOJ](https://onlinejudge.u-aizu.ac.jp) and [Library C
 
 - binary trie
   - <https://atcoder.jp/contests/dwacon5th-final/tasks/dwacon5th_final_b>
+
+- suffix array
+  - <https://atcoder.jp/contests/ddcc2020-final/tasks/ddcc2020_final_c>
 
 ## Utils
 
