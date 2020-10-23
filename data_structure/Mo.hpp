@@ -14,7 +14,7 @@ class Mo {
   Pop_back pop_back;
   std::vector<size_t> lft, rgt, ord;
   std::vector<size_t>::iterator itr;
-  size_t n, lpos, rpos;
+  size_t lpos, rpos;
 
  public:
   Mo(Push_back push_back, Pop_back pop_back)
