@@ -22,12 +22,13 @@ int main() {
     cnt[now]--;
     bcnt[now / bsize]--;
   };
-  Mo mo(n, add, del);
+  Mo mo(add, del);
   std::vector<int> k(q), ans(q);
   for (int l, r, i = 0; i < q; i++) {
     scanf("%d%d%d", &l, &r, &k[i]);
     mo.set(l, r);
   }
+  mo.make();
   for (int t = 0; t < q; t++) {
     int qid = mo.process();
     for (int i = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {
