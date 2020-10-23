@@ -18,25 +18,29 @@ data:
     - https://judge.yosupo.jp/problem/range_kth_smallest
   bundledCode: "#line 1 \"test/library-checker/range_kth_smallest.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n#include <cstdio>\n\
-    \n#line 1 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n#include\
-    \ <functional>\n#include <vector>\n\ntemplate <class Add, class Del>\nclass Mo\n\
-    {\n    Add add; Del del;\n    std::vector<size_t> lft, rgt, ord;\n    std::vector<size_t>::iterator\
-    \ itr;\n    bool made;\n    size_t width, nl, nr;\n\n    void make()\n    {\n\
-    \        made = true;\n        ord.resize(size());\n        for(size_t i = 0;\
-    \ i != size(); ++i) ord[i] = i;\n        std::sort(ord.begin(), ord.end(),\n \
-    \       [&](size_t x, size_t y)\n        {\n            if(lft[x] / width != lft[y]\
-    \ / width) return lft[x] < lft[y];\n            return rgt[x] < rgt[y];\n    \
-    \    });\n        itr = ord.begin();\n    }\n\npublic:\n    Mo(size_t n = 0, Add\
-    \ add = Add(), Del del = Del())\n        : add(add), del(del), made(), width(sqrt(n)),\
-    \ nl(), nr() {}\n\n    size_t size() const { return lft.size(); }\n\n    void\
-    \ set(size_t l, size_t r)\n    {\n        assert(!made);\n        lft.emplace_back(l),\
-    \ rgt.emplace_back(r);\n    }\n\n    size_t process()\n    {\n        if(!made)\
-    \ make();\n        if(itr == ord.end()) return ord.size();\n        const size_t\
-    \ id = *itr++, l = lft[id], r = rgt[id];\n        while(nl > l) add(--nl);\n \
-    \       while(nr < r) add(nr++);\n        while(nl < l) del(nl++);\n        while(nr\
-    \ > r) del(--nr);\n        return id;\n    }\n};\n#line 2 \"utils/coordinate_compression.hpp\"\
-    \n#include <algorithm>\n#line 5 \"utils/coordinate_compression.hpp\"\n\ntemplate\
-    \ <class T> class coordinate_compression {\n  std::vector<T> uniquely;\n  std::vector<size_t>\
+    \n#line 2 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n#include\
+    \ <functional>\n#include <numeric>\n#include <vector>\n\ntemplate <class Push_back,\
+    \ class Pop_back, class Push_front = Push_back,\n          class Pop_front = Pop_back>\n\
+    class Mo {\n  Push_front push_front;\n  Pop_front pop_front;\n  Push_back push_back;\n\
+    \  Pop_back pop_back;\n  std::vector<size_t> lft, rgt, ord;\n  std::vector<size_t>::iterator\
+    \ itr;\n  size_t lpos, rpos;\n\n public:\n  Mo(Push_back push_back, Pop_back pop_back)\n\
+    \      : Mo(push_back, pop_back, push_back, pop_back) {}\n\n  Mo(Push_front push_front,\
+    \ Pop_front pop_front, Push_back push_back,\n     Pop_back pop_back)\n      :\
+    \ push_front(push_front),\n        pop_front(pop_front),\n        push_back(push_back),\n\
+    \        pop_back(pop_back),\n        lpos(),\n        rpos() {}\n\n  size_t size()\
+    \ const { return lft.size(); }\n\n  // query for [l, r)\n  void set(size_t l,\
+    \ size_t r) {\n    assert(!(r < l));\n    lft.emplace_back(l), rgt.emplace_back(r);\n\
+    \  }\n\n  void make() {\n    assert(size());\n    ord.resize(size());\n    iota(ord.begin(),\
+    \ ord.end(), 0);\n    const size_t width = sqrt(*max_element(rgt.begin(), rgt.end()));\n\
+    \    std::sort(ord.begin(), ord.end(), [&](size_t x, size_t y) {\n      if (lft[x]\
+    \ / width != lft[y] / width) return lft[x] < lft[y];\n      return rgt[x] < rgt[y];\n\
+    \    });\n    itr = ord.begin();\n  }\n\n  size_t process() {\n    if (itr ==\
+    \ ord.end()) return ord.size();\n    const size_t id = *itr++, l = lft[id], r\
+    \ = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while (rpos < r) push_back(rpos++);\n\
+    \    while (lpos < l) pop_front(lpos++);\n    while (rpos > r) pop_back(--rpos);\n\
+    \    return id;\n  }\n};\n#line 2 \"utils/coordinate_compression.hpp\"\n#include\
+    \ <algorithm>\n#line 5 \"utils/coordinate_compression.hpp\"\n\ntemplate <class\
+    \ T> class coordinate_compression {\n  std::vector<T> uniquely;\n  std::vector<size_t>\
     \ compressed;\n\n public:\n  coordinate_compression(const std::vector<T> &raw)\n\
     \      : uniquely(raw), compressed(raw.size()) {\n    std::sort(uniquely.begin(),\
     \ uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),\n\
@@ -56,14 +60,15 @@ data:
     \  int bsize = std::sqrt(ccmp.count()) + 1;\n  std::vector<int> cnt(ccmp.count()),\
     \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = ccmp[i];\n    cnt[now]++;\n\
     \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = ccmp[i];\n\
-    \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  Mo mo(n, add, del);\n  std::vector<int>\
+    \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  Mo mo(add, del);\n  std::vector<int>\
     \ k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n    scanf(\"%d%d%d\",\
-    \ &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  for (int t = 0; t < q; t++) {\n \
-    \   int qid = mo.process();\n    for (int i = 0, j = 0, nk = k[qid]; i < bsize;\
-    \ i++, j += bsize) {\n      if (bcnt[i] > nk) {\n        int h;\n        for (h\
-    \ = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n        }\n        ans[qid]\
-    \ = ccmp.value(h);\n        break;\n      } else {\n        nk -= bcnt[i];\n \
-    \     }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\", e);\n}\n"
+    \ &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for (int t = 0; t <\
+    \ q; t++) {\n    int qid = mo.process();\n    for (int i = 0, j = 0, nk = k[qid];\
+    \ i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n        int h;\n \
+    \       for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n        }\n\
+    \        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n        nk\
+    \ -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\", e);\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\
     #include <cstdio>\n\n#include \"data_structure/Mo.hpp\"\n#include \"utils/coordinate_compression.hpp\"\
     \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int>\
@@ -71,21 +76,22 @@ data:
     \  int bsize = std::sqrt(ccmp.count()) + 1;\n  std::vector<int> cnt(ccmp.count()),\
     \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = ccmp[i];\n    cnt[now]++;\n\
     \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = ccmp[i];\n\
-    \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  Mo mo(n, add, del);\n  std::vector<int>\
+    \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  Mo mo(add, del);\n  std::vector<int>\
     \ k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n    scanf(\"%d%d%d\",\
-    \ &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  for (int t = 0; t < q; t++) {\n \
-    \   int qid = mo.process();\n    for (int i = 0, j = 0, nk = k[qid]; i < bsize;\
-    \ i++, j += bsize) {\n      if (bcnt[i] > nk) {\n        int h;\n        for (h\
-    \ = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n        }\n        ans[qid]\
-    \ = ccmp.value(h);\n        break;\n      } else {\n        nk -= bcnt[i];\n \
-    \     }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\", e);\n}\n"
+    \ &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for (int t = 0; t <\
+    \ q; t++) {\n    int qid = mo.process();\n    for (int i = 0, j = 0, nk = k[qid];\
+    \ i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n        int h;\n \
+    \       for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n        }\n\
+    \        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n        nk\
+    \ -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\", e);\n\
+    }\n"
   dependsOn:
   - data_structure/Mo.hpp
   - utils/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2020-09-26 02:24:45+09:00'
+  timestamp: '2020-10-24 01:11:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp

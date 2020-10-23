@@ -13,45 +13,54 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n\
-    #include <functional>\n#include <vector>\n\ntemplate <class Add, class Del>\n\
-    class Mo\n{\n    Add add; Del del;\n    std::vector<size_t> lft, rgt, ord;\n \
-    \   std::vector<size_t>::iterator itr;\n    bool made;\n    size_t width, nl,\
-    \ nr;\n\n    void make()\n    {\n        made = true;\n        ord.resize(size());\n\
-    \        for(size_t i = 0; i != size(); ++i) ord[i] = i;\n        std::sort(ord.begin(),\
-    \ ord.end(),\n        [&](size_t x, size_t y)\n        {\n            if(lft[x]\
-    \ / width != lft[y] / width) return lft[x] < lft[y];\n            return rgt[x]\
-    \ < rgt[y];\n        });\n        itr = ord.begin();\n    }\n\npublic:\n    Mo(size_t\
-    \ n = 0, Add add = Add(), Del del = Del())\n        : add(add), del(del), made(),\
-    \ width(sqrt(n)), nl(), nr() {}\n\n    size_t size() const { return lft.size();\
-    \ }\n\n    void set(size_t l, size_t r)\n    {\n        assert(!made);\n     \
-    \   lft.emplace_back(l), rgt.emplace_back(r);\n    }\n\n    size_t process()\n\
-    \    {\n        if(!made) make();\n        if(itr == ord.end()) return ord.size();\n\
-    \        const size_t id = *itr++, l = lft[id], r = rgt[id];\n        while(nl\
-    \ > l) add(--nl);\n        while(nr < r) add(nr++);\n        while(nl < l) del(nl++);\n\
-    \        while(nr > r) del(--nr);\n        return id;\n    }\n};\n"
-  code: "#include <cassert>\n#include <cmath>\n#include <functional>\n#include <vector>\n\
-    \ntemplate <class Add, class Del>\nclass Mo\n{\n    Add add; Del del;\n    std::vector<size_t>\
-    \ lft, rgt, ord;\n    std::vector<size_t>::iterator itr;\n    bool made;\n   \
-    \ size_t width, nl, nr;\n\n    void make()\n    {\n        made = true;\n    \
-    \    ord.resize(size());\n        for(size_t i = 0; i != size(); ++i) ord[i] =\
-    \ i;\n        std::sort(ord.begin(), ord.end(),\n        [&](size_t x, size_t\
-    \ y)\n        {\n            if(lft[x] / width != lft[y] / width) return lft[x]\
-    \ < lft[y];\n            return rgt[x] < rgt[y];\n        });\n        itr = ord.begin();\n\
-    \    }\n\npublic:\n    Mo(size_t n = 0, Add add = Add(), Del del = Del())\n  \
-    \      : add(add), del(del), made(), width(sqrt(n)), nl(), nr() {}\n\n    size_t\
-    \ size() const { return lft.size(); }\n\n    void set(size_t l, size_t r)\n  \
-    \  {\n        assert(!made);\n        lft.emplace_back(l), rgt.emplace_back(r);\n\
-    \    }\n\n    size_t process()\n    {\n        if(!made) make();\n        if(itr\
-    \ == ord.end()) return ord.size();\n        const size_t id = *itr++, l = lft[id],\
-    \ r = rgt[id];\n        while(nl > l) add(--nl);\n        while(nr < r) add(nr++);\n\
-    \        while(nl < l) del(nl++);\n        while(nr > r) del(--nr);\n        return\
-    \ id;\n    }\n};\n"
+  bundledCode: "#line 2 \"data_structure/Mo.hpp\"\n#include <cassert>\n#include <cmath>\n\
+    #include <functional>\n#include <numeric>\n#include <vector>\n\ntemplate <class\
+    \ Push_back, class Pop_back, class Push_front = Push_back,\n          class Pop_front\
+    \ = Pop_back>\nclass Mo {\n  Push_front push_front;\n  Pop_front pop_front;\n\
+    \  Push_back push_back;\n  Pop_back pop_back;\n  std::vector<size_t> lft, rgt,\
+    \ ord;\n  std::vector<size_t>::iterator itr;\n  size_t lpos, rpos;\n\n public:\n\
+    \  Mo(Push_back push_back, Pop_back pop_back)\n      : Mo(push_back, pop_back,\
+    \ push_back, pop_back) {}\n\n  Mo(Push_front push_front, Pop_front pop_front,\
+    \ Push_back push_back,\n     Pop_back pop_back)\n      : push_front(push_front),\n\
+    \        pop_front(pop_front),\n        push_back(push_back),\n        pop_back(pop_back),\n\
+    \        lpos(),\n        rpos() {}\n\n  size_t size() const { return lft.size();\
+    \ }\n\n  // query for [l, r)\n  void set(size_t l, size_t r) {\n    assert(!(r\
+    \ < l));\n    lft.emplace_back(l), rgt.emplace_back(r);\n  }\n\n  void make()\
+    \ {\n    assert(size());\n    ord.resize(size());\n    iota(ord.begin(), ord.end(),\
+    \ 0);\n    const size_t width = sqrt(*max_element(rgt.begin(), rgt.end()));\n\
+    \    std::sort(ord.begin(), ord.end(), [&](size_t x, size_t y) {\n      if (lft[x]\
+    \ / width != lft[y] / width) return lft[x] < lft[y];\n      return rgt[x] < rgt[y];\n\
+    \    });\n    itr = ord.begin();\n  }\n\n  size_t process() {\n    if (itr ==\
+    \ ord.end()) return ord.size();\n    const size_t id = *itr++, l = lft[id], r\
+    \ = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while (rpos < r) push_back(rpos++);\n\
+    \    while (lpos < l) pop_front(lpos++);\n    while (rpos > r) pop_back(--rpos);\n\
+    \    return id;\n  }\n};\n"
+  code: "#pragma once\n#include <cassert>\n#include <cmath>\n#include <functional>\n\
+    #include <numeric>\n#include <vector>\n\ntemplate <class Push_back, class Pop_back,\
+    \ class Push_front = Push_back,\n          class Pop_front = Pop_back>\nclass\
+    \ Mo {\n  Push_front push_front;\n  Pop_front pop_front;\n  Push_back push_back;\n\
+    \  Pop_back pop_back;\n  std::vector<size_t> lft, rgt, ord;\n  std::vector<size_t>::iterator\
+    \ itr;\n  size_t lpos, rpos;\n\n public:\n  Mo(Push_back push_back, Pop_back pop_back)\n\
+    \      : Mo(push_back, pop_back, push_back, pop_back) {}\n\n  Mo(Push_front push_front,\
+    \ Pop_front pop_front, Push_back push_back,\n     Pop_back pop_back)\n      :\
+    \ push_front(push_front),\n        pop_front(pop_front),\n        push_back(push_back),\n\
+    \        pop_back(pop_back),\n        lpos(),\n        rpos() {}\n\n  size_t size()\
+    \ const { return lft.size(); }\n\n  // query for [l, r)\n  void set(size_t l,\
+    \ size_t r) {\n    assert(!(r < l));\n    lft.emplace_back(l), rgt.emplace_back(r);\n\
+    \  }\n\n  void make() {\n    assert(size());\n    ord.resize(size());\n    iota(ord.begin(),\
+    \ ord.end(), 0);\n    const size_t width = sqrt(*max_element(rgt.begin(), rgt.end()));\n\
+    \    std::sort(ord.begin(), ord.end(), [&](size_t x, size_t y) {\n      if (lft[x]\
+    \ / width != lft[y] / width) return lft[x] < lft[y];\n      return rgt[x] < rgt[y];\n\
+    \    });\n    itr = ord.begin();\n  }\n\n  size_t process() {\n    if (itr ==\
+    \ ord.end()) return ord.size();\n    const size_t id = *itr++, l = lft[id], r\
+    \ = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while (rpos < r) push_back(rpos++);\n\
+    \    while (lpos < l) pop_front(lpos++);\n    while (rpos > r) pop_back(--rpos);\n\
+    \    return id;\n  }\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: data_structure/Mo.hpp
   requiredBy: []
-  timestamp: '2020-08-03 02:47:43+09:00'
+  timestamp: '2020-10-24 01:11:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_kth_smallest.test.cpp
