@@ -225,6 +225,9 @@ data:
     - icon: ':warning:'
       path: utils/fixed_point.hpp
       title: utils/fixed_point.hpp
+    - icon: ':warning:'
+      path: utils/floor_div.hpp
+      title: utils/floor_div.hpp
     - icon: ':heavy_check_mark:'
       path: utils/hash.hpp
       title: utils/hash.hpp

@@ -35,6 +35,9 @@ data:
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
+  - icon: ':warning:'
+    path: utils/floor_div.hpp
+    title: utils/floor_div.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
@@ -141,6 +144,7 @@ data:
   - number_theory/ext_gcd.hpp
   - number_theory/least_factor.hpp
   - utils.hpp
+  - utils/floor_div.hpp
   - utils/hash.hpp
   - utils/stream.hpp
   timestamp: '2020-10-10 01:30:31+09:00'

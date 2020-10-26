@@ -19,6 +19,9 @@ data:
   - icon: ':warning:'
     path: utils/fixed_point.hpp
     title: utils/fixed_point.hpp
+  - icon: ':warning:'
+    path: utils/floor_div.hpp
+    title: utils/floor_div.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
@@ -128,8 +131,7 @@ data:
     template <class lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n\
     \  fixed_point(lambda_type &&f) : func(std::move(f)) {}\n  template <class...\
     \ Args> auto operator()(Args &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n}  // namespace workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
-    #line 4 \"utils/hash.hpp\"\n#include <random>\n#include <unordered_set>\n\n#line\
+    \  }\n};\n}  // namespace workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line\
     \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
     \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
@@ -148,28 +150,34 @@ data:
     \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 8 \"utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
-    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
-    \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
-    \                                 std::has_unique_object_representations>> {\n\
-    \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
-    \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
-    \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
-    \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
-    \ /* + (seed << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct\
-    \ hash<std::pair<T1, T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair)\
-    \ const {\n    return hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n\
-    };\ntemplate <class... T> class hash<std::tuple<T...>> {\n  template <class Tuple,\
-    \ size_t index = std::tuple_size<Tuple>::value - 1>\n  struct tuple_hash {\n \
-    \   static uint64_t apply(const Tuple &t) {\n      return hash_combine(tuple_hash<Tuple,\
-    \ index - 1>::apply(t),\n                          std::get<index>(t));\n    }\n\
-    \  };\n  template <class Tuple> struct tuple_hash<Tuple, size_t(-1)> {\n    static\
-    \ uint64_t apply(const Tuple &t) { return 0; }\n  };\n\n public:\n  uint64_t operator()(const\
-    \ std::tuple<T...> &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n\
-    \  }\n};\ntemplate <class hash_table> struct hash_table_wrapper : hash_table {\n\
-    \  using key_type = typename hash_table::key_type;\n  size_t count(const key_type\
-    \ &key) const {\n    return hash_table::find(key) != hash_table::end();\n  }\n\
-    \  template <class... Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
+    };\n#line 5 \"utils/floor_div.hpp\"\n\ntemplate <typename int_type>\nconstexpr\n\
+    \    typename std::enable_if<is_integral_ext<int_type>::value, int_type>::type\n\
+    \    floor_div(int_type x, int_type y) {\n  assert(y != 0);\n  if (y < 0) x =\
+    \ -x, y = -y;\n  return x < 0 ? (x - y + 1) / y : x / y;\n}\n#line 2 \"utils/hash.hpp\"\
+    \n#include <ext/pb_ds/assoc_container.hpp>\n#line 4 \"utils/hash.hpp\"\n#include\
+    \ <random>\n#include <unordered_set>\n\n#line 8 \"utils/hash.hpp\"\nnamespace\
+    \ workspace {\ntemplate <class T, class = void> struct hash : std::hash<T> {};\n\
+    #if __cplusplus >= 201703L\ntemplate <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n\
+    \            enable_if_trait_type<Unique_bits_type,\n                        \
+    \         std::has_unique_object_representations>> {\n  size_t operator()(uint64_t\
+    \ x) const {\n    static const uint64_t m = std::random_device{}();\n    x ^=\
+    \ x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n  }\n};\n\
+    #endif\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
+    \ &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9 /* + (seed\
+    \ << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct hash<std::pair<T1,\
+    \ T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair) const {\n    return\
+    \ hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n};\ntemplate <class...\
+    \ T> class hash<std::tuple<T...>> {\n  template <class Tuple, size_t index = std::tuple_size<Tuple>::value\
+    \ - 1>\n  struct tuple_hash {\n    static uint64_t apply(const Tuple &t) {\n \
+    \     return hash_combine(tuple_hash<Tuple, index - 1>::apply(t),\n          \
+    \                std::get<index>(t));\n    }\n  };\n  template <class Tuple> struct\
+    \ tuple_hash<Tuple, size_t(-1)> {\n    static uint64_t apply(const Tuple &t) {\
+    \ return 0; }\n  };\n\n public:\n  uint64_t operator()(const std::tuple<T...>\
+    \ &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n  }\n};\ntemplate\
+    \ <class hash_table> struct hash_table_wrapper : hash_table {\n  using key_type\
+    \ = typename hash_table::key_type;\n  size_t count(const key_type &key) const\
+    \ {\n    return hash_table::find(key) != hash_table::end();\n  }\n  template <class...\
+    \ Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
     \ hash_table::value_type(args...));\n  }\n};\ntemplate <class Key, class Mapped\
     \ = __gnu_pbds::null_type>\nusing cc_hash_table =\n    hash_table_wrapper<__gnu_pbds::cc_hash_table<Key,\
     \ Mapped, hash<Key>>>;\ntemplate <class Key, class Mapped = __gnu_pbds::null_type>\n\
@@ -260,7 +268,7 @@ data:
     \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
     \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
-    \ { return ref; }\n};\n#line 15 \"utils.hpp\"\n"
+    \ { return ref; }\n};\n#line 16 \"utils.hpp\"\n"
   code: '#pragma once
 
     #include "utils/binary_search.hpp"
@@ -272,6 +280,8 @@ data:
     #include "utils/coordinate_compression.hpp"
 
     #include "utils/fixed_point.hpp"
+
+    #include "utils/floor_div.hpp"
 
     #include "utils/hash.hpp"
 
@@ -297,8 +307,9 @@ data:
   - utils/chval.hpp
   - utils/coordinate_compression.hpp
   - utils/fixed_point.hpp
-  - utils/hash.hpp
+  - utils/floor_div.hpp
   - utils/sfinae.hpp
+  - utils/hash.hpp
   - utils/make_vector.hpp
   - utils/random_number_generator.hpp
   - utils/read.hpp
@@ -309,7 +320,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-18 14:24:41+09:00'
+  timestamp: '2020-10-26 11:02:22+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

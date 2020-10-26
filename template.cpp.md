@@ -31,6 +31,9 @@ data:
   - icon: ':warning:'
     path: utils/fixed_point.hpp
     title: utils/fixed_point.hpp
+  - icon: ':warning:'
+    path: utils/floor_div.hpp
+    title: utils/floor_div.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
@@ -154,9 +157,9 @@ data:
     \ lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
     \ &&f) : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args\
     \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 4 \"\
-    utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template <class>\
-    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \  }\n};\n}  // namespace workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line\
+    \ 4 \"utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
@@ -172,9 +175,13 @@ data:
     \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 8 \"utils/hash.hpp\"\
-    \nnamespace workspace {\ntemplate <class T, class = void> struct hash : std::hash<T>\
-    \ {};\n#if __cplusplus >= 201703L\ntemplate <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 5 \"utils/floor_div.hpp\"\
+    \n\ntemplate <typename int_type>\nconstexpr\n    typename std::enable_if<is_integral_ext<int_type>::value,\
+    \ int_type>::type\n    floor_div(int_type x, int_type y) {\n  assert(y != 0);\n\
+    \  if (y < 0) x = -x, y = -y;\n  return x < 0 ? (x - y + 1) / y : x / y;\n}\n\
+    #line 6 \"utils/hash.hpp\"\n\n#line 8 \"utils/hash.hpp\"\nnamespace workspace\
+    \ {\ntemplate <class T, class = void> struct hash : std::hash<T> {};\n#if __cplusplus\
+    \ >= 201703L\ntemplate <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n\
     \            enable_if_trait_type<Unique_bits_type,\n                        \
     \         std::has_unique_object_representations>> {\n  size_t operator()(uint64_t\
     \ x) const {\n    static const uint64_t m = std::random_device{}();\n    x ^=\
@@ -306,8 +313,9 @@ data:
   - utils/chval.hpp
   - utils/coordinate_compression.hpp
   - utils/fixed_point.hpp
-  - utils/hash.hpp
+  - utils/floor_div.hpp
   - utils/sfinae.hpp
+  - utils/hash.hpp
   - utils/make_vector.hpp
   - utils/random_number_generator.hpp
   - utils/read.hpp
@@ -317,7 +325,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-18 20:34:11+09:00'
+  timestamp: '2020-10-26 11:02:22+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
