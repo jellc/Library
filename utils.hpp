@@ -4,6 +4,7 @@
 #include "utils/chval.hpp"
 #include "utils/coordinate_compression.hpp"
 #include "utils/fixed_point.hpp"
+#include "utils/floor_div.hpp"
 #include "utils/hash.hpp"
 #include "utils/make_vector.hpp"
 #include "utils/random_number_generator.hpp"
