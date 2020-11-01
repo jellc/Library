@@ -293,15 +293,15 @@ data:
     \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
     \ { return ref; }\n};\n#line 8 \"template.cpp\"\n\nnamespace workspace {\nvoid\
     \ main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned config::cases()\
-    \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; return t; // given\n\
-    \  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n  // start here!\n}\n\
-    }\n"
+    \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; std::cin.ignore();\
+    \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
+    \  // start here!\n}\n}\n"
   code: "#include <bits/extc++.h>\n\n#include \"alias.hpp\"\n#include \"config.hpp\"\
     \n#include \"cxx20.hpp\"\n#include \"option.hpp\"\n#include \"utils.hpp\"\n\n\
     namespace workspace {\nvoid main();\n}\nint main() { config::loop(workspace::main);\
     \ }\n\nunsigned config::cases() {\n  // return -1; // unspecified\n  // int t;\
-    \ std::cin >> t; return t; // given\n  return 1;\n}\n\nnamespace workspace {\n\
-    void main() {\n  // start here!\n}\n}\n"
+    \ std::cin >> t; std::cin.ignore(); return t; // given\n  return 1;\n}\n\nnamespace\
+    \ workspace {\nvoid main() {\n  // start here!\n}\n}\n"
   dependsOn:
   - alias.hpp
   - config.hpp
@@ -325,7 +325,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-10-26 11:02:22+09:00'
+  timestamp: '2020-11-02 00:13:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
