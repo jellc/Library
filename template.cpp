@@ -13,7 +13,7 @@ int main() { config::loop(workspace::main); }
 
 unsigned config::cases() {
   // return -1; // unspecified
-  // int t; std::cin >> t; return t; // given
+  // int t; std::cin >> t; std::cin.ignore(); return t; // given
   return 1;
 }
 
