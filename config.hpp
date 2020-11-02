@@ -2,18 +2,22 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+
 namespace config {
+
 const auto start_time{std::chrono::system_clock::now()};
 int64_t elapsed() {
   using namespace std::chrono;
   const auto end_time{system_clock::now()};
   return duration_cast<milliseconds>(end_time - start_time).count();
 }
+
 __attribute__((constructor)) void setup() {
   using namespace std;
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
   cout << fixed << setprecision(15);
+
 #ifdef _buffer_check
   atexit([] {
     char bufc;
@@ -22,8 +26,14 @@ __attribute__((constructor)) void setup() {
   });
 #endif
 }
-unsigned cases(), caseid = 1;
+
+unsigned cases(), caseid = 1;  // 1-indexed
 template <class F> void loop(F main) {
-  for (const unsigned total = cases(); caseid <= total; ++caseid) main();
+  for (const unsigned total = cases(); caseid <= total; ++caseid) {
+    try {
+      main();
+    } catch (std::nullptr_t) {
+    }
+  }
 }
 }  // namespace config

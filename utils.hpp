@@ -3,6 +3,7 @@
 #include "utils/casefmt.hpp"
 #include "utils/chval.hpp"
 #include "utils/coordinate_compression.hpp"
+#include "utils/ejection.hpp"
 #include "utils/fixed_point.hpp"
 #include "utils/floor_div.hpp"
 #include "utils/hash.hpp"
