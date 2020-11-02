@@ -223,6 +223,9 @@ data:
       path: utils/coordinate_compression.hpp
       title: utils/coordinate_compression.hpp
     - icon: ':warning:'
+      path: utils/ejection.hpp
+      title: utils/ejection.hpp
+    - icon: ':warning:'
       path: utils/fixed_point.hpp
       title: utils/fixed_point.hpp
     - icon: ':warning:'

@@ -29,6 +29,9 @@ data:
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
   - icon: ':warning:'
+    path: utils/ejection.hpp
+    title: utils/ejection.hpp
+  - icon: ':warning:'
     path: utils/fixed_point.hpp
     title: utils/fixed_point.hpp
   - icon: ':warning:'
@@ -70,17 +73,18 @@ data:
     using u32 = uint_least32_t;\nusing u64 = uint_least64_t;\nusing u128 = __uint128_t;\n\
     template <class T, class Comp = less<T>>\nusing priority_queue = std::priority_queue<T,\
     \ vector<T>, Comp>;\ntemplate <class T> using stack = std::stack<T, vector<T>>;\n\
-    }  // namespace workspace\n#line 5 \"config.hpp\"\nnamespace config {\nconst auto\
-    \ start_time{std::chrono::system_clock::now()};\nint64_t elapsed() {\n  using\
+    }  // namespace workspace\n#line 5 \"config.hpp\"\n\nnamespace config {\n\nconst\
+    \ auto start_time{std::chrono::system_clock::now()};\nint64_t elapsed() {\n  using\
     \ namespace std::chrono;\n  const auto end_time{system_clock::now()};\n  return\
-    \ duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
+    \ duration_cast<milliseconds>(end_time - start_time).count();\n}\n\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
-    \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
-    \   char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
-    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
-    \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
-    \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
-    \ 1 \"cxx20.hpp\"\n#if __cplusplus <= 201703L\n\n#if __has_include(<bit>)\n#include\
+    \  cout << fixed << setprecision(15);\n\n#ifdef _buffer_check\n  atexit([] {\n\
+    \    char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
+    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\n\nunsigned cases(), caseid\
+    \ = 1;  // 1-indexed\ntemplate <class F> void loop(F main) {\n  for (const unsigned\
+    \ total = cases(); caseid <= total; ++caseid) {\n    try {\n      main();\n  \
+    \  } catch (std::nullptr_t) {\n    }\n  }\n}\n}  // namespace config\n#line 1\
+    \ \"cxx20.hpp\"\n#if __cplusplus <= 201703L\n\n#if __has_include(<bit>)\n#include\
     \ <bit>\n#endif\n\n#include <vector>\nnamespace std {\ntemplate <typename _Tp,\
     \ typename _Alloc, typename _Predicate>\ninline typename vector<_Tp, _Alloc>::size_type\
     \ erase_if(\n    vector<_Tp, _Alloc>& __cont, _Predicate __pred) {\n  const auto\
@@ -152,14 +156,17 @@ data:
     \ T &value) const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(),\
     \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
     \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
-    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/fixed_point.hpp\"\
-    \nnamespace workspace {\n// specify the return type of lambda.\ntemplate <class\
-    \ lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type\
-    \ &&f) : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args\
-    \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n}  // namespace workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line\
-    \ 4 \"utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/ejection.hpp\"\
+    \n\nnamespace workspace {\n// print arg, then throw nullptr.\ntemplate <class\
+    \ Tp> void eject(Tp const &arg) {\n  std::cout << arg << \"\\n\";\n  throw nullptr;\n\
+    }\n}\n#line 3 \"utils/fixed_point.hpp\"\nnamespace workspace {\n// specify the\
+    \ return type of lambda.\ntemplate <class lambda_type> class fixed_point {\n \
+    \ lambda_type func;\n\n public:\n  fixed_point(lambda_type &&f) : func(std::move(f))\
+    \ {}\n  template <class... Args> auto operator()(Args &&... args) const {\n  \
+    \  return func(*this, std::forward<Args>(args)...);\n  }\n};\n}  // namespace\
+    \ workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line 4 \"utils/sfinae.hpp\"\n\
+    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
+    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
@@ -312,6 +319,7 @@ data:
   - utils/casefmt.hpp
   - utils/chval.hpp
   - utils/coordinate_compression.hpp
+  - utils/ejection.hpp
   - utils/fixed_point.hpp
   - utils/floor_div.hpp
   - utils/sfinae.hpp
@@ -325,7 +333,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-11-02 00:13:35+09:00'
+  timestamp: '2020-11-03 02:57:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

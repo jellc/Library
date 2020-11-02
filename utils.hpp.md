@@ -17,6 +17,9 @@ data:
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
   - icon: ':warning:'
+    path: utils/ejection.hpp
+    title: utils/ejection.hpp
+  - icon: ':warning:'
     path: utils/fixed_point.hpp
     title: utils/fixed_point.hpp
   - icon: ':warning:'
@@ -95,16 +98,17 @@ data:
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
     \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
     #line 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include <iostream>\n\
-    namespace config {\nconst auto start_time{std::chrono::system_clock::now()};\n\
+    \nnamespace config {\n\nconst auto start_time{std::chrono::system_clock::now()};\n\
     int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
-    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n__attribute__((constructor))\
+    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
-    \  cout << fixed << setprecision(15);\n#ifdef _buffer_check\n  atexit([] {\n \
-    \   char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
-    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\nunsigned cases(), caseid\
-    \ = 1;\ntemplate <class F> void loop(F main) {\n  for (const unsigned total =\
-    \ cases(); caseid <= total; ++caseid) main();\n}\n}  // namespace config\n#line\
-    \ 3 \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
+    \  cout << fixed << setprecision(15);\n\n#ifdef _buffer_check\n  atexit([] {\n\
+    \    char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
+    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\n\nunsigned cases(), caseid\
+    \ = 1;  // 1-indexed\ntemplate <class F> void loop(F main) {\n  for (const unsigned\
+    \ total = cases(); caseid <= total; ++caseid) {\n    try {\n      main();\n  \
+    \  } catch (std::nullptr_t) {\n    }\n  }\n}\n}  // namespace config\n#line 3\
+    \ \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
     \ os) { return os << \"Case #\" << config::caseid << \": \"; }\n} // namespace\
     \ workspace\n#line 2 \"utils/chval.hpp\"\n#include <functional>\nnamespace workspace\
     \ {\ntemplate <class T, class Comp = std::less<T>>\nbool chle(T &x, const T &y,\
@@ -126,16 +130,19 @@ data:
     \ T &value) const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(),\
     \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
     \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
-    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 2 \"utils/fixed_point.hpp\"\
-    \n#include <utility>\nnamespace workspace {\n// specify the return type of lambda.\n\
-    template <class lambda_type> class fixed_point {\n  lambda_type func;\n\n public:\n\
-    \  fixed_point(lambda_type &&f) : func(std::move(f)) {}\n  template <class...\
-    \ Args> auto operator()(Args &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n}  // namespace workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line\
-    \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
-    \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
-    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
-    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/ejection.hpp\"\
+    \n\nnamespace workspace {\n// print arg, then throw nullptr.\ntemplate <class\
+    \ Tp> void eject(Tp const &arg) {\n  std::cout << arg << \"\\n\";\n  throw nullptr;\n\
+    }\n}\n#line 2 \"utils/fixed_point.hpp\"\n#include <utility>\nnamespace workspace\
+    \ {\n// specify the return type of lambda.\ntemplate <class lambda_type> class\
+    \ fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type &&f)\
+    \ : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args &&...\
+    \ args) const {\n    return func(*this, std::forward<Args>(args)...);\n  }\n};\n\
+    }  // namespace workspace\n#line 3 \"utils/floor_div.hpp\"\n\n#line 2 \"utils/sfinae.hpp\"\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
+    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
+    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
+    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
     \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
     };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
     \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
@@ -268,7 +275,7 @@ data:
     \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
     \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
-    \ { return ref; }\n};\n#line 16 \"utils.hpp\"\n"
+    \ { return ref; }\n};\n#line 17 \"utils.hpp\"\n"
   code: '#pragma once
 
     #include "utils/binary_search.hpp"
@@ -278,6 +285,8 @@ data:
     #include "utils/chval.hpp"
 
     #include "utils/coordinate_compression.hpp"
+
+    #include "utils/ejection.hpp"
 
     #include "utils/fixed_point.hpp"
 
@@ -306,6 +315,7 @@ data:
   - config.hpp
   - utils/chval.hpp
   - utils/coordinate_compression.hpp
+  - utils/ejection.hpp
   - utils/fixed_point.hpp
   - utils/floor_div.hpp
   - utils/sfinae.hpp
@@ -320,7 +330,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-10-26 11:02:22+09:00'
+  timestamp: '2020-11-03 02:57:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
