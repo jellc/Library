@@ -17,6 +17,7 @@ namespace workspace {
  */
 template <typename Tp, typename S, size_t N>
 constexpr auto make_vector(S* sizes, Tp const& init = Tp()) {
+  static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (N)
     return std::vector(*sizes,
                        make_vector<Tp, S, N - 1>(std::next(sizes), init));
@@ -29,8 +30,7 @@ constexpr auto make_vector(S* sizes, Tp const& init = Tp()) {
  * @param sizes size of each dimension
  * @param init initial value
  */
-template <typename Tp, typename S, size_t N,
-          std::enable_if_t<std::is_convertible_v<S, size_t>>* = nullptr>
+template <typename Tp, typename S, size_t N>
 constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {
   return make_vector<Tp, S, N>((S*)sizes, init);
 }
@@ -40,13 +40,14 @@ constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {
  * @param sizes size of each dimension
  * @param init initial value
  */
-template <typename Tp, size_t N, size_t I = 0>
-constexpr auto make_vector(std::array<size_t, N> const& sizes,
+template <typename Tp, typename S, size_t N, size_t I = 0>
+constexpr auto make_vector(std::array<S, N> const& sizes,
                            Tp const& init = Tp()) {
+  static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (I == N)
     return init;
   else
-    return std::vector(sizes[I], make_vector<Tp, N, I + 1>(sizes, init));
+    return std::vector(sizes[I], make_vector<Tp, S, N, I + 1>(sizes, init));
 }
 
 /*
@@ -72,11 +73,11 @@ constexpr auto make_vector(std::tuple<Args...> const& sizes,
  * @param sizes size of each dimension
  * @param init initial value
  */
-template <typename Tp, class Fst, class Snd,
-          std::enable_if_t<std::is_convertible_v<Fst, size_t>>* = nullptr,
-          std::enable_if_t<std::is_convertible_v<Snd, size_t>>* = nullptr>
+template <typename Tp, class Fst, class Snd>
 constexpr auto make_vector(std::pair<Fst, Snd> const& sizes,
                            Tp const& init = Tp()) {
+  static_assert(std::is_convertible_v<Fst, size_t>);
+  static_assert(std::is_convertible_v<Snd, size_t>);
   return make_vector({(size_t)sizes.first, (size_t)sizes.second}, init);
 }
 
