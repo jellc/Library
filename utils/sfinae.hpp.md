@@ -29,18 +29,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: string/suffix_array.hpp
-  - icon: ':warning:'
-    path: template.cpp
-    title: template.cpp
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
-  - icon: ':warning:'
-    path: utils/floor_div.hpp
-    title: utils/floor_div.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
+  - icon: ':warning:'
+    path: utils/round_div.hpp
+    title: floor of division.
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp
@@ -133,7 +127,6 @@ data:
   isVerificationFile: false
   path: utils/sfinae.hpp
   requiredBy:
-  - template.cpp
   - string/suffix_array.hpp
   - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp
@@ -143,9 +136,8 @@ data:
   - combinatorics/binomial.hpp
   - number_theory/ext_gcd.hpp
   - number_theory/least_factor.hpp
-  - utils.hpp
-  - utils/floor_div.hpp
   - utils/hash.hpp
+  - utils/round_div.hpp
   - utils/stream.hpp
   timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC

@@ -228,9 +228,6 @@ data:
     - icon: ':warning:'
       path: utils/fixed_point.hpp
       title: utils/fixed_point.hpp
-    - icon: ':warning:'
-      path: utils/floor_div.hpp
-      title: utils/floor_div.hpp
     - icon: ':heavy_check_mark:'
       path: utils/hash.hpp
       title: utils/hash.hpp
@@ -243,6 +240,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: utils/read.hpp
       title: utils/read.hpp
+    - icon: ':warning:'
+      path: utils/round_div.hpp
+      title: floor of division.
     - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
