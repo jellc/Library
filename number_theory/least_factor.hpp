@@ -4,7 +4,13 @@
 
 #include "utils/sfinae.hpp"
 
-// calculate the least prime factor for positive integers less than N.
+namespace workspace {
+
+/*
+ * @class least_factor
+ * @brief calculate the least prime factor for positive integers.
+ * @tparam N range of calculation, exclusive
+ */
 template <unsigned N> class least_factor {
   unsigned least[N], prime[N >> 3], n;
 
@@ -18,6 +24,10 @@ template <unsigned N> class least_factor {
     }
   }
 
+  /*
+   * @param x an integer with 0 < |x| < N
+   * @return least prime factor of x
+   */
   template <typename int_type>
   constexpr
       typename std::enable_if<is_integral_ext<int_type>::value, int_type>::type
@@ -28,8 +38,14 @@ template <unsigned N> class least_factor {
     return least[x];
   }
 
+  /*
+   * @fn primes
+   * @return sorted list of prime numbers less than N
+   */
   const std::vector<unsigned> &primes() const {
     static const std::vector<unsigned> prime_vector(prime, prime + n);
     return prime_vector;
   }
 };
+
+}  // namespace workspace
