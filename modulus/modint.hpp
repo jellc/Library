@@ -8,12 +8,19 @@ namespace workspace {
 
 namespace internal {
 
-template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint_base {
+/*
+ * @struct modint_base
+ * @brief base of modular arithmetic.
+ * @tparam Mod identifier, which represents modulus if positive
+ */
+template <auto Mod> struct modint_base {
   static_assert(is_integral_ext<decltype(Mod)>::value,
                 "Mod must be integral type.");
 
-  using mod_type = typename std::conditional<
-      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;
+  using mod_type =
+      typename std::conditional<0 < Mod,
+                                typename std::add_const<decltype(Mod)>::type,
+                                decltype(Mod)>::type;
   static mod_type mod;
 
   using value_type = typename std::decay<mod_type>::type;
@@ -180,31 +187,26 @@ template <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint_base {
   value_type value = 0;
 };
 
-template <auto Mod, typename Mod_type>
-typename modint_base<Mod, Mod_type>::mod_type modint_base<Mod, Mod_type>::mod =
-    Mod;
+template <auto Mod>
+typename modint_base<Mod>::mod_type modint_base<Mod>::mod = Mod;
 
 }  // namespace internal
 
 /*
- * @struct modint
+ * @typedef modint
  * @brief modular arithmetic.
  * @tparam Mod modulus
  */
-template <auto Mod> struct modint : internal::modint_base<Mod> {
-  static_assert(Mod > 0);
-  using internal::modint_base<Mod>::modint_base;
-};
+template <auto Mod, typename std::enable_if<(Mod > 0)>::type * = nullptr>
+using modint = internal::modint_base<Mod>;
 
 /*
- * @struct modint_runtime
+ * @typedef modint_runtime
  * @brief runtime modular arithmetic.
  * @tparam type_id uniquely assigned
  */
 template <unsigned type_id = 0>
-struct modint_runtime : internal::modint_base<-(signed)type_id> {
-  using internal::modint_base<-(signed)type_id>::modint_base;
-};
+using modint_runtime = internal::modint_base<-(signed)type_id>;
 
 // #define modint_newtype modint_runtime<__COUNTER__>
 
