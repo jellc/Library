@@ -2,9 +2,14 @@
 #include <iostream>
 
 namespace workspace {
-// print arg, then throw nullptr.
+
+/*
+ * @brief eject from a try block, throw nullptr
+ * @param arg output
+ */
 template <class Tp> void eject(Tp const &arg) {
   std::cout << arg << "\n";
   throw nullptr;
 }
-}
+
+}  // namespace workspace
