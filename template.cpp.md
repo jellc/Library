@@ -271,16 +271,16 @@ data:
     {\n    template <class T>\n    operator T() const { T value; std::cin >> value;\
     \ return value; }\n};\n} // namespace workspace\n#line 3 \"utils/round_div.hpp\"\
     \n\n#line 5 \"utils/round_div.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn floor_div\n\
-    \ * @brief floor of fraction.\n * @param x an integer\n * @param y an integer\n\
+    \ * @brief floor of fraction.\n * @param x the numerator\n * @param y the denominator\n\
     \ * @return maximum integer z s.t. z <= x / y\n * @note y must be nonzero.\n */\n\
     template <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
     \ &&\n                                   is_integral_ext<T2>::value),\n      \
     \                            typename std::common_type<T1, T2>::type>::type\n\
     floor_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
     \ x < 0 ? (x - y + 1) / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of\
-    \ fraction.\n * @param x an integer\n * @param y an integer\n * @return minimum\
-    \ integer z s.t. z >= x / y\n * @note y must be nonzero.\n */\ntemplate <typename\
-    \ T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
+    \ fraction.\n * @param x the numerator\n * @param y the denominator\n * @return\
+    \ minimum integer z s.t. z >= x / y\n * @note y must be nonzero.\n */\ntemplate\
+    \ <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
     \ &&\n                                   is_integral_ext<T2>::value),\n      \
     \                            typename std::common_type<T1, T2>::type>::type\n\
     ceil_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
@@ -367,7 +367,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-11-03 23:01:02+09:00'
+  timestamp: '2020-11-03 23:04:46+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
