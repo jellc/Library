@@ -8,7 +8,7 @@
 int main() {
   std::string s;
   std::cin >> s;
-  rolling_hash_table hash(s);
+  workspace::rolling_hash_table hash(s);
   for (size_t i = 0; i < size(s); ++i) {
     if (i) std::cout << " ";
     std::cout << workspace::binary_search(

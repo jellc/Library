@@ -25,11 +25,11 @@ int main() {
     }
   }
 
-  rolling_hash_table grid_hash_table(transposed);
-  auto pattern_hash = rolling_hash_table(oneln).substr();
+  workspace::rolling_hash_table grid_hash_table(transposed);
+  auto pattern_hash = workspace::rolling_hash_table(oneln).substr();
 
   for (size_t i = 0; i + r <= h; ++i) {
-    rolling_hashed hash;
+    workspace::rolling_hashed hash;
     for (size_t j = 0; j < w; ++j) {
       hash = grid_hash_table.substr(h * j + i, r) + hash;
       if (j >= c) {
