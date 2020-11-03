@@ -15,6 +15,7 @@
 "test/library-checker/scc.test.cpp": "2020-09-05 02:51:04 +0900",
 "test/library-checker/segment_add_get_min.test.cpp": "2020-09-04 20:59:06 +0900",
 "test/library-checker/static_range_inversions_query.test.cpp": "2020-10-24 01:11:53 +0900",
+"test/library-checker/subset_convolution.test.cpp": "2020-11-03 18:42:39 +0900",
 "test/library-checker/suffix_array.test.cpp": "2020-10-10 01:30:31 +0900",
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-10-10 02:15:14 +0900",
 "test/library-checker/unionfind.test.cpp": "2020-09-27 13:39:20 +0900",
