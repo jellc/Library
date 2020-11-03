@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':warning:'
     path: config.hpp
-    title: config.hpp
+    title: setup I/O before main process.
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
@@ -18,18 +18,21 @@ data:
     links: []
   bundledCode: "#line 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include\
     \ <iostream>\n\nnamespace config {\n\nconst auto start_time{std::chrono::system_clock::now()};\n\
-    int64_t elapsed() {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
-    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n\n__attribute__((constructor))\
+    \n/*\n * @fn elapsed\n * @return elapsed time of the program\n */\nint64_t elapsed()\
+    \ {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
+    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n\n/*\n\
+    \ * @fn setup\n * @brief setup I/O before main process.\n */\n__attribute__((constructor))\
     \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
     \  cout << fixed << setprecision(15);\n\n#ifdef _buffer_check\n  atexit([] {\n\
     \    char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
     \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\n\nunsigned cases(), caseid\
-    \ = 1;  // 1-indexed\ntemplate <class F> void loop(F main) {\n  for (const unsigned\
-    \ total = cases(); caseid <= total; ++caseid) {\n    try {\n      main();\n  \
-    \  } catch (std::nullptr_t) {\n    }\n  }\n}\n}  // namespace config\n#line 3\
-    \ \"utils/casefmt.hpp\"\nnamespace workspace {\nstd::ostream &casefmt(std::ostream&\
-    \ os) { return os << \"Case #\" << config::caseid << \": \"; }\n} // namespace\
-    \ workspace\n"
+    \ = 1;  // current case number, 1-indexed\n\n/*\n * @fn loop\n * @brief iterate\
+    \ cases.\n * @param main called once per case\n */\ntemplate <class F> void loop(F\
+    \ main) {\n  for (const unsigned total = cases(); caseid <= total; ++caseid) {\n\
+    \    try {\n      main();\n    } catch (std::nullptr_t) {\n    }\n  }\n}\n\n}\
+    \  // namespace config\n#line 3 \"utils/casefmt.hpp\"\nnamespace workspace {\n\
+    std::ostream &casefmt(std::ostream& os) { return os << \"Case #\" << config::caseid\
+    \ << \": \"; }\n} // namespace workspace\n"
   code: '#pragma once
 
     #include "../config.hpp"
@@ -49,7 +52,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-03 02:57:31+09:00'
+  timestamp: '2020-11-03 22:28:19+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/casefmt.hpp

@@ -32,7 +32,7 @@ data:
       title: alias.hpp
     - icon: ':warning:'
       path: config.hpp
-      title: config.hpp
+      title: setup I/O before main process.
     - icon: ':warning:'
       path: cxx20.hpp
       title: cxx20.hpp
@@ -190,7 +190,7 @@ data:
       title: extended Euclidean algorithm.
     - icon: ':warning:'
       path: number_theory/least_factor.hpp
-      title: number_theory/least_factor.hpp
+      title: calculate the least prime factor for positive integers.
   - name: string
     pages:
     - icon: ':warning:'
@@ -227,7 +227,7 @@ data:
       title: eject from a try block, throw nullptr
     - icon: ':warning:'
       path: utils/fixed_point.hpp
-      title: utils/fixed_point.hpp
+      title: fixed point combinator.
     - icon: ':heavy_check_mark:'
       path: utils/hash.hpp
       title: utils/hash.hpp
