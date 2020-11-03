@@ -186,19 +186,22 @@ typename modint_base<Mod, Mod_type>::mod_type modint_base<Mod, Mod_type>::mod =
 
 }  // namespace internal
 
-template <auto Mod, typename std::enable_if<(Mod > 0)>::type * = nullptr>
 /*
+ * @struct modint
  * @brief modular arithmetic.
  * @tparam Mod modulus
  */
-using modint = typename internal::modint_base<Mod>;
+template <auto Mod> struct modint : internal::modint_base<Mod> {
+  static_assert(Mod > 0);
+};
 
-template <unsigned type_id = 0>
 /*
+ * @struct modint_runtime
  * @brief runtime modular arithmetic.
- * @tparam type_id uniquely assigned to each class
+ * @tparam type_id uniquely assigned
  */
-using modint_runtime = typename internal::modint_base<-(signed)type_id>;
+template <unsigned type_id = 0>
+struct modint_runtime : internal::modint_base<-(signed)type_id> {};
 
 // #define modint_newtype modint_runtime<__COUNTER__>
 
