@@ -30,7 +30,7 @@ data:
     title: utils/hash.hpp
   - icon: ':warning:'
     path: utils/make_vector.hpp
-    title: utils/make_vector.hpp
+    title: make a multi-dimensional vector.
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -191,29 +191,40 @@ data:
     using gp_hash_table =\n    hash_table_wrapper<__gnu_pbds::gp_hash_table<Key, Mapped,\
     \ hash<Key>>>;\ntemplate <class Key, class Mapped>\nusing unordered_map = std::unordered_map<Key,\
     \ Mapped, hash<Key>>;\ntemplate <class Key> using unordered_set = std::unordered_set<Key,\
-    \ hash<Key>>;\n}  // namespace workspace\n#line 2 \"utils/make_vector.hpp\"\n\
-    #if __cplusplus >= 201703L\n#include <tuple>\n#line 5 \"utils/make_vector.hpp\"\
-    \nnamespace workspace {\ntemplate <typename T, typename S, size_t N>\nconstexpr\
-    \ auto make_vector(S* sizes, T const& init = T()) {\n  if constexpr (N)\n    return\
-    \ std::vector(*sizes,\n                       make_vector<T, S, N - 1>(std::next(sizes),\
-    \ init));\n  else\n    return init;\n}\ntemplate <typename T, typename S, size_t\
-    \ N,\n          std::enable_if_t<std::is_convertible_v<S, size_t>>* = nullptr>\n\
-    constexpr auto make_vector(const S (&sizes)[N], T const& init = T()) {\n  return\
-    \ make_vector<T, S, N>((S*)sizes, init);\n}\ntemplate <typename T, size_t N, size_t\
-    \ I = 0>\nconstexpr auto make_vector(std::array<size_t, N> const& array,\n   \
-    \                        T const& init = T()) {\n  if constexpr (I == N)\n   \
-    \ return init;\n  else\n    return std::vector(array[I], make_vector<T, N, I +\
-    \ 1>(array, init));\n}\ntemplate <typename T, size_t I = 0, class... Args>\nconstexpr\
-    \ auto make_vector(std::tuple<Args...> const& tuple,\n                       \
-    \    T const& init = T()) {\n  using tuple_type = std::tuple<Args...>;\n  if constexpr\
-    \ (I == tuple_size_v<tuple_type>)\n    return init;\n  else {\n    static_assert(\n\
-    \        std::is_convertible_v<tuple_element_t<I, tuple_type>, size_t>);\n   \
-    \ return std::vector(get<I>(tuple), make_vector<T, I + 1>(tuple, init));\n  }\n\
-    }\ntemplate <typename T, class Fst, class Snd>\nconstexpr auto make_vector(std::pair<Fst,\
-    \ Snd> const& pair,\n                           T const& init = T()) {\n  return\
-    \ make_vector((size_t[2]){pair.first, pair.second}, init);\n}\n}  // namespace\
-    \ workspace\n#endif\n#line 3 \"utils/random_number_generator.hpp\"\ntemplate <typename\
-    \ num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
+    \ hash<Key>>;\n}  // namespace workspace\n#line 2 \"utils/make_vector.hpp\"\n\n\
+    #if __cplusplus >= 201703L\n\n#include <tuple>\n#line 7 \"utils/make_vector.hpp\"\
+    \n\nnamespace workspace {\n\n/*\n * @brief make a multi-dimensional vector.\n\
+    \ * @tparam Tp type of the elements\n * @tparam S integer type\n * @tparam N dimension\n\
+    \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
+    \ <typename Tp, typename S, size_t N>\nconstexpr auto make_vector(S* sizes, Tp\
+    \ const& init = Tp()) {\n  if constexpr (N)\n    return std::vector(*sizes,\n\
+    \                       make_vector<Tp, S, N - 1>(std::next(sizes), init));\n\
+    \  else\n    return init;\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
+    \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
+    \ <typename Tp, typename S, size_t N,\n          std::enable_if_t<std::is_convertible_v<S,\
+    \ size_t>>* = nullptr>\nconstexpr auto make_vector(const S (&sizes)[N], Tp const&\
+    \ init = Tp()) {\n  return make_vector<Tp, S, N>((S*)sizes, init);\n}\n\n/*\n\
+    \ * @brief make a multi-dimensional vector.\n * @param sizes size of each dimension\n\
+    \ * @param init initial value\n */\ntemplate <typename Tp, size_t N, size_t I\
+    \ = 0>\nconstexpr auto make_vector(std::array<size_t, N> const& sizes,\n     \
+    \                      Tp const& init = Tp()) {\n  if constexpr (I == N)\n   \
+    \ return init;\n  else\n    return std::vector(sizes[I], make_vector<Tp, N, I\
+    \ + 1>(sizes, init));\n}\n\n/*\n * @brief make a multi-dimensional vector.\n *\
+    \ @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
+    \ <typename Tp, size_t I = 0, class... Args>\nconstexpr auto make_vector(std::tuple<Args...>\
+    \ const& sizes,\n                           Tp const& init = Tp()) {\n  using\
+    \ tuple_type = std::tuple<Args...>;\n  if constexpr (I == tuple_size_v<tuple_type>)\n\
+    \    return init;\n  else {\n    static_assert(\n        std::is_convertible_v<tuple_element_t<I,\
+    \ tuple_type>, size_t>);\n    return std::vector(get<I>(sizes), make_vector<Tp,\
+    \ I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
+    \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
+    \ <typename Tp, class Fst, class Snd,\n          std::enable_if_t<std::is_convertible_v<Fst,\
+    \ size_t>>* = nullptr,\n          std::enable_if_t<std::is_convertible_v<Snd,\
+    \ size_t>>* = nullptr>\nconstexpr auto make_vector(std::pair<Fst, Snd> const&\
+    \ sizes,\n                           Tp const& init = Tp()) {\n  return make_vector({(size_t)sizes.first,\
+    \ (size_t)sizes.second}, init);\n}\n\n}  // namespace workspace\n\n#endif\n#line\
+    \ 3 \"utils/random_number_generator.hpp\"\ntemplate <typename num_type> class\
+    \ random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
     \                            std::uniform_int_distribution<num_type>,\n      \
     \                      std::uniform_real_distribution<num_type>>::type\n     \
     \ unif;\n\n  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type\
@@ -330,7 +341,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-03 02:57:31+09:00'
+  timestamp: '2020-11-03 17:06:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

@@ -236,7 +236,7 @@ data:
       title: utils/hash.hpp
     - icon: ':warning:'
       path: utils/make_vector.hpp
-      title: utils/make_vector.hpp
+      title: make a multi-dimensional vector.
     - icon: ':heavy_check_mark:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
