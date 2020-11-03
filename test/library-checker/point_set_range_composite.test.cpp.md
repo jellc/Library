@@ -193,19 +193,21 @@ data:
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
     \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
     \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
-    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
-    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
-    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
-    \n}  // namespace workspace\n#line 6 \"test/library-checker/point_set_range_composite.test.cpp\"\
-    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  int n, q;\n\
-    \  scanf(\"%d%d\", &n, &q);\n  struct mono {\n    mint c = 1, d;\n    mono operator+(const\
-    \ mono& rhs) { return {rhs.c * c, rhs.c * d + rhs.d}; }\n    mint eval(mint x)\
-    \ const { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (int\
-    \ i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n    seg[i]\
-    \ = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t,\
-    \ &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n\
-    \    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
+    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
+    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
+    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
+    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
+    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line\
+    \ 6 \"test/library-checker/point_set_range_composite.test.cpp\"\n\nint main()\
+    \ {\n  using mint = workspace::modint<998244353>;\n  int n, q;\n  scanf(\"%d%d\"\
+    , &n, &q);\n  struct mono {\n    mint c = 1, d;\n    mono operator+(const mono&\
+    \ rhs) { return {rhs.c * c, rhs.c * d + rhs.d}; }\n    mint eval(mint x) const\
+    \ { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (int i = 0;\
+    \ i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n    seg[i] = {a,\
+    \ b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t, &a, &b,\
+    \ &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n    }\
+    \ else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <cstdio>\n\n#include \"data_structure/segment_tree/basic.hpp\"\n#include\
     \ \"modulus/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
@@ -225,7 +227,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:42:39+09:00'
+  timestamp: '2020-11-03 18:50:43+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp

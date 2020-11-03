@@ -132,15 +132,17 @@ data:
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
     \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
     \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
-    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
-    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
-    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
-    \n}  // namespace workspace\n#line 6 \"test/library-checker/subset_convolution.test.cpp\"\
-    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  using std::cin;\n\
-    \  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto\
-    \ &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a = subset_convolute(a,\
-    \ b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
+    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
+    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
+    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
+    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
+    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line\
+    \ 6 \"test/library-checker/subset_convolution.test.cpp\"\n\nint main() {\n  using\
+    \ mint = workspace::modint<998244353>;\n  using std::cin;\n  int n;\n  cin >>\
+    \ n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto &x : a) cin >> x;\n\
+    \  for (auto &x : b) cin >> x;\n  a = subset_convolute(a, b);\n  for (auto x :\
+    \ a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\
     #include <iostream>\n\n#include \"algebra/convolution/subset.hpp\"\n#include \"\
     modulus/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
@@ -155,7 +157,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:42:39+09:00'
+  timestamp: '2020-11-03 18:50:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp

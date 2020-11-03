@@ -166,17 +166,19 @@ data:
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
     \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
     \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
-    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
-    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
-    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
-    \n}  // namespace workspace\n#line 6 \"test/library-checker/queue_operate_all_composite.test.cpp\"\
-    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  struct mono\
-    \ {\n    mint a = 1, b;\n    mono operator+(const mono& rhs) const {\n      auto\
-    \ [c, d] = rhs;\n      return {a * c, b * c + d};\n    }\n  };\n  deque_aggregation<mono>\
-    \ deq;\n  int q;\n  scanf(\"%d\", &q);\n  while (q--) {\n    int t;\n    scanf(\"\
-    %d\", &t);\n    if (t == 0) {\n      int a, b;\n      scanf(\"%d%d\", &a, &b);\n\
-    \      deq.push_back({a, b});\n    } else if (t == 1) {\n      deq.pop_front();\n\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
+    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
+    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
+    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
+    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
+    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line\
+    \ 6 \"test/library-checker/queue_operate_all_composite.test.cpp\"\n\nint main()\
+    \ {\n  using mint = workspace::modint<998244353>;\n  struct mono {\n    mint a\
+    \ = 1, b;\n    mono operator+(const mono& rhs) const {\n      auto [c, d] = rhs;\n\
+    \      return {a * c, b * c + d};\n    }\n  };\n  deque_aggregation<mono> deq;\n\
+    \  int q;\n  scanf(\"%d\", &q);\n  while (q--) {\n    int t;\n    scanf(\"%d\"\
+    , &t);\n    if (t == 0) {\n      int a, b;\n      scanf(\"%d%d\", &a, &b);\n \
+    \     deq.push_back({a, b});\n    } else if (t == 1) {\n      deq.pop_front();\n\
     \    } else {\n      int x;\n      scanf(\"%d\", &x);\n      auto [a, b] = deq.fold();\n\
     \      printf(\"%d\\n\", a * x + b);\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\
@@ -197,7 +199,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:42:39+09:00'
+  timestamp: '2020-11-03 18:50:43+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/queue_operate_all_composite.test.cpp

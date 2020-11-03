@@ -122,11 +122,12 @@ data:
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
     \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
     \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
-    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
-    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
-    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
-    \n}  // namespace workspace\n"
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
+    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
+    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
+    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
+    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
+    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n"
   code: "#pragma once\n#include <cassert>\n#include <iostream>\n\n#include \"utils/sfinae.hpp\"\
     \n\nnamespace workspace {\n\nnamespace internal {\n\ntemplate <auto Mod = 0, typename\
     \ Mod_type = decltype(Mod)> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
@@ -198,11 +199,12 @@ data:
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
     \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
     \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
-    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
-    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
-    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
-    \n}  // namespace workspace\n"
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
+    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
+    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
+    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
+    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
+    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n"
   dependsOn:
   - utils/sfinae.hpp
   isVerificationFile: false
@@ -210,7 +212,7 @@ data:
   requiredBy:
   - modulus/inverse.hpp
   - combinatorics/binomial.hpp
-  timestamp: '2020-11-03 18:40:56+09:00'
+  timestamp: '2020-11-03 18:50:43+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
