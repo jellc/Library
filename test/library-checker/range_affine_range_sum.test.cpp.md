@@ -10,7 +10,7 @@ data:
   - icon: ':question:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
-  - icon: ':x:'
+  - icon: ':question:'
     path: modulus/modint.hpp
     title: modular arithmetic.
   - icon: ':question:'
@@ -214,26 +214,26 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line 7 \"test/library-checker/range_affine_range_sum.test.cpp\"\
-    \n\nint main() {\n  using mint = modint<998244353>;\n  struct endo {\n    mint\
-    \ a = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b};\
-    \ }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) { return\
-    \ {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a\
-    \ + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
-    \ endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n    scanf(\"%d\", &v);\n\
-    \    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\"\
-    , &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(l, r).v);\n   \
-    \ } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l, r, {a, b});\n\
-    \    }\n  }\n}\n"
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n#line 7 \"test/library-checker/range_affine_range_sum.test.cpp\"\
+    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  struct endo\
+    \ {\n    mint a = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a, b *\
+    \ rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono\
+    \ rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return\
+    \ {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
+    \  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n\
+    \    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b;\
+    \ q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\\
+    n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l,\
+    \ r, {a, b});\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
     \n#include <cstdio>\n#include <vector>\n\n#include \"data_structure/segment_tree/lazy.hpp\"\
-    \n#include \"modulus/modint.hpp\"\n\nint main() {\n  using mint = modint<998244353>;\n\
+    \n#include \"modulus/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
     \  struct endo {\n    mint a = 1, b;\n    endo operator*(endo rhs) { return {a\
     \ * rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono\
     \ operator+(mono rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo\
@@ -252,7 +252,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:03:24+09:00'
+  timestamp: '2020-11-03 18:42:39+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

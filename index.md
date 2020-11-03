@@ -9,7 +9,7 @@ data:
     - icon: ':warning:'
       path: algebra/convolution/number_theoretic_transform.hpp
       title: algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebra/convolution/subset.hpp
       title: algebra/convolution/subset.hpp
   - name: algebra/system
@@ -180,7 +180,7 @@ data:
     - icon: ':x:'
       path: modulus/inverse.hpp
       title: modulus/inverse.hpp
-    - icon: ':x:'
+    - icon: ':question:'
       path: modulus/modint.hpp
       title: modular arithmetic.
   - name: number_theory
@@ -336,7 +336,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
     - icon: ':heavy_check_mark:'

@@ -10,7 +10,7 @@ data:
   - icon: ':x:'
     path: modulus/inverse.hpp
     title: modulus/inverse.hpp
-  - icon: ':x:'
+  - icon: ':question:'
     path: modulus/modint.hpp
     title: modular arithmetic.
   - icon: ':question:'
@@ -121,39 +121,39 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line 5 \"modulus/inverse.hpp\"\
-    \ntemplate <class, class = int> struct inverse;\n// mod must be prime.\ntemplate\
-    \ <class Modint>\nstruct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n\
-    \  using value_type = Modint;\n  constexpr value_type operator()(int n) const\
-    \ {\n    constexpr int_fast64_t mod = value_type::mod;\n    assert(n %= mod);\n\
-    \    if (n < 0) n += mod;\n    if (inv.empty()) inv = {1, mod != 1};\n    for\
-    \ (int m(inv.size()); m <= n; ++m)\n      inv.emplace_back(mod / m * -inv[mod\
-    \ % m]);\n    return inv[n];\n  }\n\n private:\n  static std::vector<value_type>\
-    \ inv;\n};\ntemplate <class Modint>\nstd::vector<Modint> inverse<Modint, decltype((void\
-    \ *)Modint::mod, 0)>::inv;\n#line 5 \"combinatorics/binomial.hpp\"\ntemplate <class,\
-    \ class = int> struct binomial;\ntemplate <class Modint>\nstruct binomial<Modint,\
-    \ decltype((void *)Modint::mod, 0)> {\n  using value_type = Modint;\n  struct\
-    \ mulinv_Op {\n    value_type operator()(const value_type &f, const size_t &n)\
-    \ const {\n      return f * inv(n);\n    }\n  };\n  static inverse<value_type>\
-    \ inv;\n  static factorial<value_type, mulinv_Op> fact_inv;\n  static factorial<value_type>\
-    \ fact;\n  value_type operator()(const int &n, const int &k) {\n    return fact_inv(k)\
-    \ * fact_inv(n - k) * fact(n);\n  }\n};\ntemplate <class Modint>\ninverse<Modint>\
-    \ binomial<Modint, decltype((void *)Modint::mod, 0)>::inv;\ntemplate <class Modint>\n\
-    factorial<Modint,\n          class binomial<Modint, decltype((void *)Modint::mod,\
-    \ 0)>::mulinv_Op>\n    binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;\n\
-    template <class Modint>\nfactorial<Modint> binomial<Modint, decltype((void *)Modint::mod,\
-    \ 0)>::fact;\n#line 6 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\n\n\
-    int main() {\n  int n, k;\n  scanf(\"%d%d\", &n, &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>()(n\
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n#line 5 \"modulus/inverse.hpp\"\ntemplate <class,\
+    \ class = int> struct inverse;\n// mod must be prime.\ntemplate <class Modint>\n\
+    struct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n  using value_type\
+    \ = Modint;\n  constexpr value_type operator()(int n) const {\n    constexpr int_fast64_t\
+    \ mod = value_type::mod;\n    assert(n %= mod);\n    if (n < 0) n += mod;\n  \
+    \  if (inv.empty()) inv = {1, mod != 1};\n    for (int m(inv.size()); m <= n;\
+    \ ++m)\n      inv.emplace_back(mod / m * -inv[mod % m]);\n    return inv[n];\n\
+    \  }\n\n private:\n  static std::vector<value_type> inv;\n};\ntemplate <class\
+    \ Modint>\nstd::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;\n\
+    #line 5 \"combinatorics/binomial.hpp\"\ntemplate <class, class = int> struct binomial;\n\
+    template <class Modint>\nstruct binomial<Modint, decltype((void *)Modint::mod,\
+    \ 0)> {\n  using value_type = Modint;\n  struct mulinv_Op {\n    value_type operator()(const\
+    \ value_type &f, const size_t &n) const {\n      return f * inv(n);\n    }\n \
+    \ };\n  static inverse<value_type> inv;\n  static factorial<value_type, mulinv_Op>\
+    \ fact_inv;\n  static factorial<value_type> fact;\n  value_type operator()(const\
+    \ int &n, const int &k) {\n    return fact_inv(k) * fact_inv(n - k) * fact(n);\n\
+    \  }\n};\ntemplate <class Modint>\ninverse<Modint> binomial<Modint, decltype((void\
+    \ *)Modint::mod, 0)>::inv;\ntemplate <class Modint>\nfactorial<Modint,\n     \
+    \     class binomial<Modint, decltype((void *)Modint::mod, 0)>::mulinv_Op>\n \
+    \   binomial<Modint, decltype((void *)Modint::mod, 0)>::fact_inv;\ntemplate <class\
+    \ Modint>\nfactorial<Modint> binomial<Modint, decltype((void *)Modint::mod, 0)>::fact;\n\
+    #line 6 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\n\nint main() {\n\
+    \  int n, k;\n  scanf(\"%d%d\", &n, &k);\n  printf(\"%d\\n\", binomial<workspace::modint<1000000007>>()(n\
     \ + k - 1, n));\n}\n"
   code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D\"\
     \n#include <cstdio>\n\n#include \"combinatorics/binomial.hpp\"\n\nint main() {\n\
-    \  int n, k;\n  scanf(\"%d%d\", &n, &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>()(n\
+    \  int n, k;\n  scanf(\"%d%d\", &n, &k);\n  printf(\"%d\\n\", binomial<workspace::modint<1000000007>>()(n\
     \ + k - 1, n));\n}\n"
   dependsOn:
   - combinatorics/binomial.hpp
@@ -164,7 +164,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:03:24+09:00'
+  timestamp: '2020-11-03 18:42:39+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp

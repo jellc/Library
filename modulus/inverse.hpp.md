@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':question:'
     path: modulus/modint.hpp
     title: modular arithmetic.
   - icon: ':question:'
@@ -107,22 +107,21 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line 5 \"modulus/inverse.hpp\"\
-    \ntemplate <class, class = int> struct inverse;\n// mod must be prime.\ntemplate\
-    \ <class Modint>\nstruct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n\
-    \  using value_type = Modint;\n  constexpr value_type operator()(int n) const\
-    \ {\n    constexpr int_fast64_t mod = value_type::mod;\n    assert(n %= mod);\n\
-    \    if (n < 0) n += mod;\n    if (inv.empty()) inv = {1, mod != 1};\n    for\
-    \ (int m(inv.size()); m <= n; ++m)\n      inv.emplace_back(mod / m * -inv[mod\
-    \ % m]);\n    return inv[n];\n  }\n\n private:\n  static std::vector<value_type>\
-    \ inv;\n};\ntemplate <class Modint>\nstd::vector<Modint> inverse<Modint, decltype((void\
-    \ *)Modint::mod, 0)>::inv;\n"
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n#line 5 \"modulus/inverse.hpp\"\ntemplate <class,\
+    \ class = int> struct inverse;\n// mod must be prime.\ntemplate <class Modint>\n\
+    struct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n  using value_type\
+    \ = Modint;\n  constexpr value_type operator()(int n) const {\n    constexpr int_fast64_t\
+    \ mod = value_type::mod;\n    assert(n %= mod);\n    if (n < 0) n += mod;\n  \
+    \  if (inv.empty()) inv = {1, mod != 1};\n    for (int m(inv.size()); m <= n;\
+    \ ++m)\n      inv.emplace_back(mod / m * -inv[mod % m]);\n    return inv[n];\n\
+    \  }\n\n private:\n  static std::vector<value_type> inv;\n};\ntemplate <class\
+    \ Modint>\nstd::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;\n"
   code: "#pragma once\n#include <vector>\n\n#include \"modint.hpp\"\ntemplate <class,\
     \ class = int> struct inverse;\n// mod must be prime.\ntemplate <class Modint>\n\
     struct inverse<Modint, decltype((void *)Modint::mod, 0)> {\n  using value_type\
@@ -139,7 +138,7 @@ data:
   path: modulus/inverse.hpp
   requiredBy:
   - combinatorics/binomial.hpp
-  timestamp: '2020-11-03 18:03:24+09:00'
+  timestamp: '2020-11-03 18:40:56+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp

@@ -24,11 +24,11 @@ data:
   - icon: ':x:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: modular arithmetic.
     links: []
@@ -120,13 +120,13 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n"
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n"
   code: "#pragma once\n#include <cassert>\n#include <iostream>\n\n#include \"utils/sfinae.hpp\"\
     \n\nnamespace workspace {\n\nnamespace internal {\n\ntemplate <auto Mod = 0, typename\
     \ Mod_type = decltype(Mod)> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
@@ -196,13 +196,13 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n"
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n"
   dependsOn:
   - utils/sfinae.hpp
   isVerificationFile: false
@@ -210,8 +210,8 @@ data:
   requiredBy:
   - modulus/inverse.hpp
   - combinatorics/binomial.hpp
-  timestamp: '2020-11-03 18:03:24+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-11-03 18:40:56+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/subset_convolution.test.cpp

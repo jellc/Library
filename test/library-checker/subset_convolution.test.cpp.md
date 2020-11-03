@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: algebra/convolution/subset.hpp
     title: algebra/convolution/subset.hpp
-  - icon: ':x:'
+  - icon: ':question:'
     path: modulus/modint.hpp
     title: modular arithmetic.
   - icon: ':question:'
@@ -13,7 +13,7 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/subset_convolution
@@ -130,23 +130,24 @@ data:
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
     \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
     \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
-    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
-    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
-    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
-    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
-    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
-    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line 6 \"test/library-checker/subset_convolution.test.cpp\"\
-    \n\nint main() {\n  using mint = modint<998244353>;\n  using std::cin;\n  int\
-    \ n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto &x :\
-    \ a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a = subset_convolute(a, b);\n\
-    \  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
+    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
+    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n};\n\
+    \n/*\n * @struct modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam\
+    \ type_id uniquely assigned\n */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime\
+    \ : internal::modint_base<-(signed)type_id> {};\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\
+    \n}  // namespace workspace\n#line 6 \"test/library-checker/subset_convolution.test.cpp\"\
+    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  using std::cin;\n\
+    \  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto\
+    \ &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a = subset_convolute(a,\
+    \ b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\
     #include <iostream>\n\n#include \"algebra/convolution/subset.hpp\"\n#include \"\
-    modulus/modint.hpp\"\n\nint main() {\n  using mint = modint<998244353>;\n  using\
-    \ std::cin;\n  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n\
-    \  for (auto &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a = subset_convolute(a,\
-    \ b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
+    modulus/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
+    \  using std::cin;\n  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1\
+    \ << n);\n  for (auto &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a =\
+    \ subset_convolute(a, b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\"\
+    );\n}\n"
   dependsOn:
   - algebra/convolution/subset.hpp
   - modulus/modint.hpp
@@ -154,8 +155,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:03:24+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-11-03 18:42:39+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp
 layout: document
