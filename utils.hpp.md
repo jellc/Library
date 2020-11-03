@@ -18,7 +18,7 @@ data:
     title: utils/coordinate_compression.hpp
   - icon: ':warning:'
     path: utils/ejection.hpp
-    title: utils/ejection.hpp
+    title: eject from a try block, throw nullptr
   - icon: ':warning:'
     path: utils/fixed_point.hpp
     title: utils/fixed_point.hpp
@@ -131,14 +131,15 @@ data:
     \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
     \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
     \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 3 \"utils/ejection.hpp\"\
-    \n\nnamespace workspace {\n// print arg, then throw nullptr.\ntemplate <class\
-    \ Tp> void eject(Tp const &arg) {\n  std::cout << arg << \"\\n\";\n  throw nullptr;\n\
-    }\n}\n#line 2 \"utils/fixed_point.hpp\"\n#include <utility>\nnamespace workspace\
-    \ {\n// specify the return type of lambda.\ntemplate <class lambda_type> class\
-    \ fixed_point {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type &&f)\
-    \ : func(std::move(f)) {}\n  template <class... Args> auto operator()(Args &&...\
-    \ args) const {\n    return func(*this, std::forward<Args>(args)...);\n  }\n};\n\
-    }  // namespace workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
+    \n\nnamespace workspace {\n\n/*\n * @brief eject from a try block, throw nullptr\n\
+    \ * @param arg output\n */\ntemplate <class Tp> void eject(Tp const &arg) {\n\
+    \  std::cout << arg << \"\\n\";\n  throw nullptr;\n}\n\n}  // namespace workspace\n\
+    #line 2 \"utils/fixed_point.hpp\"\n#include <utility>\nnamespace workspace {\n\
+    // specify the return type of lambda.\ntemplate <class lambda_type> class fixed_point\
+    \ {\n  lambda_type func;\n\n public:\n  fixed_point(lambda_type &&f) : func(std::move(f))\
+    \ {}\n  template <class... Args> auto operator()(Args &&... args) const {\n  \
+    \  return func(*this, std::forward<Args>(args)...);\n  }\n};\n}  // namespace\
+    \ workspace\n#line 2 \"utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
     #line 4 \"utils/hash.hpp\"\n#include <random>\n#include <unordered_set>\n\n#line\
     \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
@@ -350,7 +351,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-03 22:10:57+09:00'
+  timestamp: '2020-11-03 22:14:56+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

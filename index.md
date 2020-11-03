@@ -224,7 +224,7 @@ data:
       title: utils/coordinate_compression.hpp
     - icon: ':warning:'
       path: utils/ejection.hpp
-      title: utils/ejection.hpp
+      title: eject from a try block, throw nullptr
     - icon: ':warning:'
       path: utils/fixed_point.hpp
       title: utils/fixed_point.hpp
