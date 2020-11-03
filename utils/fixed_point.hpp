@@ -2,7 +2,6 @@
 #include <utility>
 namespace workspace {
 
-// specify the return type of lambda.
 /*
  * @class fixed_point
  * @brief fixed point combinator.
@@ -12,8 +11,8 @@ template <class lambda_type> class fixed_point {
 
  public:
   /*
-   * @brief
-   * @param func 1st arg is callable with the rest of args
+   * @param func 1st arg callable with the rest of args, and the return type
+   * specified.
    */
   fixed_point(lambda_type &&func) : func(std::move(func)) {}
 
