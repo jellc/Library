@@ -163,18 +163,18 @@ data:
     \n\nnamespace workspace {\n\n/*\n * @brief eject from a try block, throw nullptr\n\
     \ * @param arg output\n */\ntemplate <class Tp> void eject(Tp const &arg) {\n\
     \  std::cout << arg << \"\\n\";\n  throw nullptr;\n}\n\n}  // namespace workspace\n\
-    #line 3 \"utils/fixed_point.hpp\"\nnamespace workspace {\n\n// specify the return\
-    \ type of lambda.\n/*\n * @class fixed_point\n * @brief fixed point combinator.\n\
-    \ */\ntemplate <class lambda_type> class fixed_point {\n  lambda_type func;\n\n\
-    \ public:\n  /*\n   * @brief\n   * @param func 1st arg is callable with the rest\
-    \ of args\n   */\n  fixed_point(lambda_type &&func) : func(std::move(func)) {}\n\
-    \n  /*\n   * @brief recursively apply *this to 1st arg of func.\n   * @param args\
-    \ arguments of the recursive method\n   */\n  template <class... Args> auto operator()(Args\
-    \ &&... args) const {\n    return func(*this, std::forward<Args>(args)...);\n\
-    \  }\n};\n\n}  // namespace workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 4 \"\
-    utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template <class>\
-    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    #line 3 \"utils/fixed_point.hpp\"\nnamespace workspace {\n\n/*\n * @class fixed_point\n\
+    \ * @brief fixed point combinator.\n */\ntemplate <class lambda_type> class fixed_point\
+    \ {\n  lambda_type func;\n\n public:\n  /*\n   * @param func 1st arg callable\
+    \ with the rest of args, and the return type\n   * specified.\n   */\n  fixed_point(lambda_type\
+    \ &&func) : func(std::move(func)) {}\n\n  /*\n   * @brief recursively apply *this\
+    \ to 1st arg of func.\n   * @param args arguments of the recursive method\n  \
+    \ */\n  template <class... Args> auto operator()(Args &&... args) const {\n  \
+    \  return func(*this, std::forward<Args>(args)...);\n  }\n};\n\n}  // namespace\
+    \ workspace\n#line 6 \"utils/hash.hpp\"\n\n#line 4 \"utils/sfinae.hpp\"\n#include\
+    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
+    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
+    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
     \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
@@ -362,7 +362,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-11-03 22:46:30+09:00'
+  timestamp: '2020-11-03 22:52:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
