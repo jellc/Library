@@ -1,45 +1,85 @@
 #pragma once
+
 #if __cplusplus >= 201703L
+
 #include <tuple>
 #include <vector>
+
 namespace workspace {
-template <typename T, typename S, size_t N>
-constexpr auto make_vector(S* sizes, T const& init = T()) {
+
+/*
+ * @brief make a multi-dimensional vector.
+ * @tparam Tp type of the elements
+ * @tparam S integer type
+ * @tparam N dimension
+ * @param sizes size of each dimension
+ * @param init initial value
+ */
+template <typename Tp, typename S, size_t N>
+constexpr auto make_vector(S* sizes, Tp const& init = Tp()) {
   if constexpr (N)
     return std::vector(*sizes,
-                       make_vector<T, S, N - 1>(std::next(sizes), init));
+                       make_vector<Tp, S, N - 1>(std::next(sizes), init));
   else
     return init;
 }
-template <typename T, typename S, size_t N,
+
+/*
+ * @brief make a multi-dimensional vector.
+ * @param sizes size of each dimension
+ * @param init initial value
+ */
+template <typename Tp, typename S, size_t N,
           std::enable_if_t<std::is_convertible_v<S, size_t>>* = nullptr>
-constexpr auto make_vector(const S (&sizes)[N], T const& init = T()) {
-  return make_vector<T, S, N>((S*)sizes, init);
+constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {
+  return make_vector<Tp, S, N>((S*)sizes, init);
 }
-template <typename T, size_t N, size_t I = 0>
-constexpr auto make_vector(std::array<size_t, N> const& array,
-                           T const& init = T()) {
+
+/*
+ * @brief make a multi-dimensional vector.
+ * @param sizes size of each dimension
+ * @param init initial value
+ */
+template <typename Tp, size_t N, size_t I = 0>
+constexpr auto make_vector(std::array<size_t, N> const& sizes,
+                           Tp const& init = Tp()) {
   if constexpr (I == N)
     return init;
   else
-    return std::vector(array[I], make_vector<T, N, I + 1>(array, init));
+    return std::vector(sizes[I], make_vector<Tp, N, I + 1>(sizes, init));
 }
-template <typename T, size_t I = 0, class... Args>
-constexpr auto make_vector(std::tuple<Args...> const& tuple,
-                           T const& init = T()) {
+
+/*
+ * @brief make a multi-dimensional vector.
+ * @param sizes size of each dimension
+ * @param init initial value
+ */
+template <typename Tp, size_t I = 0, class... Args>
+constexpr auto make_vector(std::tuple<Args...> const& sizes,
+                           Tp const& init = Tp()) {
   using tuple_type = std::tuple<Args...>;
   if constexpr (I == tuple_size_v<tuple_type>)
     return init;
   else {
     static_assert(
         std::is_convertible_v<tuple_element_t<I, tuple_type>, size_t>);
-    return std::vector(get<I>(tuple), make_vector<T, I + 1>(tuple, init));
+    return std::vector(get<I>(sizes), make_vector<Tp, I + 1>(sizes, init));
   }
 }
-template <typename T, class Fst, class Snd>
-constexpr auto make_vector(std::pair<Fst, Snd> const& pair,
-                           T const& init = T()) {
-  return make_vector((size_t[2]){pair.first, pair.second}, init);
+
+/*
+ * @brief make a multi-dimensional vector.
+ * @param sizes size of each dimension
+ * @param init initial value
+ */
+template <typename Tp, class Fst, class Snd,
+          std::enable_if_t<std::is_convertible_v<Fst, size_t>>* = nullptr,
+          std::enable_if_t<std::is_convertible_v<Snd, size_t>>* = nullptr>
+constexpr auto make_vector(std::pair<Fst, Snd> const& sizes,
+                           Tp const& init = Tp()) {
+  return make_vector({(size_t)sizes.first, (size_t)sizes.second}, init);
 }
+
 }  // namespace workspace
+
 #endif
