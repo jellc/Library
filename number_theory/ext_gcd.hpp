@@ -2,11 +2,24 @@
 #include <tuple>
 
 #include "utils/sfinae.hpp"
-template <class int_type>
-constexpr typename std::enable_if<is_integral_ext<int_type>::value,
-                                  std::pair<int_type, int_type>>::type
-ext_gcd(int_type a, int_type b) {
-  int_type p{1}, q{}, r{}, s{1}, t{};
+
+namespace workspace {
+
+/*
+ * @fn ext_gcd
+ * @brief extended Euclidean algorithm.
+ * @param a an integer
+ * @param b an integer
+ * @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)
+ * @note return (0, 0) if (a, b) = (0, 0)
+ */
+template <typename T1, typename T2>
+constexpr typename std::enable_if<
+    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),
+    std::pair<typename std::common_type<T1, T2>::type,
+              typename std::common_type<T1, T2>::type>>::type
+ext_gcd(T1 a, T2 b) {
+  typename std::common_type<T1, T2>::type p{1}, q{}, r{}, s{1}, t{};
   if (a < 0) {
     std::tie(p, q) = ext_gcd(-a, b);
     p = -p;
@@ -22,3 +35,5 @@ ext_gcd(int_type a, int_type b) {
   }
   return {p, q};
 }
+
+}  // namespace workspace
