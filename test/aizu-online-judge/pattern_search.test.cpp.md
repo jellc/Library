@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'

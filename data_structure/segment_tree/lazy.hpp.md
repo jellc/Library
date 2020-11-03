@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
@@ -15,11 +15,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/do_use_segment_tree.test.cpp
     title: test/aizu-online-judge/do_use_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 2 \"data_structure/segment_tree/lazy.hpp\"\n#include <cassert>\n\
@@ -230,7 +230,7 @@ data:
   path: data_structure/segment_tree/lazy.hpp
   requiredBy: []
   timestamp: '2020-10-10 01:30:31+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/do_use_segment_tree.test.cpp

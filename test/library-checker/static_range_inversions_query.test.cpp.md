@@ -1,22 +1,22 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: algebra/system/monoid.hpp
     title: algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
     path: data_structure/Mo.hpp
     title: data_structure/Mo.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: data_structure/segment_tree/basic.hpp
     title: data_structure/segment_tree/basic.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: data_structure/segment_tree/waitlist.hpp
     title: data_structure/segment_tree/waitlist.hpp
   - icon: ':heavy_check_mark:'
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []

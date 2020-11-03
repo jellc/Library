@@ -2,15 +2,15 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: combinatorics/binomial.hpp
     title: combinatorics/binomial.hpp
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 2 \"combinatorics/factorial.hpp\"\n#include <functional>\n#include\
@@ -31,7 +31,7 @@ data:
   requiredBy:
   - combinatorics/binomial.hpp
   timestamp: '2020-08-16 13:02:00+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: combinatorics/factorial.hpp

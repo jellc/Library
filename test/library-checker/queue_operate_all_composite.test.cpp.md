@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: data_structure/deque_aggregation.hpp
     title: data_structure/deque_aggregation.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: modulus/modint.hpp
-    title: modulus/modint.hpp
-  - icon: ':heavy_check_mark:'
+    title: modular arithmetic.
+  - icon: ':question:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/queue_operate_all_composite
@@ -95,83 +95,90 @@ data:
     \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 6 \"modulus/modint.hpp\"\n\n// A non-positive Mod corresponds to a unique\
-    \ type of runtime modint.\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)>\
-    \ struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n  \
-    \              \"Mod must be integral type.\");\n\n  using mod_type = typename\
-    \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
-    \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
+    };\n#line 6 \"modulus/modint.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
+    \ {\n\ntemplate <auto Mod = 0, typename Mod_type = decltype(Mod)> struct modint_base\
+    \ {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n                \"\
+    Mod must be integral type.\");\n\n  using mod_type = typename std::conditional<\n\
+    \      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n  static\
+    \ mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
     \n  constexpr operator value_type() const noexcept { return value; }\n\n  constexpr\
-    \ static modint one() noexcept { return 1; }\n\n  constexpr modint() noexcept\
-    \ = default;\n\n  template <class int_type,\n            typename std::enable_if<is_integral_ext<int_type>::value>::type\
-    \ * =\n                nullptr>\n  constexpr modint(int_type n) noexcept : value((n\
-    \ %= mod) < 0 ? mod + n : n) {}\n\n  constexpr modint(bool n) noexcept : modint(int(n))\
-    \ {}\n\n  constexpr modint operator++(int) noexcept {\n    modint t{*this};\n\
-    \    return operator+=(1), t;\n  }\n\n  constexpr modint operator--(int) noexcept\
-    \ {\n    modint t{*this};\n    return operator-=(1), t;\n  }\n\n  constexpr modint\
-    \ &operator++() noexcept { return operator+=(1); }\n\n  constexpr modint &operator--()\
-    \ noexcept { return operator-=(1); }\n\n  constexpr modint operator-() const noexcept\
-    \ {\n    return value ? mod - value : 0;\n  }\n\n  constexpr modint &operator+=(const\
-    \ modint &rhs) noexcept {\n    return (value += rhs.value) < mod ? 0 : value -=\
-    \ mod, *this;\n  }\n\n  constexpr modint &operator-=(const modint &rhs) noexcept\
-    \ {\n    return (value += mod - rhs.value) < mod ? 0 : value -= mod, *this;\n\
-    \  }\n\n  constexpr modint &operator*=(const modint &rhs) noexcept {\n    return\
-    \ value = (typename multiplicable_uint<value_type>::type)value *\n           \
-    \        rhs.value % mod,\n           *this;\n  }\n\n  constexpr modint &operator/=(const\
-    \ modint &rhs) noexcept {\n    return operator*=(rhs.inverse());\n  }\n\n  template\
-    \ <class int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      operator+(const int_type &rhs) const noexcept {\n    return\
-    \ modint{*this} += rhs;\n  }\n\n  constexpr modint operator+(const modint &rhs)\
-    \ const noexcept {\n    return modint{*this} += rhs;\n  }\n\n  template <class\
-    \ int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      operator-(const int_type &rhs) const noexcept {\n    return\
-    \ modint{*this} -= rhs;\n  }\n\n  constexpr modint operator-(const modint &rhs)\
-    \ const noexcept {\n    return modint{*this} -= rhs;\n  }\n\n  template <class\
-    \ int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      operator*(const int_type &rhs) const noexcept {\n    return\
-    \ modint{*this} *= rhs;\n  }\n\n  constexpr modint operator*(const modint &rhs)\
-    \ const noexcept {\n    return modint{*this} *= rhs;\n  }\n\n  template <class\
-    \ int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      operator/(const int_type &rhs) const noexcept {\n    return\
-    \ modint{*this} /= rhs;\n  }\n\n  constexpr modint operator/(const modint &rhs)\
-    \ const noexcept {\n    return modint{*this} /= rhs;\n  }\n\n  template <class\
-    \ int_type>\n  constexpr friend\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      operator+(const int_type &lhs, const modint &rhs) noexcept\
-    \ {\n    return modint(lhs) + rhs;\n  }\n\n  template <class int_type>\n  constexpr\
-    \ friend\n      typename std::enable_if<is_integral_ext<int_type>::value, modint>::type\n\
-    \      operator-(const int_type &lhs, const modint &rhs) noexcept {\n    return\
-    \ modint(lhs) - rhs;\n  }\n\n  template <class int_type>\n  constexpr friend\n\
-    \      typename std::enable_if<is_integral_ext<int_type>::value, modint>::type\n\
-    \      operator*(const int_type &lhs, const modint &rhs) noexcept {\n    return\
-    \ modint(lhs) * rhs;\n  }\n\n  template <class int_type>\n  constexpr friend\n\
-    \      typename std::enable_if<is_integral_ext<int_type>::value, modint>::type\n\
-    \      operator/(const int_type &lhs, const modint &rhs) noexcept {\n    return\
-    \ modint(lhs) / rhs;\n  }\n\n  constexpr modint inverse() const noexcept {\n \
-    \   assert(value);\n    value_type a{mod}, b{value}, u{}, v{1}, t{};\n    while\
-    \ (b)\n      t = a / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^=\
-    \ v;\n    return {u};\n  }\n\n  template <class int_type>\n  constexpr\n     \
-    \ typename std::enable_if<is_integral_ext<int_type>::value, modint>::type\n  \
-    \    power(int_type e) noexcept {\n    return pow(*this, e);\n  }\n\n  template\
-    \ <class int_type>\n  friend constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
-    \ modint>::type\n      pow(modint b, int_type e) noexcept {\n    modint res{1};\n\
-    \    for (e < 0 ? b = b.inverse(), e = -e : 0; e; e >>= 1, b *= b)\n      if (e\
-    \ & 1) res *= b;\n    return res;\n  }\n\n  friend std::ostream &operator<<(std::ostream\
-    \ &os,\n                                  const modint &rhs) noexcept {\n    return\
-    \ os << rhs.value;\n  }\n\n  friend std::istream &operator>>(std::istream &is,\
-    \ modint &rhs) noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n\
-    \    return is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto\
-    \ Mod, typename Mod_type>\ntypename modint<Mod, Mod_type>::mod_type modint<Mod,\
-    \ Mod_type>::mod = Mod;\n\ntemplate <unsigned type_id = 0> using modint_runtime\
-    \ = modint<-(signed)type_id>;\n// #define modint_newtype modint<-__COUNTER__>\n\
-    #line 6 \"test/library-checker/queue_operate_all_composite.test.cpp\"\n\nint main()\
-    \ {\n  using mint = modint<998244353>;\n  struct mono {\n    mint a = 1, b;\n\
-    \    mono operator+(const mono& rhs) const {\n      auto [c, d] = rhs;\n     \
-    \ return {a * c, b * c + d};\n    }\n  };\n  deque_aggregation<mono> deq;\n  int\
-    \ q;\n  scanf(\"%d\", &q);\n  while (q--) {\n    int t;\n    scanf(\"%d\", &t);\n\
-    \    if (t == 0) {\n      int a, b;\n      scanf(\"%d%d\", &a, &b);\n      deq.push_back({a,\
-    \ b});\n    } else if (t == 1) {\n      deq.pop_front();\n    } else {\n     \
-    \ int x;\n      scanf(\"%d\", &x);\n      auto [a, b] = deq.fold();\n      printf(\"\
-    %d\\n\", a * x + b);\n    }\n  }\n}\n"
+    \ static modint_base one() noexcept { return 1; }\n\n  constexpr modint_base()\
+    \ noexcept = default;\n\n  template <class int_type,\n            typename std::enable_if<is_integral_ext<int_type>::value>::type\
+    \ * =\n                nullptr>\n  constexpr modint_base(int_type n) noexcept\n\
+    \      : value((n %= mod) < 0 ? mod + n : n) {}\n\n  constexpr modint_base(bool\
+    \ n) noexcept : modint_base(int(n)) {}\n\n  constexpr modint_base operator++(int)\
+    \ noexcept {\n    modint_base t{*this};\n    return operator+=(1), t;\n  }\n\n\
+    \  constexpr modint_base operator--(int) noexcept {\n    modint_base t{*this};\n\
+    \    return operator-=(1), t;\n  }\n\n  constexpr modint_base &operator++() noexcept\
+    \ { return operator+=(1); }\n\n  constexpr modint_base &operator--() noexcept\
+    \ { return operator-=(1); }\n\n  constexpr modint_base operator-() const noexcept\
+    \ {\n    return value ? mod - value : 0;\n  }\n\n  constexpr modint_base &operator+=(const\
+    \ modint_base &rhs) noexcept {\n    return (value += rhs.value) < mod ? 0 : value\
+    \ -= mod, *this;\n  }\n\n  constexpr modint_base &operator-=(const modint_base\
+    \ &rhs) noexcept {\n    return (value += mod - rhs.value) < mod ? 0 : value -=\
+    \ mod, *this;\n  }\n\n  constexpr modint_base &operator*=(const modint_base &rhs)\
+    \ noexcept {\n    return value = (typename multiplicable_uint<value_type>::type)value\
+    \ *\n                   rhs.value % mod,\n           *this;\n  }\n\n  constexpr\
+    \ modint_base &operator/=(const modint_base &rhs) noexcept {\n    return operator*=(rhs.inverse());\n\
+    \  }\n\n  template <class int_type>\n  constexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                    modint_base>::type\n  operator+(const int_type\
+    \ &rhs) const noexcept {\n    return modint_base{*this} += rhs;\n  }\n\n  constexpr\
+    \ modint_base operator+(const modint_base &rhs) const noexcept {\n    return modint_base{*this}\
+    \ += rhs;\n  }\n\n  template <class int_type>\n  constexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                    modint_base>::type\n  operator-(const int_type\
+    \ &rhs) const noexcept {\n    return modint_base{*this} -= rhs;\n  }\n\n  constexpr\
+    \ modint_base operator-(const modint_base &rhs) const noexcept {\n    return modint_base{*this}\
+    \ -= rhs;\n  }\n\n  template <class int_type>\n  constexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                    modint_base>::type\n  operator*(const int_type\
+    \ &rhs) const noexcept {\n    return modint_base{*this} *= rhs;\n  }\n\n  constexpr\
+    \ modint_base operator*(const modint_base &rhs) const noexcept {\n    return modint_base{*this}\
+    \ *= rhs;\n  }\n\n  template <class int_type>\n  constexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                    modint_base>::type\n  operator/(const int_type\
+    \ &rhs) const noexcept {\n    return modint_base{*this} /= rhs;\n  }\n\n  constexpr\
+    \ modint_base operator/(const modint_base &rhs) const noexcept {\n    return modint_base{*this}\
+    \ /= rhs;\n  }\n\n  template <class int_type>\n  constexpr friend typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                           modint_base>::type\n  operator+(const\
+    \ int_type &lhs, const modint_base &rhs) noexcept {\n    return modint_base(lhs)\
+    \ + rhs;\n  }\n\n  template <class int_type>\n  constexpr friend typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                           modint_base>::type\n  operator-(const\
+    \ int_type &lhs, const modint_base &rhs) noexcept {\n    return modint_base(lhs)\
+    \ - rhs;\n  }\n\n  template <class int_type>\n  constexpr friend typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                           modint_base>::type\n  operator*(const\
+    \ int_type &lhs, const modint_base &rhs) noexcept {\n    return modint_base(lhs)\
+    \ * rhs;\n  }\n\n  template <class int_type>\n  constexpr friend typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                           modint_base>::type\n  operator/(const\
+    \ int_type &lhs, const modint_base &rhs) noexcept {\n    return modint_base(lhs)\
+    \ / rhs;\n  }\n\n  constexpr modint_base inverse() const noexcept {\n    assert(value);\n\
+    \    value_type a{mod}, b{value}, u{}, v{1}, t{};\n    while (b)\n      t = a\
+    \ / b, a ^= b ^= (a -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;\n    return {u};\n\
+    \  }\n\n  template <class int_type>\n  constexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
+    \                                    modint_base>::type\n  power(int_type e) noexcept\
+    \ {\n    return pow(*this, e);\n  }\n\n  template <class int_type>\n  friend constexpr\
+    \ typename std::enable_if<is_integral_ext<int_type>::value,\n                \
+    \                           modint_base>::type\n  pow(modint_base b, int_type\
+    \ e) noexcept {\n    modint_base res{1};\n    for (e < 0 ? b = b.inverse(), e\
+    \ = -e : 0; e; e >>= 1, b *= b)\n      if (e & 1) res *= b;\n    return res;\n\
+    \  }\n\n  friend std::ostream &operator<<(std::ostream &os,\n                \
+    \                  const modint_base &rhs) noexcept {\n    return os << rhs.value;\n\
+    \  }\n\n  friend std::istream &operator>>(std::istream &is, modint_base &rhs)\
+    \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
+    \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
+    \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
+    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\ntemplate <auto Mod,\
+    \ typename std::enable_if<(Mod > 0)>::type * = nullptr>\n/*\n * @brief modular\
+    \ arithmetic.\n * @tparam Mod modulus\n */\nusing modint = typename internal::modint_base<Mod>;\n\
+    \ntemplate <unsigned type_id = 0>\n/*\n * @brief runtime modular arithmetic.\n\
+    \ * @tparam type_id uniquely assigned to each class\n */\nusing modint_runtime\
+    \ = typename internal::modint_base<-(signed)type_id>;\n\n// #define modint_newtype\
+    \ modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line 6 \"test/library-checker/queue_operate_all_composite.test.cpp\"\
+    \n\nint main() {\n  using mint = modint<998244353>;\n  struct mono {\n    mint\
+    \ a = 1, b;\n    mono operator+(const mono& rhs) const {\n      auto [c, d] =\
+    \ rhs;\n      return {a * c, b * c + d};\n    }\n  };\n  deque_aggregation<mono>\
+    \ deq;\n  int q;\n  scanf(\"%d\", &q);\n  while (q--) {\n    int t;\n    scanf(\"\
+    %d\", &t);\n    if (t == 0) {\n      int a, b;\n      scanf(\"%d%d\", &a, &b);\n\
+    \      deq.push_back({a, b});\n    } else if (t == 1) {\n      deq.pop_front();\n\
+    \    } else {\n      int x;\n      scanf(\"%d\", &x);\n      auto [a, b] = deq.fold();\n\
+    \      printf(\"%d\\n\", a * x + b);\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\
     \n#include <cstdio>\n\n#include \"data_structure/deque_aggregation.hpp\"\n#include\
     \ \"modulus/modint.hpp\"\n\nint main() {\n  using mint = modint<998244353>;\n\
@@ -190,8 +197,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-10-23 01:58:12+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2020-11-03 18:03:24+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/queue_operate_all_composite.test.cpp
 layout: document
