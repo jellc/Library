@@ -197,20 +197,20 @@ data:
     \ * @tparam Tp type of the elements\n * @tparam S integer type\n * @tparam N dimension\n\
     \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
     \ <typename Tp, typename S, size_t N>\nconstexpr auto make_vector(S* sizes, Tp\
-    \ const& init = Tp()) {\n  if constexpr (N)\n    return std::vector(*sizes,\n\
-    \                       make_vector<Tp, S, N - 1>(std::next(sizes), init));\n\
-    \  else\n    return init;\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
+    \ const& init = Tp()) {\n  static_assert(std::is_convertible_v<S, size_t>);\n\
+    \  if constexpr (N)\n    return std::vector(*sizes,\n                       make_vector<Tp,\
+    \ S, N - 1>(std::next(sizes), init));\n  else\n    return init;\n}\n\n/*\n * @brief\
+    \ make a multi-dimensional vector.\n * @param sizes size of each dimension\n *\
+    \ @param init initial value\n */\ntemplate <typename Tp, typename S, size_t N>\n\
+    constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {\n  return\
+    \ make_vector<Tp, S, N>((S*)sizes, init);\n}\n\n/*\n * @brief make a multi-dimensional\
+    \ vector.\n * @param sizes size of each dimension\n * @param init initial value\n\
+    \ */\ntemplate <typename Tp, typename S, size_t N, size_t I = 0>\nconstexpr auto\
+    \ make_vector(std::array<S, N> const& sizes,\n                           Tp const&\
+    \ init = Tp()) {\n  static_assert(std::is_convertible_v<S, size_t>);\n  if constexpr\
+    \ (I == N)\n    return init;\n  else\n    return std::vector(sizes[I], make_vector<Tp,\
+    \ S, N, I + 1>(sizes, init));\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
     \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
-    \ <typename Tp, typename S, size_t N,\n          std::enable_if_t<std::is_convertible_v<S,\
-    \ size_t>>* = nullptr>\nconstexpr auto make_vector(const S (&sizes)[N], Tp const&\
-    \ init = Tp()) {\n  return make_vector<Tp, S, N>((S*)sizes, init);\n}\n\n/*\n\
-    \ * @brief make a multi-dimensional vector.\n * @param sizes size of each dimension\n\
-    \ * @param init initial value\n */\ntemplate <typename Tp, size_t N, size_t I\
-    \ = 0>\nconstexpr auto make_vector(std::array<size_t, N> const& sizes,\n     \
-    \                      Tp const& init = Tp()) {\n  if constexpr (I == N)\n   \
-    \ return init;\n  else\n    return std::vector(sizes[I], make_vector<Tp, N, I\
-    \ + 1>(sizes, init));\n}\n\n/*\n * @brief make a multi-dimensional vector.\n *\
-    \ @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
     \ <typename Tp, size_t I = 0, class... Args>\nconstexpr auto make_vector(std::tuple<Args...>\
     \ const& sizes,\n                           Tp const& init = Tp()) {\n  using\
     \ tuple_type = std::tuple<Args...>;\n  if constexpr (I == tuple_size_v<tuple_type>)\n\
@@ -218,10 +218,9 @@ data:
     \ tuple_type>, size_t>);\n    return std::vector(get<I>(sizes), make_vector<Tp,\
     \ I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
     \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
-    \ <typename Tp, class Fst, class Snd,\n          std::enable_if_t<std::is_convertible_v<Fst,\
-    \ size_t>>* = nullptr,\n          std::enable_if_t<std::is_convertible_v<Snd,\
-    \ size_t>>* = nullptr>\nconstexpr auto make_vector(std::pair<Fst, Snd> const&\
-    \ sizes,\n                           Tp const& init = Tp()) {\n  return make_vector({(size_t)sizes.first,\
+    \ <typename Tp, class Fst, class Snd>\nconstexpr auto make_vector(std::pair<Fst,\
+    \ Snd> const& sizes,\n                           Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<Fst,\
+    \ size_t>);\n  static_assert(std::is_convertible_v<Snd, size_t>);\n  return make_vector({(size_t)sizes.first,\
     \ (size_t)sizes.second}, init);\n}\n\n}  // namespace workspace\n\n#endif\n#line\
     \ 3 \"utils/random_number_generator.hpp\"\ntemplate <typename num_type> class\
     \ random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
@@ -341,7 +340,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-03 17:06:10+09:00'
+  timestamp: '2020-11-03 17:34:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
