@@ -2,27 +2,27 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: combinatorics/binomial.hpp
     title: combinatorics/binomial.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/basic.hpp
     title: data_structure/segment_tree/basic.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: data_structure/segment_tree/lazy.hpp
     title: data_structure/segment_tree/lazy.hpp
   - icon: ':warning:'
     path: dev/fraction.hpp
     title: dev/fraction.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: modulus/inverse.hpp
     title: modulus/inverse.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: modular arithmetic.
+    title: base of modular arithmetic.
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
-    title: number_theory/ext_gcd.hpp
+    title: extended Euclidean algorithm.
   - icon: ':warning:'
     path: number_theory/least_factor.hpp
     title: number_theory/least_factor.hpp
@@ -45,7 +45,7 @@ data:
     path: utils/stream.hpp
     title: utils/stream.hpp
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - icon: ':heavy_check_mark:'
@@ -66,13 +66,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -88,7 +88,7 @@ data:
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
@@ -148,7 +148,7 @@ data:
   - utils/hash.hpp
   - utils/stream.hpp
   timestamp: '2020-10-10 01:30:31+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/number_of_substrings.test.cpp

@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: combinatorics/binomial.hpp
     title: combinatorics/binomial.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: combinatorics/factorial.hpp
     title: combinatorics/factorial.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: modulus/inverse.hpp
     title: modulus/inverse.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: modular arithmetic.
-  - icon: ':question:'
+    title: base of modular arithmetic.
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D
@@ -53,10 +53,12 @@ data:
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 6 \"modulus/modint.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace internal {\n\ntemplate <auto Mod = 0, typename\
-    \ Mod_type = decltype(Mod)> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
-    \                \"Mod must be integral type.\");\n\n  using mod_type = typename\
-    \ std::conditional<\n      0 < Mod, typename std::add_const<Mod_type>::type, Mod_type>::type;\n\
+    \n\nnamespace workspace {\n\nnamespace internal {\n\n/*\n * @struct modint_base\n\
+    \ * @brief base of modular arithmetic.\n * @tparam Mod identifier, which represents\
+    \ modulus if positive\n */\ntemplate <auto Mod> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \                \"Mod must be integral type.\");\n\n  using mod_type =\n    \
+    \  typename std::conditional<0 < Mod,\n                                typename\
+    \ std::add_const<decltype(Mod)>::type,\n                                decltype(Mod)>::type;\n\
     \  static mod_type mod;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
     \n  constexpr operator value_type() const noexcept { return value; }\n\n  constexpr\
     \ static modint_base one() noexcept { return 1; }\n\n  constexpr modint_base()\
@@ -119,18 +121,16 @@ data:
     \                  const modint_base &rhs) noexcept {\n    return os << rhs.value;\n\
     \  }\n\n  friend std::istream &operator>>(std::istream &is, modint_base &rhs)\
     \ noexcept {\n    intmax_t value;\n    rhs = (is >> value, value);\n    return\
-    \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod,\
-    \ typename Mod_type>\ntypename modint_base<Mod, Mod_type>::mod_type modint_base<Mod,\
-    \ Mod_type>::mod =\n    Mod;\n\n}  // namespace internal\n\n/*\n * @struct modint\n\
-    \ * @brief modular arithmetic.\n * @tparam Mod modulus\n */\ntemplate <auto Mod>\
-    \ struct modint : internal::modint_base<Mod> {\n  static_assert(Mod > 0);\n  using\
-    \ internal::modint_base<Mod>::modint_base;\n};\n\n/*\n * @struct modint_runtime\n\
-    \ * @brief runtime modular arithmetic.\n * @tparam type_id uniquely assigned\n\
-    \ */\ntemplate <unsigned type_id = 0>\nstruct modint_runtime : internal::modint_base<-(signed)type_id>\
-    \ {\n  using internal::modint_base<-(signed)type_id>::modint_base;\n};\n\n// #define\
-    \ modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n#line\
-    \ 5 \"modulus/inverse.hpp\"\ntemplate <class, class = int> struct inverse;\n//\
-    \ mod must be prime.\ntemplate <class Modint>\nstruct inverse<Modint, decltype((void\
+    \ is;\n  }\n\n protected:\n  value_type value = 0;\n};\n\ntemplate <auto Mod>\n\
+    typename modint_base<Mod>::mod_type modint_base<Mod>::mod = Mod;\n\n}  // namespace\
+    \ internal\n\n/*\n * @typedef modint\n * @brief modular arithmetic.\n * @tparam\
+    \ Mod modulus\n */\ntemplate <auto Mod, typename std::enable_if<(Mod > 0)>::type\
+    \ * = nullptr>\nusing modint = internal::modint_base<Mod>;\n\n/*\n * @typedef\
+    \ modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam type_id uniquely\
+    \ assigned\n */\ntemplate <unsigned type_id = 0>\nusing modint_runtime = internal::modint_base<-(signed)type_id>;\n\
+    \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n\
+    #line 5 \"modulus/inverse.hpp\"\ntemplate <class, class = int> struct inverse;\n\
+    // mod must be prime.\ntemplate <class Modint>\nstruct inverse<Modint, decltype((void\
     \ *)Modint::mod, 0)> {\n  using value_type = Modint;\n  constexpr value_type operator()(int\
     \ n) const {\n    constexpr int_fast64_t mod = value_type::mod;\n    assert(n\
     \ %= mod);\n    if (n < 0) n += mod;\n    if (inv.empty()) inv = {1, mod != 1};\n\
@@ -165,8 +165,8 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   requiredBy: []
-  timestamp: '2020-11-03 18:50:43+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-11-03 21:36:59+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp
 layout: document

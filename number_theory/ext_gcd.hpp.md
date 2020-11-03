@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
@@ -12,6 +12,7 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    document_title: extended Euclidean algorithm.
     links: []
   bundledCode: "#line 2 \"number_theory/ext_gcd.hpp\"\n#include <tuple>\n\n#line 2\
     \ \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
@@ -32,28 +33,38 @@ data:
     \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 5 \"number_theory/ext_gcd.hpp\"\ntemplate <class int_type>\nconstexpr\
-    \ typename std::enable_if<is_integral_ext<int_type>::value,\n                \
-    \                  std::pair<int_type, int_type>>::type\next_gcd(int_type a, int_type\
-    \ b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p,\
-    \ q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q)\
-    \ = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^=\
-    \ r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^=\
-    \ b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n"
-  code: "#pragma once\n#include <tuple>\n\n#include \"utils/sfinae.hpp\"\ntemplate\
-    \ <class int_type>\nconstexpr typename std::enable_if<is_integral_ext<int_type>::value,\n\
-    \                                  std::pair<int_type, int_type>>::type\next_gcd(int_type\
-    \ a, int_type b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n  \
-    \  std::tie(p, q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p,\
-    \ q) = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p\
-    \ ^= r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^=\
-    \ a ^= b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n"
+    };\n#line 5 \"number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn\
+    \ ext_gcd\n * @brief extended Euclidean algorithm.\n * @param a an integer\n *\
+    \ @param b an integer\n * @return a pair of integers (x, y) s.t. ax + by = gcd(a,\
+    \ b)\n * @note return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename\
+    \ T2>\nconstexpr typename std::enable_if<\n    (is_integral_ext<T1>::value &&\
+    \ is_integral_ext<T2>::value),\n    std::pair<typename std::common_type<T1, T2>::type,\n\
+    \              typename std::common_type<T1, T2>::type>>::type\next_gcd(T1 a,\
+    \ T2 b) {\n  typename std::common_type<T1, T2>::type p{1}, q{}, r{}, s{1}, t{};\n\
+    \  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a, b);\n    p = -p;\n  } else if\
+    \ (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n    q = -q;\n  } else {\n \
+    \   while (b) {\n      r ^= p ^= r ^= p -= (t = a / b) * r;\n      s ^= q ^= s\
+    \ ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n    }\n  }\n  return {p, q};\n\
+    }\n\n}  // namespace workspace\n"
+  code: "#pragma once\n#include <tuple>\n\n#include \"utils/sfinae.hpp\"\n\nnamespace\
+    \ workspace {\n\n/*\n * @fn ext_gcd\n * @brief extended Euclidean algorithm.\n\
+    \ * @param a an integer\n * @param b an integer\n * @return a pair of integers\
+    \ (x, y) s.t. ax + by = gcd(a, b)\n * @note return (0, 0) if (a, b) = (0, 0)\n\
+    \ */\ntemplate <typename T1, typename T2>\nconstexpr typename std::enable_if<\n\
+    \    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),\n    std::pair<typename\
+    \ std::common_type<T1, T2>::type,\n              typename std::common_type<T1,\
+    \ T2>::type>>::type\next_gcd(T1 a, T2 b) {\n  typename std::common_type<T1, T2>::type\
+    \ p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a,\
+    \ b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n\
+    \    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^= r ^= p -= (t = a /\
+    \ b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n  \
+    \  }\n  }\n  return {p, q};\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - utils/sfinae.hpp
   isVerificationFile: false
   path: number_theory/ext_gcd.hpp
   requiredBy: []
-  timestamp: '2020-10-10 01:30:31+09:00'
+  timestamp: '2020-11-03 21:36:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
@@ -62,5 +73,5 @@ layout: document
 redirect_from:
 - /library/number_theory/ext_gcd.hpp
 - /library/number_theory/ext_gcd.hpp.html
-title: number_theory/ext_gcd.hpp
+title: extended Euclidean algorithm.
 ---

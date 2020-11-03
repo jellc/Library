@@ -3,8 +3,8 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
-    title: number_theory/ext_gcd.hpp
-  - icon: ':question:'
+    title: extended Euclidean algorithm.
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   - icon: ':heavy_check_mark:'
@@ -40,22 +40,27 @@ data:
     \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
     \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 5 \"number_theory/ext_gcd.hpp\"\ntemplate <class int_type>\nconstexpr\
-    \ typename std::enable_if<is_integral_ext<int_type>::value,\n                \
-    \                  std::pair<int_type, int_type>>::type\next_gcd(int_type a, int_type\
-    \ b) {\n  int_type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p,\
-    \ q) = ext_gcd(-a, b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q)\
-    \ = ext_gcd(a, -b);\n    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^=\
-    \ r ^= p -= (t = a / b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^=\
-    \ b ^= a %= b;\n    }\n  }\n  return {p, q};\n}\n#line 2 \"utils/stream.hpp\"\n\
-    #include <iostream>\n#line 4 \"utils/stream.hpp\"\n\n#line 6 \"utils/stream.hpp\"\
-    \nnamespace std {\ntemplate <class T, class U> istream &operator>>(istream &is,\
-    \ pair<T, U> &p) {\n  return is >> p.first >> p.second;\n}\ntemplate <class T,\
-    \ class U>\nostream &operator<<(ostream &os, const pair<T, U> &p) {\n  return\
-    \ os << p.first << ' ' << p.second;\n}\ntemplate <class tuple_t, size_t index>\
-    \ struct tuple_is {\n  static istream &apply(istream &is, tuple_t &t) {\n    tuple_is<tuple_t,\
-    \ index - 1>::apply(is, t);\n    return is >> get<index>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {\n  static istream &apply(istream\
+    };\n#line 5 \"number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn\
+    \ ext_gcd\n * @brief extended Euclidean algorithm.\n * @param a an integer\n *\
+    \ @param b an integer\n * @return a pair of integers (x, y) s.t. ax + by = gcd(a,\
+    \ b)\n * @note return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename\
+    \ T2>\nconstexpr typename std::enable_if<\n    (is_integral_ext<T1>::value &&\
+    \ is_integral_ext<T2>::value),\n    std::pair<typename std::common_type<T1, T2>::type,\n\
+    \              typename std::common_type<T1, T2>::type>>::type\next_gcd(T1 a,\
+    \ T2 b) {\n  typename std::common_type<T1, T2>::type p{1}, q{}, r{}, s{1}, t{};\n\
+    \  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a, b);\n    p = -p;\n  } else if\
+    \ (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n    q = -q;\n  } else {\n \
+    \   while (b) {\n      r ^= p ^= r ^= p -= (t = a / b) * r;\n      s ^= q ^= s\
+    \ ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n    }\n  }\n  return {p, q};\n\
+    }\n\n}  // namespace workspace\n#line 2 \"utils/stream.hpp\"\n#include <iostream>\n\
+    #line 4 \"utils/stream.hpp\"\n\n#line 6 \"utils/stream.hpp\"\nnamespace std {\n\
+    template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {\n\
+    \  return is >> p.first >> p.second;\n}\ntemplate <class T, class U>\nostream\
+    \ &operator<<(ostream &os, const pair<T, U> &p) {\n  return os << p.first << '\
+    \ ' << p.second;\n}\ntemplate <class tuple_t, size_t index> struct tuple_is {\n\
+    \  static istream &apply(istream &is, tuple_t &t) {\n    tuple_is<tuple_t, index\
+    \ - 1>::apply(is, t);\n    return is >> get<index>(t);\n  }\n};\ntemplate <class\
+    \ tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {\n  static istream &apply(istream\
     \ &is, tuple_t &t) { return is; }\n};\ntemplate <class... T> istream &operator>>(istream\
     \ &is, tuple<T...> &t) {\n  return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value\
     \ - 1>::apply(is,\n                                                          \
@@ -80,15 +85,15 @@ data:
     \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
     \ // namespace std\n#line 5 \"test/aizu-online-judge/extended_euclid_algorithm.test.cpp\"\
     \n\nint main() {\n  int a, b;\n  std::cin >> a >> b;\n  __int128_t _a = a, _b\
-    \ = b;\n  auto [x, y] = ext_gcd(_a, _b);\n  if (x > 0) x -= b, y += a;\n  if ((y\
-    \ - x) * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout << std::tie(a,\
-    \ b) << \"\\n\";\n}\n"
+    \ = b;\n  auto [x, y] = workspace::ext_gcd(_a, b);\n  if (x > 0) x -= b, y +=\
+    \ a;\n  if ((y - x) * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout\
+    \ << std::tie(a, b) << \"\\n\";\n}\n"
   code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E\"\
     \n#include \"number_theory/ext_gcd.hpp\"\n#include \"utils/stream.hpp\"\n\nint\
     \ main() {\n  int a, b;\n  std::cin >> a >> b;\n  __int128_t _a = a, _b = b;\n\
-    \  auto [x, y] = ext_gcd(_a, _b);\n  if (x > 0) x -= b, y += a;\n  if ((y - x)\
-    \ * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout << std::tie(a, b)\
-    \ << \"\\n\";\n}\n"
+    \  auto [x, y] = workspace::ext_gcd(_a, b);\n  if (x > 0) x -= b, y += a;\n  if\
+    \ ((y - x) * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout << std::tie(a,\
+    \ b) << \"\\n\";\n}\n"
   dependsOn:
   - number_theory/ext_gcd.hpp
   - utils/sfinae.hpp
@@ -96,7 +101,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   requiredBy: []
-  timestamp: '2020-10-10 01:30:31+09:00'
+  timestamp: '2020-11-03 21:36:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/extended_euclid_algorithm.test.cpp

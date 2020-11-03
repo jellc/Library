@@ -17,7 +17,7 @@ data:
     - icon: ':warning:'
       path: algebra/system/endomorphism.hpp
       title: algebra/system/endomorphism.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: algebra/system/monoid.hpp
       title: algebra/system/monoid.hpp
   - name: algebra
@@ -47,10 +47,10 @@ data:
       title: utils.hpp
   - name: combinatorics
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: combinatorics/binomial.hpp
       title: combinatorics/binomial.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: combinatorics/factorial.hpp
       title: combinatorics/factorial.hpp
   - name: data_structure
@@ -64,7 +64,7 @@ data:
     - icon: ':warning:'
       path: data_structure/Skew_heap.hpp
       title: data_structure/Skew_heap.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: data_structure/deque_aggregation.hpp
       title: data_structure/deque_aggregation.hpp
   - name: data_structure/convex_hull_trick
@@ -77,13 +77,13 @@ data:
       title: data_structure/convex_hull_trick/monotone.hpp
   - name: data_structure/segment_tree
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/basic.hpp
       title: data_structure/segment_tree/basic.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/lazy.hpp
       title: data_structure/segment_tree/lazy.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: data_structure/segment_tree/waitlist.hpp
       title: data_structure/segment_tree/waitlist.hpp
   - name: data_structure/union_find
@@ -177,17 +177,17 @@ data:
       title: local/dump.hpp
   - name: modulus
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: modulus/inverse.hpp
       title: modulus/inverse.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: modulus/modint.hpp
-      title: modular arithmetic.
+      title: base of modular arithmetic.
   - name: number_theory
     pages:
     - icon: ':heavy_check_mark:'
       path: number_theory/ext_gcd.hpp
-      title: number_theory/ext_gcd.hpp
+      title: extended Euclidean algorithm.
     - icon: ':warning:'
       path: number_theory/least_factor.hpp
       title: number_theory/least_factor.hpp
@@ -243,7 +243,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: utils/read.hpp
       title: utils/read.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
     - icon: ':heavy_check_mark:'
@@ -277,7 +277,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/aors_score.test.cpp
       title: test/aizu-online-judge/aors_score.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     - icon: ':heavy_check_mark:'
@@ -315,13 +315,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
