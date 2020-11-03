@@ -5,7 +5,7 @@
 #include "modulus/modint.hpp"
 
 int main() {
-  using mint = modint<998244353>;
+  using mint = workspace::modint<998244353>;
   int n, q;
   scanf("%d%d", &n, &q);
   struct mono {

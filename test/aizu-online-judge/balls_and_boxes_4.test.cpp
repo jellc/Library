@@ -7,5 +7,5 @@
 int main() {
   int n, k;
   scanf("%d%d", &n, &k);
-  printf("%d\n", binomial<modint<1000000007>>()(n + k - 1, n));
+  printf("%d\n", binomial<workspace::modint<1000000007>>()(n + k - 1, n));
 }

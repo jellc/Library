@@ -5,7 +5,7 @@
 #include "modulus/modint.hpp"
 
 int main() {
-  using mint = modint<998244353>;
+  using mint = workspace::modint<998244353>;
   using std::cin;
   int n;
   cin >> n;
