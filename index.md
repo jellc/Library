@@ -60,7 +60,7 @@ data:
       title: data_structure/Additional_union_find.hpp
     - icon: ':heavy_check_mark:'
       path: data_structure/Mo.hpp
-      title: data_structure/Mo.hpp
+      title: process queries about contiguous subarray
     - icon: ':warning:'
       path: data_structure/Skew_heap.hpp
       title: data_structure/Skew_heap.hpp
