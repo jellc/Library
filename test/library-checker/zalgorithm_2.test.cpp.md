@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
-    title: string/rolling_hash.hpp
+    title: hash data of a string.
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
     title: utils/binary_search.hpp
@@ -33,49 +33,67 @@ data:
     \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
     \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
     \  num_type operator()() { return unif(engine); }\n};\n#line 7 \"string/rolling_hash.hpp\"\
-    \n\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\
-    \n  constexpr static u64 mod = (1ull << 61) - 1;\n  static u64 base;\n\n  u64\
-    \ value = 0;\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  template\
-    \ <class char_type, typename std::enable_if<std::is_convertible<\n           \
-    \                      char_type, u64>::value>::type * = nullptr>\n  rolling_hashed(char_type\
-    \ c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64 value, size_t length)\
-    \ : value(value), length(length) {}\n\n  operator std::pair<u64, size_t>() const\
-    \ { return {value, length}; }\n\n  bool operator==(const rolling_hashed &rhs)\
-    \ const {\n    return value == rhs.value && length == rhs.length;\n  }\n\n  bool\
-    \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
-    \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
-    \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
-    \n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n    return *this =\
-    \ operator+(rhs);\n  }\n\n  rolling_hashed operator-(const rolling_hashed &rhs)\
-    \ const {\n    assert(!(length < rhs.length));\n    return {minus(value, mult(rhs.value,\
-    \ base_pow(length - rhs.length))),\n            length - rhs.length};\n  }\n\n\
+    \n\nnamespace workspace {\n\n/*\n * @struct rolling_hashed\n * @brief hash data\
+    \ of a string.\n */\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n\
+    \  using u128 = __uint128_t;\n\n  /*\n   * @var mod\n   * @brief modulus used\
+    \ for hashing.\n   */\n  constexpr static u64 mod = (1ull << 61) - 1;\n\n  const\
+    \ static u64 base;\n\n  /*\n   * @var value\n   * @brief hash value.\n   */\n\
+    \  u64 value = 0;\n\n  /*\n   * @var lenght\n   * @brief length of the string.\n\
+    \   */\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /*\n   * @brief\
+    \ construct hash data from one character.\n   * @param c a character\n   */\n\
+    \  template <class char_type, typename std::enable_if<std::is_convertible<\n \
+    \                                char_type, u64>::value>::type * = nullptr>\n\
+    \  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64\
+    \ value, size_t length) : value(value), length(length) {}\n\n  operator std::pair<u64,\
+    \ size_t>() const { return {value, length}; }\n\n  /*\n   * @return whether or\
+    \ not (*this) and (rhs) are equal\n   * @param rhs\n   */\n  bool operator==(const\
+    \ rolling_hashed &rhs) const {\n    return value == rhs.value && length == rhs.length;\n\
+    \  }\n\n  /*\n   * @return whether or not (*this) and (rhs) are distinct\n   *\
+    \ @param rhs\n   */\n  bool operator!=(const rolling_hashed &rhs) const { return\
+    \ !operator==(rhs); }\n\n  /*\n   * @param rhs the right operand\n   * @return\
+    \ hash data of concatenated string\n   */\n  rolling_hashed operator+(const rolling_hashed\
+    \ &rhs) const {\n    return {plus(value, mult(rhs.value, base_pow(length))),\n\
+    \            length + rhs.length};\n  }\n\n  /*\n   * @param rhs appended to right\
+    \ end\n   * @return reference to updated hash data\n   */\n  rolling_hashed operator+=(const\
+    \ rolling_hashed &rhs) {\n    return *this = operator+(rhs);\n  }\n\n  /*\n  \
+    \ * @param rhs the erased suffix\n   * @return hash data of erased string\n  \
+    \ */\n  rolling_hashed operator-(const rolling_hashed &rhs) const {\n    assert(!(length\
+    \ < rhs.length));\n    return {minus(value, mult(rhs.value, base_pow(length -\
+    \ rhs.length))),\n            length - rhs.length};\n  }\n\n  /*\n   * @param\
+    \ rhs erased from right end\n   * @return reference to updated hash data\n   */\n\
     \  rolling_hashed operator-=(const rolling_hashed &rhs) {\n    return *this =\
-    \ operator-(rhs);\n  }\n\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64>\
-    \ pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
+    \ operator-(rhs);\n  }\n\n  /*\n   * @fn base_pow\n   * @param exp the exponent\n\
+    \   * @return base ** pow\n   */\n  static u64 base_pow(size_t exp) {\n    static\
+    \ std::vector<u64> pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
     \ base));\n    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64\
     \ lhs, u64 rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n \
     \ static u64 minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs :\
     \ lhs + mod;\n  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n\
     \    lhs = (lhs >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n\
-    \  }\n};\n\nrolling_hashed::u64 rolling_hashed::base =\n    random_number_generator<u64>(1\
-    \ << 30, mod - 1)();\n\ntemplate <class str_type> struct rolling_hash_table {\n\
-    \  constexpr static size_t npos = -1;\n\n  rolling_hash_table() = default;\n\n\
-    \  rolling_hash_table(str_type str) {\n    std::reverse(std::begin(str), std::end(str));\n\
-    \    for (auto &&c : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());\n\
-    \    std::reverse(suffix.begin(), suffix.end());\n  }\n\n  size_t size() const\
-    \ { return suffix.size() - 1; }\n\n  rolling_hashed substr(size_t pos = 0, size_t\
-    \ n = npos) const {\n    assert(!(size() < pos));\n    return suffix[pos] - suffix[pos\
-    \ + std::min(n, size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed>\
-    \ suffix{{}};\n};\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus >= 201703L\n\
-    #line 4 \"utils/binary_search.hpp\"\n#include <cmath>\n#line 6 \"utils/binary_search.hpp\"\
-    \nnamespace workspace {\n// binary search on a discrete range.\ntemplate <class\
-    \ iter_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
-    \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)>\
-    \ dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist\
-    \ / 2);\n    if (pred(mid))\n      ok = mid, dist -= dist / 2;\n    else\n   \
-    \   ng = mid, dist /= 2;\n  }\n  return ok;\n}\n// parallel binary search on each\
-    \ discrete range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
+    \  }\n};\n\n/*\n * @var base\n * @brief base used for hashing\n */\nconst rolling_hashed::u64\
+    \ rolling_hashed::base =\n    random_number_generator<u64>(1 << 30, mod - 1)();\n\
+    \n/*\n * @struct rolling_hash_table\n * @brief make hash data table of suffix.\n\
+    \ */\ntemplate <class str_type> struct rolling_hash_table {\n  constexpr static\
+    \ size_t npos = -1;\n\n  rolling_hash_table() = default;\n\n  rolling_hash_table(str_type\
+    \ str) {\n    std::reverse(std::begin(str), std::end(str));\n    for (auto &&c\
+    \ : str) suffix.emplace_back(rolling_hashed{c} + suffix.back());\n    std::reverse(suffix.begin(),\
+    \ suffix.end());\n  }\n\n  /*\n   * @return length of the string\n   */\n  size_t\
+    \ size() const { return suffix.size() - 1; }\n\n  /*\n   * @param pos start position\n\
+    \   * @param n length of the substring\n   * @return hash data of the substring\n\
+    \   */\n  rolling_hashed substr(size_t pos = 0, size_t n = npos) const {\n   \
+    \ assert(!(size() < pos));\n    return suffix[pos] - suffix[pos + std::min(n,\
+    \ size() - pos)];\n  }\n\n private:\n  std::vector<rolling_hashed> suffix{{}};\n\
+    };\n\n}  // namespace workspace\n#line 2 \"utils/binary_search.hpp\"\n#if __cplusplus\
+    \ >= 201703L\n#line 4 \"utils/binary_search.hpp\"\n#include <cmath>\n#line 6 \"\
+    utils/binary_search.hpp\"\nnamespace workspace {\n// binary search on a discrete\
+    \ range.\ntemplate <class iter_type, class pred_type>\nstd::enable_if_t<\n   \
+    \ std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,\n \
+    \   iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type pred) {\n\
+    \  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)> dist(ng - ok);\n\
+    \  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist / 2);\n    if\
+    \ (pred(mid))\n      ok = mid, dist -= dist / 2;\n    else\n      ng = mid, dist\
+    \ /= 2;\n  }\n  return ok;\n}\n// parallel binary search on each discrete range.\n\
+    template <class iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n\
     \                     std::invoke_result_t<pred_type, std::vector<iter_type>>,\n\
     \                     std::vector<bool>>,\n                 std::vector<iter_type>>\n\
     binary_search(std::vector<std::pair<iter_type, iter_type>> ends,\n           \
@@ -106,15 +124,16 @@ data:
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
     \ = mids[i];\n    }\n  }\n  return mids;\n}\n}  // namespace workspace\n#endif\n\
     #line 7 \"test/library-checker/zalgorithm_2.test.cpp\"\n\nint main() {\n  std::string\
-    \ s;\n  std::cin >> s;\n  rolling_hash_table hash(s);\n  for (size_t i = 0; i\
-    \ < size(s); ++i) {\n    if (i) std::cout << \" \";\n    std::cout << workspace::binary_search(\n\
-    \        size_t(0), size(s) + 1, [&](size_t len) -> bool {\n          return hash.substr(0,\
-    \ len) == hash.substr(i, len);\n        });\n  }\n  std::cout << \"\\n\";\n}\n"
+    \ s;\n  std::cin >> s;\n  workspace::rolling_hash_table hash(s);\n  for (size_t\
+    \ i = 0; i < size(s); ++i) {\n    if (i) std::cout << \" \";\n    std::cout <<\
+    \ workspace::binary_search(\n        size_t(0), size(s) + 1, [&](size_t len) ->\
+    \ bool {\n          return hash.substr(0, len) == hash.substr(i, len);\n     \
+    \   });\n  }\n  std::cout << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n#include\
     \ <iostream>\n#include <string>\n\n#include \"string/rolling_hash.hpp\"\n#include\
     \ \"utils/binary_search.hpp\"\n\nint main() {\n  std::string s;\n  std::cin >>\
-    \ s;\n  rolling_hash_table hash(s);\n  for (size_t i = 0; i < size(s); ++i) {\n\
-    \    if (i) std::cout << \" \";\n    std::cout << workspace::binary_search(\n\
+    \ s;\n  workspace::rolling_hash_table hash(s);\n  for (size_t i = 0; i < size(s);\
+    \ ++i) {\n    if (i) std::cout << \" \";\n    std::cout << workspace::binary_search(\n\
     \        size_t(0), size(s) + 1, [&](size_t len) -> bool {\n          return hash.substr(0,\
     \ len) == hash.substr(i, len);\n        });\n  }\n  std::cout << \"\\n\";\n}\n"
   dependsOn:
@@ -124,7 +143,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-10-06 00:55:27+09:00'
+  timestamp: '2020-11-03 23:54:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp

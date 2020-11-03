@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
-    title: string/rolling_hash.hpp
+    title: hash data of a string.
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp

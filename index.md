@@ -201,7 +201,7 @@ data:
       title: string/binary_trie.hpp
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.hpp
-      title: string/rolling_hash.hpp
+      title: hash data of a string.
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
       title: string/suffix_array.hpp
