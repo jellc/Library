@@ -8,8 +8,8 @@ namespace workspace {
 /*
  * @fn floor_div
  * @brief floor of fraction.
- * @param x an integer
- * @param y an integer
+ * @param x the numerator
+ * @param y the denominator
  * @return maximum integer z s.t. z <= x / y
  * @note y must be nonzero.
  */
@@ -26,8 +26,8 @@ floor_div(T1 x, T2 y) {
 /*
  * @fn ceil_div
  * @brief ceil of fraction.
- * @param x an integer
- * @param y an integer
+ * @param x the numerator
+ * @param y the denominator
  * @return minimum integer z s.t. z >= x / y
  * @note y must be nonzero.
  */
