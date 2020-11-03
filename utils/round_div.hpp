@@ -7,7 +7,7 @@ namespace workspace {
 
 /*
  * @fn floor_div
- * @brief floor of division.
+ * @brief floor of fraction.
  * @param x an integer
  * @param y an integer
  * @return maximum integer z s.t. z <= x / y
@@ -25,7 +25,7 @@ floor_div(T1 x, T2 y) {
 
 /*
  * @fn ceil_div
- * @brief ceil of division.
+ * @brief ceil of fraction.
  * @param x an integer
  * @param y an integer
  * @return minimum integer z s.t. z >= x / y
