@@ -218,7 +218,7 @@ data:
       title: utils/casefmt.hpp
     - icon: ':warning:'
       path: utils/chval.hpp
-      title: utils/chval.hpp
+      title: substitute y for x if comp(y, x) is true
     - icon: ':heavy_check_mark:'
       path: utils/coordinate_compression.hpp
       title: utils/coordinate_compression.hpp

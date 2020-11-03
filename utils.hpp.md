@@ -12,7 +12,7 @@ data:
     title: utils/casefmt.hpp
   - icon: ':warning:'
     path: utils/chval.hpp
-    title: utils/chval.hpp
+    title: substitute y for x if comp(y, x) is true
   - icon: ':heavy_check_mark:'
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
@@ -114,13 +114,18 @@ data:
     \  // namespace config\n#line 3 \"utils/casefmt.hpp\"\nnamespace workspace {\n\
     std::ostream &casefmt(std::ostream& os) { return os << \"Case #\" << config::caseid\
     \ << \": \"; }\n} // namespace workspace\n#line 2 \"utils/chval.hpp\"\n#include\
-    \ <functional>\nnamespace workspace {\ntemplate <class T, class Comp = std::less<T>>\n\
-    bool chle(T &x, const T &y, Comp comp = Comp()) {\n  return comp(y, x) ? x = y,\
-    \ true : false;\n}\ntemplate <class T, class Comp = std::less<T>>\nbool chge(T\
-    \ &x, const T &y, Comp comp = Comp()) {\n  return comp(x, y) ? x = y, true : false;\n\
-    }\n}  // namespace workspace\n#line 2 \"utils/coordinate_compression.hpp\"\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <vector>\n\ntemplate <class T> class\
-    \ coordinate_compression {\n  std::vector<T> uniquely;\n  std::vector<size_t>\
+    \ <functional>\nnamespace workspace {\n\n/*\n * @fn chle\n * @brief substitute\
+    \ y for x if comp(y, x) is true\n * @param x reference\n * @param y const reference\n\
+    \ * @param comp compare function\n * @return whether or not x is updated\n */\n\
+    template <class Tp, class Comp = std::less<Tp>>\nbool chle(Tp &x, const Tp &y,\
+    \ Comp comp = Comp()) {\n  return comp(y, x) ? x = y, true : false;\n}\n\n/*\n\
+    \ * @fn chge\n * @brief substitute y for x if comp(x, y) is true\n * @param x\
+    \ reference\n * @param y const reference\n * @param comp compare function\n *\
+    \ @return whether or not x is updated\n */\ntemplate <class Tp, class Comp = std::less<Tp>>\n\
+    bool chge(Tp &x, const Tp &y, Comp comp = Comp()) {\n  return comp(x, y) ? x =\
+    \ y, true : false;\n}\n\n}  // namespace workspace\n#line 2 \"utils/coordinate_compression.hpp\"\
+    \n#include <algorithm>\n#include <cassert>\n#include <vector>\n\ntemplate <class\
+    \ T> class coordinate_compression {\n  std::vector<T> uniquely;\n  std::vector<size_t>\
     \ compressed;\n\n public:\n  coordinate_compression(const std::vector<T> &raw)\n\
     \      : uniquely(raw), compressed(raw.size()) {\n    std::sort(uniquely.begin(),\
     \ uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),\n\
@@ -358,7 +363,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-03 22:52:30+09:00'
+  timestamp: '2020-11-03 23:01:02+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp
