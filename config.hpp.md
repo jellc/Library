@@ -3,6 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
+  - icon: ':warning:'
     path: utils/casefmt.hpp
     title: utils/casefmt.hpp
   _extendedVerifiedWith: []
@@ -36,6 +42,8 @@ data:
   isVerificationFile: false
   path: config.hpp
   requiredBy:
+  - template.cpp
+  - utils.hpp
   - utils/casefmt.hpp
   timestamp: '2020-11-03 02:57:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS

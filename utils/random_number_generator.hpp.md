@@ -5,6 +5,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
     title: string/rolling_hash.hpp
+  - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp
@@ -40,7 +46,9 @@ data:
   isVerificationFile: false
   path: utils/random_number_generator.hpp
   requiredBy:
+  - template.cpp
   - string/rolling_hash.hpp
+  - utils.hpp
   timestamp: '2020-09-22 15:16:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

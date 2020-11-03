@@ -242,7 +242,7 @@ data:
       title: utils/read.hpp
     - icon: ':warning:'
       path: utils/round_div.hpp
-      title: floor of division.
+      title: floor of fraction.
     - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp

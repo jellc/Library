@@ -4,7 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/do_use_segment_tree.test.cpp
@@ -113,7 +119,9 @@ data:
   - utils/sfinae.hpp
   isVerificationFile: false
   path: utils/stream.hpp
-  requiredBy: []
+  requiredBy:
+  - template.cpp
+  - utils.hpp
   timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

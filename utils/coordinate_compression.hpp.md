@@ -1,7 +1,13 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: template.cpp
+    title: template.cpp
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_kth_smallest.test.cpp
@@ -48,7 +54,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: utils/coordinate_compression.hpp
-  requiredBy: []
+  requiredBy:
+  - template.cpp
+  - utils.hpp
   timestamp: '2020-09-26 02:24:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
