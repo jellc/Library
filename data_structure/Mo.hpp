@@ -5,6 +5,16 @@
 #include <numeric>
 #include <vector>
 
+namespace workspace {
+
+/*
+ * @class Mo
+ * @brief process queries about contiguous subarray
+ * @tparam Push_back
+ * @tparam Pop_back
+ * @tparam Push_front Push_back as default
+ * @tparam Pop_front Pop_back as default
+ */
 template <class Push_back, class Pop_back, class Push_front = Push_back,
           class Pop_front = Pop_back>
 class Mo {
@@ -17,9 +27,19 @@ class Mo {
   size_t lpos, rpos;
 
  public:
+  /*
+   * @param push_back
+   * @param pop_back
+   */
   Mo(Push_back push_back, Pop_back pop_back)
       : Mo(push_back, pop_back, push_back, pop_back) {}
 
+  /*
+   * @param push_front
+   * @param pop_front
+   * @param push_back
+   * @param pop_back
+   */
   Mo(Push_front push_front, Pop_front pop_front, Push_back push_back,
      Pop_back pop_back)
       : push_front(push_front),
@@ -29,14 +49,24 @@ class Mo {
         lpos(),
         rpos() {}
 
+  /*
+   * @return number of queries
+   */
   size_t size() const { return lft.size(); }
 
-  // query for [l, r)
+  /*
+   * @brief add query
+   * @param l left end, inclusive
+   * @param r right end, exclusive
+   */
   void set(size_t l, size_t r) {
     assert(!(r < l));
     lft.emplace_back(l), rgt.emplace_back(r);
   }
 
+  /*
+   * @brief sort queries
+   */
   void make() {
     assert(size());
     ord.resize(size());
@@ -49,6 +79,10 @@ class Mo {
     itr = ord.begin();
   }
 
+  /*
+   * @brief process one query
+   * @return index of query
+   */
   size_t process() {
     if (itr == ord.end()) return ord.size();
     const size_t id = *itr++, l = lft[id], r = rgt[id];
@@ -59,3 +93,5 @@ class Mo {
     return id;
   }
 };
+
+}  // namespace workspace

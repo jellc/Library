@@ -35,7 +35,7 @@ int main() {
     invs -= seg.fold(i + 1, n);
     seg[i]--;
   };
-  Mo mo(addl, dell, addr, delr);
+  workspace::Mo mo(addl, dell, addr, delr);
   for (int i = 0; i < q; i++) {
     int l, r;
     scanf("%d%d", &l, &r);

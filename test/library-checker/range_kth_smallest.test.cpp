@@ -22,7 +22,7 @@ int main() {
     cnt[now]--;
     bcnt[now / bsize]--;
   };
-  Mo mo(add, del);
+  workspace::Mo mo(add, del);
   std::vector<int> k(q), ans(q);
   for (int l, r, i = 0; i < q; i++) {
     scanf("%d%d%d", &l, &r, &k[i]);
