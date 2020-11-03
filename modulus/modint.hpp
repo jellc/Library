@@ -193,6 +193,7 @@ typename modint_base<Mod, Mod_type>::mod_type modint_base<Mod, Mod_type>::mod =
  */
 template <auto Mod> struct modint : internal::modint_base<Mod> {
   static_assert(Mod > 0);
+  using internal::modint_base<Mod>::modint_base;
 };
 
 /*
@@ -201,7 +202,9 @@ template <auto Mod> struct modint : internal::modint_base<Mod> {
  * @tparam type_id uniquely assigned
  */
 template <unsigned type_id = 0>
-struct modint_runtime : internal::modint_base<-(signed)type_id> {};
+struct modint_runtime : internal::modint_base<-(signed)type_id> {
+  using internal::modint_base<-(signed)type_id>::modint_base;
+};
 
 // #define modint_newtype modint_runtime<__COUNTER__>
 
