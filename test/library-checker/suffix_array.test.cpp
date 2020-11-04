@@ -12,5 +12,5 @@ int main() {
 
   string s;
   cin >> s;
-  cout << suffix_array<string>(s) << "\n";
+  cout << workspace::suffix_array<string>(s) << "\n";
 }
