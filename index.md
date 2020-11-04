@@ -190,7 +190,7 @@ data:
       title: Extended Euclidean algorithm
     - icon: ':warning:'
       path: number_theory/least_factor.hpp
-      title: calculate the least prime factor for positive integers.
+      title: Least prime factor
   - name: string
     pages:
     - icon: ':warning:'

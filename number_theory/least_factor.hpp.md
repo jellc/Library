@@ -9,7 +9,7 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: calculate the least prime factor for positive integers.
+    document_title: Least prime factor
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -18,7 +18,7 @@ data:
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
     \ number_theory/least_factor.hpp: line 6: #pragma once found in a non-first line\n"
-  code: "/*\n * @file least_factor.hpp\n * @breif Least prime factor\n */\n\n#pragma\
+  code: "/*\n * @file least_factor.hpp\n * @brief Least prime factor\n */\n\n#pragma\
     \ once\n#include <cassert>\n#include <vector>\n\n#include \"utils/sfinae.hpp\"\
     \n\nnamespace workspace {\n\n/*\n * @class least_factor\n * @brief calculate the\
     \ least prime factor for positive integers.\n * @tparam N range of calculation,\
@@ -40,7 +40,7 @@ data:
   isVerificationFile: false
   path: number_theory/least_factor.hpp
   requiredBy: []
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:23:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: number_theory/least_factor.hpp
@@ -48,5 +48,5 @@ layout: document
 redirect_from:
 - /library/number_theory/least_factor.hpp
 - /library/number_theory/least_factor.hpp.html
-title: calculate the least prime factor for positive integers.
+title: Least prime factor
 ---

@@ -25,7 +25,7 @@ data:
     title: Extended Euclidean algorithm
   - icon: ':warning:'
     path: number_theory/least_factor.hpp
-    title: calculate the least prime factor for positive integers.
+    title: Least prime factor
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: Suffix array
