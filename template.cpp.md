@@ -9,7 +9,7 @@ data:
     title: Configuration
   - icon: ':warning:'
     path: cxx20.hpp
-    title: cxx20.hpp
+    title: C++20 features
   - icon: ':warning:'
     path: option.hpp
     title: Optimize options
@@ -18,7 +18,7 @@ data:
     title: utils.hpp
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary_search
+    title: Binary search
   - icon: ':warning:'
     path: utils/casefmt.hpp
     title: Case output format
@@ -108,7 +108,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp

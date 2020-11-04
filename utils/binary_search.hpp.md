@@ -24,7 +24,7 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Binary_search
+    document_title: Binary search
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -33,7 +33,7 @@ data:
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
     \ utils/binary_search.hpp: line 6: #pragma once found in a non-first line\n"
-  code: "/*\n * @file binary_search.hpp\n * @brief Binary_search\n */\n\n#pragma once\n\
+  code: "/*\n * @file binary_search.hpp\n * @brief Binary search\n */\n\n#pragma once\n\
     \n#if __cplusplus >= 201703L\n\n#include <cassert>\n#include <cmath>\n#include\
     \ <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief binary\
     \ search on a discrete range.\n * @param ok pred(ok) is true\n * @param ng pred(ng)\
@@ -90,7 +90,7 @@ data:
   - template.cpp
   - string/rolling_hash.hpp
   - utils.hpp
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
@@ -101,5 +101,5 @@ layout: document
 redirect_from:
 - /library/utils/binary_search.hpp
 - /library/utils/binary_search.hpp.html
-title: Binary_search
+title: Binary search
 ---

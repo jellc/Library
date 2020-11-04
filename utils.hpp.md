@@ -6,7 +6,7 @@ data:
     title: Configuration
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary_search
+    title: Binary search
   - icon: ':warning:'
     path: utils/casefmt.hpp
     title: Case output format
@@ -121,7 +121,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

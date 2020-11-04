@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary_search
+    title: Binary search
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -75,7 +75,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   requiredBy: []
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/dont_burst_the_ballon.test.cpp

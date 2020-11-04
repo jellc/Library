@@ -35,7 +35,7 @@ data:
       title: Configuration
     - icon: ':warning:'
       path: cxx20.hpp
-      title: cxx20.hpp
+      title: C++20 features
     - icon: ':warning:'
       path: option.hpp
       title: Optimize options
@@ -182,7 +182,7 @@ data:
       title: modulus/inverse.hpp
     - icon: ':heavy_check_mark:'
       path: modulus/modint.hpp
-      title: base of modular arithmetic.
+      title: Modular arithmetic
   - name: number_theory
     pages:
     - icon: ':heavy_check_mark:'
@@ -212,7 +212,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: utils/binary_search.hpp
-      title: Binary_search
+      title: Binary search
     - icon: ':warning:'
       path: utils/casefmt.hpp
       title: Case output format

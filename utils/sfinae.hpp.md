@@ -19,7 +19,7 @@ data:
     title: modulus/inverse.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: base of modular arithmetic.
+    title: Modular arithmetic
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
     title: Extended Euclidean algorithm

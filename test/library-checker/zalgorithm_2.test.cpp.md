@@ -6,7 +6,7 @@ data:
     title: Rolling hash
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary_search
+    title: Binary search
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -42,7 +42,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp

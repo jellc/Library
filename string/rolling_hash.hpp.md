@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary_search
+    title: Binary search
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -90,7 +90,7 @@ data:
   isVerificationFile: false
   path: string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-04 18:14:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
