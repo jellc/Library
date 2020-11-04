@@ -2,6 +2,13 @@
 #include <string>
 #include <vector>
 
+namespace workspace {
+
+/*
+ * @class z_algorithm
+ * @brief construct Z-array in linear time.
+ * @tparam str_type the type of string
+ */
 template <class str_type = std::string> class z_algorithm {
   str_type key;
   std::vector<size_t> z;
@@ -25,15 +32,30 @@ template <class str_type = std::string> class z_algorithm {
   z_algorithm(const str_type &key) : key(key), z(size()) { make(); }
 
   std::vector<size_t>::const_iterator begin() const { return z.begin(); }
+
   std::vector<size_t>::const_iterator end() const { return z.end(); }
 
+  /*
+   * @fn size
+   * @return length of the string
+   */
   size_t size() const { return key.size(); }
 
+  /*
+   * @fn operator[]
+   * @param i index
+   * @return LCP of (i)-th suffix and the whole string
+   */
   size_t operator[](size_t i) const {
     assert(i < size());
     return z[i];
   }
 
+  /*
+   * @fn pattern_search
+   * @param str
+   * @return length of the string
+   */
   std::vector<size_t> pattern_search(const str_type &str) const {
     str_type ccat(key);
     ccat.insert(end(ccat), begin(str), end(str));
@@ -44,3 +66,5 @@ template <class str_type = std::string> class z_algorithm {
     return res;
   }
 };
+
+}  // namespace workspace

@@ -7,6 +7,6 @@
 int main() {
   std::string s;
   std::cin >> s;
-  z_algorithm z(s);
+  workspace::z_algorithm z(s);
   std::cout << z << "\n";
 }
