@@ -1,6 +1,6 @@
 /*
  * @file least_factor.hpp
- * @breif Least prime factor
+ * @brief Least prime factor
  */
 
 #pragma once
