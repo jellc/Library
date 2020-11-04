@@ -1,6 +1,6 @@
 /*
  * @file binary_search.hpp
- * @brief Binary_search
+ * @brief Binary search
  */
 
 #pragma once
