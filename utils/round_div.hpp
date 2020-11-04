@@ -1,3 +1,8 @@
+/*
+ * @file round_div.hpp
+ * @brief round integer division
+ */
+
 #pragma once
 #include <cassert>
 
