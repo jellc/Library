@@ -1,10 +1,21 @@
 #pragma once
+
 #if __cplusplus >= 201703L
+
 #include <cassert>
 #include <cmath>
 #include <vector>
+
 namespace workspace {
-// binary search on a discrete range.
+
+/*
+ * @fn binary_search
+ * @brief binary search on a discrete range.
+ * @param ok pred(ok) is true
+ * @param ng pred(ng) is false
+ * @param pred the predicate
+ * @return the closest point to (ng) where pred is true
+ */
 template <class iter_type, class pred_type>
 std::enable_if_t<
     std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>, bool>,
@@ -21,7 +32,14 @@ binary_search(iter_type ok, iter_type ng, pred_type pred) {
   }
   return ok;
 }
-// parallel binary search on each discrete range.
+
+/*
+ * @fn binary_search
+ * @brief parallel binary search on discrete ranges.
+ * @param ends a vector of pairs; pred(first) is true, pred(second) is false
+ * @param pred the predicate
+ * @return the closest points to (second) where pred is true
+ */
 template <class iter_type, class pred_type>
 std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<iter_type>>,
@@ -48,7 +66,16 @@ binary_search(std::vector<std::pair<iter_type, iter_type>> ends,
   }
   return mids;
 }
-// binary search on a real number interval.
+
+/*
+ * @fn binary_search
+ * @brief binary search on the real number line.
+ * @param ok pred(ok) is true
+ * @param ng pred(ng) is false
+ * @param eps the error tolerance
+ * @param pred the predicate
+ * @return the boundary point
+ */
 template <class real_type, class pred_type>
 std::enable_if_t<
     std::is_convertible_v<std::invoke_result_t<pred_type, real_type>, bool>,
@@ -63,7 +90,15 @@ binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred) {
   }
   return ok;
 }
-// parallel binary search on each real interval.
+
+/*
+ * @fn binary_search
+ * @brief parallel binary search on the real number line.
+ * @param ends a vector of pairs; pred(first) is true, pred(second) is false
+ * @param eps the error tolerance
+ * @param pred the predicate
+ * @return the boundary points
+ */
 template <class real_type, class pred_type>
 std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<real_type>>,
@@ -90,5 +125,7 @@ binary_search(std::vector<std::pair<real_type, real_type>> ends,
   }
   return mids;
 }
+
 }  // namespace workspace
+
 #endif
