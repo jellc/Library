@@ -1,3 +1,8 @@
+/*
+ * @file ext_gcd
+ * @brief Extended Euclidean algorithm
+ */
+
 #pragma once
 #include <tuple>
 
@@ -7,7 +12,6 @@ namespace workspace {
 
 /*
  * @fn ext_gcd
- * @brief extended Euclidean algorithm.
  * @param a an integer
  * @param b an integer
  * @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)

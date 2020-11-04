@@ -1,3 +1,8 @@
+/*
+ * @file least_factor.hpp
+ * @breif Least prime factor
+ */
+
 #pragma once
 #include <cassert>
 #include <vector>

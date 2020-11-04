@@ -1,6 +1,6 @@
 /*
  * @file round_div.hpp
- * @brief round integer division
+ * @brief Round integer division
  */
 
 #pragma once

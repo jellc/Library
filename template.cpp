@@ -1,3 +1,7 @@
+/* @file template.cpp
+ * @brief Code template
+ */
+
 #include <bits/extc++.h>
 
 #include "alias.hpp"

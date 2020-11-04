@@ -1,3 +1,8 @@
+/*
+ * @file ejection.hpp
+ * @brief Ejection from try block
+ */
+
 #pragma once
 #include <iostream>
 

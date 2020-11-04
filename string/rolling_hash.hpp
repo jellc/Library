@@ -1,8 +1,14 @@
+/*
+ * @file rolling_hash.hpp
+ * @brief Rolling hash
+ */
+
 #pragma once
 #include <algorithm>
 #include <cassert>
 #include <vector>
 
+#include "utils/binary_search.hpp"
 #include "utils/random_number_generator.hpp"
 
 namespace workspace {
@@ -162,6 +168,16 @@ template <class str_type> struct rolling_hash_table {
   rolling_hashed substr(size_t pos = 0, size_t n = npos) const {
     assert(!(size() < pos));
     return suffix[pos] - suffix[pos + std::min(n, size() - pos)];
+  }
+
+  /*
+   * @param rhs
+   * @return length of the longest common prefix
+   */
+  size_t lcp(rolling_hash_table const &rhs) const {
+    auto n = std::min(size(), rhs.size());
+    return binary_search<size_t>(
+        0, n + 1, [&](size_t l) { return substr(0, l) == rhs.substr(0, l); });
   }
 
  private:

@@ -1,3 +1,8 @@
+/*
+ * @file binary_search.hpp
+ * @brief Binary_search
+ */
+
 #pragma once
 
 #if __cplusplus >= 201703L
@@ -34,7 +39,7 @@ binary_search(iter_type ok, iter_type ng, pred_type pred) {
 }
 
 /*
- * @fn binary_search
+ * @fn parallel_binary_search
  * @brief parallel binary search on discrete ranges.
  * @param ends a vector of pairs; pred(first) is true, pred(second) is false
  * @param pred the predicate
@@ -45,8 +50,8 @@ std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<iter_type>>,
                      std::vector<bool>>,
                  std::vector<iter_type>>
-binary_search(std::vector<std::pair<iter_type, iter_type>> ends,
-              pred_type pred) {
+parallel_binary_search(std::vector<std::pair<iter_type, iter_type>> ends,
+                       pred_type pred) {
   std::vector<iter_type> mids(ends.size());
   for (;;) {
     bool all_found = true;
@@ -92,7 +97,7 @@ binary_search(real_type ok, real_type ng, const real_type eps, pred_type pred) {
 }
 
 /*
- * @fn binary_search
+ * @fn parallel_binary_search
  * @brief parallel binary search on the real number line.
  * @param ends a vector of pairs; pred(first) is true, pred(second) is false
  * @param eps the error tolerance
@@ -104,8 +109,8 @@ std::enable_if_t<std::is_convertible_v<
                      std::invoke_result_t<pred_type, std::vector<real_type>>,
                      std::vector<bool>>,
                  std::vector<real_type>>
-binary_search(std::vector<std::pair<real_type, real_type>> ends,
-              const real_type eps, pred_type pred) {
+parallel_binary_search(std::vector<std::pair<real_type, real_type>> ends,
+                       const real_type eps, pred_type pred) {
   std::vector<real_type> mids(ends.size());
   for (auto loops = 0; loops != std::numeric_limits<real_type>::digits;
        ++loops) {
