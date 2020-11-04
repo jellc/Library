@@ -36,8 +36,8 @@ data:
     \ to ostream\n * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n\
     \  return os << \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace\
     \ workspace\n"
-  code: "#pragma once\n#include \"config.hpp\"\n\nnamespace workspace {\n\n/*\n *\
-    \ @brief printf(\"Case #%u: \", config::caseid)\n * @param os reference to ostream\n\
+  code: "#pragma once\n#include \"../config.hpp\"\n\nnamespace workspace {\n\n/*\n\
+    \ * @brief printf(\"Case #%u: \", config::caseid)\n * @param os reference to ostream\n\
     \ * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n  return os <<\
     \ \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace workspace\n"
   dependsOn:
@@ -47,7 +47,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-04 13:20:06+09:00'
+  timestamp: '2020-11-04 13:44:59+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/casefmt.hpp
