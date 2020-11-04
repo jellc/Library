@@ -212,7 +212,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: utils/binary_search.hpp
-      title: utils/binary_search.hpp
+      title: binary search on a discrete range.
     - icon: ':warning:'
       path: utils/casefmt.hpp
       title: 'printf("Case #%u: ", config::caseid)'
