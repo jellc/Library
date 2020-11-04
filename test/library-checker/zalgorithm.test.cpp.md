@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/z_algorithm.hpp
-    title: string/z_algorithm.hpp
+    title: construct Z-array in linear time.
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -21,25 +21,30 @@ data:
     - https://judge.yosupo.jp/problem/zalgorithm
   bundledCode: "#line 1 \"test/library-checker/zalgorithm.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/zalgorithm\"\n#include <bits/stdc++.h>\n\n\
-    #line 4 \"string/z_algorithm.hpp\"\n\ntemplate <class str_type = std::string>\
-    \ class z_algorithm {\n  str_type key;\n  std::vector<size_t> z;\n\n  void make()\
-    \ {\n    if (z.empty()) return;\n    for (size_t i{1}, j{0}; i != size(); ++i)\
-    \ {\n      if (z[i - j] + i < z[j] + j) {\n        z[i] = z[i - j];\n      } else\
-    \ {\n        size_t k{z[j] + j > i ? z[j] + j - i : 0};\n        while (k + i\
-    \ < size() && key[k] == key[k + i]) ++k;\n        z[i] = k;\n        j = i;\n\
-    \      }\n    }\n    z.front() = size();\n  }\n\n public:\n  z_algorithm(const\
-    \ str_type &key) : key(key), z(size()) { make(); }\n\n  std::vector<size_t>::const_iterator\
-    \ begin() const { return z.begin(); }\n  std::vector<size_t>::const_iterator end()\
-    \ const { return z.end(); }\n\n  size_t size() const { return key.size(); }\n\n\
-    \  size_t operator[](size_t i) const {\n    assert(i < size());\n    return z[i];\n\
-    \  }\n\n  std::vector<size_t> pattern_search(const str_type &str) const {\n  \
-    \  str_type ccat(key);\n    ccat.insert(end(ccat), begin(str), end(str));\n  \
-    \  z_algorithm z(ccat);\n    std::vector<size_t> res(z.begin() + size(), z.end());\n\
+    #line 4 \"string/z_algorithm.hpp\"\n\nnamespace workspace {\n\n/*\n * @class z_algorithm\n\
+    \ * @brief construct Z-array in linear time.\n * @tparam str_type the type of\
+    \ string\n */\ntemplate <class str_type = std::string> class z_algorithm {\n \
+    \ str_type key;\n  std::vector<size_t> z;\n\n  void make() {\n    if (z.empty())\
+    \ return;\n    for (size_t i{1}, j{0}; i != size(); ++i) {\n      if (z[i - j]\
+    \ + i < z[j] + j) {\n        z[i] = z[i - j];\n      } else {\n        size_t\
+    \ k{z[j] + j > i ? z[j] + j - i : 0};\n        while (k + i < size() && key[k]\
+    \ == key[k + i]) ++k;\n        z[i] = k;\n        j = i;\n      }\n    }\n   \
+    \ z.front() = size();\n  }\n\n public:\n  z_algorithm(const str_type &key) : key(key),\
+    \ z(size()) { make(); }\n\n  std::vector<size_t>::const_iterator begin() const\
+    \ { return z.begin(); }\n\n  std::vector<size_t>::const_iterator end() const {\
+    \ return z.end(); }\n\n  /*\n   * @fn size\n   * @return length of the string\n\
+    \   */\n  size_t size() const { return key.size(); }\n\n  /*\n   * @fn operator[]\n\
+    \   * @param i index\n   * @return LCP of (i)-th suffix and the whole string\n\
+    \   */\n  size_t operator[](size_t i) const {\n    assert(i < size());\n    return\
+    \ z[i];\n  }\n\n  /*\n   * @fn pattern_search\n   * @param str\n   * @return length\
+    \ of the string\n   */\n  std::vector<size_t> pattern_search(const str_type &str)\
+    \ const {\n    str_type ccat(key);\n    ccat.insert(end(ccat), begin(str), end(str));\n\
+    \    z_algorithm z(ccat);\n    std::vector<size_t> res(z.begin() + size(), z.end());\n\
     \    for (size_t &x : res)\n      if (x > size()) x = size();\n    return res;\n\
-    \  }\n};\n#line 4 \"utils/stream.hpp\"\n\n#line 4 \"utils/sfinae.hpp\"\n#include\
-    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
-    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
-    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 4 \"utils/stream.hpp\"\n\n#line 4\
+    \ \"utils/sfinae.hpp\"\n#include <type_traits>\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
     \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
@@ -85,12 +90,12 @@ data:
     operator<<(ostream &os, const Container &cont) {\n  bool head = true;\n  for (auto\
     \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
     \ // namespace std\n#line 6 \"test/library-checker/zalgorithm.test.cpp\"\n\nint\
-    \ main() {\n  std::string s;\n  std::cin >> s;\n  z_algorithm z(s);\n  std::cout\
-    \ << z << \"\\n\";\n}\n"
+    \ main() {\n  std::string s;\n  std::cin >> s;\n  workspace::z_algorithm z(s);\n\
+    \  std::cout << z << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n#include\
     \ <bits/stdc++.h>\n\n#include \"string/z_algorithm.hpp\"\n#include \"utils/stream.hpp\"\
-    \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  z_algorithm z(s);\n  std::cout\
-    \ << z << \"\\n\";\n}\n"
+    \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  workspace::z_algorithm\
+    \ z(s);\n  std::cout << z << \"\\n\";\n}\n"
   dependsOn:
   - string/z_algorithm.hpp
   - utils/stream.hpp
@@ -98,7 +103,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2020-10-10 01:30:31+09:00'
+  timestamp: '2020-11-04 14:15:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm.test.cpp

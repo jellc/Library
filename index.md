@@ -204,10 +204,10 @@ data:
       title: hash data of a string.
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
-      title: string/suffix_array.hpp
+      title: construct SA and LCP array.
     - icon: ':heavy_check_mark:'
       path: string/z_algorithm.hpp
-      title: string/z_algorithm.hpp
+      title: construct Z-array in linear time.
   - name: utils
     pages:
     - icon: ':heavy_check_mark:'

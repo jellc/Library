@@ -28,7 +28,7 @@ data:
     title: calculate the least prime factor for positive integers.
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
-    title: string/suffix_array.hpp
+    title: construct SA and LCP array.
   - icon: ':warning:'
     path: template.cpp
     title: template.cpp
