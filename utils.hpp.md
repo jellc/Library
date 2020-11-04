@@ -3,31 +3,31 @@ data:
   _extendedDependsOn:
   - icon: ':warning:'
     path: config.hpp
-    title: setup I/O before main process.
+    title: Configuration
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: binary search on a discrete range.
+    title: Binary_search
   - icon: ':warning:'
     path: utils/casefmt.hpp
-    title: 'printf("Case #%u: ", config::caseid)'
+    title: Case output format
   - icon: ':warning:'
     path: utils/chval.hpp
-    title: substitute y for x if comp(y, x) is true
+    title: Change less/greater
   - icon: ':heavy_check_mark:'
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
   - icon: ':warning:'
     path: utils/ejection.hpp
-    title: eject from a try block, throw nullptr
+    title: Ejection from try block
   - icon: ':warning:'
     path: utils/fixed_point.hpp
-    title: fixed point combinator.
+    title: Fixed point combinator
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
   - icon: ':warning:'
     path: utils/make_vector.hpp
-    title: make a multi-dimensional vector.
+    title: Multi-dimensional vector
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -36,7 +36,7 @@ data:
     title: utils/read.hpp
   - icon: ':warning:'
     path: utils/round_div.hpp
-    title: round integer division
+    title: Round integer division
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -52,7 +52,7 @@ data:
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
-    title: template.cpp
+    title: Code template
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -66,7 +66,7 @@ data:
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
-    \ utils/round_div.hpp: line 6: #pragma once found in a non-first line\n"
+    \ utils/binary_search.hpp: line 6: #pragma once found in a non-first line\n"
   code: '#pragma once
 
     #include "utils/binary_search.hpp"
@@ -121,7 +121,7 @@ data:
   path: utils.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-04 17:20:46+09:00'
+  timestamp: '2020-11-04 17:56:57+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils.hpp

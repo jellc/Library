@@ -7,7 +7,7 @@ data:
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
-    title: template.cpp
+    title: Code template
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
@@ -15,7 +15,7 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: round integer division
+    document_title: Round integer division
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -24,7 +24,7 @@ data:
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
     \ utils/round_div.hpp: line 6: #pragma once found in a non-first line\n"
-  code: "/*\n * @file round_div.hpp\n * @brief round integer division\n */\n\n#pragma\
+  code: "/*\n * @file round_div.hpp\n * @brief Round integer division\n */\n\n#pragma\
     \ once\n#include <cassert>\n\n#include \"sfinae.hpp\"\n\nnamespace workspace {\n\
     \n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
     \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
@@ -48,7 +48,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-04 17:20:46+09:00'
+  timestamp: '2020-11-04 17:56:57+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/round_div.hpp
@@ -56,5 +56,5 @@ layout: document
 redirect_from:
 - /library/utils/round_div.hpp
 - /library/utils/round_div.hpp.html
-title: round integer division
+title: Round integer division
 ---

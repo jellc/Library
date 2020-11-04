@@ -7,7 +7,7 @@ data:
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
-    title: template.cpp
+    title: Code template
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp

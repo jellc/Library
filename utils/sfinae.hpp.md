@@ -22,16 +22,16 @@ data:
     title: base of modular arithmetic.
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
-    title: extended Euclidean algorithm.
+    title: Extended Euclidean algorithm
   - icon: ':warning:'
     path: number_theory/least_factor.hpp
     title: calculate the least prime factor for positive integers.
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
-    title: construct SA and LCP array.
+    title: Suffix array
   - icon: ':warning:'
     path: template.cpp
-    title: template.cpp
+    title: Code template
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
@@ -40,7 +40,7 @@ data:
     title: utils/hash.hpp
   - icon: ':warning:'
     path: utils/round_div.hpp
-    title: round integer division
+    title: Round integer division
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp

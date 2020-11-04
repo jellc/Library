@@ -29,19 +29,19 @@ data:
     pages:
     - icon: ':warning:'
       path: alias.hpp
-      title: alias.hpp
+      title: Alias
     - icon: ':warning:'
       path: config.hpp
-      title: setup I/O before main process.
+      title: Configuration
     - icon: ':warning:'
       path: cxx20.hpp
       title: cxx20.hpp
     - icon: ':warning:'
       path: option.hpp
-      title: option.hpp
+      title: Optimize options
     - icon: ':warning:'
       path: template.cpp
-      title: template.cpp
+      title: Code template
     - icon: ':warning:'
       path: utils.hpp
       title: utils.hpp
@@ -187,7 +187,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: number_theory/ext_gcd.hpp
-      title: extended Euclidean algorithm.
+      title: Extended Euclidean algorithm
     - icon: ':warning:'
       path: number_theory/least_factor.hpp
       title: calculate the least prime factor for positive integers.
@@ -201,39 +201,39 @@ data:
       title: string/binary_trie.hpp
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.hpp
-      title: hash data of a string.
+      title: Rolling hash
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
-      title: construct SA and LCP array.
+      title: Suffix array
     - icon: ':heavy_check_mark:'
       path: string/z_algorithm.hpp
-      title: construct Z-array in linear time.
+      title: Z-algorithm
   - name: utils
     pages:
     - icon: ':heavy_check_mark:'
       path: utils/binary_search.hpp
-      title: binary search on a discrete range.
+      title: Binary_search
     - icon: ':warning:'
       path: utils/casefmt.hpp
-      title: 'printf("Case #%u: ", config::caseid)'
+      title: Case output format
     - icon: ':warning:'
       path: utils/chval.hpp
-      title: substitute y for x if comp(y, x) is true
+      title: Change less/greater
     - icon: ':heavy_check_mark:'
       path: utils/coordinate_compression.hpp
       title: utils/coordinate_compression.hpp
     - icon: ':warning:'
       path: utils/ejection.hpp
-      title: eject from a try block, throw nullptr
+      title: Ejection from try block
     - icon: ':warning:'
       path: utils/fixed_point.hpp
-      title: fixed point combinator.
+      title: Fixed point combinator
     - icon: ':heavy_check_mark:'
       path: utils/hash.hpp
       title: utils/hash.hpp
     - icon: ':warning:'
       path: utils/make_vector.hpp
-      title: make a multi-dimensional vector.
+      title: Multi-dimensional vector
     - icon: ':heavy_check_mark:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
@@ -242,7 +242,7 @@ data:
       title: utils/read.hpp
     - icon: ':warning:'
       path: utils/round_div.hpp
-      title: round integer division
+      title: Round integer division
     - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
