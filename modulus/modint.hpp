@@ -1,3 +1,8 @@
+/*
+ * @file modint.hpp
+ * @brief Modular arithmetic
+ */
+
 #pragma once
 #include <cassert>
 #include <iostream>
