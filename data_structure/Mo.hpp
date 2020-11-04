@@ -1,3 +1,8 @@
+/*
+ * @file Mo.hpp
+ * @brief Mo's algorithm
+ */
+
 #pragma once
 #include <cassert>
 #include <cmath>
