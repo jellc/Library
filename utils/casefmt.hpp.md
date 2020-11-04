@@ -15,6 +15,7 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
+    document_title: 'printf("Case #%u: ", config::caseid)'
     links: []
   bundledCode: "#line 2 \"config.hpp\"\n#include <chrono>\n#include <iomanip>\n#include\
     \ <iostream>\n\nnamespace config {\n\nconst auto start_time{std::chrono::system_clock::now()};\n\
@@ -30,21 +31,15 @@ data:
     \ cases.\n * @param main called once per case\n */\ntemplate <class F> void loop(F\
     \ main) {\n  for (const unsigned total = cases(); caseid <= total; ++caseid) {\n\
     \    try {\n      main();\n    } catch (std::nullptr_t) {\n    }\n  }\n}\n\n}\
-    \  // namespace config\n#line 3 \"utils/casefmt.hpp\"\nnamespace workspace {\n\
-    std::ostream &casefmt(std::ostream& os) { return os << \"Case #\" << config::caseid\
-    \ << \": \"; }\n} // namespace workspace\n"
-  code: '#pragma once
-
-    #include "../config.hpp"
-
-    namespace workspace {
-
-    std::ostream &casefmt(std::ostream& os) { return os << "Case #" << config::caseid
-    << ": "; }
-
-    } // namespace workspace
-
-    '
+    \  // namespace config\n#line 3 \"utils/casefmt.hpp\"\n\nnamespace workspace {\n\
+    \n/*\n * @brief printf(\"Case #%u: \", config::caseid)\n * @param os reference\
+    \ to ostream\n * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n\
+    \  return os << \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace\
+    \ workspace\n"
+  code: "#pragma once\n#include \"config.hpp\"\n\nnamespace workspace {\n\n/*\n *\
+    \ @brief printf(\"Case #%u: \", config::caseid)\n * @param os reference to ostream\n\
+    \ * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n  return os <<\
+    \ \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - config.hpp
   isVerificationFile: false
@@ -52,7 +47,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-03 22:28:19+09:00'
+  timestamp: '2020-11-04 13:20:06+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/casefmt.hpp
@@ -60,5 +55,5 @@ layout: document
 redirect_from:
 - /library/utils/casefmt.hpp
 - /library/utils/casefmt.hpp.html
-title: utils/casefmt.hpp
+title: 'printf("Case #%u: ", config::caseid)'
 ---

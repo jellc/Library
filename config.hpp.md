@@ -10,7 +10,7 @@ data:
     title: utils.hpp
   - icon: ':warning:'
     path: utils/casefmt.hpp
-    title: utils/casefmt.hpp
+    title: 'printf("Case #%u: ", config::caseid)'
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'

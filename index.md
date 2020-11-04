@@ -215,7 +215,7 @@ data:
       title: utils/binary_search.hpp
     - icon: ':warning:'
       path: utils/casefmt.hpp
-      title: utils/casefmt.hpp
+      title: 'printf("Case #%u: ", config::caseid)'
     - icon: ':warning:'
       path: utils/chval.hpp
       title: substitute y for x if comp(y, x) is true
