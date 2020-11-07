@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file ejection.hpp
  * @brief Ejection from try block
  */
 
-#pragma once
 #include <iostream>
 
 namespace workspace {

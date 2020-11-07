@@ -1,9 +1,9 @@
+#pragma once
+
 /*
  * @file cxx20.hpp
  * @brief C++20 features
  */
-
-#pragma once
 
 #if __cplusplus <= 201703L
 

@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file least_factor.hpp
  * @brief Least prime factor
  */
 
-#pragma once
 #include <cassert>
 #include <vector>
 

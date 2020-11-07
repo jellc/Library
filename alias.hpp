@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file alias.hpp
  * @brief Alias
  */
 
-#pragma once
 #include <cstdint>
 #include <functional>
 #include <queue>

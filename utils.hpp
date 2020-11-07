@@ -1,4 +1,10 @@
 #pragma once
+
+/*
+ * @file utils.hpp
+ * @brief all headers in utlis
+ */
+
 #include "utils/binary_search.hpp"
 #include "utils/casefmt.hpp"
 #include "utils/chval.hpp"

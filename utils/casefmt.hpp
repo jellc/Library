@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file castfmt
  * @brief Case output format
  */
 
-#pragma once
 #include "../config.hpp"
 
 namespace workspace {

@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file rolling_hash.hpp
  * @brief Rolling hash
  */
 
-#pragma once
 #include <algorithm>
 #include <cassert>
 #include <vector>

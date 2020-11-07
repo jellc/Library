@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file config.hpp
  * @brief Configuration
  */
 
-#pragma once
 #include <chrono>
 #include <iomanip>
 #include <iostream>

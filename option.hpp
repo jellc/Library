@@ -1,9 +1,9 @@
+#pragma once
+
 /*
  * @file option.hpp
  * @brief Optimize options
  */
-
-#pragma once
 
 #ifdef ONLINE_JUDGE
 

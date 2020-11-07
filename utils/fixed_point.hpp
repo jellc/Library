@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file fixed_point.hpp
  * @brief Fixed point combinator
  */
 
-#pragma once
 #include <utility>
 
 namespace workspace {

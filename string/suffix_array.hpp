@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file suffix_array.hpp
  * @brief Suffix array
  */
 
-#pragma once
 #include <algorithm>
 #include <numeric>
 #include <vector>

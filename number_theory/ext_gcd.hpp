@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file ext_gcd
  * @brief Extended Euclidean algorithm
  */
 
-#pragma once
 #include <tuple>
 
 #include "utils/sfinae.hpp"

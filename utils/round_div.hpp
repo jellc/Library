@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file round_div.hpp
  * @brief Round integer division
  */
 
-#pragma once
 #include <cassert>
 
 #include "sfinae.hpp"

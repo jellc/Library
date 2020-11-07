@@ -1,9 +1,9 @@
+#pragma once
+
 /*
  * @file make_vector.hpp
  * @brief Multi-dimensional vector
  */
-
-#pragma once
 
 #if __cplusplus >= 201703L
 

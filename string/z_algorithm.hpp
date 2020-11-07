@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file z_algorith.hpp
  * @brief Z-algorithm
  */
 
-#pragma once
 #include <string>
 #include <vector>
 

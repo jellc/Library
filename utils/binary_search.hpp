@@ -1,9 +1,9 @@
+#pragma once
+
 /*
  * @file binary_search.hpp
  * @brief Binary search
  */
-
-#pragma once
 
 #if __cplusplus >= 201703L
 
