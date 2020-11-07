@@ -7,5 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - run: g++ template.cpp -std=c++17 -Wall -o a.o
-    - run: ./a.o
+      
+    - name: Install online-judge-verify-helper
+      run: pip3 install -U online-judge-verify-helper
+    
+    - name: Bundle template
+      run: oj-bundle template.cpp
+    
+    - name: Compile template
+      run: g++ template.cpp -std=c++17 -Wall -o a.o
+    
+    - name: Run executable
+      run: ./a.o
