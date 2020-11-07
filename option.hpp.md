@@ -11,14 +11,10 @@ data:
   attributes:
     document_title: Optimize options
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
-    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
-    , line 191, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
-    \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
-    \ option.hpp: line 6: #pragma once found in a non-first line\n"
-  code: "/*\n * @file option.hpp\n * @brief Optimize options\n */\n\n#pragma once\n\
+  bundledCode: "#line 2 \"option.hpp\"\n\n/*\n * @file option.hpp\n * @brief Optimize\
+    \ options\n */\n\n#ifdef ONLINE_JUDGE\n\n#pragma GCC optimize(\"O3\")\n#pragma\
+    \ GCC target(\"avx,avx2\")\n#pragma GCC optimize(\"unroll-loops\")\n\n#endif\n"
+  code: "#pragma once\n\n/*\n * @file option.hpp\n * @brief Optimize options\n */\n\
     \n#ifdef ONLINE_JUDGE\n\n#pragma GCC optimize(\"O3\")\n#pragma GCC target(\"avx,avx2\"\
     )\n#pragma GCC optimize(\"unroll-loops\")\n\n#endif\n"
   dependsOn: []
@@ -26,7 +22,7 @@ data:
   path: option.hpp
   requiredBy:
   - template.cpp
-  timestamp: '2020-11-04 17:56:57+09:00'
+  timestamp: '2020-11-07 14:25:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: option.hpp

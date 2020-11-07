@@ -7,7 +7,7 @@ data:
     title: Code template
   - icon: ':warning:'
     path: utils.hpp
-    title: utils.hpp
+    title: all headers in utlis
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_kth_smallest.test.cpp

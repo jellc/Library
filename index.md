@@ -44,7 +44,7 @@ data:
       title: Code template
     - icon: ':warning:'
       path: utils.hpp
-      title: utils.hpp
+      title: all headers in utlis
   - name: combinatorics
     pages:
     - icon: ':heavy_check_mark:'

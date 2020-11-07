@@ -7,7 +7,7 @@ data:
     title: Code template
   - icon: ':warning:'
     path: utils.hpp
-    title: utils.hpp
+    title: all headers in utlis
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/aors_score.test.cpp

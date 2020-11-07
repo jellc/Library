@@ -34,7 +34,7 @@ data:
     title: Code template
   - icon: ':warning:'
     path: utils.hpp
-    title: utils.hpp
+    title: all headers in utlis
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
