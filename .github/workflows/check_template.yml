@@ -8,6 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
       
+    - name: Set up Python
+      uses: actions/setup-python@v1
+    
     - name: Install online-judge-verify-helper
       run: pip3 install -U online-judge-verify-helper
     
