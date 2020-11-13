@@ -2,7 +2,7 @@
 
 /*
  * @file modint.hpp
- * @brief Modular arithmetic
+ * @brief Modular Arithmetic
  */
 
 #include <cassert>

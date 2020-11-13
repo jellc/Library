@@ -2,7 +2,7 @@
 
 /*
  * @file ext_gcd
- * @brief Extended Euclidean algorithm
+ * @brief Extended Euclidean Algorithm
  */
 
 #include <tuple>

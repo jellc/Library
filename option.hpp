@@ -2,7 +2,7 @@
 
 /*
  * @file option.hpp
- * @brief Optimize options
+ * @brief Optimize Options
  */
 
 #ifdef ONLINE_JUDGE

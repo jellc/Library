@@ -2,7 +2,6 @@
 
 /*
  * @file utils.hpp
- * @brief all headers in utlis
  */
 
 #include "utils/binary_search.hpp"
