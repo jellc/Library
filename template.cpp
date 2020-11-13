@@ -1,5 +1,6 @@
-/* @file template.cpp
- * @brief Code template
+/*
+ * @file template.cpp
+ * @brief Template
  */
 
 #include <bits/extc++.h>
@@ -25,4 +26,4 @@ namespace workspace {
 void main() {
   // start here!
 }
-}
+}  // namespace workspace
