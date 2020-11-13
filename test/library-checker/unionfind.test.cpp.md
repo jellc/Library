@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: data_structure/union_find/basic.hpp
-    title: data_structure/union_find/basic.hpp
+    title: Basic Union-Find
   - icon: ':heavy_check_mark:'
     path: data_structure/union_find/unbalanced.hpp
     title: data_structure/union_find/unbalanced.hpp
@@ -18,25 +18,32 @@ data:
     - https://judge.yosupo.jp/problem/unionfind
   bundledCode: "#line 1 \"test/library-checker/unionfind.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/unionfind\"\n#include <cstdio>\n\n#line 2\
-    \ \"data_structure/union_find/basic.hpp\"\n#include <cassert>\n#include <vector>\n\
-    struct union_find\n{\n    union_find(const size_t &n = 0) : link(n, -1) {}\n\n\
-    \    size_t find(const size_t &x)\n    {\n        assert(x < size());\n      \
-    \  return link[x] < 0 ? x : (link[x] = find(link[x]));\n    }\n\n    size_t size()\
-    \ const { return link.size(); }\n\n    size_t size(const size_t &x)\n    {\n \
-    \       assert(x < size());\n        return -link[find(x)];\n    }\n\n    bool\
-    \ same(const size_t &x, const size_t &y)\n    {\n        assert(x < size() &&\
-    \ y < size());\n        return find(x) == find(y);\n    }\n\n    virtual bool\
-    \ unite(size_t x, size_t y)\n    {\n        assert(x < size() && y < size());\n\
-    \        x = find(x), y = find(y);\n        if(x == y) return false;\n       \
-    \ if(link[x] > link[y]) std::swap(x, y);\n        link[x] += link[y];\n      \
-    \  link[y] = x;\n        return true;\n    }\n\nprotected:\n    std::vector<int>\
-    \ link;\n}; // class union_find\n#line 3 \"data_structure/union_find/unbalanced.hpp\"\
-    \nstruct union_find_unbalanced : union_find\n{\n    using union_find::union_find;\n\
-    \    \n    bool unite(size_t x, size_t y) override\n    {\n        assert(x <\
-    \ size() && y < size());\n        x = find(x), y = find(y);\n        if(x == y)\
-    \ return false;\n        link[x] += link[y];\n        link[y] = x;\n        return\
-    \ true;\n    }\n}; // class union_find_unbalanced\n#line 5 \"test/library-checker/unionfind.test.cpp\"\
-    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  union_find uf(n);\n\
+    \ \"data_structure/union_find/basic.hpp\"\n\n/*\n * @file basic.hpp\n * @brief\
+    \ Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\nstruct union_find\
+    \ {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t n =\
+    \ 0) : link(n, -1) {}\n\n  /*\n   * @fn find\n   * @param x A node.\n   * @return\
+    \ The representative of the group.\n   */\n  size_t find(size_t x) {\n    assert(x\
+    \ < size());\n    return link[x] < 0 ? x : (link[x] = find(link[x]));\n  }\n\n\
+    \  /*\n   * @fn size\n   * @return The number of nodes.\n   */\n  size_t size()\
+    \ const { return link.size(); }\n\n  /*\n   * @fn size\n   * @param x A node.\n\
+    \   * @return The number of nodes in the group.\n   */\n  size_t size(size_t x)\
+    \ {\n    assert(x < size());\n    return -link[find(x)];\n  }\n\n  /*\n   * @fn\
+    \ same\n   * @param x 1st node.\n   * @param y 2nd node.\n   * @return Whether\
+    \ or not the two nodes belong to the same group.\n   */\n  bool same(size_t x,\
+    \ size_t y) {\n    assert(x < size());\n    assert(y < size());\n    return find(x)\
+    \ == find(y);\n  }\n\n  /*\n   * @fn unite\n   * @param x 1st node.\n   * @param\
+    \ y 2nd node.\n   * @return Whether or not the two groups were merged anew.\n\
+    \   */\n  virtual bool unite(size_t x, size_t y) {\n    assert(x < size()), x\
+    \ = find(x);\n    assert(y < size()), y = find(y);\n    if (x == y) return false;\n\
+    \    if (link[x] > link[y]) std::swap(x, y);\n    link[x] += link[y];\n    link[y]\
+    \ = x;\n    return true;\n  }\n\n protected:\n  std::vector<int> link;\n};\n#line\
+    \ 3 \"data_structure/union_find/unbalanced.hpp\"\nstruct union_find_unbalanced\
+    \ : union_find\n{\n    using union_find::union_find;\n    \n    bool unite(size_t\
+    \ x, size_t y) override\n    {\n        assert(x < size() && y < size());\n  \
+    \      x = find(x), y = find(y);\n        if(x == y) return false;\n        link[x]\
+    \ += link[y];\n        link[y] = x;\n        return true;\n    }\n}; // class\
+    \ union_find_unbalanced\n#line 5 \"test/library-checker/unionfind.test.cpp\"\n\
+    \nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  union_find uf(n);\n\
     \  union_find_unbalanced ufu(n);\n  while (q--) {\n    int t, l, r;\n    scanf(\"\
     %d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", uf.same(l, r));\n\
     \      assert(uf.same(l, r) == ufu.same(l, r));\n    } else {\n      uf.unite(l,\
@@ -54,7 +61,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/unionfind.test.cpp
   requiredBy: []
-  timestamp: '2020-09-27 13:39:20+09:00'
+  timestamp: '2020-11-14 00:11:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/unionfind.test.cpp

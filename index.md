@@ -90,7 +90,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: data_structure/union_find/basic.hpp
-      title: data_structure/union_find/basic.hpp
+      title: Basic Union-Find
     - icon: ':warning:'
       path: data_structure/union_find/partially_persistent_union_find.hpp
       title: data_structure/union_find/partially_persistent_union_find.hpp
