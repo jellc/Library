@@ -2,7 +2,8 @@
 #include <iostream>
 #include <tuple>
 
-#include "sfinae.hpp"
+#include "../sfinae.hpp"
+
 namespace std {
 template <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {
   return is >> p.first >> p.second;
