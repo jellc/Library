@@ -1,7 +1,13 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: template.cpp
+    title: Template
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -36,7 +42,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: utils/trinary_search.hpp
-  requiredBy: []
+  requiredBy:
+  - template.cpp
+  - utils.hpp
   timestamp: '2020-08-14 02:41:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

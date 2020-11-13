@@ -1,7 +1,13 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: template.cpp
+    title: Template
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -21,7 +27,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: utils/ejection.hpp
-  requiredBy: []
+  requiredBy:
+  - template.cpp
+  - utils.hpp
   timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

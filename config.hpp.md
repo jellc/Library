@@ -1,7 +1,16 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: template.cpp
+    title: Template
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
+  - icon: ':warning:'
+    path: utils/io/casefmt.hpp
+    title: Case Output Format
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -43,7 +52,10 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: config.hpp
-  requiredBy: []
+  requiredBy:
+  - template.cpp
+  - utils.hpp
+  - utils/io/casefmt.hpp
   timestamp: '2020-11-07 14:25:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

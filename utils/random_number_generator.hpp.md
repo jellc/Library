@@ -5,6 +5,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
     title: Rolling Hash
+  - icon: ':warning:'
+    path: template.cpp
+    title: Template
+  - icon: ':warning:'
+    path: utils.hpp
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
@@ -37,7 +43,9 @@ data:
   isVerificationFile: false
   path: utils/random_number_generator.hpp
   requiredBy:
+  - template.cpp
   - string/rolling_hash.hpp
+  - utils.hpp
   timestamp: '2020-09-22 15:16:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
