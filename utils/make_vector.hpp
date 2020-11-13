@@ -2,7 +2,7 @@
 
 /*
  * @file make_vector.hpp
- * @brief Multi-dimensional vector
+ * @brief Multi-dimensional Vector
  */
 
 #if __cplusplus >= 201703L
@@ -13,70 +13,71 @@
 namespace workspace {
 
 /*
- * @brief make a multi-dimensional vector.
+ * @brief Make a multi-dimensional vector.
  * @tparam Tp type of the elements
- * @tparam S integer type
  * @tparam N dimension
- * @param sizes size of each dimension
- * @param init initial value
+ * @tparam S integer type
+ * @param sizes The size of each dimension
+ * @param init The initial value
  */
-template <typename Tp, typename S, size_t N>
+template <typename Tp, size_t N, typename S>
 constexpr auto make_vector(S* sizes, Tp const& init = Tp()) {
   static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (N)
     return std::vector(*sizes,
-                       make_vector<Tp, S, N - 1>(std::next(sizes), init));
+                       make_vector<Tp, N - 1, S>(std::next(sizes), init));
   else
     return init;
 }
 
 /*
- * @brief make a multi-dimensional vector.
- * @param sizes size of each dimension
- * @param init initial value
+ * @brief Make a multi-dimensional vector.
+ * @param sizes The size of each dimension
+ * @param init The initial value
  */
-template <typename Tp, typename S, size_t N>
+template <typename Tp, size_t N, typename S>
 constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {
-  return make_vector<Tp, S, N>((S*)sizes, init);
+  return make_vector<Tp, N, S>((S*)sizes, init);
 }
 
 /*
- * @brief make a multi-dimensional vector.
- * @param sizes size of each dimension
- * @param init initial value
+ * @brief Make a multi-dimensional vector.
+ * @param sizes The size of each dimension
+ * @param init The initial value
  */
-template <typename Tp, typename S, size_t N, size_t I = 0>
+template <typename Tp, size_t N, typename S, size_t I = 0>
 constexpr auto make_vector(std::array<S, N> const& sizes,
                            Tp const& init = Tp()) {
   static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (I == N)
     return init;
   else
-    return std::vector(sizes[I], make_vector<Tp, S, N, I + 1>(sizes, init));
+    return std::vector(sizes[I], make_vector<Tp, N, S, I + 1>(sizes, init));
 }
 
 /*
- * @brief make a multi-dimensional vector.
- * @param sizes size of each dimension
- * @param init initial value
+ * @brief Make a multi-dimensional vector.
+ * @param sizes The size of each dimension
+ * @param init The initial value
  */
-template <typename Tp, size_t I = 0, class... Args>
+template <typename Tp, size_t N = SIZE_MAX, size_t I = 0, class... Args>
 constexpr auto make_vector(std::tuple<Args...> const& sizes,
                            Tp const& init = Tp()) {
   using tuple_type = std::tuple<Args...>;
-  if constexpr (I == tuple_size_v<tuple_type>)
+  if constexpr (I == std::tuple_size_v<tuple_type> || I == N)
     return init;
   else {
     static_assert(
-        std::is_convertible_v<tuple_element_t<I, tuple_type>, size_t>);
-    return std::vector(get<I>(sizes), make_vector<Tp, I + 1>(sizes, init));
+        std::is_convertible_v<std::tuple_element_t<I, tuple_type>, size_t>);
+    return std::vector(std::get<I>(sizes),
+                       make_vector<Tp, N, I + 1>(sizes, init));
   }
 }
 
 /*
- * @brief make a multi-dimensional vector.
- * @param sizes size of each dimension
- * @param init initial value
+ * @brief Make a multi-dimensional vector.
+ * @param sizes The size of each dimension
+ * @param init The initial value
  */
 template <typename Tp, class Fst, class Snd>
 constexpr auto make_vector(std::pair<Fst, Snd> const& sizes,

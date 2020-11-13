@@ -2,7 +2,7 @@
 
 /*
  * @file ejection.hpp
- * @brief Ejection from try block
+ * @brief Ejection
  */
 
 #include <iostream>

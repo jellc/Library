@@ -2,7 +2,7 @@
 
 /*
  * @file binary_search.hpp
- * @brief Binary search
+ * @brief Binary Search
  */
 
 #if __cplusplus >= 201703L

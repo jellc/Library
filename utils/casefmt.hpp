@@ -2,7 +2,7 @@
 
 /*
  * @file castfmt
- * @brief Case output format
+ * @brief Case Output Format
  */
 
 #include "../config.hpp"

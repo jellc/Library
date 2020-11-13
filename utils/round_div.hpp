@@ -2,7 +2,7 @@
 
 /*
  * @file round_div.hpp
- * @brief Round integer division
+ * @brief Round Integer Division
  */
 
 #include <cassert>

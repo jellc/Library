@@ -2,7 +2,7 @@
 
 /*
  * @file rolling_hash.hpp
- * @brief Rolling hash
+ * @brief Rolling Hash
  */
 
 #include <algorithm>

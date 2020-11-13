@@ -2,7 +2,7 @@
 
 /*
  * @file least_factor.hpp
- * @brief Least prime factor
+ * @brief Least Prime Factor
  */
 
 #include <cassert>
@@ -14,8 +14,8 @@ namespace workspace {
 
 /*
  * @class least_factor
- * @brief calculate the least prime factor for positive integers.
- * @tparam N range of calculation, exclusive
+ * @brief Calculate the least prime factor for positive integers.
+ * @tparam N Range of calculation, exclusive
  */
 template <unsigned N> class least_factor {
   unsigned least[N], prime[N >> 3], n;
@@ -32,7 +32,7 @@ template <unsigned N> class least_factor {
 
   /*
    * @param x an integer with 0 < |x| < N
-   * @return least prime factor of x
+   * @return Least prime factor of x
    */
   template <typename int_type>
   constexpr
@@ -46,7 +46,7 @@ template <unsigned N> class least_factor {
 
   /*
    * @fn primes
-   * @return sorted list of prime numbers less than N
+   * @return Sorted list of prime numbers less than N
    */
   const std::vector<unsigned> &primes() const {
     static const std::vector<unsigned> prime_vector(prime, prime + n);
