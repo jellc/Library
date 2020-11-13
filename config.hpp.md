@@ -8,12 +8,36 @@ data:
   - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
+    path: utils/io.hpp
+    title: utils/io.hpp
+  - icon: ':heavy_check_mark:'
     path: utils/io/casefmt.hpp
     title: Case Output Format
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/aors_score.test.cpp
+    title: test/aizu-online-judge/aors_score.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+    title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/pattern_search.test.cpp
+    title: test/aizu-online-judge/pattern_search.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/range_minimum_query.test.cpp
+    title: test/aizu-online-judge/range_minimum_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/zalgorithm.test.cpp
+    title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Configuration
     links: []
@@ -55,10 +79,18 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
+  - utils/io.hpp
   - utils/io/casefmt.hpp
   timestamp: '2020-11-07 14:25:10+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/suffix_array.test.cpp
+  - test/aizu-online-judge/aors_score.test.cpp
+  - test/aizu-online-judge/range_minimum_query.test.cpp
+  - test/aizu-online-judge/pattern_search.test.cpp
+  - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+  - test/aizu-online-judge/do_use_segment_tree.test.cpp
 documentation_of: config.hpp
 layout: document
 redirect_from:

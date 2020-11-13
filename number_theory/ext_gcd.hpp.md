@@ -5,9 +5,12 @@ data:
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+    title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Extended Euclidean Algorithm
     links: []
@@ -62,8 +65,9 @@ data:
   path: number_theory/ext_gcd.hpp
   requiredBy: []
   timestamp: '2020-11-14 01:15:37+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
 documentation_of: number_theory/ext_gcd.hpp
 layout: document
 redirect_from:

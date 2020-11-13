@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
+    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/lowest_common_ancestor.test.cpp
     title: test/library-checker/lowest_common_ancestor.test.cpp
   _pathExtension: hpp
@@ -103,6 +106,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/lowest_common_ancestor.test.cpp
+  - test/aizu-online-judge/do_use_segment_tree.test.cpp
 documentation_of: graph/undirected/tree/heavy_light_decomposition.hpp
 layout: document
 redirect_from:

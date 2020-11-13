@@ -2,18 +2,21 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: config.hpp
+    title: Configuration
+  - icon: ':heavy_check_mark:'
+    path: utils/io/casefmt.hpp
+    title: Case Output Format
+  - icon: ':heavy_check_mark:'
+    path: utils/io/read.hpp
+    title: utils/io/read.hpp
+  - icon: ':heavy_check_mark:'
+    path: utils/io/stream.hpp
+    title: utils/io/stream.hpp
+  - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/io.hpp
-    title: utils/io.hpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/aors_score.test.cpp
@@ -40,11 +43,36 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"utils/io/stream.hpp\"\n#include <iostream>\n#include <tuple>\n\
-    \n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include\
-    \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
-    \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
-    template <class Container>\nusing element_type = typename std::decay<decltype(\n\
+  bundledCode: "#line 2 \"utils/io/casefmt.hpp\"\n\n/*\n * @file castfmt\n * @brief\
+    \ Case Output Format\n */\n\n#line 2 \"config.hpp\"\n\n/*\n * @file config.hpp\n\
+    \ * @brief Configuration\n */\n\n#include <chrono>\n#include <iomanip>\n#include\
+    \ <iostream>\n\nnamespace config {\n\nconst auto start_time{std::chrono::system_clock::now()};\n\
+    \n/*\n * @fn elapsed\n * @return elapsed time of the program\n */\nint64_t elapsed()\
+    \ {\n  using namespace std::chrono;\n  const auto end_time{system_clock::now()};\n\
+    \  return duration_cast<milliseconds>(end_time - start_time).count();\n}\n\n/*\n\
+    \ * @fn setup\n * @brief setup I/O before main process.\n */\n__attribute__((constructor))\
+    \ void setup() {\n  using namespace std;\n  ios::sync_with_stdio(false);\n  cin.tie(nullptr);\n\
+    \  cout << fixed << setprecision(15);\n\n#ifdef _buffer_check\n  atexit([] {\n\
+    \    char bufc;\n    if (cin >> bufc)\n      cerr << \"\\n\\033[43m\\033[30mwarning:\
+    \ buffer not empty.\\033[0m\\n\\n\";\n  });\n#endif\n}\n\nunsigned cases(), caseid\
+    \ = 1;  // current case number, 1-indexed\n\n/*\n * @fn loop\n * @brief iterate\
+    \ cases.\n * @param main called once per case\n */\ntemplate <class F> void loop(F\
+    \ main) {\n  for (const unsigned total = cases(); caseid <= total; ++caseid) {\n\
+    \    try {\n      main();\n    } catch (std::nullptr_t) {\n    }\n  }\n}\n\n}\
+    \  // namespace config\n#line 9 \"utils/io/casefmt.hpp\"\n\nnamespace workspace\
+    \ {\n\n/*\n * @brief printf(\"Case #%u: \", config::caseid)\n * @param os reference\
+    \ to ostream\n * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n\
+    \  return os << \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace\
+    \ workspace\n#line 3 \"utils/io/read.hpp\"\nnamespace workspace {\n// read with\
+    \ std::cin.\ntemplate <class T = void>\nstruct read\n{\n    typename std::remove_const<T>::type\
+    \ value;\n    template <class... types>\n    read(types... args) : value(args...)\
+    \ { std::cin >> value; }\n    operator T() const { return value; }\n};\ntemplate\
+    \ <>\nstruct read<void>\n{\n    template <class T>\n    operator T() const { T\
+    \ value; std::cin >> value; return value; }\n};\n} // namespace workspace\n#line\
+    \ 3 \"utils/io/stream.hpp\"\n#include <tuple>\n\n#line 2 \"utils/sfinae.hpp\"\n\
+    #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate <class\
+    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
     \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
@@ -89,47 +117,26 @@ data:
     \ decay<Container>::type, char *>::value,\n                   ostream &>::type\n\
     operator<<(ostream &os, const Container &cont) {\n  bool head = true;\n  for (auto\
     \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
-    \ // namespace std\n"
-  code: "#pragma once\n#include <iostream>\n#include <tuple>\n\n#include \"../sfinae.hpp\"\
-    \n\nnamespace std {\ntemplate <class T, class U> istream &operator>>(istream &is,\
-    \ pair<T, U> &p) {\n  return is >> p.first >> p.second;\n}\ntemplate <class T,\
-    \ class U>\nostream &operator<<(ostream &os, const pair<T, U> &p) {\n  return\
-    \ os << p.first << ' ' << p.second;\n}\ntemplate <class tuple_t, size_t index>\
-    \ struct tuple_is {\n  static istream &apply(istream &is, tuple_t &t) {\n    tuple_is<tuple_t,\
-    \ index - 1>::apply(is, t);\n    return is >> get<index>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_is<tuple_t, SIZE_MAX> {\n  static istream &apply(istream\
-    \ &is, tuple_t &t) { return is; }\n};\ntemplate <class... T> istream &operator>>(istream\
-    \ &is, tuple<T...> &t) {\n  return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value\
-    \ - 1>::apply(is,\n                                                          \
-    \                t);\n}\ntemplate <class tuple_t, size_t index> struct tuple_os\
-    \ {\n  static ostream &apply(ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t,\
-    \ index - 1>::apply(os, t);\n    return os << ' ' << get<index>(t);\n  }\n};\n\
-    template <class tuple_t> struct tuple_os<tuple_t, 0> {\n  static ostream &apply(ostream\
-    \ &os, const tuple_t &t) {\n    return os << get<0>(t);\n  }\n};\ntemplate <class\
-    \ tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {\n  static ostream &apply(ostream\
-    \ &os, const tuple_t &t) { return os; }\n};\ntemplate <class... T> ostream &operator<<(ostream\
-    \ &os, const tuple<T...> &t) {\n  return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value\
-    \ - 1>::apply(os,\n                                                          \
-    \                t);\n}\ntemplate <class Container, typename Value = element_type<Container>>\n\
-    typename enable_if<!is_same<typename decay<Container>::type, string>::value &&\n\
-    \                       !is_same<typename decay<Container>::type, char *>::value,\n\
-    \                   istream &>::type\noperator>>(istream &is, Container &cont)\
-    \ {\n  for (auto &&e : cont) is >> e;\n  return is;\n}\ntemplate <class Container,\
-    \ typename Value = element_type<Container>>\ntypename enable_if<!is_same<typename\
-    \ decay<Container>::type, string>::value &&\n                       !is_same<typename\
-    \ decay<Container>::type, char *>::value,\n                   ostream &>::type\n\
-    operator<<(ostream &os, const Container &cont) {\n  bool head = true;\n  for (auto\
-    \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
-    \ // namespace std\n"
+    \ // namespace std\n#line 5 \"utils/io.hpp\"\n"
+  code: '#pragma once
+
+    #include "io/casefmt.hpp"
+
+    #include "io/read.hpp"
+
+    #include "io/stream.hpp"
+
+    '
   dependsOn:
+  - utils/io/casefmt.hpp
+  - config.hpp
+  - utils/io/read.hpp
+  - utils/io/stream.hpp
   - utils/sfinae.hpp
   isVerificationFile: false
-  path: utils/io/stream.hpp
-  requiredBy:
-  - template.cpp
-  - utils.hpp
-  - utils/io.hpp
-  timestamp: '2020-11-14 01:34:16+09:00'
+  path: utils/io.hpp
+  requiredBy: []
+  timestamp: '2020-11-14 01:43:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm.test.cpp
@@ -139,10 +146,10 @@ data:
   - test/aizu-online-judge/pattern_search.test.cpp
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - test/aizu-online-judge/do_use_segment_tree.test.cpp
-documentation_of: utils/io/stream.hpp
+documentation_of: utils/io.hpp
 layout: document
 redirect_from:
-- /library/utils/io/stream.hpp
-- /library/utils/io/stream.hpp.html
-title: utils/io/stream.hpp
+- /library/utils/io.hpp
+- /library/utils/io.hpp.html
+title: utils/io.hpp
 ---

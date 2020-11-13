@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: config.hpp
     title: Configuration
   - icon: ':heavy_check_mark:'
@@ -22,13 +22,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: utils/io/casefmt.hpp
     title: Case Output Format
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: utils/io/read.hpp
     title: utils/io/read.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: utils/io/stream.hpp
     title: utils/io/stream.hpp
   - icon: ':warning:'

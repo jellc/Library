@@ -10,6 +10,9 @@ data:
     title: graph/directed/flow/min_cost_flow.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/aors_score.test.cpp
+    title: test/aizu-online-judge/aors_score.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/assignment.test.cpp
     title: test/library-checker/assignment.test.cpp
   - icon: ':heavy_check_mark:'
@@ -106,6 +109,7 @@ data:
   verifiedWith:
   - test/library-checker/assignment.test.cpp
   - test/library-checker/bipartitematching.test.cpp
+  - test/aizu-online-judge/aors_score.test.cpp
 documentation_of: graph/directed/flow/base.hpp
 layout: document
 redirect_from:
