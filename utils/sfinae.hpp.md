@@ -33,6 +33,9 @@ data:
     path: utils/hash.hpp
     title: utils/hash.hpp
   - icon: ':warning:'
+    path: utils/io/stream.hpp
+    title: utils/io/stream.hpp
+  - icon: ':warning:'
     path: utils/round_div.hpp
     title: Round Integer Division
   _extendedVerifiedWith:
@@ -117,6 +120,7 @@ data:
   - number_theory/least_factor.hpp
   - utils/hash.hpp
   - utils/round_div.hpp
+  - utils/io/stream.hpp
   timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
