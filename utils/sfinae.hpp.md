@@ -29,12 +29,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: Suffix array
-  - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
@@ -133,7 +127,6 @@ data:
   isVerificationFile: false
   path: utils/sfinae.hpp
   requiredBy:
-  - template.cpp
   - string/suffix_array.hpp
   - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp
@@ -143,7 +136,6 @@ data:
   - combinatorics/binomial.hpp
   - number_theory/ext_gcd.hpp
   - number_theory/least_factor.hpp
-  - utils.hpp
   - utils/hash.hpp
   - utils/round_div.hpp
   - utils/stream.hpp

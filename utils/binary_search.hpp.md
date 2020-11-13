@@ -5,12 +5,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
@@ -130,9 +124,7 @@ data:
   isVerificationFile: false
   path: utils/binary_search.hpp
   requiredBy:
-  - template.cpp
   - string/rolling_hash.hpp
-  - utils.hpp
   timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

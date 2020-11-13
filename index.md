@@ -214,9 +214,6 @@ data:
       path: utils/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
-      path: utils/casefmt.hpp
-      title: Case Output Format
-    - icon: ':warning:'
       path: utils/chval.hpp
       title: Change Less/Greater
     - icon: ':heavy_check_mark:'
@@ -255,6 +252,11 @@ data:
     - icon: ':warning:'
       path: utils/wrapper.hpp
       title: utils/wrapper.hpp
+  - name: utils/io
+    pages:
+    - icon: ':warning:'
+      path: utils/io/casefmt.hpp
+      title: Case Output Format
   - name: variation
     pages:
     - icon: ':warning:'

@@ -4,13 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
-    path: utils.hpp
-    title: utils.hpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -73,9 +67,7 @@ data:
   - utils/sfinae.hpp
   isVerificationFile: false
   path: utils/round_div.hpp
-  requiredBy:
-  - template.cpp
-  - utils.hpp
+  requiredBy: []
   timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
