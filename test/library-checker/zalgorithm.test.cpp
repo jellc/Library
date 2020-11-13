@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 #include "string/z_algorithm.hpp"
-#include "utils/stream.hpp"
+#include "utils/io.hpp"
 
 int main() {
   std::string s;

@@ -2,7 +2,7 @@
   "https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_A"
 
 #include "data_structure/segment_tree/basic.hpp"
-#include "utils/stream.hpp"
+#include "utils/io.hpp"
 
 int main() {
   using mono = workspace::min_monoid<int>;

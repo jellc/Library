@@ -1,7 +1,7 @@
 #define PROBLEM \
   "https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/all/ALDS1_14_C"
 #include "string/rolling_hash.hpp"
-#include "utils/stream.hpp"
+#include "utils/io.hpp"
 
 int main() {
   std::ios::sync_with_stdio(0);

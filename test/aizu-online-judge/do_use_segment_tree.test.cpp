@@ -3,7 +3,7 @@
 
 #include "data_structure/segment_tree/lazy.hpp"
 #include "graph/undirected/tree/heavy_light_decomposition.hpp"
-#include "utils/stream.hpp"
+#include "utils/io.hpp"
 
 int main() {
   struct endo {
