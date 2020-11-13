@@ -4,13 +4,13 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
-    title: Rolling hash
+    title: Rolling Hash
   - icon: ':warning:'
     path: template.cpp
-    title: Code template
+    title: Template
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
@@ -24,10 +24,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Binary search
+    document_title: Binary Search
     links: []
   bundledCode: "#line 2 \"utils/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n\
-    \ * @brief Binary search\n */\n\n#if __cplusplus >= 201703L\n\n#include <cassert>\n\
+    \ * @brief Binary Search\n */\n\n#if __cplusplus >= 201703L\n\n#include <cassert>\n\
     #include <cmath>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n\
     \ * @brief binary search on a discrete range.\n * @param ok pred(ok) is true\n\
     \ * @param ng pred(ng) is false\n * @param pred the predicate\n * @return the\
@@ -76,7 +76,7 @@ data:
     \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
     \ = mids[i];\n    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n\n#endif\n"
-  code: "#pragma once\n\n/*\n * @file binary_search.hpp\n * @brief Binary search\n\
+  code: "#pragma once\n\n/*\n * @file binary_search.hpp\n * @brief Binary Search\n\
     \ */\n\n#if __cplusplus >= 201703L\n\n#include <cassert>\n#include <cmath>\n#include\
     \ <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief binary\
     \ search on a discrete range.\n * @param ok pred(ok) is true\n * @param ng pred(ng)\
@@ -133,7 +133,7 @@ data:
   - template.cpp
   - string/rolling_hash.hpp
   - utils.hpp
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
@@ -144,5 +144,5 @@ layout: document
 redirect_from:
 - /library/utils/binary_search.hpp
 - /library/utils/binary_search.hpp.html
-title: Binary search
+title: Binary Search
 ---

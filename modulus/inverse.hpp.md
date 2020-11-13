@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -20,7 +20,7 @@ data:
   attributes:
     links: []
   bundledCode: "#line 2 \"modulus/inverse.hpp\"\n#include <vector>\n\n#line 2 \"modulus/modint.hpp\"\
-    \n\n/*\n * @file modint.hpp\n * @brief Modular arithmetic\n */\n\n#include <cassert>\n\
+    \n\n/*\n * @file modint.hpp\n * @brief Modular Arithmetic\n */\n\n#include <cassert>\n\
     #include <iostream>\n\n#line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include\
     \ <iterator>\n#include <type_traits>\n\ntemplate <class type, template <class>\
     \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
@@ -141,7 +141,7 @@ data:
   path: modulus/inverse.hpp
   requiredBy:
   - combinatorics/binomial.hpp
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp

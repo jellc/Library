@@ -6,7 +6,7 @@ data:
     title: data_structure/deque_aggregation.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -76,7 +76,7 @@ data:
     \        left.pop();\n    }\n\n    void pop_back()\n    {\n        assert(!empty());\n\
     \        balance_to_right();\n        right.pop();\n    }\n\n    monoid fold()\
     \ { return left.fold() + right.fold(); }\n}; // class deque_aggregation\n#line\
-    \ 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular arithmetic\n\
+    \ 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular Arithmetic\n\
     \ */\n\n#line 9 \"modulus/modint.hpp\"\n#include <iostream>\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#line 4 \"utils/sfinae.hpp\"\n#include <type_traits>\n\n\
     template <class type, template <class> class trait>\nusing enable_if_trait_type\
@@ -200,7 +200,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/queue_operate_all_composite.test.cpp

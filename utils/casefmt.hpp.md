@@ -7,18 +7,18 @@ data:
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
-    title: Code template
+    title: Template
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Case output format
+    document_title: Case Output Format
     links: []
   bundledCode: "#line 2 \"utils/casefmt.hpp\"\n\n/*\n * @file castfmt\n * @brief Case\
-    \ output format\n */\n\n#line 2 \"config.hpp\"\n\n/*\n * @file config.hpp\n *\
+    \ Output Format\n */\n\n#line 2 \"config.hpp\"\n\n/*\n * @file config.hpp\n *\
     \ @brief Configuration\n */\n\n#include <chrono>\n#include <iomanip>\n#include\
     \ <iostream>\n\nnamespace config {\n\nconst auto start_time{std::chrono::system_clock::now()};\n\
     \n/*\n * @fn elapsed\n * @return elapsed time of the program\n */\nint64_t elapsed()\
@@ -38,7 +38,7 @@ data:
     \ to ostream\n * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n\
     \  return os << \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace\
     \ workspace\n"
-  code: "#pragma once\n\n/*\n * @file castfmt\n * @brief Case output format\n */\n\
+  code: "#pragma once\n\n/*\n * @file castfmt\n * @brief Case Output Format\n */\n\
     \n#include \"../config.hpp\"\n\nnamespace workspace {\n\n/*\n * @brief printf(\"\
     Case #%u: \", config::caseid)\n * @param os reference to ostream\n * @return os\n\
     \ */\nstd::ostream& casefmt(std::ostream& os) {\n  return os << \"Case #\" <<\
@@ -50,7 +50,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/casefmt.hpp
@@ -58,5 +58,5 @@ layout: document
 redirect_from:
 - /library/utils/casefmt.hpp
 - /library/utils/casefmt.hpp.html
-title: Case output format
+title: Case Output Format
 ---

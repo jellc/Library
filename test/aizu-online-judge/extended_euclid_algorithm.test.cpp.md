@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
-    title: Extended Euclidean algorithm
+    title: Extended Euclidean Algorithm
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -22,7 +22,7 @@ data:
   bundledCode: "#line 1 \"test/aizu-online-judge/extended_euclid_algorithm.test.cpp\"\
     \n#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E\"\
     \n#line 2 \"number_theory/ext_gcd.hpp\"\n\n/*\n * @file ext_gcd\n * @brief Extended\
-    \ Euclidean algorithm\n */\n\n#include <tuple>\n\n#line 2 \"utils/sfinae.hpp\"\
+    \ Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
@@ -101,7 +101,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/extended_euclid_algorithm.test.cpp

@@ -4,13 +4,13 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
-    title: Rolling hash
+    title: Rolling Hash
   - icon: ':warning:'
     path: template.cpp
-    title: Code template
+    title: Template
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/pattern_search.test.cpp

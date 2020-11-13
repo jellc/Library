@@ -9,7 +9,7 @@ data:
     title: modulus/inverse.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -29,7 +29,7 @@ data:
     \        if(n < 0) return 0;\n        for(int m(fact.size()); m <= n; ++m) fact.emplace_back(op(fact.back(),\
     \ m));\n        return fact[n];\n    }\n}; // class factorial\n#line 3 \"modulus/inverse.hpp\"\
     \n\n#line 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
-    \ arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line 2 \"utils/sfinae.hpp\"\
+    \ Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
@@ -167,7 +167,7 @@ data:
   isVerificationFile: false
   path: combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp

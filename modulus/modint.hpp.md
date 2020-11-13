@@ -30,10 +30,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Modular arithmetic
+    document_title: Modular Arithmetic
     links: []
   bundledCode: "#line 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief\
-    \ Modular arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line\
+    \ Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line\
     \ 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
     \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
@@ -129,7 +129,7 @@ data:
     \ modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam type_id uniquely\
     \ assigned\n */\ntemplate <unsigned type_id = 0>\nusing modint_runtime = internal::modint_base<-(signed)type_id>;\n\
     \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file modint.hpp\n * @brief Modular arithmetic\n */\n\
+  code: "#pragma once\n\n/*\n * @file modint.hpp\n * @brief Modular Arithmetic\n */\n\
     \n#include <cassert>\n#include <iostream>\n\n#include \"utils/sfinae.hpp\"\n\n\
     namespace workspace {\n\nnamespace internal {\n\n/*\n * @struct modint_base\n\
     \ * @brief base of modular arithmetic.\n * @tparam Mod identifier, which represents\
@@ -214,7 +214,7 @@ data:
   requiredBy:
   - modulus/inverse.hpp
   - combinatorics/binomial.hpp
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
@@ -227,5 +227,5 @@ layout: document
 redirect_from:
 - /library/modulus/modint.hpp
 - /library/modulus/modint.hpp.html
-title: Modular arithmetic
+title: Modular Arithmetic
 ---

@@ -7,18 +7,18 @@ data:
   _extendedRequiredBy:
   - icon: ':warning:'
     path: template.cpp
-    title: Code template
+    title: Template
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Round integer division
+    document_title: Round Integer Division
     links: []
   bundledCode: "#line 2 \"utils/round_div.hpp\"\n\n/*\n * @file round_div.hpp\n *\
-    \ @brief Round integer division\n */\n\n#include <cassert>\n\n#line 2 \"utils/sfinae.hpp\"\
+    \ @brief Round Integer Division\n */\n\n#include <cassert>\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
@@ -52,7 +52,7 @@ data:
     \                            typename std::common_type<T1, T2>::type>::type\n\
     ceil_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
     \ x < 0 ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file round_div.hpp\n * @brief Round integer division\n\
+  code: "#pragma once\n\n/*\n * @file round_div.hpp\n * @brief Round Integer Division\n\
     \ */\n\n#include <cassert>\n\n#include \"sfinae.hpp\"\n\nnamespace workspace {\n\
     \n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
     \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
@@ -76,7 +76,7 @@ data:
   requiredBy:
   - template.cpp
   - utils.hpp
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: utils/round_div.hpp
@@ -84,5 +84,5 @@ layout: document
 redirect_from:
 - /library/utils/round_div.hpp
 - /library/utils/round_div.hpp.html
-title: Round integer division
+title: Round Integer Division
 ---

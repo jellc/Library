@@ -19,28 +19,28 @@ data:
     title: modulus/inverse.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: number_theory/ext_gcd.hpp
-    title: Extended Euclidean algorithm
+    title: Extended Euclidean Algorithm
   - icon: ':warning:'
     path: number_theory/least_factor.hpp
-    title: Least prime factor
+    title: Least Prime Factor
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.hpp
     title: Suffix array
   - icon: ':warning:'
     path: template.cpp
-    title: Code template
+    title: Template
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
   - icon: ':warning:'
     path: utils/round_div.hpp
-    title: Round integer division
+    title: Round Integer Division
   - icon: ':heavy_check_mark:'
     path: utils/stream.hpp
     title: utils/stream.hpp

@@ -6,7 +6,7 @@ data:
     title: algebra/convolution/subset.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -44,7 +44,7 @@ data:
     \  ff[i][s ^ 1 << k] -= ff[i][s];\n                    if(i) ff[i][s] = ff[i -\
     \ 1][s];\n                }\n            }\n        }\n    }\n    return ff[n];\n\
     }\n#line 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
-    \ arithmetic\n */\n\n#line 10 \"modulus/modint.hpp\"\n\n#line 2 \"utils/sfinae.hpp\"\
+    \ Arithmetic\n */\n\n#line 10 \"modulus/modint.hpp\"\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
@@ -159,7 +159,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp

@@ -12,7 +12,7 @@ data:
     title: data_structure/segment_tree/waitlist.hpp
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
-    title: Modular arithmetic
+    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -122,7 +122,7 @@ data:
     \        const Monoid tmp = mono + data[left];\n        if (!pred(tmp)) return\
     \ right_partition_subtree(left, pred, mono);\n        mono = tmp;\n        ++left;\n\
     \      }\n    }\n    return size_orig;\n  }\n};  // class segment_tree\n#line\
-    \ 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular arithmetic\n\
+    \ 2 \"modulus/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular Arithmetic\n\
     \ */\n\n#line 9 \"modulus/modint.hpp\"\n#include <iostream>\n\n#line 12 \"modulus/modint.hpp\"\
     \n\nnamespace workspace {\n\nnamespace internal {\n\n/*\n * @struct modint_base\n\
     \ * @brief base of modular arithmetic.\n * @tparam Mod identifier, which represents\
@@ -228,7 +228,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-11-10 12:59:02+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp

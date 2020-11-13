@@ -9,10 +9,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Least prime factor
+    document_title: Least Prime Factor
     links: []
   bundledCode: "#line 2 \"number_theory/least_factor.hpp\"\n\n/*\n * @file least_factor.hpp\n\
-    \ * @brief Least prime factor\n */\n\n#include <cassert>\n#include <vector>\n\n\
+    \ * @brief Least Prime Factor\n */\n\n#include <cassert>\n#include <vector>\n\n\
     #line 2 \"utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n#include\
     \ <type_traits>\n\ntemplate <class type, template <class> class trait>\nusing\
     \ enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\n\
@@ -32,35 +32,35 @@ data:
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 12 \"number_theory/least_factor.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @class least_factor\n * @brief calculate the\
-    \ least prime factor for positive integers.\n * @tparam N range of calculation,\
+    \n\nnamespace workspace {\n\n/*\n * @class least_factor\n * @brief Calculate the\
+    \ least prime factor for positive integers.\n * @tparam N Range of calculation,\
     \ exclusive\n */\ntemplate <unsigned N> class least_factor {\n  unsigned least[N],\
     \ prime[N >> 3], n;\n\n public:\n  constexpr least_factor() : least{1}, prime{},\
     \ n{} {\n    for (auto i = 2u; i < N; ++i) {\n      if (!least[i]) prime[n++]\
     \ = least[i] = i;\n      for (auto *p = prime; *p && *p <= least[i] && *p * i\
     \ < N; ++p) {\n        least[*p * i] = *p;\n      }\n    }\n  }\n\n  /*\n   *\
-    \ @param x an integer with 0 < |x| < N\n   * @return least prime factor of x\n\
+    \ @param x an integer with 0 < |x| < N\n   * @return Least prime factor of x\n\
     \   */\n  template <typename int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
     \ int_type>::type\n      operator()(int_type x) const {\n    assert(x);\n    if\
     \ (x < 0) x = -x;\n    assert(x < N);\n    return least[x];\n  }\n\n  /*\n   *\
-    \ @fn primes\n   * @return sorted list of prime numbers less than N\n   */\n \
+    \ @fn primes\n   * @return Sorted list of prime numbers less than N\n   */\n \
     \ const std::vector<unsigned> &primes() const {\n    static const std::vector<unsigned>\
     \ prime_vector(prime, prime + n);\n    return prime_vector;\n  }\n};\n\n}  //\
     \ namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file least_factor.hpp\n * @brief Least prime factor\n\
+  code: "#pragma once\n\n/*\n * @file least_factor.hpp\n * @brief Least Prime Factor\n\
     \ */\n\n#include <cassert>\n#include <vector>\n\n#include \"utils/sfinae.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @class least_factor\n * @brief calculate the\
-    \ least prime factor for positive integers.\n * @tparam N range of calculation,\
+    \n\nnamespace workspace {\n\n/*\n * @class least_factor\n * @brief Calculate the\
+    \ least prime factor for positive integers.\n * @tparam N Range of calculation,\
     \ exclusive\n */\ntemplate <unsigned N> class least_factor {\n  unsigned least[N],\
     \ prime[N >> 3], n;\n\n public:\n  constexpr least_factor() : least{1}, prime{},\
     \ n{} {\n    for (auto i = 2u; i < N; ++i) {\n      if (!least[i]) prime[n++]\
     \ = least[i] = i;\n      for (auto *p = prime; *p && *p <= least[i] && *p * i\
     \ < N; ++p) {\n        least[*p * i] = *p;\n      }\n    }\n  }\n\n  /*\n   *\
-    \ @param x an integer with 0 < |x| < N\n   * @return least prime factor of x\n\
+    \ @param x an integer with 0 < |x| < N\n   * @return Least prime factor of x\n\
     \   */\n  template <typename int_type>\n  constexpr\n      typename std::enable_if<is_integral_ext<int_type>::value,\
     \ int_type>::type\n      operator()(int_type x) const {\n    assert(x);\n    if\
     \ (x < 0) x = -x;\n    assert(x < N);\n    return least[x];\n  }\n\n  /*\n   *\
-    \ @fn primes\n   * @return sorted list of prime numbers less than N\n   */\n \
+    \ @fn primes\n   * @return Sorted list of prime numbers less than N\n   */\n \
     \ const std::vector<unsigned> &primes() const {\n    static const std::vector<unsigned>\
     \ prime_vector(prime, prime + n);\n    return prime_vector;\n  }\n};\n\n}  //\
     \ namespace workspace\n"
@@ -69,7 +69,7 @@ data:
   isVerificationFile: false
   path: number_theory/least_factor.hpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: number_theory/least_factor.hpp
@@ -77,5 +77,5 @@ layout: document
 redirect_from:
 - /library/number_theory/least_factor.hpp
 - /library/number_theory/least_factor.hpp.html
-title: Least prime factor
+title: Least Prime Factor
 ---

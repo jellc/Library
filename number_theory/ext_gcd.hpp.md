@@ -12,10 +12,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Extended Euclidean algorithm
+    document_title: Extended Euclidean Algorithm
     links: []
   bundledCode: "#line 2 \"number_theory/ext_gcd.hpp\"\n\n/*\n * @file ext_gcd\n *\
-    \ @brief Extended Euclidean algorithm\n */\n\n#include <tuple>\n\n#line 2 \"utils/sfinae.hpp\"\
+    \ @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
     \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
@@ -46,7 +46,7 @@ data:
     \    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^= r ^= p -= (t = a /\
     \ b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n  \
     \  }\n  }\n  return {p, q};\n}\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean algorithm\n\
+  code: "#pragma once\n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean Algorithm\n\
     \ */\n\n#include <tuple>\n\n#include \"utils/sfinae.hpp\"\n\nnamespace workspace\
     \ {\n\n/*\n * @fn ext_gcd\n * @param a an integer\n * @param b an integer\n *\
     \ @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)\n * @note return\
@@ -64,7 +64,7 @@ data:
   isVerificationFile: false
   path: number_theory/ext_gcd.hpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:15:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
@@ -73,5 +73,5 @@ layout: document
 redirect_from:
 - /library/number_theory/ext_gcd.hpp
 - /library/number_theory/ext_gcd.hpp.html
-title: Extended Euclidean algorithm
+title: Extended Euclidean Algorithm
 ---

@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary search
+    title: Binary Search
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -16,7 +16,7 @@ data:
   bundledCode: "#line 1 \"test/aizu-online-judge/dont_burst_the_ballon.test.cpp\"\n\
     #define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/1342\"\n#include <algorithm>\n\
     #include <iostream>\n#include <vector>\n\n#line 2 \"utils/binary_search.hpp\"\n\
-    \n/*\n * @file binary_search.hpp\n * @brief Binary search\n */\n\n#if __cplusplus\
+    \n/*\n * @file binary_search.hpp\n * @brief Binary Search\n */\n\n#if __cplusplus\
     \ >= 201703L\n\n#include <cassert>\n#include <cmath>\n#line 13 \"utils/binary_search.hpp\"\
     \n\nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief binary search\
     \ on a discrete range.\n * @param ok pred(ok) is true\n * @param ng pred(ng) is\
@@ -166,7 +166,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/dont_burst_the_ballon.test.cpp

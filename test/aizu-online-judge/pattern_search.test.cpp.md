@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.hpp
-    title: Rolling hash
+    title: Rolling Hash
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary search
+    title: Binary Search
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -28,9 +28,9 @@ data:
   bundledCode: "#line 1 \"test/aizu-online-judge/pattern_search.test.cpp\"\n#define\
     \ PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/all/ALDS1_14_C\"\
     \n#line 2 \"string/rolling_hash.hpp\"\n\n/*\n * @file rolling_hash.hpp\n * @brief\
-    \ Rolling hash\n */\n\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\
+    \ Rolling Hash\n */\n\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\
     \n#line 2 \"utils/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n * @brief\
-    \ Binary search\n */\n\n#if __cplusplus >= 201703L\n\n#line 11 \"utils/binary_search.hpp\"\
+    \ Binary Search\n */\n\n#if __cplusplus >= 201703L\n\n#line 11 \"utils/binary_search.hpp\"\
     \n#include <cmath>\n#line 13 \"utils/binary_search.hpp\"\n\nnamespace workspace\
     \ {\n\n/*\n * @fn binary_search\n * @brief binary search on a discrete range.\n\
     \ * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param pred\
@@ -229,7 +229,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/pattern_search.test.cpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/pattern_search.test.cpp

@@ -12,34 +12,34 @@ data:
     title: C++20 features
   - icon: ':warning:'
     path: option.hpp
-    title: Optimize options
+    title: Optimize Options
   - icon: ':warning:'
     path: utils.hpp
-    title: all headers in utlis
+    title: utils.hpp
   - icon: ':heavy_check_mark:'
     path: utils/binary_search.hpp
-    title: Binary search
+    title: Binary Search
   - icon: ':warning:'
     path: utils/casefmt.hpp
-    title: Case output format
+    title: Case Output Format
   - icon: ':warning:'
     path: utils/chval.hpp
-    title: Change less/greater
+    title: Change Less/Greater
   - icon: ':heavy_check_mark:'
     path: utils/coordinate_compression.hpp
     title: utils/coordinate_compression.hpp
   - icon: ':warning:'
     path: utils/ejection.hpp
-    title: Ejection from try block
+    title: Ejection
   - icon: ':warning:'
     path: utils/fixed_point.hpp
-    title: Fixed point combinator
+    title: Fixed Point Combinator
   - icon: ':heavy_check_mark:'
     path: utils/hash.hpp
     title: utils/hash.hpp
   - icon: ':warning:'
     path: utils/make_vector.hpp
-    title: Multi-dimensional vector
+    title: Multi-dimensional Vector
   - icon: ':heavy_check_mark:'
     path: utils/random_number_generator.hpp
     title: utils/random_number_generator.hpp
@@ -48,7 +48,7 @@ data:
     title: utils/read.hpp
   - icon: ':warning:'
     path: utils/round_div.hpp
-    title: Round integer division
+    title: Round Integer Division
   - icon: ':heavy_check_mark:'
     path: utils/sfinae.hpp
     title: utils/sfinae.hpp
@@ -66,9 +66,9 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Code template
+    document_title: Template
     links: []
-  bundledCode: "#line 1 \"template.cpp\"\n/* @file template.cpp\n * @brief Code template\n\
+  bundledCode: "#line 1 \"template.cpp\"\n/*\n * @file template.cpp\n * @brief Template\n\
     \ */\n\n#include <bits/extc++.h>\n\n#line 2 \"alias.hpp\"\n\n/*\n * @file alias.hpp\n\
     \ * @brief Alias\n */\n\n#line 13 \"alias.hpp\"\n\nnamespace workspace {\n\nconstexpr\
     \ char eol = '\\n';\n\nusing namespace std;\n\nusing i32 = int_least32_t;\nusing\
@@ -107,24 +107,24 @@ data:
     \ __cont, const _Up& __value) {\n  const auto __osz = __cont.size();\n  __cont.erase(std::remove(__cont.begin(),\
     \ __cont.end(), __value),\n               __cont.end());\n  return __osz - __cont.size();\n\
     }\n\n}  // namespace std\n\n#endif\n#line 2 \"option.hpp\"\n\n/*\n * @file option.hpp\n\
-    \ * @brief Optimize options\n */\n\n#ifdef ONLINE_JUDGE\n\n#pragma GCC optimize(\"\
+    \ * @brief Optimize Options\n */\n\n#ifdef ONLINE_JUDGE\n\n#pragma GCC optimize(\"\
     O3\")\n#pragma GCC target(\"avx,avx2\")\n#pragma GCC optimize(\"unroll-loops\"\
-    )\n\n#endif\n#line 2 \"utils.hpp\"\n\n/*\n * @file utils.hpp\n * @brief all headers\
-    \ in utlis\n */\n\n#line 2 \"utils/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n\
-    \ * @brief Binary search\n */\n\n#if __cplusplus >= 201703L\n\n#include <cassert>\n\
-    #include <cmath>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n\
-    \ * @brief binary search on a discrete range.\n * @param ok pred(ok) is true\n\
-    \ * @param ng pred(ng) is false\n * @param pred the predicate\n * @return the\
-    \ closest point to (ng) where pred is true\n */\ntemplate <class iter_type, class\
-    \ pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
-    \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
-    \ pred_type pred) {\n  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)>\
-    \ dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist\
-    \ / 2);\n    if (pred(mid))\n      ok = mid, dist -= dist / 2;\n    else\n   \
-    \   ng = mid, dist /= 2;\n  }\n  return ok;\n}\n\n/*\n * @fn parallel_binary_search\n\
-    \ * @brief parallel binary search on discrete ranges.\n * @param ends a vector\
-    \ of pairs; pred(first) is true, pred(second) is false\n * @param pred the predicate\n\
-    \ * @return the closest points to (second) where pred is true\n */\ntemplate <class\
+    )\n\n#endif\n#line 2 \"utils.hpp\"\n\n/*\n * @file utils.hpp\n */\n\n#line 2 \"\
+    utils/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n * @brief Binary\
+    \ Search\n */\n\n#if __cplusplus >= 201703L\n\n#include <cassert>\n#include <cmath>\n\
+    #include <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief\
+    \ binary search on a discrete range.\n * @param ok pred(ok) is true\n * @param\
+    \ ng pred(ng) is false\n * @param pred the predicate\n * @return the closest point\
+    \ to (ng) where pred is true\n */\ntemplate <class iter_type, class pred_type>\n\
+    std::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type, iter_type>,\
+    \ bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng, pred_type\
+    \ pred) {\n  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)> dist(ng\
+    \ - ok);\n  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist / 2);\n\
+    \    if (pred(mid))\n      ok = mid, dist -= dist / 2;\n    else\n      ng = mid,\
+    \ dist /= 2;\n  }\n  return ok;\n}\n\n/*\n * @fn parallel_binary_search\n * @brief\
+    \ parallel binary search on discrete ranges.\n * @param ends a vector of pairs;\
+    \ pred(first) is true, pred(second) is false\n * @param pred the predicate\n *\
+    \ @return the closest points to (second) where pred is true\n */\ntemplate <class\
     \ iter_type, class pred_type>\nstd::enable_if_t<std::is_convertible_v<\n     \
     \                std::invoke_result_t<pred_type, std::vector<iter_type>>,\n  \
     \                   std::vector<bool>>,\n                 std::vector<iter_type>>\n\
@@ -160,20 +160,20 @@ data:
     \  }\n    }\n    if (all_found) break;\n    auto res = pred(mids);\n    for (size_t\
     \ i{}; i != ends.size(); ++i) {\n      (res[i] ? ends[i].first : ends[i].second)\
     \ = mids[i];\n    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n\n#endif\n\
-    #line 2 \"utils/casefmt.hpp\"\n\n/*\n * @file castfmt\n * @brief Case output format\n\
+    #line 2 \"utils/casefmt.hpp\"\n\n/*\n * @file castfmt\n * @brief Case Output Format\n\
     \ */\n\n#line 9 \"utils/casefmt.hpp\"\n\nnamespace workspace {\n\n/*\n * @brief\
     \ printf(\"Case #%u: \", config::caseid)\n * @param os reference to ostream\n\
     \ * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n  return os <<\
     \ \"Case #\" << config::caseid << \": \";\n}\n\n}  // namespace workspace\n#line\
-    \ 2 \"utils/chval.hpp\"\n\n/*\n * @file chval.hpp\n * @brief Change less/greater\n\
+    \ 2 \"utils/chval.hpp\"\n\n/*\n * @file chval.hpp\n * @brief Change Less/Greater\n\
     \ */\n\n#line 9 \"utils/chval.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn chle\n\
-    \ * @brief substitute y for x if comp(y, x) is true\n * @param x reference\n *\
-    \ @param y const reference\n * @param comp compare function\n * @return whether\
+    \ * @brief Substitute y for x if comp(y, x) is true.\n * @param x Reference\n\
+    \ * @param y Const reference\n * @param comp Compare function\n * @return Whether\
     \ or not x is updated\n */\ntemplate <class Tp, class Comp = std::less<Tp>>\n\
     bool chle(Tp &x, const Tp &y, Comp comp = Comp()) {\n  return comp(y, x) ? x =\
-    \ y, true : false;\n}\n\n/*\n * @fn chge\n * @brief substitute y for x if comp(x,\
-    \ y) is true\n * @param x reference\n * @param y const reference\n * @param comp\
-    \ compare function\n * @return whether or not x is updated\n */\ntemplate <class\
+    \ y, true : false;\n}\n\n/*\n * @fn chge\n * @brief Substitute y for x if comp(x,\
+    \ y) is true.\n * @param x Reference\n * @param y Const reference\n * @param comp\
+    \ Compare function\n * @return Whether or not x is updated\n */\ntemplate <class\
     \ Tp, class Comp = std::less<Tp>>\nbool chge(Tp &x, const Tp &y, Comp comp = Comp())\
     \ {\n  return comp(x, y) ? x = y, true : false;\n}\n\n}  // namespace workspace\n\
     #line 5 \"utils/coordinate_compression.hpp\"\n\ntemplate <class T> class coordinate_compression\
@@ -191,19 +191,19 @@ data:
     \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
     \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
     \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 2 \"utils/ejection.hpp\"\
-    \n\n/*\n * @file ejection.hpp\n * @brief Ejection from try block\n */\n\n#line\
-    \ 9 \"utils/ejection.hpp\"\n\nnamespace workspace {\n\n/*\n * @brief eject from\
-    \ a try block, throw nullptr\n * @param arg output\n */\ntemplate <class Tp> void\
-    \ eject(Tp const &arg) {\n  std::cout << arg << \"\\n\";\n  throw nullptr;\n}\n\
-    \n}  // namespace workspace\n#line 2 \"utils/fixed_point.hpp\"\n\n/*\n * @file\
-    \ fixed_point.hpp\n * @brief Fixed point combinator\n */\n\n#line 9 \"utils/fixed_point.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @class fixed_point\n * @brief recursive calling\
-    \ of lambda expression\n */\ntemplate <class lambda_type> class fixed_point {\n\
-    \  lambda_type func;\n\n public:\n  /*\n   * @param func 1st arg callable with\
-    \ the rest of args, and the return type\n   * specified\n   */\n  fixed_point(lambda_type\
-    \ &&func) : func(std::move(func)) {}\n\n  /*\n   * @brief recursively apply *this\
-    \ to 1st arg of func\n   * @param args arguments of the recursive method\n   */\n\
-    \  template <class... Args> auto operator()(Args &&... args) const {\n    return\
+    \n\n/*\n * @file ejection.hpp\n * @brief Ejection\n */\n\n#line 9 \"utils/ejection.hpp\"\
+    \n\nnamespace workspace {\n\n/*\n * @brief eject from a try block, throw nullptr\n\
+    \ * @param arg output\n */\ntemplate <class Tp> void eject(Tp const &arg) {\n\
+    \  std::cout << arg << \"\\n\";\n  throw nullptr;\n}\n\n}  // namespace workspace\n\
+    #line 2 \"utils/fixed_point.hpp\"\n\n/*\n * @file fixed_point.hpp\n * @brief Fixed\
+    \ Point Combinator\n */\n\n#line 9 \"utils/fixed_point.hpp\"\n\nnamespace workspace\
+    \ {\n\n/*\n * @class fixed_point\n * @brief Recursive calling of lambda expression.\n\
+    \ */\ntemplate <class lambda_type> class fixed_point {\n  lambda_type func;\n\n\
+    \ public:\n  /*\n   * @param func 1st arg callable with the rest of args, and\
+    \ the return type\n   * specified.\n   */\n  fixed_point(lambda_type &&func) :\
+    \ func(std::move(func)) {}\n\n  /*\n   * @brief Recursively apply *this to 1st\
+    \ arg of func.\n   * @param args Arguments of the recursive method.\n   */\n \
+    \ template <class... Args> auto operator()(Args &&... args) const {\n    return\
     \ func(*this, std::forward<Args>(args)...);\n  }\n};\n\n}  // namespace workspace\n\
     #line 6 \"utils/hash.hpp\"\n\n#line 4 \"utils/sfinae.hpp\"\n#include <type_traits>\n\
     \ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
@@ -252,34 +252,37 @@ data:
     \ hash<Key>>>;\ntemplate <class Key, class Mapped>\nusing unordered_map = std::unordered_map<Key,\
     \ Mapped, hash<Key>>;\ntemplate <class Key> using unordered_set = std::unordered_set<Key,\
     \ hash<Key>>;\n}  // namespace workspace\n#line 2 \"utils/make_vector.hpp\"\n\n\
-    /*\n * @file make_vector.hpp\n * @brief Multi-dimensional vector\n */\n\n#if __cplusplus\
+    /*\n * @file make_vector.hpp\n * @brief Multi-dimensional Vector\n */\n\n#if __cplusplus\
     \ >= 201703L\n\n#include <tuple>\n#include <vector>\n\nnamespace workspace {\n\
-    \n/*\n * @brief make a multi-dimensional vector.\n * @tparam Tp type of the elements\n\
-    \ * @tparam S integer type\n * @tparam N dimension\n * @param sizes size of each\
-    \ dimension\n * @param init initial value\n */\ntemplate <typename Tp, typename\
-    \ S, size_t N>\nconstexpr auto make_vector(S* sizes, Tp const& init = Tp()) {\n\
-    \  static_assert(std::is_convertible_v<S, size_t>);\n  if constexpr (N)\n    return\
-    \ std::vector(*sizes,\n                       make_vector<Tp, S, N - 1>(std::next(sizes),\
-    \ init));\n  else\n    return init;\n}\n\n/*\n * @brief make a multi-dimensional\
-    \ vector.\n * @param sizes size of each dimension\n * @param init initial value\n\
-    \ */\ntemplate <typename Tp, typename S, size_t N>\nconstexpr auto make_vector(const\
-    \ S (&sizes)[N], Tp const& init = Tp()) {\n  return make_vector<Tp, S, N>((S*)sizes,\
-    \ init);\n}\n\n/*\n * @brief make a multi-dimensional vector.\n * @param sizes\
-    \ size of each dimension\n * @param init initial value\n */\ntemplate <typename\
-    \ Tp, typename S, size_t N, size_t I = 0>\nconstexpr auto make_vector(std::array<S,\
-    \ N> const& sizes,\n                           Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<S,\
-    \ size_t>);\n  if constexpr (I == N)\n    return init;\n  else\n    return std::vector(sizes[I],\
-    \ make_vector<Tp, S, N, I + 1>(sizes, init));\n}\n\n/*\n * @brief make a multi-dimensional\
-    \ vector.\n * @param sizes size of each dimension\n * @param init initial value\n\
-    \ */\ntemplate <typename Tp, size_t I = 0, class... Args>\nconstexpr auto make_vector(std::tuple<Args...>\
-    \ const& sizes,\n                           Tp const& init = Tp()) {\n  using\
-    \ tuple_type = std::tuple<Args...>;\n  if constexpr (I == tuple_size_v<tuple_type>)\n\
-    \    return init;\n  else {\n    static_assert(\n        std::is_convertible_v<tuple_element_t<I,\
-    \ tuple_type>, size_t>);\n    return std::vector(get<I>(sizes), make_vector<Tp,\
-    \ I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief make a multi-dimensional vector.\n\
-    \ * @param sizes size of each dimension\n * @param init initial value\n */\ntemplate\
-    \ <typename Tp, class Fst, class Snd>\nconstexpr auto make_vector(std::pair<Fst,\
-    \ Snd> const& sizes,\n                           Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<Fst,\
+    \n/*\n * @brief Make a multi-dimensional vector.\n * @tparam Tp type of the elements\n\
+    \ * @tparam N dimension\n * @tparam S integer type\n * @param sizes The size of\
+    \ each dimension\n * @param init The initial value\n */\ntemplate <typename Tp,\
+    \ size_t N, typename S>\nconstexpr auto make_vector(S* sizes, Tp const& init =\
+    \ Tp()) {\n  static_assert(std::is_convertible_v<S, size_t>);\n  if constexpr\
+    \ (N)\n    return std::vector(*sizes,\n                       make_vector<Tp,\
+    \ N - 1, S>(std::next(sizes), init));\n  else\n    return init;\n}\n\n/*\n * @brief\
+    \ Make a multi-dimensional vector.\n * @param sizes The size of each dimension\n\
+    \ * @param init The initial value\n */\ntemplate <typename Tp, size_t N, typename\
+    \ S>\nconstexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {\n\
+    \  return make_vector<Tp, N, S>((S*)sizes, init);\n}\n\n/*\n * @brief Make a multi-dimensional\
+    \ vector.\n * @param sizes The size of each dimension\n * @param init The initial\
+    \ value\n */\ntemplate <typename Tp, size_t N, typename S, size_t I = 0>\nconstexpr\
+    \ auto make_vector(std::array<S, N> const& sizes,\n                          \
+    \ Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<S, size_t>);\n\
+    \  if constexpr (I == N)\n    return init;\n  else\n    return std::vector(sizes[I],\
+    \ make_vector<Tp, N, S, I + 1>(sizes, init));\n}\n\n/*\n * @brief Make a multi-dimensional\
+    \ vector.\n * @param sizes The size of each dimension\n * @param init The initial\
+    \ value\n */\ntemplate <typename Tp, size_t N = SIZE_MAX, size_t I = 0, class...\
+    \ Args>\nconstexpr auto make_vector(std::tuple<Args...> const& sizes,\n      \
+    \                     Tp const& init = Tp()) {\n  using tuple_type = std::tuple<Args...>;\n\
+    \  if constexpr (I == std::tuple_size_v<tuple_type> || I == N)\n    return init;\n\
+    \  else {\n    static_assert(\n        std::is_convertible_v<std::tuple_element_t<I,\
+    \ tuple_type>, size_t>);\n    return std::vector(std::get<I>(sizes),\n       \
+    \                make_vector<Tp, N, I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief\
+    \ Make a multi-dimensional vector.\n * @param sizes The size of each dimension\n\
+    \ * @param init The initial value\n */\ntemplate <typename Tp, class Fst, class\
+    \ Snd>\nconstexpr auto make_vector(std::pair<Fst, Snd> const& sizes,\n       \
+    \                    Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<Fst,\
     \ size_t>);\n  static_assert(std::is_convertible_v<Snd, size_t>);\n  return make_vector({(size_t)sizes.first,\
     \ (size_t)sizes.second}, init);\n}\n\n}  // namespace workspace\n\n#endif\n#line\
     \ 3 \"utils/random_number_generator.hpp\"\ntemplate <typename num_type> class\
@@ -298,7 +301,7 @@ data:
     \  operator T() const { return value; }\n};\ntemplate <>\nstruct read<void>\n\
     {\n    template <class T>\n    operator T() const { T value; std::cin >> value;\
     \ return value; }\n};\n} // namespace workspace\n#line 2 \"utils/round_div.hpp\"\
-    \n\n/*\n * @file round_div.hpp\n * @brief Round integer division\n */\n\n#line\
+    \n\n/*\n * @file round_div.hpp\n * @brief Round Integer Division\n */\n\n#line\
     \ 9 \"utils/round_div.hpp\"\n\n#line 11 \"utils/round_div.hpp\"\n\nnamespace workspace\
     \ {\n\n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
     \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
@@ -362,18 +365,18 @@ data:
     \ &ref) : ref(ref) {}\n  constexpr reversed(Container &&ref = Container()) : ref(copy),\
     \ copy(ref) {}\n  constexpr auto begin() const { return ref.rbegin(); }\n  constexpr\
     \ auto end() const { return ref.rend(); }\n  constexpr operator Container() const\
-    \ { return ref; }\n};\n#line 12 \"template.cpp\"\n\nnamespace workspace {\nvoid\
+    \ { return ref; }\n};\n#line 13 \"template.cpp\"\n\nnamespace workspace {\nvoid\
     \ main();\n}\nint main() { config::loop(workspace::main); }\n\nunsigned config::cases()\
     \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; std::cin.ignore();\
     \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
-    \  // start here!\n}\n}\n"
-  code: "/* @file template.cpp\n * @brief Code template\n */\n\n#include <bits/extc++.h>\n\
+    \  // start here!\n}\n}  // namespace workspace\n"
+  code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"alias.hpp\"\n#include \"config.hpp\"\n#include \"cxx20.hpp\"\n#include\
     \ \"option.hpp\"\n#include \"utils.hpp\"\n\nnamespace workspace {\nvoid main();\n\
     }\nint main() { config::loop(workspace::main); }\n\nunsigned config::cases() {\n\
     \  // return -1; // unspecified\n  // int t; std::cin >> t; std::cin.ignore();\
     \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
-    \  // start here!\n}\n}\n"
+    \  // start here!\n}\n}  // namespace workspace\n"
   dependsOn:
   - alias.hpp
   - config.hpp
@@ -398,7 +401,7 @@ data:
   isVerificationFile: false
   path: template.cpp
   requiredBy: []
-  timestamp: '2020-11-07 14:25:10+09:00'
+  timestamp: '2020-11-14 01:17:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: template.cpp
@@ -406,5 +409,5 @@ layout: document
 redirect_from:
 - /library/template.cpp
 - /library/template.cpp.html
-title: Code template
+title: Template
 ---

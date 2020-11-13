@@ -38,13 +38,13 @@ data:
       title: C++20 features
     - icon: ':warning:'
       path: option.hpp
-      title: Optimize options
+      title: Optimize Options
     - icon: ':warning:'
       path: template.cpp
-      title: Code template
+      title: Template
     - icon: ':warning:'
       path: utils.hpp
-      title: all headers in utlis
+      title: utils.hpp
   - name: combinatorics
     pages:
     - icon: ':heavy_check_mark:'
@@ -182,15 +182,15 @@ data:
       title: modulus/inverse.hpp
     - icon: ':heavy_check_mark:'
       path: modulus/modint.hpp
-      title: Modular arithmetic
+      title: Modular Arithmetic
   - name: number_theory
     pages:
     - icon: ':heavy_check_mark:'
       path: number_theory/ext_gcd.hpp
-      title: Extended Euclidean algorithm
+      title: Extended Euclidean Algorithm
     - icon: ':warning:'
       path: number_theory/least_factor.hpp
-      title: Least prime factor
+      title: Least Prime Factor
   - name: string
     pages:
     - icon: ':warning:'
@@ -201,7 +201,7 @@ data:
       title: string/binary_trie.hpp
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.hpp
-      title: Rolling hash
+      title: Rolling Hash
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
       title: Suffix array
@@ -212,28 +212,28 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: utils/binary_search.hpp
-      title: Binary search
+      title: Binary Search
     - icon: ':warning:'
       path: utils/casefmt.hpp
-      title: Case output format
+      title: Case Output Format
     - icon: ':warning:'
       path: utils/chval.hpp
-      title: Change less/greater
+      title: Change Less/Greater
     - icon: ':heavy_check_mark:'
       path: utils/coordinate_compression.hpp
       title: utils/coordinate_compression.hpp
     - icon: ':warning:'
       path: utils/ejection.hpp
-      title: Ejection from try block
+      title: Ejection
     - icon: ':warning:'
       path: utils/fixed_point.hpp
-      title: Fixed point combinator
+      title: Fixed Point Combinator
     - icon: ':heavy_check_mark:'
       path: utils/hash.hpp
       title: utils/hash.hpp
     - icon: ':warning:'
       path: utils/make_vector.hpp
-      title: Multi-dimensional vector
+      title: Multi-dimensional Vector
     - icon: ':heavy_check_mark:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
@@ -242,7 +242,7 @@ data:
       title: utils/read.hpp
     - icon: ':warning:'
       path: utils/round_div.hpp
-      title: Round integer division
+      title: Round Integer Division
     - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
