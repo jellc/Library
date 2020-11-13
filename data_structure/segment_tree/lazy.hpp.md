@@ -13,9 +13,6 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
-    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   _pathExtension: hpp
@@ -233,7 +230,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/aizu-online-judge/do_use_segment_tree.test.cpp
 documentation_of: data_structure/segment_tree/lazy.hpp
 layout: document
 redirect_from:

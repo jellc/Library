@@ -20,7 +20,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: modulus/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
     path: number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
   - icon: ':warning:'
@@ -35,25 +35,10 @@ data:
   - icon: ':warning:'
     path: utils/round_div.hpp
     title: Round Integer Division
-  - icon: ':heavy_check_mark:'
-    path: utils/stream.hpp
-    title: utils/stream.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
-    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-    title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/pattern_search.test.cpp
-    title: test/aizu-online-judge/pattern_search.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/range_minimum_query.test.cpp
-    title: test/aizu-online-judge/range_minimum_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
     title: test/library-checker/associative_array.test.cpp
@@ -75,12 +60,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/suffix_array.test.cpp
-    title: test/library-checker/suffix_array.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm.test.cpp
-    title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -138,24 +117,17 @@ data:
   - number_theory/least_factor.hpp
   - utils/hash.hpp
   - utils/round_div.hpp
-  - utils/stream.hpp
   timestamp: '2020-10-10 01:30:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
-  - test/library-checker/zalgorithm.test.cpp
-  - test/library-checker/suffix_array.test.cpp
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/aizu-online-judge/range_minimum_query.test.cpp
-  - test/aizu-online-judge/pattern_search.test.cpp
-  - test/aizu-online-judge/extended_euclid_algorithm.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
-  - test/aizu-online-judge/do_use_segment_tree.test.cpp
 documentation_of: utils/sfinae.hpp
 layout: document
 redirect_from:

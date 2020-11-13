@@ -7,9 +7,6 @@ data:
     title: Rolling Hash
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/pattern_search.test.cpp
-    title: test/aizu-online-judge/pattern_search.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
@@ -45,7 +42,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
-  - test/aizu-online-judge/pattern_search.test.cpp
 documentation_of: utils/random_number_generator.hpp
 layout: document
 redirect_from:

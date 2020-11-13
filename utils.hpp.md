@@ -13,16 +13,19 @@ data:
     , line 191, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
+    , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
+    \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: utils/casefmt.hpp:\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: ../config.hpp:\
     \ line -1: no such header\n"
   code: "#pragma once\n\n/*\n * @file utils.hpp\n */\n\n#include \"utils/binary_search.hpp\"\
-    \n#include \"utils/casefmt.hpp\"\n#include \"utils/chval.hpp\"\n#include \"utils/coordinate_compression.hpp\"\
-    \n#include \"utils/ejection.hpp\"\n#include \"utils/fixed_point.hpp\"\n#include\
-    \ \"utils/hash.hpp\"\n#include \"utils/make_vector.hpp\"\n#include \"utils/random_number_generator.hpp\"\
-    \n#include \"utils/read.hpp\"\n#include \"utils/round_div.hpp\"\n#include \"utils/sfinae.hpp\"\
-    \n#include \"utils/stream.hpp\"\n#include \"utils/trinary_search.hpp\"\n#include\
-    \ \"utils/wrapper.hpp\"\n"
+    \n#include \"utils/io/casefmt.hpp\"\n#include \"utils/chval.hpp\"\n#include \"\
+    utils/coordinate_compression.hpp\"\n#include \"utils/ejection.hpp\"\n#include\
+    \ \"utils/fixed_point.hpp\"\n#include \"utils/hash.hpp\"\n#include \"utils/make_vector.hpp\"\
+    \n#include \"utils/random_number_generator.hpp\"\n#include \"utils/io/read.hpp\"\
+    \n#include \"utils/round_div.hpp\"\n#include \"utils/sfinae.hpp\"\n#include \"\
+    utils/io/stream.hpp\"\n#include \"utils/trinary_search.hpp\"\n#include \"utils/wrapper.hpp\"\
+    \n"
   dependsOn: []
   isVerificationFile: false
   path: utils.hpp

@@ -10,12 +10,6 @@ data:
     title: data_structure/segment_tree/lazy.hpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/do_use_segment_tree.test.cpp
-    title: test/aizu-online-judge/do_use_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/range_minimum_query.test.cpp
-    title: test/aizu-online-judge/range_minimum_query.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -54,8 +48,6 @@ data:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/aizu-online-judge/range_minimum_query.test.cpp
-  - test/aizu-online-judge/do_use_segment_tree.test.cpp
 documentation_of: data_structure/segment_tree/waitlist.hpp
 layout: document
 redirect_from:

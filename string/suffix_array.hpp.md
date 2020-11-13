@@ -9,9 +9,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/suffix_array.test.cpp
-    title: test/library-checker/suffix_array.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -141,7 +138,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/number_of_substrings.test.cpp
-  - test/library-checker/suffix_array.test.cpp
 documentation_of: string/suffix_array.hpp
 layout: document
 redirect_from:

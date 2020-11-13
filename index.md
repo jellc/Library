@@ -185,7 +185,7 @@ data:
       title: Modular Arithmetic
   - name: number_theory
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -205,7 +205,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.hpp
       title: Suffix array
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: string/z_algorithm.hpp
       title: Z-algorithm
   - name: utils
@@ -234,18 +234,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: utils/random_number_generator.hpp
       title: utils/random_number_generator.hpp
-    - icon: ':heavy_check_mark:'
-      path: utils/read.hpp
-      title: utils/read.hpp
     - icon: ':warning:'
       path: utils/round_div.hpp
       title: Round Integer Division
     - icon: ':heavy_check_mark:'
       path: utils/sfinae.hpp
       title: utils/sfinae.hpp
-    - icon: ':heavy_check_mark:'
-      path: utils/stream.hpp
-      title: utils/stream.hpp
     - icon: ':warning:'
       path: utils/trinary_search.hpp
       title: utils/trinary_search.hpp
@@ -257,6 +251,12 @@ data:
     - icon: ':warning:'
       path: utils/io/casefmt.hpp
       title: Case Output Format
+    - icon: ':warning:'
+      path: utils/io/read.hpp
+      title: utils/io/read.hpp
+    - icon: ':warning:'
+      path: utils/io/stream.hpp
+      title: utils/io/stream.hpp
   - name: variation
     pages:
     - icon: ':warning:'
@@ -276,25 +276,25 @@ data:
   verificationCategories:
   - name: test/aizu-online-judge
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/aors_score.test.cpp
       title: test/aizu-online-judge/aors_score.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/do_use_segment_tree.test.cpp
       title: test/aizu-online-judge/do_use_segment_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
       title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
       title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/pattern_search.test.cpp
       title: test/aizu-online-judge/pattern_search.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/range_minimum_query.test.cpp
       title: test/aizu-online-judge/range_minimum_query.test.cpp
   - name: test/library-checker
@@ -341,7 +341,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
     - icon: ':heavy_check_mark:'
@@ -350,7 +350,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'

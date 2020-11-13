@@ -7,9 +7,6 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/aors_score.test.cpp
-    title: test/aizu-online-judge/aors_score.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/assignment.test.cpp
     title: test/library-checker/assignment.test.cpp
   _pathExtension: hpp
@@ -213,7 +210,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/assignment.test.cpp
-  - test/aizu-online-judge/aors_score.test.cpp
 documentation_of: graph/directed/flow/min_cost_flow.hpp
 layout: document
 redirect_from:

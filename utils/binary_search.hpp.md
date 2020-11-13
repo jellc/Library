@@ -10,9 +10,6 @@ data:
     path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
     title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/pattern_search.test.cpp
-    title: test/aizu-online-judge/pattern_search.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
@@ -130,7 +127,6 @@ data:
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/dont_burst_the_ballon.test.cpp
-  - test/aizu-online-judge/pattern_search.test.cpp
 documentation_of: utils/binary_search.hpp
 layout: document
 redirect_from:

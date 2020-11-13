@@ -2,15 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/aors_score.test.cpp
-    title: test/aizu-online-judge/aors_score.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"utils/read.hpp\"\n#include <iostream>\nnamespace workspace\
+  bundledCode: "#line 2 \"utils/io/read.hpp\"\n#include <iostream>\nnamespace workspace\
     \ {\n// read with std::cin.\ntemplate <class T = void>\nstruct read\n{\n    typename\
     \ std::remove_const<T>::type value;\n    template <class... types>\n    read(types...\
     \ args) : value(args...) { std::cin >> value; }\n    operator T() const { return\
@@ -25,16 +22,15 @@ data:
     \ value; std::cin >> value; return value; }\n};\n} // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
-  path: utils/read.hpp
+  path: utils/io/read.hpp
   requiredBy: []
-  timestamp: '2020-08-14 18:02:25+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/aizu-online-judge/aors_score.test.cpp
-documentation_of: utils/read.hpp
+  timestamp: '2020-11-14 01:28:47+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: utils/io/read.hpp
 layout: document
 redirect_from:
-- /library/utils/read.hpp
-- /library/utils/read.hpp.html
-title: utils/read.hpp
+- /library/utils/io/read.hpp
+- /library/utils/io/read.hpp.html
+title: utils/io/read.hpp
 ---
