@@ -22,15 +22,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D
     links:
-    - https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D
-  bundledCode: "#line 1 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\n#define\
-    \ PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D\"\
-    \n#include <cstdio>\n\n#line 2 \"src/combinatorics/binomial.hpp\"\n\n/*\n * @file\
-    \ binomial.hpp\n * @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/inverse.hpp\"\
-    \n\n/*\n * @file inverse.hpp\n * @brief Inverse Table\n */\n\n#include <vector>\n\
-    \n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
+    - https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D
+  bundledCode: "#line 1 \"test/aizu-online-judge/DPL_5_D.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D\"\n\n#include <cstdio>\n\
+    \n#line 2 \"src/combinatorics/binomial.hpp\"\n\n/*\n * @file binomial.hpp\n *\
+    \ @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/inverse.hpp\"\n\n\
+    /*\n * @file inverse.hpp\n * @brief Inverse Table\n */\n\n#include <vector>\n\n\
+    #line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
     \ Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
@@ -154,13 +154,14 @@ data:
     \  }\n};\n\ntemplate <class Modint> inverse_table<Modint> binomial<Modint>::inv;\n\
     template <class Modint>\nfactorial<Modint, class binomial<Modint>::mulinv_Op>\
     \ binomial<Modint>::fact_inv;\ntemplate <class Modint> factorial<Modint> binomial<Modint>::fact;\n\
-    \n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\
-    \nusing namespace workspace;\n\nint main() {\n  int n, k;\n  scanf(\"%d%d\", &n,\
-    \ &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n}\n"
-  code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D\"\
-    \n#include <cstdio>\n\n#include \"../../src/combinatorics/binomial.hpp\"\nusing\
-    \ namespace workspace;\n\nint main() {\n  int n, k;\n  scanf(\"%d%d\", &n, &k);\n\
-    \  printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n}\n"
+    \n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/DPL_5_D.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n  int n, k;\n  scanf(\"%d%d\"\
+    , &n, &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n\
+    }\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D\"\n\n\
+    #include <cstdio>\n\n#include \"src/combinatorics/binomial.hpp\"\n\nint main()\
+    \ {\n  using namespace workspace;\n  int n, k;\n  scanf(\"%d%d\", &n, &k);\n \
+    \ printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n}\n"
   dependsOn:
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
@@ -168,15 +169,15 @@ data:
   - src/utils/sfinae.hpp
   - src/combinatorics/factorial.hpp
   isVerificationFile: true
-  path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  path: test/aizu-online-judge/DPL_5_D.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 18:03:35+09:00'
+  timestamp: '2020-11-16 23:27:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+documentation_of: test/aizu-online-judge/DPL_5_D.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp
-- /verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html
-title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+- /verify/test/aizu-online-judge/DPL_5_D.test.cpp
+- /verify/test/aizu-online-judge/DPL_5_D.test.cpp.html
+title: test/aizu-online-judge/DPL_5_D.test.cpp
 ---

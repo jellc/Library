@@ -7,8 +7,8 @@ data:
     title: Binomial Coefficient
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    path: test/aizu-online-judge/DPL_5_D.test.cpp
+    title: test/aizu-online-judge/DPL_5_D.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -33,7 +33,7 @@ data:
   timestamp: '2020-11-16 17:54:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/combinatorics/factorial.hpp
 layout: document
 redirect_from:

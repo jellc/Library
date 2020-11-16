@@ -46,14 +46,14 @@ data:
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/DPL_5_D.test.cpp
+    title: test/aizu-online-judge/DPL_5_D.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DSL_2_A.test.cpp
     title: test/aizu-online-judge/DSL_2_A.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
     title: test/library-checker/associative_array.test.cpp
@@ -157,9 +157,9 @@ data:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
-  - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document
 redirect_from:

@@ -13,8 +13,8 @@ data:
     title: Inverse Table
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    path: test/aizu-online-judge/DPL_5_D.test.cpp
+    title: test/aizu-online-judge/DPL_5_D.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
@@ -221,7 +221,7 @@ data:
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document
 redirect_from:

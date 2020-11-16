@@ -283,14 +283,14 @@ data:
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/DPL_5_D.test.cpp
+      title: test/aizu-online-judge/DPL_5_D.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-      title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - name: test/library-checker
     pages:
     - icon: ':heavy_check_mark:'
