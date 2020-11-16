@@ -5,10 +5,10 @@
 
 #include <bits/extc++.h>
 
-#include "alias"
-#include "cxx20"
-#include "option"
-#include "utils"
+#include "lib/alias"
+#include "lib/cxx20"
+#include "lib/option"
+#include "lib/utils"
 
 int main() { workspace::iterate_main(); }
 
