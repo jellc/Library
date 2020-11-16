@@ -2,7 +2,7 @@
 
 /*
  * @file z_algorith.hpp
- * @brief Z-algorithm
+ * @brief Z-Algorithm
  */
 
 #include <string>
