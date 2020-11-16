@@ -9,7 +9,7 @@ data:
     - icon: ':warning:'
       path: algebra/convolution/number_theoretic_transform.hpp
       title: algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebra/convolution/subset.hpp
       title: algebra/convolution/subset.hpp
   - name: algebra/system
@@ -111,7 +111,7 @@ data:
       title: src/data_structure/segment_tree/waitlist.hpp
   - name: src/data_structure/union_find
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/union_find/basic.hpp
       title: Basic Union-Find
     - icon: ':warning:'
@@ -120,7 +120,7 @@ data:
     - icon: ':warning:'
       path: src/data_structure/union_find/potentialized_union_find.hpp
       title: src/data_structure/union_find/potentialized_union_find.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/union_find/unbalanced.hpp
       title: src/data_structure/union_find/unbalanced.hpp
   - name: src/graph/directed/flow
@@ -152,7 +152,7 @@ data:
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp
   - name: src/graph/undirected
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/two_edge_connected_components.hpp
       title: src/graph/undirected/two_edge_connected_components.hpp
   - name: src/modular
@@ -160,7 +160,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -175,17 +175,17 @@ data:
     pages:
     - icon: ':x:'
       path: src/string/Manacher.hpp
-      title: src/string/Manacher.hpp
+      title: Manacher's Algorithm
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
     - icon: ':x:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/utils
@@ -214,7 +214,7 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
@@ -338,19 +338,19 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/two_edge_connected_components.test.cpp
       title: test/library-checker/two_edge_connected_components.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':x:'

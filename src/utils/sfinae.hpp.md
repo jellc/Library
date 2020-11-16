@@ -14,16 +14,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
+  - icon: ':warning:'
+    path: src/number_theory/least_factor.hpp
+    title: Least Prime Factor
   - icon: ':x:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
   - icon: ':heavy_check_mark:'
@@ -69,13 +72,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
   - icon: ':x:'
@@ -133,6 +136,7 @@ data:
   - src/data_structure/segment_tree/basic.hpp
   - src/combinatorics/binomial.hpp
   - src/number_theory/ext_gcd.hpp
+  - src/number_theory/least_factor.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/utils/hash.hpp

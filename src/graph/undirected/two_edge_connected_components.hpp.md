@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/two_edge_connected_components.test.cpp
     title: test/library-checker/two_edge_connected_components.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/graph/undirected/two_edge_connected_components.hpp\"\
@@ -70,7 +70,7 @@ data:
   path: src/graph/undirected/two_edge_connected_components.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/two_edge_connected_components.test.cpp
 documentation_of: src/graph/undirected/two_edge_connected_components.hpp

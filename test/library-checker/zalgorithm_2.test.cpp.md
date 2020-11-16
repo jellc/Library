@@ -7,6 +7,9 @@ data:
   - icon: ':question:'
     path: src/utils/binary_search.hpp
     title: Binary Search
+  - icon: ':x:'
+    path: src/utils/random_number_generator.hpp
+    title: src/utils/random_number_generator.hpp
   - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
@@ -23,35 +26,44 @@ data:
     \ \"https://judge.yosupo.jp/problem/zalgorithm\"\n\n#include <iostream>\n#include\
     \ <string>\n\n#line 2 \"src/string/rolling_hash.hpp\"\n\n/*\n * @file rolling_hash.hpp\n\
     \ * @brief Rolling Hash\n */\n\n#include <algorithm>\n#include <cassert>\n#include\
-    \ <vector>\n\n#line 2 \"src/utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
-    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
-    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
-    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
-    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
-    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
-    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 13 \"src/string/rolling_hash.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @struct rolling_hashed\n * @brief hash data\
-    \ of a string.\n */\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n\
-    \  using u128 = __uint128_t;\n\n  /*\n   * @var mod\n   * @brief modulus used\
-    \ for hashing.\n   */\n  constexpr static u64 mod = (1ull << 61) - 1;\n\n  const\
-    \ static u64 base;\n\n  /*\n   * @var value\n   * @brief hash value.\n   */\n\
-    \  u64 value = 0;\n\n  /*\n   * @var lenght\n   * @brief length of the string.\n\
-    \   */\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /*\n   * @brief\
-    \ construct hash data from one character.\n   * @param c a character\n   */\n\
-    \  template <class char_type, typename std::enable_if<std::is_convertible<\n \
-    \                                char_type, u64>::value>::type * = nullptr>\n\
+    \ <vector>\n\n#line 2 \"src/utils/random_number_generator.hpp\"\n#include <random>\n\
+    template <typename num_type> class random_number_generator {\n  typename std::conditional<std::is_integral<num_type>::value,\n\
+    \                            std::uniform_int_distribution<num_type>,\n      \
+    \                      std::uniform_real_distribution<num_type>>::type\n     \
+    \ unif;\n\n  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type\
+    \ min = std::numeric_limits<num_type>::min(),\n                          num_type\
+    \ max = std::numeric_limits<num_type>::max())\n      : unif(min, max), engine(std::random_device{}())\
+    \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
+    \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
+    \  num_type operator()() { return unif(engine); }\n};\n#line 2 \"src/utils/sfinae.hpp\"\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
+    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
+    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
+    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
+    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
+    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
+    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
+    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
+    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
+    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
+    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
+    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
+    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
+    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
+    };\n#line 14 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/*\n\
+    \ * @struct rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
+    \ {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  /*\n   *\
+    \ @var mod\n   * @brief modulus used for hashing.\n   */\n  constexpr static u64\
+    \ mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /*\n   * @var value\n\
+    \   * @brief hash value.\n   */\n  u64 value = 0;\n\n  /*\n   * @var lenght\n\
+    \   * @brief length of the string.\n   */\n  size_t length = 0;\n\n  rolling_hashed()\
+    \ = default;\n\n  /*\n   * @brief construct hash data from one character.\n  \
+    \ * @param c a character\n   */\n  template <class char_type, typename std::enable_if<std::is_convertible<\n\
+    \                                 char_type, u64>::value>::type * = nullptr>\n\
     \  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64\
     \ value, size_t length) : value(value), length(length) {}\n\n  operator std::pair<u64,\
     \ size_t>() const { return {value, length}; }\n\n  /*\n   * @return whether or\
@@ -161,12 +173,13 @@ data:
     \ len) == hash.substr(i, len);\n        });\n  }\n  std::cout << \"\\n\";\n}\n"
   dependsOn:
   - src/string/rolling_hash.hpp
+  - src/utils/random_number_generator.hpp
   - src/utils/sfinae.hpp
   - src/utils/binary_search.hpp
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
+  timestamp: '2020-11-16 22:50:09+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
