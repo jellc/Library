@@ -3,8 +3,8 @@
 #include <queue>
 #include <vector>
 
+#include "../../utils/sfinae.hpp"
 #include "algebra/system/monoid.hpp"
-#include "utils/sfinae.hpp"
 #include "waitlist.hpp"
 
 template <class Monoid, class Container = std::vector<Monoid>>

@@ -1,8 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/assignment"
+
 #include <cstdint>
 #include <cstdio>
 
-#include "graph/directed/flow/min_cost_flow.hpp"
+#include "src/graph/directed/flow/min_cost_flow.hpp"
 
 int main() {
   int n;

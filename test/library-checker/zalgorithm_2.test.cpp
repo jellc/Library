@@ -1,9 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
+
 #include <iostream>
 #include <string>
 
-#include "string/rolling_hash.hpp"
-#include "utils/binary_search.hpp"
+#include "src/string/rolling_hash.hpp"
+#include "src/utils/binary_search.hpp"
 
 int main() {
   std::string s;

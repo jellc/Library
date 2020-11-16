@@ -1,8 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_set_range_composite"
+
 #include <cstdio>
 
-#include "data_structure/segment_tree/basic.hpp"
-#include "modulus/modint.hpp"
+#include "src/data_structure/segment_tree/basic.hpp"
+#include "src/modular/modint.hpp"
 
 int main() {
   using mint = workspace::modint<998244353>;

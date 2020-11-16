@@ -1,9 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
+
 #include <cstdio>
 #include <vector>
 
-#include "data_structure/segment_tree/lazy.hpp"
-#include "modulus/modint.hpp"
+#include "src/data_structure/segment_tree/lazy.hpp"
+#include "src/modular/modint.hpp"
 
 int main() {
   using mint = workspace::modint<998244353>;

@@ -1,11 +1,11 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/segment_add_get_min"
-// #include "../../data_structure/convex_hull_trick/Li_Chao_tree.hpp"
+
 #include <cstdio>
 
-#include "data_structure/convex_hull_trick/Li_Chao_tree.hpp"
-using i64 = int64_t;
+#include "src/data_structure/convex_hull_trick/Li_Chao_tree.hpp"
 
 int main() {
+  using i64 = int64_t;
   int n, q;
   scanf("%d%d", &n, &q);
   Li_Chao_tree<i64> cht(-1e9, 1e9);

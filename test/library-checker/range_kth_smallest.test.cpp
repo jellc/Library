@@ -1,8 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_kth_smallest"
+
 #include <cstdio>
 
-#include "data_structure/Mo.hpp"
-#include "utils/coordinate_compression.hpp"
+#include "src/data_structure/Mo.hpp"
+#include "src/utils/coordinate_compression.hpp"
 
 int main() {
   int n, q;

@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/associative_array"
-#include "utils/hash.hpp"
+
+#include "src/utils/hash.hpp"
 
 using namespace workspace;
 

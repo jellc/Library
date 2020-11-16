@@ -1,7 +1,8 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/unionfind"
+
 #include <cstdio>
 
-#include "data_structure/union_find/unbalanced.hpp"
+#include "src/data_structure/union_find/unbalanced.hpp"
 
 int main() {
   int n, q;

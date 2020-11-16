@@ -1,8 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/two_edge_connected_components"
+
 #include <algorithm>
 #include <cstdio>
 
-#include "graph/undirected/two_edge_connected_components.hpp"
+#include "src/graph/undirected/two_edge_connected_components.hpp"
 
 signed main() {
   int v, e;

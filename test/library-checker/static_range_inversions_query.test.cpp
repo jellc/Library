@@ -1,12 +1,13 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/static_range_inversions_query"
+
 #include <cstdio>
 
-#include "data_structure/Mo.hpp"
-#include "data_structure/segment_tree/basic.hpp"
-#include "utils/coordinate_compression.hpp"
-using i64 = int64_t;
+#include "src/data_structure/Mo.hpp"
+#include "src/data_structure/segment_tree/basic.hpp"
+#include "src/utils/coordinate_compression.hpp"
 
 int main() {
+  using i64 = int64_t;
   int n, q;
   scanf("%d%d", &n, &q);
   std::vector<int> a(n);

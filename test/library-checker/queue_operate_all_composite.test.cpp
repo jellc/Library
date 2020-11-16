@@ -1,8 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/queue_operate_all_composite"
+
 #include <cstdio>
 
-#include "data_structure/deque_aggregation.hpp"
-#include "modulus/modint.hpp"
+#include "src/data_structure/deque_aggregation.hpp"
+#include "src/modular/modint.hpp"
 
 int main() {
   using mint = workspace::modint<998244353>;

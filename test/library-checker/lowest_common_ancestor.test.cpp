@@ -1,9 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
+
 #include <cstdio>
 #include <ext/rope>
 
-#include "graph/undirected/tree/heavy_light_decomposition.hpp"
-#include "graph/undirected/tree/lowest_common_ancestor.hpp"
+#include "src/graph/undirected/tree/heavy_light_decomposition.hpp"
+#include "src/graph/undirected/tree/lowest_common_ancestor.hpp"
 
 int main() {
   size_t n, q;

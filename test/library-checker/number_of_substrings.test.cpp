@@ -1,7 +1,8 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/number_of_substrings"
+
 #include <iostream>
 
-#include "string/suffix_array.hpp"
+#include "src/string/suffix_array.hpp"
 
 int main() {
   std::string s;

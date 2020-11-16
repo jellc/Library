@@ -1,7 +1,8 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/scc"
+
 #include <cstdio>
 
-#include "graph/directed/strongly_connected_components.hpp"
+#include "src/graph/directed/strongly_connected_components.hpp"
 
 int main() {
   int n, m;

@@ -1,8 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
-#include <bits/stdc++.h>
 
-#include "string/z_algorithm.hpp"
-#include "utils/io.hpp"
+#include "src/string/z_algorithm.hpp"
+#include "src/utils/io/stream.hpp"
 
 int main() {
   std::string s;
