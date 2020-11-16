@@ -1,9 +1,11 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/2450"
-#include <algorithm>
 
-#include "data_structure/segment_tree/lazy.hpp"
-#include "graph/undirected/tree/heavy_light_decomposition.hpp"
-#include "utils/io.hpp"
+#include <algorithm>
+#include <iostream>
+
+#include "src/data_structure/segment_tree/lazy.hpp"
+#include "src/graph/undirected/tree/heavy_light_decomposition.hpp"
+#include "src/utils/io/stream.hpp"
 
 int main() {
   struct endo {

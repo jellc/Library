@@ -1,9 +1,11 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/1342"
+
 #include <algorithm>
+#include <cstdio>
 #include <iostream>
 #include <vector>
 
-#include "utils/binary_search.hpp"
+#include "src/utils/binary_search.hpp"
 
 int main() {
   using namespace std;

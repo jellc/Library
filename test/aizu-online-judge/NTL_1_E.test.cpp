@@ -1,7 +1,7 @@
-#define PROBLEM \
-  "https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E"
-#include "number_theory/ext_gcd.hpp"
-#include "utils/io.hpp"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E"
+
+#include "src/number_theory/ext_gcd.hpp"
+#include "src/utils/io/stream.hpp"
 
 int main() {
   int a, b;

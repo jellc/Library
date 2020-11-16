@@ -1,9 +1,8 @@
-#define PROBLEM \
-  "https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/2815"
+
 #include <iostream>
 
-#include "../../src/graph/directed/flow/min_cost_flow.hpp"
-using namespace workspace;
+#include "src/graph/directed/flow/min_cost_flow.hpp"
 
 int main() {
   int n, m, k;
