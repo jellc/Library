@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
     title: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/segment_add_get_min
@@ -65,9 +65,10 @@ data:
     \ b;\n    scanf(\"%d%d%d%lld\", &l, &r, &a, &b);\n    cht.insert(a, b, l, r);\n\
     \  }\n  while (q--) {\n    int t;\n    scanf(\"%d\", &t);\n    if (t) {\n    \
     \  int p;\n      scanf(\"%d\", &p);\n      i64 ans = cht.get(p);\n      if (ans\
-    \ == INT64_MAX)\n        puts(\"INFINITY\");\n      else\n        printf(\"%lld\\\
-    n\", ans);\n    } else {\n      int l, r, a;\n      i64 b;\n      scanf(\"%d%d%d%lld\"\
-    , &l, &r, &a, &b);\n      cht.insert(a, b, l, r);\n    }\n  }\n}\n"
+    \ == std::numeric_limits<i64>::max())\n        puts(\"INFINITY\");\n      else\n\
+    \        printf(\"%lld\\n\", ans);\n    } else {\n      int l, r, a;\n      i64\
+    \ b;\n      scanf(\"%d%d%d%lld\", &l, &r, &a, &b);\n      cht.insert(a, b, l,\
+    \ r);\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\
     \n#include <cstdio>\n\n#include \"src/data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\
     \n\nint main() {\n  using i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
@@ -75,16 +76,17 @@ data:
     \ b;\n    scanf(\"%d%d%d%lld\", &l, &r, &a, &b);\n    cht.insert(a, b, l, r);\n\
     \  }\n  while (q--) {\n    int t;\n    scanf(\"%d\", &t);\n    if (t) {\n    \
     \  int p;\n      scanf(\"%d\", &p);\n      i64 ans = cht.get(p);\n      if (ans\
-    \ == INT64_MAX)\n        puts(\"INFINITY\");\n      else\n        printf(\"%lld\\\
-    n\", ans);\n    } else {\n      int l, r, a;\n      i64 b;\n      scanf(\"%d%d%d%lld\"\
-    , &l, &r, &a, &b);\n      cht.insert(a, b, l, r);\n    }\n  }\n}\n"
+    \ == std::numeric_limits<i64>::max())\n        puts(\"INFINITY\");\n      else\n\
+    \        printf(\"%lld\\n\", ans);\n    } else {\n      int l, r, a;\n      i64\
+    \ b;\n      scanf(\"%d%d%d%lld\", &l, &r, &a, &b);\n      cht.insert(a, b, l,\
+    \ r);\n    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
   isVerificationFile: true
   path: test/library-checker/segment_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-11-16 23:03:23+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/segment_add_get_min.test.cpp
 layout: document

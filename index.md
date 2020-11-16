@@ -92,7 +92,7 @@ data:
       title: src/data_structure/deque_aggregation.hpp
   - name: src/data_structure/convex_hull_trick
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
       title: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
     - icon: ':warning:'
@@ -329,7 +329,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/scc.test.cpp
       title: test/library-checker/scc.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
     - icon: ':x:'

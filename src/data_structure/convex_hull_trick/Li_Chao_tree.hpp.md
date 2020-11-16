@@ -6,11 +6,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/line_add_get_min.test.cpp
     title: test/library-checker/line_add_get_min.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/segment_add_get_min.test.cpp
     title: test/library-checker/segment_add_get_min.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"src/data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\n\
@@ -107,7 +107,7 @@ data:
   path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
   requiredBy: []
   timestamp: '2020-11-16 21:34:32+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/segment_add_get_min.test.cpp
   - test/library-checker/line_add_get_min.test.cpp
