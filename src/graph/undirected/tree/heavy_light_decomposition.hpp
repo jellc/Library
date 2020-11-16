@@ -2,7 +2,7 @@
 
 /*
  * @file heavy_light_decomposition.hpp
- * @brief Heavy Light Decomposition
+ * @brief Heavy-Light Decomposition
  */
 
 #include <cassert>
