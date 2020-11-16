@@ -1,24 +1,28 @@
-name: check_template
+name: check template
 
 on: push
 
 jobs:
   compile:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@master
-      
+
     - name: Set up Python
       uses: actions/setup-python@v1
-    
+
     - name: Install online-judge-verify-helper
       run: pip3 install -U online-judge-verify-helper
-    
+
+    - name: make header
+      run: ./make_header.sh
+
     - name: Bundle template
       run: oj-bundle template.cpp
-    
+
     - name: Compile template
       run: g++ template.cpp -std=c++17 -Wall -o a.o
-    
+
     - name: Run executable
       run: ./a.o
