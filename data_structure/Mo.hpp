@@ -1,6 +1,6 @@
 /*
  * @file Mo.hpp
- * @brief Mo's algorithm
+ * @brief Mo's Algorithm
  */
 
 #pragma once
