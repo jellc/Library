@@ -6,10 +6,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Z-algorithm
+    document_title: Z-Algorithm
     links: []
   bundledCode: "#line 2 \"src/string/z_algorithm.hpp\"\n\n/*\n * @file z_algorith.hpp\n\
-    \ * @brief Z-algorithm\n */\n\n#include <string>\n#include <vector>\n\nnamespace\
+    \ * @brief Z-Algorithm\n */\n\n#include <string>\n#include <vector>\n\nnamespace\
     \ workspace {\n\n/*\n * @class z_algorithm\n * @brief construct Z-array in linear\
     \ time.\n * @tparam str_type the type of string\n */\ntemplate <class str_type\
     \ = std::string> class z_algorithm {\n  str_type key;\n  std::vector<size_t> z;\n\
@@ -30,7 +30,7 @@ data:
     \ begin(str), end(str));\n    z_algorithm z(ccat);\n    std::vector<size_t> res(z.begin()\
     \ + size(), z.end());\n    for (size_t &x : res)\n      if (x > size()) x = size();\n\
     \    return res;\n  }\n};\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file z_algorith.hpp\n * @brief Z-algorithm\n */\n\
+  code: "#pragma once\n\n/*\n * @file z_algorith.hpp\n * @brief Z-Algorithm\n */\n\
     \n#include <string>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @class\
     \ z_algorithm\n * @brief construct Z-array in linear time.\n * @tparam str_type\
     \ the type of string\n */\ntemplate <class str_type = std::string> class z_algorithm\
@@ -56,7 +56,7 @@ data:
   isVerificationFile: false
   path: src/string/z_algorithm.hpp
   requiredBy: []
-  timestamp: '2020-11-16 14:21:51+09:00'
+  timestamp: '2020-11-16 17:31:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/string/z_algorithm.hpp
@@ -64,5 +64,5 @@ layout: document
 redirect_from:
 - /library/src/string/z_algorithm.hpp
 - /library/src/string/z_algorithm.hpp.html
-title: Z-algorithm
+title: Z-Algorithm
 ---

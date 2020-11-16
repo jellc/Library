@@ -25,14 +25,6 @@ data:
     - icon: ':warning:'
       path: algebra/xor_elimination.hpp
       title: algebra/xor_elimination.hpp
-  - name: .
-    pages:
-    - icon: ':warning:'
-      path: alias.hpp
-      title: Alias
-    - icon: ':warning:'
-      path: template.cpp
-      title: Template
   - name: combinatorics
     pages:
     - icon: ':warning:'
@@ -154,7 +146,7 @@ data:
       title: src/graph/undirected/tree/centroid_decomposition.hpp
     - icon: ':warning:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
-      title: src/graph/undirected/tree/heavy_light_decomposition.hpp
+      title: Heavy Light Decomposition
     - icon: ':warning:'
       path: src/graph/undirected/tree/lowest_common_ancestor.hpp
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp
@@ -192,10 +184,10 @@ data:
       title: Rolling Hash
     - icon: ':warning:'
       path: src/string/suffix_array.hpp
-      title: Suffix array
+      title: Suffix Array
     - icon: ':warning:'
       path: src/string/z_algorithm.hpp
-      title: Z-algorithm
+      title: Z-Algorithm
   - name: src/utils
     pages:
     - icon: ':warning:'
@@ -220,6 +212,9 @@ data:
       path: src/utils/io.hpp
       title: src/utils/io.hpp
     - icon: ':warning:'
+      path: src/utils/iterate_case.hpp
+      title: Iterate Testcases
+    - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
     - icon: ':warning:'
@@ -228,6 +223,9 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
+    - icon: ':warning:'
+      path: src/utils/setup.hpp
+      title: Setup
     - icon: ':warning:'
       path: src/utils/sfinae.hpp
       title: src/utils/sfinae.hpp
@@ -248,6 +246,11 @@ data:
     - icon: ':warning:'
       path: src/utils/io/stream.hpp
       title: src/utils/io/stream.hpp
+  - name: .
+    pages:
+    - icon: ':warning:'
+      path: template.cpp
+      title: Template
   - name: variation
     pages:
     - icon: ':warning:'

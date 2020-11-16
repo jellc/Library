@@ -4,7 +4,10 @@ data:
   - icon: ':warning:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/utils/io.hpp
+    title: src/utils/io.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -95,7 +98,8 @@ data:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/utils/io/stream.hpp
-  requiredBy: []
+  requiredBy:
+  - src/utils/io.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

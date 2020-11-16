@@ -3,8 +3,17 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
+    path: src/string/rolling_hash.hpp
+    title: Rolling Hash
+  - icon: ':warning:'
+    path: src/string/suffix_array.hpp
+    title: Suffix Array
+  - icon: ':warning:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
+  - icon: ':warning:'
+    path: src/utils/io.hpp
+    title: src/utils/io.hpp
   - icon: ':warning:'
     path: src/utils/io/stream.hpp
     title: src/utils/io/stream.hpp
@@ -58,6 +67,9 @@ data:
   isVerificationFile: false
   path: src/utils/sfinae.hpp
   requiredBy:
+  - src/string/suffix_array.hpp
+  - src/string/rolling_hash.hpp
+  - src/utils/io.hpp
   - src/utils/hash.hpp
   - src/utils/round_div.hpp
   - src/utils/io/stream.hpp

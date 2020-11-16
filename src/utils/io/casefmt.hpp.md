@@ -1,32 +1,44 @@
 ---
 data:
-  _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedDependsOn:
+  - icon: ':warning:'
+    path: src/utils/iterate_case.hpp
+    title: Iterate Testcases
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/utils/io.hpp
+    title: src/utils/io.hpp
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Case Output Format
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
-    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
-    , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
-    \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: ../../config.hpp:\
-    \ line -1: no such header\n"
+  bundledCode: "#line 2 \"src/utils/io/casefmt.hpp\"\n\n/*\n * @file castfmt\n * @brief\
+    \ Case Output Format\n */\n\n#line 2 \"src/utils/iterate_case.hpp\"\n\n/*\n *\
+    \ @file iterate_case.hpp\n * @brief Iterate Testcases\n */\n\nnamespace workspace\
+    \ {\n\nnamespace internal {\n// The 1-based index of the current testcase.\nunsigned\
+    \ caseid;\n}  // namespace internal\n\nvoid main();\nunsigned case_number();\n\
+    \n/*\n * @fn iterate_main\n * @brief Iterate main function.\n */\nvoid iterate_main()\
+    \ {\n  for (unsigned total = case_number(), &counter = (internal::caseid = 1);\n\
+    \       counter <= total; ++counter) {\n    try {\n      main();\n    } catch\
+    \ (std::nullptr_t) {\n    }\n  }\n}\n\n}  // namespace workspace\n#line 9 \"src/utils/io/casefmt.hpp\"\
+    \n\nnamespace workspace {\n\n/*\n * @fn casefmt\n * @brief printf(\"Case #%u:\
+    \ \", internal::caseid)\n * @param os Reference to ostream\n * @return os\n */\n\
+    std::ostream& casefmt(std::ostream& os) {\n  return os << \"Case #\" << internal::caseid\
+    \ << \": \";\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file castfmt\n * @brief Case Output Format\n */\n\
-    \n#include \"../../config.hpp\"\n\nnamespace workspace {\n\n/*\n * @brief printf(\"\
-    Case #%u: \", config::caseid)\n * @param os reference to ostream\n * @return os\n\
-    \ */\nstd::ostream& casefmt(std::ostream& os) {\n  return os << \"Case #\" <<\
-    \ config::caseid << \": \";\n}\n\n}  // namespace workspace\n"
-  dependsOn: []
+    \n#include \"../iterate_case.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn casefmt\n\
+    \ * @brief printf(\"Case #%u: \", internal::caseid)\n * @param os Reference to\
+    \ ostream\n * @return os\n */\nstd::ostream& casefmt(std::ostream& os) {\n  return\
+    \ os << \"Case #\" << internal::caseid << \": \";\n}\n\n}  // namespace workspace\n"
+  dependsOn:
+  - src/utils/iterate_case.hpp
   isVerificationFile: false
   path: src/utils/io/casefmt.hpp
-  requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  requiredBy:
+  - src/utils/io.hpp
+  timestamp: '2020-11-16 17:12:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/io/casefmt.hpp
