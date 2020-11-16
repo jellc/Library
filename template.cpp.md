@@ -15,7 +15,7 @@ data:
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: option.hpp: line\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: config.hpp: line\
     \ -1: no such header\n"
   code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"alias.hpp\"\n#include \"config.hpp\"\n#include \"cxx20.hpp\"\n#include\

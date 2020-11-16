@@ -2,12 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/subset_convolution.test.cpp
-    title: test/library-checker/subset_convolution.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
   bundledCode: "#line 1 \"algebra/convolution/subset.hpp\"\n#include <cassert>\n#include\
@@ -60,9 +57,8 @@ data:
   path: algebra/convolution/subset.hpp
   requiredBy: []
   timestamp: '2020-08-06 06:09:12+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/subset_convolution.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: algebra/convolution/subset.hpp
 layout: document
 redirect_from:

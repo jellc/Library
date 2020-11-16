@@ -1,21 +1,11 @@
 ---
 data:
-  _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
-    path: data_structure/Mo.hpp
-    title: Mo's Algorithm
-  - icon: ':heavy_check_mark:'
-    path: utils/coordinate_compression.hpp
-    title: utils/coordinate_compression.hpp
+  _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
-  attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/range_kth_smallest
-    links:
-    - https://judge.yosupo.jp/problem/range_kth_smallest
+  _verificationStatusIcon: ':x:'
+  attributes: {}
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
@@ -41,14 +31,12 @@ data:
     \        }\n        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n\
     \        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\\
     n\", e);\n}\n"
-  dependsOn:
-  - data_structure/Mo.hpp
-  - utils/coordinate_compression.hpp
+  dependsOn: []
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 13:18:17+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '1970-01-01 00:00:00+00:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp
 layout: document

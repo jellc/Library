@@ -1,33 +1,11 @@
 ---
 data:
-  _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
-    path: algebra/system/monoid.hpp
-    title: algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
-    path: data_structure/Mo.hpp
-    title: Mo's Algorithm
-  - icon: ':heavy_check_mark:'
-    path: data_structure/segment_tree/basic.hpp
-    title: data_structure/segment_tree/basic.hpp
-  - icon: ':heavy_check_mark:'
-    path: data_structure/segment_tree/waitlist.hpp
-    title: data_structure/segment_tree/waitlist.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/coordinate_compression.hpp
-    title: utils/coordinate_compression.hpp
-  - icon: ':heavy_check_mark:'
-    path: utils/sfinae.hpp
-    title: utils/sfinae.hpp
+  _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
-  attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
-    links:
-    - https://judge.yosupo.jp/problem/static_range_inversions_query
+  _verificationStatusIcon: ':x:'
+  attributes: {}
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
@@ -52,18 +30,12 @@ data:
     \ {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n    mo.set(l, r);\n  }\n  mo.make();\n\
     \  std::vector<i64> ans(q);\n  for (int i = 0; i < q; i++) {\n    int id = mo.process();\n\
     \    ans[id] = invs;\n  }\n  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
-  dependsOn:
-  - data_structure/Mo.hpp
-  - data_structure/segment_tree/basic.hpp
-  - algebra/system/monoid.hpp
-  - utils/sfinae.hpp
-  - data_structure/segment_tree/waitlist.hpp
-  - utils/coordinate_compression.hpp
+  dependsOn: []
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 13:18:17+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '1970-01-01 00:00:00+00:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp
 layout: document

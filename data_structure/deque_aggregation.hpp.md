@@ -2,12 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/queue_operate_all_composite.test.cpp
-    title: test/library-checker/queue_operate_all_composite.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
   bundledCode: "#line 2 \"data_structure/deque_aggregation.hpp\"\n#include <cassert>\n\
@@ -124,9 +121,8 @@ data:
   path: data_structure/deque_aggregation.hpp
   requiredBy: []
   timestamp: '2020-08-21 02:00:03+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/queue_operate_all_composite.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: data_structure/deque_aggregation.hpp
 layout: document
 redirect_from:

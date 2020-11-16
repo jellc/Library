@@ -2,15 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/range_kth_smallest.test.cpp
-    title: test/library-checker/range_kth_smallest.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Mo's Algorithm
     links: []
@@ -56,10 +50,8 @@ data:
   path: data_structure/Mo.hpp
   requiredBy: []
   timestamp: '2020-11-16 13:18:17+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/range_kth_smallest.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: data_structure/Mo.hpp
 layout: document
 redirect_from:
