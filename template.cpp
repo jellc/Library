@@ -5,11 +5,11 @@
 
 #include <bits/extc++.h>
 
-#include "alias.hpp"
-#include "config.hpp"
-#include "cxx20.hpp"
-#include "option.hpp"
-#include "utils.hpp"
+#include "alias"
+#include "config"
+#include "cxx20"
+#include "option"
+#include "utils"
 
 namespace workspace {
 void main();
