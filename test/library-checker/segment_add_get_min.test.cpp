@@ -22,7 +22,7 @@ int main() {
       int p;
       scanf("%d", &p);
       i64 ans = cht.get(p);
-      if (ans == INT64_MAX)
+      if (ans == std::numeric_limits<i64>::max())
         puts("INFINITY");
       else
         printf("%lld\n", ans);
