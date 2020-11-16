@@ -1,15 +1,11 @@
 #pragma once
 
 /*
- * @file cxx20.hpp
- * @brief C++20 features
+ * @file cxx20
+ * @brief C++20 Features
  */
 
 #if __cplusplus <= 201703L
-
-#if __has_include(<bit>)
-#include <bit>
-#endif
 
 #include <vector>
 
