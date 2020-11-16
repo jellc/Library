@@ -5,12 +5,15 @@ data:
   - icon: ':warning:'
     path: src/graph/directed/flow/Dinic.hpp
     title: src/graph/directed/flow/Dinic.hpp
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/graph/directed/flow/min_cost_flow.hpp
     title: src/graph/directed/flow/min_cost_flow.hpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aizu-online-judge/aors_score.test.cpp
+    title: test/aizu-online-judge/aors_score.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/graph/directed/flow/base.hpp\"\n#include <cassert>\n\
@@ -96,8 +99,9 @@ data:
   - src/graph/directed/flow/min_cost_flow.hpp
   - src/graph/directed/flow/Dinic.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aizu-online-judge/aors_score.test.cpp
 documentation_of: src/graph/directed/flow/base.hpp
 layout: document
 redirect_from:

@@ -25,14 +25,6 @@ data:
     - icon: ':warning:'
       path: algebra/xor_elimination.hpp
       title: algebra/xor_elimination.hpp
-  - name: combinatorics
-    pages:
-    - icon: ':warning:'
-      path: combinatorics/binomial.hpp
-      title: combinatorics/binomial.hpp
-    - icon: ':warning:'
-      path: combinatorics/factorial.hpp
-      title: combinatorics/factorial.hpp
   - name: data_structure
     pages:
     - icon: ':warning:'
@@ -123,15 +115,23 @@ data:
     - icon: ':warning:'
       path: local/dump.hpp
       title: local/dump.hpp
+  - name: src/combinatorics
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/combinatorics/binomial.hpp
+      title: Binomial Coefficient
+    - icon: ':heavy_check_mark:'
+      path: src/combinatorics/factorial.hpp
+      title: src/combinatorics/factorial.hpp
   - name: src/graph/directed/flow
     pages:
     - icon: ':warning:'
       path: src/graph/directed/flow/Dinic.hpp
       title: src/graph/directed/flow/Dinic.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/graph/directed/flow/base.hpp
       title: src/graph/directed/flow/base.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/graph/directed/flow/min_cost_flow.hpp
       title: src/graph/directed/flow/min_cost_flow.hpp
   - name: src/graph/directed
@@ -157,10 +157,10 @@ data:
       title: src/graph/undirected/two_edge_connected_components.hpp
   - name: src/modular
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
-      title: src/modular/inverse.hpp
-    - icon: ':warning:'
+      title: Inverse Table
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -209,9 +209,6 @@ data:
       path: src/utils/hash.hpp
       title: src/utils/hash.hpp
     - icon: ':warning:'
-      path: src/utils/io.hpp
-      title: src/utils/io.hpp
-    - icon: ':warning:'
       path: src/utils/iterate_case.hpp
       title: Iterate Testcases
     - icon: ':warning:'
@@ -226,7 +223,7 @@ data:
     - icon: ':warning:'
       path: src/utils/setup.hpp
       title: Setup
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: src/utils/sfinae.hpp
     - icon: ':warning:'
@@ -273,7 +270,7 @@ data:
     - icon: ':x:'
       path: test/aizu-online-judge/aors_score.test.cpp
       title: test/aizu-online-judge/aors_score.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     - icon: ':x:'

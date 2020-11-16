@@ -2,6 +2,15 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/combinatorics/binomial.hpp
+    title: Binomial Coefficient
+  - icon: ':heavy_check_mark:'
+    path: src/modular/inverse.hpp
+    title: Inverse Table
+  - icon: ':heavy_check_mark:'
+    path: src/modular/modint.hpp
+    title: Modular Arithmetic
   - icon: ':warning:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
@@ -12,17 +21,17 @@ data:
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
   - icon: ':warning:'
-    path: src/utils/io.hpp
-    title: src/utils/io.hpp
-  - icon: ':warning:'
     path: src/utils/io/stream.hpp
     title: src/utils/io/stream.hpp
   - icon: ':warning:'
     path: src/utils/round_div.hpp
     title: Round Integer Division
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
@@ -69,13 +78,16 @@ data:
   requiredBy:
   - src/string/suffix_array.hpp
   - src/string/rolling_hash.hpp
-  - src/utils/io.hpp
+  - src/combinatorics/binomial.hpp
+  - src/modular/inverse.hpp
+  - src/modular/modint.hpp
   - src/utils/hash.hpp
   - src/utils/round_div.hpp
   - src/utils/io/stream.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document
 redirect_from:

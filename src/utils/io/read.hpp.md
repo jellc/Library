@@ -1,10 +1,7 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: src/utils/io.hpp
-    title: src/utils/io.hpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -26,8 +23,7 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/utils/io/read.hpp
-  requiredBy:
-  - src/utils/io.hpp
+  requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

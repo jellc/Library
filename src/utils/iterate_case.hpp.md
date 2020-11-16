@@ -3,9 +3,6 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: src/utils/io.hpp
-    title: src/utils/io.hpp
-  - icon: ':warning:'
     path: src/utils/io/casefmt.hpp
     title: Case Output Format
   _extendedVerifiedWith: []
@@ -34,7 +31,6 @@ data:
   isVerificationFile: false
   path: src/utils/iterate_case.hpp
   requiredBy:
-  - src/utils/io.hpp
   - src/utils/io/casefmt.hpp
   timestamp: '2020-11-16 17:12:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/graph/directed/flow/base.hpp
     title: src/graph/directed/flow/base.hpp
   _extendedRequiredBy: []

@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: src/combinatorics/binomial.hpp
-    title: Binomial Coefficient
-  - icon: ':heavy_check_mark:'
     path: src/combinatorics/factorial.hpp
     title: src/combinatorics/factorial.hpp
   - icon: ':heavy_check_mark:'
@@ -17,20 +14,19 @@ data:
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _pathExtension: cpp
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+    title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D
-    links:
-    - https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D
-  bundledCode: "#line 1 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\n#define\
-    \ PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D\"\
-    \n#include <cstdio>\n\n#line 2 \"src/combinatorics/binomial.hpp\"\n\n/*\n * @file\
-    \ binomial.hpp\n * @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/inverse.hpp\"\
-    \n\n/*\n * @file inverse.hpp\n * @brief Inverse Table\n */\n\n#include <vector>\n\
-    \n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
+    document_title: Binomial Coefficient
+    links: []
+  bundledCode: "#line 2 \"src/combinatorics/binomial.hpp\"\n\n/*\n * @file binomial.hpp\n\
+    \ * @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/inverse.hpp\"\n\n\
+    /*\n * @file inverse.hpp\n * @brief Inverse Table\n */\n\n#include <vector>\n\n\
+    #line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
     \ Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
     \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
@@ -154,29 +150,37 @@ data:
     \  }\n};\n\ntemplate <class Modint> inverse_table<Modint> binomial<Modint>::inv;\n\
     template <class Modint>\nfactorial<Modint, class binomial<Modint>::mulinv_Op>\
     \ binomial<Modint>::fact_inv;\ntemplate <class Modint> factorial<Modint> binomial<Modint>::fact;\n\
-    \n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/balls_and_boxes_4.test.cpp\"\
-    \nusing namespace workspace;\n\nint main() {\n  int n, k;\n  scanf(\"%d%d\", &n,\
-    \ &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n}\n"
-  code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/7/DPL/5/DPL_5_D\"\
-    \n#include <cstdio>\n\n#include \"../../src/combinatorics/binomial.hpp\"\nusing\
-    \ namespace workspace;\n\nint main() {\n  int n, k;\n  scanf(\"%d%d\", &n, &k);\n\
-    \  printf(\"%d\\n\", binomial<modint<1000000007>>()(n + k - 1, n));\n}\n"
+    \n}  // namespace workspace\n"
+  code: "#pragma once\n\n/*\n * @file binomial.hpp\n * @brief Binomial Coefficient\n\
+    \ */\n\n#include \"../modular/inverse.hpp\"\n#include \"../modular/modint.hpp\"\
+    \n#include \"factorial.hpp\"\n\nnamespace workspace {\n\ntemplate <class, class\
+    \ = int> struct binomial;\ntemplate <class Modint> struct binomial<Modint> {\n\
+    \  static_assert(std::is_same<std::nullptr_t,\n                             decltype((void\
+    \ *)Modint::mod, nullptr)>::value);\n\n  using value_type = Modint;\n  struct\
+    \ mulinv_Op {\n    value_type operator()(const value_type &f, const size_t &n)\
+    \ const {\n      return f * inv(n);\n    }\n  };\n\n  static inverse_table<value_type>\
+    \ inv;\n  static factorial<value_type, mulinv_Op> fact_inv;\n  static factorial<value_type>\
+    \ fact;\n\n  value_type operator()(int_least32_t n, int_least32_t k) {\n    return\
+    \ fact_inv(k) * fact_inv(n - k) * fact(n);\n  }\n};\n\ntemplate <class Modint>\
+    \ inverse_table<Modint> binomial<Modint>::inv;\ntemplate <class Modint>\nfactorial<Modint,\
+    \ class binomial<Modint>::mulinv_Op> binomial<Modint>::fact_inv;\ntemplate <class\
+    \ Modint> factorial<Modint> binomial<Modint>::fact;\n\n}  // namespace workspace\n"
   dependsOn:
-  - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/utils/sfinae.hpp
   - src/combinatorics/factorial.hpp
-  isVerificationFile: true
-  path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  isVerificationFile: false
+  path: src/combinatorics/binomial.hpp
   requiredBy: []
   timestamp: '2020-11-16 18:03:35+09:00'
-  verificationStatus: TEST_ACCEPTED
-  verifiedWith: []
-documentation_of: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aizu-online-judge/balls_and_boxes_4.test.cpp
+documentation_of: src/combinatorics/binomial.hpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp
-- /verify/test/aizu-online-judge/balls_and_boxes_4.test.cpp.html
-title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+- /library/src/combinatorics/binomial.hpp
+- /library/src/combinatorics/binomial.hpp.html
+title: Binomial Coefficient
 ---

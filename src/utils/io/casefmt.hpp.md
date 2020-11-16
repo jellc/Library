@@ -4,10 +4,7 @@ data:
   - icon: ':warning:'
     path: src/utils/iterate_case.hpp
     title: Iterate Testcases
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: src/utils/io.hpp
-    title: src/utils/io.hpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -36,8 +33,7 @@ data:
   - src/utils/iterate_case.hpp
   isVerificationFile: false
   path: src/utils/io/casefmt.hpp
-  requiredBy:
-  - src/utils/io.hpp
+  requiredBy: []
   timestamp: '2020-11-16 17:12:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
