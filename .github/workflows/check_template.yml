@@ -16,7 +16,7 @@ jobs:
       run: pip3 install -U online-judge-verify-helper
 
     - name: Resolve permission
-    - run: chmod +x make_header.sh
+      run: chmod +x make_header.sh
 
     - name: Make header
       run: ./make_header.sh
