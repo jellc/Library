@@ -25,53 +25,6 @@ data:
     - icon: ':warning:'
       path: algebra/xor_elimination.hpp
       title: algebra/xor_elimination.hpp
-  - name: data_structure
-    pages:
-    - icon: ':warning:'
-      path: data_structure/Additional_union_find.hpp
-      title: data_structure/Additional_union_find.hpp
-    - icon: ':warning:'
-      path: data_structure/Mo.hpp
-      title: Mo's Algorithm
-    - icon: ':warning:'
-      path: data_structure/Skew_heap.hpp
-      title: data_structure/Skew_heap.hpp
-    - icon: ':warning:'
-      path: data_structure/deque_aggregation.hpp
-      title: data_structure/deque_aggregation.hpp
-  - name: data_structure/convex_hull_trick
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: data_structure/convex_hull_trick/Li_Chao_tree.hpp
-      title: data_structure/convex_hull_trick/Li_Chao_tree.hpp
-    - icon: ':warning:'
-      path: data_structure/convex_hull_trick/monotone.hpp
-      title: data_structure/convex_hull_trick/monotone.hpp
-  - name: data_structure/segment_tree
-    pages:
-    - icon: ':warning:'
-      path: data_structure/segment_tree/basic.hpp
-      title: data_structure/segment_tree/basic.hpp
-    - icon: ':warning:'
-      path: data_structure/segment_tree/lazy.hpp
-      title: data_structure/segment_tree/lazy.hpp
-    - icon: ':warning:'
-      path: data_structure/segment_tree/waitlist.hpp
-      title: data_structure/segment_tree/waitlist.hpp
-  - name: data_structure/union_find
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: data_structure/union_find/basic.hpp
-      title: Basic Union-Find
-    - icon: ':warning:'
-      path: data_structure/union_find/partially_persistent_union_find.hpp
-      title: data_structure/union_find/partially_persistent_union_find.hpp
-    - icon: ':warning:'
-      path: data_structure/union_find/potentialized_union_find.hpp
-      title: data_structure/union_find/potentialized_union_find.hpp
-    - icon: ':heavy_check_mark:'
-      path: data_structure/union_find/unbalanced.hpp
-      title: data_structure/union_find/unbalanced.hpp
   - name: deprecated
     pages:
     - icon: ':warning:'
@@ -123,6 +76,53 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/combinatorics/factorial.hpp
       title: src/combinatorics/factorial.hpp
+  - name: src/data_structure
+    pages:
+    - icon: ':warning:'
+      path: src/data_structure/Additional_union_find.hpp
+      title: src/data_structure/Additional_union_find.hpp
+    - icon: ':warning:'
+      path: src/data_structure/Mo.hpp
+      title: Mo's Algorithm
+    - icon: ':warning:'
+      path: src/data_structure/Skew_heap.hpp
+      title: src/data_structure/Skew_heap.hpp
+    - icon: ':warning:'
+      path: src/data_structure/deque_aggregation.hpp
+      title: src/data_structure/deque_aggregation.hpp
+  - name: src/data_structure/convex_hull_trick
+    pages:
+    - icon: ':warning:'
+      path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
+      title: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
+    - icon: ':warning:'
+      path: src/data_structure/convex_hull_trick/monotone.hpp
+      title: src/data_structure/convex_hull_trick/monotone.hpp
+  - name: src/data_structure/segment_tree
+    pages:
+    - icon: ':warning:'
+      path: src/data_structure/segment_tree/basic.hpp
+      title: src/data_structure/segment_tree/basic.hpp
+    - icon: ':warning:'
+      path: src/data_structure/segment_tree/lazy.hpp
+      title: src/data_structure/segment_tree/lazy.hpp
+    - icon: ':warning:'
+      path: src/data_structure/segment_tree/waitlist.hpp
+      title: src/data_structure/segment_tree/waitlist.hpp
+  - name: src/data_structure/union_find
+    pages:
+    - icon: ':warning:'
+      path: src/data_structure/union_find/basic.hpp
+      title: Basic Union-Find
+    - icon: ':warning:'
+      path: src/data_structure/union_find/partially_persistent_union_find.hpp
+      title: src/data_structure/union_find/partially_persistent_union_find.hpp
+    - icon: ':warning:'
+      path: src/data_structure/union_find/potentialized_union_find.hpp
+      title: src/data_structure/union_find/potentialized_union_find.hpp
+    - icon: ':warning:'
+      path: src/data_structure/union_find/unbalanced.hpp
+      title: src/data_structure/union_find/unbalanced.hpp
   - name: src/graph/directed/flow
     pages:
     - icon: ':warning:'
@@ -299,7 +299,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
     - icon: ':x:'
@@ -323,7 +323,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/scc.test.cpp
       title: test/library-checker/scc.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
     - icon: ':x:'
@@ -338,7 +338,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/two_edge_connected_components.test.cpp
       title: test/library-checker/two_edge_connected_components.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
     - icon: ':x:'

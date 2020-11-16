@@ -14,7 +14,7 @@ data:
     , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
-    \ data_structure/Mo.hpp: line 6: #pragma once found in a non-first line\n"
+    \ src/data_structure/Mo.hpp: line 6: #pragma once found in a non-first line\n"
   code: "/*\n * @file Mo.hpp\n * @brief Mo's Algorithm\n */\n\n#pragma once\n#include\
     \ <cassert>\n#include <cmath>\n#include <functional>\n#include <numeric>\n#include\
     \ <vector>\n\nnamespace workspace {\n\n/*\n * @class Mo\n * @brief process queries\
@@ -47,15 +47,15 @@ data:
     \    return id;\n  }\n};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/Mo.hpp
+  path: src/data_structure/Mo.hpp
   requiredBy: []
-  timestamp: '2020-11-16 13:18:17+09:00'
+  timestamp: '2020-11-16 21:34:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/Mo.hpp
+documentation_of: src/data_structure/Mo.hpp
 layout: document
 redirect_from:
-- /library/data_structure/Mo.hpp
-- /library/data_structure/Mo.hpp.html
+- /library/src/data_structure/Mo.hpp
+- /library/src/data_structure/Mo.hpp.html
 title: Mo's Algorithm
 ---

@@ -1,21 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
-    path: data_structure/union_find/basic.hpp
+  - icon: ':warning:'
+    path: src/data_structure/union_find/basic.hpp
     title: Basic Union-Find
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/unionfind.test.cpp
-    title: test/library-checker/unionfind.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"data_structure/union_find/basic.hpp\"\n\n/*\n * @file basic.hpp\n\
-    \ * @brief Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\n\
-    struct union_find {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t\
+  bundledCode: "#line 2 \"src/data_structure/union_find/basic.hpp\"\n\n/*\n * @file\
+    \ basic.hpp\n * @brief Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\
+    \nstruct union_find {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t\
     \ n = 0) : link(n, -1) {}\n\n  /*\n   * @fn find\n   * @param x A node.\n   *\
     \ @return The representative of the group.\n   */\n  size_t find(size_t x) {\n\
     \    assert(x < size());\n    return link[x] < 0 ? x : (link[x] = find(link[x]));\n\
@@ -32,7 +29,7 @@ data:
     \ = find(x);\n    assert(y < size()), y = find(y);\n    if (x == y) return false;\n\
     \    if (link[x] > link[y]) std::swap(x, y);\n    link[x] += link[y];\n    link[y]\
     \ = x;\n    return true;\n  }\n\n protected:\n  std::vector<int> link;\n};\n#line\
-    \ 3 \"data_structure/union_find/unbalanced.hpp\"\nstruct union_find_unbalanced\
+    \ 3 \"src/data_structure/union_find/unbalanced.hpp\"\nstruct union_find_unbalanced\
     \ : union_find\n{\n    using union_find::union_find;\n    \n    bool unite(size_t\
     \ x, size_t y) override\n    {\n        assert(x < size() && y < size());\n  \
     \      x = find(x), y = find(y);\n        if(x == y) return false;\n        link[x]\
@@ -44,18 +41,17 @@ data:
     \ y = find(y);\n        if(x == y) return false;\n        link[x] += link[y];\n\
     \        link[y] = x;\n        return true;\n    }\n}; // class union_find_unbalanced\n"
   dependsOn:
-  - data_structure/union_find/basic.hpp
+  - src/data_structure/union_find/basic.hpp
   isVerificationFile: false
-  path: data_structure/union_find/unbalanced.hpp
+  path: src/data_structure/union_find/unbalanced.hpp
   requiredBy: []
-  timestamp: '2020-11-14 00:11:52+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/unionfind.test.cpp
-documentation_of: data_structure/union_find/unbalanced.hpp
+  timestamp: '2020-11-16 21:34:32+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/data_structure/union_find/unbalanced.hpp
 layout: document
 redirect_from:
-- /library/data_structure/union_find/unbalanced.hpp
-- /library/data_structure/union_find/unbalanced.hpp.html
-title: data_structure/union_find/unbalanced.hpp
+- /library/src/data_structure/union_find/unbalanced.hpp
+- /library/src/data_structure/union_find/unbalanced.hpp.html
+title: src/data_structure/union_find/unbalanced.hpp
 ---

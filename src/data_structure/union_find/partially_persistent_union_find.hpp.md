@@ -8,7 +8,7 @@ data:
   attributes:
     links:
     - https://atcoder.jp/contests/agc002/submissions/9514048
-  bundledCode: "#line 1 \"data_structure/union_find/partially_persistent_union_find.hpp\"\
+  bundledCode: "#line 1 \"src/data_structure/union_find/partially_persistent_union_find.hpp\"\
     \n// #line 2 \"Partially_persistent_union_find.hpp\"\n// veryfied at https://atcoder.jp/contests/agc002/submissions/9514048\n\
     #ifndef Partially_persistent_union_find_hpp\n#define Partially_persistent_union_find_hpp\n\
     #include <cstdint>\n#include <cstddef>\n#include <numeric>\n#include <vector>\n\
@@ -59,15 +59,15 @@ data:
     \n#endif\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/union_find/partially_persistent_union_find.hpp
+  path: src/data_structure/union_find/partially_persistent_union_find.hpp
   requiredBy: []
-  timestamp: '2020-02-07 14:10:52+09:00'
+  timestamp: '2020-11-16 21:34:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/union_find/partially_persistent_union_find.hpp
+documentation_of: src/data_structure/union_find/partially_persistent_union_find.hpp
 layout: document
 redirect_from:
-- /library/data_structure/union_find/partially_persistent_union_find.hpp
-- /library/data_structure/union_find/partially_persistent_union_find.hpp.html
-title: data_structure/union_find/partially_persistent_union_find.hpp
+- /library/src/data_structure/union_find/partially_persistent_union_find.hpp
+- /library/src/data_structure/union_find/partially_persistent_union_find.hpp.html
+title: src/data_structure/union_find/partially_persistent_union_find.hpp
 ---

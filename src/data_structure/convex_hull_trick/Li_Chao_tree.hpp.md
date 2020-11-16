@@ -2,20 +2,14 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/line_add_get_min.test.cpp
-    title: test/library-checker/line_add_get_min.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/segment_add_get_min.test.cpp
-    title: test/library-checker/segment_add_get_min.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\n#include\
-    \ <cassert>\n#include <functional>\n\ntemplate <class T = long long, class Comp\
-    \ = std::less<T>, T infty = std::numeric_limits<T>::max()>\nclass Li_Chao_tree\n\
+  bundledCode: "#line 1 \"src/data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\n\
+    #include <cassert>\n#include <functional>\n\ntemplate <class T = long long, class\
+    \ Comp = std::less<T>, T infty = std::numeric_limits<T>::max()>\nclass Li_Chao_tree\n\
     {\n    struct line\n    {\n        T slop = 0, icpt = infty;\n        line *lch\
     \ = nullptr, *rch = nullptr;\n        ~line() { delete lch; delete rch; }\n  \
     \      line *swap(line &rhs) { std::swap(slop, rhs.slop); std::swap(icpt, rhs.icpt);\
@@ -104,17 +98,15 @@ data:
     \ res;\n    }\n}; // class Li_Chao_tree\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+  path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
   requiredBy: []
-  timestamp: '2020-08-04 02:46:58+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/segment_add_get_min.test.cpp
-  - test/library-checker/line_add_get_min.test.cpp
-documentation_of: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+  timestamp: '2020-11-16 21:34:32+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
 layout: document
 redirect_from:
-- /library/data_structure/convex_hull_trick/Li_Chao_tree.hpp
-- /library/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html
-title: data_structure/convex_hull_trick/Li_Chao_tree.hpp
+- /library/src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
+- /library/src/data_structure/convex_hull_trick/Li_Chao_tree.hpp.html
+title: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
 ---

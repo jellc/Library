@@ -100,15 +100,15 @@ data:
     \     ++left;\n      }\n    }\n    return size_orig;\n  }\n};  // class lazy_segment_tree\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/segment_tree/lazy.hpp
+  path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
   timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/segment_tree/lazy.hpp
+documentation_of: src/data_structure/segment_tree/lazy.hpp
 layout: document
 redirect_from:
-- /library/data_structure/segment_tree/lazy.hpp
-- /library/data_structure/segment_tree/lazy.hpp.html
-title: data_structure/segment_tree/lazy.hpp
+- /library/src/data_structure/segment_tree/lazy.hpp
+- /library/src/data_structure/segment_tree/lazy.hpp.html
+title: src/data_structure/segment_tree/lazy.hpp
 ---

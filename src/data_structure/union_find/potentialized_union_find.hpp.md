@@ -8,7 +8,7 @@ data:
   attributes:
     links:
     - https://atcoder.jp/contests/abc087/submissions/9511701
-  bundledCode: "#line 1 \"data_structure/union_find/potentialized_union_find.hpp\"\
+  bundledCode: "#line 1 \"src/data_structure/union_find/potentialized_union_find.hpp\"\
     \n// #line 2 \"potentialized_union_find.hpp\"\n// verified at https://atcoder.jp/contests/abc087/submissions/9511701\n\
     #ifndef Potentialized_union_find_hpp\n#define Potentialized_union_find_hpp\n#include\
     \ <cassert>\n#include <cstddef>\n#include <vector>\n\ntemplate <class Abelian>\n\
@@ -47,15 +47,15 @@ data:
     \n#endif\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/union_find/potentialized_union_find.hpp
+  path: src/data_structure/union_find/potentialized_union_find.hpp
   requiredBy: []
-  timestamp: '2020-02-07 14:11:41+09:00'
+  timestamp: '2020-11-16 21:34:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/union_find/potentialized_union_find.hpp
+documentation_of: src/data_structure/union_find/potentialized_union_find.hpp
 layout: document
 redirect_from:
-- /library/data_structure/union_find/potentialized_union_find.hpp
-- /library/data_structure/union_find/potentialized_union_find.hpp.html
-title: data_structure/union_find/potentialized_union_find.hpp
+- /library/src/data_structure/union_find/potentialized_union_find.hpp
+- /library/src/data_structure/union_find/potentialized_union_find.hpp.html
+title: src/data_structure/union_find/potentialized_union_find.hpp
 ---

@@ -7,7 +7,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"data_structure/deque_aggregation.hpp\"\n#include <cassert>\n\
+  bundledCode: "#line 2 \"src/data_structure/deque_aggregation.hpp\"\n#include <cassert>\n\
     #include <iterator>\n// implementation with dynamic memory allocation.\ntemplate\
     \ <class monoid>\nclass deque_aggregation\n{\n    template <bool left_operand_added>\n\
     \    class stack_aggregation\n    {\n        friend deque_aggregation;\n     \
@@ -118,15 +118,15 @@ data:
     \ { return left.fold() + right.fold(); }\n}; // class deque_aggregation\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/deque_aggregation.hpp
+  path: src/data_structure/deque_aggregation.hpp
   requiredBy: []
-  timestamp: '2020-08-21 02:00:03+09:00'
+  timestamp: '2020-11-16 21:34:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/deque_aggregation.hpp
+documentation_of: src/data_structure/deque_aggregation.hpp
 layout: document
 redirect_from:
-- /library/data_structure/deque_aggregation.hpp
-- /library/data_structure/deque_aggregation.hpp.html
-title: data_structure/deque_aggregation.hpp
+- /library/src/data_structure/deque_aggregation.hpp
+- /library/src/data_structure/deque_aggregation.hpp.html
+title: src/data_structure/deque_aggregation.hpp
 ---

@@ -2,21 +2,18 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: data_structure/union_find/unbalanced.hpp
-    title: data_structure/union_find/unbalanced.hpp
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/unionfind.test.cpp
-    title: test/library-checker/unionfind.test.cpp
+  - icon: ':warning:'
+    path: src/data_structure/union_find/unbalanced.hpp
+    title: src/data_structure/union_find/unbalanced.hpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Basic Union-Find
     links: []
-  bundledCode: "#line 2 \"data_structure/union_find/basic.hpp\"\n\n/*\n * @file basic.hpp\n\
-    \ * @brief Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\n\
-    struct union_find {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t\
+  bundledCode: "#line 2 \"src/data_structure/union_find/basic.hpp\"\n\n/*\n * @file\
+    \ basic.hpp\n * @brief Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\
+    \nstruct union_find {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t\
     \ n = 0) : link(n, -1) {}\n\n  /*\n   * @fn find\n   * @param x A node.\n   *\
     \ @return The representative of the group.\n   */\n  size_t find(size_t x) {\n\
     \    assert(x < size());\n    return link[x] < 0 ? x : (link[x] = find(link[x]));\n\
@@ -54,17 +51,16 @@ data:
     \  }\n\n protected:\n  std::vector<int> link;\n};\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/union_find/basic.hpp
+  path: src/data_structure/union_find/basic.hpp
   requiredBy:
-  - data_structure/union_find/unbalanced.hpp
-  timestamp: '2020-11-14 00:11:52+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/unionfind.test.cpp
-documentation_of: data_structure/union_find/basic.hpp
+  - src/data_structure/union_find/unbalanced.hpp
+  timestamp: '2020-11-16 21:34:32+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/data_structure/union_find/basic.hpp
 layout: document
 redirect_from:
-- /library/data_structure/union_find/basic.hpp
-- /library/data_structure/union_find/basic.hpp.html
+- /library/src/data_structure/union_find/basic.hpp
+- /library/src/data_structure/union_find/basic.hpp.html
 title: Basic Union-Find
 ---

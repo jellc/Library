@@ -7,7 +7,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"data_structure/convex_hull_trick/monotone.hpp\"\n#include\
+  bundledCode: "#line 1 \"src/data_structure/convex_hull_trick/monotone.hpp\"\n#include\
     \ <cassert>\n#include <vector>\n\ntemplate <class T = long long>\nclass lower_convex_monotone\n\
     {\n    struct line\n    {\n        T slop, icpt;\n        T eval(const T x) const\
     \ { return slop * x + icpt; }\n    };\n\n    std::vector<line> lines;\n    typename\
@@ -41,15 +41,15 @@ data:
     \    }\n}; // class lower_convex_monotone\n"
   dependsOn: []
   isVerificationFile: false
-  path: data_structure/convex_hull_trick/monotone.hpp
+  path: src/data_structure/convex_hull_trick/monotone.hpp
   requiredBy: []
-  timestamp: '2020-07-27 21:53:08+09:00'
+  timestamp: '2020-11-16 21:34:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: data_structure/convex_hull_trick/monotone.hpp
+documentation_of: src/data_structure/convex_hull_trick/monotone.hpp
 layout: document
 redirect_from:
-- /library/data_structure/convex_hull_trick/monotone.hpp
-- /library/data_structure/convex_hull_trick/monotone.hpp.html
-title: data_structure/convex_hull_trick/monotone.hpp
+- /library/src/data_structure/convex_hull_trick/monotone.hpp
+- /library/src/data_structure/convex_hull_trick/monotone.hpp.html
+title: src/data_structure/convex_hull_trick/monotone.hpp
 ---
