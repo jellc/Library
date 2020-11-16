@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/scc.test.cpp
+    title: test/library-checker/scc.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/graph/directed/strongly_connected_components.hpp\"\n\
@@ -71,8 +74,9 @@ data:
   path: src/graph/directed/strongly_connected_components.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/scc.test.cpp
 documentation_of: src/graph/directed/strongly_connected_components.hpp
 layout: document
 redirect_from:

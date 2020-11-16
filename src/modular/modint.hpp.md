@@ -15,8 +15,20 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/queue_operate_all_composite.test.cpp
+    title: test/library-checker/queue_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/subset_convolution.test.cpp
+    title: test/library-checker/subset_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Modular Arithmetic
     links: []
@@ -203,8 +215,12 @@ data:
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
   timestamp: '2020-11-16 18:03:35+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document

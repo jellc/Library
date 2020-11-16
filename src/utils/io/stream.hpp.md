@@ -6,11 +6,23 @@ data:
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2450.test.cpp
+    title: test/aizu-online-judge/2450.test.cpp
   - icon: ':x:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/NTL_1_E.test.cpp
+    title: test/aizu-online-judge/NTL_1_E.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm.test.cpp
+    title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/io/stream.hpp\"\n#include <iostream>\n#include\
@@ -100,9 +112,13 @@ data:
   path: src/utils/io/stream.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/suffix_array.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/utils/io/stream.hpp
 layout: document
 redirect_from:

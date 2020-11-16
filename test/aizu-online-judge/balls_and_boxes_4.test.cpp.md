@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':question:'

@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm.test.cpp
+    title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Z-Algorithm
     links: []
@@ -57,8 +60,9 @@ data:
   path: src/string/z_algorithm.hpp
   requiredBy: []
   timestamp: '2020-11-16 17:31:16+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/library-checker/zalgorithm.test.cpp
 documentation_of: src/string/z_algorithm.hpp
 layout: document
 redirect_from:

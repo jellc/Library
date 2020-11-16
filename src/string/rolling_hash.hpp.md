@@ -9,6 +9,9 @@ data:
   - icon: ':x:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':x:'
   attributes:
@@ -155,6 +158,7 @@ data:
   timestamp: '2020-11-16 17:30:50+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
+  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/string/rolling_hash.hpp
 layout: document

@@ -5,9 +5,12 @@ data:
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/associative_array.test.cpp
+    title: test/library-checker/associative_array.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n\
@@ -97,8 +100,9 @@ data:
   path: src/utils/hash.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/associative_array.test.cpp
 documentation_of: src/utils/hash.hpp
 layout: document
 redirect_from:

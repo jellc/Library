@@ -5,9 +5,15 @@ data:
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/number_of_substrings.test.cpp
+    title: test/library-checker/number_of_substrings.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Suffix Array
     links: []
@@ -132,8 +138,10 @@ data:
   path: src/string/suffix_array.hpp
   requiredBy: []
   timestamp: '2020-11-16 17:30:50+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_SOME_WA
+  verifiedWith:
+  - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/suffix_array.test.cpp
 documentation_of: src/string/suffix_array.hpp
 layout: document
 redirect_from:

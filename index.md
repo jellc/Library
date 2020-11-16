@@ -9,7 +9,7 @@ data:
     - icon: ':warning:'
       path: algebra/convolution/number_theoretic_transform.hpp
       title: algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: algebra/convolution/subset.hpp
       title: algebra/convolution/subset.hpp
   - name: algebra/system
@@ -17,7 +17,7 @@ data:
     - icon: ':warning:'
       path: algebra/system/endomorphism.hpp
       title: algebra/system/endomorphism.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: algebra/system/monoid.hpp
       title: algebra/system/monoid.hpp
   - name: algebra
@@ -81,18 +81,18 @@ data:
     - icon: ':warning:'
       path: src/data_structure/Additional_union_find.hpp
       title: src/data_structure/Additional_union_find.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/Mo.hpp
       title: Mo's Algorithm
     - icon: ':warning:'
       path: src/data_structure/Skew_heap.hpp
       title: src/data_structure/Skew_heap.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/deque_aggregation.hpp
       title: src/data_structure/deque_aggregation.hpp
   - name: src/data_structure/convex_hull_trick
     pages:
-    - icon: ':warning:'
+    - icon: ':question:'
       path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
       title: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
     - icon: ':warning:'
@@ -100,18 +100,18 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: src/data_structure/segment_tree/basic.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: src/data_structure/segment_tree/lazy.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/waitlist.hpp
       title: src/data_structure/segment_tree/waitlist.hpp
   - name: src/data_structure/union_find
     pages:
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/data_structure/union_find/basic.hpp
       title: Basic Union-Find
     - icon: ':warning:'
@@ -120,12 +120,12 @@ data:
     - icon: ':warning:'
       path: src/data_structure/union_find/potentialized_union_find.hpp
       title: src/data_structure/union_find/potentialized_union_find.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/data_structure/union_find/unbalanced.hpp
       title: src/data_structure/union_find/unbalanced.hpp
   - name: src/graph/directed/flow
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/Dinic.hpp
       title: src/graph/directed/flow/Dinic.hpp
     - icon: ':heavy_check_mark:'
@@ -136,7 +136,7 @@ data:
       title: src/graph/directed/flow/min_cost_flow.hpp
   - name: src/graph/directed
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/strongly_connected_components.hpp
       title: src/graph/directed/strongly_connected_components.hpp
   - name: src/graph/undirected/tree
@@ -144,15 +144,15 @@ data:
     - icon: ':warning:'
       path: src/graph/undirected/tree/centroid_decomposition.hpp
       title: src/graph/undirected/tree/centroid_decomposition.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy Light Decomposition
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/lowest_common_ancestor.hpp
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp
   - name: src/graph/undirected
     pages:
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/graph/undirected/two_edge_connected_components.hpp
       title: src/graph/undirected/two_edge_connected_components.hpp
   - name: src/modular
@@ -160,12 +160,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -182,21 +182,21 @@ data:
     - icon: ':x:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':warning:'
+    - icon: ':question:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/utils
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
       path: src/utils/chval.hpp
       title: Change Less/Greater
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/coordinate_compression.hpp
       title: src/utils/coordinate_compression.hpp
     - icon: ':warning:'
@@ -205,7 +205,7 @@ data:
     - icon: ':warning:'
       path: src/utils/fixed_point.hpp
       title: Fixed Point Combinator
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/hash.hpp
       title: src/utils/hash.hpp
     - icon: ':warning:'
@@ -240,7 +240,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/read.hpp
       title: src/utils/io/read.hpp
-    - icon: ':x:'
+    - icon: ':question:'
       path: src/utils/io/stream.hpp
       title: src/utils/io/stream.hpp
   - name: .
@@ -273,7 +273,7 @@ data:
     - icon: ':x:'
       path: test/aizu-online-judge/2292.test.cpp
       title: test/aizu-online-judge/2292.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -282,10 +282,10 @@ data:
     - icon: ':x:'
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp
     - icon: ':heavy_check_mark:'
@@ -293,43 +293,49 @@ data:
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   - name: test/library-checker
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/assignment.test.cpp
       title: test/library-checker/assignment.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/associative_array.test.cpp
       title: test/library-checker/associative_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
     - icon: ':x:'
+      path: test/library-checker/convolution_mod.test.cpp
+      title: test/library-checker/convolution_mod.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_kth_smallest.test.cpp
       title: test/library-checker/range_kth_smallest.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/scc.test.cpp
       title: test/library-checker/scc.test.cpp
     - icon: ':x:'
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
     - icon: ':x:'
+      path: test/library-checker/set_xor_min.test.cpp
+      title: test/library-checker/set_xor_min.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
     - icon: ':x:'

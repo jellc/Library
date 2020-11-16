@@ -2,9 +2,15 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/line_add_get_min.test.cpp
+    title: test/library-checker/line_add_get_min.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/segment_add_get_min.test.cpp
+    title: test/library-checker/segment_add_get_min.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 1 \"src/data_structure/convex_hull_trick/Li_Chao_tree.hpp\"\n\
@@ -101,8 +107,10 @@ data:
   path: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
   requiredBy: []
   timestamp: '2020-11-16 21:34:32+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_SOME_WA
+  verifiedWith:
+  - test/library-checker/segment_add_get_min.test.cpp
+  - test/library-checker/line_add_get_min.test.cpp
 documentation_of: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
 layout: document
 redirect_from:

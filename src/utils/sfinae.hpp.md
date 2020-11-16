@@ -6,33 +6,81 @@ data:
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
   - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/basic.hpp
+    title: src/data_structure/segment_tree/basic.hpp
+  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/lazy.hpp
+    title: src/data_structure/segment_tree/lazy.hpp
+  - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
+  - icon: ':heavy_check_mark:'
+    path: src/number_theory/ext_gcd.hpp
+    title: Extended Euclidean Algorithm
   - icon: ':x:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':warning:'
+  - icon: ':question:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':x:'
+  - icon: ':question:'
     path: src/utils/io/stream.hpp
     title: src/utils/io/stream.hpp
   - icon: ':warning:'
     path: src/utils/round_div.hpp
     title: Round Integer Division
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2450.test.cpp
+    title: test/aizu-online-judge/2450.test.cpp
   - icon: ':x:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/DSL_2_A.test.cpp
+    title: test/aizu-online-judge/DSL_2_A.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/NTL_1_E.test.cpp
+    title: test/aizu-online-judge/NTL_1_E.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/associative_array.test.cpp
+    title: test/library-checker/associative_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/number_of_substrings.test.cpp
+    title: test/library-checker/number_of_substrings.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/queue_operate_all_composite.test.cpp
+    title: test/library-checker/queue_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/subset_convolution.test.cpp
+    title: test/library-checker/subset_convolution.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/suffix_array.test.cpp
+    title: test/library-checker/suffix_array.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm.test.cpp
+    title: test/library-checker/zalgorithm.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':question:'
   attributes:
@@ -81,7 +129,10 @@ data:
   requiredBy:
   - src/string/suffix_array.hpp
   - src/string/rolling_hash.hpp
+  - src/data_structure/segment_tree/lazy.hpp
+  - src/data_structure/segment_tree/basic.hpp
   - src/combinatorics/binomial.hpp
+  - src/number_theory/ext_gcd.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/utils/hash.hpp
@@ -90,7 +141,20 @@ data:
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/associative_array.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/zalgorithm_2.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/aizu-online-judge/NTL_1_E.test.cpp
+  - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document

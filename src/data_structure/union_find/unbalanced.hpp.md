@@ -1,13 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/data_structure/union_find/basic.hpp
     title: Basic Union-Find
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/library-checker/unionfind.test.cpp
+    title: test/library-checker/unionfind.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/data_structure/union_find/basic.hpp\"\n\n/*\n * @file\
@@ -46,8 +49,9 @@ data:
   path: src/data_structure/union_find/unbalanced.hpp
   requiredBy: []
   timestamp: '2020-11-16 21:34:32+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/library-checker/unionfind.test.cpp
 documentation_of: src/data_structure/union_find/unbalanced.hpp
 layout: document
 redirect_from:

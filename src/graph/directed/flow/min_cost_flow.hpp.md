@@ -9,6 +9,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2815.test.cpp
     title: test/aizu-online-judge/2815.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/assignment.test.cpp
+    title: test/library-checker/assignment.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -210,6 +213,7 @@ data:
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/library-checker/assignment.test.cpp
   - test/aizu-online-judge/2815.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document

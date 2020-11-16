@@ -4,7 +4,7 @@ data:
   - icon: ':x:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':x:'
+  - icon: ':question:'
     path: src/utils/io/stream.hpp
     title: src/utils/io/stream.hpp
   - icon: ':question:'

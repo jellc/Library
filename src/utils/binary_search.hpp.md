@@ -6,8 +6,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/1342.test.cpp
     title: test/aizu-online-judge/1342.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Binary Search
     links: []
@@ -116,8 +119,9 @@ data:
   path: src/utils/binary_search.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/1342.test.cpp
 documentation_of: src/utils/binary_search.hpp
 layout: document

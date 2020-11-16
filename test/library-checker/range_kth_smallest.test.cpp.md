@@ -1,22 +1,32 @@
 ---
 data:
-  _extendedDependsOn: []
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: src/data_structure/Mo.hpp
+    title: Mo's Algorithm
+  - icon: ':heavy_check_mark:'
+    path: src/utils/coordinate_compression.hpp
+    title: src/utils/coordinate_compression.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
-  attributes: {}
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://judge.yosupo.jp/problem/range_kth_smallest
+    links:
+    - https://judge.yosupo.jp/problem/range_kth_smallest
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
     , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: data_structure/Mo.hpp:\
-    \ line -1: no such header\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\
-    #include <cstdio>\n\n#include \"data_structure/Mo.hpp\"\n#include \"utils/coordinate_compression.hpp\"\
+    , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
+    \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
+    \ src/data_structure/Mo.hpp: line 6: #pragma once found in a non-first line\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n\
+    #include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/utils/coordinate_compression.hpp\"\
     \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int>\
     \ a(n);\n  for (int &e : a) scanf(\"%d\", &e);\n  coordinate_compression ccmp(a);\n\
     \  int bsize = std::sqrt(ccmp.count()) + 1;\n  std::vector<int> cnt(ccmp.count()),\
@@ -31,12 +41,14 @@ data:
     \        }\n        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n\
     \        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\\
     n\", e);\n}\n"
-  dependsOn: []
+  dependsOn:
+  - src/data_structure/Mo.hpp
+  - src/utils/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-11-16 22:30:50+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp
 layout: document
