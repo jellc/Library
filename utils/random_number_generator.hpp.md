@@ -6,9 +6,6 @@ data:
     path: string/rolling_hash.hpp
     title: Rolling Hash
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   _extendedVerifiedWith:
@@ -46,7 +43,6 @@ data:
   isVerificationFile: false
   path: utils/random_number_generator.hpp
   requiredBy:
-  - template.cpp
   - string/rolling_hash.hpp
   - utils.hpp
   timestamp: '2020-09-22 15:16:13+09:00'

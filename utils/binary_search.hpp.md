@@ -6,9 +6,6 @@ data:
     path: string/rolling_hash.hpp
     title: Rolling Hash
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   _extendedVerifiedWith:
@@ -130,7 +127,6 @@ data:
   isVerificationFile: false
   path: utils/binary_search.hpp
   requiredBy:
-  - template.cpp
   - string/rolling_hash.hpp
   - utils.hpp
   timestamp: '2020-11-14 01:17:16+09:00'

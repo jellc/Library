@@ -3,9 +3,6 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
@@ -77,7 +74,6 @@ data:
   isVerificationFile: false
   path: config.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
   - utils/io.hpp
   - utils/io/casefmt.hpp

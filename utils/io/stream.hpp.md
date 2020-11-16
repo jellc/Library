@@ -6,9 +6,6 @@ data:
     title: utils/sfinae.hpp
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
@@ -126,7 +123,6 @@ data:
   isVerificationFile: false
   path: utils/io/stream.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
   - utils/io.hpp
   timestamp: '2020-11-14 01:34:16+09:00'

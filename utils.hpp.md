@@ -49,10 +49,7 @@ data:
   - icon: ':warning:'
     path: utils/wrapper.hpp
     title: utils/wrapper.hpp
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: template.cpp
-    title: Template
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -360,8 +357,7 @@ data:
   - utils/wrapper.hpp
   isVerificationFile: false
   path: utils.hpp
-  requiredBy:
-  - template.cpp
+  requiredBy: []
   timestamp: '2020-11-14 01:34:43+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

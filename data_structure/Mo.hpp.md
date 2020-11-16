@@ -12,16 +12,16 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Mo's algorithm
+    document_title: Mo's Algorithm
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
-    , line 191, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
+    , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 310, in update\n    raise BundleErrorAt(path, i + 1, \"#pragma once found\
     \ in a non-first line\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
     \ data_structure/Mo.hpp: line 6: #pragma once found in a non-first line\n"
-  code: "/*\n * @file Mo.hpp\n * @brief Mo's algorithm\n */\n\n#pragma once\n#include\
+  code: "/*\n * @file Mo.hpp\n * @brief Mo's Algorithm\n */\n\n#pragma once\n#include\
     \ <cassert>\n#include <cmath>\n#include <functional>\n#include <numeric>\n#include\
     \ <vector>\n\nnamespace workspace {\n\n/*\n * @class Mo\n * @brief process queries\
     \ about contiguous subarray\n * @tparam Push_back\n * @tparam Pop_back\n * @tparam\
@@ -55,7 +55,7 @@ data:
   isVerificationFile: false
   path: data_structure/Mo.hpp
   requiredBy: []
-  timestamp: '2020-11-04 17:24:45+09:00'
+  timestamp: '2020-11-16 13:18:17+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_kth_smallest.test.cpp
@@ -65,5 +65,5 @@ layout: document
 redirect_from:
 - /library/data_structure/Mo.hpp
 - /library/data_structure/Mo.hpp.html
-title: Mo's algorithm
+title: Mo's Algorithm
 ---

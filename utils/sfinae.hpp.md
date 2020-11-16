@@ -30,9 +30,6 @@ data:
     path: string/suffix_array.hpp
     title: Suffix array
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
@@ -139,7 +136,6 @@ data:
   isVerificationFile: false
   path: utils/sfinae.hpp
   requiredBy:
-  - template.cpp
   - string/suffix_array.hpp
   - data_structure/segment_tree/lazy.hpp
   - data_structure/segment_tree/basic.hpp

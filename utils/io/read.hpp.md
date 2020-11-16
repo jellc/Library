@@ -3,9 +3,6 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: template.cpp
-    title: Template
-  - icon: ':warning:'
     path: utils.hpp
     title: utils.hpp
   - icon: ':heavy_check_mark:'
@@ -54,7 +51,6 @@ data:
   isVerificationFile: false
   path: utils/io/read.hpp
   requiredBy:
-  - template.cpp
   - utils.hpp
   - utils/io.hpp
   timestamp: '2020-11-14 01:28:47+09:00'
