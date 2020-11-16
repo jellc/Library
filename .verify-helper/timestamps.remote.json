@@ -16,5 +16,10 @@
 "test/library-checker/range_affine_range_sum.test.cpp": "2020-11-16 22:30:50 +0900",
 "test/library-checker/range_kth_smallest.test.cpp": "2020-11-16 22:30:50 +0900",
 "test/library-checker/scc.test.cpp": "2020-11-16 22:30:50 +0900",
-"test/library-checker/static_range_inversions_query.test.cpp": "2020-11-16 22:30:50 +0900"
+"test/library-checker/static_range_inversions_query.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/subset_convolution.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/suffix_array.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/two_edge_connected_components.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/unionfind.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/zalgorithm.test.cpp": "2020-11-16 22:30:50 +0900"
 }
