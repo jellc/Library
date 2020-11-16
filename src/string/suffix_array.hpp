@@ -2,14 +2,14 @@
 
 /*
  * @file suffix_array.hpp
- * @brief Suffix array
+ * @brief Suffix Array
  */
 
 #include <algorithm>
 #include <numeric>
 #include <vector>
 
-#include "utils/sfinae.hpp"
+#include "../utils/sfinae.hpp"
 
 namespace workspace {
 

@@ -9,8 +9,7 @@
 #include <cassert>
 #include <vector>
 
-#include "utils/binary_search.hpp"
-#include "utils/random_number_generator.hpp"
+#include "../utils/sfinae.hpp"
 
 namespace workspace {
 
