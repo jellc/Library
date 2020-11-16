@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir lib
 for dir in `ls -p src/ | grep /`
 do
   header=`echo ${dir%/}`
