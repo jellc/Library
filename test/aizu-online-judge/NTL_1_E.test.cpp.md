@@ -12,27 +12,28 @@ data:
     , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
+    , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
+    \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: data_structure/segment_tree/basic.hpp:\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: utils/sfinae.hpp:\
     \ line -1: no such header\n"
-  code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_A\"\
-    \n\n#include \"data_structure/segment_tree/basic.hpp\"\n#include \"utils/io.hpp\"\
-    \n\nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
-    \  int n, q;\n  std::cin >> n >> q;\n  segment_tree<mono> seg(n);\n  while (q--)\
-    \ {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp) {\n      std::cout\
-    \ << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x] = y;\n    }\n  }\n\
-    }\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E\"\n\n\
+    #include \"src/number_theory/ext_gcd.hpp\"\n#include \"src/utils/io/stream.hpp\"\
+    \n\nint main() {\n  int a, b;\n  std::cin >> a >> b;\n  __int128_t _a = a, _b\
+    \ = b;\n  auto [x, y] = workspace::ext_gcd(_a, b);\n  if (x > 0) x -= b, y +=\
+    \ a;\n  if ((y - x) * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout\
+    \ << std::tie(a, b) << \"\\n\";\n}\n"
   dependsOn: []
   isVerificationFile: true
-  path: test/aizu-online-judge/range_minimum_query.test.cpp
+  path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
   timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
-documentation_of: test/aizu-online-judge/range_minimum_query.test.cpp
+documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/range_minimum_query.test.cpp
-- /verify/test/aizu-online-judge/range_minimum_query.test.cpp.html
-title: test/aizu-online-judge/range_minimum_query.test.cpp
+- /verify/test/aizu-online-judge/NTL_1_E.test.cpp
+- /verify/test/aizu-online-judge/NTL_1_E.test.cpp.html
+title: test/aizu-online-judge/NTL_1_E.test.cpp
 ---

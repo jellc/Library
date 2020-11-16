@@ -128,10 +128,10 @@ data:
     - icon: ':warning:'
       path: src/graph/directed/flow/Dinic.hpp
       title: src/graph/directed/flow/Dinic.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/base.hpp
       title: src/graph/directed/flow/base.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/min_cost_flow.hpp
       title: src/graph/directed/flow/min_cost_flow.hpp
   - name: src/graph/directed
@@ -173,13 +173,13 @@ data:
       title: Least Prime Factor
   - name: src/string
     pages:
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/string/Manacher.hpp
       title: src/string/Manacher.hpp
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
     - icon: ':warning:'
@@ -190,7 +190,7 @@ data:
       title: Z-Algorithm
   - name: src/utils
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -223,7 +223,7 @@ data:
     - icon: ':warning:'
       path: src/utils/setup.hpp
       title: Setup
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: src/utils/sfinae.hpp
     - icon: ':warning:'
@@ -240,7 +240,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/read.hpp
       title: src/utils/io/read.hpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/utils/io/stream.hpp
       title: src/utils/io/stream.hpp
   - name: .
@@ -267,27 +267,30 @@ data:
   verificationCategories:
   - name: test/aizu-online-judge
     pages:
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/1342.test.cpp
+      title: test/aizu-online-judge/1342.test.cpp
     - icon: ':x:'
-      path: test/aizu-online-judge/aors_score.test.cpp
-      title: test/aizu-online-judge/aors_score.test.cpp
+      path: test/aizu-online-judge/2292.test.cpp
+      title: test/aizu-online-judge/2292.test.cpp
+    - icon: ':x:'
+      path: test/aizu-online-judge/2450.test.cpp
+      title: test/aizu-online-judge/2450.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/2815.test.cpp
+      title: test/aizu-online-judge/2815.test.cpp
+    - icon: ':x:'
+      path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+      title: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    - icon: ':x:'
+      path: test/aizu-online-judge/DSL_2_A.test.cpp
+      title: test/aizu-online-judge/DSL_2_A.test.cpp
+    - icon: ':x:'
+      path: test/aizu-online-judge/NTL_1_E.test.cpp
+      title: test/aizu-online-judge/NTL_1_E.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
       title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/do_use_segment_tree.test.cpp
-      title: test/aizu-online-judge/do_use_segment_tree.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
-      title: test/aizu-online-judge/dont_burst_the_ballon.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-      title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/pattern_search.test.cpp
-      title: test/aizu-online-judge/pattern_search.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/range_minimum_query.test.cpp
-      title: test/aizu-online-judge/range_minimum_query.test.cpp
   - name: test/library-checker
     pages:
     - icon: ':x:'

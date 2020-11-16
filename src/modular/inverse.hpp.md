@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy:

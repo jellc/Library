@@ -11,7 +11,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
   - icon: ':warning:'
@@ -20,18 +20,21 @@ data:
   - icon: ':warning:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/utils/io/stream.hpp
     title: src/utils/io/stream.hpp
   - icon: ':warning:'
     path: src/utils/round_div.hpp
     title: Round Integer Division
   _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/balls_and_boxes_4.test.cpp
     title: test/aizu-online-judge/balls_and_boxes_4.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
@@ -85,8 +88,9 @@ data:
   - src/utils/round_div.hpp
   - src/utils/io/stream.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
   - test/aizu-online-judge/balls_and_boxes_4.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document

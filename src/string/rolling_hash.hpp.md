@@ -1,13 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Rolling Hash
     links: []
@@ -150,8 +153,9 @@ data:
   path: src/string/rolling_hash.hpp
   requiredBy: []
   timestamp: '2020-11-16 17:30:50+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/string/rolling_hash.hpp
 layout: document
 redirect_from:

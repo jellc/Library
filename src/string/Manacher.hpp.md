@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aizu-online-judge/2292.test.cpp
+    title: test/aizu-online-judge/2292.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"src/string/Manacher.hpp\"\n// #line 2 \"Manacher.hpp\"\n\
@@ -43,8 +46,9 @@ data:
   path: src/string/Manacher.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aizu-online-judge/2292.test.cpp
 documentation_of: src/string/Manacher.hpp
 layout: document
 redirect_from:

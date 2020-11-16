@@ -12,26 +12,29 @@ data:
     , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
+    , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
+    \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: number_theory/ext_gcd.hpp:\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: utils/sfinae.hpp:\
     \ line -1: no such header\n"
-  code: "#define PROBLEM \\\n  \"https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_E\"\
-    \n#include \"number_theory/ext_gcd.hpp\"\n#include \"utils/io.hpp\"\n\nint main()\
-    \ {\n  int a, b;\n  std::cin >> a >> b;\n  __int128_t _a = a, _b = b;\n  auto\
-    \ [x, y] = workspace::ext_gcd(_a, b);\n  if (x > 0) x -= b, y += a;\n  if ((y\
-    \ - x) * 2 > a + b) x += b, y -= a;\n  a = x, b = y;\n  std::cout << std::tie(a,\
-    \ b) << \"\\n\";\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n\
+    #include <iostream>\n\n#include \"../../src/data_structure/segment_tree/basic.hpp\"\
+    \n\nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
+    \  int n, q;\n  std::cin >> n >> q;\n  segment_tree<mono> seg(n);\n  while (q--)\
+    \ {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp) {\n      std::cout\
+    \ << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x] = y;\n    }\n  }\n\
+    }\n"
   dependsOn: []
   isVerificationFile: true
-  path: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+  path: test/aizu-online-judge/DSL_2_A.test.cpp
   requiredBy: []
   timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
-documentation_of: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+documentation_of: test/aizu-online-judge/DSL_2_A.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp
-- /verify/test/aizu-online-judge/extended_euclid_algorithm.test.cpp.html
-title: test/aizu-online-judge/extended_euclid_algorithm.test.cpp
+- /verify/test/aizu-online-judge/DSL_2_A.test.cpp
+- /verify/test/aizu-online-judge/DSL_2_A.test.cpp.html
+title: test/aizu-online-judge/DSL_2_A.test.cpp
 ---

@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/1342.test.cpp
+    title: test/aizu-online-judge/1342.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Binary Search
     links: []
@@ -113,8 +116,9 @@ data:
   path: src/utils/binary_search.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aizu-online-judge/1342.test.cpp
 documentation_of: src/utils/binary_search.hpp
 layout: document
 redirect_from:

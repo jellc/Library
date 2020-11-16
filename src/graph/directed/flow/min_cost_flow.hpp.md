@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/base.hpp
     title: src/graph/directed/flow/base.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
-    path: test/aizu-online-judge/aors_score.test.cpp
-    title: test/aizu-online-judge/aors_score.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2815.test.cpp
+    title: test/aizu-online-judge/2815.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/graph/directed/flow/min_cost_flow.hpp\"\n#include <algorithm>\n\
@@ -208,9 +208,9 @@ data:
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/aors_score.test.cpp
+  - test/aizu-online-judge/2815.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document
 redirect_from:

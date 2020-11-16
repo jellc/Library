@@ -1,13 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/io/stream.hpp\"\n#include <iostream>\n#include\
@@ -97,8 +100,9 @@ data:
   path: src/utils/io/stream.hpp
   requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/utils/io/stream.hpp
 layout: document
 redirect_from:
