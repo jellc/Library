@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitlist.hpp
     title: src/data_structure/segment_tree/waitlist.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: src/utils/sfinae.hpp
   _extendedRequiredBy: []

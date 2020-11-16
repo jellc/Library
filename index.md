@@ -179,7 +179,7 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
     - icon: ':heavy_check_mark:'
@@ -190,7 +190,7 @@ data:
       title: Z-Algorithm
   - name: src/utils
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -214,7 +214,7 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
@@ -223,7 +223,7 @@ data:
     - icon: ':warning:'
       path: src/utils/setup.hpp
       title: Setup
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: src/utils/sfinae.hpp
     - icon: ':warning:'
@@ -240,7 +240,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/read.hpp
       title: src/utils/io/read.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/stream.hpp
       title: src/utils/io/stream.hpp
   - name: .
@@ -279,7 +279,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
     - icon: ':heavy_check_mark:'
@@ -353,7 +353,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage
