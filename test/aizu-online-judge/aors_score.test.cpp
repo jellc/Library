@@ -1,11 +1,13 @@
 #define PROBLEM \
   "https://onlinejudge.u-aizu.ac.jp/challenges/sources/VPC/RUPC/2815?year=2017"
-#include "graph/directed/flow/min_cost_flow.hpp"
-#include "utils/io.hpp"
+#include <iostream>
+
+#include "../../src/graph/directed/flow/min_cost_flow.hpp"
 using namespace workspace;
 
 int main() {
-  const int n = read<int>(), m = read<int>(), k = read<int>();
+  int n, m, k;
+  std::cin >> n >> m >> k;
   const int total = n + m + 3;
   const int dst = total - 1;
   const int dst2 = total - 2;
@@ -16,15 +18,18 @@ int main() {
   mcf.add_edge(dst3, dst, n - k, 0);
   for (int i = 0; i < n; ++i) {
     mcf.supply(i, 1);
-    mcf.add_edge(i, dst2, 1, -read<int>());
+    std::cin >> k;
+    mcf.add_edge(i, dst2, 1, -k);
   }
   for (int j = 0; j < m; j++) {
     for (int i = 0; i < n; i++) {
-      mcf.add_edge(i, j + n, 1, -read<int>());
+      std::cin >> k;
+      mcf.add_edge(i, j + n, 1, -k);
     }
   }
   for (int j = 0; j < m; j++) {
-    mcf.add_edge(j + n, dst3, read<int>(), 0);
+    std::cin >> k;
+    mcf.add_edge(j + n, dst3, k, 0);
   }
   std::cout << -mcf.optimal() << "\n";
 }

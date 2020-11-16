@@ -23,7 +23,7 @@ template <class Modint> struct binomial<Modint> {
     }
   };
 
-  static inverse<value_type> inv;
+  static inverse_table<value_type> inv;
   static factorial<value_type, mulinv_Op> fact_inv;
   static factorial<value_type> fact;
 
@@ -32,7 +32,7 @@ template <class Modint> struct binomial<Modint> {
   }
 };
 
-template <class Modint> inverse<Modint> binomial<Modint>::inv;
+template <class Modint> inverse_table<Modint> binomial<Modint>::inv;
 template <class Modint>
 factorial<Modint, class binomial<Modint>::mulinv_Op> binomial<Modint>::fact_inv;
 template <class Modint> factorial<Modint> binomial<Modint>::fact;

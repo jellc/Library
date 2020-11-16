@@ -1,12 +1,23 @@
 #pragma once
+
+/*
+ * @file inverse.hpp
+ * @brief Inverse Table
+ */
+
 #include <vector>
 
 #include "modint.hpp"
-template <class, class = int> struct inverse;
-// mod must be prime.
-template <class Modint>
-struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
+
+namespace workspace {
+
+// Modulus must be prime.
+template <class Modint> struct inverse_table {
+  static_assert(std::is_same<std::nullptr_t,
+                             decltype((void *)Modint::mod, nullptr)>::value);
+
   using value_type = Modint;
+
   constexpr value_type operator()(int n) const {
     constexpr int_fast64_t mod = value_type::mod;
     assert(n %= mod);
@@ -20,5 +31,7 @@ struct inverse<Modint, decltype((void *)Modint::mod, 0)> {
  private:
   static std::vector<value_type> inv;
 };
-template <class Modint>
-std::vector<Modint> inverse<Modint, decltype((void *)Modint::mod, 0)>::inv;
+
+template <class Modint> std::vector<Modint> inverse_table<Modint>::inv;
+
+}  // namespace workspace
