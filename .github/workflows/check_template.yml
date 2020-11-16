@@ -25,7 +25,7 @@ jobs:
       run: oj-bundle template.cpp
 
     - name: Compile template
-      run: g++ template.cpp -std=c++17 -Wall -o a.o
+      run: g++ -I . -std=c++17 -Wall template.cpp -o a.o
 
     - name: Run executable
       run: ./a.o
