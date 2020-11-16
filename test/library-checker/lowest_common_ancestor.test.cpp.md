@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: src/graph/undirected/tree/heavy_light_decomposition.hpp
-    title: Heavy Light Decomposition
+    title: Heavy-Light Decomposition
   - icon: ':heavy_check_mark:'
     path: src/graph/undirected/tree/lowest_common_ancestor.hpp
     title: src/graph/undirected/tree/lowest_common_ancestor.hpp
@@ -19,7 +19,7 @@ data:
   bundledCode: "#line 1 \"test/library-checker/lowest_common_ancestor.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n\n#include <cstdio>\n\
     #include <ext/rope>\n\n#line 2 \"src/graph/undirected/tree/heavy_light_decomposition.hpp\"\
-    \n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy Light Decomposition\n\
+    \n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy-Light Decomposition\n\
     \ */\n\n#include <cassert>\n#include <numeric>\n#include <vector>\n\nclass heavy_light_decomposition\
     \ {\n  std::vector<std::vector<size_t>> tree;\n  std::vector<size_t> sorted, in,\
     \ out, head;\n\n  size_t sort_children(size_t node, size_t prev) {\n    size_t\
@@ -118,7 +118,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/lowest_common_ancestor.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
+  timestamp: '2020-11-16 23:30:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/lowest_common_ancestor.test.cpp

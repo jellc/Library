@@ -146,7 +146,7 @@ data:
       title: src/graph/undirected/tree/centroid_decomposition.hpp
     - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
-      title: Heavy Light Decomposition
+      title: Heavy-Light Decomposition
     - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/lowest_common_ancestor.hpp
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp

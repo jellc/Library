@@ -12,10 +12,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Heavy Light Decomposition
+    document_title: Heavy-Light Decomposition
     links: []
   bundledCode: "#line 2 \"src/graph/undirected/tree/heavy_light_decomposition.hpp\"\
-    \n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy Light Decomposition\n\
+    \n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy-Light Decomposition\n\
     \ */\n\n#include <cassert>\n#include <numeric>\n#include <vector>\n\nclass heavy_light_decomposition\
     \ {\n  std::vector<std::vector<size_t>> tree;\n  std::vector<size_t> sorted, in,\
     \ out, head;\n\n  size_t sort_children(size_t node, size_t prev) {\n    size_t\
@@ -70,10 +70,10 @@ data:
     \ path_decomposition(size_t node) const {\n    assert(made());\n    auto [left,\
     \ right] = path_decomposition(root(), node);\n    assert(left.size() == 1);\n\
     \    right.insert(right.begin(), left.front());\n    return right;\n  }\n};\n"
-  code: "#pragma once\n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy\
-    \ Light Decomposition\n */\n\n#include <cassert>\n#include <numeric>\n#include\
-    \ <vector>\n\nclass heavy_light_decomposition {\n  std::vector<std::vector<size_t>>\
-    \ tree;\n  std::vector<size_t> sorted, in, out, head;\n\n  size_t sort_children(size_t\
+  code: "#pragma once\n\n/*\n * @file heavy_light_decomposition.hpp\n * @brief Heavy-Light\
+    \ Decomposition\n */\n\n#include <cassert>\n#include <numeric>\n#include <vector>\n\
+    \nclass heavy_light_decomposition {\n  std::vector<std::vector<size_t>> tree;\n\
+    \  std::vector<size_t> sorted, in, out, head;\n\n  size_t sort_children(size_t\
     \ node, size_t prev) {\n    size_t sum = 0, max_size = 0;\n    for (size_t &to\
     \ : tree[node]) {\n      if (to == prev) continue;\n      size_t child_size =\
     \ sort_children(to, node);\n      sum += child_size;\n      if (max_size < child_size)\
@@ -129,7 +129,7 @@ data:
   isVerificationFile: false
   path: src/graph/undirected/tree/heavy_light_decomposition.hpp
   requiredBy: []
-  timestamp: '2020-11-16 17:32:10+09:00'
+  timestamp: '2020-11-16 23:30:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/lowest_common_ancestor.test.cpp
@@ -139,5 +139,5 @@ layout: document
 redirect_from:
 - /library/src/graph/undirected/tree/heavy_light_decomposition.hpp
 - /library/src/graph/undirected/tree/heavy_light_decomposition.hpp.html
-title: Heavy Light Decomposition
+title: Heavy-Light Decomposition
 ---
