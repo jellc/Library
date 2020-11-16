@@ -42,7 +42,7 @@ const auto start_time{std::chrono::system_clock::now()};
 int64_t elapsed() {
   using namespace std::chrono;
   const auto end_time{system_clock::now()};
-  return duration_cast<milliseconds>(end_time - start_time).count();
+  return duration_cast<milliseconds>(end_time - internal::start_time).count();
 }
 
 }  // namespace workspace
