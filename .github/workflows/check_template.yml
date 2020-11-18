@@ -16,10 +16,10 @@ jobs:
       run: pip3 install -U online-judge-verify-helper
 
     - name: Resolve permission
-      run: chmod +x make.sh
+      run: chmod +x make
 
     - name: Make header
-      run: ./make.sh
+      run: ./make
 
     - name: Bundle template
       run: oj-bundle template.cpp
