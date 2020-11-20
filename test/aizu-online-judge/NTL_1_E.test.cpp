@@ -4,10 +4,11 @@
 #include "src/utils/io/stream.hpp"
 
 int main() {
+  using namespace workspace;
   int a, b;
-  std::cin >> a >> b;
+  cin >> a >> b;
   __int128_t _a = a, _b = b;
-  auto [x, y] = workspace::ext_gcd(_a, b);
+  auto [x, y] = ext_gcd(_a, b);
   if (x > 0) x -= b, y += a;
   if ((y - x) * 2 > a + b) x += b, y -= a;
   a = x, b = y;

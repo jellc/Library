@@ -7,10 +7,9 @@
 
 #include <cxxabi.h>
 
+#include <cassert>
 #include <iostream>
 #include <tuple>
-
-#include "../sfinae.hpp"
 
 namespace workspace {
 
@@ -19,39 +18,43 @@ namespace workspace {
  * @brief A wrapper class for std::istream.
  */
 class istream : std::istream {
-  template <class Tp,
-            typename = decltype(std::istream::operator>>(std::declval<Tp &>()))>
-  void read(Tp &x) {
-    std::istream::operator>>(x);
-  }
+  template <class Tp, typename = std::nullptr_t> struct helper {
+    helper(std::istream &is, Tp &x) {
+      for (auto &&e : x) helper<decltype(e)>(is, e);
+    }
+  };
 
-  template <class T1, class T2> void read(std::pair<T1, T2> &x) {
-    read(x.first), read(x.second);
-  }
+  template <class Tp>
+  struct helper<
+      Tp,
+      decltype(std::declval<std::decay<decltype(
+                   std::declval<std::istream &>() >> std::declval<Tp &>())>>(),
+               nullptr)> {
+    helper(std::istream &is, Tp &x) { is >> x; }
+  };
 
-  template <class Tp, size_t N = 0> void tuple_read(Tp &x) {
-    if constexpr (N == std::tuple_size<Tp>::value)
-      return;
-    else
-      read(std::get<N>(x)), tuple_read<Tp, N + 1>(x);
-  }
+  template <class T1, class T2> struct helper<std::pair<T1, T2>> {
+    helper(std::istream &is, std::pair<T1, T2> &x) {
+      helper<T1>(is, x.first), helper<T2>(is, x.second);
+    }
+  };
 
-  template <class... Tp> void read(istream &is, tuple<Tp...> &x) {
-    tuple_read(x);
-  }
+  template <class... Tps> struct helper<std::tuple<Tps...>> {
+    helper(std::istream &is, std::tuple<Tps...> &x) { iterate(is, x); }
 
-  template <class Container, typename Value = element_type<Container>>
-  typename std::enable_if<
-      !is_same<typename decay<Container>::type, string>::value &&
-          !is_same<typename decay<Container>::type, char *>::value,
-      void>::type
-  read(Container &x) {
-    for (auto &&e : x) read(e);
-  }
+   private:
+    template <class Tp, size_t N = 0> void iterate(std::istream &is, Tp &x) {
+      if constexpr (N == std::tuple_size<Tp>::value)
+        return;
+      else
+        helper<typename std::tuple_element<N, Tp>::type>(is, std::get<N>(x)),
+            iterate<Tp, N + 1>(is, x);
+    }
+  };
 
  public:
   template <typename Tp> istream &operator>>(Tp &x) {
-    read(x);
+    helper<Tp>(*this, x);
     if (std::istream::fail()) {
       static auto once = atexit([] {
         std::cerr << "\n\033[43m\033[30mwarning: failed to read \'"
@@ -72,35 +75,37 @@ auto &cin = *internal::cin_ptr;
 // operator<< overloads
 
 template <class T, class U>
-ostream &operator<<(ostream &os, const pair<T, U> &p) {
+std::ostream &operator<<(std::ostream &os, const std::pair<T, U> &p) {
   return os << p.first << ' ' << p.second;
 }
 template <class tuple_t, size_t index> struct tuple_os {
-  static ostream &apply(ostream &os, const tuple_t &t) {
+  static std::ostream &apply(std::ostream &os, const tuple_t &t) {
     tuple_os<tuple_t, index - 1>::apply(os, t);
-    return os << ' ' << get<index>(t);
+    return os << ' ' << std::get<index>(t);
   }
 };
 template <class tuple_t> struct tuple_os<tuple_t, 0> {
-  static ostream &apply(ostream &os, const tuple_t &t) {
-    return os << get<0>(t);
+  static std::ostream &apply(std::ostream &os, const tuple_t &t) {
+    return os << std::get<0>(t);
   }
 };
 template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {
-  static ostream &apply(ostream &os, const tuple_t &t) { return os; }
+  static std::ostream &apply(std::ostream &os, const tuple_t &t) { return os; }
 };
 
 template <class... T>
-std::ostream &operator<<(ostream &os, const tuple<T...> &t) {
-  return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(os,
-                                                                          t);
+std::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {
+  return tuple_os<std::tuple<T...>,
+                  std::tuple_size<std::tuple<T...>>::value - 1>::apply(os, t);
 }
 
-template <class Container, typename Value = element_type<Container>>
-typename enable_if<!is_same<typename decay<Container>::type, string>::value &&
-                       !is_same<typename decay<Container>::type, char *>::value,
-                   ostream &>::type
-operator<<(ostream &os, const Container &cont) {
+template <class Container,
+          typename = decltype(std::begin(std::declval<Container>()))>
+typename std::enable_if<
+    !std::is_same<typename std::decay<Container>::type, std::string>::value &&
+        !std::is_same<typename std::decay<Container>::type, char *>::value,
+    std::ostream &>::type
+operator<<(std::ostream &os, const Container &cont) {
   bool head = true;
   for (auto &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;
   return os;

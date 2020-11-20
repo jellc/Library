@@ -51,7 +51,7 @@ int main() {
   int n, q;
   std::cin >> n >> q;
   std::vector<int> w(n);
-  std::cin >> w;
+  workspace::cin >> w;
   heavy_light_decomposition hld(n);
   for (auto e = 1; e != n; ++e) {
     int u, v;
