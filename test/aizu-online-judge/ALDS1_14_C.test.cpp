@@ -1,12 +1,10 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C"
 
+#include <iostream>
+
 #include "src/string/rolling_hash.hpp"
-#include "src/utils/io/stream.hpp"
 
 int main() {
-  std::ios::sync_with_stdio(0);
-  std::cin.tie(0);
-
   size_t h, w, r, c;
 
   std::cin >> h >> w;

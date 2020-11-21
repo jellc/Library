@@ -1,12 +1,12 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E"
 
 #include "src/number_theory/ext_gcd.hpp"
-#include "src/utils/io/stream.hpp"
+#include "src/utils/io/ostream.hpp"
 
 int main() {
   using namespace workspace;
   int a, b;
-  cin >> a >> b;
+  std::cin >> a >> b;
   __int128_t _a = a, _b = b;
   auto [x, y] = ext_gcd(_a, b);
   if (x > 0) x -= b, y += a;

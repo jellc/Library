@@ -5,7 +5,7 @@
 
 #include "src/data_structure/segment_tree/lazy.hpp"
 #include "src/graph/undirected/tree/heavy_light_decomposition.hpp"
-#include "src/utils/io/stream.hpp"
+#include "src/utils/io/istream.hpp"
 
 int main() {
   struct endo {

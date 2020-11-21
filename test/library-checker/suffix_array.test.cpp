@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 #include "src/string/suffix_array.hpp"
-#include "src/utils/io/stream.hpp"
+#include "src/utils/io/ostream.hpp"
 
 int main() {
   std::string s;
