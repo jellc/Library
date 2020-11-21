@@ -22,10 +22,10 @@ jobs:
       run: ./make
 
     - name: Bundle template
-      run: oj-bundle template.cpp
+      run: time oj-bundle template.cpp
 
     - name: Compile template
-      run: g++ -I . -std=c++17 -Wall template.cpp -o a.o
+      run: time g++ -I . -std=c++17 -Wall template.cpp -o a.o
 
     - name: Run executable
       run: ./a.o
