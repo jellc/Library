@@ -1,11 +1,19 @@
 #pragma once
+
+/*
+ * @file basic.hpp
+ * @brief Segment Tree
+ */
+
 #include <cassert>
 #include <queue>
 #include <vector>
 
-#include "../../utils/sfinae.hpp"
 #include "algebra/system/monoid.hpp"
+#include "src/utils/sfinae.hpp"
 #include "waitlist.hpp"
+
+namespace workspace {
 
 template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
@@ -147,4 +155,6 @@ class segment_tree {
     }
     return size_orig;
   }
-};  // class segment_tree
+};
+
+}  // namespace workspace

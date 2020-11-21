@@ -1,11 +1,19 @@
 #pragma once
+
+/*
+ * @file lazy.hpp
+ * @brief Lazy Segment Tree
+ */
+
 #include <cassert>
 #include <queue>
 #include <vector>
 
-#include "../../utils/sfinae.hpp"
 #include "algebra/system/monoid.hpp"
+#include "src/utils/sfinae.hpp"
 #include "waitlist.hpp"
+
+namespace workspace {
 
 template <class Monoid, class Endomorphism,
           class Monoid_container = std::vector<Monoid>,
@@ -202,4 +210,6 @@ class lazy_segment_tree {
     }
     return size_orig;
   }
-};  // class lazy_segment_tree
+};
+
+}  // namespace workspace
