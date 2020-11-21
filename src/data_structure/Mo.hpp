@@ -1,9 +1,10 @@
+#pragma once
+
 /*
  * @file Mo.hpp
  * @brief Mo's Algorithm
  */
 
-#pragma once
 #include <cassert>
 #include <cmath>
 #include <functional>
