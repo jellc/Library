@@ -1,9 +1,12 @@
 #pragma once
 #include <queue>
 
+namespace workspace {
+
 namespace internal {
-struct waitlist : std::queue<size_t> {
-  waitlist(size_t n) : in(n) {}
+
+struct waitings : std::queue<size_t> {
+  waitings(size_t n) : in(n) {}
 
   bool push(size_t index) {
     assert(index < in.size());
@@ -23,4 +26,7 @@ struct waitlist : std::queue<size_t> {
  private:
   std::vector<int_least8_t> in;
 };
-}
+
+}  // namespace internal
+
+}  // namespace workspace

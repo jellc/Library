@@ -14,7 +14,7 @@ int main() {
   for (int &x : a) scanf("%d", &x);
   coordinate_compression ccmp(a);
   std::vector<int> cnt(ccmp.count());
-  segment_tree<int> seg(n);
+  workspace::segment_tree<int> seg(n);
   i64 invs = 0;
   auto addl = [&](int i) -> auto {
     i = ccmp[i];

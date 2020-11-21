@@ -7,8 +7,8 @@
 int main() {
   int n, q;
   scanf("%d%d", &n, &q);
-  union_find uf(n);
-  union_find_unbalanced ufu(n);
+  workspace::union_find uf(n);
+  workspace::unbalanced_union_find ufu(n);
   while (q--) {
     int t, l, r;
     scanf("%d%d%d", &t, &l, &r);

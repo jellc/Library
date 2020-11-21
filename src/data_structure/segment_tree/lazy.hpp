@@ -11,7 +11,7 @@
 
 #include "algebra/system/monoid.hpp"
 #include "src/utils/sfinae.hpp"
-#include "waitlist.hpp"
+#include "waitings.hpp"
 
 namespace workspace {
 
@@ -38,7 +38,7 @@ class lazy_segment_tree {
   size_t size_orig, height, size_ext;
   Monoid_container data;
   Endomorphism_container lazy;
-  internal::waitlist wait;
+  internal::waitings wait;
 
   void repair() {
     while (!wait.empty()) {

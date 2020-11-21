@@ -7,7 +7,8 @@
 #include "src/modular/modint.hpp"
 
 int main() {
-  using mint = workspace::modint<998244353>;
+  using namespace workspace;
+  using mint = modint<998244353>;
   struct endo {
     mint a = 1, b;
     endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b}; }
