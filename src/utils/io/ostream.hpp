@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <tuple>
 
 namespace workspace {
 
