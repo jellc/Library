@@ -60,7 +60,7 @@ int main() {
     hld.add_edge(u, v);
   }
   hld.make(0);
-  lazy_segment_tree<mono, endo> seg(n);
+  workspace::lazy_segment_tree<mono, endo> seg(n);
   for (auto v = 0; v != n; ++v) {
     auto &now = seg[hld.index(v)];
     now.cnt = 1;

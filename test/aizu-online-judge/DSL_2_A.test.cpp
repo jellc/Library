@@ -9,7 +9,7 @@ int main() {
   mono::max = std::numeric_limits<int>::max();
   int n, q;
   std::cin >> n >> q;
-  segment_tree<mono> seg(n);
+  workspace::segment_tree<mono> seg(n);
   while (q--) {
     int tp, x, y;
     std::cin >> tp >> x >> y;
