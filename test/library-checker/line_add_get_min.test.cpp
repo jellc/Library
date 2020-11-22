@@ -8,11 +8,10 @@ int main() {
   using i64 = int64_t;
   int n, q;
   scanf("%d%d", &n, &q);
-  Li_Chao_tree<i64> cht(-1e9, 1e9 + 1);
+  workspace::Li_Chao_tree<i64> cht(-1e9, 1e9 + 1);
   while (n--) {
-    int a;
-    i64 b;
-    scanf("%d%lld", &a, &b);
+    i64 a, b;
+    scanf("%lld%lld", &a, &b);
     cht.insert(a, b);
   }
   while (q--) {
@@ -21,11 +20,10 @@ int main() {
     if (t) {
       int p;
       scanf("%d", &p);
-      printf("%lld\n", cht.get(p));
+      printf("%lld\n", cht.eval(p));
     } else {
-      int a;
-      i64 b;
-      scanf("%d%lld", &a, &b);
+      i64 a, b;
+      scanf("%lld%lld", &a, &b);
       cht.insert(a, b);
     }
   }
