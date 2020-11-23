@@ -12,7 +12,7 @@ namespace workspace {
 
 /*
  * @struct Li_Chao_tree
- * @tparam T Scalar type.
+ * @tparam T Ordered ring.
  * @tparam Comp Comparison function object type
  * @tparam Infinity Identity element for 'Comp'.
  * @tparam Eps Error tolerance
@@ -20,28 +20,32 @@ namespace workspace {
 template <class T, class Comp = std::less<T>,
           T Infinity = std::numeric_limits<T>::max() / 2, T Eps = 1>
 struct Li_Chao_tree {
+  constexpr static T infinity = Infinity;
+  constexpr static T eps = Eps;
+
   struct line {
     T slope = 0, intercept = Infinity;
     T eval(const T x) const { return slope * x + intercept; }
   };
 
   /*
-   * @param lower Lower bound of domain
-   * @param upper Upper bound of domain
+   * @param begin Lower bound of domain
+   * @param end Upper bound of domain
    * @param comp Comparison function object
    */
-  Li_Chao_tree(const T lower, const T upper, Comp comp = Comp())
-      : lower(lower), upper(upper), comp(comp) {}
+  Li_Chao_tree(const T begin, const T end, Comp comp = Comp())
+      : begin(begin), end(end), comp(comp) {}
 
   ~Li_Chao_tree() { delete root; }
 
   bool empty() const { return !root; }
 
-  T begin() const { return lower; }
-  T end() const { return upper; }
-
-  constexpr static T infinity = Infinity;
-  constexpr static T eps = Eps;
+  /*
+   * @fn insert
+   * @brief Insert a line.
+   * @param ln Line
+   */
+  void insert(line ln) { root = insert(root, begin, end, ln); }
 
   /*
    * @fn insert
@@ -50,7 +54,18 @@ struct Li_Chao_tree {
    * @param intercept Intercept
    */
   void insert(const T slope, const T intercept) {
-    root = insert(root, lower, upper, line{slope, intercept});
+    insert(line{slope, intercept});
+  }
+
+  /*
+   * @fn insert
+   * @brief Insert a segment.
+   * @param seg Segment
+   * @param __begin Left end, inclusive
+   * @param __end Right end, exclusive
+   */
+  void insert(line seg, const T __begin, const T __end) {
+    if (__begin < __end) root = insert(root, begin, end, seg, __begin, __end);
   }
 
   /*
@@ -58,12 +73,12 @@ struct Li_Chao_tree {
    * @brief Insert a segment.
    * @param slope Slope
    * @param intercept Intercept
-   * @param begin Left end, inclusive
-   * @param end Right end, exclusive
+   * @param __begin Left end, inclusive
+   * @param __end Right end, exclusive
    */
-  void insert(const T slope, const T intercept, const T begin, const T end) {
-    if (begin < end)
-      root = insert(root, lower, upper, line{slope, intercept}, begin, end);
+  void insert(const T slope, const T intercept, const T __begin,
+              const T __end) {
+    insert(line{slope, intercept}, __begin, __end);
   }
 
   /*
@@ -73,7 +88,7 @@ struct Li_Chao_tree {
    */
   T eval(const T x) const {
     node *p = root;
-    T l = lower, r = upper, opt = Infinity;
+    T l = begin, r = end, opt = Infinity;
     while (p) {
       const T nval = p->__line.eval(x);
       if (comp(nval, opt)) opt = nval;
@@ -98,7 +113,7 @@ struct Li_Chao_tree {
   line get(const T x) const {
     assert(!empty());
     node *p = root, *arg = nullptr;
-    T l = lower, r = upper, opt = Infinity;
+    T l = begin, r = end, opt = Infinity;
     while (p) {
       const T nval = p->__line.eval(x);
       if (comp(nval, opt)) opt = nval, arg = p;
@@ -127,58 +142,42 @@ struct Li_Chao_tree {
     }
   };
 
-  T lower, upper;
+  const T begin, end;
   Comp comp;
   node *root = nullptr;
 
-  node *insert(node *const p, const T l, const T r, line ln) {
+  node *insert(node *const p, const T l, const T r, line const &ln) {
     if (!p) return new node{ln};
     line &cur = p->__line;
-    bool left_low = comp(ln.eval(l), cur.eval(l));
-    bool right_low = comp(ln.eval(r - Eps), cur.eval(r - Eps));
-    if (left_low == right_low) {
+    const bool left_low = comp(ln.eval(l), cur.eval(l));
+    if (r - l <= Eps || left_low == comp(ln.eval(r), cur.eval(r))) {
       if (left_low) cur = ln;
       return p;
     }
-    if (r - l <= Eps) return p;
-    T mid = (l + r) / 2;
+    const T mid = (l + r) / 2;
     if (comp(ln.eval(mid), cur.eval(mid))) {
-      std::swap(ln, cur);
-      left_low = !left_low;
+      if (left_low)
+        p->__right = insert(p->__right, mid, r, cur);
+      else
+        p->__left = insert(p->__left, l, mid, cur);
+      cur = ln;
+    } else {
+      if (left_low)
+        p->__left = insert(p->__left, l, mid, ln);
+      else
+        p->__right = insert(p->__right, mid, r, ln);
     }
-    if (left_low)
-      p->__left = insert(p->__left, l, mid, ln);
-    else
-      p->__right = insert(p->__right, mid, r, ln);
     return p;
   }
 
-  node *insert(node *p, const T l, const T r, line ln, const T s, const T t) {
-    if (t - Eps < l || r - Eps < s) return p;
-    const T mid = (l + r) / 2;
-    if (l < s || t < r) {
+  node *insert(node *p, const T l, const T r, line const &seg, const T s,
+               const T t) {
+    if (s < l + Eps && r < t + Eps) return insert(p, l, r, seg);
+    if (l < t && s < r) {
       if (!p) p = new node{};
-      p->__left = insert(p->__left, l, mid, ln, s, t);
-      p->__right = insert(p->__right, mid, r, ln, s, t);
-      return p;
+      p->__left = insert(p->__left, l, (l + r) / 2, seg, s, t);
+      p->__right = insert(p->__right, (l + r) / 2, r, seg, s, t);
     }
-    if (!p) return new node{ln};
-    line &cur = p->__line;
-    bool left_low = comp(ln.eval(l), cur.eval(l));
-    bool right_low = comp(ln.eval(r - Eps), cur.eval(r - Eps));
-    if (left_low == right_low) {
-      if (left_low) cur = ln;
-      return p;
-    }
-    if (r - l <= Eps) return p;
-    if (comp(ln.eval(mid), cur.eval(mid))) {
-      std::swap(ln, cur);
-      left_low = !left_low;
-    }
-    if (left_low)
-      p->__left = insert(p->__left, l, mid, ln);
-    else
-      p->__right = insert(p->__right, mid, r, ln);
     return p;
   }
 };
