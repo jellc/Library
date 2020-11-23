@@ -45,7 +45,7 @@ struct Li_Chao_tree {
    * @brief Insert a line.
    * @param ln Line
    */
-  void insert(line ln) { root = insert(root, begin, end, ln); }
+  void insert(line const &ln) { root = insert(root, begin, end, ln); }
 
   /*
    * @fn insert
@@ -64,7 +64,7 @@ struct Li_Chao_tree {
    * @param __begin Left end, inclusive
    * @param __end Right end, exclusive
    */
-  void insert(line seg, const T __begin, const T __end) {
+  void insert(line const &seg, const T __begin, const T __end) {
     if (__begin < __end) root = insert(root, begin, end, seg, __begin, __end);
   }
 
