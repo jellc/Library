@@ -14,7 +14,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -23,10 +23,10 @@ data:
   - icon: ':warning:'
     path: src/number_theory/least_factor.hpp
     title: Least Prime Factor
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
   - icon: ':heavy_check_mark:'
@@ -72,17 +72,17 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -148,7 +148,7 @@ data:
   - src/utils/round_div.hpp
   - src/combinatorics/binomial.hpp
   timestamp: '2020-11-22 05:26:46+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/zalgorithm_2.test.cpp

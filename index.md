@@ -9,7 +9,7 @@ data:
     - icon: ':warning:'
       path: algebra/convolution/number_theoretic_transform.hpp
       title: algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebra/convolution/subset.hpp
       title: algebra/convolution/subset.hpp
   - name: algebra/system
@@ -163,7 +163,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -182,18 +182,18 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/utils
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -223,13 +223,13 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
     - icon: ':warning:'
@@ -246,7 +246,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -311,9 +311,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':x:'
-      path: test/library-checker/convolution_mod.test.cpp
-      title: test/library-checker/convolution_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
@@ -347,10 +344,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
     - icon: ':heavy_check_mark:'
@@ -359,10 +356,10 @@ data:
     - icon: ':x:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage

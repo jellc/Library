@@ -20,8 +20,8 @@ data:
   code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/option\"\n#include\
     \ \"lib/utils\"\n\nint main() { workspace::iterate_main(); }\n\nunsigned workspace::case_number()\
-    \ {\n  // return -1; // unspecified\n  // int t; std::cin >> t; std::cin.ignore();\
-    \ return t; // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
+    \ {\n  // return -1;  // unspecified\n  // unsigned t; cin >> t, cin.ignore();\
+    \ return t;  // given\n  return 1;\n}\n\nnamespace workspace {\nvoid main() {\n\
     \  // start here!\n}\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
