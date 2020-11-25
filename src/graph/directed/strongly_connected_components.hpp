@@ -67,10 +67,10 @@ struct strongly_connected_components {
   void make() {
     low.assign(size(), 0);
     dag.clear();
-    size_t *itr = new size_t[size()];
+    size_t *ptr = new size_t[size()];
     bool *const used = new bool[size()];
-    for (size_t v{}, c{}; v != size(); ++v) affix(v, c, itr, used + size());
-    delete[] itr;
+    for (size_t v{}, c{}; v != size(); ++v) affix(v, c, ptr, used + size());
+    delete[] ptr;
     delete[] used;
     for (auto &e : low) e += dag.size();
     reverse(begin(dag), end(dag));
@@ -88,35 +88,35 @@ struct strongly_connected_components {
    * @fn affix
    * @param src Vertex
    * @param c Counter
-   * @param itr Pointer to a stack
+   * @param ptr Pointer to a stack
    * @param used Negative indexed
    * @return Low-link number of the vertex.
    */
-  size_t affix(size_t src, size_t &c, size_t *&itr, bool *const used) {
+  size_t affix(size_t src, size_t &c, size_t *&ptr, bool *const used) {
     if (low[src]) return low[src];
-    size_t idx = ++c;
+    const size_t idx = ++c;
     low[src] = idx;
-    *itr++ = src;
-    for (size_t dst : graph[src])
-      low[src] = std::min(low[src], affix(dst, c, itr, used));
+    *ptr++ = src;
+    for (const size_t dst : graph[src])
+      low[src] = std::min(low[src], affix(dst, c, ptr, used));
     if (low[src] == idx) {
       dag.push_back({});
-      auto ccnt = dag.size();
+      const size_t ccnt = dag.size();
       used[-ccnt] = true;
-      auto srcp = itr;
+      size_t *srcp = ptr;
       do
         low[*--srcp] = -ccnt;
       while (*srcp != src);
-      while (itr != srcp) {
-        const size_t now = *--itr;
-        for (size_t dst : graph[now]) {
+      while (ptr != srcp) {
+        const size_t now = *--ptr;
+        for (const size_t dst : graph[now]) {
           if (!used[(int)low[dst]]) {
             dag.back().emplace_back(low[dst]);
             used[(int)low[dst]] = true;
           }
         }
       }
-      for (size_t dst : dag.back()) used[dst] = false;
+      for (const size_t dst : dag.back()) used[dst] = false;
       used[-ccnt] = false;
       return idx;
     }
