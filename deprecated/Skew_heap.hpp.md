@@ -7,7 +7,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"src/data_structure/Skew_heap.hpp\"\n// #line 2 \"Skew_heap.hpp\"\
+  bundledCode: "#line 1 \"deprecated/Skew_heap.hpp\"\n// #line 2 \"Skew_heap.hpp\"\
     \n#ifndef Skew_heap_hpp\n#define Skew_heap_hpp\n\ntemplate <class T>\nclass skew_heap\n\
     {\n    const std::function<bool(const T&, const T&)> comp;\n  public:\n    struct\
     \ node\n    {\n        node *lft, *rgt; T key;\n        ~node() { delete lft;\
@@ -39,15 +39,15 @@ data:
     \ }\n}; // class skew_heap\n\n#endif"
   dependsOn: []
   isVerificationFile: false
-  path: src/data_structure/Skew_heap.hpp
+  path: deprecated/Skew_heap.hpp
   requiredBy: []
-  timestamp: '2020-11-16 21:34:32+09:00'
+  timestamp: '2020-11-21 16:53:21+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: src/data_structure/Skew_heap.hpp
+documentation_of: deprecated/Skew_heap.hpp
 layout: document
 redirect_from:
-- /library/src/data_structure/Skew_heap.hpp
-- /library/src/data_structure/Skew_heap.hpp.html
-title: src/data_structure/Skew_heap.hpp
+- /library/deprecated/Skew_heap.hpp
+- /library/deprecated/Skew_heap.hpp.html
+title: deprecated/Skew_heap.hpp
 ---

@@ -6,16 +6,16 @@ data:
     title: algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
-    title: src/data_structure/segment_tree/lazy.hpp
+    title: Lazy Segment Tree
   - icon: ':heavy_check_mark:'
-    path: src/data_structure/segment_tree/waitlist.hpp
-    title: src/data_structure/segment_tree/waitlist.hpp
-  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/waitings.hpp
+    title: src/data_structure/segment_tree/waitings.hpp
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -28,14 +28,31 @@ data:
   bundledCode: "#line 1 \"test/library-checker/range_affine_range_sum.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n\n\
     #include <cstdio>\n#include <vector>\n\n#line 2 \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n#include <cassert>\n#include <queue>\n#line 5 \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n\n#line 2 \"src/utils/sfinae.hpp\"\n#include <cstdint>\n#include <iterator>\n\
-    #include <type_traits>\n\ntemplate <class type, template <class> class trait>\n\
+    \n\n/*\n * @file lazy.hpp\n * @brief Lazy Segment Tree\n */\n\n#include <cassert>\n\
+    #include <queue>\n#line 11 \"src/data_structure/segment_tree/lazy.hpp\"\n\n#line\
+    \ 2 \"algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace workspace {\n\
+    template <class T, class E = T> struct min_monoid {\n  using value_type = T;\n\
+    \  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
+    \ T &value) : value(value) {}\n  operator T() const { return value; }\n  min_monoid\
+    \ operator+(const min_monoid &rhs) const {\n    return value < rhs.value ? *this\
+    \ : rhs;\n  }\n  min_monoid operator*(const E &rhs) const;\n};\n\ntemplate <class\
+    \ T, class E>\nT min_monoid<T, E>::min = std::numeric_limits<T>::min() / 2;\n\
+    template <class T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max()\
+    \ / 2;\n\ntemplate <class T, class E = T> struct max_monoid : min_monoid<T, E>\
+    \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
+    \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
+    \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
+    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n\
+    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \nnamespace workspace {\n\ntemplate <class type, template <class> class trait>\n\
     using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
-    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -47,38 +64,28 @@ data:
     \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 2 \"algebra/system/monoid.hpp\"\
-    \n#include <limits>\n\nnamespace workspace {\ntemplate <class T, class E = T>\
-    \ struct min_monoid {\n  using value_type = T;\n  static T min, max;\n  T value;\n\
-    \  min_monoid() : value(max) {}\n  min_monoid(const T &value) : value(value) {}\n\
-    \  operator T() const { return value; }\n  min_monoid operator+(const min_monoid\
-    \ &rhs) const {\n    return value < rhs.value ? *this : rhs;\n  }\n  min_monoid\
-    \ operator*(const E &rhs) const;\n};\n\ntemplate <class T, class E>\nT min_monoid<T,\
-    \ E>::min = std::numeric_limits<T>::min() / 2;\ntemplate <class T, class E>\n\
-    T min_monoid<T, E>::max = std::numeric_limits<T>::max() / 2;\n\ntemplate <class\
-    \ T, class E = T> struct max_monoid : min_monoid<T, E> {\n  using base = min_monoid<T,\
-    \ E>;\n  using base::min_monoid;\n  max_monoid() : base(base::min) {}\n  max_monoid\
-    \ operator+(const max_monoid &rhs) const {\n    return !(base::value < rhs.value)\
-    \ ? *this : rhs;\n  }\n  max_monoid operator*(const E &rhs) const;\n};\n}\n#line\
-    \ 3 \"src/data_structure/segment_tree/waitlist.hpp\"\n\nnamespace internal {\n\
-    struct waitlist : std::queue<size_t> {\n  waitlist(size_t n) : in(n) {}\n\n  bool\
-    \ push(size_t index) {\n    assert(index < in.size());\n    if (in[index]) return\
-    \ false;\n    emplace(index);\n    return (in[index] = true);\n  }\n\n  size_t\
-    \ pop() {\n    assert(!empty());\n    auto index = front();\n    std::queue<size_t>::pop();\n\
-    \    in[index] = false;\n    return index;\n  }\n\n private:\n  std::vector<int_least8_t>\
-    \ in;\n};\n}\n#line 9 \"src/data_structure/segment_tree/lazy.hpp\"\n\ntemplate\
-    \ <class Monoid, class Endomorphism,\n          class Monoid_container = std::vector<Monoid>,\n\
-    \          class Endomorphism_container = std::vector<Endomorphism>>\nclass lazy_segment_tree\
-    \ {\n  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);\n\
-    \n  static_assert(\n      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);\n\
-    \n  static_assert(std::is_same<Monoid, decltype(Monoid{} + Monoid{})>::value,\n\
-    \                \"\\'Monoid\\' has no proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 3 \"src/data_structure/segment_tree/waitings.hpp\"\n\nnamespace workspace\
+    \ {\n\nnamespace internal {\n\nstruct waitings : std::queue<size_t> {\n  waitings(size_t\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
+    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
+    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
+    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace internal\n\
+    \n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Monoid, class Endomorphism,\n   \
+    \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
+    \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
+    \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
+    \ decltype(Monoid{} + Monoid{})>::value,\n                \"\\'Monoid\\' has no\
+    \ proper binary operator+.\");\n\n  static_assert(std::is_same<Endomorphism,\n\
     \                             decltype(Endomorphism{} * Endomorphism{})>::value,\n\
     \                \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n\
     \  static_assert(\n      std::is_same<Monoid, decltype(Monoid{} * Endomorphism{})>::value,\n\
     \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  size_t\
     \ size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
-    \ lazy;\n  internal::waitlist wait;\n\n  void repair() {\n    while (!wait.empty())\
+    \ lazy;\n  internal::waitings wait;\n\n  void repair() {\n    while (!wait.empty())\
     \ {\n      const size_t index = wait.pop() >> 1;\n      if (index && wait.push(index))\
     \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
     \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
@@ -145,13 +152,13 @@ data:
     \ << 1}; left != right; left >>= 1, right >>= 1) {\n      if ((left & 1) != (right\
     \ & 1)) {\n        const Monoid &tmp = mono + data[left];\n        if (!pred(tmp))\
     \ return right_partition_subtree(left, pred, mono);\n        mono = tmp;\n   \
-    \     ++left;\n      }\n    }\n    return size_orig;\n  }\n};  // class lazy_segment_tree\n\
-    #line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
-    \ Arithmetic\n */\n\n#line 9 \"src/modular/modint.hpp\"\n#include <iostream>\n\
-    \n#line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
-    \ {\n\n/*\n * @struct modint_base\n * @brief base of modular arithmetic.\n * @tparam\
-    \ Mod identifier, which represents modulus if positive\n */\ntemplate <auto Mod>\
-    \ struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \     ++left;\n      }\n    }\n    return size_orig;\n  }\n};\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n *\
+    \ @brief Modular Arithmetic\n */\n\n#line 9 \"src/modular/modint.hpp\"\n#include\
+    \ <iostream>\n\n#line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\
+    \nnamespace internal {\n\n/*\n * @struct modint_base\n * @brief base of modular\
+    \ arithmetic.\n * @tparam Mod identifier, which represents modulus if positive\n\
+    \ */\ntemplate <auto Mod> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type =\n    \
     \  typename std::conditional<0 < Mod,\n                                typename\
     \ std::add_const<decltype(Mod)>::type,\n                                decltype(Mod)>::type;\n\
@@ -226,38 +233,39 @@ data:
     \ assigned\n */\ntemplate <unsigned type_id = 0>\nusing modint_runtime = internal::modint_base<-(signed)type_id>;\n\
     \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n\
     #line 8 \"test/library-checker/range_affine_range_sum.test.cpp\"\n\nint main()\
-    \ {\n  using mint = workspace::modint<998244353>;\n  struct endo {\n    mint a\
-    \ = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b};\
-    \ }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) { return\
-    \ {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a\
-    \ + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
+    \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  struct\
+    \ endo {\n    mint a = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a,\
+    \ b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono\
+    \ rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return\
+    \ {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
+    \  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n\
+    \    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b;\
+    \ q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\\
+    n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l,\
+    \ r, {a, b});\n    }\n  }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
+    \n\n#include <cstdio>\n#include <vector>\n\n#include \"src/data_structure/segment_tree/lazy.hpp\"\
+    \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using namespace workspace;\n\
+    \  using mint = modint<998244353>;\n  struct endo {\n    mint a = 1, b;\n    endo\
+    \ operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct\
+    \ mono {\n    mint v, c;\n    mono operator+(mono rhs) { return {v + rhs.v, c\
+    \ + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a + c * rhs.b, c};\
+    \ }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
     \ endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n    scanf(\"%d\", &v);\n\
     \    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\"\
     , &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(l, r).v);\n   \
     \ } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l, r, {a, b});\n\
     \    }\n  }\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
-    \n\n#include <cstdio>\n#include <vector>\n\n#include \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
-    \  struct endo {\n    mint a = 1, b;\n    endo operator*(endo rhs) { return {a\
-    \ * rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono\
-    \ operator+(mono rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo\
-    \ rhs) { return {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"\
-    %d%d\", &n, &q);\n  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v;\
-    \ i < n; i++) {\n    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int\
-    \ t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n \
-    \     printf(\"%d\\n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\"\
-    , &a, &b);\n      seg.update(l, r, {a, b});\n    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/segment_tree/lazy.hpp
-  - src/utils/sfinae.hpp
   - algebra/system/monoid.hpp
-  - src/data_structure/segment_tree/waitlist.hpp
+  - src/utils/sfinae.hpp
+  - src/data_structure/segment_tree/waitings.hpp
   - src/modular/modint.hpp
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
+  timestamp: '2020-11-22 05:28:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

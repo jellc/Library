@@ -6,13 +6,13 @@ data:
     title: algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
-    title: src/data_structure/segment_tree/basic.hpp
+    title: Segment Tree
   - icon: ':heavy_check_mark:'
-    path: src/data_structure/segment_tree/waitlist.hpp
-    title: src/data_structure/segment_tree/waitlist.hpp
-  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/waitings.hpp
+    title: src/data_structure/segment_tree/waitings.hpp
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -24,14 +24,31 @@ data:
     - https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A
   bundledCode: "#line 1 \"test/aizu-online-judge/DSL_2_A.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n#include <iostream>\n\
-    \n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\n#include <cassert>\n\
-    #include <queue>\n#include <vector>\n\n#line 2 \"src/utils/sfinae.hpp\"\n#include\
-    \ <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate <class type,\
-    \ template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/*\n * @file basic.hpp\n\
+    \ * @brief Segment Tree\n */\n\n#include <cassert>\n#include <queue>\n#include\
+    \ <vector>\n\n#line 2 \"algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
+    \ workspace {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type\
+    \ = T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
+    \ T &value) : value(value) {}\n  operator T() const { return value; }\n  min_monoid\
+    \ operator+(const min_monoid &rhs) const {\n    return value < rhs.value ? *this\
+    \ : rhs;\n  }\n  min_monoid operator*(const E &rhs) const;\n};\n\ntemplate <class\
+    \ T, class E>\nT min_monoid<T, E>::min = std::numeric_limits<T>::min() / 2;\n\
+    template <class T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max()\
+    \ / 2;\n\ntemplate <class T, class E = T> struct max_monoid : min_monoid<T, E>\
+    \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
+    \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
+    \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
+    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n\
+    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \nnamespace workspace {\n\ntemplate <class type, template <class> class trait>\n\
+    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = int> struct mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class\
-    \ T>\nstruct mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -43,33 +60,22 @@ data:
     \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
     \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
     };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#line 2 \"algebra/system/monoid.hpp\"\
-    \n#include <limits>\n\nnamespace workspace {\ntemplate <class T, class E = T>\
-    \ struct min_monoid {\n  using value_type = T;\n  static T min, max;\n  T value;\n\
-    \  min_monoid() : value(max) {}\n  min_monoid(const T &value) : value(value) {}\n\
-    \  operator T() const { return value; }\n  min_monoid operator+(const min_monoid\
-    \ &rhs) const {\n    return value < rhs.value ? *this : rhs;\n  }\n  min_monoid\
-    \ operator*(const E &rhs) const;\n};\n\ntemplate <class T, class E>\nT min_monoid<T,\
-    \ E>::min = std::numeric_limits<T>::min() / 2;\ntemplate <class T, class E>\n\
-    T min_monoid<T, E>::max = std::numeric_limits<T>::max() / 2;\n\ntemplate <class\
-    \ T, class E = T> struct max_monoid : min_monoid<T, E> {\n  using base = min_monoid<T,\
-    \ E>;\n  using base::min_monoid;\n  max_monoid() : base(base::min) {}\n  max_monoid\
-    \ operator+(const max_monoid &rhs) const {\n    return !(base::value < rhs.value)\
-    \ ? *this : rhs;\n  }\n  max_monoid operator*(const E &rhs) const;\n};\n}\n#line\
-    \ 3 \"src/data_structure/segment_tree/waitlist.hpp\"\n\nnamespace internal {\n\
-    struct waitlist : std::queue<size_t> {\n  waitlist(size_t n) : in(n) {}\n\n  bool\
-    \ push(size_t index) {\n    assert(index < in.size());\n    if (in[index]) return\
-    \ false;\n    emplace(index);\n    return (in[index] = true);\n  }\n\n  size_t\
-    \ pop() {\n    assert(!empty());\n    auto index = front();\n    std::queue<size_t>::pop();\n\
-    \    in[index] = false;\n    return index;\n  }\n\n private:\n  std::vector<int_least8_t>\
-    \ in;\n};\n}\n#line 9 \"src/data_structure/segment_tree/basic.hpp\"\n\ntemplate\
-    \ <class Monoid, class Container = std::vector<Monoid>>\nclass segment_tree {\n\
-    \  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\n  size_t\
-    \ size_orig, height, size_ext;\n  Container data;\n  internal::waitlist wait;\n\
-    \n  void repair() {\n    while (!wait.empty()) {\n      const size_t index = wait.pop()\
-    \ >> 1;\n      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void\
-    \ pull(const size_t node) {\n    data[node] = data[node << 1] + data[node << 1\
-    \ | 1];\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 3 \"src/data_structure/segment_tree/waitings.hpp\"\n\nnamespace workspace\
+    \ {\n\nnamespace internal {\n\nstruct waitings : std::queue<size_t> {\n  waitings(size_t\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
+    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
+    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
+    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace internal\n\
+    \n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/basic.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Monoid, class Container = std::vector<Monoid>>\n\
+    class segment_tree {\n  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\
+    \n  size_t size_orig, height, size_ext;\n  Container data;\n  internal::waitings\
+    \ wait;\n\n  void repair() {\n    while (!wait.empty()) {\n      const size_t\
+    \ index = wait.pop() >> 1;\n      if (index && wait.push(index)) pull(index);\n\
+    \    }\n  }\n\n  void pull(const size_t node) {\n    data[node] = data[node <<\
+    \ 1] + data[node << 1 | 1];\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
     \ index, const Pred pred,\n                                Monoid mono) const\
     \ {\n    assert(index);\n    while (index < size_ext) {\n      const Monoid tmp\
     \ = data[(index <<= 1) | 1] + mono;\n      if (pred(tmp))\n        mono = tmp;\n\
@@ -118,29 +124,29 @@ data:
     \ != right; left >>= 1, right >>= 1) {\n      if ((left & 1) != (right & 1)) {\n\
     \        const Monoid tmp = mono + data[left];\n        if (!pred(tmp)) return\
     \ right_partition_subtree(left, pred, mono);\n        mono = tmp;\n        ++left;\n\
-    \      }\n    }\n    return size_orig;\n  }\n};  // class segment_tree\n#line\
-    \ 6 \"test/aizu-online-judge/DSL_2_A.test.cpp\"\n\nint main() {\n  using mono\
+    \      }\n    }\n    return size_orig;\n  }\n};\n\n}  // namespace workspace\n\
+    #line 6 \"test/aizu-online-judge/DSL_2_A.test.cpp\"\n\nint main() {\n  using mono\
     \ = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
-    \  int n, q;\n  std::cin >> n >> q;\n  segment_tree<mono> seg(n);\n  while (q--)\
-    \ {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp) {\n      std::cout\
-    \ << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x] = y;\n    }\n  }\n\
-    }\n"
+    \  int n, q;\n  std::cin >> n >> q;\n  workspace::segment_tree<mono> seg(n);\n\
+    \  while (q--) {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp)\
+    \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
+    \ = y;\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n\
     #include <iostream>\n\n#include \"../../src/data_structure/segment_tree/basic.hpp\"\
     \n\nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
-    \  int n, q;\n  std::cin >> n >> q;\n  segment_tree<mono> seg(n);\n  while (q--)\
-    \ {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp) {\n      std::cout\
-    \ << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x] = y;\n    }\n  }\n\
-    }\n"
+    \  int n, q;\n  std::cin >> n >> q;\n  workspace::segment_tree<mono> seg(n);\n\
+    \  while (q--) {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp)\
+    \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
+    \ = y;\n    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/segment_tree/basic.hpp
-  - src/utils/sfinae.hpp
   - algebra/system/monoid.hpp
-  - src/data_structure/segment_tree/waitlist.hpp
+  - src/utils/sfinae.hpp
+  - src/data_structure/segment_tree/waitings.hpp
   isVerificationFile: true
   path: test/aizu-online-judge/DSL_2_A.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
+  timestamp: '2020-11-23 02:53:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/DSL_2_A.test.cpp

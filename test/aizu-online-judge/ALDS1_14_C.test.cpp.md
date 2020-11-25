@@ -1,21 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/binary_search.hpp
     title: Binary Search
-  - icon: ':heavy_check_mark:'
-    path: src/utils/io/stream.hpp
-    title: src/utils/io/stream.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/random_number_generator.hpp
     title: src/utils/random_number_generator.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -26,16 +23,16 @@ data:
     links:
     - https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C
   bundledCode: "#line 1 \"test/aizu-online-judge/ALDS1_14_C.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C\"\n\n#line 2 \"src/string/rolling_hash.hpp\"\
-    \n\n/*\n * @file rolling_hash.hpp\n * @brief Rolling Hash\n */\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <vector>\n\n#line 2 \"src/utils/binary_search.hpp\"\
-    \n\n/*\n * @file binary_search.hpp\n * @brief Binary Search\n */\n\n#if __cplusplus\
-    \ >= 201703L\n\n#line 11 \"src/utils/binary_search.hpp\"\n#include <cmath>\n#line\
-    \ 13 \"src/utils/binary_search.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n\
-    \ * @brief binary search on a discrete range.\n * @param ok pred(ok) is true\n\
-    \ * @param ng pred(ng) is false\n * @param pred the predicate\n * @return the\
-    \ closest point to (ng) where pred is true\n */\ntemplate <class iter_type, class\
-    \ pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C\"\n\n#include <iostream>\n\
+    \n#line 2 \"src/string/rolling_hash.hpp\"\n\n/*\n * @file rolling_hash.hpp\n *\
+    \ @brief Rolling Hash\n */\n\n#include <algorithm>\n#include <cassert>\n#include\
+    \ <vector>\n\n#line 2 \"src/utils/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n\
+    \ * @brief Binary Search\n */\n\n#if __cplusplus >= 201703L\n\n#line 11 \"src/utils/binary_search.hpp\"\
+    \n#include <cmath>\n#line 13 \"src/utils/binary_search.hpp\"\n\nnamespace workspace\
+    \ {\n\n/*\n * @fn binary_search\n * @brief binary search on a discrete range.\n\
+    \ * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param pred\
+    \ the predicate\n * @return the closest point to (ng) where pred is true\n */\n\
+    template <class iter_type, class pred_type>\nstd::enable_if_t<\n    std::is_convertible_v<std::invoke_result_t<pred_type,\
     \ iter_type>, bool>,\n    iter_type>\nbinary_search(iter_type ok, iter_type ng,\
     \ pred_type pred) {\n  assert(ok != ng);\n  std::make_signed_t<decltype(ng - ok)>\
     \ dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    iter_type mid(ok + dist\
@@ -89,26 +86,30 @@ data:
     \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
     \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
     \  num_type operator()() { return unif(engine); }\n};\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/*\n\
-    \ * @struct rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
+    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
+    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/*\n * @struct\
+    \ rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
     \ {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  /*\n   *\
     \ @var mod\n   * @brief modulus used for hashing.\n   */\n  constexpr static u64\
     \ mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /*\n   * @var value\n\
@@ -161,76 +162,42 @@ data:
     \    auto n = std::min(size(), rhs.size());\n    return binary_search<size_t>(\n\
     \        0, n + 1, [&](size_t l) { return substr(0, l) == rhs.substr(0, l); });\n\
     \  }\n\n private:\n  std::vector<rolling_hashed> suffix{{}};\n};\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/utils/io/stream.hpp\"\n#include <iostream>\n#include\
-    \ <tuple>\n\n#line 6 \"src/utils/io/stream.hpp\"\n\nnamespace std {\ntemplate\
-    \ <class T, class U> istream &operator>>(istream &is, pair<T, U> &p) {\n  return\
-    \ is >> p.first >> p.second;\n}\ntemplate <class T, class U>\nostream &operator<<(ostream\
-    \ &os, const pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n}\n\
-    template <class tuple_t, size_t index> struct tuple_is {\n  static istream &apply(istream\
-    \ &is, tuple_t &t) {\n    tuple_is<tuple_t, index - 1>::apply(is, t);\n    return\
-    \ is >> get<index>(t);\n  }\n};\ntemplate <class tuple_t> struct tuple_is<tuple_t,\
-    \ SIZE_MAX> {\n  static istream &apply(istream &is, tuple_t &t) { return is; }\n\
-    };\ntemplate <class... T> istream &operator>>(istream &is, tuple<T...> &t) {\n\
-    \  return tuple_is<tuple<T...>, tuple_size<tuple<T...>>::value - 1>::apply(is,\n\
-    \                                                                          t);\n\
-    }\ntemplate <class tuple_t, size_t index> struct tuple_os {\n  static ostream\
-    \ &apply(ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t, index - 1>::apply(os,\
-    \ t);\n    return os << ' ' << get<index>(t);\n  }\n};\ntemplate <class tuple_t>\
-    \ struct tuple_os<tuple_t, 0> {\n  static ostream &apply(ostream &os, const tuple_t\
-    \ &t) {\n    return os << get<0>(t);\n  }\n};\ntemplate <class tuple_t> struct\
-    \ tuple_os<tuple_t, SIZE_MAX> {\n  static ostream &apply(ostream &os, const tuple_t\
-    \ &t) { return os; }\n};\ntemplate <class... T> ostream &operator<<(ostream &os,\
-    \ const tuple<T...> &t) {\n  return tuple_os<tuple<T...>, tuple_size<tuple<T...>>::value\
-    \ - 1>::apply(os,\n                                                          \
-    \                t);\n}\ntemplate <class Container, typename Value = element_type<Container>>\n\
-    typename enable_if<!is_same<typename decay<Container>::type, string>::value &&\n\
-    \                       !is_same<typename decay<Container>::type, char *>::value,\n\
-    \                   istream &>::type\noperator>>(istream &is, Container &cont)\
-    \ {\n  for (auto &&e : cont) is >> e;\n  return is;\n}\ntemplate <class Container,\
-    \ typename Value = element_type<Container>>\ntypename enable_if<!is_same<typename\
-    \ decay<Container>::type, string>::value &&\n                       !is_same<typename\
-    \ decay<Container>::type, char *>::value,\n                   ostream &>::type\n\
-    operator<<(ostream &os, const Container &cont) {\n  bool head = true;\n  for (auto\
-    \ &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n} \
-    \ // namespace std\n#line 5 \"test/aizu-online-judge/ALDS1_14_C.test.cpp\"\n\n\
-    int main() {\n  std::ios::sync_with_stdio(0);\n  std::cin.tie(0);\n\n  size_t\
-    \ h, w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n\
-    \  for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n  \
-    \    std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >> r >> c;\n\
-    \  std::string oneln(r * c, '?');\n  for (size_t i = 0; i < r; ++i) {\n    for\
-    \ (size_t j = c; j--;) {\n      std::cin >> oneln[j * r + i];\n    }\n  }\n\n\
-    \  workspace::rolling_hash_table grid_hash_table(transposed);\n  auto pattern_hash\
-    \ = workspace::rolling_hash_table(oneln).substr();\n\n  for (size_t i = 0; i +\
-    \ r <= h; ++i) {\n    workspace::rolling_hashed hash;\n    for (size_t j = 0;\
-    \ j < w; ++j) {\n      hash = grid_hash_table.substr(h * j + i, r) + hash;\n \
-    \     if (j >= c) {\n        hash -= grid_hash_table.substr(h * (j - c) + i, r);\n\
-    \      }\n      if (hash == pattern_hash) std::cout << i << \" \" << j - c + 1\
-    \ << \"\\n\";\n    }\n  }\n}\n"
+    \ workspace\n#line 6 \"test/aizu-online-judge/ALDS1_14_C.test.cpp\"\n\nint main()\
+    \ {\n  size_t h, w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h\
+    \ * w, '?');\n  for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w;\
+    \ ++j) {\n      std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >>\
+    \ r >> c;\n  std::string oneln(r * c, '?');\n  for (size_t i = 0; i < r; ++i)\
+    \ {\n    for (size_t j = c; j--;) {\n      std::cin >> oneln[j * r + i];\n   \
+    \ }\n  }\n\n  workspace::rolling_hash_table grid_hash_table(transposed);\n  auto\
+    \ pattern_hash = workspace::rolling_hash_table(oneln).substr();\n\n  for (size_t\
+    \ i = 0; i + r <= h; ++i) {\n    workspace::rolling_hashed hash;\n    for (size_t\
+    \ j = 0; j < w; ++j) {\n      hash = grid_hash_table.substr(h * j + i, r) + hash;\n\
+    \      if (j >= c) {\n        hash -= grid_hash_table.substr(h * (j - c) + i,\
+    \ r);\n      }\n      if (hash == pattern_hash) std::cout << i << \" \" << j -\
+    \ c + 1 << \"\\n\";\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C\"\n\
-    \n#include \"src/string/rolling_hash.hpp\"\n#include \"src/utils/io/stream.hpp\"\
-    \n\nint main() {\n  std::ios::sync_with_stdio(0);\n  std::cin.tie(0);\n\n  size_t\
-    \ h, w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h * w, '?');\n\
-    \  for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w; ++j) {\n  \
-    \    std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >> r >> c;\n\
-    \  std::string oneln(r * c, '?');\n  for (size_t i = 0; i < r; ++i) {\n    for\
-    \ (size_t j = c; j--;) {\n      std::cin >> oneln[j * r + i];\n    }\n  }\n\n\
-    \  workspace::rolling_hash_table grid_hash_table(transposed);\n  auto pattern_hash\
-    \ = workspace::rolling_hash_table(oneln).substr();\n\n  for (size_t i = 0; i +\
-    \ r <= h; ++i) {\n    workspace::rolling_hashed hash;\n    for (size_t j = 0;\
-    \ j < w; ++j) {\n      hash = grid_hash_table.substr(h * j + i, r) + hash;\n \
-    \     if (j >= c) {\n        hash -= grid_hash_table.substr(h * (j - c) + i, r);\n\
-    \      }\n      if (hash == pattern_hash) std::cout << i << \" \" << j - c + 1\
-    \ << \"\\n\";\n    }\n  }\n}\n"
+    \n#include <iostream>\n\n#include \"src/string/rolling_hash.hpp\"\n\nint main()\
+    \ {\n  size_t h, w, r, c;\n\n  std::cin >> h >> w;\n  std::string transposed(h\
+    \ * w, '?');\n  for (size_t i = 0; i < h; ++i) {\n    for (size_t j = 0; j < w;\
+    \ ++j) {\n      std::cin >> transposed[j * h + i];\n    }\n  }\n\n  std::cin >>\
+    \ r >> c;\n  std::string oneln(r * c, '?');\n  for (size_t i = 0; i < r; ++i)\
+    \ {\n    for (size_t j = c; j--;) {\n      std::cin >> oneln[j * r + i];\n   \
+    \ }\n  }\n\n  workspace::rolling_hash_table grid_hash_table(transposed);\n  auto\
+    \ pattern_hash = workspace::rolling_hash_table(oneln).substr();\n\n  for (size_t\
+    \ i = 0; i + r <= h; ++i) {\n    workspace::rolling_hashed hash;\n    for (size_t\
+    \ j = 0; j < w; ++j) {\n      hash = grid_hash_table.substr(h * j + i, r) + hash;\n\
+    \      if (j >= c) {\n        hash -= grid_hash_table.substr(h * (j - c) + i,\
+    \ r);\n      }\n      if (hash == pattern_hash) std::cout << i << \" \" << j -\
+    \ c + 1 << \"\\n\";\n    }\n  }\n}\n"
   dependsOn:
   - src/string/rolling_hash.hpp
   - src/utils/binary_search.hpp
   - src/utils/random_number_generator.hpp
   - src/utils/sfinae.hpp
-  - src/utils/io/stream.hpp
   isVerificationFile: true
   path: test/aizu-online-judge/ALDS1_14_C.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:57:20+09:00'
+  timestamp: '2020-11-22 05:26:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ALDS1_14_C.test.cpp

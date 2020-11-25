@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/binary_search.hpp
     title: Binary Search
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/random_number_generator.hpp
     title: src/utils/random_number_generator.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Rolling Hash
     links: []
@@ -85,26 +85,30 @@ data:
     \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
     \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
     \  num_type operator()() { return unif(engine); }\n};\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/*\n\
-    \ * @struct rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
+    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
+    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/*\n * @struct\
+    \ rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
     \ {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  /*\n   *\
     \ @var mod\n   * @brief modulus used for hashing.\n   */\n  constexpr static u64\
     \ mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /*\n   * @var value\n\
@@ -223,8 +227,8 @@ data:
   isVerificationFile: false
   path: src/string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2020-11-16 22:57:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2020-11-22 05:26:46+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp

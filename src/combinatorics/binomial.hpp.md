@@ -7,12 +7,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -28,28 +28,32 @@ data:
     /*\n * @file inverse.hpp\n * @brief Inverse Table\n */\n\n#include <vector>\n\n\
     #line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
     \ Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace\
-    \ internal {\n\n/*\n * @struct modint_base\n * @brief base of modular arithmetic.\n\
-    \ * @tparam Mod identifier, which represents modulus if positive\n */\ntemplate\
-    \ <auto Mod> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
+    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
+    \ {\n\n/*\n * @struct modint_base\n * @brief base of modular arithmetic.\n * @tparam\
+    \ Mod identifier, which represents modulus if positive\n */\ntemplate <auto Mod>\
+    \ struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type =\n    \
     \  typename std::conditional<0 < Mod,\n                                typename\
     \ std::add_const<decltype(Mod)>::type,\n                                decltype(Mod)>::type;\n\
@@ -173,7 +177,7 @@ data:
   isVerificationFile: false
   path: src/combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2020-11-16 18:03:35+09:00'
+  timestamp: '2020-11-22 05:26:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp

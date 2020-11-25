@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
+  - icon: ':warning:'
+    path: src/utils/exponential_search.hpp
+    title: Exponential Search
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/1342.test.cpp
@@ -12,11 +15,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Binary Search
     links: []
@@ -125,12 +128,13 @@ data:
   path: src/utils/binary_search.hpp
   requiredBy:
   - src/string/rolling_hash.hpp
+  - src/utils/exponential_search.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
-  - test/aizu-online-judge/ALDS1_14_C.test.cpp
   - test/aizu-online-judge/1342.test.cpp
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/utils/binary_search.hpp
 layout: document
 redirect_from:

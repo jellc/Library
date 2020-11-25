@@ -4,9 +4,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
-    title: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -20,26 +20,30 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/associative_array\"\n\n#line 2 \"\
     src/utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n#include <functional>\n\
     #include <random>\n#include <unordered_set>\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\nusing\
-    \ element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = int> struct mapped_of {\n  using type = element_type<T>;\n\
-    };\ntemplate <class T>\nstruct mapped_of<T,\n                 typename std::pair<int,\
-    \ typename T::mapped_type>::first_type> {\n  using type = typename T::mapped_type;\n\
-    };\ntemplate <class T> using mapped_type = typename mapped_of<T>::type;\n\ntemplate\
-    \ <class T, class = void> struct is_integral_ext : std::false_type {};\ntemplate\
-    \ <class T>\nstruct is_integral_ext<\n    T, typename std::enable_if<std::is_integral<T>::value>::type>\n\
-    \    : std::true_type {};\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
-    #if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v\
-    \ = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename T, typename = void>\
-    \ struct multiplicable_uint {\n  using type = uint_least32_t;\n};\ntemplate <typename\
-    \ T>\nstruct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type>\
-    \ {\n  using type = uint_least64_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(4 < sizeof(T))>::type> {\n  using type = __uint128_t;\n\
-    };\n#line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T,\
-    \ class = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
+    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
+    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
+    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
+    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
+    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
+    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
+    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
+    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
+    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
+    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
+    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
+    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
+    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
+    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
+    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
+    #line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
+    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
     \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
     \                                 std::has_unique_object_representations>> {\n\
     \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
@@ -87,7 +91,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/associative_array.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
+  timestamp: '2020-11-22 05:26:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/associative_array.test.cpp

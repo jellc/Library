@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/data_structure/union_find/basic.hpp
     title: Basic Union-Find
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/data_structure/union_find/unbalanced.hpp
     title: src/data_structure/union_find/unbalanced.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind
@@ -43,26 +43,26 @@ data:
     \      x = find(x), y = find(y);\n        if(x == y) return false;\n        link[x]\
     \ += link[y];\n        link[y] = x;\n        return true;\n    }\n}; // class\
     \ union_find_unbalanced\n#line 6 \"test/library-checker/unionfind.test.cpp\"\n\
-    \nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  union_find uf(n);\n\
-    \  union_find_unbalanced ufu(n);\n  while (q--) {\n    int t, l, r;\n    scanf(\"\
-    %d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", uf.same(l, r));\n\
-    \      assert(uf.same(l, r) == ufu.same(l, r));\n    } else {\n      uf.unite(l,\
-    \ r);\n      ufu.unite(l, r);\n    }\n  }\n}\n"
+    \nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  workspace::union_find\
+    \ uf(n);\n  workspace::unbalanced_union_find ufu(n);\n  while (q--) {\n    int\
+    \ t, l, r;\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"\
+    %d\\n\", uf.same(l, r));\n      assert(uf.same(l, r) == ufu.same(l, r));\n   \
+    \ } else {\n      uf.unite(l, r);\n      ufu.unite(l, r);\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include\
     \ <cstdio>\n\n#include \"src/data_structure/union_find/unbalanced.hpp\"\n\nint\
-    \ main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  union_find uf(n);\n  union_find_unbalanced\
-    \ ufu(n);\n  while (q--) {\n    int t, l, r;\n    scanf(\"%d%d%d\", &t, &l, &r);\n\
-    \    if (t) {\n      printf(\"%d\\n\", uf.same(l, r));\n      assert(uf.same(l,\
-    \ r) == ufu.same(l, r));\n    } else {\n      uf.unite(l, r);\n      ufu.unite(l,\
-    \ r);\n    }\n  }\n}\n"
+    \ main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  workspace::union_find uf(n);\n\
+    \  workspace::unbalanced_union_find ufu(n);\n  while (q--) {\n    int t, l, r;\n\
+    \    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", uf.same(l,\
+    \ r));\n      assert(uf.same(l, r) == ufu.same(l, r));\n    } else {\n      uf.unite(l,\
+    \ r);\n      ufu.unite(l, r);\n    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/union_find/unbalanced.hpp
   - src/data_structure/union_find/basic.hpp
   isVerificationFile: true
   path: test/library-checker/unionfind.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 22:30:50+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2020-11-22 05:28:28+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/unionfind.test.cpp
 layout: document
