@@ -6,38 +6,48 @@
  */
 
 #include <cassert>
+#include <cstdint>
 #include <vector>
 
-struct union_find {
+namespace workspace {
+
+template <typename Tp> struct union_find {
+ protected:
+  using signed_t = typename std::make_signed<Tp>::type;
+  using unsigned_t = typename std::make_unsigned<Tp>::type;
+
+  std::vector<signed_t> link;
+
+ public:
   /*
    * @param n The number of nodes.
    */
-  union_find(size_t n = 0) : link(n, -1) {}
+  union_find(Tp n = 0) : link(n, 1) {}
 
   /*
    * @fn find
    * @param x A node.
    * @return The representative of the group.
    */
-  size_t find(size_t x) {
+  virtual unsigned_t find(unsigned_t x) {
     assert(x < size());
-    return link[x] < 0 ? x : (link[x] = find(link[x]));
+    return link[x] > 0 ? x : -(link[x] = -(signed_t)find(-link[x]));
   }
 
   /*
    * @fn size
    * @return The number of nodes.
    */
-  size_t size() const { return link.size(); }
+  unsigned_t size() const { return link.size(); }
 
   /*
    * @fn size
    * @param x A node.
    * @return The number of nodes in the group.
    */
-  size_t size(size_t x) {
+  virtual unsigned_t size(unsigned_t x) {
     assert(x < size());
-    return -link[find(x)];
+    return link[find(x)];
   }
 
   /*
@@ -46,7 +56,7 @@ struct union_find {
    * @param y 2nd node.
    * @return Whether or not the two nodes belong to the same group.
    */
-  bool same(size_t x, size_t y) {
+  bool same(unsigned_t x, unsigned_t y) {
     assert(x < size());
     assert(y < size());
     return find(x) == find(y);
@@ -58,16 +68,15 @@ struct union_find {
    * @param y 2nd node.
    * @return Whether or not the two groups were merged anew.
    */
-  virtual bool unite(size_t x, size_t y) {
+  virtual bool unite(unsigned_t x, unsigned_t y) {
     assert(x < size()), x = find(x);
     assert(y < size()), y = find(y);
     if (x == y) return false;
-    if (link[x] > link[y]) std::swap(x, y);
+    if (link[x] < link[y]) std::swap(x, y);
     link[x] += link[y];
-    link[y] = x;
+    link[y] = -(signed_t)x;
     return true;
   }
-
- protected:
-  std::vector<int> link;
 };
+
+}  // namespace workspace

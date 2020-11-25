@@ -1,16 +1,28 @@
 #pragma once
+
+/*
+ * @file unbalanced.hpp
+ * @brief Unbalanced Union-Find
+ */
+
 #include "basic.hpp"
-struct union_find_unbalanced : union_find
-{
-    using union_find::union_find;
-    
-    bool unite(size_t x, size_t y) override
-    {
-        assert(x < size() && y < size());
-        x = find(x), y = find(y);
-        if(x == y) return false;
-        link[x] += link[y];
-        link[y] = x;
-        return true;
-    }
-}; // class union_find_unbalanced
+
+namespace workspace {
+
+class unbalanced_union_find : public union_find<uint_least32_t> {
+  using base = union_find<uint_least32_t>;
+
+ public:
+  using base::union_find;
+
+  bool unite(unsigned_t x, unsigned_t y) override {
+    assert(x < size()), x = find(x);
+    assert(y < size()), y = find(y);
+    if (x == y) return false;
+    link[x] += link[y];
+    link[y] = -(signed_t)x;
+    return true;
+  }
+};
+
+}  // namespace workspace
