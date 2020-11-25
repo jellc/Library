@@ -7,11 +7,12 @@
 int main() {
   int n, m;
   scanf("%d%d", &n, &m);
-  strongly_connected_components scc(n);
+  workspace::strongly_connected_components scc(n);
   for (int a, b; m--;) {
     scanf("%d%d", &a, &b);
     scc.add_edge(a, b);
   }
+  scc.make();
   printf("%d\n", scc.count());
   std::vector<std::vector<size_t>> comps(scc.count());
   for (int i = 0; i < n; i++) {

@@ -1,60 +1,98 @@
 #pragma once
+
+/*
+ * @file strongly_connected_components.hpp
+ * @brief Strongly Connected Components
+ */
+
 #include <algorithm>
 #include <cassert>
 #include <vector>
-struct strongly_connected_components {
-  strongly_connected_components(size_t n) : graph(n), low(n), made() {}
 
-  // add an edge from the vertex s to the vertex t.
+namespace workspace {
+
+struct strongly_connected_components {
+  strongly_connected_components(size_t n) : graph(n) {}
+
+  /*
+   * @fn add_edge
+   * @brief Add an edge.
+   * @param src Source
+   * @param dst Destination
+   */
   void add_edge(size_t src, size_t dst) {
     assert(src < size());
     assert(dst < size());
     graph[src].emplace_back(dst);
-    made = false;
   }
 
-  // the number of the components.
+  /*
+   * @fn count
+   * @return The number of components.
+   */
   size_t count() {
-    make();
-    return comp_cnt;
+    assert(made());
+    return dag.size();
   }
 
+  /*
+   * @fn size
+   * @return The number of vertices.
+   */
   size_t size() const { return graph.size(); }
 
-  // the component which the vertex v belongs to.
+  /*
+   * @fn operator[]
+   * @param v Vertex
+   * @return The component including given vertex.
+   */
   size_t operator[](size_t v) {
-    make();
+    assert(made());
     return low[v];
   }
 
-  // the directed acyclic graph consisting of the components.
+  /*
+   * @fn shrinked_dag
+   * @return Directed Acyclic Graph consisting of components.
+   */
   const std::vector<std::vector<size_t>> &shrinked_dag() {
-    make();
+    assert(made());
     return dag;
   }
 
- protected:
-  std::vector<std::vector<size_t>> graph, dag;
-  std::vector<size_t> low;
-  size_t comp_cnt;
-  bool made;
-
+  /*
+   * @fn make
+   * @brief Run SCC decomposition in linear time.
+   */
   void make() {
-    if (made) return;
-    made = true, comp_cnt = 0;
     low.assign(size(), 0);
+    dag.clear();
     size_t *itr = new size_t[size()];
     bool *const used = new bool[size()];
     for (size_t v{}, c{}; v != size(); ++v) affix(v, c, itr, used + size());
     delete[] itr;
     delete[] used;
-    for (auto &e : low) e += comp_cnt;
+    for (auto &e : low) e += dag.size();
     reverse(begin(dag), end(dag));
     for (auto &arcs : dag)
-      for (auto &to : arcs) to += comp_cnt;
+      for (auto &dst : arcs) dst += dag.size();
   }
 
-  size_t affix(size_t src, size_t &c, size_t *&itr, bool *used) {
+ protected:
+  std::vector<std::vector<size_t>> graph, dag;
+  std::vector<size_t> low;
+
+  bool made() const { return !low.empty(); }
+
+  /*
+   * @fn affix
+   * @param src Vertex
+   * @param c Counter
+   * @param itr Pointer to a stack
+   * @param used Negative indexed
+   * @return Low-link number of the vertex.
+   */
+  size_t affix(size_t src, size_t &c, size_t *&itr, bool *const used) {
     if (low[src]) return low[src];
     size_t idx = ++c;
     low[src] = idx;
@@ -62,26 +100,28 @@ struct strongly_connected_components {
     for (size_t dst : graph[src])
       low[src] = std::min(low[src], affix(dst, c, itr, used));
     if (low[src] == idx) {
-      ++comp_cnt;
-      used[-comp_cnt] = true;
-      dag.emplace_back(0);
+      dag.push_back({});
+      auto ccnt = dag.size();
+      used[-ccnt] = true;
       auto srcp = itr;
-      do {
-        low[*--srcp] = -comp_cnt;
-      } while (*srcp != src);
+      do
+        low[*--srcp] = -ccnt;
+      while (*srcp != src);
       while (itr != srcp) {
-        auto now = *--itr;
-        for (auto to : graph[now]) {
-          if (!used[(int)low[to]]) {
-            dag.back().emplace_back(low[to]);
-            used[(int)low[to]] = true;
+        const size_t now = *--itr;
+        for (size_t dst : graph[now]) {
+          if (!used[(int)low[dst]]) {
+            dag.back().emplace_back(low[dst]);
+            used[(int)low[dst]] = true;
           }
         }
       }
-      for (int c : dag.back()) used[c] = false;
-      used[-comp_cnt] = false;
+      for (size_t dst : dag.back()) used[dst] = false;
+      used[-ccnt] = false;
       return idx;
     }
     return low[src];
   }
-};  // class strongly_connected_components
+};
+
+}  // namespace workspace
