@@ -22,6 +22,7 @@
 "test/library-checker/subset_convolution.test.cpp": "2020-11-22 05:26:46 +0900",
 "test/library-checker/suffix_array.test.cpp": "2020-11-23 02:53:42 +0900",
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-11-16 22:30:50 +0900",
+"test/library-checker/unionfind.test.cpp": "2020-11-25 21:36:50 +0900",
 "test/library-checker/zalgorithm.test.cpp": "2020-11-23 02:53:42 +0900",
 "test/library-checker/zalgorithm_2.test.cpp": "2020-11-22 05:26:46 +0900"
 }
