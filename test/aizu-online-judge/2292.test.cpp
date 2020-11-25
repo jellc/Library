@@ -1,3 +1,4 @@
+#define IGNORE
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/0063"
 
 #include "src/string/Manacher.hpp"
