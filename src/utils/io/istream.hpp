@@ -19,7 +19,7 @@ namespace workspace {
  * @class istream
  * @brief A wrapper class for std::istream.
  */
-class istream : std::istream {
+class istream : public std::istream {
   template <class Tp, typename = std::nullptr_t> struct helper {
     helper(std::istream &is, Tp &x) {
       if constexpr (has_begin<Tp>::value)
