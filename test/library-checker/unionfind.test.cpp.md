@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/union_find/basic.hpp
     title: Basic Union-Find
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/union_find/unbalanced.hpp
-    title: src/data_structure/union_find/unbalanced.hpp
+    title: Unbalanced Union-Find
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind
@@ -18,32 +18,37 @@ data:
     - https://judge.yosupo.jp/problem/unionfind
   bundledCode: "#line 1 \"test/library-checker/unionfind.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include <cstdio>\n\n#line\
-    \ 2 \"src/data_structure/union_find/basic.hpp\"\n\n/*\n * @file basic.hpp\n *\
-    \ @brief Basic Union-Find\n */\n\n#include <cassert>\n#include <vector>\n\nstruct\
-    \ union_find {\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(size_t\
-    \ n = 0) : link(n, -1) {}\n\n  /*\n   * @fn find\n   * @param x A node.\n   *\
-    \ @return The representative of the group.\n   */\n  size_t find(size_t x) {\n\
-    \    assert(x < size());\n    return link[x] < 0 ? x : (link[x] = find(link[x]));\n\
-    \  }\n\n  /*\n   * @fn size\n   * @return The number of nodes.\n   */\n  size_t\
+    \ 2 \"src/data_structure/union_find/unbalanced.hpp\"\n\n/*\n * @file unbalanced.hpp\n\
+    \ * @brief Unbalanced Union-Find\n */\n\n#line 2 \"src/data_structure/union_find/basic.hpp\"\
+    \n\n/*\n * @file basic.hpp\n * @brief Basic Union-Find\n */\n\n#include <cassert>\n\
+    #include <cstdint>\n#include <vector>\n\nnamespace workspace {\n\ntemplate <typename\
+    \ Tp> struct union_find {\n protected:\n  using signed_t = typename std::make_signed<Tp>::type;\n\
+    \  using unsigned_t = typename std::make_unsigned<Tp>::type;\n\n  std::vector<signed_t>\
+    \ link;\n\n public:\n  /*\n   * @param n The number of nodes.\n   */\n  union_find(Tp\
+    \ n = 0) : link(n, 1) {}\n\n  /*\n   * @fn find\n   * @param x A node.\n   * @return\
+    \ The representative of the group.\n   */\n  virtual unsigned_t find(unsigned_t\
+    \ x) {\n    assert(x < size());\n    return link[x] > 0 ? x : -(link[x] = -(signed_t)find(-link[x]));\n\
+    \  }\n\n  /*\n   * @fn size\n   * @return The number of nodes.\n   */\n  unsigned_t\
     \ size() const { return link.size(); }\n\n  /*\n   * @fn size\n   * @param x A\
-    \ node.\n   * @return The number of nodes in the group.\n   */\n  size_t size(size_t\
-    \ x) {\n    assert(x < size());\n    return -link[find(x)];\n  }\n\n  /*\n   *\
-    \ @fn same\n   * @param x 1st node.\n   * @param y 2nd node.\n   * @return Whether\
-    \ or not the two nodes belong to the same group.\n   */\n  bool same(size_t x,\
-    \ size_t y) {\n    assert(x < size());\n    assert(y < size());\n    return find(x)\
-    \ == find(y);\n  }\n\n  /*\n   * @fn unite\n   * @param x 1st node.\n   * @param\
-    \ y 2nd node.\n   * @return Whether or not the two groups were merged anew.\n\
-    \   */\n  virtual bool unite(size_t x, size_t y) {\n    assert(x < size()), x\
-    \ = find(x);\n    assert(y < size()), y = find(y);\n    if (x == y) return false;\n\
-    \    if (link[x] > link[y]) std::swap(x, y);\n    link[x] += link[y];\n    link[y]\
-    \ = x;\n    return true;\n  }\n\n protected:\n  std::vector<int> link;\n};\n#line\
-    \ 3 \"src/data_structure/union_find/unbalanced.hpp\"\nstruct union_find_unbalanced\
-    \ : union_find\n{\n    using union_find::union_find;\n    \n    bool unite(size_t\
-    \ x, size_t y) override\n    {\n        assert(x < size() && y < size());\n  \
-    \      x = find(x), y = find(y);\n        if(x == y) return false;\n        link[x]\
-    \ += link[y];\n        link[y] = x;\n        return true;\n    }\n}; // class\
-    \ union_find_unbalanced\n#line 6 \"test/library-checker/unionfind.test.cpp\"\n\
-    \nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  workspace::union_find\
+    \ node.\n   * @return The number of nodes in the group.\n   */\n  virtual unsigned_t\
+    \ size(unsigned_t x) {\n    assert(x < size());\n    return link[find(x)];\n \
+    \ }\n\n  /*\n   * @fn same\n   * @param x 1st node.\n   * @param y 2nd node.\n\
+    \   * @return Whether or not the two nodes belong to the same group.\n   */\n\
+    \  bool same(unsigned_t x, unsigned_t y) {\n    assert(x < size());\n    assert(y\
+    \ < size());\n    return find(x) == find(y);\n  }\n\n  /*\n   * @fn unite\n  \
+    \ * @param x 1st node.\n   * @param y 2nd node.\n   * @return Whether or not the\
+    \ two groups were merged anew.\n   */\n  virtual bool unite(unsigned_t x, unsigned_t\
+    \ y) {\n    assert(x < size()), x = find(x);\n    assert(y < size()), y = find(y);\n\
+    \    if (x == y) return false;\n    if (link[x] < link[y]) std::swap(x, y);\n\
+    \    link[x] += link[y];\n    link[y] = -(signed_t)x;\n    return true;\n  }\n\
+    };\n\n}  // namespace workspace\n#line 9 \"src/data_structure/union_find/unbalanced.hpp\"\
+    \n\nnamespace workspace {\n\nclass unbalanced_union_find : public union_find<uint_least32_t>\
+    \ {\n  using base = union_find<uint_least32_t>;\n\n public:\n  using base::union_find;\n\
+    \n  bool unite(unsigned_t x, unsigned_t y) override {\n    assert(x < size()),\
+    \ x = find(x);\n    assert(y < size()), y = find(y);\n    if (x == y) return false;\n\
+    \    link[x] += link[y];\n    link[y] = -(signed_t)x;\n    return true;\n  }\n\
+    };\n\n}  // namespace workspace\n#line 6 \"test/library-checker/unionfind.test.cpp\"\
+    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  workspace::union_find\
     \ uf(n);\n  workspace::unbalanced_union_find ufu(n);\n  while (q--) {\n    int\
     \ t, l, r;\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"\
     %d\\n\", uf.same(l, r));\n      assert(uf.same(l, r) == ufu.same(l, r));\n   \
@@ -61,8 +66,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/unionfind.test.cpp
   requiredBy: []
-  timestamp: '2020-11-22 05:28:28+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-11-25 21:36:50+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/unionfind.test.cpp
 layout: document

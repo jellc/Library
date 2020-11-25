@@ -114,7 +114,7 @@ data:
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/union_find/basic.hpp
       title: Basic Union-Find
     - icon: ':warning:'
@@ -123,9 +123,9 @@ data:
     - icon: ':warning:'
       path: src/data_structure/union_find/potentialized_union_find.hpp
       title: src/data_structure/union_find/potentialized_union_find.hpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/union_find/unbalanced.hpp
-      title: src/data_structure/union_find/unbalanced.hpp
+      title: Unbalanced Union-Find
   - name: src/graph/directed/flow
     pages:
     - icon: ':heavy_check_mark:'
@@ -353,7 +353,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/two_edge_connected_components.test.cpp
       title: test/library-checker/two_edge_connected_components.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
     - icon: ':heavy_check_mark:'
