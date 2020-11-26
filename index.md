@@ -35,6 +35,14 @@ data:
     - icon: ':warning:'
       path: deprecated/constexpr/binomial.hpp
       title: deprecated/constexpr/binomial.hpp
+  - name: deprecated/local
+    pages:
+    - icon: ':warning:'
+      path: deprecated/local/clock.hpp
+      title: deprecated/local/clock.hpp
+    - icon: ':warning:'
+      path: deprecated/local/dump.hpp
+      title: deprecated/local/dump.hpp
   - name: deprecated/segment_tree
     pages:
     - icon: ':warning:'
@@ -45,14 +53,6 @@ data:
     - icon: ':warning:'
       path: dev/fraction.hpp
       title: dev/fraction.hpp
-  - name: local
-    pages:
-    - icon: ':warning:'
-      path: local/clock.hpp
-      title: local/clock.hpp
-    - icon: ':warning:'
-      path: local/dump.hpp
-      title: local/dump.hpp
   - name: src/algebra/convolution
     pages:
     - icon: ':warning:'
