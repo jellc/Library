@@ -16,14 +16,8 @@ data:
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/point_set_range_composite.test.cpp
-    title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/range_affine_range_sum.test.cpp
-    title: test/library-checker/range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
@@ -223,8 +217,6 @@ data:
   verifiedWith:
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/subset_convolution.test.cpp
-  - test/library-checker/point_set_range_composite.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document

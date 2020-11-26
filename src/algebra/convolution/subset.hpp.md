@@ -10,8 +10,8 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"algebra/convolution/subset.hpp\"\n#include <cassert>\n#include\
-    \ <vector>\n\ntemplate <class Ring>\nstd::vector<Ring> subset_convolute(const\
+  bundledCode: "#line 1 \"src/algebra/convolution/subset.hpp\"\n#include <cassert>\n\
+    #include <vector>\n\ntemplate <class Ring>\nstd::vector<Ring> subset_convolute(const\
     \ std::vector<Ring> &f, const std::vector<Ring> &g)\n{\n    assert(!f.empty());\
     \ assert(!g.empty());\n    const size_t n = __builtin_ctz(std::min(f.size(), g.size()));\n\
     \    std::vector ff(n + 1, std::vector<Ring>(1 << n)), gg(ff);\n    ff[0] = f,\
@@ -57,16 +57,16 @@ data:
     \     }\n    }\n    return ff[n];\n}\n"
   dependsOn: []
   isVerificationFile: false
-  path: algebra/convolution/subset.hpp
+  path: src/algebra/convolution/subset.hpp
   requiredBy: []
-  timestamp: '2020-08-06 06:09:12+09:00'
+  timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/subset_convolution.test.cpp
-documentation_of: algebra/convolution/subset.hpp
+documentation_of: src/algebra/convolution/subset.hpp
 layout: document
 redirect_from:
-- /library/algebra/convolution/subset.hpp
-- /library/algebra/convolution/subset.hpp.html
-title: algebra/convolution/subset.hpp
+- /library/src/algebra/convolution/subset.hpp
+- /library/src/algebra/convolution/subset.hpp.html
+title: src/algebra/convolution/subset.hpp
 ---

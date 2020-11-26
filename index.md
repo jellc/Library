@@ -1,30 +1,11 @@
 ---
 data:
   libraryCategories:
-  - name: algebra/convolution
-    pages:
-    - icon: ':warning:'
-      path: algebra/convolution/fast_Fourier_transform.hpp
-      title: algebra/convolution/fast_Fourier_transform.hpp
-    - icon: ':warning:'
-      path: algebra/convolution/number_theoretic_transform.hpp
-      title: algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':heavy_check_mark:'
-      path: algebra/convolution/subset.hpp
-      title: algebra/convolution/subset.hpp
   - name: algebra/system
     pages:
     - icon: ':warning:'
       path: algebra/system/endomorphism.hpp
       title: algebra/system/endomorphism.hpp
-    - icon: ':heavy_check_mark:'
-      path: algebra/system/monoid.hpp
-      title: algebra/system/monoid.hpp
-  - name: algebra
-    pages:
-    - icon: ':warning:'
-      path: algebra/xor_elimination.hpp
-      title: algebra/xor_elimination.hpp
   - name: deprecated
     pages:
     - icon: ':warning:'
@@ -77,6 +58,27 @@ data:
     - icon: ':warning:'
       path: local/dump.hpp
       title: local/dump.hpp
+  - name: src/algebra/convolution
+    pages:
+    - icon: ':warning:'
+      path: src/algebra/convolution/fast_Fourier_transform.hpp
+      title: src/algebra/convolution/fast_Fourier_transform.hpp
+    - icon: ':warning:'
+      path: src/algebra/convolution/number_theoretic_transform.hpp
+      title: src/algebra/convolution/number_theoretic_transform.hpp
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/convolution/subset.hpp
+      title: src/algebra/convolution/subset.hpp
+  - name: src/algebra/linear
+    pages:
+    - icon: ':warning:'
+      path: src/algebra/linear/xor_elimination.hpp
+      title: XOR Elimination
+  - name: src/algebra/system
+    pages:
+    - icon: ':warning:'
+      path: src/algebra/system/monoid.hpp
+      title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
     pages:
     - icon: ':heavy_check_mark:'
@@ -103,13 +105,13 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -243,7 +245,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/casefmt.hpp
       title: Case Output Format
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/utils/io/istream.hpp
       title: Input Stream
     - icon: ':heavy_check_mark:'
@@ -282,7 +284,7 @@ data:
     - icon: ':x:'
       path: test/aizu-online-judge/2292.test.cpp
       title: test/aizu-online-judge/2292.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -294,7 +296,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DPL_5_D.test.cpp
       title: test/aizu-online-judge/DPL_5_D.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
     - icon: ':heavy_check_mark:'
@@ -320,13 +322,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -341,7 +343,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/set_xor_min.test.cpp
       title: test/library-checker/set_xor_min.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
     - icon: ':heavy_check_mark:'

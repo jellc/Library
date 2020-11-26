@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: algebra/convolution/subset.hpp
-    title: algebra/convolution/subset.hpp
+    path: src/algebra/convolution/subset.hpp
+    title: src/algebra/convolution/subset.hpp
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
@@ -21,40 +21,40 @@ data:
     - https://judge.yosupo.jp/problem/subset_convolution
   bundledCode: "#line 1 \"test/library-checker/subset_convolution.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n#include <iostream>\n\
-    \n#line 1 \"algebra/convolution/subset.hpp\"\n#include <cassert>\n#include <vector>\n\
-    \ntemplate <class Ring>\nstd::vector<Ring> subset_convolute(const std::vector<Ring>\
-    \ &f, const std::vector<Ring> &g)\n{\n    assert(!f.empty()); assert(!g.empty());\n\
-    \    const size_t n = __builtin_ctz(std::min(f.size(), g.size()));\n    std::vector\
-    \ ff(n + 1, std::vector<Ring>(1 << n)), gg(ff);\n    ff[0] = f, gg[0] = g;\n \
-    \   for(size_t k = 0; k != n; ++k)\n    {\n        for(size_t i = k + 1; ~i; --i)\n\
-    \        {\n            for(size_t s = 0; s != 1u << n; ++s)\n            {\n\
-    \                if(s >> k & 1)\n                {\n                    if(i)\n\
-    \                    {\n                        ff[i][s] = ff[i - 1][s];\n   \
-    \                     gg[i][s] = gg[i - 1][s];\n                    }\n      \
-    \              else\n                    {\n                        ff[i][s] =\
-    \ gg[i][s] = Ring{};\n                    }\n                    ff[i][s] += ff[i][s\
-    \ ^ 1 << k];\n                    gg[i][s] += gg[i][s ^ 1 << k];\n           \
-    \     }\n            }\n        }\n    }\n    for(size_t i = n; ~i; --i)\n   \
-    \ {\n        for(size_t s = 0; s != 1u << n; ++s)\n        {\n            ff[i][s]\
-    \ *= gg[0][s];\n            for(size_t j = i; j; --j)\n            {\n       \
-    \         ff[i][s] += ff[i - j][s] * gg[j][s];\n            }\n        }\n   \
-    \ }\n    for(size_t k = n - 1; ~k; --k)\n    {\n        for(size_t s = 0; s !=\
-    \ 1u << n; ++s)\n        {\n            if(~s >> k & 1)\n            {\n     \
-    \           for(size_t i = n; ~i; --i)\n                {\n                  \
-    \  ff[i][s ^ 1 << k] -= ff[i][s];\n                    if(i) ff[i][s] = ff[i -\
-    \ 1][s];\n                }\n            }\n        }\n    }\n    return ff[n];\n\
-    }\n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n * @brief Modular\
-    \ Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
-    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
-    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
-    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
-    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
-    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \n#line 1 \"src/algebra/convolution/subset.hpp\"\n#include <cassert>\n#include\
+    \ <vector>\n\ntemplate <class Ring>\nstd::vector<Ring> subset_convolute(const\
+    \ std::vector<Ring> &f, const std::vector<Ring> &g)\n{\n    assert(!f.empty());\
+    \ assert(!g.empty());\n    const size_t n = __builtin_ctz(std::min(f.size(), g.size()));\n\
+    \    std::vector ff(n + 1, std::vector<Ring>(1 << n)), gg(ff);\n    ff[0] = f,\
+    \ gg[0] = g;\n    for(size_t k = 0; k != n; ++k)\n    {\n        for(size_t i\
+    \ = k + 1; ~i; --i)\n        {\n            for(size_t s = 0; s != 1u << n; ++s)\n\
+    \            {\n                if(s >> k & 1)\n                {\n          \
+    \          if(i)\n                    {\n                        ff[i][s] = ff[i\
+    \ - 1][s];\n                        gg[i][s] = gg[i - 1][s];\n               \
+    \     }\n                    else\n                    {\n                   \
+    \     ff[i][s] = gg[i][s] = Ring{};\n                    }\n                 \
+    \   ff[i][s] += ff[i][s ^ 1 << k];\n                    gg[i][s] += gg[i][s ^\
+    \ 1 << k];\n                }\n            }\n        }\n    }\n    for(size_t\
+    \ i = n; ~i; --i)\n    {\n        for(size_t s = 0; s != 1u << n; ++s)\n     \
+    \   {\n            ff[i][s] *= gg[0][s];\n            for(size_t j = i; j; --j)\n\
+    \            {\n                ff[i][s] += ff[i - j][s] * gg[j][s];\n       \
+    \     }\n        }\n    }\n    for(size_t k = n - 1; ~k; --k)\n    {\n       \
+    \ for(size_t s = 0; s != 1u << n; ++s)\n        {\n            if(~s >> k & 1)\n\
+    \            {\n                for(size_t i = n; ~i; --i)\n                {\n\
+    \                    ff[i][s ^ 1 << k] -= ff[i][s];\n                    if(i)\
+    \ ff[i][s] = ff[i - 1][s];\n                }\n            }\n        }\n    }\n\
+    \    return ff[n];\n}\n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n\
+    \ * @brief Modular Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\n\n\
+    #line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\nnamespace\
+    \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
+    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
+    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -150,20 +150,20 @@ data:
     \ >> x;\n  for (auto &x : b) cin >> x;\n  a = subset_convolute(a, b);\n  for (auto\
     \ x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\
-    #include <iostream>\n\n#include \"algebra/convolution/subset.hpp\"\n#include \"\
-    src/modular/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
+    #include <iostream>\n\n#include \"src/algebra/convolution/subset.hpp\"\n#include\
+    \ \"src/modular/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
     \  using std::cin;\n  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1\
     \ << n);\n  for (auto &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a =\
     \ subset_convolute(a, b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\"\
     );\n}\n"
   dependsOn:
-  - algebra/convolution/subset.hpp
+  - src/algebra/convolution/subset.hpp
   - src/modular/modint.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-11-22 05:26:46+09:00'
+  timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp

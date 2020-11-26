@@ -7,8 +7,8 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"algebra/convolution/fast_Fourier_transform.hpp\"\n\n\n\n\
-    #include <algorithm>\n#include <cassert>\n#include <complex>\n#include <iostream>\n\
+  bundledCode: "#line 1 \"src/algebra/convolution/fast_Fourier_transform.hpp\"\n\n\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <complex>\n#include <iostream>\n\
     #include <vector>\n\nnamespace fast_Fourier_transform\n{\n    using real_t = double;\n\
     \n    class cmplx_t\n    {\n        real_t re, im;\n        friend constexpr cmplx_t\
     \ conj(cmplx_t x) { return x.im = -x.im, x; }\n        friend std::istream &operator>>(std::istream\
@@ -223,15 +223,15 @@ data:
     \     return h;\n    }\n} // namespace fast_Fourier_transform\n\n#endif // fast_Fourier_transform_hpp\n"
   dependsOn: []
   isVerificationFile: false
-  path: algebra/convolution/fast_Fourier_transform.hpp
+  path: src/algebra/convolution/fast_Fourier_transform.hpp
   requiredBy: []
-  timestamp: '2020-02-10 09:16:26+09:00'
+  timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: algebra/convolution/fast_Fourier_transform.hpp
+documentation_of: src/algebra/convolution/fast_Fourier_transform.hpp
 layout: document
 redirect_from:
-- /library/algebra/convolution/fast_Fourier_transform.hpp
-- /library/algebra/convolution/fast_Fourier_transform.hpp.html
-title: algebra/convolution/fast_Fourier_transform.hpp
+- /library/src/algebra/convolution/fast_Fourier_transform.hpp
+- /library/src/algebra/convolution/fast_Fourier_transform.hpp.html
+title: src/algebra/convolution/fast_Fourier_transform.hpp
 ---

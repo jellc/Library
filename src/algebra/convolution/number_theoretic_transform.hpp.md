@@ -7,46 +7,46 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"algebra/convolution/number_theoretic_transform.hpp\"\n\n\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <iostream>\n#include <vector>\n\
-    \nnamespace number_theoretic_transform\n{\n    constexpr int mod = 998244353;\n\
-    \    constexpr int primitive = 3;\n\n    class modint\n    {\n        int val;\n\
-    \    public:\n        constexpr modint() noexcept : val{0} {}\n        constexpr\
-    \ modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x : x) {}\n      \
-    \  constexpr long long value() const noexcept { return val; }\n        constexpr\
-    \ modint operator++(int) noexcept { modint t = *this; return ++val, t; }\n   \
-    \     constexpr modint operator--(int) noexcept { modint t = *this; return --val,\
-    \ t; }\n        constexpr modint &operator++() noexcept { return ++val, *this;\
-    \ }\n        constexpr modint &operator--() noexcept { return --val, *this; }\n\
-    \        constexpr modint operator-() const noexcept { return modint(-val); }\n\
-    \        constexpr modint &operator+=(const modint &other) noexcept { return (val\
-    \ += other.val) < mod ? 0 : val -= mod, *this; }\n        constexpr modint &operator-=(const\
-    \ modint &other) noexcept { return (val += mod - other.val) < mod ? 0 : val -=\
-    \ mod, *this; }\n        constexpr modint &operator*=(const modint &other) noexcept\
-    \ { return val = (long long)val * other.val % mod, *this; }\n        constexpr\
-    \ modint &operator/=(const modint &other) noexcept { return *this *= inverse(other);\
-    \ }\n        constexpr modint operator+(const modint &other) const noexcept {\
-    \ return modint(*this) += other; }\n        constexpr modint operator-(const modint\
-    \ &other) const noexcept { return modint(*this) -= other; }\n        constexpr\
-    \ modint operator*(const modint &other) const noexcept { return modint(*this)\
-    \ *= other; }\n        constexpr modint operator/(const modint &other) const noexcept\
-    \ { return modint(*this) /= other; }\n        constexpr bool operator==(const\
-    \ modint &other) const noexcept { return val == other.val; }\n        constexpr\
-    \ bool operator!=(const modint &other) const noexcept { return val != other.val;\
-    \ }\n        constexpr bool operator!() const noexcept { return !val; }\n    \
-    \    friend constexpr modint operator+(long long x, modint y) noexcept { return\
-    \ modint(x) + y; }\n        friend constexpr modint operator-(long long x, modint\
-    \ y) noexcept { return modint(x) - y; }\n        friend constexpr modint operator*(long\
-    \ long x, modint y) noexcept { return modint(x) * y; }\n        friend constexpr\
-    \ modint operator/(long long x, modint y) noexcept { return modint(x) / y; }\n\
-    \        static constexpr modint inverse(const modint &other) noexcept\n     \
-    \   {\n            assert(other != 0);\n            int a{mod}, b{other.val},\
-    \ u{}, v{1}, t{};\n            while(b) t = a / b, a ^= b ^= (a -= t * b) ^= b,\
-    \ u ^= v ^= (u -= t * v) ^= v;\n            return {u};\n        }\n        static\
-    \ constexpr modint pow(modint other, long long e) noexcept\n        {\n      \
-    \      if(e < 0) e = e % (mod - 1) + mod - 1;\n            modint res{1};\n  \
-    \          while(e) { if(e & 1) res *= other; other *= other, e >>= 1; }\n   \
-    \         return res;\n        }\n        friend std::ostream &operator<<(std::ostream\
+  bundledCode: "#line 1 \"src/algebra/convolution/number_theoretic_transform.hpp\"\
+    \n\n\n\n#include <algorithm>\n#include <cassert>\n#include <iostream>\n#include\
+    \ <vector>\n\nnamespace number_theoretic_transform\n{\n    constexpr int mod =\
+    \ 998244353;\n    constexpr int primitive = 3;\n\n    class modint\n    {\n  \
+    \      int val;\n    public:\n        constexpr modint() noexcept : val{0} {}\n\
+    \        constexpr modint(long long x) noexcept : val((x %= mod) < 0 ? mod + x\
+    \ : x) {}\n        constexpr long long value() const noexcept { return val; }\n\
+    \        constexpr modint operator++(int) noexcept { modint t = *this; return\
+    \ ++val, t; }\n        constexpr modint operator--(int) noexcept { modint t =\
+    \ *this; return --val, t; }\n        constexpr modint &operator++() noexcept {\
+    \ return ++val, *this; }\n        constexpr modint &operator--() noexcept { return\
+    \ --val, *this; }\n        constexpr modint operator-() const noexcept { return\
+    \ modint(-val); }\n        constexpr modint &operator+=(const modint &other) noexcept\
+    \ { return (val += other.val) < mod ? 0 : val -= mod, *this; }\n        constexpr\
+    \ modint &operator-=(const modint &other) noexcept { return (val += mod - other.val)\
+    \ < mod ? 0 : val -= mod, *this; }\n        constexpr modint &operator*=(const\
+    \ modint &other) noexcept { return val = (long long)val * other.val % mod, *this;\
+    \ }\n        constexpr modint &operator/=(const modint &other) noexcept { return\
+    \ *this *= inverse(other); }\n        constexpr modint operator+(const modint\
+    \ &other) const noexcept { return modint(*this) += other; }\n        constexpr\
+    \ modint operator-(const modint &other) const noexcept { return modint(*this)\
+    \ -= other; }\n        constexpr modint operator*(const modint &other) const noexcept\
+    \ { return modint(*this) *= other; }\n        constexpr modint operator/(const\
+    \ modint &other) const noexcept { return modint(*this) /= other; }\n        constexpr\
+    \ bool operator==(const modint &other) const noexcept { return val == other.val;\
+    \ }\n        constexpr bool operator!=(const modint &other) const noexcept { return\
+    \ val != other.val; }\n        constexpr bool operator!() const noexcept { return\
+    \ !val; }\n        friend constexpr modint operator+(long long x, modint y) noexcept\
+    \ { return modint(x) + y; }\n        friend constexpr modint operator-(long long\
+    \ x, modint y) noexcept { return modint(x) - y; }\n        friend constexpr modint\
+    \ operator*(long long x, modint y) noexcept { return modint(x) * y; }\n      \
+    \  friend constexpr modint operator/(long long x, modint y) noexcept { return\
+    \ modint(x) / y; }\n        static constexpr modint inverse(const modint &other)\
+    \ noexcept\n        {\n            assert(other != 0);\n            int a{mod},\
+    \ b{other.val}, u{}, v{1}, t{};\n            while(b) t = a / b, a ^= b ^= (a\
+    \ -= t * b) ^= b, u ^= v ^= (u -= t * v) ^= v;\n            return {u};\n    \
+    \    }\n        static constexpr modint pow(modint other, long long e) noexcept\n\
+    \        {\n            if(e < 0) e = e % (mod - 1) + mod - 1;\n            modint\
+    \ res{1};\n            while(e) { if(e & 1) res *= other; other *= other, e >>=\
+    \ 1; }\n            return res;\n        }\n        friend std::ostream &operator<<(std::ostream\
     \ &os, const modint &other) noexcept { return os << other.val; }\n        friend\
     \ std::istream &operator>>(std::istream &is, modint &other) noexcept { long long\
     \ val; other = {(is >> val, val)}; return is; }\n    }; // class modint\n\n  \
@@ -155,15 +155,15 @@ data:
     \n#endif // number_theoretic_transform_hpp\n"
   dependsOn: []
   isVerificationFile: false
-  path: algebra/convolution/number_theoretic_transform.hpp
+  path: src/algebra/convolution/number_theoretic_transform.hpp
   requiredBy: []
-  timestamp: '2020-06-27 01:08:32+09:00'
+  timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: algebra/convolution/number_theoretic_transform.hpp
+documentation_of: src/algebra/convolution/number_theoretic_transform.hpp
 layout: document
 redirect_from:
-- /library/algebra/convolution/number_theoretic_transform.hpp
-- /library/algebra/convolution/number_theoretic_transform.hpp.html
-title: algebra/convolution/number_theoretic_transform.hpp
+- /library/src/algebra/convolution/number_theoretic_transform.hpp
+- /library/src/algebra/convolution/number_theoretic_transform.hpp.html
+title: src/algebra/convolution/number_theoretic_transform.hpp
 ---

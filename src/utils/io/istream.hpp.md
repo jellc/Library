@@ -5,12 +5,9 @@ data:
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/2450.test.cpp
-    title: test/aizu-online-judge/2450.test.cpp
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Input Stream
     links: []
@@ -95,9 +92,8 @@ data:
   path: src/utils/io/istream.hpp
   requiredBy: []
   timestamp: '2020-11-25 12:11:47+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/aizu-online-judge/2450.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: src/utils/io/istream.hpp
 layout: document
 redirect_from:
