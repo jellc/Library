@@ -1,11 +1,6 @@
 ---
 data:
   libraryCategories:
-  - name: algebra/system
-    pages:
-    - icon: ':warning:'
-      path: algebra/system/endomorphism.hpp
-      title: algebra/system/endomorphism.hpp
   - name: deprecated
     pages:
     - icon: ':warning:'
