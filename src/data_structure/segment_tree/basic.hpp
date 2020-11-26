@@ -9,7 +9,7 @@
 #include <queue>
 #include <vector>
 
-#include "algebra/system/monoid.hpp"
+#include "src/algebra/system/monoid.hpp"
 #include "src/utils/sfinae.hpp"
 #include "waitings.hpp"
 
