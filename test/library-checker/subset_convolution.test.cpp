@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/subset_convolution"
 #include <iostream>
 
-#include "algebra/convolution/subset.hpp"
+#include "src/algebra/convolution/subset.hpp"
 #include "src/modular/modint.hpp"
 
 int main() {
