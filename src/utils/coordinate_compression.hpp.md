@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_kth_smallest.test.cpp
     title: test/library-checker/range_kth_smallest.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -49,6 +52,7 @@ data:
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/range_kth_smallest.test.cpp
 documentation_of: src/utils/coordinate_compression.hpp
 layout: document

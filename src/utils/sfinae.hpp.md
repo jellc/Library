@@ -6,6 +6,12 @@ data:
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
   - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/basic.hpp
+    title: Segment Tree
+  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/lazy.hpp
+    title: Lazy Segment Tree
+  - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
   - icon: ':heavy_check_mark:'
@@ -26,7 +32,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -34,11 +40,17 @@ data:
     title: Round Integer Division
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2450.test.cpp
+    title: test/aizu-online-judge/2450.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/DSL_2_A.test.cpp
+    title: test/aizu-online-judge/DSL_2_A.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
@@ -49,8 +61,17 @@ data:
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/static_range_inversions_query.test.cpp
+    title: test/library-checker/static_range_inversions_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
@@ -116,6 +137,8 @@ data:
   requiredBy:
   - src/number_theory/least_factor.hpp
   - src/number_theory/ext_gcd.hpp
+  - src/data_structure/segment_tree/lazy.hpp
+  - src/data_structure/segment_tree/basic.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/string/suffix_array.hpp
@@ -129,12 +152,17 @@ data:
   verifiedWith:
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/zalgorithm_2.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/associative_array.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
+  - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document

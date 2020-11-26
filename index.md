@@ -76,7 +76,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
@@ -105,13 +105,13 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -245,7 +245,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/casefmt.hpp
       title: Case Output Format
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
     - icon: ':heavy_check_mark:'
@@ -284,7 +284,7 @@ data:
     - icon: ':x:'
       path: test/aizu-online-judge/2292.test.cpp
       title: test/aizu-online-judge/2292.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -296,7 +296,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DPL_5_D.test.cpp
       title: test/aizu-online-judge/DPL_5_D.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
     - icon: ':heavy_check_mark:'
@@ -322,13 +322,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -343,7 +343,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/set_xor_min.test.cpp
       title: test/library-checker/set_xor_min.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
     - icon: ':heavy_check_mark:'
