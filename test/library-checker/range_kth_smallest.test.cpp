@@ -3,7 +3,7 @@
 #include <cstdio>
 
 #include "src/data_structure/Mo.hpp"
-#include "src/utils/coordinate_compression.hpp"
+#include "src/data_structure/coordinate_compression.hpp"
 
 int main() {
   int n, q;
