@@ -19,7 +19,9 @@ unsigned workspace::case_number() {
 }
 
 namespace workspace {
+
 void main() {
   // start here!
 }
+
 }  // namespace workspace
