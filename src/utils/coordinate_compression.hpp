@@ -1,45 +1,42 @@
 #pragma once
+
+/*
+ * @file coordinate_compression.hpp
+ * @brief Coordinate Compression
+ */
+
 #include <algorithm>
-#include <cassert>
 #include <vector>
 
-template <class T> class coordinate_compression {
-  std::vector<T> uniquely;
-  std::vector<size_t> compressed;
+namespace workspace {
 
- public:
-  coordinate_compression(const std::vector<T> &raw)
-      : uniquely(raw), compressed(raw.size()) {
-    std::sort(uniquely.begin(), uniquely.end());
-    uniquely.erase(std::unique(uniquely.begin(), uniquely.end()),
-                   uniquely.end());
-    for (size_t i = 0; i != size(); ++i)
-      compressed[i] =
-          std::lower_bound(uniquely.begin(), uniquely.end(), raw[i]) -
-          uniquely.begin();
+template <class Type, class Result = size_t>
+struct coordinate_compression : std::vector<Type> {
+  using std::vector<Type>::vector;
+  using std::vector<Type>::begin;
+  using std::vector<Type>::end;
+
+  using result_type = Result;
+
+  void make() {
+    std::sort(begin(), end());
+    std::vector<Type>::erase(std::unique(begin(), end()), end());
   }
 
-  size_t operator[](const size_t idx) const {
-    assert(idx < size());
-    return compressed[idx];
+  result_type compress(const Type &value) const {
+    return std::lower_bound(begin(), end(), value) - begin();
   }
 
-  size_t size() const { return compressed.size(); }
-
-  size_t count() const { return uniquely.size(); }
-
-  T value(const size_t ord) const {
-    assert(ord < count());
-    return uniquely[ord];
+  template <class Iter>
+  std::vector<result_type> compress(Iter first, Iter last) const {
+    static_assert(std::is_convertible<
+                  typename std::decay<decltype(*std::declval<Iter>())>::type,
+                  Type>::value);
+    std::vector<result_type> res;
+    for (Iter iter = first; iter != last; ++iter)
+      res.emplace_back(compress(*iter));
+    return res;
   }
-
-  size_t order(const T &value) const {
-    return std::lower_bound(uniquely.begin(), uniquely.end(), value) -
-           uniquely.begin();
-  }
-
-  auto begin() { return compressed.begin(); }
-  auto end() { return compressed.end(); }
-  auto rbegin() { return compressed.rbegin(); }
-  auto rend() { return compressed.rend(); }
 };
+
+}  // namespace workspace

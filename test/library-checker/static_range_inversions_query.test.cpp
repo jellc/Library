@@ -10,29 +10,31 @@ int main() {
   using i64 = int64_t;
   int n, q;
   scanf("%d%d", &n, &q);
-  std::vector<int> a(n);
-  for (int &x : a) scanf("%d", &x);
-  coordinate_compression ccmp(a);
-  std::vector<int> cnt(ccmp.count());
+  std::vector<size_t> a(n);
+  for (auto &e : a) scanf("%d", &e);
+  workspace::coordinate_compression<int> ccmp(a.begin(), a.end());
+  ccmp.make();
+  a = ccmp.compress(a.begin(), a.end());
+  std::vector<int> cnt(ccmp.size());
   workspace::segment_tree<int> seg(n);
   i64 invs = 0;
   auto addl = [&](int i) -> auto {
-    i = ccmp[i];
+    i = a[i];
     invs += seg.fold(0, i);
     seg[i]++;
   };
   auto addr = [&](int i) -> auto {
-    i = ccmp[i];
+    i = a[i];
     invs += seg.fold(i + 1, n);
     seg[i]++;
   };
   auto dell = [&](int i) -> auto {
-    i = ccmp[i];
+    i = a[i];
     invs -= seg.fold(0, i);
     seg[i]--;
   };
   auto delr = [&](int i) -> auto {
-    i = ccmp[i];
+    i = a[i];
     invs -= seg.fold(i + 1, n);
     seg[i]--;
   };

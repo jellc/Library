@@ -8,18 +8,20 @@
 int main() {
   int n, q;
   scanf("%d%d", &n, &q);
-  std::vector<int> a(n);
-  for (int &e : a) scanf("%d", &e);
-  coordinate_compression ccmp(a);
-  int bsize = std::sqrt(ccmp.count()) + 1;
-  std::vector<int> cnt(ccmp.count()), bcnt(bsize);
+  std::vector<size_t> a(n);
+  for (auto &e : a) scanf("%d", &e);
+  workspace::coordinate_compression<size_t> ccmp(a.begin(), a.end());
+  ccmp.make();
+  a = ccmp.compress(a.begin(), a.end());
+  int bsize = std::sqrt(ccmp.size()) + 1;
+  std::vector<int> cnt(ccmp.size()), bcnt(bsize);
   auto add = [&](int i) {
-    int now = ccmp[i];
+    int now = a[i];
     cnt[now]++;
     bcnt[now / bsize]++;
   };
   auto del = [&](int i) {
-    int now = ccmp[i];
+    int now = a[i];
     cnt[now]--;
     bcnt[now / bsize]--;
   };
@@ -38,7 +40,7 @@ int main() {
         for (h = j; nk >= cnt[h]; h++) {
           nk -= cnt[h];
         }
-        ans[qid] = ccmp.value(h);
+        ans[qid] = ccmp[h];
         break;
       } else {
         nk -= bcnt[i];
