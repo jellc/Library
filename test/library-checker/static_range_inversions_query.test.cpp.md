@@ -8,14 +8,14 @@ data:
     path: src/data_structure/Mo.hpp
     title: Mo's Algorithm
   - icon: ':heavy_check_mark:'
+    path: src/data_structure/coordinate_compression.hpp
+    title: Coordinate Compression
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':heavy_check_mark:'
-    path: src/utils/coordinate_compression.hpp
-    title: Coordinate Compression
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
@@ -60,8 +60,22 @@ data:
     \ l = lft[id], r = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while\
     \ (rpos < r) push_back(rpos++);\n    while (lpos < l) pop_front(lpos++);\n   \
     \ while (rpos > r) pop_back(--rpos);\n    return id;\n  }\n};\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/*\n * @file\
-    \ basic.hpp\n * @brief Segment Tree\n */\n\n#line 9 \"src/data_structure/segment_tree/basic.hpp\"\
+    \ workspace\n#line 2 \"src/data_structure/coordinate_compression.hpp\"\n\n/*\n\
+    \ * @file coordinate_compression.hpp\n * @brief Coordinate Compression\n */\n\n\
+    #include <algorithm>\n#line 10 \"src/data_structure/coordinate_compression.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct\
+    \ coordinate_compression : std::vector<Type> {\n  using std::vector<Type>::vector;\n\
+    \  using std::vector<Type>::begin;\n  using std::vector<Type>::end;\n\n  using\
+    \ result_type = Result;\n\n  void make() {\n    std::sort(begin(), end());\n \
+    \   std::vector<Type>::erase(std::unique(begin(), end()), end());\n  }\n\n  result_type\
+    \ compress(const Type &value) const {\n    return std::lower_bound(begin(), end(),\
+    \ value) - begin();\n  }\n\n  template <class Iter>\n  std::vector<result_type>\
+    \ compress(Iter first, Iter last) const {\n    static_assert(std::is_convertible<\n\
+    \                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
+    \                  Type>::value);\n    std::vector<result_type> res;\n    for\
+    \ (Iter iter = first; iter != last; ++iter)\n      res.emplace_back(compress(*iter));\n\
+    \    return res;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\
+    \n\n/*\n * @file basic.hpp\n * @brief Segment Tree\n */\n\n#line 9 \"src/data_structure/segment_tree/basic.hpp\"\
     \n#include <queue>\n#line 11 \"src/data_structure/segment_tree/basic.hpp\"\n\n\
     #line 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace workspace\
     \ {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type =\
@@ -162,21 +176,8 @@ data:
     \        const Monoid tmp = mono + data[left];\n        if (!pred(tmp)) return\
     \ right_partition_subtree(left, pred, mono);\n        mono = tmp;\n        ++left;\n\
     \      }\n    }\n    return size_orig;\n  }\n};\n\n}  // namespace workspace\n\
-    #line 2 \"src/utils/coordinate_compression.hpp\"\n\n/*\n * @file coordinate_compression.hpp\n\
-    \ * @brief Coordinate Compression\n */\n\n#include <algorithm>\n#line 10 \"src/utils/coordinate_compression.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct\
-    \ coordinate_compression : std::vector<Type> {\n  using std::vector<Type>::vector;\n\
-    \  using std::vector<Type>::begin;\n  using std::vector<Type>::end;\n\n  using\
-    \ result_type = Result;\n\n  void make() {\n    std::sort(begin(), end());\n \
-    \   std::vector<Type>::erase(std::unique(begin(), end()), end());\n  }\n\n  result_type\
-    \ compress(const Type &value) const {\n    return std::lower_bound(begin(), end(),\
-    \ value) - begin();\n  }\n\n  template <class Iter>\n  std::vector<result_type>\
-    \ compress(Iter first, Iter last) const {\n    static_assert(std::is_convertible<\n\
-    \                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
-    \                  Type>::value);\n    std::vector<result_type> res;\n    for\
-    \ (Iter iter = first; iter != last; ++iter)\n      res.emplace_back(compress(*iter));\n\
-    \    return res;\n  }\n};\n\n}  // namespace workspace\n#line 8 \"test/library-checker/static_range_inversions_query.test.cpp\"\
-    \n\nint main() {\n  using i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
+    #line 8 \"test/library-checker/static_range_inversions_query.test.cpp\"\n\nint\
+    \ main() {\n  using i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
     \  std::vector<size_t> a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<int>\
     \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
     \  std::vector<int> cnt(ccmp.size());\n  workspace::segment_tree<int> seg(n);\n\
@@ -191,10 +192,10 @@ data:
     \ i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n  }\n\
     \  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n\n#include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/segment_tree/basic.hpp\"\
-    \n#include \"src/utils/coordinate_compression.hpp\"\n\nint main() {\n  using i64\
-    \ = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t> a(n);\n\
-    \  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<int>\
+    \n\n#include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/coordinate_compression.hpp\"\
+    \n#include \"src/data_structure/segment_tree/basic.hpp\"\n\nint main() {\n  using\
+    \ i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
+    \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<int>\
     \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
     \  std::vector<int> cnt(ccmp.size());\n  workspace::segment_tree<int> seg(n);\n\
     \  i64 invs = 0;\n  auto addl = [&](int i) -> auto {\n    i = a[i];\n    invs\
@@ -209,15 +210,15 @@ data:
     \  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
+  - src/data_structure/coordinate_compression.hpp
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
   - src/utils/sfinae.hpp
   - src/data_structure/segment_tree/waitings.hpp
-  - src/utils/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2020-11-28 13:54:32+09:00'
+  timestamp: '2020-11-28 14:32:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp

@@ -7,7 +7,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"variation/modular.hpp\"\n#include <cassert>\n#include <iostream>\n\
+  bundledCode: "#line 1 \"variant/modular.hpp\"\n#include <cassert>\n#include <iostream>\n\
     // modulo individually set\nclass modular\n{\n    long long val;\n    int mod;\n\
     public:\n    friend constexpr bool mod_same(const modular &x, const modular &y)\
     \ { return x.mod == y.mod; }\n    constexpr modular(long long x) : val(x), mod{}\
@@ -118,15 +118,15 @@ data:
     \ val; other = modular((is >> val, val)); return is; }\n}; // class modular\n"
   dependsOn: []
   isVerificationFile: false
-  path: variation/modular.hpp
+  path: variant/modular.hpp
   requiredBy: []
-  timestamp: '2020-08-16 13:02:47+09:00'
+  timestamp: '2020-11-28 14:35:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: variation/modular.hpp
+documentation_of: variant/modular.hpp
 layout: document
 redirect_from:
-- /library/variation/modular.hpp
-- /library/variation/modular.hpp.html
-title: variation/modular.hpp
+- /library/variant/modular.hpp
+- /library/variant/modular.hpp.html
+title: variant/modular.hpp
 ---

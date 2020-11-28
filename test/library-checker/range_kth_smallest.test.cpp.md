@@ -5,7 +5,7 @@ data:
     path: src/data_structure/Mo.hpp
     title: Mo's Algorithm
   - icon: ':heavy_check_mark:'
-    path: src/utils/coordinate_compression.hpp
+    path: src/data_structure/coordinate_compression.hpp
     title: Coordinate Compression
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
@@ -48,17 +48,18 @@ data:
     \ l = lft[id], r = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while\
     \ (rpos < r) push_back(rpos++);\n    while (lpos < l) pop_front(lpos++);\n   \
     \ while (rpos > r) pop_back(--rpos);\n    return id;\n  }\n};\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/utils/coordinate_compression.hpp\"\n\n/*\n * @file\
-    \ coordinate_compression.hpp\n * @brief Coordinate Compression\n */\n\n#include\
-    \ <algorithm>\n#line 10 \"src/utils/coordinate_compression.hpp\"\n\nnamespace\
-    \ workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct coordinate_compression\
-    \ : std::vector<Type> {\n  using std::vector<Type>::vector;\n  using std::vector<Type>::begin;\n\
-    \  using std::vector<Type>::end;\n\n  using result_type = Result;\n\n  void make()\
-    \ {\n    std::sort(begin(), end());\n    std::vector<Type>::erase(std::unique(begin(),\
-    \ end()), end());\n  }\n\n  result_type compress(const Type &value) const {\n\
-    \    return std::lower_bound(begin(), end(), value) - begin();\n  }\n\n  template\
-    \ <class Iter>\n  std::vector<result_type> compress(Iter first, Iter last) const\
-    \ {\n    static_assert(std::is_convertible<\n                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
+    \ workspace\n#line 2 \"src/data_structure/coordinate_compression.hpp\"\n\n/*\n\
+    \ * @file coordinate_compression.hpp\n * @brief Coordinate Compression\n */\n\n\
+    #include <algorithm>\n#line 10 \"src/data_structure/coordinate_compression.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct\
+    \ coordinate_compression : std::vector<Type> {\n  using std::vector<Type>::vector;\n\
+    \  using std::vector<Type>::begin;\n  using std::vector<Type>::end;\n\n  using\
+    \ result_type = Result;\n\n  void make() {\n    std::sort(begin(), end());\n \
+    \   std::vector<Type>::erase(std::unique(begin(), end()), end());\n  }\n\n  result_type\
+    \ compress(const Type &value) const {\n    return std::lower_bound(begin(), end(),\
+    \ value) - begin();\n  }\n\n  template <class Iter>\n  std::vector<result_type>\
+    \ compress(Iter first, Iter last) const {\n    static_assert(std::is_convertible<\n\
+    \                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
     \                  Type>::value);\n    std::vector<result_type> res;\n    for\
     \ (Iter iter = first; iter != last; ++iter)\n      res.emplace_back(compress(*iter));\n\
     \    return res;\n  }\n};\n\n}  // namespace workspace\n#line 7 \"test/library-checker/range_kth_smallest.test.cpp\"\
@@ -78,7 +79,7 @@ data:
     \    nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\"\
     , e);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n\
-    #include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/utils/coordinate_compression.hpp\"\
+    #include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/coordinate_compression.hpp\"\
     \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
     \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<size_t>\
     \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
@@ -96,11 +97,11 @@ data:
     , e);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
-  - src/utils/coordinate_compression.hpp
+  - src/data_structure/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2020-11-28 13:54:32+09:00'
+  timestamp: '2020-11-28 14:32:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp

@@ -7,7 +7,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"variation/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\
+  bundledCode: "#line 2 \"variant/modint.hpp\"\n#include <cassert>\n#include <iostream>\n\
     template <auto &mod>  // compile-time defined modulo.\nstruct modint {\n  using\
     \ value_type = int_least64_t;\n  constexpr static modint one() noexcept { return\
     \ 1; }\n  constexpr operator value_type() const noexcept { return value; }\n \
@@ -133,15 +133,15 @@ data:
     \ class modint\n"
   dependsOn: []
   isVerificationFile: false
-  path: variation/modint.hpp
+  path: variant/modint.hpp
   requiredBy: []
-  timestamp: '2020-09-09 07:07:14+09:00'
+  timestamp: '2020-11-28 14:35:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: variation/modint.hpp
+documentation_of: variant/modint.hpp
 layout: document
 redirect_from:
-- /library/variation/modint.hpp
-- /library/variation/modint.hpp.html
-title: variation/modint.hpp
+- /library/variant/modint.hpp
+- /library/variant/modint.hpp.html
+title: variant/modint.hpp
 ---

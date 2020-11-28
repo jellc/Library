@@ -7,8 +7,8 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 2 \"variation/deque_aggregation.hpp\"\n#include <cassert>\n\
-    #include <iterator>\n#include <vector>\n// implementation with std::vector\ntemplate\
+  bundledCode: "#line 2 \"variant/deque_aggregation.hpp\"\n#include <cassert>\n#include\
+    \ <iterator>\n#include <vector>\n// implementation with std::vector\ntemplate\
     \ <class monoid>\nclass deque_aggregation\n{\n    struct data { monoid value,\
     \ acc; };\n\n    template <bool left_operand_added>\n    struct stack_aggregation\
     \ : public std::vector<data>\n    {\n        using base = std::vector<data>;\n\
@@ -100,15 +100,15 @@ data:
     \ left.fold() + right.fold(); }\n}; // class deque_aggregation\n"
   dependsOn: []
   isVerificationFile: false
-  path: variation/deque_aggregation.hpp
+  path: variant/deque_aggregation.hpp
   requiredBy: []
-  timestamp: '2020-08-21 02:00:03+09:00'
+  timestamp: '2020-11-28 14:35:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: variation/deque_aggregation.hpp
+documentation_of: variant/deque_aggregation.hpp
 layout: document
 redirect_from:
-- /library/variation/deque_aggregation.hpp
-- /library/variation/deque_aggregation.hpp.html
-title: variation/deque_aggregation.hpp
+- /library/variant/deque_aggregation.hpp
+- /library/variant/deque_aggregation.hpp.html
+title: variant/deque_aggregation.hpp
 ---

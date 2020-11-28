@@ -7,15 +7,15 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"variation/flow/Dinic.hpp\"\n#include <cassert>\n#include\
-    \ <vector>\n// compute the maximum flow.\ntemplate <class cap_t = int>\nstruct\
-    \ Dinic\n{\n    struct edge_t\n    {\n        size_t src, dst;\n        cap_t\
-    \ cap; size_t rev;\n        edge_t(size_t src, size_t dst, cap_t cap, size_t rev)\
-    \ : src(src), dst(dst), cap(cap), rev(rev) {}\n    };\n\n    using adj_type =\
-    \ std::vector<edge_t>;\n\n    Dinic(size_t n = 0) : adjs(n), level(n), itr(n)\
-    \ {}\n\n    size_t size() const { return adjs.size(); }\n\n    adj_type &operator[](size_t\
-    \ node) { assert(node < size()); return adjs[node]; }\n    const adj_type &operator[](size_t\
-    \ node) const { assert(node < size()); return adjs[node]; }\n\n    void add_edge(size_t\
+  bundledCode: "#line 1 \"variant/flow/Dinic.hpp\"\n#include <cassert>\n#include <vector>\n\
+    // compute the maximum flow.\ntemplate <class cap_t = int>\nstruct Dinic\n{\n\
+    \    struct edge_t\n    {\n        size_t src, dst;\n        cap_t cap; size_t\
+    \ rev;\n        edge_t(size_t src, size_t dst, cap_t cap, size_t rev) : src(src),\
+    \ dst(dst), cap(cap), rev(rev) {}\n    };\n\n    using adj_type = std::vector<edge_t>;\n\
+    \n    Dinic(size_t n = 0) : adjs(n), level(n), itr(n) {}\n\n    size_t size()\
+    \ const { return adjs.size(); }\n\n    adj_type &operator[](size_t node) { assert(node\
+    \ < size()); return adjs[node]; }\n    const adj_type &operator[](size_t node)\
+    \ const { assert(node < size()); return adjs[node]; }\n\n    void add_edge(size_t\
     \ src, size_t dst, cap_t cap)\n    {\n        assert(src < size()); assert(dst\
     \ < size());\n        if(!(cap > 0) || src == dst) return;\n        adjs[src].emplace_back(src,\
     \ dst, cap, adjs[dst].size());\n        adjs[dst].emplace_back(dst, src, 0, adjs[src].size()\
@@ -85,15 +85,15 @@ data:
     \ Dinic\n"
   dependsOn: []
   isVerificationFile: false
-  path: variation/flow/Dinic.hpp
+  path: variant/flow/Dinic.hpp
   requiredBy: []
-  timestamp: '2020-08-08 03:12:37+09:00'
+  timestamp: '2020-11-28 14:35:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: variation/flow/Dinic.hpp
+documentation_of: variant/flow/Dinic.hpp
 layout: document
 redirect_from:
-- /library/variation/flow/Dinic.hpp
-- /library/variation/flow/Dinic.hpp.html
-title: variation/flow/Dinic.hpp
+- /library/variant/flow/Dinic.hpp
+- /library/variant/flow/Dinic.hpp.html
+title: variant/flow/Dinic.hpp
 ---

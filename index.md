@@ -88,6 +88,9 @@ data:
       path: src/data_structure/Mo.hpp
       title: Mo's Algorithm
     - icon: ':heavy_check_mark:'
+      path: src/data_structure/coordinate_compression.hpp
+      title: Coordinate Compression
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/deque_aggregation.hpp
       title: src/data_structure/deque_aggregation.hpp
   - name: src/data_structure/convex_hull_trick
@@ -199,9 +202,6 @@ data:
     - icon: ':warning:'
       path: src/utils/clock.hpp
       title: Clock
-    - icon: ':heavy_check_mark:'
-      path: src/utils/coordinate_compression.hpp
-      title: Coordinate Compression
     - icon: ':warning:'
       path: src/utils/ejection.hpp
       title: Ejection
@@ -254,22 +254,22 @@ data:
     - icon: ':warning:'
       path: template.cpp
       title: Template
-  - name: variation
+  - name: variant
     pages:
     - icon: ':warning:'
-      path: variation/deque_aggregation.hpp
-      title: variation/deque_aggregation.hpp
+      path: variant/deque_aggregation.hpp
+      title: variant/deque_aggregation.hpp
     - icon: ':warning:'
-      path: variation/modint.hpp
-      title: variation/modint.hpp
+      path: variant/modint.hpp
+      title: variant/modint.hpp
     - icon: ':warning:'
-      path: variation/modular.hpp
-      title: variation/modular.hpp
-  - name: variation/flow
+      path: variant/modular.hpp
+      title: variant/modular.hpp
+  - name: variant/flow
     pages:
     - icon: ':warning:'
-      path: variation/flow/Dinic.hpp
-      title: variation/flow/Dinic.hpp
+      path: variant/flow/Dinic.hpp
+      title: variant/flow/Dinic.hpp
   verificationCategories:
   - name: test/aizu-online-judge
     pages:
