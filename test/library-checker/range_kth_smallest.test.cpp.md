@@ -6,7 +6,7 @@ data:
     title: Mo's Algorithm
   - icon: ':heavy_check_mark:'
     path: src/utils/coordinate_compression.hpp
-    title: src/utils/coordinate_compression.hpp
+    title: Coordinate Compression
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -48,59 +48,59 @@ data:
     \ l = lft[id], r = rgt[id];\n    while (lpos > l) push_front(--lpos);\n    while\
     \ (rpos < r) push_back(rpos++);\n    while (lpos < l) pop_front(lpos++);\n   \
     \ while (rpos > r) pop_back(--rpos);\n    return id;\n  }\n};\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/utils/coordinate_compression.hpp\"\n#include <algorithm>\n\
-    #line 5 \"src/utils/coordinate_compression.hpp\"\n\ntemplate <class T> class coordinate_compression\
-    \ {\n  std::vector<T> uniquely;\n  std::vector<size_t> compressed;\n\n public:\n\
-    \  coordinate_compression(const std::vector<T> &raw)\n      : uniquely(raw), compressed(raw.size())\
-    \ {\n    std::sort(uniquely.begin(), uniquely.end());\n    uniquely.erase(std::unique(uniquely.begin(),\
-    \ uniquely.end()),\n                   uniquely.end());\n    for (size_t i = 0;\
-    \ i != size(); ++i)\n      compressed[i] =\n          std::lower_bound(uniquely.begin(),\
-    \ uniquely.end(), raw[i]) -\n          uniquely.begin();\n  }\n\n  size_t operator[](const\
-    \ size_t idx) const {\n    assert(idx < size());\n    return compressed[idx];\n\
-    \  }\n\n  size_t size() const { return compressed.size(); }\n\n  size_t count()\
-    \ const { return uniquely.size(); }\n\n  T value(const size_t ord) const {\n \
-    \   assert(ord < count());\n    return uniquely[ord];\n  }\n\n  size_t order(const\
-    \ T &value) const {\n    return std::lower_bound(uniquely.begin(), uniquely.end(),\
-    \ value) -\n           uniquely.begin();\n  }\n\n  auto begin() { return compressed.begin();\
-    \ }\n  auto end() { return compressed.end(); }\n  auto rbegin() { return compressed.rbegin();\
-    \ }\n  auto rend() { return compressed.rend(); }\n};\n#line 7 \"test/library-checker/range_kth_smallest.test.cpp\"\
-    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int>\
-    \ a(n);\n  for (int &e : a) scanf(\"%d\", &e);\n  coordinate_compression ccmp(a);\n\
-    \  int bsize = std::sqrt(ccmp.count()) + 1;\n  std::vector<int> cnt(ccmp.count()),\
-    \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = ccmp[i];\n    cnt[now]++;\n\
-    \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = ccmp[i];\n\
+    \ workspace\n#line 2 \"src/utils/coordinate_compression.hpp\"\n\n/*\n * @file\
+    \ coordinate_compression.hpp\n * @brief Coordinate Compression\n */\n\n#include\
+    \ <algorithm>\n#line 10 \"src/utils/coordinate_compression.hpp\"\n\nnamespace\
+    \ workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct coordinate_compression\
+    \ : std::vector<Type> {\n  using std::vector<Type>::vector;\n  using std::vector<Type>::begin;\n\
+    \  using std::vector<Type>::end;\n\n  using result_type = Result;\n\n  void make()\
+    \ {\n    std::sort(begin(), end());\n    std::vector<Type>::erase(std::unique(begin(),\
+    \ end()), end());\n  }\n\n  result_type compress(const Type &value) const {\n\
+    \    return std::lower_bound(begin(), end(), value) - begin();\n  }\n\n  template\
+    \ <class Iter>\n  std::vector<result_type> compress(Iter first, Iter last) const\
+    \ {\n    static_assert(std::is_convertible<\n                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
+    \                  Type>::value);\n    std::vector<result_type> res;\n    for\
+    \ (Iter iter = first; iter != last; ++iter)\n      res.emplace_back(compress(*iter));\n\
+    \    return res;\n  }\n};\n\n}  // namespace workspace\n#line 7 \"test/library-checker/range_kth_smallest.test.cpp\"\
+    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
+    \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<size_t>\
+    \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
+    \  int bsize = std::sqrt(ccmp.size()) + 1;\n  std::vector<int> cnt(ccmp.size()),\
+    \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = a[i];\n    cnt[now]++;\n\
+    \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = a[i];\n\
     \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  workspace::Mo mo(add, del);\n\
     \  std::vector<int> k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n   \
     \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for\
     \ (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i = 0,\
     \ j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n\
     \        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n\
-    \        }\n        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n\
-    \        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\\
-    n\", e);\n}\n"
+    \        }\n        ans[qid] = ccmp[h];\n        break;\n      } else {\n    \
+    \    nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\"\
+    , e);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n\
     #include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/utils/coordinate_compression.hpp\"\
-    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int>\
-    \ a(n);\n  for (int &e : a) scanf(\"%d\", &e);\n  coordinate_compression ccmp(a);\n\
-    \  int bsize = std::sqrt(ccmp.count()) + 1;\n  std::vector<int> cnt(ccmp.count()),\
-    \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = ccmp[i];\n    cnt[now]++;\n\
-    \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = ccmp[i];\n\
+    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
+    \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<size_t>\
+    \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
+    \  int bsize = std::sqrt(ccmp.size()) + 1;\n  std::vector<int> cnt(ccmp.size()),\
+    \ bcnt(bsize);\n  auto add = [&](int i) {\n    int now = a[i];\n    cnt[now]++;\n\
+    \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = a[i];\n\
     \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  workspace::Mo mo(add, del);\n\
     \  std::vector<int> k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n   \
     \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for\
     \ (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i = 0,\
     \ j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n\
     \        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n\
-    \        }\n        ans[qid] = ccmp.value(h);\n        break;\n      } else {\n\
-    \        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\\
-    n\", e);\n}\n"
+    \        }\n        ans[qid] = ccmp[h];\n        break;\n      } else {\n    \
+    \    nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\"\
+    , e);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
   - src/utils/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2020-11-21 15:39:06+09:00'
+  timestamp: '2020-11-28 13:54:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp

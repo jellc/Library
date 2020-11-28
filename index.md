@@ -201,7 +201,7 @@ data:
       title: Clock
     - icon: ':heavy_check_mark:'
       path: src/utils/coordinate_compression.hpp
-      title: src/utils/coordinate_compression.hpp
+      title: Coordinate Compression
     - icon: ':warning:'
       path: src/utils/ejection.hpp
       title: Ejection
