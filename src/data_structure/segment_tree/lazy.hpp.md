@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Lazy Segment Tree
     links: []
@@ -72,21 +72,22 @@ data:
     \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
     \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
     \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
-    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype((const Monoid){} +\n                                              (const\
-    \ Monoid){})>::value,\n                \"\\'Monoid\\' has no proper binary \\\
-    'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism, decltype((const\
-    \ Endomorphism){} *\n                                          (const Endomorphism){})>::value,\n\
-    \      \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype((const Monoid){} *\n                                              (const\
-    \ Endomorphism){})>::value,\n                \"\\'Endomorphism\\' is not applicable\
-    \ to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n  Monoid_container\
-    \ data;\n  Endomorphism_container lazy;\n  internal::waitings wait;\n\n  void\
-    \ repair() {\n    while (!wait.empty()) {\n      const size_t index = wait.pop()\
-    \ >> 1;\n      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void\
-    \ apply(size_t node, const Endomorphism &endo) {\n    data[node] = data[node]\
-    \ * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n \
-    \ void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(\n      std::is_same<Monoid,\
+    \ decltype(std::declval<const Monoid>() +\n                                  \
+    \  std::declval<const Monoid>())>::value,\n      \"\\'Monoid\\' has no proper\
+    \ binary \\'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism,\n\
+    \                   decltype(std::declval<const Endomorphism>() *\n          \
+    \                  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\\
+    ' has no proper binary operator*.\");\n\n  static_assert(\n      std::is_same<Monoid,\
+    \ decltype(std::declval<const Monoid>() *\n                                  \
+    \  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\' is\
+    \ not applicable to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n\
+    \  Monoid_container data;\n  Endomorphism_container lazy;\n  internal::waitings\
+    \ wait;\n\n  void repair() {\n    while (!wait.empty()) {\n      const size_t\
+    \ index = wait.pop() >> 1;\n      if (index && wait.push(index)) pull(index);\n\
+    \    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo) {\n    data[node]\
+    \ = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n\
+    \  }\n\n  void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
     \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
     \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
     \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
@@ -179,28 +180,29 @@ data:
     \ = std::vector<Monoid>,\n          class Endomorphism_container = std::vector<Endomorphism>>\n\
     class lazy_segment_tree {\n  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);\n\
     \n  static_assert(\n      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);\n\
-    \n  static_assert(std::is_same<Monoid, decltype((const Monoid){} +\n         \
-    \                                     (const Monoid){})>::value,\n           \
-    \     \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  static_assert(\n\
-    \      std::is_same<Endomorphism, decltype((const Endomorphism){} *\n        \
-    \                                  (const Endomorphism){})>::value,\n      \"\\\
-    'Endomorphism\\' has no proper binary operator*.\");\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype((const Monoid){} *\n                                              (const\
-    \ Endomorphism){})>::value,\n                \"\\'Endomorphism\\' is not applicable\
-    \ to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n  Monoid_container\
-    \ data;\n  Endomorphism_container lazy;\n  internal::waitings wait;\n\n  void\
-    \ repair() {\n    while (!wait.empty()) {\n      const size_t index = wait.pop()\
-    \ >> 1;\n      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void\
-    \ apply(size_t node, const Endomorphism &endo) {\n    data[node] = data[node]\
-    \ * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n \
-    \ void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
-    \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
-    \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
-    \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
-    \ pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n    return pred(_1);\n\
-    \  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{},\
-    \ size_t{})) pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n   \
-    \ return pred(_1, _2);\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
+    \n  static_assert(\n      std::is_same<Monoid, decltype(std::declval<const Monoid>()\
+    \ +\n                                    std::declval<const Monoid>())>::value,\n\
+    \      \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  static_assert(\n\
+    \      std::is_same<Endomorphism,\n                   decltype(std::declval<const\
+    \ Endomorphism>() *\n                            std::declval<const Endomorphism>())>::value,\n\
+    \      \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n  static_assert(\n\
+    \      std::is_same<Monoid, decltype(std::declval<const Monoid>() *\n        \
+    \                            std::declval<const Endomorphism>())>::value,\n  \
+    \    \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  size_t size_orig,\
+    \ height, size_ext;\n  Monoid_container data;\n  Endomorphism_container lazy;\n\
+    \  internal::waitings wait;\n\n  void repair() {\n    while (!wait.empty()) {\n\
+    \      const size_t index = wait.pop() >> 1;\n      if (index && wait.push(index))\
+    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
+    \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
+    \ = lazy[node] * endo;\n  }\n\n  void push(size_t node) {\n    if (!(node < size_ext))\
+    \ return;\n    apply(node << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n\
+    \    lazy[node] = Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node]\
+    \ = data[node << 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  static\
+    \ constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(\n      Pred pred,\
+    \ Monoid const &_1, size_t _2) {\n    return pred(_1);\n  }\n\n  template <class\
+    \ Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}, size_t{}))\
+    \ pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n    return pred(_1,\
+    \ _2);\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
     \ node, Monoid mono, size_t step,\n                                Pred pred)\
     \ {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n   \
     \   const Monoid tmp = data[(node <<= 1) | 1] + mono;\n      if (pass_args(pred,\
@@ -286,8 +288,8 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2020-12-01 00:40:45+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-12-01 01:06:15+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp

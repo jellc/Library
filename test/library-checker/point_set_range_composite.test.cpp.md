@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_set_range_composite
@@ -74,9 +74,9 @@ data:
     \  // namespace internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/basic.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class Monoid, class Container = std::vector<Monoid>>\n\
     class segment_tree {\n  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\
-    \n  static_assert(std::is_same<Monoid, decltype((const Monoid){} +\n         \
-    \                                     (const Monoid){})>::value,\n           \
-    \     \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
+    \n  static_assert(\n      std::is_same<Monoid, decltype(std::declval<const Monoid>()\
+    \ +\n                                    std::declval<const Monoid>())>::value,\n\
+    \      \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
     \ height, size_ext;\n  Container data;\n  internal::waitings wait;\n\n  void repair()\
     \ {\n    while (!wait.empty()) {\n      const size_t index = wait.pop() >> 1;\n\
     \      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void pull(const\
@@ -234,23 +234,23 @@ data:
     #line 7 \"test/library-checker/point_set_range_composite.test.cpp\"\n\nint main()\
     \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  int n,\
     \ q;\n  scanf(\"%d%d\", &n, &q);\n  struct mono {\n    mint c = 1, d;\n    mono\
-    \ operator+(const mono& rhs) { return {rhs.c * c, rhs.c * d + rhs.d}; }\n    mint\
-    \ eval(mint x) const { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n\
-    \  for (int i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n\
-    \    seg[i] = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\"\
-    , &t, &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n\
-    \    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
+    \ operator+(const mono& rhs) const {\n      return {rhs.c * c, rhs.c * d + rhs.d};\n\
+    \    }\n    mint eval(mint x) const { return c * x + d; }\n  };\n  segment_tree<mono>\
+    \ seg(n);\n  for (int i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\"\
+    , &a, &b);\n    seg[i] = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"\
+    %d%d%d%d\", &t, &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a,\
+    \ b).eval(c));\n    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n\n#include <cstdio>\n\n#include \"src/data_structure/segment_tree/basic.hpp\"\
     \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using namespace workspace;\n\
     \  using mint = modint<998244353>;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
-    \  struct mono {\n    mint c = 1, d;\n    mono operator+(const mono& rhs) { return\
-    \ {rhs.c * c, rhs.c * d + rhs.d}; }\n    mint eval(mint x) const { return c *\
-    \ x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (int i = 0; i < n; i++)\
-    \ {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n    seg[i] = {a, b};\n  }\n\
-    \  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t, &a, &b, &c);\n  \
-    \  if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n    } else {\n\
-    \      seg[a] = {b, c};\n    }\n  }\n}\n"
+    \  struct mono {\n    mint c = 1, d;\n    mono operator+(const mono& rhs) const\
+    \ {\n      return {rhs.c * c, rhs.c * d + rhs.d};\n    }\n    mint eval(mint x)\
+    \ const { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (int\
+    \ i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n    seg[i]\
+    \ = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t,\
+    \ &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n\
+    \    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
@@ -260,8 +260,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 00:40:45+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-12-01 01:06:15+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
 layout: document

@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
@@ -77,21 +77,22 @@ data:
     \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
     \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
     \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
-    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype((const Monoid){} +\n                                              (const\
-    \ Monoid){})>::value,\n                \"\\'Monoid\\' has no proper binary \\\
-    'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism, decltype((const\
-    \ Endomorphism){} *\n                                          (const Endomorphism){})>::value,\n\
-    \      \"\\'Endomorphism\\' has no proper binary operator*.\");\n\n  static_assert(std::is_same<Monoid,\
-    \ decltype((const Monoid){} *\n                                              (const\
-    \ Endomorphism){})>::value,\n                \"\\'Endomorphism\\' is not applicable\
-    \ to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n  Monoid_container\
-    \ data;\n  Endomorphism_container lazy;\n  internal::waitings wait;\n\n  void\
-    \ repair() {\n    while (!wait.empty()) {\n      const size_t index = wait.pop()\
-    \ >> 1;\n      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void\
-    \ apply(size_t node, const Endomorphism &endo) {\n    data[node] = data[node]\
-    \ * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n  }\n\n \
-    \ void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(\n      std::is_same<Monoid,\
+    \ decltype(std::declval<const Monoid>() +\n                                  \
+    \  std::declval<const Monoid>())>::value,\n      \"\\'Monoid\\' has no proper\
+    \ binary \\'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism,\n\
+    \                   decltype(std::declval<const Endomorphism>() *\n          \
+    \                  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\\
+    ' has no proper binary operator*.\");\n\n  static_assert(\n      std::is_same<Monoid,\
+    \ decltype(std::declval<const Monoid>() *\n                                  \
+    \  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\' is\
+    \ not applicable to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n\
+    \  Monoid_container data;\n  Endomorphism_container lazy;\n  internal::waitings\
+    \ wait;\n\n  void repair() {\n    while (!wait.empty()) {\n      const size_t\
+    \ index = wait.pop() >> 1;\n      if (index && wait.push(index)) pull(index);\n\
+    \    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo) {\n    data[node]\
+    \ = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n\
+    \  }\n\n  void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
     \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
     \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
     \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
@@ -257,28 +258,28 @@ data:
     \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n\
     #line 8 \"test/library-checker/range_affine_range_sum.test.cpp\"\n\nint main()\
     \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  struct\
-    \ endo {\n    mint a = 1, b;\n    endo operator*(endo rhs) { return {a * rhs.a,\
-    \ b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono operator+(mono\
-    \ rhs) { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) { return\
-    \ {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
+    \ endo {\n    mint a = 1, b;\n    endo operator*(endo rhs) const { return {a *\
+    \ rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct mono {\n    mint v, c;\n    mono\
+    \ operator+(mono rhs) const { return {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo\
+    \ rhs) const { return {v * rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"\
+    %d%d\", &n, &q);\n  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v;\
+    \ i < n; i++) {\n    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int\
+    \ t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n \
+    \     printf(\"%d\\n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\"\
+    , &a, &b);\n      seg.update(l, r, {a, b});\n    }\n  }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
+    \n\n#include <cstdio>\n#include <vector>\n\n#include \"src/data_structure/segment_tree/lazy.hpp\"\
+    \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using namespace workspace;\n\
+    \  using mint = modint<998244353>;\n  struct endo {\n    mint a = 1, b;\n    endo\
+    \ operator*(endo rhs) const { return {a * rhs.a, b * rhs.a + rhs.b}; }\n  };\n\
+    \  struct mono {\n    mint v, c;\n    mono operator+(mono rhs) const { return\
+    \ {v + rhs.v, c + rhs.c}; }\n    mono operator*(endo rhs) const { return {v *\
+    \ rhs.a + c * rhs.b, c}; }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
     \  lazy_segment_tree<mono, endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n\
     \    scanf(\"%d\", &v);\n    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b;\
     \ q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t) {\n      printf(\"%d\\\
     n\", seg.fold(l, r).v);\n    } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l,\
     \ r, {a, b});\n    }\n  }\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
-    \n\n#include <cstdio>\n#include <vector>\n\n#include \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using namespace workspace;\n\
-    \  using mint = modint<998244353>;\n  struct endo {\n    mint a = 1, b;\n    endo\
-    \ operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b}; }\n  };\n  struct\
-    \ mono {\n    mint v, c;\n    mono operator+(mono rhs) { return {v + rhs.v, c\
-    \ + rhs.c}; }\n    mono operator*(endo rhs) { return {v * rhs.a + c * rhs.b, c};\
-    \ }\n  };\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lazy_segment_tree<mono,\
-    \ endo> seg(n);\n  for (int i = 0, v; i < n; i++) {\n    scanf(\"%d\", &v);\n\
-    \    seg[i] = {v, 1};\n  }\n  for (int t, l, r, a, b; q--;) {\n    scanf(\"%d%d%d\"\
-    , &t, &l, &r);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(l, r).v);\n   \
-    \ } else {\n      scanf(\"%d%d\", &a, &b);\n      seg.update(l, r, {a, b});\n\
-    \    }\n  }\n}\n"
   dependsOn:
   - src/data_structure/segment_tree/lazy.hpp
   - src/algebra/system/monoid.hpp
@@ -288,8 +289,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 00:40:45+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2020-12-01 01:06:15+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
 layout: document

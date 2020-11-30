@@ -1,28 +1,28 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DSL_2_A.test.cpp
     title: test/aizu-online-judge/DSL_2_A.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Segment Tree
     links: []
@@ -73,9 +73,9 @@ data:
     \  // namespace internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/basic.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class Monoid, class Container = std::vector<Monoid>>\n\
     class segment_tree {\n  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\
-    \n  static_assert(std::is_same<Monoid, decltype((const Monoid){} +\n         \
-    \                                     (const Monoid){})>::value,\n           \
-    \     \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
+    \n  static_assert(\n      std::is_same<Monoid, decltype(std::declval<const Monoid>()\
+    \ +\n                                    std::declval<const Monoid>())>::value,\n\
+    \      \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
     \ height, size_ext;\n  Container data;\n  internal::waitings wait;\n\n  void repair()\
     \ {\n    while (!wait.empty()) {\n      const size_t index = wait.pop() >> 1;\n\
     \      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void pull(const\
@@ -157,9 +157,9 @@ data:
     \n#include \"src/utils/sfinae.hpp\"\n#include \"waitings.hpp\"\n\nnamespace workspace\
     \ {\n\ntemplate <class Monoid, class Container = std::vector<Monoid>>\nclass segment_tree\
     \ {\n  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);\n\n\
-    \  static_assert(std::is_same<Monoid, decltype((const Monoid){} +\n          \
-    \                                    (const Monoid){})>::value,\n            \
-    \    \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
+    \  static_assert(\n      std::is_same<Monoid, decltype(std::declval<const Monoid>()\
+    \ +\n                                    std::declval<const Monoid>())>::value,\n\
+    \      \"\\'Monoid\\' has no proper binary \\'operator+\\'.\");\n\n  size_t size_orig,\
     \ height, size_ext;\n  Container data;\n  internal::waitings wait;\n\n  void repair()\
     \ {\n    while (!wait.empty()) {\n      const size_t index = wait.pop() >> 1;\n\
     \      if (index && wait.push(index)) pull(index);\n    }\n  }\n\n  void pull(const\
@@ -243,8 +243,8 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/basic.hpp
   requiredBy: []
-  timestamp: '2020-12-01 00:40:45+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2020-12-01 01:06:15+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
