@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../src/data_structure/segment_tree/basic.hpp"
+#include "src/data_structure/segment_tree/basic.hpp"
 
 int main() {
   using mono = workspace::min_monoid<int>;
