@@ -156,8 +156,8 @@ data:
     \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
     \ = y;\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n\
-    #include <iostream>\n\n#include \"../../src/data_structure/segment_tree/basic.hpp\"\
-    \n\nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
+    #include <iostream>\n\n#include \"src/data_structure/segment_tree/basic.hpp\"\n\
+    \nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
     \  int n, q;\n  std::cin >> n >> q;\n  workspace::segment_tree<mono> seg(n);\n\
     \  while (q--) {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp)\
     \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
@@ -170,7 +170,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/DSL_2_A.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 01:06:15+09:00'
+  timestamp: '2020-12-01 01:13:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/DSL_2_A.test.cpp
