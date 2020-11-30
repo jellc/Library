@@ -19,6 +19,10 @@ template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
   static_assert(std::is_same<Monoid, mapped_type<Container>>::value);
 
+  static_assert(std::is_same<Monoid, decltype((const Monoid){} +
+                                              (const Monoid){})>::value,
+                "\'Monoid\' has no proper binary \'operator+\'.");
+
   size_t size_orig, height, size_ext;
   Container data;
   internal::waitings wait;
@@ -35,28 +39,41 @@ class segment_tree {
   }
 
   template <class Pred>
-  size_t left_partition_subtree(size_t index, const Pred pred,
-                                Monoid mono) const {
-    assert(index);
-    while (index < size_ext) {
-      const Monoid tmp = data[(index <<= 1) | 1] + mono;
-      if (pred(tmp))
-        mono = tmp;
-      else
-        ++index;
-    }
-    return ++index -= size_ext;
+  static constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(
+      Pred pred, Monoid const &_1, size_t _2) {
+    return pred(_1);
   }
 
   template <class Pred>
-  size_t right_partition_subtree(size_t index, const Pred pred,
-                                 Monoid mono) const {
-    assert(index);
-    while (index < size_ext) {
-      const Monoid tmp = mono + data[index <<= 1];
-      if (pred(tmp)) ++index, mono = tmp;
+  static constexpr decltype(std::declval<Pred>()(Monoid{}, size_t{})) pass_args(
+      Pred pred, Monoid const &_1, size_t _2) {
+    return pred(_1, _2);
+  }
+
+  template <class Pred>
+  size_t left_partition_subtree(size_t node, Monoid mono, size_t step,
+                                Pred pred) const {
+    assert(node);
+    while (node < size_ext) {
+      const Monoid tmp = data[(node <<= 1) | 1] + mono;
+      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
+        mono = tmp;
+      else
+        ++node;
     }
-    return (index -= size_ext) < size_orig ? index : size_orig;
+    return ++node -= size_ext;
+  }
+
+  template <class Pred>
+  size_t right_partition_subtree(size_t node, Monoid mono, size_t step,
+                                 Pred pred) const {
+    assert(node);
+    while (node < size_ext) {
+      const Monoid tmp = mono + data[node <<= 1];
+      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
+        ++node, mono = tmp;
+    }
+    return (node -= size_ext) < size_orig ? node : size_orig;
   }
 
  public:
@@ -94,22 +111,41 @@ class segment_tree {
   segment_tree(const Cont &cont)
       : segment_tree(std::begin(cont), std::end(cont)) {}
 
+  /*
+   * @fn size
+   * @return Number of elements.
+   */
   size_t size() const { return size_orig; }
-  size_t capacity() const { return size_ext; }
 
-  // reference to the element at the index.
+  // size_t capacity() const { return size_ext; }
+
+  /*
+   * @fn operator[]
+   * @param index Index of the element
+   * @return Reference to the element.
+   */
   Monoid &operator[](size_t index) {
     assert(index < size_orig);
     wait.push(index |= size_ext);
     return data[index];
   }
 
-  // const reference to the element at the index.
+  /*
+   * @fn operator[]
+   * @param index Index of the element
+   * @return Const reference to the element.
+   */
   const Monoid &operator[](size_t index) const {
     assert(index < size_orig);
     return data[index |= size_orig];
   }
 
+  /*
+   * @fn fold
+   * @param first Left end, inclusive
+   * @param last Right end, exclusive
+   * @return Sum of elements in the interval.
+   */
   Monoid fold(size_t first, size_t last) {
     assert(last <= size_orig);
     repair();
@@ -123,32 +159,58 @@ class segment_tree {
     return leftval + rightval;
   }
 
+  /*
+   * @fn fold
+   * @return Sum of all elements.
+   */
   Monoid fold() { return fold(0, size_orig); }
 
+  /*
+   * @fn left_partition
+   * @brief Binary search for the partition point.
+   * @param right Right fixed end of the interval, exclusive
+   * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
+   * size_t)'
+   * @return Left end of the extremal interval satisfying the condition,
+   * inclusive.
+   */
   template <class Pred> size_t left_partition(size_t right, Pred pred) {
     assert(right <= size_orig);
     repair();
     right += size_ext;
     Monoid mono{};
-    for (size_t left{size_ext}; left != right; left >>= 1, right >>= 1) {
+    for (size_t left{size_ext}, step{}; left != right;
+         left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
         const Monoid tmp = data[--right] + mono;
-        if (!pred(tmp)) return left_partition_subtree(right, pred, mono);
+        if (!pass_args(pred, tmp, (right << step) ^ size_ext))
+          return left_partition_subtree(right, mono, step, pred);
         mono = tmp;
       }
     }
     return 0;
   }
 
+  /*
+   * @fn right_partition
+   * @brief Binary search for the partition point.
+   * @param left Left fixed end of the interval, inclusive
+   * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
+   * size_t)'
+   * @return Right end of the extremal interval satisfying the condition,
+   * exclusive.
+   */
   template <class Pred> size_t right_partition(size_t left, Pred pred) {
     assert(left <= size_orig);
     repair();
     left += size_ext;
     Monoid mono{};
-    for (size_t right{size_ext << 1}; left != right; left >>= 1, right >>= 1) {
+    for (size_t right{size_ext << 1}, step{}; left != right;
+         left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
         const Monoid tmp = mono + data[left];
-        if (!pred(tmp)) return right_partition_subtree(left, pred, mono);
+        if (!pass_args(pred, tmp, ((left + 1) << step) ^ size_ext))
+          return right_partition_subtree(left, mono, step, pred);
         mono = tmp;
         ++left;
       }
