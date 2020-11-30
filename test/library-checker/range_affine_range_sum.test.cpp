@@ -11,12 +11,12 @@ int main() {
   using mint = modint<998244353>;
   struct endo {
     mint a = 1, b;
-    endo operator*(endo rhs) { return {a * rhs.a, b * rhs.a + rhs.b}; }
+    endo operator*(endo rhs) const { return {a * rhs.a, b * rhs.a + rhs.b}; }
   };
   struct mono {
     mint v, c;
-    mono operator+(mono rhs) { return {v + rhs.v, c + rhs.c}; }
-    mono operator*(endo rhs) { return {v * rhs.a + c * rhs.b, c}; }
+    mono operator+(mono rhs) const { return {v + rhs.v, c + rhs.c}; }
+    mono operator*(endo rhs) const { return {v * rhs.a + c * rhs.b, c}; }
   };
 
   int n, q;

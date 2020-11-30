@@ -13,7 +13,7 @@ int main() {
     int value;
     endo() = default;
     endo(int v) : assign(true), value(v) {}
-    endo operator*(endo rhs) {
+    endo operator*(endo rhs) const {
       if (rhs.assign) return rhs;
       return *this;
     }
@@ -25,7 +25,7 @@ int main() {
     int right = 0;
     int max = 0;
     int best = -10000;
-    mono operator+(mono rhs) {
+    mono operator+(mono rhs) const {
       return {cnt + rhs.cnt,
               sum + rhs.sum,
               std::max(left, sum + rhs.left),
@@ -33,7 +33,7 @@ int main() {
               std::max({max, rhs.max, right + rhs.left}),
               std::max(best, rhs.best)};
     }
-    mono operator*(endo rhs) {
+    mono operator*(endo rhs) const {
       mono ret = *this;
       if (rhs.assign) {
         if (rhs.value < 0) {

@@ -24,18 +24,21 @@ class lazy_segment_tree {
   static_assert(
       std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);
 
-  static_assert(std::is_same<Monoid, decltype((const Monoid){} +
-                                              (const Monoid){})>::value,
-                "\'Monoid\' has no proper binary \'operator+\'.");
+  static_assert(
+      std::is_same<Monoid, decltype(std::declval<const Monoid>() +
+                                    std::declval<const Monoid>())>::value,
+      "\'Monoid\' has no proper binary \'operator+\'.");
 
   static_assert(
-      std::is_same<Endomorphism, decltype((const Endomorphism){} *
-                                          (const Endomorphism){})>::value,
+      std::is_same<Endomorphism,
+                   decltype(std::declval<const Endomorphism>() *
+                            std::declval<const Endomorphism>())>::value,
       "\'Endomorphism\' has no proper binary operator*.");
 
-  static_assert(std::is_same<Monoid, decltype((const Monoid){} *
-                                              (const Endomorphism){})>::value,
-                "\'Endomorphism\' is not applicable to \'Monoid\'.");
+  static_assert(
+      std::is_same<Monoid, decltype(std::declval<const Monoid>() *
+                                    std::declval<const Endomorphism>())>::value,
+      "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
   size_t size_orig, height, size_ext;
   Monoid_container data;

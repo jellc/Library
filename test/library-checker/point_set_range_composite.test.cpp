@@ -12,7 +12,9 @@ int main() {
   scanf("%d%d", &n, &q);
   struct mono {
     mint c = 1, d;
-    mono operator+(const mono& rhs) { return {rhs.c * c, rhs.c * d + rhs.d}; }
+    mono operator+(const mono& rhs) const {
+      return {rhs.c * c, rhs.c * d + rhs.d};
+    }
     mint eval(mint x) const { return c * x + d; }
   };
   segment_tree<mono> seg(n);

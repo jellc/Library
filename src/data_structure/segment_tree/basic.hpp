@@ -19,9 +19,10 @@ template <class Monoid, class Container = std::vector<Monoid>>
 class segment_tree {
   static_assert(std::is_same<Monoid, mapped_type<Container>>::value);
 
-  static_assert(std::is_same<Monoid, decltype((const Monoid){} +
-                                              (const Monoid){})>::value,
-                "\'Monoid\' has no proper binary \'operator+\'.");
+  static_assert(
+      std::is_same<Monoid, decltype(std::declval<const Monoid>() +
+                                    std::declval<const Monoid>())>::value,
+      "\'Monoid\' has no proper binary \'operator+\'.");
 
   size_t size_orig, height, size_ext;
   Container data;
