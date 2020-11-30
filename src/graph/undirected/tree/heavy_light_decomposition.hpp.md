@@ -3,14 +3,14 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/lowest_common_ancestor.test.cpp
     title: test/library-checker/lowest_common_ancestor.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Heavy-Light Decomposition
     links: []
@@ -130,7 +130,7 @@ data:
   path: src/graph/undirected/tree/heavy_light_decomposition.hpp
   requiredBy: []
   timestamp: '2020-11-16 23:30:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/lowest_common_ancestor.test.cpp
   - test/aizu-online-judge/2450.test.cpp
