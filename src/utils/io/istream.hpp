@@ -23,7 +23,8 @@ class istream : public std::istream {
   template <class Tp, typename = std::nullptr_t> struct helper {
     helper(std::istream &is, Tp &x) {
       if constexpr (has_begin<Tp>::value)
-        for (auto &&e : x) helper<decltype(e)>(is, e);
+        for (auto &&e : x)
+          helper<typename std::decay<decltype(e)>::type>(is, e);
       else
         static_assert(has_begin<Tp>::value, "istream unsupported type.");
     }
