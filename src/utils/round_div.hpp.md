@@ -27,29 +27,31 @@ data:
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
     \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
-    #line 11 \"src/utils/round_div.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn floor_div\n\
-    \ * @brief floor of fraction.\n * @param x the numerator\n * @param y the denominator\n\
-    \ * @return maximum integer z s.t. z <= x / y\n * @note y must be nonzero.\n */\n\
-    template <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
-    \ &&\n                                   is_integral_ext<T2>::value),\n      \
-    \                            typename std::common_type<T1, T2>::type>::type\n\
-    floor_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
-    \ x < 0 ? (x - y + 1) / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of\
-    \ fraction.\n * @param x the numerator\n * @param y the denominator\n * @return\
-    \ minimum integer z s.t. z >= x / y\n * @note y must be nonzero.\n */\ntemplate\
-    \ <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
-    \ &&\n                                   is_integral_ext<T2>::value),\n      \
-    \                            typename std::common_type<T1, T2>::type>::type\n\
-    ceil_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
-    \ x < 0 ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
+    \n#ifdef __SIZEOF_INT128__\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #endif\n\n#if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool\
+    \ is_integral_ext_v = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename\
+    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(2\
+    \ < sizeof(T))>::type> {\n  using type = uint_least64_t;\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
+    \ workspace\n#line 11 \"src/utils/round_div.hpp\"\n\nnamespace workspace {\n\n\
+    /*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
+    \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
+    \ @note y must be nonzero.\n */\ntemplate <typename T1, typename T2>\nconstexpr\
+    \ typename std::enable_if<(is_integral_ext<T1>::value &&\n                   \
+    \                is_integral_ext<T2>::value),\n                              \
+    \    typename std::common_type<T1, T2>::type>::type\nfloor_div(T1 x, T2 y) {\n\
+    \  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0 ? (x - y + 1)\
+    \ / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of fraction.\n * @param\
+    \ x the numerator\n * @param y the denominator\n * @return minimum integer z s.t.\
+    \ z >= x / y\n * @note y must be nonzero.\n */\ntemplate <typename T1, typename\
+    \ T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value &&\n    \
+    \                               is_integral_ext<T2>::value),\n               \
+    \                   typename std::common_type<T1, T2>::type>::type\nceil_div(T1\
+    \ x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0\
+    \ ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file round_div.hpp\n * @brief Round Integer Division\n\
     \ */\n\n#include <cassert>\n\n#include \"sfinae.hpp\"\n\nnamespace workspace {\n\
     \n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
@@ -72,7 +74,7 @@ data:
   isVerificationFile: false
   path: src/utils/round_div.hpp
   requiredBy: []
-  timestamp: '2020-11-22 05:26:46+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/round_div.hpp

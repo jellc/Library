@@ -31,18 +31,19 @@ data:
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
     \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
-    #line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\n/*\n * @class\
-    \ istream\n * @brief A wrapper class for std::istream.\n */\nclass istream : public\
-    \ std::istream {\n  template <class Tp, typename = std::nullptr_t> struct helper\
-    \ {\n    helper(std::istream &is, Tp &x) {\n      if constexpr (has_begin<Tp>::value)\n\
+    \n#ifdef __SIZEOF_INT128__\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #endif\n\n#if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool\
+    \ is_integral_ext_v = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename\
+    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(2\
+    \ < sizeof(T))>::type> {\n  using type = uint_least64_t;\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
+    \ workspace\n#line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\n\
+    /*\n * @class istream\n * @brief A wrapper class for std::istream.\n */\nclass\
+    \ istream : public std::istream {\n  template <class Tp, typename = std::nullptr_t>\
+    \ struct helper {\n    helper(std::istream &is, Tp &x) {\n      if constexpr (has_begin<Tp>::value)\n\
     \        for (auto &&e : x)\n          helper<typename std::decay<decltype(e)>::type>(is,\
     \ e);\n      else\n        static_assert(has_begin<Tp>::value, \"istream unsupported\
     \ type.\");\n    }\n  };\n\n  template <class Tp>\n  struct helper<\n      Tp,\n\
@@ -94,7 +95,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2020-12-01 15:41:27+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp

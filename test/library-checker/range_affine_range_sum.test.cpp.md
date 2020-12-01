@@ -57,22 +57,24 @@ data:
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
     \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
-    #line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line 5 \"src/data_structure/segment_tree/waitings.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace internal {\n\nstruct waitings : std::queue<size_t>\
-    \ {\n  waitings(size_t n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index\
-    \ < in.size());\n    if (in[index]) return false;\n    emplace(index);\n    return\
-    \ (in[index] = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto\
-    \ index = front();\n    std::queue<size_t>::pop();\n    in[index] = false;\n \
-    \   return index;\n  }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}\
-    \  // namespace internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
+    \n#ifdef __SIZEOF_INT128__\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #endif\n\n#if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool\
+    \ is_integral_ext_v = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename\
+    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(2\
+    \ < sizeof(T))>::type> {\n  using type = uint_least64_t;\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line\
+    \ 5 \"src/data_structure/segment_tree/waitings.hpp\"\n\nnamespace workspace {\n\
+    \nnamespace internal {\n\nstruct waitings : std::queue<size_t> {\n  waitings(size_t\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
+    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
+    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
+    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace internal\n\
+    \n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class Monoid, class Endomorphism,\n   \
     \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
     \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
@@ -289,7 +291,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 01:06:15+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

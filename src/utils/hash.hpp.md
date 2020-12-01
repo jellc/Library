@@ -29,19 +29,20 @@ data:
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
     \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
-    #line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
-    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
-    \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
-    \                                 std::has_unique_object_representations>> {\n\
-    \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
+    \n#ifdef __SIZEOF_INT128__\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #endif\n\n#if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool\
+    \ is_integral_ext_v = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename\
+    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(2\
+    \ < sizeof(T))>::type> {\n  using type = uint_least64_t;\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
+    \ workspace\n#line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class\
+    \ T, class = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\n\
+    template <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n           \
+    \ enable_if_trait_type<Unique_bits_type,\n                                 std::has_unique_object_representations>>\
+    \ {\n  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
     \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
     \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
     \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
@@ -102,7 +103,7 @@ data:
   isVerificationFile: false
   path: src/utils/hash.hpp
   requiredBy: []
-  timestamp: '2020-11-22 05:26:46+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/associative_array.test.cpp

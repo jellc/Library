@@ -38,18 +38,19 @@ data:
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
     \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    template <> struct is_integral_ext<__int128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_integral_ext<__uint128_t> : std::true_type {};\n#if __cplusplus\
-    \ >= 201402\ntemplate <class T>\nconstexpr static bool is_integral_ext_v = is_integral_ext<T>::value;\n\
-    #endif\n\ntemplate <typename T, typename = void> struct multiplicable_uint {\n\
-    \  using type = uint_least32_t;\n};\ntemplate <typename T>\nstruct multiplicable_uint<T,\
-    \ typename std::enable_if<(2 < sizeof(T))>::type> {\n  using type = uint_least64_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n}  // namespace workspace\n\
-    #line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
-    \ {\n\n/*\n * @struct modint_base\n * @brief base of modular arithmetic.\n * @tparam\
-    \ Mod identifier, which represents modulus if positive\n */\ntemplate <auto Mod>\
-    \ struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \n#ifdef __SIZEOF_INT128__\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\
+    #endif\n\n#if __cplusplus >= 201402\ntemplate <class T>\nconstexpr static bool\
+    \ is_integral_ext_v = is_integral_ext<T>::value;\n#endif\n\ntemplate <typename\
+    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
+    };\ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(2\
+    \ < sizeof(T))>::type> {\n  using type = uint_least64_t;\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
+    \ workspace\n#line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\n\
+    namespace internal {\n\n/*\n * @struct modint_base\n * @brief base of modular\
+    \ arithmetic.\n * @tparam Mod identifier, which represents modulus if positive\n\
+    \ */\ntemplate <auto Mod> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type =\n    \
     \  typename std::conditional<0 < Mod,\n                                typename\
     \ std::add_const<decltype(Mod)>::type,\n                                decltype(Mod)>::type;\n\
@@ -151,7 +152,7 @@ data:
   path: src/modular/inverse.hpp
   requiredBy:
   - src/combinatorics/binomial.hpp
-  timestamp: '2020-11-22 05:26:46+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
