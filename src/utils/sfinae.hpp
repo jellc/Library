@@ -40,8 +40,12 @@ template <class T>
 struct is_integral_ext<
     T, typename std::enable_if<std::is_integral<T>::value>::type>
     : std::true_type {};
+
+#ifdef __SIZEOF_INT128__
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+#endif
+
 #if __cplusplus >= 201402
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
@@ -54,9 +58,12 @@ template <typename T>
 struct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type> {
   using type = uint_least64_t;
 };
+
+#ifdef __SIZEOF_INT128__
 template <typename T>
 struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
   using type = __uint128_t;
 };
+#endif
 
 }  // namespace workspace
