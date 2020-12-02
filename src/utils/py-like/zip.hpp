@@ -2,7 +2,7 @@
 
 /*
  * @file zip.hpp
- * @breif Zip
+ * @brief Zip
  */
 
 #include <tuple>
