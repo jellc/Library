@@ -249,6 +249,20 @@ data:
     - icon: ':warning:'
       path: src/utils/io/setup.hpp
       title: I/O Setup
+  - name: src/utils/py-like
+    pages:
+    - icon: ':warning:'
+      path: src/utils/py-like/enumerate.hpp
+      title: Enumerate
+    - icon: ':warning:'
+      path: src/utils/py-like/range.hpp
+      title: Range
+    - icon: ':warning:'
+      path: src/utils/py-like/reversed.hpp
+      title: Reversed
+    - icon: ':warning:'
+      path: src/utils/py-like/zip.hpp
+      title: src/utils/py-like/zip.hpp
   - name: .
     pages:
     - icon: ':warning:'
