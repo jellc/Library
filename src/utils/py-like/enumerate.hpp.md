@@ -6,7 +6,7 @@ data:
     title: Range
   - icon: ':warning:'
     path: src/utils/py-like/zip.hpp
-    title: src/utils/py-like/zip.hpp
+    title: Zip
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: hpp
@@ -34,7 +34,7 @@ data:
     \ rbegin() const {\n    return std::make_reverse_iterator(end());\n  }\n  constexpr\
     \ std::reverse_iterator<iterator> rend() const {\n    return std::make_reverse_iterator(begin());\n\
     \  }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/py-like/zip.hpp\"\n\
-    \n/*\n * @file zip.hpp\n * @breif Zip\n */\n\n#include <tuple>\n\n#if __cplusplus\
+    \n/*\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <tuple>\n\n#if __cplusplus\
     \ >= 201703L\n\nnamespace workspace {\n\ntemplate <class> struct zipped_iter;\n\
     \ntemplate <class... Args> class zipped {\n  using ref_tuple = std::tuple<Args...>;\n\
     \  ref_tuple args;\n\n  template <size_t N = 0> constexpr auto begin_cat() const\
@@ -105,7 +105,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2020-12-03 02:46:17+09:00'
+  timestamp: '2020-12-03 03:06:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp

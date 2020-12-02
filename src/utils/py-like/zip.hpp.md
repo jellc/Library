@@ -9,9 +9,10 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
+    document_title: Zip
     links: []
   bundledCode: "#line 2 \"src/utils/py-like/zip.hpp\"\n\n/*\n * @file zip.hpp\n *\
-    \ @breif Zip\n */\n\n#include <tuple>\n\n#if __cplusplus >= 201703L\n\nnamespace\
+    \ @brief Zip\n */\n\n#include <tuple>\n\n#if __cplusplus >= 201703L\n\nnamespace\
     \ workspace {\n\ntemplate <class> struct zipped_iter;\n\ntemplate <class... Args>\
     \ class zipped {\n  using ref_tuple = std::tuple<Args...>;\n  ref_tuple args;\n\
     \n  template <size_t N = 0> constexpr auto begin_cat() const {\n    if constexpr\
@@ -59,7 +60,7 @@ data:
     }\n\ntemplate <class... Args>\nconstexpr auto zip(std::initializer_list<Args>\
     \ &&... args) {\n  return zipped<std::initializer_list<Args>...>(\n      std::forward<std::initializer_list<Args>>(args)...);\n\
     }\n\n}  // namespace workspace\n\n#endif\n"
-  code: "#pragma once\n\n/*\n * @file zip.hpp\n * @breif Zip\n */\n\n#include <tuple>\n\
+  code: "#pragma once\n\n/*\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <tuple>\n\
     \n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class> struct\
     \ zipped_iter;\n\ntemplate <class... Args> class zipped {\n  using ref_tuple =\
     \ std::tuple<Args...>;\n  ref_tuple args;\n\n  template <size_t N = 0> constexpr\
@@ -113,7 +114,7 @@ data:
   path: src/utils/py-like/zip.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2020-12-03 02:46:17+09:00'
+  timestamp: '2020-12-03 03:06:40+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/zip.hpp
@@ -121,5 +122,5 @@ layout: document
 redirect_from:
 - /library/src/utils/py-like/zip.hpp
 - /library/src/utils/py-like/zip.hpp.html
-title: src/utils/py-like/zip.hpp
+title: Zip
 ---

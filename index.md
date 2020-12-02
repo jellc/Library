@@ -262,7 +262,7 @@ data:
       title: Reversed
     - icon: ':warning:'
       path: src/utils/py-like/zip.hpp
-      title: src/utils/py-like/zip.hpp
+      title: Zip
   - name: .
     pages:
     - icon: ':warning:'
