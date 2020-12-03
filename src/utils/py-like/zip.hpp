@@ -36,7 +36,7 @@ template <class... Args> class zipped {
   using iter_tuple = decltype(std::declval<zipped>().begin_cat());
 
  public:
-  zipped(Args &&... args) : args(args...) {}
+  constexpr zipped(Args &&... args) : args(args...) {}
 
   class iterator {
     zipped_iter<iter_tuple> iters;
@@ -102,11 +102,13 @@ template <class... Args> class zipped {
 template <class Iter_tuple> struct zipped_iter : Iter_tuple {
   constexpr zipped_iter(Iter_tuple const &__t) : Iter_tuple::tuple(__t) {}
 
-  template <size_t N> friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) {
+  template <size_t N>
+  friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) noexcept {
     return *std::get<N>(__z);
   }
 
-  template <size_t N> friend constexpr auto get(zipped_iter<Iter_tuple> &&__z) {
+  template <size_t N>
+  friend constexpr auto get(zipped_iter<Iter_tuple> &&__z) noexcept {
     return std::move(*std::get<N>(__z));
   }
 };
@@ -129,12 +131,12 @@ struct tuple_size<workspace::zipped_iter<Iter_tuple>> : tuple_size<Iter_tuple> {
 
 namespace workspace {
 
-template <class... Args> constexpr auto zip(Args &&... args) {
+template <class... Args> constexpr auto zip(Args &&... args) noexcept {
   return zipped<Args...>(std::forward<Args>(args)...);
 }
 
 template <class... Args>
-constexpr auto zip(std::initializer_list<Args> &&... args) {
+constexpr auto zip(std::initializer_list<Args> &&... args) noexcept {
   return zipped<std::initializer_list<Args>...>(
       std::forward<std::initializer_list<Args>>(args)...);
 }

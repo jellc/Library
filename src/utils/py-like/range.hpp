@@ -44,8 +44,8 @@ template <class Index> class range {
     constexpr reference operator*() const { return iter; }
   };
 
-  range(Index first, Index last) : first(first), last(last) {}
-  range(Index last) : first(), last(last) {}
+  constexpr range(Index first, Index last) : first(first), last(last) {}
+  constexpr range(Index last) : first(), last(last) {}
 
   constexpr iterator begin() const { return iterator{first}; }
   constexpr iterator end() const { return iterator{last}; }

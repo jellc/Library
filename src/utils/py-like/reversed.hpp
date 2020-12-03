@@ -20,12 +20,14 @@ template <class Container> class reversal {
   constexpr auto end() { return std::rend(cont); }
 };
 
-template <class Container> reversal<Container> reversed(Container &&cont) {
+template <class Container>
+constexpr reversal<Container> reversed(Container &&cont) noexcept {
   return {std::forward<Container>(cont)};
 }
 
 template <class Tp>
-reversal<std::initializer_list<Tp>> reversed(std::initializer_list<Tp> &&cont) {
+constexpr reversal<std::initializer_list<Tp>> reversed(
+    std::initializer_list<Tp> &&cont) noexcept {
   return {std::forward<std::initializer_list<Tp>>(cont)};
 }
 
