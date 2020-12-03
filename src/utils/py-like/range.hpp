@@ -7,6 +7,8 @@
 
 #include <iterator>
 
+#include "../reverse_iterator.hpp"
+
 namespace workspace {
 
 template <class Index> class range {
@@ -23,38 +25,39 @@ template <class Index> class range {
     using pointer = iterator;
     using iterator_category = std::bidirectional_iterator_tag;
 
-    constexpr iterator(Index iter = Index()) : iter(iter) {}
+    constexpr iterator(Index iter = Index()) noexcept : iter(iter) {}
 
-    constexpr bool operator==(iterator const &rhs) const {
+    constexpr bool operator==(iterator const &rhs) const noexcept {
       return iter == rhs.iter;
     }
-    constexpr bool operator!=(iterator const &rhs) const {
+    constexpr bool operator!=(iterator const &rhs) const noexcept {
       return iter != rhs.iter;
     }
 
-    constexpr iterator &operator++() {
+    constexpr iterator &operator++() noexcept {
       ++iter;
       return *this;
     }
-    constexpr iterator &operator--() {
+    constexpr iterator &operator--() noexcept {
       --iter;
       return *this;
     }
 
-    constexpr reference operator*() const { return iter; }
+    constexpr reference operator*() const noexcept { return iter; }
   };
 
-  constexpr range(Index first, Index last) : first(first), last(last) {}
-  constexpr range(Index last) : first(), last(last) {}
+  constexpr range(Index first, Index last) noexcept
+      : first(first), last(last) {}
+  constexpr range(Index last) noexcept : first(), last(last) {}
 
-  constexpr iterator begin() const { return iterator{first}; }
-  constexpr iterator end() const { return iterator{last}; }
+  constexpr iterator begin() const noexcept { return iterator{first}; }
+  constexpr iterator end() const noexcept { return iterator{last}; }
 
-  constexpr std::reverse_iterator<iterator> rbegin() const {
-    return std::make_reverse_iterator(end());
+  constexpr reverse_iterator<iterator> rbegin() const noexcept {
+    return reverse_iterator<iterator>(end());
   }
-  constexpr std::reverse_iterator<iterator> rend() const {
-    return std::make_reverse_iterator(begin());
+  constexpr reverse_iterator<iterator> rend() const noexcept {
+    return reverse_iterator<iterator>(begin());
   }
 };
 
