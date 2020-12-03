@@ -15,7 +15,9 @@
 
 namespace workspace {
 
-template <class> struct zipped_iter;
+template <class> struct zipped_iterator;
+
+template <class...> struct zipped_iterator_tuple;
 
 template <class... Args> class zipped {
   using ref_tuple = std::tuple<Args...>;
@@ -37,46 +39,48 @@ template <class... Args> class zipped {
       return std::tuple<>();
   }
 
-  using iter_tuple = decltype(std::declval<zipped>().begin_cat());
-
  public:
   constexpr zipped(Args &&... args) noexcept : args(args...) {}
 
   class iterator {
-    zipped_iter<iter_tuple> iters;
+    using base_tuple = typename zipped_iterator_tuple<Args...>::type;
+
+   public:
+    using difference_type = std::ptrdiff_t;
+    using value_type = zipped_iterator<base_tuple>;
+    using reference = zipped_iterator<base_tuple> const &;
+    using pointer = iterator;
+    using iterator_category = std::bidirectional_iterator_tag;
+
+   protected:
+    value_type current;
 
     template <size_t N = 0>
     constexpr bool equal(const iterator &rhs) const noexcept {
-      if constexpr (N != std::tuple_size<iter_tuple>::value) {
-        return std::get<N>(iters) == std::get<N>(rhs.iters) ||
+      if constexpr (N != std::tuple_size<base_tuple>::value) {
+        return std::get<N>(current) == std::get<N>(rhs.current) ||
                equal<N + 1>(rhs);
       } else
         return false;
     }
 
     template <size_t N = 0> constexpr void increment() noexcept {
-      if constexpr (N != std::tuple_size<iter_tuple>::value) {
-        ++std::get<N>(iters);
+      if constexpr (N != std::tuple_size<base_tuple>::value) {
+        ++std::get<N>(current);
         increment<N + 1>();
       }
     }
 
     template <size_t N = 0> constexpr void decrement() noexcept {
-      if constexpr (N != std::tuple_size<iter_tuple>::value) {
-        --std::get<N>(iters);
+      if constexpr (N != std::tuple_size<base_tuple>::value) {
+        --std::get<N>(current);
         decrement<N + 1>();
       }
     }
 
    public:
-    using difference_type = std::ptrdiff_t;
-    using value_type = zipped_iter<iter_tuple>;
-    using reference = zipped_iter<iter_tuple> const &;
-    using pointer = iterator;
-    using iterator_category = std::bidirectional_iterator_tag;
-
     constexpr iterator() noexcept = default;
-    constexpr iterator(iter_tuple const &iters) noexcept : iters(iters) {}
+    constexpr iterator(base_tuple const &current) noexcept : current(current) {}
 
     constexpr bool operator==(const iterator &rhs) const noexcept {
       return equal(rhs);
@@ -94,7 +98,7 @@ template <class... Args> class zipped {
       return *this;
     }
 
-    constexpr reference operator*() const noexcept { return iters; }
+    constexpr reference operator*() const noexcept { return current; }
   };
 
   constexpr iterator begin() const noexcept { return iterator{begin_cat()}; }
@@ -108,17 +112,25 @@ template <class... Args> class zipped {
   }
 };
 
-template <class Iter_tuple> struct zipped_iter : Iter_tuple {
-  constexpr zipped_iter(Iter_tuple const &__t) noexcept
+template <class Tp, class... Args> struct zipped_iterator_tuple<Tp, Args...> {
+  using type = decltype(std::tuple_cat(
+      std::declval<std::tuple<decltype(std::begin(std::declval<Tp>()))>>(),
+      std::declval<typename zipped_iterator_tuple<Args...>::type>()));
+};
+
+template <> struct zipped_iterator_tuple<> { using type = std::tuple<>; };
+
+template <class Iter_tuple> struct zipped_iterator : Iter_tuple {
+  constexpr zipped_iterator(Iter_tuple const &__t) noexcept
       : Iter_tuple::tuple(__t) {}
 
   template <size_t N>
-  friend constexpr auto &get(zipped_iter<Iter_tuple> const &__z) noexcept {
+  friend constexpr auto &get(zipped_iterator<Iter_tuple> const &__z) noexcept {
     return *std::get<N>(__z);
   }
 
   template <size_t N>
-  friend constexpr auto get(zipped_iter<Iter_tuple> const &&__z) noexcept {
+  friend constexpr auto get(zipped_iterator<Iter_tuple> const &&__z) noexcept {
     return std::move(*std::get<N>(__z));
   }
 };
@@ -128,14 +140,14 @@ template <class Iter_tuple> struct zipped_iter : Iter_tuple {
 namespace std {
 
 template <size_t N, class Iter_tuple>
-struct tuple_element<N, workspace::zipped_iter<Iter_tuple>> {
+struct tuple_element<N, workspace::zipped_iterator<Iter_tuple>> {
   using type = typename remove_reference<typename iterator_traits<
       typename tuple_element<N, Iter_tuple>::type>::reference>::type;
 };
 
 template <class Iter_tuple>
-struct tuple_size<workspace::zipped_iter<Iter_tuple>> : tuple_size<Iter_tuple> {
-};
+struct tuple_size<workspace::zipped_iterator<Iter_tuple>>
+    : tuple_size<Iter_tuple> {};
 
 }  // namespace std
 
@@ -147,7 +159,7 @@ template <class... Args> constexpr auto zip(Args &&... args) noexcept {
 
 template <class... Args>
 constexpr auto zip(std::initializer_list<Args> const &... args) noexcept {
-  return zipped<std::initializer_list<Args>...>(args...);
+  return zipped<std::vector<Args>...>(args...);
 }
 
 }  // namespace workspace
