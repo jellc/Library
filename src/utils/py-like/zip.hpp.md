@@ -22,9 +22,9 @@ data:
     \ (N != std::tuple_size<ref_tuple>::value) {\n      return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n\
     \                            end_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
     \  }\n\n  using iter_tuple = decltype(std::declval<zipped>().begin_cat());\n\n\
-    \ public:\n  zipped(Args &&... args) : args(args...) {}\n\n  class iterator {\n\
-    \    zipped_iter<iter_tuple> iters;\n\n    template <size_t N = 0> constexpr bool\
-    \ equal(const iterator &rhs) const {\n      if constexpr (N != std::tuple_size<iter_tuple>::value)\
+    \ public:\n  constexpr zipped(Args &&... args) : args(args...) {}\n\n  class iterator\
+    \ {\n    zipped_iter<iter_tuple> iters;\n\n    template <size_t N = 0> constexpr\
+    \ bool equal(const iterator &rhs) const {\n      if constexpr (N != std::tuple_size<iter_tuple>::value)\
     \ {\n        return std::get<N>(iters) == std::get<N>(rhs.iters) ||\n        \
     \       equal<N + 1>(rhs);\n      } else\n        return false;\n    }\n\n   \
     \ template <size_t N = 0> constexpr void increment() {\n      if constexpr (N\
@@ -47,18 +47,19 @@ data:
     \  }\n  constexpr std::reverse_iterator<iterator> rend() const {\n    return std::make_reverse_iterator(begin());\n\
     \  }\n};\n\ntemplate <class Iter_tuple> struct zipped_iter : Iter_tuple {\n  constexpr\
     \ zipped_iter(Iter_tuple const &__t) : Iter_tuple::tuple(__t) {}\n\n  template\
-    \ <size_t N> friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) {\n    return\
-    \ *std::get<N>(__z);\n  }\n\n  template <size_t N> friend constexpr auto get(zipped_iter<Iter_tuple>\
-    \ &&__z) {\n    return std::move(*std::get<N>(__z));\n  }\n};\n\n}  // namespace\
-    \ workspace\n\nnamespace std {\n\ntemplate <size_t N, class Iter_tuple>\nstruct\
-    \ tuple_element<N, workspace::zipped_iter<Iter_tuple>> {\n  using type = typename\
-    \ remove_reference<typename iterator_traits<\n      typename tuple_element<N,\
-    \ Iter_tuple>::type>::reference>::type;\n};\n\ntemplate <class Iter_tuple>\nstruct\
-    \ tuple_size<workspace::zipped_iter<Iter_tuple>> : tuple_size<Iter_tuple> {\n\
-    };\n\n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class... Args>\
-    \ constexpr auto zip(Args &&... args) {\n  return zipped<Args...>(std::forward<Args>(args)...);\n\
-    }\n\ntemplate <class... Args>\nconstexpr auto zip(std::initializer_list<Args>\
-    \ &&... args) {\n  return zipped<std::initializer_list<Args>...>(\n      std::forward<std::initializer_list<Args>>(args)...);\n\
+    \ <size_t N>\n  friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) noexcept\
+    \ {\n    return *std::get<N>(__z);\n  }\n\n  template <size_t N>\n  friend constexpr\
+    \ auto get(zipped_iter<Iter_tuple> &&__z) noexcept {\n    return std::move(*std::get<N>(__z));\n\
+    \  }\n};\n\n}  // namespace workspace\n\nnamespace std {\n\ntemplate <size_t N,\
+    \ class Iter_tuple>\nstruct tuple_element<N, workspace::zipped_iter<Iter_tuple>>\
+    \ {\n  using type = typename remove_reference<typename iterator_traits<\n    \
+    \  typename tuple_element<N, Iter_tuple>::type>::reference>::type;\n};\n\ntemplate\
+    \ <class Iter_tuple>\nstruct tuple_size<workspace::zipped_iter<Iter_tuple>> :\
+    \ tuple_size<Iter_tuple> {\n};\n\n}  // namespace std\n\nnamespace workspace {\n\
+    \ntemplate <class... Args> constexpr auto zip(Args &&... args) noexcept {\n  return\
+    \ zipped<Args...>(std::forward<Args>(args)...);\n}\n\ntemplate <class... Args>\n\
+    constexpr auto zip(std::initializer_list<Args> &&... args) noexcept {\n  return\
+    \ zipped<std::initializer_list<Args>...>(\n      std::forward<std::initializer_list<Args>>(args)...);\n\
     }\n\n}  // namespace workspace\n\n#endif\n"
   code: "#pragma once\n\n/*\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <tuple>\n\
     \n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class> struct\
@@ -71,9 +72,9 @@ data:
     \ (N != std::tuple_size<ref_tuple>::value) {\n      return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n\
     \                            end_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
     \  }\n\n  using iter_tuple = decltype(std::declval<zipped>().begin_cat());\n\n\
-    \ public:\n  zipped(Args &&... args) : args(args...) {}\n\n  class iterator {\n\
-    \    zipped_iter<iter_tuple> iters;\n\n    template <size_t N = 0> constexpr bool\
-    \ equal(const iterator &rhs) const {\n      if constexpr (N != std::tuple_size<iter_tuple>::value)\
+    \ public:\n  constexpr zipped(Args &&... args) : args(args...) {}\n\n  class iterator\
+    \ {\n    zipped_iter<iter_tuple> iters;\n\n    template <size_t N = 0> constexpr\
+    \ bool equal(const iterator &rhs) const {\n      if constexpr (N != std::tuple_size<iter_tuple>::value)\
     \ {\n        return std::get<N>(iters) == std::get<N>(rhs.iters) ||\n        \
     \       equal<N + 1>(rhs);\n      } else\n        return false;\n    }\n\n   \
     \ template <size_t N = 0> constexpr void increment() {\n      if constexpr (N\
@@ -96,25 +97,26 @@ data:
     \  }\n  constexpr std::reverse_iterator<iterator> rend() const {\n    return std::make_reverse_iterator(begin());\n\
     \  }\n};\n\ntemplate <class Iter_tuple> struct zipped_iter : Iter_tuple {\n  constexpr\
     \ zipped_iter(Iter_tuple const &__t) : Iter_tuple::tuple(__t) {}\n\n  template\
-    \ <size_t N> friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) {\n    return\
-    \ *std::get<N>(__z);\n  }\n\n  template <size_t N> friend constexpr auto get(zipped_iter<Iter_tuple>\
-    \ &&__z) {\n    return std::move(*std::get<N>(__z));\n  }\n};\n\n}  // namespace\
-    \ workspace\n\nnamespace std {\n\ntemplate <size_t N, class Iter_tuple>\nstruct\
-    \ tuple_element<N, workspace::zipped_iter<Iter_tuple>> {\n  using type = typename\
-    \ remove_reference<typename iterator_traits<\n      typename tuple_element<N,\
-    \ Iter_tuple>::type>::reference>::type;\n};\n\ntemplate <class Iter_tuple>\nstruct\
-    \ tuple_size<workspace::zipped_iter<Iter_tuple>> : tuple_size<Iter_tuple> {\n\
-    };\n\n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class... Args>\
-    \ constexpr auto zip(Args &&... args) {\n  return zipped<Args...>(std::forward<Args>(args)...);\n\
-    }\n\ntemplate <class... Args>\nconstexpr auto zip(std::initializer_list<Args>\
-    \ &&... args) {\n  return zipped<std::initializer_list<Args>...>(\n      std::forward<std::initializer_list<Args>>(args)...);\n\
+    \ <size_t N>\n  friend constexpr auto &get(zipped_iter<Iter_tuple> &__z) noexcept\
+    \ {\n    return *std::get<N>(__z);\n  }\n\n  template <size_t N>\n  friend constexpr\
+    \ auto get(zipped_iter<Iter_tuple> &&__z) noexcept {\n    return std::move(*std::get<N>(__z));\n\
+    \  }\n};\n\n}  // namespace workspace\n\nnamespace std {\n\ntemplate <size_t N,\
+    \ class Iter_tuple>\nstruct tuple_element<N, workspace::zipped_iter<Iter_tuple>>\
+    \ {\n  using type = typename remove_reference<typename iterator_traits<\n    \
+    \  typename tuple_element<N, Iter_tuple>::type>::reference>::type;\n};\n\ntemplate\
+    \ <class Iter_tuple>\nstruct tuple_size<workspace::zipped_iter<Iter_tuple>> :\
+    \ tuple_size<Iter_tuple> {\n};\n\n}  // namespace std\n\nnamespace workspace {\n\
+    \ntemplate <class... Args> constexpr auto zip(Args &&... args) noexcept {\n  return\
+    \ zipped<Args...>(std::forward<Args>(args)...);\n}\n\ntemplate <class... Args>\n\
+    constexpr auto zip(std::initializer_list<Args> &&... args) noexcept {\n  return\
+    \ zipped<std::initializer_list<Args>...>(\n      std::forward<std::initializer_list<Args>>(args)...);\n\
     }\n\n}  // namespace workspace\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/py-like/zip.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2020-12-03 03:06:40+09:00'
+  timestamp: '2020-12-03 12:52:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/zip.hpp
