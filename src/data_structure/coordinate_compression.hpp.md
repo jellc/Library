@@ -48,8 +48,8 @@ data:
   timestamp: '2020-11-28 14:32:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/range_kth_smallest.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
+  - test/library-checker/range_kth_smallest.test.cpp
 documentation_of: src/data_structure/coordinate_compression.hpp
 layout: document
 redirect_from:

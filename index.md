@@ -223,7 +223,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/reverse_iterator.hpp
       title: Reverse Iterator
     - icon: ':warning:'
@@ -263,7 +263,7 @@ data:
     - icon: ':warning:'
       path: src/utils/py-like/reversed.hpp
       title: Reversed
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/py-like/zip.hpp
       title: Zip
   - name: .

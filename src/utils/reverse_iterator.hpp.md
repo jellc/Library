@@ -8,12 +8,15 @@ data:
   - icon: ':warning:'
     path: src/utils/py-like/range.hpp
     title: Range
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/py-like/zip.hpp
     title: Zip
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/number_of_substrings.test.cpp
+    title: test/library-checker/number_of_substrings.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Reverse Iterator
     links:
@@ -53,12 +56,13 @@ data:
   isVerificationFile: false
   path: src/utils/reverse_iterator.hpp
   requiredBy:
-  - src/utils/py-like/zip.hpp
   - src/utils/py-like/range.hpp
   - src/utils/py-like/enumerate.hpp
+  - src/utils/py-like/zip.hpp
   timestamp: '2020-12-04 02:13:02+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/number_of_substrings.test.cpp
 documentation_of: src/utils/reverse_iterator.hpp
 layout: document
 redirect_from:
