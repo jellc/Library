@@ -224,6 +224,9 @@ data:
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
+      path: src/utils/reverse_iterator.hpp
+      title: Reverse Iterator
+    - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
     - icon: ':heavy_check_mark:'

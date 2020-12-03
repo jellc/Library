@@ -48,16 +48,16 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/waitings.hpp
   requiredBy:
-  - src/data_structure/segment_tree/basic.hpp
   - src/data_structure/segment_tree/lazy.hpp
+  - src/data_structure/segment_tree/basic.hpp
   timestamp: '2020-12-01 00:36:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
-  - test/aizu-online-judge/2450.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/data_structure/segment_tree/waitings.hpp
 layout: document
 redirect_from:
