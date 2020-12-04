@@ -129,7 +129,7 @@ data:
     \ {}\n\n  class iterator {\n    using base_tuple = typename zipped_iterator_tuple<Args...>::type;\n\
     \n   public:\n    using difference_type = std::ptrdiff_t;\n    using value_type\
     \ = zipped_iterator<base_tuple>;\n    using reference = zipped_iterator<base_tuple>\
-    \ const &;\n    using pointer = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
+    \ &;\n    using pointer = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
     \n   protected:\n    value_type current;\n\n    template <size_t N = 0>\n    constexpr\
     \ bool equal(const iterator &rhs) const noexcept {\n      if constexpr (N != std::tuple_size<base_tuple>::value)\
     \ {\n        return std::get<N>(current) == std::get<N>(rhs.current) ||\n    \
@@ -146,11 +146,11 @@ data:
     \      return !equal(rhs);\n    }\n\n    constexpr iterator &operator++() noexcept\
     \ {\n      increment();\n      return *this;\n    }\n    constexpr iterator &operator--()\
     \ noexcept {\n      decrement();\n      return *this;\n    }\n\n    constexpr\
-    \ reference operator*() const noexcept { return current; }\n  };\n\n  constexpr\
-    \ iterator begin() const noexcept { return iterator{begin_cat()}; }\n  constexpr\
-    \ iterator end() const noexcept { return iterator{end_cat()}; }\n\n  constexpr\
-    \ reverse_iterator<iterator> rbegin() const noexcept {\n    return reverse_iterator<iterator>{end()};\n\
-    \  }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
+    \ reference operator*() noexcept { return current; }\n  };\n\n  constexpr iterator\
+    \ begin() const noexcept { return iterator{begin_cat()}; }\n  constexpr iterator\
+    \ end() const noexcept { return iterator{end_cat()}; }\n\n  constexpr reverse_iterator<iterator>\
+    \ rbegin() const noexcept {\n    return reverse_iterator<iterator>{end()};\n \
+    \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
     \ reverse_iterator<iterator>{begin()};\n  }\n};\n\ntemplate <class Tp, class...\
     \ Args> struct zipped_iterator_tuple<Tp, Args...> {\n  using type = decltype(std::tuple_cat(\n\
     \      std::declval<std::tuple<decltype(std::begin(std::declval<Tp>()))>>(),\n\
@@ -189,7 +189,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2020-12-04 03:49:00+09:00'
+  timestamp: '2020-12-04 15:02:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp
