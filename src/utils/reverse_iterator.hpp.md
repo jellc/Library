@@ -56,9 +56,9 @@ data:
   isVerificationFile: false
   path: src/utils/reverse_iterator.hpp
   requiredBy:
+  - src/utils/py-like/zip.hpp
   - src/utils/py-like/range.hpp
   - src/utils/py-like/enumerate.hpp
-  - src/utils/py-like/zip.hpp
   timestamp: '2020-12-04 02:13:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

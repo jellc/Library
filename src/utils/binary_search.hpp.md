@@ -127,14 +127,14 @@ data:
   isVerificationFile: false
   path: src/utils/binary_search.hpp
   requiredBy:
-  - src/string/rolling_hash.hpp
   - src/utils/exponential_search.hpp
+  - src/string/rolling_hash.hpp
   timestamp: '2020-11-16 14:21:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
-  - test/aizu-online-judge/ALDS1_14_C.test.cpp
   - test/aizu-online-judge/1342.test.cpp
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/utils/binary_search.hpp
 layout: document
 redirect_from:
