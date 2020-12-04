@@ -48,7 +48,7 @@ template <class... Args> class zipped {
    public:
     using difference_type = std::ptrdiff_t;
     using value_type = zipped_iterator<base_tuple>;
-    using reference = zipped_iterator<base_tuple> const &;
+    using reference = zipped_iterator<base_tuple> &;
     using pointer = iterator;
     using iterator_category = std::bidirectional_iterator_tag;
 
@@ -98,7 +98,7 @@ template <class... Args> class zipped {
       return *this;
     }
 
-    constexpr reference operator*() const noexcept { return current; }
+    constexpr reference operator*() noexcept { return current; }
   };
 
   constexpr iterator begin() const noexcept { return iterator{begin_cat()}; }
