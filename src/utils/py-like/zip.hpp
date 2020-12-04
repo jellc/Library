@@ -9,7 +9,8 @@
 #include <tuple>
 #include <vector>
 
-#include "../reverse_iterator.hpp"
+#include "../iterator/category.hpp"
+#include "../iterator/reverse.hpp"
 
 #if __cplusplus >= 201703L
 
@@ -46,11 +47,12 @@ template <class... Args> class zipped {
     using base_tuple = typename zipped_iterator_tuple<Args...>::type;
 
    public:
+    using iterator_category =
+        typename common_iterator_category<base_tuple>::type;
     using difference_type = std::ptrdiff_t;
     using value_type = zipped_iterator<base_tuple>;
     using reference = zipped_iterator<base_tuple> &;
     using pointer = iterator;
-    using iterator_category = std::bidirectional_iterator_tag;
 
    protected:
     value_type current;
