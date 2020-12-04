@@ -21,7 +21,7 @@ data:
     document_title: Reverse Iterator
     links:
     - http://gcc.gnu.org/PR51823
-  bundledCode: "#line 2 \"src/utils/reverse_iterator.hpp\"\n\n/*\n * @file reverse_iterator.hpp\n\
+  bundledCode: "#line 2 \"src/utils/iterator/reverse.hpp\"\n\n/*\n * @file reverse_iterator.hpp\n\
     \ * @brief Reverse Iterator\n */\n\n#include <iterator>\n#include <optional>\n\
     \nnamespace workspace {\n\n/*\n * @class reverse_iterator\n * @brief Wrapper class\
     \ for `std::reverse_iterator`.\n * @see http://gcc.gnu.org/PR51823\n */\ntemplate\
@@ -54,19 +54,19 @@ data:
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
-  path: src/utils/reverse_iterator.hpp
+  path: src/utils/iterator/reverse.hpp
   requiredBy:
   - src/utils/py-like/zip.hpp
   - src/utils/py-like/range.hpp
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2020-12-04 02:13:02+09:00'
+  timestamp: '2020-12-04 21:34:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/number_of_substrings.test.cpp
-documentation_of: src/utils/reverse_iterator.hpp
+documentation_of: src/utils/iterator/reverse.hpp
 layout: document
 redirect_from:
-- /library/src/utils/reverse_iterator.hpp
-- /library/src/utils/reverse_iterator.hpp.html
+- /library/src/utils/iterator/reverse.hpp
+- /library/src/utils/iterator/reverse.hpp.html
 title: Reverse Iterator
 ---

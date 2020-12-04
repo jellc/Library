@@ -223,9 +223,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
-    - icon: ':heavy_check_mark:'
-      path: src/utils/reverse_iterator.hpp
-      title: Reverse Iterator
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
@@ -252,6 +249,14 @@ data:
     - icon: ':warning:'
       path: src/utils/io/setup.hpp
       title: I/O Setup
+  - name: src/utils/iterator
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/utils/iterator/category.hpp
+      title: Iterator Category
+    - icon: ':heavy_check_mark:'
+      path: src/utils/iterator/reverse.hpp
+      title: Reverse Iterator
   - name: src/utils/py-like
     pages:
     - icon: ':warning:'

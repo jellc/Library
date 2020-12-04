@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: src/utils/reverse_iterator.hpp
+    path: src/utils/iterator/reverse.hpp
     title: Reverse Iterator
   _extendedRequiredBy:
   - icon: ':warning:'
@@ -15,9 +15,9 @@ data:
     document_title: Range
     links: []
   bundledCode: "#line 2 \"src/utils/py-like/range.hpp\"\n\n/*\n * @file range.hpp\n\
-    \ * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"src/utils/reverse_iterator.hpp\"\
+    \ * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"src/utils/iterator/reverse.hpp\"\
     \n\n/*\n * @file reverse_iterator.hpp\n * @brief Reverse Iterator\n */\n\n#line\
-    \ 9 \"src/utils/reverse_iterator.hpp\"\n#include <optional>\n\nnamespace workspace\
+    \ 9 \"src/utils/iterator/reverse.hpp\"\n#include <optional>\n\nnamespace workspace\
     \ {\n\n/*\n * @class reverse_iterator\n * @brief Wrapper class for `std::reverse_iterator`.\n\
     \ * @see http://gcc.gnu.org/PR51823\n */\ntemplate <class Iterator>\nclass reverse_iterator\
     \ : public std::reverse_iterator<Iterator> {\n  using base_std = std::reverse_iterator<Iterator>;\n\
@@ -51,7 +51,7 @@ data:
     \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
     \ reverse_iterator<iterator>(begin());\n  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file range.hpp\n * @brief Range\n */\n\n#include\
-    \ <iterator>\n\n#include \"../reverse_iterator.hpp\"\n\nnamespace workspace {\n\
+    \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n\nnamespace workspace {\n\
     \ntemplate <class Index> class range {\n  Index first, last;\n\n public:\n  class\
     \ iterator {\n    Index iter;\n\n   public:\n    using difference_type = std::ptrdiff_t;\n\
     \    using value_type = Index;\n    using reference = typename std::add_const<Index>::type\
@@ -71,12 +71,12 @@ data:
     \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
     \ reverse_iterator<iterator>(begin());\n  }\n};\n\n}  // namespace workspace\n"
   dependsOn:
-  - src/utils/reverse_iterator.hpp
+  - src/utils/iterator/reverse.hpp
   isVerificationFile: false
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2020-12-04 02:14:28+09:00'
+  timestamp: '2020-12-04 21:34:12+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp
