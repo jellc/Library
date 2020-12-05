@@ -27,7 +27,7 @@ template <class Index> class range {
     using pointer = iterator;
     using iterator_category = std::bidirectional_iterator_tag;
 
-    constexpr iterator(Index __i = Index()) noexcept : current(current) {}
+    constexpr iterator(Index const &__i = Index()) noexcept : current(__i) {}
 
     constexpr bool operator==(iterator const &rhs) const noexcept {
       return current == rhs.current;
