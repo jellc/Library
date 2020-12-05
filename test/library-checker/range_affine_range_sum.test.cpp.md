@@ -136,7 +136,8 @@ data:
     \   * @return Reference to the element.\n   */\n  Monoid &operator[](size_t index)\
     \ {\n    assert(index < size_orig);\n    index |= size_ext;\n    wait.push(index);\n\
     \    for (size_t i = height; i; --i) push(index >> i);\n    return data[index];\n\
-    \  }\n\n  void update(size_t index, const Endomorphism &endo) {\n    update(index,\
+    \  }\n\n  void update(const Endomorphism &endo) { update(0, size_orig, endo);\
+    \ }\n\n  void update(size_t index, const Endomorphism &endo) {\n    update(index,\
     \ index + 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
     \ &endo) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
     \ return;\n    first += size_ext, last += size_ext - 1;\n    for (size_t i = height;\
@@ -291,7 +292,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 16:34:20+09:00'
+  timestamp: '2020-12-05 11:51:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
