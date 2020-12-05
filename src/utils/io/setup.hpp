@@ -12,12 +12,13 @@ namespace workspace {
 
 /*
  * @fn io_setup
- * @brief Setup I/O before main process.
+ * @brief Setup I/O.
+ * @param precision Standard output precision
  */
-__attribute__((constructor)) void io_setup() {
+void io_setup(int precision) {
   std::ios::sync_with_stdio(false);
   std::cin.tie(nullptr);
-  std::cout << std::fixed << std::setprecision(15);
+  std::cout << std::fixed << std::setprecision(precision);
 
 #ifdef _buffer_check
   atexit([] {
