@@ -1,6 +1,6 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/ITP1_3_B"
 
-#include "src/utils/sys/iteration.hpp"
+#include "src/sys/iteration.hpp"
 
 namespace workspace {
 

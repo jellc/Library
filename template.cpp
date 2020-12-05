@@ -8,6 +8,7 @@
 #include "lib/alias"
 #include "lib/cxx20"
 #include "lib/option"
+#include "lib/sys"
 #include "lib/utils"
 
 int main() {
