@@ -19,7 +19,7 @@ struct {
     static bool once = false;
     assert(!once);
     once = true;
-    while (++current < total) {
+    while (current++ < total) {
       try {
         main();
       } catch (ejection const& status) {
