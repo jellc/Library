@@ -5,6 +5,8 @@
  * @brief Reverse Iterator
  */
 
+#if __cplusplus >= 201703L
+
 #include <iterator>
 #include <optional>
 
@@ -54,3 +56,5 @@ class reverse_iterator : public std::reverse_iterator<Iterator> {
 };
 
 }  // namespace workspace
+
+#endif

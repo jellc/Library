@@ -9,6 +9,8 @@
 
 #include "../iterator/reverse.hpp"
 
+#if __cplusplus >= 201703L
+
 namespace workspace {
 
 template <class Index> class range {
@@ -16,7 +18,7 @@ template <class Index> class range {
 
  public:
   class iterator {
-    Index iter;
+    Index current;
 
    public:
     using difference_type = std::ptrdiff_t;
@@ -25,25 +27,25 @@ template <class Index> class range {
     using pointer = iterator;
     using iterator_category = std::bidirectional_iterator_tag;
 
-    constexpr iterator(Index iter = Index()) noexcept : iter(iter) {}
+    constexpr iterator(Index __i = Index()) noexcept : current(current) {}
 
     constexpr bool operator==(iterator const &rhs) const noexcept {
-      return iter == rhs.iter;
+      return current == rhs.current;
     }
     constexpr bool operator!=(iterator const &rhs) const noexcept {
-      return iter != rhs.iter;
+      return current != rhs.current;
     }
 
     constexpr iterator &operator++() noexcept {
-      ++iter;
+      ++current;
       return *this;
     }
     constexpr iterator &operator--() noexcept {
-      --iter;
+      --current;
       return *this;
     }
 
-    constexpr reference operator*() const noexcept { return iter; }
+    constexpr reference operator*() const noexcept { return current; }
   };
 
   constexpr range(Index first, Index last) noexcept
@@ -62,3 +64,5 @@ template <class Index> class range {
 };
 
 }  // namespace workspace
+
+#endif
