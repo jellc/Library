@@ -15,12 +15,12 @@ data:
     , line 399, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/utils: line\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/sys: line\
     \ -1: no such header\n"
   code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/option\"\n#include\
-    \ \"lib/utils\"\n\nint main() {\n  using workspace::case_info;\n\n  /* given\n\
-    \  std::cin >> case_info.total, std::cin.ignore(); //*/\n\n  /* unspecified\n\
+    \ \"lib/sys\"\n#include \"lib/utils\"\n\nint main() {\n  using workspace::case_info;\n\
+    \n  /* given\n  std::cin >> case_info.total, std::cin.ignore(); //*/\n\n  /* unspecified\n\
     \  case_info.total = -1; //*/\n\n  case_info.iterate();\n}\n\nnamespace workspace\
     \ {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace workspace\n"
   dependsOn: []

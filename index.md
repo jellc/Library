@@ -191,6 +191,14 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
+  - name: src/sys
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/sys/ejection.hpp
+      title: Ejection
+    - icon: ':heavy_check_mark:'
+      path: src/sys/iteration.hpp
+      title: Case Iteration
   - name: src/utils
     pages:
     - icon: ':heavy_check_mark:'
@@ -259,14 +267,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/py-like/zip.hpp
       title: Zip
-  - name: src/utils/sys
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: src/utils/sys/ejection.hpp
-      title: Ejection
-    - icon: ':heavy_check_mark:'
-      path: src/utils/sys/iteration.hpp
-      title: Case Iteration
   - name: .
     pages:
     - icon: ':warning:'
