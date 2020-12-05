@@ -45,7 +45,7 @@ data:
     \  using difference_type = std::ptrdiff_t;\n    using value_type = Index;\n  \
     \  using reference = typename std::add_const<Index>::type &;\n    using pointer\
     \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
-    \n    constexpr iterator(Index __i = Index()) noexcept : current(current) {}\n\
+    \n    constexpr iterator(Index const &__i = Index()) noexcept : current(__i) {}\n\
     \n    constexpr bool operator==(iterator const &rhs) const noexcept {\n      return\
     \ current == rhs.current;\n    }\n    constexpr bool operator!=(iterator const\
     \ &rhs) const noexcept {\n      return current != rhs.current;\n    }\n\n    constexpr\
@@ -155,7 +155,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2020-12-05 12:12:40+09:00'
+  timestamp: '2020-12-05 12:16:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
