@@ -10,12 +10,16 @@
 #include "lib/option"
 #include "lib/utils"
 
-int main() { workspace::iterate_main(); }
+int main() {
+  using workspace::case_info;
 
-unsigned workspace::case_number() {
-  // return -1;  // unspecified
-  // unsigned t; cin >> t, cin.ignore(); return t;  // given
-  return 1;
+  /* given
+  std::cin >> case_info.total, std::cin.ignore(); //*/
+
+  /* unspecified
+  case_info.total = -1; //*/
+
+  case_info.iterate();
 }
 
 namespace workspace {
