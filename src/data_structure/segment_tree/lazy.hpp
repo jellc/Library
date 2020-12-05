@@ -164,6 +164,8 @@ class lazy_segment_tree {
     return data[index];
   }
 
+  void update(const Endomorphism &endo) { update(0, size_orig, endo); }
+
   void update(size_t index, const Endomorphism &endo) {
     update(index, index + 1, endo);
   }
