@@ -112,12 +112,13 @@ data:
     \ Tuple> struct common_iterator_category<Tuple, 0> {\n  using type = typename\
     \ std::iterator_traits<\n      typename std::tuple_element<0, Tuple>::type>::iterator_category;\n\
     };\n\n}  // namespace workspace\n#line 2 \"src/utils/iterator/reverse.hpp\"\n\n\
-    /*\n * @file reverse_iterator.hpp\n * @brief Reverse Iterator\n */\n\n#line 9\
-    \ \"src/utils/iterator/reverse.hpp\"\n#include <optional>\n\nnamespace workspace\
-    \ {\n\n/*\n * @class reverse_iterator\n * @brief Wrapper class for `std::reverse_iterator`.\n\
-    \ * @see http://gcc.gnu.org/PR51823\n */\ntemplate <class Iterator>\nclass reverse_iterator\
-    \ : public std::reverse_iterator<Iterator> {\n  using base_std = std::reverse_iterator<Iterator>;\n\
-    \  std::optional<typename base_std::value_type> deref;\n\n public:\n  using base_std::reverse_iterator;\n\
+    /*\n * @file reverse_iterator.hpp\n * @brief Reverse Iterator\n */\n\n#if __cplusplus\
+    \ >= 201703L\n\n#line 11 \"src/utils/iterator/reverse.hpp\"\n#include <optional>\n\
+    \nnamespace workspace {\n\n/*\n * @class reverse_iterator\n * @brief Wrapper class\
+    \ for `std::reverse_iterator`.\n * @see http://gcc.gnu.org/PR51823\n */\ntemplate\
+    \ <class Iterator>\nclass reverse_iterator : public std::reverse_iterator<Iterator>\
+    \ {\n  using base_std = std::reverse_iterator<Iterator>;\n  std::optional<typename\
+    \ base_std::value_type> deref;\n\n public:\n  using base_std::reverse_iterator;\n\
     \n  constexpr typename base_std::reference operator*() noexcept {\n    if (!deref)\
     \ {\n      Iterator tmp = base_std::current;\n      deref = *--tmp;\n    }\n \
     \   return deref.value();\n  }\n\n  constexpr reverse_iterator &operator++() noexcept\
@@ -127,12 +128,12 @@ data:
     \ noexcept {\n    base_std::operator++();\n    deref.reset();\n    return *this;\n\
     \  }\n  constexpr reverse_iterator operator--(int) noexcept {\n    base_std::operator++();\n\
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
-    #line 14 \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace\
-    \ workspace {\n\ntemplate <class> struct zipped_iterator;\n\ntemplate <class...>\
-    \ struct zipped_iterator_tuple;\n\ntemplate <class... Args> class zipped {\n \
-    \ using ref_tuple = std::tuple<Args...>;\n  ref_tuple args;\n\n  template <size_t\
-    \ N = 0> constexpr auto begin_cat() const noexcept {\n    if constexpr (N != std::tuple_size<ref_tuple>::value)\
-    \ {\n      return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n\
+    \n#endif\n#line 14 \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >= 201703L\n\
+    \nnamespace workspace {\n\ntemplate <class> struct zipped_iterator;\n\ntemplate\
+    \ <class...> struct zipped_iterator_tuple;\n\ntemplate <class... Args> class zipped\
+    \ {\n  using ref_tuple = std::tuple<Args...>;\n  ref_tuple args;\n\n  template\
+    \ <size_t N = 0> constexpr auto begin_cat() const noexcept {\n    if constexpr\
+    \ (N != std::tuple_size<ref_tuple>::value) {\n      return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n\
     \                            begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
     \  }\n\n  template <size_t N = 0> constexpr auto end_cat() const noexcept {\n\
     \    if constexpr (N != std::tuple_size<ref_tuple>::value) {\n      return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n\
@@ -202,7 +203,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2020-12-04 21:34:12+09:00'
+  timestamp: '2020-12-05 12:12:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp
