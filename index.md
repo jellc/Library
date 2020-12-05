@@ -203,9 +203,6 @@ data:
       path: src/utils/clock.hpp
       title: Clock
     - icon: ':warning:'
-      path: src/utils/ejection.hpp
-      title: Ejection
-    - icon: ':warning:'
       path: src/utils/exponential_search.hpp
       title: Exponential Search
     - icon: ':warning:'
@@ -214,9 +211,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/hash.hpp
       title: src/utils/hash.hpp
-    - icon: ':warning:'
-      path: src/utils/iterate_case.hpp
-      title: Iterate Testcases
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
@@ -234,9 +228,6 @@ data:
       title: src/utils/trinary_search.hpp
   - name: src/utils/io
     pages:
-    - icon: ':warning:'
-      path: src/utils/io/casefmt.hpp
-      title: Case Output Format
     - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
@@ -268,6 +259,14 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/py-like/zip.hpp
       title: Zip
+  - name: src/utils/sys
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/utils/sys/ejection.hpp
+      title: Ejection
+    - icon: ':heavy_check_mark:'
+      path: src/utils/sys/iteration.hpp
+      title: Case Iteration
   - name: .
     pages:
     - icon: ':warning:'
@@ -313,6 +312,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/ITP1_3_B.test.cpp
+      title: test/aizu-online-judge/ITP1_3_B.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp

@@ -19,10 +19,10 @@ data:
     \ -1: no such header\n"
   code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/option\"\n#include\
-    \ \"lib/utils\"\n\nint main() { workspace::iterate_main(); }\n\nunsigned workspace::case_number()\
-    \ {\n  // return -1;  // unspecified\n  // unsigned t; cin >> t, cin.ignore();\
-    \ return t;  // given\n  return 1;\n}\n\nnamespace workspace {\n\nvoid main()\
-    \ {\n  // start here!\n}\n\n}  // namespace workspace\n"
+    \ \"lib/utils\"\n\nint main() {\n  using workspace::case_info;\n\n  /* given\n\
+    \  std::cin >> case_info.total, std::cin.ignore(); //*/\n\n  /* unspecified\n\
+    \  case_info.total = -1; //*/\n\n  case_info.iterate();\n}\n\nnamespace workspace\
+    \ {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
