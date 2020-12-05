@@ -232,9 +232,6 @@ data:
     - icon: ':warning:'
       path: src/utils/trinary_search.hpp
       title: src/utils/trinary_search.hpp
-    - icon: ':warning:'
-      path: src/utils/wrapper.hpp
-      title: src/utils/wrapper.hpp
   - name: src/utils/io
     pages:
     - icon: ':warning:'
