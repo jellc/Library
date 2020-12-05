@@ -23,7 +23,7 @@ data:
     }\n\nvoid exit() { throw ejection{true}; }\n\n}  // namespace workspace\n#line\
     \ 11 \"src/sys/iteration.hpp\"\n\nnamespace workspace {\n\nvoid main();\n\nstruct\
     \ {\n  unsigned current{0}, total{1};\n  int iterate() {\n    static bool once\
-    \ = false;\n    assert(!once);\n    once = true;\n    while (++current < total)\
+    \ = false;\n    assert(!once);\n    once = true;\n    while (current++ < total)\
     \ {\n      try {\n        main();\n      } catch (ejection const& status) {\n\
     \        if (status.exit) break;\n      }\n    }\n    return 0;\n  }\n} case_info;\n\
     \n}  // namespace workspace\n"
@@ -31,7 +31,7 @@ data:
     \n#include <cassert>\n\n#include \"ejection.hpp\"\n\nnamespace workspace {\n\n\
     void main();\n\nstruct {\n  unsigned current{0}, total{1};\n  int iterate() {\n\
     \    static bool once = false;\n    assert(!once);\n    once = true;\n    while\
-    \ (++current < total) {\n      try {\n        main();\n      } catch (ejection\
+    \ (current++ < total) {\n      try {\n        main();\n      } catch (ejection\
     \ const& status) {\n        if (status.exit) break;\n      }\n    }\n    return\
     \ 0;\n  }\n} case_info;\n\n}  // namespace workspace\n"
   dependsOn:
@@ -39,7 +39,7 @@ data:
   isVerificationFile: false
   path: src/sys/iteration.hpp
   requiredBy: []
-  timestamp: '2020-12-05 14:40:51+09:00'
+  timestamp: '2020-12-05 20:43:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_3_B.test.cpp

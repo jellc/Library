@@ -27,7 +27,7 @@ data:
     \ }\n\n}  // namespace workspace\n#line 11 \"src/sys/iteration.hpp\"\n\nnamespace\
     \ workspace {\n\nvoid main();\n\nstruct {\n  unsigned current{0}, total{1};\n\
     \  int iterate() {\n    static bool once = false;\n    assert(!once);\n    once\
-    \ = true;\n    while (++current < total) {\n      try {\n        main();\n   \
+    \ = true;\n    while (current++ < total) {\n      try {\n        main();\n   \
     \   } catch (ejection const& status) {\n        if (status.exit) break;\n    \
     \  }\n    }\n    return 0;\n  }\n} case_info;\n\n}  // namespace workspace\n#line\
     \ 4 \"test/aizu-online-judge/ITP1_3_B.test.cpp\"\n\nnamespace workspace {\n\n\
@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/ITP1_3_B.test.cpp
   requiredBy: []
-  timestamp: '2020-12-05 14:40:51+09:00'
+  timestamp: '2020-12-05 20:43:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ITP1_3_B.test.cpp
