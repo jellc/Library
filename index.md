@@ -43,11 +43,6 @@ data:
     - icon: ':warning:'
       path: deprecated/local/dump.hpp
       title: deprecated/local/dump.hpp
-  - name: deprecated/segment_tree
-    pages:
-    - icon: ':warning:'
-      path: deprecated/segment_tree/lazy.hpp
-      title: deprecated/segment_tree/lazy.hpp
   - name: dev
     pages:
     - icon: ':warning:'
