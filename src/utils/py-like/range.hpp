@@ -8,6 +8,7 @@
 #include <iterator>
 
 #include "../iterator/reverse.hpp"
+#include "reversed.hpp"
 
 #if __cplusplus >= 201703L
 
@@ -62,6 +63,10 @@ template <class Index> class range {
     return reverse_iterator<iterator>(begin());
   }
 };
+
+template <class... Args> constexpr auto rrange(Args &&... args) noexcept {
+  return reversal(range(std::forward<Args>(args)...));
+}
 
 }  // namespace workspace
 
