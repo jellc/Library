@@ -1,7 +1,13 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/utils/py-like/enumerate.hpp
+    title: Enumerate
+  - icon: ':warning:'
+    path: src/utils/py-like/range.hpp
+    title: Range
   _extendedVerifiedWith: []
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
@@ -31,7 +37,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/utils/py-like/reversed.hpp
-  requiredBy: []
+  requiredBy:
+  - src/utils/py-like/range.hpp
+  - src/utils/py-like/enumerate.hpp
   timestamp: '2020-12-04 00:31:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

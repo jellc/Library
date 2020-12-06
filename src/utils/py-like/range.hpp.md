@@ -4,6 +4,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/iterator/reverse.hpp
     title: Reverse Iterator
+  - icon: ':warning:'
+    path: src/utils/py-like/reversed.hpp
+    title: Reversed
   _extendedRequiredBy:
   - icon: ':warning:'
     path: src/utils/py-like/enumerate.hpp
@@ -32,12 +35,21 @@ data:
     \ noexcept {\n    base_std::operator++();\n    deref.reset();\n    return *this;\n\
     \  }\n  constexpr reverse_iterator operator--(int) noexcept {\n    base_std::operator++();\n\
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
-    \n#endif\n#line 11 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\
-    \nnamespace workspace {\n\ntemplate <class Index> class range {\n  Index first,\
-    \ last;\n\n public:\n  class iterator {\n    Index current;\n\n   public:\n  \
-    \  using difference_type = std::ptrdiff_t;\n    using value_type = Index;\n  \
-    \  using reference = typename std::add_const<Index>::type &;\n    using pointer\
-    \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
+    \n#endif\n#line 2 \"src/utils/py-like/reversed.hpp\"\n\n/*\n * @file reversed.hpp\n\
+    \ * @brief Reversed\n */\n\n#include <initializer_list>\n#line 10 \"src/utils/py-like/reversed.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Container> class reversal {\n  Container\
+    \ cont;\n\n public:\n  constexpr reversal(Container &&cont) : cont(cont) {}\n\n\
+    \  constexpr auto begin() { return std::rbegin(cont); }\n  constexpr auto end()\
+    \ { return std::rend(cont); }\n};\n\ntemplate <class Container> constexpr auto\
+    \ reversed(Container &&cont) noexcept {\n  return reversal<Container>{std::forward<Container>(cont)};\n\
+    }\n\ntemplate <class Tp>\nconstexpr auto reversed(std::initializer_list<Tp> &&cont)\
+    \ noexcept {\n  return reversal<std::initializer_list<Tp>>{\n      std::forward<std::initializer_list<Tp>>(cont)};\n\
+    }\n\n}  // namespace workspace\n#line 12 \"src/utils/py-like/range.hpp\"\n\n#if\
+    \ __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class Index> class\
+    \ range {\n  Index first, last;\n\n public:\n  class iterator {\n    Index current;\n\
+    \n   public:\n    using difference_type = std::ptrdiff_t;\n    using value_type\
+    \ = Index;\n    using reference = typename std::add_const<Index>::type &;\n  \
+    \  using pointer = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
     \n    constexpr iterator(Index const &__i = Index()) noexcept : current(__i) {}\n\
     \n    constexpr bool operator==(iterator const &rhs) const noexcept {\n      return\
     \ current == rhs.current;\n    }\n    constexpr bool operator!=(iterator const\
@@ -52,14 +64,16 @@ data:
     \ }\n\n  constexpr reverse_iterator<iterator> rbegin() const noexcept {\n    return\
     \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
     \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
-    \ }\n};\n\n}  // namespace workspace\n\n#endif\n"
+    \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
+    \ {\n  return reversal(range(std::forward<Args>(args)...));\n}\n\n}  // namespace\
+    \ workspace\n\n#endif\n"
   code: "#pragma once\n\n/*\n * @file range.hpp\n * @brief Range\n */\n\n#include\
-    \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n\n#if __cplusplus >= 201703L\n\
-    \nnamespace workspace {\n\ntemplate <class Index> class range {\n  Index first,\
-    \ last;\n\n public:\n  class iterator {\n    Index current;\n\n   public:\n  \
-    \  using difference_type = std::ptrdiff_t;\n    using value_type = Index;\n  \
-    \  using reference = typename std::add_const<Index>::type &;\n    using pointer\
-    \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
+    \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n#include \"reversed.hpp\"\
+    \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class Index>\
+    \ class range {\n  Index first, last;\n\n public:\n  class iterator {\n    Index\
+    \ current;\n\n   public:\n    using difference_type = std::ptrdiff_t;\n    using\
+    \ value_type = Index;\n    using reference = typename std::add_const<Index>::type\
+    \ &;\n    using pointer = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
     \n    constexpr iterator(Index const &__i = Index()) noexcept : current(__i) {}\n\
     \n    constexpr bool operator==(iterator const &rhs) const noexcept {\n      return\
     \ current == rhs.current;\n    }\n    constexpr bool operator!=(iterator const\
@@ -74,14 +88,17 @@ data:
     \ }\n\n  constexpr reverse_iterator<iterator> rbegin() const noexcept {\n    return\
     \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
     \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
-    \ }\n};\n\n}  // namespace workspace\n\n#endif\n"
+    \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
+    \ {\n  return reversal(range(std::forward<Args>(args)...));\n}\n\n}  // namespace\
+    \ workspace\n\n#endif\n"
   dependsOn:
   - src/utils/iterator/reverse.hpp
+  - src/utils/py-like/reversed.hpp
   isVerificationFile: false
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2020-12-05 12:16:33+09:00'
+  timestamp: '2020-12-06 15:44:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp
