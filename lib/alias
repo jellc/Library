@@ -25,6 +25,8 @@ using u64 = uint_least64_t;
 #ifdef __SIZEOF_INT128__
 using i128 = __int128_t;
 using u128 = __uint128_t;
+#else
+#warning 128bit integer is not available.
 #endif
 
 template <class T, class Comp = less<T>>
