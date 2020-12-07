@@ -12,7 +12,7 @@ int main() {
   std::vector<mint> a(1 << n), b(1 << n);
   for (auto &x : a) cin >> x;
   for (auto &x : b) cin >> x;
-  a = subset_convolute(a, b);
+  a = workspace::subset_conv(a, b);
   for (auto x : a) printf("%d ", x);
   puts("");
 }
