@@ -79,7 +79,6 @@ template <typename _Tp> constexpr int __countl_one(_Tp __x) noexcept {
 }
 
 template <typename _Tp> constexpr int __countr_zero(_Tp __x) noexcept {
-  using numeric_limits;
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
 
   if (__x == 0) return _Nd;
@@ -113,7 +112,6 @@ template <typename _Tp> constexpr int __countr_one(_Tp __x) noexcept {
 }
 
 template <typename _Tp> constexpr int __popcount(_Tp __x) noexcept {
-  using numeric_limits;
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
 
   if (__x == 0) return 0;
@@ -145,7 +143,6 @@ template <typename _Tp> constexpr bool __has_single_bit(_Tp __x) noexcept {
 }
 
 template <typename _Tp> constexpr _Tp __bit_ceil(_Tp __x) noexcept {
-  using numeric_limits;
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
   if (__x == 0 || __x == 1) return 1;
   auto __shift_exponent = _Nd - __countl_zero((_Tp)(__x - 1u));
