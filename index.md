@@ -55,7 +55,7 @@ data:
       title: src/algebra/convolution/number_theoretic_transform.hpp
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
-      title: src/algebra/convolution/subset.hpp
+      title: Subset Convolution
   - name: src/algebra/linear
     pages:
     - icon: ':warning:'
