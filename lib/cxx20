@@ -12,6 +12,169 @@
 
 namespace std {
 
+#ifndef _GLIBCXX_BIT
+#define _GLIBCXX_BIT 1
+
+#include <type_traits>
+
+template <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept {
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+  const int __r = __s % _Nd;
+  if (__r == 0)
+    return __x;
+  else if (__r > 0)
+    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));
+  else
+    return (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)
+}
+
+template <typename _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+  const int __r = __s % _Nd;
+  if (__r == 0)
+    return __x;
+  else if (__r > 0)
+    return (__x >> __r) | (__x << ((_Nd - __r) % _Nd));
+  else
+    return (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));  // rotl(x, -r)
+}
+
+template <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+
+  if (__x == 0) return _Nd;
+
+  constexpr auto _Nd_ull = numeric_limits<unsigned long long>::digits;
+  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
+  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
+
+  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u) {
+    constexpr int __diff = _Nd_u - _Nd;
+    return __builtin_clz(__x) - __diff;
+  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {
+    constexpr int __diff = _Nd_ul - _Nd;
+    return __builtin_clzl(__x) - __diff;
+  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {
+    constexpr int __diff = _Nd_ull - _Nd;
+    return __builtin_clzll(__x) - __diff;
+  } else  // (_Nd > _Nd_ull)
+  {
+    static_assert(_Nd <= (2 * _Nd_ull),
+                  "Maximum supported integer size is 128-bit");
+
+    unsigned long long __high = __x >> _Nd_ull;
+    if (__high != 0) {
+      constexpr int __diff = (2 * _Nd_ull) - _Nd;
+      return __builtin_clzll(__high) - __diff;
+    }
+    constexpr auto __max_ull = numeric_limits<unsigned long long>::max();
+    unsigned long long __low = __x & __max_ull;
+    return (_Nd - _Nd_ull) + __builtin_clzll(__low);
+  }
+}
+
+template <typename _Tp> constexpr int __countl_one(_Tp __x) noexcept {
+  if (__x == numeric_limits<_Tp>::max()) return numeric_limits<_Tp>::digits;
+  return __countl_zero<_Tp>((_Tp)~__x);
+}
+
+template <typename _Tp> constexpr int __countr_zero(_Tp __x) noexcept {
+  using numeric_limits;
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+
+  if (__x == 0) return _Nd;
+
+  constexpr auto _Nd_ull = numeric_limits<unsigned long long>::digits;
+  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
+  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
+
+  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)
+    return __builtin_ctz(__x);
+  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul)
+    return __builtin_ctzl(__x);
+  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull)
+    return __builtin_ctzll(__x);
+  else  // (_Nd > _Nd_ull)
+  {
+    static_assert(_Nd <= (2 * _Nd_ull),
+                  "Maximum supported integer size is 128-bit");
+
+    constexpr auto __max_ull = numeric_limits<unsigned long long>::max();
+    unsigned long long __low = __x & __max_ull;
+    if (__low != 0) return __builtin_ctzll(__low);
+    unsigned long long __high = __x >> _Nd_ull;
+    return __builtin_ctzll(__high) + _Nd_ull;
+  }
+}
+
+template <typename _Tp> constexpr int __countr_one(_Tp __x) noexcept {
+  if (__x == numeric_limits<_Tp>::max()) return numeric_limits<_Tp>::digits;
+  return __countr_zero((_Tp)~__x);
+}
+
+template <typename _Tp> constexpr int __popcount(_Tp __x) noexcept {
+  using numeric_limits;
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+
+  if (__x == 0) return 0;
+
+  constexpr auto _Nd_ull = numeric_limits<unsigned long long>::digits;
+  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
+  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
+
+  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)
+    return __builtin_popcount(__x);
+  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul)
+    return __builtin_popcountl(__x);
+  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull)
+    return __builtin_popcountll(__x);
+  else  // (_Nd > _Nd_ull)
+  {
+    static_assert(_Nd <= (2 * _Nd_ull),
+                  "Maximum supported integer size is 128-bit");
+
+    constexpr auto __max_ull = numeric_limits<unsigned long long>::max();
+    unsigned long long __low = __x & __max_ull;
+    unsigned long long __high = __x >> _Nd_ull;
+    return __builtin_popcountll(__low) + __builtin_popcountll(__high);
+  }
+}
+
+template <typename _Tp> constexpr bool __has_single_bit(_Tp __x) noexcept {
+  return __popcount(__x) == 1;
+}
+
+template <typename _Tp> constexpr _Tp __bit_ceil(_Tp __x) noexcept {
+  using numeric_limits;
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+  if (__x == 0 || __x == 1) return 1;
+  auto __shift_exponent = _Nd - __countl_zero((_Tp)(__x - 1u));
+#ifdef _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
+  if (!__builtin_is_constant_evaluated()) {
+    __glibcxx_assert(__shift_exponent != numeric_limits<_Tp>::digits);
+  }
+#endif
+  using __promoted_type = decltype(__x << 1);
+  if _GLIBCXX17_CONSTEXPR (!is_same<__promoted_type, _Tp>::value) {
+    const int __extra_exp = sizeof(__promoted_type) / sizeof(_Tp) / 2;
+    __shift_exponent |= (__shift_exponent & _Nd) << __extra_exp;
+  }
+  return (_Tp)1u << __shift_exponent;
+}
+
+template <typename _Tp> constexpr _Tp __bit_floor(_Tp __x) noexcept {
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+  if (__x == 0) return 0;
+  return (_Tp)1u << (_Nd - __countl_zero((_Tp)(__x >> 1)));
+}
+
+template <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept {
+  constexpr auto _Nd = numeric_limits<_Tp>::digits;
+  return _Nd - __countl_zero(__x);
+}
+
+#endif
+
 /*
  * @fn erase_if
  * @brief Erase the elements of a container that do not satisfy the condition.
@@ -23,8 +186,7 @@ template <typename _Tp, typename _Alloc, typename _Predicate>
 inline typename vector<_Tp, _Alloc>::size_type erase_if(
     vector<_Tp, _Alloc>& __cont, _Predicate __pred) {
   const auto __osz = __cont.size();
-  __cont.erase(std::remove_if(__cont.begin(), __cont.end(), __pred),
-               __cont.end());
+  __cont.erase(remove_if(__cont.begin(), __cont.end(), __pred), __cont.end());
   return __osz - __cont.size();
 }
 
@@ -39,8 +201,7 @@ template <typename _Tp, typename _Alloc, typename _Up>
 inline typename vector<_Tp, _Alloc>::size_type erase(
     vector<_Tp, _Alloc>& __cont, const _Up& __value) {
   const auto __osz = __cont.size();
-  __cont.erase(std::remove(__cont.begin(), __cont.end(), __value),
-               __cont.end());
+  __cont.erase(remove(__cont.begin(), __cont.end(), __value), __cont.end());
   return __osz - __cont.size();
 }
 
