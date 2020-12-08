@@ -7,7 +7,8 @@
 
 #include "lib/alias"
 #include "lib/cxx20"
-#include "lib/option"
+#include "lib/direct"
+#include "lib/opt"
 #include "lib/sys"
 #include "lib/utils"
 
