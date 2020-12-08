@@ -56,6 +56,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
+    - icon: ':warning:'
+      path: src/algebra/convolution/zeta.hpp
+      title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
     - icon: ':warning:'
