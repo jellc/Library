@@ -16,8 +16,8 @@ int main() {
 
   io_setup(15);
 
-  /* given
-  std::cin >> case_info.total, std::cin.ignore(); //*/
+  //* given
+  case_info.read();  //*/
 
   /* unspecified
   case_info.total = -1; //*/

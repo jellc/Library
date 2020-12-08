@@ -15,6 +15,9 @@ void main();
 
 struct {
   unsigned current{0}, total{1};
+
+  void read() { (std::cin >> total).ignore(); }
+
   int iterate() {
     static bool once = false;
     assert(!once);
