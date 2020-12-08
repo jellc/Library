@@ -9,7 +9,7 @@
 #include <cassert>
 #include <vector>
 
-#include "src/utils/binary_search.hpp"
+#include "src/opt/binary_search.hpp"
 #include "src/utils/random_number_generator.hpp"
 #include "src/utils/sfinae.hpp"
 

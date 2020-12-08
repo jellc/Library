@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "src/opt/binary_search.hpp"
 #include "src/string/rolling_hash.hpp"
-#include "src/utils/binary_search.hpp"
 
 int main() {
   std::string s;
