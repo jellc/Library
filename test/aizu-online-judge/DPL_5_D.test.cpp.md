@@ -6,7 +6,7 @@ data:
     title: Binomial Coefficient
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/factorial.hpp
-    title: src/combinatorics/factorial.hpp
+    title: Factorial
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
@@ -141,13 +141,14 @@ data:
     \ (int m(inv.size()); m <= n; ++m)\n      inv.emplace_back(mod / m * -inv[mod\
     \ % m]);\n    return inv[n];\n  }\n\n private:\n  static std::vector<value_type>\
     \ inv;\n};\n\ntemplate <class Modint> std::vector<Modint> inverse_table<Modint>::inv;\n\
-    \n}  // namespace workspace\n#line 2 \"src/combinatorics/factorial.hpp\"\n#include\
-    \ <functional>\n#line 4 \"src/combinatorics/factorial.hpp\"\ntemplate <class T,\
-    \ class Op = std::multiplies<T>>\nclass factorial\n{\n    std::vector<T> fact;\n\
-    \    Op op;\npublic:\n    factorial(T init = 1, Op op = Op()) : fact{init}, op{op}\
-    \ {}\n    T operator()(const int &n)\n    {\n        if(n < 0) return 0;\n   \
-    \     for(int m(fact.size()); m <= n; ++m) fact.emplace_back(op(fact.back(), m));\n\
-    \        return fact[n];\n    }\n}; // class factorial\n#line 11 \"src/combinatorics/binomial.hpp\"\
+    \n}  // namespace workspace\n#line 2 \"src/combinatorics/factorial.hpp\"\n\n/*\n\
+    \ * @brief Factorial\n */\n\n#include <functional>\n#line 9 \"src/combinatorics/factorial.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class Tp, class Op = std::multiplies<Tp>>\
+    \ class factorial {\n  std::vector<Tp> fact;\n  Op op;\n\n public:\n  factorial(Tp\
+    \ init = 1, Op op = Op()) : fact{init}, op{op} {}\n\n  Tp operator()(int_least32_t\
+    \ n) {\n    if (n < 0) return 0;\n    for (int_least32_t m(fact.size()); m <=\
+    \ n; ++m)\n      fact.emplace_back(op(fact.back(), m));\n    return fact[n];\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 11 \"src/combinatorics/binomial.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class, class = int> struct binomial;\n\
     template <class Modint> struct binomial<Modint> {\n  static_assert(std::is_same<std::nullptr_t,\n\
     \                             decltype((void *)Modint::mod, nullptr)>::value);\n\
@@ -176,7 +177,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/DPL_5_D.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 16:34:20+09:00'
+  timestamp: '2020-12-08 19:06:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/DPL_5_D.test.cpp

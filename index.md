@@ -76,7 +76,7 @@ data:
       title: Binomial Coefficient
     - icon: ':heavy_check_mark:'
       path: src/combinatorics/factorial.hpp
-      title: src/combinatorics/factorial.hpp
+      title: Factorial
   - name: src/data_structure
     pages:
     - icon: ':heavy_check_mark:'
