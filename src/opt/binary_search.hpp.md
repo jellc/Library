@@ -5,9 +5,21 @@ data:
   - icon: ':warning:'
     path: src/opt/exponential_search.hpp
     title: Exponential Search
-  _extendedVerifiedWith: []
+  - icon: ':question:'
+    path: src/string/rolling_hash.hpp
+    title: Rolling Hash
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/1342.test.cpp
+    title: test/aizu-online-judge/1342.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Binary Search
     links: []
@@ -123,9 +135,13 @@ data:
   path: src/opt/binary_search.hpp
   requiredBy:
   - src/opt/exponential_search.hpp
+  - src/string/rolling_hash.hpp
   timestamp: '2020-12-08 15:31:04+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_SOME_WA
+  verifiedWith:
+  - test/library-checker/zalgorithm_2.test.cpp
+  - test/aizu-online-judge/1342.test.cpp
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/opt/binary_search.hpp
 layout: document
 redirect_from:

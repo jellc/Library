@@ -23,6 +23,9 @@ data:
   - icon: ':warning:'
     path: src/number_theory/least_factor.hpp
     title: Least Prime Factor
+  - icon: ':question:'
+    path: src/string/rolling_hash.hpp
+    title: Rolling Hash
   - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
@@ -39,6 +42,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
+    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
@@ -72,8 +78,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/zalgorithm_2.test.cpp
+    title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: SFINAE
     links: []
@@ -140,13 +149,15 @@ data:
   - src/utils/round_div.hpp
   - src/utils/hash.hpp
   - src/utils/io/istream.hpp
+  - src/string/rolling_hash.hpp
   - src/string/suffix_array.hpp
   timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/zalgorithm_2.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
@@ -156,6 +167,7 @@ data:
   - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/aizu-online-judge/2450.test.cpp
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document
 redirect_from:

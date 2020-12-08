@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':question:'
     path: src/opt/binary_search.hpp
     title: Binary Search
   _extendedRequiredBy: []

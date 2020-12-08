@@ -168,7 +168,7 @@ data:
       title: Least Prime Factor
   - name: src/opt
     pages:
-    - icon: ':warning:'
+    - icon: ':question:'
       path: src/opt/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -185,7 +185,7 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':warning:'
+    - icon: ':question:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
     - icon: ':heavy_check_mark:'
@@ -219,13 +219,13 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':warning:'
+    - icon: ':question:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
@@ -285,7 +285,7 @@ data:
   verificationCategories:
   - name: test/aizu-online-judge
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1342.test.cpp
       title: test/aizu-online-judge/1342.test.cpp
     - icon: ':x:'
@@ -297,7 +297,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
     - icon: ':heavy_check_mark:'
