@@ -6,6 +6,7 @@
  */
 
 #include <cassert>
+#include <limits>
 #include <tuple>
 #include <vector>
 
