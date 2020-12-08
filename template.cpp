@@ -16,13 +16,13 @@ int main() {
 
   io_setup(15);
 
-  //* given
+  /* given
   case_info.read();  //*/
 
   /* unspecified
   case_info.total = -1; //*/
 
-  case_info.iterate();
+  return case_info.iterate();
 }
 
 namespace workspace {
