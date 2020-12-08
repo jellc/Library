@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/opt/binary_search.hpp
     title: Binary Search
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/random_number_generator.hpp
     title: src/utils/random_number_generator.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -28,11 +28,11 @@ data:
     \ @brief Rolling Hash\n */\n\n#include <algorithm>\n#include <cassert>\n#include\
     \ <vector>\n\n#line 2 \"src/opt/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n\
     \ * @brief Binary Search\n */\n\n#line 9 \"src/opt/binary_search.hpp\"\n#include\
-    \ <tuple>\n#line 11 \"src/opt/binary_search.hpp\"\n\nnamespace workspace {\n\n\
-    /*\n * @fn binary_search\n * @brief binary search on a discrete range.\n * @param\
-    \ ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param pred the predicate\n\
-    \ * @return the closest point to (ng) where pred is true\n */\ntemplate <class\
-    \ Iter, class Pred>\ntypename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
+    \ <limits>\n#include <tuple>\n#line 12 \"src/opt/binary_search.hpp\"\n\nnamespace\
+    \ workspace {\n\n/*\n * @fn binary_search\n * @brief binary search on a discrete\
+    \ range.\n * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param\
+    \ pred the predicate\n * @return the closest point to (ng) where pred is true\n\
+    \ */\ntemplate <class Iter, class Pred>\ntypename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
     \                        bool>::value,\n    Iter>::type\nbinary_search(Iter ok,\
     \ Iter ng, Pred pred) {\n  assert(ok != ng);\n  typename std::make_signed<decltype(ng\
     \ - ok)>::type dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    const Iter\
@@ -203,7 +203,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/ALDS1_14_C.test.cpp
   requiredBy: []
-  timestamp: '2020-12-08 15:35:30+09:00'
+  timestamp: '2020-12-08 15:39:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ALDS1_14_C.test.cpp

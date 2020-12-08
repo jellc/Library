@@ -23,7 +23,7 @@ data:
   - icon: ':warning:'
     path: src/number_theory/least_factor.hpp
     title: Least Prime Factor
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
   - icon: ':heavy_check_mark:'
@@ -78,11 +78,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -152,7 +152,7 @@ data:
   - src/string/rolling_hash.hpp
   - src/string/suffix_array.hpp
   timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp

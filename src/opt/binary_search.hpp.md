@@ -5,7 +5,7 @@ data:
   - icon: ':warning:'
     path: src/opt/exponential_search.hpp
     title: Exponential Search
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
   _extendedVerifiedWith:
@@ -15,21 +15,21 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ALDS1_14_C.test.cpp
     title: test/aizu-online-judge/ALDS1_14_C.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Binary Search
     links: []
   bundledCode: "#line 2 \"src/opt/binary_search.hpp\"\n\n/*\n * @file binary_search.hpp\n\
-    \ * @brief Binary Search\n */\n\n#include <cassert>\n#include <tuple>\n#include\
-    \ <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief binary\
-    \ search on a discrete range.\n * @param ok pred(ok) is true\n * @param ng pred(ng)\
-    \ is false\n * @param pred the predicate\n * @return the closest point to (ng)\
-    \ where pred is true\n */\ntemplate <class Iter, class Pred>\ntypename std::enable_if<\n\
-    \    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
+    \ * @brief Binary Search\n */\n\n#include <cassert>\n#include <limits>\n#include\
+    \ <tuple>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n\
+    \ * @brief binary search on a discrete range.\n * @param ok pred(ok) is true\n\
+    \ * @param ng pred(ng) is false\n * @param pred the predicate\n * @return the\
+    \ closest point to (ng) where pred is true\n */\ntemplate <class Iter, class Pred>\n\
+    typename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
     \                        bool>::value,\n    Iter>::type\nbinary_search(Iter ok,\
     \ Iter ng, Pred pred) {\n  assert(ok != ng);\n  typename std::make_signed<decltype(ng\
     \ - ok)>::type dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    const Iter\
@@ -78,11 +78,12 @@ data:
     \ {\n      (res[i] ? std::get<0>(ends[i]) : std::get<1>(ends[i])) = mids[i];\n\
     \    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file binary_search.hpp\n * @brief Binary Search\n\
-    \ */\n\n#include <cassert>\n#include <tuple>\n#include <vector>\n\nnamespace workspace\
-    \ {\n\n/*\n * @fn binary_search\n * @brief binary search on a discrete range.\n\
-    \ * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param pred\
-    \ the predicate\n * @return the closest point to (ng) where pred is true\n */\n\
-    template <class Iter, class Pred>\ntypename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
+    \ */\n\n#include <cassert>\n#include <limits>\n#include <tuple>\n#include <vector>\n\
+    \nnamespace workspace {\n\n/*\n * @fn binary_search\n * @brief binary search on\
+    \ a discrete range.\n * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n\
+    \ * @param pred the predicate\n * @return the closest point to (ng) where pred\
+    \ is true\n */\ntemplate <class Iter, class Pred>\ntypename std::enable_if<\n\
+    \    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
     \                        bool>::value,\n    Iter>::type\nbinary_search(Iter ok,\
     \ Iter ng, Pred pred) {\n  assert(ok != ng);\n  typename std::make_signed<decltype(ng\
     \ - ok)>::type dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    const Iter\
@@ -136,8 +137,8 @@ data:
   requiredBy:
   - src/opt/exponential_search.hpp
   - src/string/rolling_hash.hpp
-  timestamp: '2020-12-08 15:31:04+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2020-12-08 15:39:54+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/1342.test.cpp

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/opt/binary_search.hpp
     title: Binary Search
   _extendedRequiredBy: []
@@ -14,11 +14,11 @@ data:
   bundledCode: "#line 2 \"src/opt/exponential_search.hpp\"\n\n/*\n * @file exponential_search.hpp\n\
     \ * @brief Exponential Search\n */\n\n#line 2 \"src/opt/binary_search.hpp\"\n\n\
     /*\n * @file binary_search.hpp\n * @brief Binary Search\n */\n\n#include <cassert>\n\
-    #include <tuple>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @fn binary_search\n\
-    \ * @brief binary search on a discrete range.\n * @param ok pred(ok) is true\n\
-    \ * @param ng pred(ng) is false\n * @param pred the predicate\n * @return the\
-    \ closest point to (ng) where pred is true\n */\ntemplate <class Iter, class Pred>\n\
-    typename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
+    #include <limits>\n#include <tuple>\n#include <vector>\n\nnamespace workspace\
+    \ {\n\n/*\n * @fn binary_search\n * @brief binary search on a discrete range.\n\
+    \ * @param ok pred(ok) is true\n * @param ng pred(ng) is false\n * @param pred\
+    \ the predicate\n * @return the closest point to (ng) where pred is true\n */\n\
+    template <class Iter, class Pred>\ntypename std::enable_if<\n    std::is_convertible<decltype(std::declval<Pred>()(std::declval<Iter>())),\n\
     \                        bool>::value,\n    Iter>::type\nbinary_search(Iter ok,\
     \ Iter ng, Pred pred) {\n  assert(ok != ng);\n  typename std::make_signed<decltype(ng\
     \ - ok)>::type dist(ng - ok);\n  while (1 < dist || dist < -1) {\n    const Iter\
@@ -104,7 +104,7 @@ data:
   isVerificationFile: false
   path: src/opt/exponential_search.hpp
   requiredBy: []
-  timestamp: '2020-12-08 15:31:04+09:00'
+  timestamp: '2020-12-08 15:39:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/opt/exponential_search.hpp
