@@ -20,9 +20,9 @@ data:
   code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
     \n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/option\"\n#include\
     \ \"lib/sys\"\n#include \"lib/utils\"\n\nint main() {\n  using namespace workspace;\n\
-    \n  io_setup(15);\n\n  //* given\n  case_info.read();  //*/\n\n  /* unspecified\n\
-    \  case_info.total = -1; //*/\n\n  case_info.iterate();\n}\n\nnamespace workspace\
-    \ {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace workspace\n"
+    \n  io_setup(15);\n\n  /* given\n  case_info.read();  //*/\n\n  /* unspecified\n\
+    \  case_info.total = -1; //*/\n\n  return case_info.iterate();\n}\n\nnamespace\
+    \ workspace {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
