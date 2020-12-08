@@ -286,6 +286,9 @@ data:
   - name: test/aizu-online-judge
     pages:
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/0323.test.cpp
+      title: test/aizu-online-judge/0323.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1342.test.cpp
       title: test/aizu-online-judge/1342.test.cpp
     - icon: ':x:'
