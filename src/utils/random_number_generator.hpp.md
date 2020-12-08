@@ -1,19 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: src/string/rolling_hash.hpp
-    title: Rolling Hash
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/ALDS1_14_C.test.cpp
-    title: test/aizu-online-judge/ALDS1_14_C.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/zalgorithm_2.test.cpp
-    title: test/library-checker/zalgorithm_2.test.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/utils/random_number_generator.hpp\"\n#include <random>\n\
@@ -39,13 +30,10 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/utils/random_number_generator.hpp
-  requiredBy:
-  - src/string/rolling_hash.hpp
+  requiredBy: []
   timestamp: '2020-11-16 14:21:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/zalgorithm_2.test.cpp
-  - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: src/utils/random_number_generator.hpp
 layout: document
 redirect_from:

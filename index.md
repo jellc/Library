@@ -166,6 +166,17 @@ data:
     - icon: ':warning:'
       path: src/number_theory/least_factor.hpp
       title: Least Prime Factor
+  - name: src/opt
+    pages:
+    - icon: ':warning:'
+      path: src/opt/binary_search.hpp
+      title: Binary Search
+    - icon: ':warning:'
+      path: src/opt/exponential_search.hpp
+      title: Exponential Search
+    - icon: ':warning:'
+      path: src/opt/trinary_search.hpp
+      title: Trinary Search
   - name: src/string
     pages:
     - icon: ':x:'
@@ -174,7 +185,7 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
     - icon: ':heavy_check_mark:'
@@ -193,18 +204,12 @@ data:
       title: Case Iteration
   - name: src/utils
     pages:
-    - icon: ':heavy_check_mark:'
-      path: src/utils/binary_search.hpp
-      title: Binary Search
     - icon: ':warning:'
       path: src/utils/chval.hpp
       title: Change Less/Greater
     - icon: ':warning:'
       path: src/utils/clock.hpp
       title: Clock
-    - icon: ':warning:'
-      path: src/utils/exponential_search.hpp
-      title: Exponential Search
     - icon: ':warning:'
       path: src/utils/fixed_point.hpp
       title: Fixed Point Combinator
@@ -214,7 +219,7 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/utils/random_number_generator.hpp
       title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
@@ -223,9 +228,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
-    - icon: ':warning:'
-      path: src/utils/trinary_search.hpp
-      title: src/utils/trinary_search.hpp
   - name: src/utils/io
     pages:
     - icon: ':heavy_check_mark:'
@@ -283,7 +285,7 @@ data:
   verificationCategories:
   - name: test/aizu-online-judge
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/1342.test.cpp
       title: test/aizu-online-judge/1342.test.cpp
     - icon: ':x:'
@@ -295,7 +297,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
     - icon: ':heavy_check_mark:'
@@ -369,7 +371,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage
