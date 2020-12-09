@@ -1,8 +1,9 @@
-/*
+/**
  * @file template.cpp
  * @brief Template
  */
 
+// #undef _GLIBCXX_DEBUG
 #include <bits/extc++.h>
 
 #include "lib/alias"
