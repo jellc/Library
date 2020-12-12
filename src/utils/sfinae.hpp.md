@@ -46,9 +46,6 @@ data:
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/DSL_2_A.test.cpp
-    title: test/aizu-online-judge/DSL_2_A.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   - icon: ':heavy_check_mark:'
@@ -66,9 +63,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
@@ -158,9 +152,7 @@ data:
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/associative_array.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
-  - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp

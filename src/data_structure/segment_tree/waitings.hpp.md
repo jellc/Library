@@ -10,17 +10,8 @@ data:
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/DSL_2_A.test.cpp
-    title: test/aizu-online-judge/DSL_2_A.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/point_set_range_composite.test.cpp
-    title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -50,9 +41,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/point_set_range_composite.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
-  - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/data_structure/segment_tree/waitings.hpp
 layout: document
