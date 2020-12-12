@@ -5,9 +5,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
-  - icon: ':question:'
-    path: src/data_structure/segment_tree/basic.hpp
-    title: Segment Tree
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
@@ -49,9 +46,6 @@ data:
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/DSL_2_A.test.cpp
-    title: test/aizu-online-judge/DSL_2_A.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   - icon: ':heavy_check_mark:'
@@ -60,9 +54,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
-  - icon: ':x:'
-    path: test/library-checker/point_add_range_sum.test.cpp
-    title: test/library-checker/point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
@@ -73,9 +64,6 @@ data:
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/library-checker/static_range_inversions_query.test.cpp
-    title: test/library-checker/static_range_inversions_query.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
@@ -85,7 +73,7 @@ data:
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -145,7 +133,6 @@ data:
   - src/number_theory/ext_gcd.hpp
   - src/number_theory/least_factor.hpp
   - src/data_structure/segment_tree/lazy.hpp
-  - src/data_structure/segment_tree/basic.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/combinatorics/binomial.hpp
@@ -155,7 +142,7 @@ data:
   - src/string/rolling_hash.hpp
   - src/string/suffix_array.hpp
   timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp
@@ -164,11 +151,8 @@ data:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
-  - test/library-checker/point_add_range_sum.test.cpp
   - test/library-checker/associative_array.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
-  - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
