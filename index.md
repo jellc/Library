@@ -280,9 +280,6 @@ data:
       path: variant/deque_aggregation.hpp
       title: variant/deque_aggregation.hpp
     - icon: ':warning:'
-      path: variant/modint.hpp
-      title: variant/modint.hpp
-    - icon: ':warning:'
       path: variant/modular.hpp
       title: variant/modular.hpp
   - name: variant/flow
