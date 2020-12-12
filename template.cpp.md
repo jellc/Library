@@ -17,13 +17,13 @@ data:
     , line 258, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
     )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/opt: line\
     \ -1: no such header\n"
-  code: "/*\n * @file template.cpp\n * @brief Template\n */\n\n#include <bits/extc++.h>\n\
-    \n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/direct\"\n#include\
-    \ \"lib/opt\"\n#include \"lib/sys\"\n#include \"lib/utils\"\n\nint main() {\n\
-    \  using namespace workspace;\n\n  io_setup(15);\n\n  /* given\n  case_info.read();\
-    \  //*/\n\n  /* unspecified\n  case_info.total = -1; //*/\n\n  return case_info.iterate();\n\
-    }\n\nnamespace workspace {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace\
-    \ workspace\n"
+  code: "/**\n * @file template.cpp\n * @brief Template\n */\n\n// #undef _GLIBCXX_DEBUG\n\
+    #include <bits/extc++.h>\n\n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include\
+    \ \"lib/direct\"\n#include \"lib/opt\"\n#include \"lib/sys\"\n#include \"lib/utils\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  io_setup(15);\n\n  /* given\n\
+    \  case_info.read();  //*/\n\n  /* unspecified\n  case_info.total = -1; //*/\n\
+    \n  return case_info.iterate();\n}\n\nnamespace workspace {\n\nvoid main() {\n\
+    \  // start here!\n}\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
