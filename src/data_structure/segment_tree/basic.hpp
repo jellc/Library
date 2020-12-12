@@ -1,189 +1,243 @@
 #pragma once
 
-/*
+/**
  * @file basic.hpp
  * @brief Segment Tree
  */
 
 #include <cassert>
-#include <queue>
 #include <vector>
 
 #include "src/algebra/system/monoid.hpp"
-#include "src/utils/sfinae.hpp"
-#include "waitings.hpp"
 
 namespace workspace {
 
-template <class Monoid, class Container = std::vector<Monoid>>
+/**
+ * @tparam Monoid `operator+`
+ * @tparam Container_tmpl `operator[]`, `size_type`
+ */
+template <class Monoid, template <class...> class Container_tmpl = std::vector>
 class segment_tree {
-  static_assert(std::is_same<Monoid, mapped_type<Container>>::value);
-
   static_assert(
       std::is_same<Monoid, decltype(std::declval<const Monoid>() +
                                     std::declval<const Monoid>())>::value,
       "\'Monoid\' has no proper binary \'operator+\'.");
 
-  size_t size_orig, height, size_ext;
-  Container data;
-  internal::waitings wait;
+  struct node {
+    Monoid value{};
+    bool latest{true};
+  };
 
-  void repair() {
-    while (!wait.empty()) {
-      const size_t index = wait.pop() >> 1;
-      if (index && wait.push(index)) pull(index);
+  using container_type = Container_tmpl<node>;
+
+ public:
+  using size_type = typename container_type::size_type;
+
+  class iterator {
+    segment_tree *__p;
+    size_type __i;
+
+   public:
+    using difference_type = typename std::make_signed<size_type>::type;
+    using value_type = Monoid;
+    using reference = Monoid &;
+    using pointer = iterator;
+    using iterator_category = std::random_access_iterator_tag;
+
+    /**
+     * @brief Construct a new iterator object
+     *
+     */
+    iterator() = default;
+
+    /**
+     * @brief Construct a new iterator object
+     *
+     * @param __p Pointer to a segment tree object
+     * @param __i Index
+     */
+    iterator(segment_tree *__p, size_type __i) : __p(__p), __i(__i) {}
+
+    bool operator==(iterator const &rhs) const {
+      return __p == rhs.__p && __i == rhs.__i;
     }
-  }
+    bool operator!=(iterator const &rhs) const { return !operator==(rhs); }
 
-  void pull(const size_t node) {
-    data[node] = data[node << 1] + data[node << 1 | 1];
+    bool operator<(iterator const &rhs) const { return __i < rhs.__i; }
+    bool operator>(iterator const &rhs) const { return __i > rhs.__i; }
+    bool operator<=(iterator const &rhs) const { return __i <= rhs.__i; }
+    bool operator>=(iterator const &rhs) const { return __i >= rhs.__i; }
+
+    iterator &operator++() { return ++__i, *this; }
+    iterator &operator--() { return --__i, *this; }
+
+    difference_type operator-(iterator const &rhs) const {
+      return __i - rhs.__i;
+    }
+
+    /**
+     * @brief
+     *
+     * @return reference
+     */
+    reference operator*() const { return __p->operator[](__i); }
+  };
+
+  using value_type = typename iterator::value_type;
+  using reference = typename iterator::reference;
+
+  iterator begin() { return {this, 0}; }
+  iterator end() { return {this, size_orig}; }
+
+  auto rbegin() { return std::make_reverse_iterator(end()); }
+  auto rend() { return std::make_reverse_iterator(begin()); }
+
+ protected:
+  size_type size_orig, height, size_ext;
+  container_type data;
+
+  Monoid const &pull(size_type __i) noexcept {
+    if (!data[__i].latest)
+      data[__i] = {pull(__i << 1) + pull(__i << 1 | 1), true};
+    return data[__i].value;
   }
 
   template <class Pred>
   static constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(
-      Pred pred, Monoid const &_1, size_t _2) {
+      Pred pred, Monoid const &_1, size_type _2) {
     return pred(_1);
   }
 
   template <class Pred>
-  static constexpr decltype(std::declval<Pred>()(Monoid{}, size_t{})) pass_args(
-      Pred pred, Monoid const &_1, size_t _2) {
+  static constexpr decltype(std::declval<Pred>()(Monoid{}, size_type{}))
+  pass_args(Pred pred, Monoid const &_1, size_type _2) {
     return pred(_1, _2);
   }
 
   template <class Pred>
-  size_t left_partition_subtree(size_t node, Monoid mono, size_t step,
-                                Pred pred) const {
-    assert(node);
-    while (node < size_ext) {
-      const Monoid tmp = data[(node <<= 1) | 1] + mono;
-      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
+  size_type left_partition_subtree(size_type __i, Monoid mono, size_type step,
+                                   Pred pred) {
+    assert(__i);
+    while (__i < size_ext) {
+      const Monoid tmp = pull((__i <<= 1) | 1) + mono;
+      if (pass_args(pred, tmp, ((__i | 1) << --step) ^ size_ext))
         mono = tmp;
       else
-        ++node;
+        ++__i;
     }
-    return ++node -= size_ext;
+    return ++__i -= size_ext;
   }
 
   template <class Pred>
-  size_t right_partition_subtree(size_t node, Monoid mono, size_t step,
-                                 Pred pred) const {
-    assert(node);
-    while (node < size_ext) {
-      const Monoid tmp = mono + data[node <<= 1];
-      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
-        ++node, mono = tmp;
+  size_type right_partition_subtree(size_type __i, Monoid mono, size_type step,
+                                    Pred pred) {
+    assert(__i);
+    while (__i < size_ext) {
+      const Monoid tmp = mono + pull(__i <<= 1);
+      if (pass_args(pred, tmp, ((__i | 1) << --step) ^ size_ext))
+        ++__i, mono = tmp;
     }
-    return (node -= size_ext) < size_orig ? node : size_orig;
+    return (__i -= size_ext) < size_orig ? __i : size_orig;
   }
 
  public:
-  using value_type = Monoid;
-
-  segment_tree(const size_t n = 0)
-      : size_orig{n},
-        height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
-        size_ext{1u << height},
-        data(size_ext << 1),
-        wait(size_ext << 1) {}
-
-  segment_tree(const size_t n, const Monoid &init) : segment_tree(n) {
-    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
-    for (size_t i{size_ext}; --i;) pull(i);
+  /**
+   * @brief Construct a new segment tree object
+   *
+   * @param __n Number of elements.
+   */
+  segment_tree(size_type __n = 0)
+      : size_orig{__n},
+        height(__n > 1 ? 64 - __builtin_clzll(__n - 1) : 0),
+        size_ext{size_type{1} << height} {
+    if constexpr (std::is_constructible_v<container_type, size_t>)
+      data = container_type(size_ext << 1);
   }
 
-  template <class iter_type, class value_type = typename std::iterator_traits<
-                                 iter_type>::value_type>
-  segment_tree(iter_type first, iter_type last)
-      : size_orig(std::distance(first, last)),
-        height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),
-        size_ext{1u << height},
-        data(size_ext << 1),
-        wait(size_ext << 1) {
-    static_assert(std::is_constructible<Monoid, value_type>::value,
-                  "Monoid(iter_type::value_type) is not constructible.");
-    for (auto iter{std::next(std::begin(data), size_ext)};
-         iter != std::end(data) && first != last; ++iter, ++first)
-      *iter = Monoid{*first};
-    for (size_t i{size_ext}; --i;) pull(i);
+  /**
+   * @brief Construct a new segment tree object
+   *
+   * @tparam Tp
+   * @param __n Number of elements.
+   * @param init
+   */
+  template <class Tp,
+            std::enable_if_t<std::is_convertible_v<Tp, Monoid>> * = nullptr>
+  segment_tree(size_type __n, Tp const &init) : segment_tree(__n) {
+    for (auto i = begin(); i != end(); ++i) *i = init;
   }
 
-  template <class Cont, typename = typename Cont::value_type>
-  segment_tree(const Cont &cont)
-      : segment_tree(std::begin(cont), std::end(cont)) {}
+  /**
+   * @brief Construct a new segment tree object
+   *
+   * @tparam Iterator
+   * @param __first
+   * @param __last
+   */
+  template <class Iterator,
+            std::enable_if_t<std::is_convertible_v<
+                typename std::iterator_traits<Iterator>::value_type, Monoid>>
+                * = nullptr>
+  segment_tree(Iterator __first, Iterator __last)
+      : segment_tree(std::distance(__first, __last)) {
+    for (auto i = begin(); __first != __last; ++i, ++__first) *i = *__first;
+  }
 
-  /*
-   * @fn size
+  /**
    * @return Number of elements.
    */
-  size_t size() const { return size_orig; }
+  size_type size() const { return size_orig; }
 
-  // size_t capacity() const { return size_ext; }
-
-  /*
-   * @fn operator[]
-   * @param index Index of the element
+  /**
+   * @param __i Index of the element
    * @return Reference to the element.
    */
-  Monoid &operator[](size_t index) {
-    assert(index < size_orig);
-    wait.push(index |= size_ext);
-    return data[index];
+  reference operator[](size_type __i) {
+    assert(__i < size_orig);
+    __i |= size_ext;
+    for (size_type __j{__i >> 1}; __j && data[__j].latest; __j >>= 1)
+      data[__j].latest = false;
+    return data[__i].value;
   }
 
-  /*
-   * @fn operator[]
-   * @param index Index of the element
-   * @return Const reference to the element.
-   */
-  const Monoid &operator[](size_t index) const {
-    assert(index < size_orig);
-    return data[index |= size_orig];
-  }
-
-  /*
-   * @fn fold
+  /**
    * @param first Left end, inclusive
    * @param last Right end, exclusive
    * @return Sum of elements in the interval.
    */
-  Monoid fold(size_t first, size_t last) {
+  value_type fold(size_type first, size_type last) {
     assert(last <= size_orig);
-    repair();
-    Monoid leftval{}, rightval{};
+    Monoid left{}, right{};
     first += size_ext, last += size_ext;
     while (first < last) {
-      if (first & 1) leftval = leftval + data[first++];
-      if (last & 1) rightval = data[--last] + rightval;
+      if (first & 1) left = left + pull(first++);
+      if (last & 1) right = pull(--last) + right;
       first >>= 1, last >>= 1;
     }
-    return leftval + rightval;
+    return left + right;
   }
 
-  /*
-   * @fn fold
-   * @return Sum of all elements.
+  /**
+   * @return The whole sum.
    */
-  Monoid fold() { return fold(0, size_orig); }
+  value_type fold() { return fold(0, size_orig); }
 
-  /*
-   * @fn left_partition
+  /**
    * @brief Binary search for the partition point.
    * @param right Right fixed end of the interval, exclusive
    * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
-   * size_t)'
+   * size_type)'
    * @return Left end of the extremal interval satisfying the condition,
    * inclusive.
    */
-  template <class Pred> size_t left_partition(size_t right, Pred pred) {
+  template <class Pred> size_type left_partition(size_type right, Pred pred) {
     assert(right <= size_orig);
-    repair();
     right += size_ext;
     Monoid mono{};
-    for (size_t left{size_ext}, step{}; left != right;
+    for (size_type left{size_ext}, step{}; left != right;
          left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
-        const Monoid tmp = data[--right] + mono;
+        const Monoid tmp = pull(--right) + mono;
         if (!pass_args(pred, tmp, (right << step) ^ size_ext))
           return left_partition_subtree(right, mono, step, pred);
         mono = tmp;
@@ -192,24 +246,22 @@ class segment_tree {
     return 0;
   }
 
-  /*
-   * @fn right_partition
+  /**
    * @brief Binary search for the partition point.
    * @param left Left fixed end of the interval, inclusive
    * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
-   * size_t)'
+   * size_type)'
    * @return Right end of the extremal interval satisfying the condition,
    * exclusive.
    */
-  template <class Pred> size_t right_partition(size_t left, Pred pred) {
+  template <class Pred> size_type right_partition(size_type left, Pred pred) {
     assert(left <= size_orig);
-    repair();
     left += size_ext;
     Monoid mono{};
-    for (size_t right{size_ext << 1}, step{}; left != right;
+    for (size_type right{size_ext << 1}, step{}; left != right;
          left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
-        const Monoid tmp = mono + data[left];
+        const Monoid tmp = mono + pull(left);
         if (!pass_args(pred, tmp, ((left + 1) << step) ^ size_ext))
           return right_partition_subtree(left, mono, step, pred);
         mono = tmp;
