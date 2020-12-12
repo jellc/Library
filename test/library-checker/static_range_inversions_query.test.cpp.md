@@ -13,6 +13,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
+  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/waitings.hpp
+    title: src/data_structure/segment_tree/waitings.hpp
+  - icon: ':heavy_check_mark:'
+    path: src/utils/sfinae.hpp
+    title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -218,10 +224,12 @@ data:
   - src/data_structure/coordinate_compression.hpp
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
+  - src/utils/sfinae.hpp
+  - src/data_structure/segment_tree/waitings.hpp
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2020-12-12 23:14:32+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp

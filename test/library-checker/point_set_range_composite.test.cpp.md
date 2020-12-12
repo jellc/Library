@@ -8,6 +8,9 @@ data:
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/waitings.hpp
+    title: src/data_structure/segment_tree/waitings.hpp
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -263,12 +266,13 @@ data:
   dependsOn:
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
-  - src/modular/modint.hpp
   - src/utils/sfinae.hpp
+  - src/data_structure/segment_tree/waitings.hpp
+  - src/modular/modint.hpp
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-12-12 23:14:32+09:00'
+  timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
