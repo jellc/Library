@@ -199,6 +199,9 @@ data:
       title: Z-Algorithm
   - name: src/sys
     pages:
+    - icon: ':warning:'
+      path: src/sys/clock.hpp
+      title: Clock
     - icon: ':heavy_check_mark:'
       path: src/sys/ejection.hpp
       title: Ejection
@@ -210,9 +213,6 @@ data:
     - icon: ':warning:'
       path: src/utils/chval.hpp
       title: Change Less/Greater
-    - icon: ':warning:'
-      path: src/utils/clock.hpp
-      title: Clock
     - icon: ':warning:'
       path: src/utils/fixed_point.hpp
       title: Fixed Point Combinator
