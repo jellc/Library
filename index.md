@@ -222,9 +222,6 @@ data:
     - icon: ':warning:'
       path: src/utils/make_vector.hpp
       title: Multi-dimensional Vector
-    - icon: ':heavy_check_mark:'
-      path: src/utils/random_number_generator.hpp
-      title: src/utils/random_number_generator.hpp
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
@@ -264,6 +261,14 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/py-like/zip.hpp
       title: Zip
+  - name: src/utils/rand
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/utils/rand/rng.hpp
+      title: Random Number Generator
+    - icon: ':warning:'
+      path: src/utils/rand/shuffle.hpp
+      title: Shuffle
   - name: .
     pages:
     - icon: ':warning:'

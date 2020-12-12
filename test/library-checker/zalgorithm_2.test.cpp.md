@@ -8,8 +8,8 @@ data:
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
   - icon: ':heavy_check_mark:'
-    path: src/utils/random_number_generator.hpp
-    title: src/utils/random_number_generator.hpp
+    path: src/utils/rand/rng.hpp
+    title: Random Number Generator
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
@@ -79,27 +79,27 @@ data:
     \ {\n      (res[i] ? std::get<0>(ends[i]) : std::get<1>(ends[i])) = mids[i];\n\
     \    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n#line 2 \"src/string/rolling_hash.hpp\"\
     \n\n/*\n * @file rolling_hash.hpp\n * @brief Rolling Hash\n */\n\n#include <algorithm>\n\
-    #line 11 \"src/string/rolling_hash.hpp\"\n\n#line 2 \"src/utils/random_number_generator.hpp\"\
-    \n#include <random>\ntemplate <typename num_type> class random_number_generator\
-    \ {\n  typename std::conditional<std::is_integral<num_type>::value,\n        \
-    \                    std::uniform_int_distribution<num_type>,\n              \
-    \              std::uniform_real_distribution<num_type>>::type\n      unif;\n\n\
-    \  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type min =\
-    \ std::numeric_limits<num_type>::min(),\n                          num_type max\
-    \ = std::numeric_limits<num_type>::max())\n      : unif(min, max), engine(std::random_device{}())\
-    \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
-    \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
-    \  num_type operator()() { return unif(engine); }\n};\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
-    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
-    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
-    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
-    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
-    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    #line 11 \"src/string/rolling_hash.hpp\"\n\n#line 2 \"src/utils/rand/rng.hpp\"\
+    \n\n/**\n * @file rng.hpp\n * @brief Random Number Generator\n */\n\n#include\
+    \ <random>\n\nnamespace workspace {\n\ntemplate <typename Arithmetic>\nusing uniform_distribution\
+    \ =\n    typename std::conditional<std::is_integral<Arithmetic>::value,\n    \
+    \                          std::uniform_int_distribution<Arithmetic>,\n      \
+    \                        std::uniform_real_distribution<Arithmetic>>::type;\n\n\
+    template <typename Arithmetic>\nclass random_number_generator : uniform_distribution<Arithmetic>\
+    \ {\n  using base = uniform_distribution<Arithmetic>;\n\n  std::mt19937 engine;\n\
+    \n public:\n  template <class... Args>\n  random_number_generator(Args&&... args)\n\
+    \      : base(args...), engine(std::random_device{}()) {}\n\n  auto operator()()\
+    \ { return base::operator()(engine); }\n};\n\n}  // namespace workspace\n#line\
+    \ 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\nnamespace\
+    \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
+    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
+    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -184,12 +184,12 @@ data:
   dependsOn:
   - src/opt/binary_search.hpp
   - src/string/rolling_hash.hpp
-  - src/utils/random_number_generator.hpp
+  - src/utils/rand/rng.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2020-12-08 15:39:54+09:00'
+  timestamp: '2020-12-12 22:39:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp

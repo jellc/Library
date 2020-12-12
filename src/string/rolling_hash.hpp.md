@@ -5,8 +5,8 @@ data:
     path: src/opt/binary_search.hpp
     title: Binary Search
   - icon: ':heavy_check_mark:'
-    path: src/utils/random_number_generator.hpp
-    title: src/utils/random_number_generator.hpp
+    path: src/utils/rand/rng.hpp
+    title: Random Number Generator
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
@@ -78,27 +78,27 @@ data:
     \     mids[i] = (ok + ng) / 2;\n      }\n    }\n    if (all_found) break;\n  \
     \  const auto res = pred(mids);\n    for (size_t i{}; i != std::size(ends); ++i)\
     \ {\n      (res[i] ? std::get<0>(ends[i]) : std::get<1>(ends[i])) = mids[i];\n\
-    \    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/random_number_generator.hpp\"\
-    \n#include <random>\ntemplate <typename num_type> class random_number_generator\
-    \ {\n  typename std::conditional<std::is_integral<num_type>::value,\n        \
-    \                    std::uniform_int_distribution<num_type>,\n              \
-    \              std::uniform_real_distribution<num_type>>::type\n      unif;\n\n\
-    \  std::mt19937 engine;\n\n public:\n  random_number_generator(num_type min =\
-    \ std::numeric_limits<num_type>::min(),\n                          num_type max\
-    \ = std::numeric_limits<num_type>::max())\n      : unif(min, max), engine(std::random_device{}())\
-    \ {}\n\n  num_type min() const { return unif.min(); }\n\n  num_type max() const\
-    \ { return unif.max(); }\n\n  // generate a random number in [min(), max()].\n\
-    \  num_type operator()() { return unif(engine); }\n};\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\nnamespace workspace {\n\ntemplate <class\
-    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
-    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
-    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
-    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
-    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/rand/rng.hpp\"\
+    \n\n/**\n * @file rng.hpp\n * @brief Random Number Generator\n */\n\n#include\
+    \ <random>\n\nnamespace workspace {\n\ntemplate <typename Arithmetic>\nusing uniform_distribution\
+    \ =\n    typename std::conditional<std::is_integral<Arithmetic>::value,\n    \
+    \                          std::uniform_int_distribution<Arithmetic>,\n      \
+    \                        std::uniform_real_distribution<Arithmetic>>::type;\n\n\
+    template <typename Arithmetic>\nclass random_number_generator : uniform_distribution<Arithmetic>\
+    \ {\n  using base = uniform_distribution<Arithmetic>;\n\n  std::mt19937 engine;\n\
+    \n public:\n  template <class... Args>\n  random_number_generator(Args&&... args)\n\
+    \      : base(args...), engine(std::random_device{}()) {}\n\n  auto operator()()\
+    \ { return base::operator()(engine); }\n};\n\n}  // namespace workspace\n#line\
+    \ 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\nnamespace\
+    \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
+    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
+    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -170,45 +170,45 @@ data:
     \ workspace\n"
   code: "#pragma once\n\n/*\n * @file rolling_hash.hpp\n * @brief Rolling Hash\n */\n\
     \n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#include \"src/opt/binary_search.hpp\"\
-    \n#include \"src/utils/random_number_generator.hpp\"\n#include \"src/utils/sfinae.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @struct rolling_hashed\n * @brief hash data\
-    \ of a string.\n */\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n\
-    \  using u128 = __uint128_t;\n\n  /*\n   * @var mod\n   * @brief modulus used\
-    \ for hashing.\n   */\n  constexpr static u64 mod = (1ull << 61) - 1;\n\n  const\
-    \ static u64 base;\n\n  /*\n   * @var value\n   * @brief hash value.\n   */\n\
-    \  u64 value = 0;\n\n  /*\n   * @var lenght\n   * @brief length of the string.\n\
-    \   */\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /*\n   * @brief\
-    \ construct hash data from one character.\n   * @param c a character\n   */\n\
-    \  template <class char_type, typename std::enable_if<std::is_convertible<\n \
-    \                                char_type, u64>::value>::type * = nullptr>\n\
-    \  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64\
-    \ value, size_t length) : value(value), length(length) {}\n\n  operator std::pair<u64,\
-    \ size_t>() const { return {value, length}; }\n\n  /*\n   * @return whether or\
-    \ not (*this) and (rhs) are equal\n   * @param rhs\n   */\n  bool operator==(const\
-    \ rolling_hashed &rhs) const {\n    return value == rhs.value && length == rhs.length;\n\
-    \  }\n\n  /*\n   * @return whether or not (*this) and (rhs) are distinct\n   *\
-    \ @param rhs\n   */\n  bool operator!=(const rolling_hashed &rhs) const { return\
-    \ !operator==(rhs); }\n\n  /*\n   * @param rhs the right operand\n   * @return\
-    \ hash data of concatenated string\n   */\n  rolling_hashed operator+(const rolling_hashed\
-    \ &rhs) const {\n    return {plus(value, mult(rhs.value, base_pow(length))),\n\
-    \            length + rhs.length};\n  }\n\n  /*\n   * @param rhs appended to right\
-    \ end\n   * @return reference to updated hash data\n   */\n  rolling_hashed operator+=(const\
-    \ rolling_hashed &rhs) {\n    return *this = operator+(rhs);\n  }\n\n  /*\n  \
-    \ * @param rhs the erased suffix\n   * @return hash data of erased string\n  \
-    \ */\n  rolling_hashed operator-(const rolling_hashed &rhs) const {\n    assert(!(length\
-    \ < rhs.length));\n    return {minus(value, mult(rhs.value, base_pow(length -\
-    \ rhs.length))),\n            length - rhs.length};\n  }\n\n  /*\n   * @param\
-    \ rhs erased from right end\n   * @return reference to updated hash data\n   */\n\
-    \  rolling_hashed operator-=(const rolling_hashed &rhs) {\n    return *this =\
-    \ operator-(rhs);\n  }\n\n  /*\n   * @fn base_pow\n   * @param exp the exponent\n\
-    \   * @return base ** pow\n   */\n  static u64 base_pow(size_t exp) {\n    static\
-    \ std::vector<u64> pow{1};\n    while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(),\
-    \ base));\n    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64\
-    \ lhs, u64 rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n \
-    \ static u64 minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs :\
-    \ lhs + mod;\n  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n\
-    \    lhs = (lhs >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n\
-    \  }\n};\n\n/*\n * @var base\n * @brief base used for hashing\n */\nconst rolling_hashed::u64\
+    \n#include \"src/utils/rand/rng.hpp\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace\
+    \ workspace {\n\n/*\n * @struct rolling_hashed\n * @brief hash data of a string.\n\
+    \ */\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\
+    \n  /*\n   * @var mod\n   * @brief modulus used for hashing.\n   */\n  constexpr\
+    \ static u64 mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /*\n   *\
+    \ @var value\n   * @brief hash value.\n   */\n  u64 value = 0;\n\n  /*\n   * @var\
+    \ lenght\n   * @brief length of the string.\n   */\n  size_t length = 0;\n\n \
+    \ rolling_hashed() = default;\n\n  /*\n   * @brief construct hash data from one\
+    \ character.\n   * @param c a character\n   */\n  template <class char_type, typename\
+    \ std::enable_if<std::is_convertible<\n                                 char_type,\
+    \ u64>::value>::type * = nullptr>\n  rolling_hashed(char_type c) : value(u64(c)\
+    \ + 1), length(1) {}\n\n  rolling_hashed(u64 value, size_t length) : value(value),\
+    \ length(length) {}\n\n  operator std::pair<u64, size_t>() const { return {value,\
+    \ length}; }\n\n  /*\n   * @return whether or not (*this) and (rhs) are equal\n\
+    \   * @param rhs\n   */\n  bool operator==(const rolling_hashed &rhs) const {\n\
+    \    return value == rhs.value && length == rhs.length;\n  }\n\n  /*\n   * @return\
+    \ whether or not (*this) and (rhs) are distinct\n   * @param rhs\n   */\n  bool\
+    \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
+    \  /*\n   * @param rhs the right operand\n   * @return hash data of concatenated\
+    \ string\n   */\n  rolling_hashed operator+(const rolling_hashed &rhs) const {\n\
+    \    return {plus(value, mult(rhs.value, base_pow(length))),\n            length\
+    \ + rhs.length};\n  }\n\n  /*\n   * @param rhs appended to right end\n   * @return\
+    \ reference to updated hash data\n   */\n  rolling_hashed operator+=(const rolling_hashed\
+    \ &rhs) {\n    return *this = operator+(rhs);\n  }\n\n  /*\n   * @param rhs the\
+    \ erased suffix\n   * @return hash data of erased string\n   */\n  rolling_hashed\
+    \ operator-(const rolling_hashed &rhs) const {\n    assert(!(length < rhs.length));\n\
+    \    return {minus(value, mult(rhs.value, base_pow(length - rhs.length))),\n \
+    \           length - rhs.length};\n  }\n\n  /*\n   * @param rhs erased from right\
+    \ end\n   * @return reference to updated hash data\n   */\n  rolling_hashed operator-=(const\
+    \ rolling_hashed &rhs) {\n    return *this = operator-(rhs);\n  }\n\n  /*\n  \
+    \ * @fn base_pow\n   * @param exp the exponent\n   * @return base ** pow\n   */\n\
+    \  static u64 base_pow(size_t exp) {\n    static std::vector<u64> pow{1};\n  \
+    \  while (pow.size() <= exp) {\n      pow.emplace_back(mult(pow.back(), base));\n\
+    \    }\n    return pow[exp];\n  }\n\n private:\n  static u64 plus(u64 lhs, u64\
+    \ rhs) {\n    return (lhs += rhs) < mod ? lhs : lhs - mod;\n  }\n\n  static u64\
+    \ minus(u64 lhs, u64 rhs) {\n    return (lhs -= rhs) < mod ? lhs : lhs + mod;\n\
+    \  }\n\n  static u64 mult(u128 lhs, u64 rhs) {\n    lhs *= rhs;\n    lhs = (lhs\
+    \ >> 61) + (lhs & mod);\n    return lhs < mod ? lhs : lhs - mod;\n  }\n};\n\n\
+    /*\n * @var base\n * @brief base used for hashing\n */\nconst rolling_hashed::u64\
     \ rolling_hashed::base =\n    random_number_generator<u64>(1 << 30, mod - 1)();\n\
     \n/*\n * @struct rolling_hash_table\n * @brief make hash data table of suffix.\n\
     \ */\ntemplate <class str_type> struct rolling_hash_table {\n  constexpr static\
@@ -228,12 +228,12 @@ data:
     \ workspace\n"
   dependsOn:
   - src/opt/binary_search.hpp
-  - src/utils/random_number_generator.hpp
+  - src/utils/rand/rng.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2020-12-08 15:39:54+09:00'
+  timestamp: '2020-12-12 22:39:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
