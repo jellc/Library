@@ -66,7 +66,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
@@ -98,13 +98,13 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
     - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -225,7 +225,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
@@ -340,6 +340,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
+    - icon: ':x:'
+      path: test/library-checker/point_add_range_sum.test.cpp
+      title: test/library-checker/point_add_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp

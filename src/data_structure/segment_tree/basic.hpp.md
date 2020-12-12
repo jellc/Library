@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -15,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DSL_2_A.test.cpp
     title: test/aizu-online-judge/DSL_2_A.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/point_add_range_sum.test.cpp
+    title: test/library-checker/point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
@@ -22,7 +25,7 @@ data:
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Segment Tree
     links: []
@@ -246,9 +249,10 @@ data:
   path: src/data_structure/segment_tree/basic.hpp
   requiredBy: []
   timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/point_add_range_sum.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
 documentation_of: src/data_structure/segment_tree/basic.hpp

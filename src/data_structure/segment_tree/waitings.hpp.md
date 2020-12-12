@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   - icon: ':heavy_check_mark:'
@@ -15,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DSL_2_A.test.cpp
     title: test/aizu-online-judge/DSL_2_A.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/point_add_range_sum.test.cpp
+    title: test/library-checker/point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
@@ -25,7 +28,7 @@ data:
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#include\
@@ -51,10 +54,11 @@ data:
   - src/data_structure/segment_tree/lazy.hpp
   - src/data_structure/segment_tree/basic.hpp
   timestamp: '2020-12-01 00:36:44+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/point_add_range_sum.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/aizu-online-judge/2450.test.cpp

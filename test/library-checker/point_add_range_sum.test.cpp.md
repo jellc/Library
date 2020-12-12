@@ -16,39 +16,39 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A
+    PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A
-  bundledCode: "#line 1 \"test/aizu-online-judge/DSL_2_A.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n#include <iostream>\n\
-    \n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/*\n * @file basic.hpp\n\
-    \ * @brief Segment Tree\n */\n\n#include <cassert>\n#include <queue>\n#include\
-    \ <vector>\n\n#line 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\n\
-    namespace workspace {\ntemplate <class T, class E = T> struct min_monoid {\n \
-    \ using value_type = T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max)\
-    \ {}\n  min_monoid(const T &value) : value(value) {}\n  operator T() const { return\
-    \ value; }\n  min_monoid operator+(const min_monoid &rhs) const {\n    return\
-    \ value < rhs.value ? *this : rhs;\n  }\n  min_monoid operator*(const E &rhs)\
-    \ const;\n};\n\ntemplate <class T, class E>\nT min_monoid<T, E>::min = std::numeric_limits<T>::min()\
-    \ / 2;\ntemplate <class T, class E>\nT min_monoid<T, E>::max = std::numeric_limits<T>::max()\
-    \ / 2;\n\ntemplate <class T, class E = T> struct max_monoid : min_monoid<T, E>\
-    \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
-    \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
-    \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
-    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n\
-    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
-    \nnamespace workspace {\n\ntemplate <class type, template <class> class trait>\n\
-    using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
-    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
-    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
-    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
-    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    - https://judge.yosupo.jp/problem/point_add_range_sum
+  bundledCode: "#line 1 \"test/library-checker/point_add_range_sum.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n#include\
+    \ <cstdio>\n\n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/*\n *\
+    \ @file basic.hpp\n * @brief Segment Tree\n */\n\n#include <cassert>\n#include\
+    \ <queue>\n#include <vector>\n\n#line 2 \"src/algebra/system/monoid.hpp\"\n#include\
+    \ <limits>\n\nnamespace workspace {\ntemplate <class T, class E = T> struct min_monoid\
+    \ {\n  using value_type = T;\n  static T min, max;\n  T value;\n  min_monoid()\
+    \ : value(max) {}\n  min_monoid(const T &value) : value(value) {}\n  operator\
+    \ T() const { return value; }\n  min_monoid operator+(const min_monoid &rhs) const\
+    \ {\n    return value < rhs.value ? *this : rhs;\n  }\n  min_monoid operator*(const\
+    \ E &rhs) const;\n};\n\ntemplate <class T, class E>\nT min_monoid<T, E>::min =\
+    \ std::numeric_limits<T>::min() / 2;\ntemplate <class T, class E>\nT min_monoid<T,\
+    \ E>::max = std::numeric_limits<T>::max() / 2;\n\ntemplate <class T, class E =\
+    \ T> struct max_monoid : min_monoid<T, E> {\n  using base = min_monoid<T, E>;\n\
+    \  using base::min_monoid;\n  max_monoid() : base(base::min) {}\n  max_monoid\
+    \ operator+(const max_monoid &rhs) const {\n    return !(base::value < rhs.value)\
+    \ ? *this : rhs;\n  }\n  max_monoid operator*(const E &rhs) const;\n};\n}\n#line\
+    \ 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\nnamespace\
+    \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
+    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
+    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -151,34 +151,34 @@ data:
     \    if (!pass_args(pred, tmp, ((left + 1) << step) ^ size_ext))\n          return\
     \ right_partition_subtree(left, mono, step, pred);\n        mono = tmp;\n    \
     \    ++left;\n      }\n    }\n    return size_orig;\n  }\n};\n\n}  // namespace\
-    \ workspace\n#line 6 \"test/aizu-online-judge/DSL_2_A.test.cpp\"\n\nint main()\
-    \ {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
-    \  int n, q;\n  std::cin >> n >> q;\n  workspace::segment_tree<mono> seg(n);\n\
-    \  while (q--) {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp)\
-    \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
-    \ = y;\n    }\n  }\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A\"\n\n\
-    #include <iostream>\n\n#include \"src/data_structure/segment_tree/basic.hpp\"\n\
-    \nint main() {\n  using mono = workspace::min_monoid<int>;\n  mono::max = std::numeric_limits<int>::max();\n\
-    \  int n, q;\n  std::cin >> n >> q;\n  workspace::segment_tree<mono> seg(n);\n\
-    \  while (q--) {\n    int tp, x, y;\n    std::cin >> tp >> x >> y;\n    if (tp)\
-    \ {\n      std::cout << seg.fold(x, y + 1) << '\\n';\n    } else {\n      seg[x]\
-    \ = y;\n    }\n  }\n}\n"
+    \ workspace\n#line 6 \"test/library-checker/point_add_range_sum.test.cpp\"\n\n\
+    int main() {\n  using namespace workspace;\n  int n, q;\n  scanf(\"%d%d\", &n,\
+    \ &q);\n  segment_tree<long long> seg(n);\n  for (auto &&e : seg) scanf(\"%lld\"\
+    , &e);\n  for (int t, a, b; q--;) {\n    scanf(\"%d%d%d\", &t, &a, &b);\n    if\
+    \ (t)\n      printf(\"%lld\\n\", seg.fold(a, b));\n    else\n      seg[a] += b;\n\
+    \  }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
+    \n#include <cstdio>\n\n#include \"src/data_structure/segment_tree/basic.hpp\"\n\
+    \nint main() {\n  using namespace workspace;\n  int n, q;\n  scanf(\"%d%d\", &n,\
+    \ &q);\n  segment_tree<long long> seg(n);\n  for (auto &&e : seg) scanf(\"%lld\"\
+    , &e);\n  for (int t, a, b; q--;) {\n    scanf(\"%d%d%d\", &t, &a, &b);\n    if\
+    \ (t)\n      printf(\"%lld\\n\", seg.fold(a, b));\n    else\n      seg[a] += b;\n\
+    \  }\n}\n"
   dependsOn:
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
   - src/utils/sfinae.hpp
   - src/data_structure/segment_tree/waitings.hpp
   isVerificationFile: true
-  path: test/aizu-online-judge/DSL_2_A.test.cpp
+  path: test/library-checker/point_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2020-12-12 23:07:07+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
-documentation_of: test/aizu-online-judge/DSL_2_A.test.cpp
+documentation_of: test/library-checker/point_add_range_sum.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/DSL_2_A.test.cpp
-- /verify/test/aizu-online-judge/DSL_2_A.test.cpp.html
-title: test/aizu-online-judge/DSL_2_A.test.cpp
+- /verify/test/library-checker/point_add_range_sum.test.cpp
+- /verify/test/library-checker/point_add_range_sum.test.cpp.html
+title: test/library-checker/point_add_range_sum.test.cpp
 ---

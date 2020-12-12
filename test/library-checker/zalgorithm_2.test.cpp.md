@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/rand/rng.hpp
     title: Random Number Generator
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
