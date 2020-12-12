@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "src/opt/binary_search.hpp"
-#include "src/utils/random_number_generator.hpp"
+#include "src/utils/rand/rng.hpp"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
