@@ -163,7 +163,7 @@ data:
       title: Modular Arithmetic
   - name: src/number_theory
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -225,7 +225,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
@@ -233,7 +233,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -317,7 +317,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp
   - name: test/library-checker

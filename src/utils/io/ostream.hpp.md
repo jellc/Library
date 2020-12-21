@@ -3,7 +3,7 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   - icon: ':heavy_check_mark:'
@@ -13,7 +13,7 @@ data:
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Output Stream
     links: []
@@ -60,7 +60,7 @@ data:
   path: src/utils/io/ostream.hpp
   requiredBy: []
   timestamp: '2020-11-23 02:53:42+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp
