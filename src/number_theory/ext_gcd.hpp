@@ -11,34 +11,26 @@
 
 namespace workspace {
 
-/*
- * @fn ext_gcd
- * @param a an integer
- * @param b an integer
- * @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)
+/**
+ * @param a Integer
+ * @param b Integer
+ * @return Pair of integers (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,
+ * |y| < |a/g|.
  * @note return (0, 0) if (a, b) = (0, 0)
  */
-template <typename T1, typename T2>
-constexpr typename std::enable_if<
-    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),
-    std::pair<typename std::common_type<T1, T2>::type,
-              typename std::common_type<T1, T2>::type>>::type
-ext_gcd(T1 a, T2 b) {
-  typename std::common_type<T1, T2>::type p{1}, q{}, r{}, s{1}, t{};
-  if (a < 0) {
-    std::tie(p, q) = ext_gcd(-a, b);
-    p = -p;
-  } else if (b < 0) {
-    std::tie(p, q) = ext_gcd(a, -b);
-    q = -q;
-  } else {
-    while (b) {
-      r ^= p ^= r ^= p -= (t = a / b) * r;
-      s ^= q ^= s ^= q -= t * s;
-      b ^= a ^= b ^= a %= b;
-    }
+template <typename T1, typename T2> constexpr auto ext_gcd(T1 a, T2 b) {
+  static_assert(is_integral_ext<T1>::value);
+  static_assert(is_integral_ext<T2>::value);
+  using result_type =
+      typename std::make_signed<typename std::common_type<T1, T2>::type>::type;
+  result_type p{1}, q{}, r{}, s{1}, t;
+  while (b) {
+    r ^= p ^= r ^= p -= (t = a / b) * r;
+    s ^= q ^= s ^= q -= t * s;
+    b ^= a ^= b ^= a %= b;
   }
-  return {p, q};
+  if (a < 0) p = -p, q = -q;
+  return std::make_pair(p, q);
 }
 
 }  // namespace workspace
