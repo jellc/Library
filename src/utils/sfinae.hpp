@@ -9,6 +9,26 @@
 #include <iterator>
 #include <type_traits>
 
+#ifdef __SIZEOF_INT128__
+#define __INT128_DEFINED__ 1
+#else
+#define __INT128_DEFINED__ 0
+#endif
+
+namespace std {
+
+#if __INT128_DEFINED__
+
+template <> struct make_signed<__uint128_t> { using type = __int128_t; };
+template <> struct make_signed<__int128_t> { using type = __int128_t; };
+
+template <> struct make_unsigned<__uint128_t> { using type = __uint128_t; };
+template <> struct make_unsigned<__int128_t> { using type = __uint128_t; };
+
+#endif
+
+}  // namespace std
+
 namespace workspace {
 
 template <class type, template <class> class trait>
@@ -41,29 +61,37 @@ struct is_integral_ext<
     T, typename std::enable_if<std::is_integral<T>::value>::type>
     : std::true_type {};
 
-#ifdef __SIZEOF_INT128__
+#if __INT128_DEFINED__
+
 template <> struct is_integral_ext<__int128_t> : std::true_type {};
 template <> struct is_integral_ext<__uint128_t> : std::true_type {};
+
 #endif
 
 #if __cplusplus >= 201402
+
 template <class T>
 constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+
 #endif
 
 template <typename T, typename = void> struct multiplicable_uint {
   using type = uint_least32_t;
 };
 template <typename T>
-struct multiplicable_uint<T, typename std::enable_if<(2 < sizeof(T))>::type> {
+struct multiplicable_uint<
+    T, typename std::enable_if<(2 < sizeof(T)) &&
+                               (!__INT128_DEFINED__ || sizeof(T) <= 4)>::type> {
   using type = uint_least64_t;
 };
 
-#ifdef __SIZEOF_INT128__
+#if __INT128_DEFINED__
+
 template <typename T>
 struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
   using type = __uint128_t;
 };
+
 #endif
 
 }  // namespace workspace
