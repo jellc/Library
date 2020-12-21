@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -146,8 +146,8 @@ data:
   timestamp: '2020-12-01 16:34:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/suffix_array.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/suffix_array.test.cpp
 documentation_of: src/string/suffix_array.hpp
 layout: document
 redirect_from:

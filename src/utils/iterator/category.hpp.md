@@ -41,8 +41,8 @@ data:
   isVerificationFile: false
   path: src/utils/iterator/category.hpp
   requiredBy:
-  - src/utils/py-like/zip.hpp
   - src/utils/py-like/enumerate.hpp
+  - src/utils/py-like/zip.hpp
   timestamp: '2020-12-04 21:34:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

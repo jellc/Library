@@ -14,7 +14,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
   - icon: ':warning:'
@@ -45,7 +45,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   - icon: ':heavy_check_mark:'
@@ -73,7 +73,7 @@ data:
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: SFINAE
     links: []
@@ -130,32 +130,32 @@ data:
   isVerificationFile: false
   path: src/utils/sfinae.hpp
   requiredBy:
-  - src/number_theory/ext_gcd.hpp
-  - src/number_theory/least_factor.hpp
-  - src/data_structure/segment_tree/lazy.hpp
-  - src/modular/inverse.hpp
-  - src/modular/modint.hpp
-  - src/combinatorics/binomial.hpp
-  - src/utils/round_div.hpp
   - src/utils/hash.hpp
   - src/utils/io/istream.hpp
+  - src/utils/round_div.hpp
+  - src/data_structure/segment_tree/lazy.hpp
+  - src/number_theory/least_factor.hpp
+  - src/number_theory/ext_gcd.hpp
+  - src/combinatorics/binomial.hpp
+  - src/modular/inverse.hpp
+  - src/modular/modint.hpp
   - src/string/rolling_hash.hpp
   - src/string/suffix_array.hpp
   timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/associative_array.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp
-  - test/library-checker/suffix_array.test.cpp
-  - test/library-checker/zalgorithm_2.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
-  - test/library-checker/number_of_substrings.test.cpp
-  - test/library-checker/queue_operate_all_composite.test.cpp
-  - test/library-checker/associative_array.test.cpp
-  - test/aizu-online-judge/NTL_1_E.test.cpp
-  - test/aizu-online-judge/DPL_5_D.test.cpp
-  - test/aizu-online-judge/2450.test.cpp
+  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/aizu-online-judge/DPL_5_D.test.cpp
+  - test/aizu-online-judge/NTL_1_E.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/utils/sfinae.hpp
 layout: document
 redirect_from:

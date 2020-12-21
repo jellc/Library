@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Extended Euclidean Algorithm
     links: []
@@ -40,37 +40,35 @@ data:
     template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
     \ workspace\n#line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace\
-    \ {\n\n/*\n * @fn ext_gcd\n * @param a an integer\n * @param b an integer\n *\
-    \ @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)\n * @note return\
-    \ (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2>\nconstexpr\
-    \ typename std::enable_if<\n    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),\n\
-    \    std::pair<typename std::common_type<T1, T2>::type,\n              typename\
-    \ std::common_type<T1, T2>::type>>::type\next_gcd(T1 a, T2 b) {\n  typename std::common_type<T1,\
-    \ T2>::type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a,\
-    \ b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n\
-    \    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^= r ^= p -= (t = a /\
-    \ b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n  \
-    \  }\n  }\n  return {p, q};\n}\n\n}  // namespace workspace\n"
+    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
+    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
+    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
+    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
+    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
+    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
+    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
+    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
+    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
+    \ workspace\n"
   code: "#pragma once\n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean Algorithm\n\
     \ */\n\n#include <tuple>\n\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
-    \ {\n\n/*\n * @fn ext_gcd\n * @param a an integer\n * @param b an integer\n *\
-    \ @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)\n * @note return\
-    \ (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2>\nconstexpr\
-    \ typename std::enable_if<\n    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),\n\
-    \    std::pair<typename std::common_type<T1, T2>::type,\n              typename\
-    \ std::common_type<T1, T2>::type>>::type\next_gcd(T1 a, T2 b) {\n  typename std::common_type<T1,\
-    \ T2>::type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a,\
-    \ b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n\
-    \    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^= r ^= p -= (t = a /\
-    \ b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n  \
-    \  }\n  }\n  return {p, q};\n}\n\n}  // namespace workspace\n"
+    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
+    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
+    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
+    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
+    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
+    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
+    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
+    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
+    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
+    \ workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
   requiredBy: []
-  timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2020-12-21 16:02:41+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp

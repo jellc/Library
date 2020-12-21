@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E
@@ -47,31 +47,29 @@ data:
     template <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n#endif\n\n}  // namespace\
     \ workspace\n#line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace\
-    \ {\n\n/*\n * @fn ext_gcd\n * @param a an integer\n * @param b an integer\n *\
-    \ @return a pair of integers (x, y) s.t. ax + by = gcd(a, b)\n * @note return\
-    \ (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2>\nconstexpr\
-    \ typename std::enable_if<\n    (is_integral_ext<T1>::value && is_integral_ext<T2>::value),\n\
-    \    std::pair<typename std::common_type<T1, T2>::type,\n              typename\
-    \ std::common_type<T1, T2>::type>>::type\next_gcd(T1 a, T2 b) {\n  typename std::common_type<T1,\
-    \ T2>::type p{1}, q{}, r{}, s{1}, t{};\n  if (a < 0) {\n    std::tie(p, q) = ext_gcd(-a,\
-    \ b);\n    p = -p;\n  } else if (b < 0) {\n    std::tie(p, q) = ext_gcd(a, -b);\n\
-    \    q = -q;\n  } else {\n    while (b) {\n      r ^= p ^= r ^= p -= (t = a /\
-    \ b) * r;\n      s ^= q ^= s ^= q -= t * s;\n      b ^= a ^= b ^= a %= b;\n  \
-    \  }\n  }\n  return {p, q};\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\
-    \n\n/*\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#include <iostream>\n\
-    #line 10 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate <class\
-    \ T, class U>\nstd::ostream &operator<<(std::ostream &os, const std::pair<T, U>\
-    \ &p) {\n  return os << p.first << ' ' << p.second;\n}\ntemplate <class tuple_t,\
-    \ size_t index> struct tuple_os {\n  static std::ostream &apply(std::ostream &os,\
-    \ const tuple_t &t) {\n    tuple_os<tuple_t, index - 1>::apply(os, t);\n    return\
-    \ os << ' ' << std::get<index>(t);\n  }\n};\ntemplate <class tuple_t> struct tuple_os<tuple_t,\
-    \ 0> {\n  static std::ostream &apply(std::ostream &os, const tuple_t &t) {\n \
-    \   return os << std::get<0>(t);\n  }\n};\ntemplate <class tuple_t> struct tuple_os<tuple_t,\
-    \ SIZE_MAX> {\n  static std::ostream &apply(std::ostream &os, const tuple_t &t)\
-    \ { return os; }\n};\n\ntemplate <class... T>\nstd::ostream &operator<<(std::ostream\
-    \ &os, const std::tuple<T...> &t) {\n  return tuple_os<std::tuple<T...>,\n   \
-    \               std::tuple_size<std::tuple<T...>>::value - 1>::apply(os, t);\n\
-    }\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
+    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
+    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
+    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
+    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
+    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
+    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
+    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
+    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
+    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/*\n * @file ostream.hpp\n\
+    \ * @brief Output Stream\n */\n\n#include <iostream>\n#line 10 \"src/utils/io/ostream.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class T, class U>\nstd::ostream &operator<<(std::ostream\
+    \ &os, const std::pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n\
+    }\ntemplate <class tuple_t, size_t index> struct tuple_os {\n  static std::ostream\
+    \ &apply(std::ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t, index -\
+    \ 1>::apply(os, t);\n    return os << ' ' << std::get<index>(t);\n  }\n};\ntemplate\
+    \ <class tuple_t> struct tuple_os<tuple_t, 0> {\n  static std::ostream &apply(std::ostream\
+    \ &os, const tuple_t &t) {\n    return os << std::get<0>(t);\n  }\n};\ntemplate\
+    \ <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {\n  static std::ostream\
+    \ &apply(std::ostream &os, const tuple_t &t) { return os; }\n};\n\ntemplate <class...\
+    \ T>\nstd::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {\n\
+    \  return tuple_os<std::tuple<T...>,\n                  std::tuple_size<std::tuple<T...>>::value\
+    \ - 1>::apply(os, t);\n}\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
     typename std::enable_if<\n    !std::is_same<typename std::decay<Container>::type,\
     \ std::string>::value &&\n        !std::is_same<typename std::decay<Container>::type,\
     \ char *>::value,\n    std::ostream &>::type\noperator<<(std::ostream &os, const\
@@ -95,8 +93,8 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2020-12-01 16:34:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2020-12-21 16:02:41+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp
 layout: document

@@ -144,9 +144,9 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp
-  - test/aizu-online-judge/0323.test.cpp
-  - test/aizu-online-judge/1342.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/aizu-online-judge/1342.test.cpp
+  - test/aizu-online-judge/0323.test.cpp
 documentation_of: src/opt/binary_search.hpp
 layout: document
 redirect_from:
