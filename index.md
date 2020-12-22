@@ -211,6 +211,9 @@ data:
   - name: src/utils
     pages:
     - icon: ':warning:'
+      path: src/utils/cat.hpp
+      title: Cat
+    - icon: ':warning:'
       path: src/utils/chval.hpp
       title: Change Less/Greater
     - icon: ':warning:'
