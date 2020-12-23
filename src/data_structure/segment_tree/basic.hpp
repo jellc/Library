@@ -104,7 +104,7 @@ class segment_tree {
 
   template <class Pred>
   static constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(
-      Pred pred, Monoid const &_1, size_type _2) {
+      Pred pred, Monoid const &_1, [[maybe_unused]] size_type _2) {
     return pred(_1);
   }
 
