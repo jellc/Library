@@ -117,15 +117,16 @@ data:
     \ data;\n\n  Monoid const &pull(size_type __i) noexcept {\n    if (!data[__i].latest)\n\
     \      data[__i] = {pull(__i << 1) + pull(__i << 1 | 1), true};\n    return data[__i].value;\n\
     \  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
-    \ pass_args(\n      Pred pred, Monoid const &_1, size_type _2) {\n    return pred(_1);\n\
-    \  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{},\
-    \ size_type{}))\n  pass_args(Pred pred, Monoid const &_1, size_type _2) {\n  \
-    \  return pred(_1, _2);\n  }\n\n  template <class Pred>\n  size_type left_partition_subtree(size_type\
-    \ __i, Monoid mono, size_type step,\n                                   Pred pred)\
-    \ {\n    assert(__i);\n    while (__i < size_ext) {\n      const Monoid tmp =\
-    \ pull((__i <<= 1) | 1) + mono;\n      if (pass_args(pred, tmp, ((__i | 1) <<\
-    \ --step) ^ size_ext))\n        mono = tmp;\n      else\n        ++__i;\n    }\n\
-    \    return ++__i -= size_ext;\n  }\n\n  template <class Pred>\n  size_type right_partition_subtree(size_type\
+    \ pass_args(\n      Pred pred, Monoid const &_1, [[maybe_unused]] size_type _2)\
+    \ {\n    return pred(_1);\n  }\n\n  template <class Pred>\n  static constexpr\
+    \ decltype(std::declval<Pred>()(Monoid{}, size_type{}))\n  pass_args(Pred pred,\
+    \ Monoid const &_1, size_type _2) {\n    return pred(_1, _2);\n  }\n\n  template\
+    \ <class Pred>\n  size_type left_partition_subtree(size_type __i, Monoid mono,\
+    \ size_type step,\n                                   Pred pred) {\n    assert(__i);\n\
+    \    while (__i < size_ext) {\n      const Monoid tmp = pull((__i <<= 1) | 1)\
+    \ + mono;\n      if (pass_args(pred, tmp, ((__i | 1) << --step) ^ size_ext))\n\
+    \        mono = tmp;\n      else\n        ++__i;\n    }\n    return ++__i -= size_ext;\n\
+    \  }\n\n  template <class Pred>\n  size_type right_partition_subtree(size_type\
     \ __i, Monoid mono, size_type step,\n                                    Pred\
     \ pred) {\n    assert(__i);\n    while (__i < size_ext) {\n      const Monoid\
     \ tmp = mono + pull(__i <<= 1);\n      if (pass_args(pred, tmp, ((__i | 1) <<\
@@ -221,7 +222,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2020-12-12 23:14:32+09:00'
+  timestamp: '2020-12-23 18:52:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp
