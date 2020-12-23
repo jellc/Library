@@ -4,6 +4,7 @@
  */
 
 // #undef _GLIBCXX_DEBUG
+// #define NDEBUG
 #include <bits/extc++.h>
 
 #include "lib/alias"
