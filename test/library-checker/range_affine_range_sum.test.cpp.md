@@ -75,37 +75,36 @@ data:
     \ workspace\n#line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line\
     \ 5 \"src/data_structure/segment_tree/waitings.hpp\"\n\nnamespace workspace {\n\
     \nnamespace internal {\n\nstruct waitings : std::queue<size_t> {\n  waitings(size_t\
-    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    assert(index < in.size());\n\
+    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    // assert(index < in.size());\n\
     \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
-    \ = true);\n  }\n\n  size_t pop() {\n    assert(!empty());\n    auto index = front();\n\
-    \    std::queue<size_t>::pop();\n    in[index] = false;\n    return index;\n \
-    \ }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace internal\n\
-    \n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
+    \ = true);\n  }\n\n  size_t pop() {\n    // assert(!empty());\n    auto index\
+    \ = front();\n    std::queue<size_t>::pop();\n    in[index] = false;\n    return\
+    \ index;\n  }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace\
+    \ internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class Monoid, class Endomorphism,\n   \
     \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
     \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
     \ mapped_type<Monoid_container>>::value);\n\n  static_assert(\n      std::is_same<Endomorphism,\
-    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(\n      std::is_same<Monoid,\
-    \ decltype(std::declval<const Monoid>() +\n                                  \
-    \  std::declval<const Monoid>())>::value,\n      \"\\'Monoid\\' has no proper\
-    \ binary \\'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism,\n\
-    \                   decltype(std::declval<const Endomorphism>() *\n          \
-    \                  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\\
-    ' has no proper binary operator*.\");\n\n  static_assert(\n      std::is_same<Monoid,\
-    \ decltype(std::declval<const Monoid>() *\n                                  \
-    \  std::declval<const Endomorphism>())>::value,\n      \"\\'Endomorphism\\' is\
-    \ not applicable to \\'Monoid\\'.\");\n\n  size_t size_orig, height, size_ext;\n\
-    \  Monoid_container data;\n  Endomorphism_container lazy;\n  internal::waitings\
-    \ wait;\n\n  void repair() {\n    while (!wait.empty()) {\n      const size_t\
-    \ index = wait.pop() >> 1;\n      if (index && wait.push(index)) pull(index);\n\
-    \    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo) {\n    data[node]\
-    \ = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node] * endo;\n\
-    \  }\n\n  void push(size_t node) {\n    if (!(node < size_ext)) return;\n    apply(node\
-    \ << 1, lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] =\
-    \ Endomorphism{};\n  }\n\n  void pull(size_t node) { data[node] = data[node <<\
-    \ 1] + data[node << 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
-    \ pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n    return pred(_1);\n\
-    \  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{},\
+    \ mapped_type<Endomorphism_container>>::value);\n\n  static_assert(std::is_same<Monoid,\
+    \ decltype(std::declval<Monoid>() +\n                                        \
+    \      std::declval<Monoid>())>::value,\n                \"\\'Monoid\\' has no\
+    \ proper binary \\'operator+\\'.\");\n\n  static_assert(\n      std::is_same<Endomorphism,\
+    \ decltype(std::declval<Endomorphism>() *\n                                  \
+    \        std::declval<Endomorphism>())>::value,\n      \"\\'Endomorphism\\' has\
+    \ no proper binary operator*.\");\n\n  static_assert(\n      std::is_same<Monoid,\
+    \ decltype(std::declval<Monoid>() *\n                                    std::declval<Endomorphism>())>::value,\n\
+    \      \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n  size_t\
+    \ size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
+    \ lazy;\n  internal::waitings wait;\n\n  void repair() {\n    while (!wait.empty())\
+    \ {\n      const size_t index = wait.pop() >> 1;\n      if (index && wait.push(index))\
+    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
+    \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
+    \ = lazy[node] * endo;\n  }\n\n  void push(size_t node) {\n    apply(node << 1,\
+    \ lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] = Endomorphism{};\n\
+    \  }\n\n  void pull(size_t node) { data[node] = data[node << 1] + data[node <<\
+    \ 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
+    \ pass_args(\n      Pred pred, Monoid const &_1, [[maybe_unused]] size_t _2) {\n\
+    \    return pred(_1);\n  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{},\
     \ size_t{})) pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n   \
     \ return pred(_1, _2);\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
     \ node, Monoid mono, size_t step,\n                                Pred pred)\
@@ -146,23 +145,24 @@ data:
     \ }\n\n  void update(size_t index, const Endomorphism &endo) {\n    update(index,\
     \ index + 1, endo);\n  }\n\n  void update(size_t first, size_t last, const Endomorphism\
     \ &endo) {\n    assert(last <= size_orig);\n    repair();\n    if (first >= last)\
-    \ return;\n    first += size_ext, last += size_ext - 1;\n    for (size_t i = height;\
-    \ i; --i) push(first >> i), push(last >> i);\n    for (size_t l = first, r = last\
-    \ + 1; last; l >>= 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) apply(l++,\
-    \ endo);\n        if (r & 1) apply(--r, endo);\n      }\n      if (first >>= 1,\
-    \ last >>= 1) {\n        pull(first), pull(last);\n      }\n    }\n  }\n\n  /*\n\
-    \   * @fn fold\n   * @param first Left end, inclusive\n   * @param last Right\
-    \ end, exclusive\n   * @return Sum of elements in the interval.\n   */\n  Monoid\
-    \ fold(size_t first, size_t last) {\n    assert(last <= size_orig);\n    repair();\n\
-    \    if (first >= last) return Monoid{};\n    first += size_ext, last += size_ext\
-    \ - 1;\n    Monoid left_val{}, right_val{};\n    for (size_t l = first, r = last\
-    \ + 1; last; l >>= 1, r >>= 1) {\n      if (l < r) {\n        if (l & 1) left_val\
-    \ = left_val + data[l++];\n        if (r & 1) right_val = data[--r] + right_val;\n\
-    \      }\n      if (first >>= 1, last >>= 1) {\n        left_val = left_val *\
-    \ lazy[first];\n        right_val = right_val * lazy[last];\n      }\n    }\n\
-    \    return left_val + right_val;\n  }\n\n  /*\n   * @fn fold\n   * @return Sum\
-    \ of all elements.\n   */\n  Monoid fold() { return fold(0, size_orig); }\n\n\
-    \  /*\n   * @fn left_partition\n   * @brief Binary search for the partition point.\n\
+    \ return;\n    first += size_ext, last += size_ext;\n    --last;\n    for (size_t\
+    \ i = height; i; --i) push(first >> i), push(last >> i);\n    ++last;\n    for\
+    \ (size_t l = first, r = last; l != r; l >>= 1, r >>= 1) {\n      if (l & 1) apply(l++,\
+    \ endo);\n      if (r & 1) apply(--r, endo);\n    }\n    for (first >>= __builtin_ffs(first);\
+    \ first; first >>= 1) pull(first);\n    for (last >>= __builtin_ffs(last); last;\
+    \ last >>= 1) pull(last);\n  }\n\n  /*\n   * @fn fold\n   * @param first Left\
+    \ end, inclusive\n   * @param last Right end, exclusive\n   * @return Sum of elements\
+    \ in the interval.\n   */\n  Monoid fold(size_t first, size_t last) {\n    assert(last\
+    \ <= size_orig);\n    repair();\n    if (first >= last) return Monoid{};\n   \
+    \ first += size_ext, last += size_ext - 1;\n    Monoid left_val{}, right_val{};\n\
+    \    for (size_t l = first, r = last + 1; l != r; l >>= 1, r >>= 1) {\n      if\
+    \ (l & 1) left_val = left_val + data[l++];\n      if (r & 1) right_val = data[--r]\
+    \ + right_val;\n      left_val = left_val * lazy[first >>= 1];\n      right_val\
+    \ = right_val * lazy[last >>= 1];\n    }\n    while (first >>= 1, last >>= 1)\
+    \ {\n      left_val = left_val * lazy[first];\n      right_val = right_val * lazy[last];\n\
+    \    }\n    return left_val + right_val;\n  }\n\n  /*\n   * @fn fold\n   * @return\
+    \ Sum of all elements.\n   */\n  Monoid fold() { return fold(0, size_orig); }\n\
+    \n  /*\n   * @fn left_partition\n   * @brief Binary search for the partition point.\n\
     \   * @param right Right fixed end of the interval, exclusive\n   * @param pred\
     \ Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,\n   * size_t)'\n\
     \   * @return Left end of the extremal interval satisfying the condition,\n  \
@@ -298,7 +298,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2020-12-25 02:08:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
