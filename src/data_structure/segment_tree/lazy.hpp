@@ -24,20 +24,18 @@ class lazy_segment_tree {
   static_assert(
       std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);
 
-  static_assert(
-      std::is_same<Monoid, decltype(std::declval<const Monoid>() +
-                                    std::declval<const Monoid>())>::value,
-      "\'Monoid\' has no proper binary \'operator+\'.");
+  static_assert(std::is_same<Monoid, decltype(std::declval<Monoid>() +
+                                              std::declval<Monoid>())>::value,
+                "\'Monoid\' has no proper binary \'operator+\'.");
 
   static_assert(
-      std::is_same<Endomorphism,
-                   decltype(std::declval<const Endomorphism>() *
-                            std::declval<const Endomorphism>())>::value,
+      std::is_same<Endomorphism, decltype(std::declval<Endomorphism>() *
+                                          std::declval<Endomorphism>())>::value,
       "\'Endomorphism\' has no proper binary operator*.");
 
   static_assert(
-      std::is_same<Monoid, decltype(std::declval<const Monoid>() *
-                                    std::declval<const Endomorphism>())>::value,
+      std::is_same<Monoid, decltype(std::declval<Monoid>() *
+                                    std::declval<Endomorphism>())>::value,
       "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
   size_t size_orig, height, size_ext;
@@ -58,7 +56,6 @@ class lazy_segment_tree {
   }
 
   void push(size_t node) {
-    if (!(node < size_ext)) return;
     apply(node << 1, lazy[node]);
     apply(node << 1 | 1, lazy[node]);
     lazy[node] = Endomorphism{};
@@ -68,7 +65,7 @@ class lazy_segment_tree {
 
   template <class Pred>
   static constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(
-      Pred pred, Monoid const &_1, size_t _2) {
+      Pred pred, Monoid const &_1, [[maybe_unused]] size_t _2) {
     return pred(_1);
   }
 
@@ -174,17 +171,16 @@ class lazy_segment_tree {
     assert(last <= size_orig);
     repair();
     if (first >= last) return;
-    first += size_ext, last += size_ext - 1;
+    first += size_ext, last += size_ext;
+    --last;
     for (size_t i = height; i; --i) push(first >> i), push(last >> i);
-    for (size_t l = first, r = last + 1; last; l >>= 1, r >>= 1) {
-      if (l < r) {
-        if (l & 1) apply(l++, endo);
-        if (r & 1) apply(--r, endo);
-      }
-      if (first >>= 1, last >>= 1) {
-        pull(first), pull(last);
-      }
+    ++last;
+    for (size_t l = first, r = last; l != r; l >>= 1, r >>= 1) {
+      if (l & 1) apply(l++, endo);
+      if (r & 1) apply(--r, endo);
     }
+    for (first >>= __builtin_ffs(first); first; first >>= 1) pull(first);
+    for (last >>= __builtin_ffs(last); last; last >>= 1) pull(last);
   }
 
   /*
@@ -199,15 +195,15 @@ class lazy_segment_tree {
     if (first >= last) return Monoid{};
     first += size_ext, last += size_ext - 1;
     Monoid left_val{}, right_val{};
-    for (size_t l = first, r = last + 1; last; l >>= 1, r >>= 1) {
-      if (l < r) {
-        if (l & 1) left_val = left_val + data[l++];
-        if (r & 1) right_val = data[--r] + right_val;
-      }
-      if (first >>= 1, last >>= 1) {
-        left_val = left_val * lazy[first];
-        right_val = right_val * lazy[last];
-      }
+    for (size_t l = first, r = last + 1; l != r; l >>= 1, r >>= 1) {
+      if (l & 1) left_val = left_val + data[l++];
+      if (r & 1) right_val = data[--r] + right_val;
+      left_val = left_val * lazy[first >>= 1];
+      right_val = right_val * lazy[last >>= 1];
+    }
+    while (first >>= 1, last >>= 1) {
+      left_val = left_val * lazy[first];
+      right_val = right_val * lazy[last];
     }
     return left_val + right_val;
   }
