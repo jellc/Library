@@ -104,7 +104,64 @@ class lazy_segment_tree {
   }
 
  public:
-  using value_type = Monoid;
+  class iterator {
+    lazy_segment_tree *__p;
+    size_t __i;
+
+   public:
+    using difference_type = typename std::make_signed<size_t>::type;
+    using value_type = Monoid;
+    using reference = Monoid &;
+    using pointer = iterator;
+    using iterator_category = std::random_access_iterator_tag;
+
+    /**
+     * @brief Construct a new iterator object
+     *
+     */
+    iterator() = default;
+
+    /**
+     * @brief Construct a new iterator object
+     *
+     * @param __p Pointer to a segment tree object
+     * @param __i Index
+     */
+    iterator(lazy_segment_tree *__p, size_t __i) : __p(__p), __i(__i) {}
+
+    bool operator==(iterator const &rhs) const {
+      return __p == rhs.__p && __i == rhs.__i;
+    }
+    bool operator!=(iterator const &rhs) const { return !operator==(rhs); }
+
+    bool operator<(iterator const &rhs) const { return __i < rhs.__i; }
+    bool operator>(iterator const &rhs) const { return __i > rhs.__i; }
+    bool operator<=(iterator const &rhs) const { return __i <= rhs.__i; }
+    bool operator>=(iterator const &rhs) const { return __i >= rhs.__i; }
+
+    iterator &operator++() { return ++__i, *this; }
+    iterator &operator--() { return --__i, *this; }
+
+    difference_type operator-(iterator const &rhs) const {
+      return __i - rhs.__i;
+    }
+
+    /**
+     * @brief
+     *
+     * @return reference
+     */
+    reference operator*() const { return __p->operator[](__i); }
+  };
+
+  using value_type = typename iterator::value_type;
+  using reference = typename iterator::reference;
+
+  iterator begin() { return {this, 0}; }
+  iterator end() { return {this, size_orig}; }
+
+  auto rbegin() { return std::make_reverse_iterator(end()); }
+  auto rend() { return std::make_reverse_iterator(begin()); }
 
   lazy_segment_tree(size_t n = 0)
       : size_orig{n},
@@ -140,16 +197,12 @@ class lazy_segment_tree {
   lazy_segment_tree(const Container &cont)
       : lazy_segment_tree(std::begin(cont), std::end(cont)) {}
 
-  /*
-   * @fn size
+  /**
    * @return Number of elements.
    */
   size_t size() const { return size_orig; }
 
-  // size_t capacity() const { return size_ext; }
-
-  /*
-   * @fn operator[]
+  /**
    * @param index Index of the element
    * @return Reference to the element.
    */
@@ -183,8 +236,7 @@ class lazy_segment_tree {
     for (last >>= __builtin_ffs(last); last; last >>= 1) pull(last);
   }
 
-  /*
-   * @fn fold
+  /**
    * @param first Left end, inclusive
    * @param last Right end, exclusive
    * @return Sum of elements in the interval.
@@ -208,14 +260,12 @@ class lazy_segment_tree {
     return left_val + right_val;
   }
 
-  /*
-   * @fn fold
+  /**
    * @return Sum of all elements.
    */
   Monoid fold() { return fold(0, size_orig); }
 
-  /*
-   * @fn left_partition
+  /**
    * @brief Binary search for the partition point.
    * @param right Right fixed end of the interval, exclusive
    * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
@@ -242,8 +292,7 @@ class lazy_segment_tree {
     return 0;
   }
 
-  /*
-   * @fn right_partition
+  /**
    * @brief Binary search for the partition point.
    * @param left Left fixed end of the interval, inclusive
    * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
