@@ -21,7 +21,7 @@ namespace workspace {
  * @param init The initial value
  */
 template <typename Tp, size_t N, typename S>
-constexpr auto make_vector(S* sizes, Tp const& init = Tp()) {
+constexpr auto make_vector([[maybe_unused]] S* sizes, Tp const& init = Tp()) {
   static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (N)
     return std::vector(*sizes,
@@ -46,7 +46,7 @@ constexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {
  * @param init The initial value
  */
 template <typename Tp, size_t N, typename S, size_t I = 0>
-constexpr auto make_vector(std::array<S, N> const& sizes,
+constexpr auto make_vector([[maybe_unused]] std::array<S, N> const& sizes,
                            Tp const& init = Tp()) {
   static_assert(std::is_convertible_v<S, size_t>);
   if constexpr (I == N)
@@ -61,7 +61,7 @@ constexpr auto make_vector(std::array<S, N> const& sizes,
  * @param init The initial value
  */
 template <typename Tp, size_t N = SIZE_MAX, size_t I = 0, class... Args>
-constexpr auto make_vector(std::tuple<Args...> const& sizes,
+constexpr auto make_vector([[maybe_unused]] std::tuple<Args...> const& sizes,
                            Tp const& init = Tp()) {
   using tuple_type = std::tuple<Args...>;
   if constexpr (I == std::tuple_size_v<tuple_type> || I == N)
