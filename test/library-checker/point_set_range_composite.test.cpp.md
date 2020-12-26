@@ -252,21 +252,21 @@ data:
     \ q;\n  scanf(\"%d%d\", &n, &q);\n  struct mono {\n    mint c = 1, d;\n    mono\
     \ operator+(const mono& rhs) const {\n      return {rhs.c * c, rhs.c * d + rhs.d};\n\
     \    }\n    mint eval(mint x) const { return c * x + d; }\n  };\n  segment_tree<mono>\
-    \ seg(n);\n  for (int i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\"\
-    , &a, &b);\n    seg[i] = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"\
-    %d%d%d%d\", &t, &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a,\
-    \ b).eval(c));\n    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
+    \ seg(n);\n  for (auto& [a, b] : seg) scanf(\"%d%d\", &a, &b);\n  for (int t,\
+    \ a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t, &a, &b, &c);\n    if (t) {\n \
+    \     printf(\"%d\\n\", seg.fold(a, b).eval(c));\n    } else {\n      seg[a] =\
+    \ {b, c};\n    }\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n\n#include <cstdio>\n\n#include \"src/data_structure/segment_tree/basic.hpp\"\
     \n#include \"src/modular/modint.hpp\"\n\nint main() {\n  using namespace workspace;\n\
     \  using mint = modint<998244353>;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
     \  struct mono {\n    mint c = 1, d;\n    mono operator+(const mono& rhs) const\
     \ {\n      return {rhs.c * c, rhs.c * d + rhs.d};\n    }\n    mint eval(mint x)\
-    \ const { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (int\
-    \ i = 0; i < n; i++) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n    seg[i]\
-    \ = {a, b};\n  }\n  for (int t, a, b, c; q--;) {\n    scanf(\"%d%d%d%d\", &t,\
-    \ &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\", seg.fold(a, b).eval(c));\n\
-    \    } else {\n      seg[a] = {b, c};\n    }\n  }\n}\n"
+    \ const { return c * x + d; }\n  };\n  segment_tree<mono> seg(n);\n  for (auto&\
+    \ [a, b] : seg) scanf(\"%d%d\", &a, &b);\n  for (int t, a, b, c; q--;) {\n   \
+    \ scanf(\"%d%d%d%d\", &t, &a, &b, &c);\n    if (t) {\n      printf(\"%d\\n\",\
+    \ seg.fold(a, b).eval(c));\n    } else {\n      seg[a] = {b, c};\n    }\n  }\n\
+    }\n"
   dependsOn:
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
@@ -275,7 +275,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-12-23 18:52:56+09:00'
+  timestamp: '2020-12-26 16:26:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp
