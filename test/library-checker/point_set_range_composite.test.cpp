@@ -18,11 +18,7 @@ int main() {
     mint eval(mint x) const { return c * x + d; }
   };
   segment_tree<mono> seg(n);
-  for (int i = 0; i < n; i++) {
-    int a, b;
-    scanf("%d%d", &a, &b);
-    seg[i] = {a, b};
-  }
+  for (auto& [a, b] : seg) scanf("%d%d", &a, &b);
   for (int t, a, b, c; q--;) {
     scanf("%d%d%d%d", &t, &a, &b, &c);
     if (t) {
