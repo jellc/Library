@@ -20,6 +20,9 @@ data:
   - icon: ':warning:'
     path: src/number_theory/least_factor.hpp
     title: Least Prime Factor
+  - icon: ':warning:'
+    path: src/number_theory/primitive_root.hpp
+    title: Primitive Root
   - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
@@ -148,6 +151,7 @@ data:
   - src/utils/round_div.hpp
   - src/data_structure/segment_tree/lazy.hpp
   - src/number_theory/least_factor.hpp
+  - src/number_theory/primitive_root.hpp
   - src/number_theory/ext_gcd.hpp
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp

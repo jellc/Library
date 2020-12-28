@@ -169,6 +169,9 @@ data:
     - icon: ':warning:'
       path: src/number_theory/least_factor.hpp
       title: Least Prime Factor
+    - icon: ':warning:'
+      path: src/number_theory/primitive_root.hpp
+      title: Primitive Root
   - name: src/opt
     pages:
     - icon: ':heavy_check_mark:'
