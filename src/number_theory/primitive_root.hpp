@@ -22,6 +22,8 @@ constexpr static
       using result_type = decltype(Mod);
       using int_type = typename multiplicable_uint<result_type>::type;
 
+      if constexpr (Mod == 2) return static_cast<result_type>(1);
+
       auto __m = Mod - 1;
       while (!(__m & 1)) __m >>= 1;
 
@@ -37,7 +39,6 @@ constexpr static
       int_type __r = 1;
       for (bool __yet = true; __yet; ++__r) {
         __yet = false;
-        auto __q = __t;
         for (auto __i = __p; __i != __t; ++__i) {
           int_type __w = 1, __x = __r;
           for (auto e = (Mod - 1) / *__i; e; e >>= 1, (__x *= __x) %= Mod)
