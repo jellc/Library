@@ -43,47 +43,51 @@ data:
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
     \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 10 \"src/number_theory/primitive_root.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @brief Compile time primitive root\n *\n * @tparam Mod\n */\ntemplate\
-    \ <auto Mod>\nconstexpr static\n    typename std::enable_if<(is_integral_ext<decltype(Mod)>::value\
-    \ && Mod > 0),\n                            decltype(Mod)>::type primitive_root\
-    \ = [] {\n      using result_type = decltype(Mod);\n      using int_type = typename\
-    \ multiplicable_uint<result_type>::type;\n\n      if constexpr (Mod == 2) return\
-    \ static_cast<result_type>(1);\n\n      auto __m = Mod - 1;\n      while (!(__m\
-    \ & 1)) __m >>= 1;\n\n      int_type __p[16] = {2}, *__t = __p + 1;\n\n      for\
-    \ (int_type __i = 3; __i <= __m / __i; __i += 2) {\n        if (__m % __i) continue;\n\
-    \        *__t++ = __i;\n        while (!(__m % __i)) __m /= __i;\n      }\n  \
-    \    if (__m != 1) *__t++ = __m;\n\n      int_type __r = 1;\n      for (bool __yet\
-    \ = true; __yet; ++__r) {\n        __yet = false;\n        for (auto __i = __p;\
-    \ __i != __t; ++__i) {\n          int_type __w = 1, __x = __r;\n          for\
-    \ (auto e = (Mod - 1) / *__i; e; e >>= 1, (__x *= __x) %= Mod)\n            if\
-    \ (e & 1) (__w *= __x) %= Mod;\n          if (__w == 1) {\n            __yet =\
-    \ true;\n            break;\n          }\n        }\n      }\n      return static_cast<result_type>(--__r);\n\
-    \    }();\n\n}  // namespace workspace\n"
+    \ workspace\n#line 10 \"src/number_theory/primitive_root.hpp\"\n\n#if __cplusplus\
+    \ >= 201703L\n\n#include <optional>\n\nnamespace workspace {\n\n/**\n * @brief\
+    \ Compile time primitive root.\n *\n * @tparam __mod A positive integer\n * @return\
+    \ Minimum positive one if it exists. Otherwise 0.\n */\ntemplate <class Tp>\n\
+    constexpr typename std::enable_if<(is_integral_ext<Tp>::value), Tp>::type\nprimitive_root(const\
+    \ Tp __mod) noexcept {\n  assert(__mod > 0);\n  using int_type = typename multiplicable_uint<Tp>::type;\n\
+    \n  int_type __r = __mod, __p[16] = {}, *__q = __p;\n  for (int_type __i = 2;\
+    \ __i <= __r / __i; ++__i) {\n    if (__r % __i) continue;\n    *__q++ = __i;\n\
+    \    while (!(__r % __i)) __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\n\
+    \  int_type __tot = __mod;\n  for (__q = __p; *__q; *__q++ = 0) (__tot /= *__q)\
+    \ *= *__q - 1;\n  __r = __tot, __q = __p + 1, __p[0] = 1;\n  for (int_type __i\
+    \ = 2; __i <= __r / __i; ++__i) {\n    if (__r % __i) continue;\n    *__q++ =\
+    \ __i;\n    while (!(__r % __i)) __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\
+    \n  for (int_type __r = 1; __r != __mod; ++__r) {\n    auto __cnt = 0;\n    for\
+    \ (__q = __p; *__q; ++__q) {\n      int_type __w = 1;\n      for (int_type __e\
+    \ = __tot / *__q, __x = __r; __e;\n           __e >>= 1, (__x *= __x) %= __mod)\n\
+    \        if (__e & 1) (__w *= __x) %= __mod;\n      if (__w == 1 && ++__cnt >\
+    \ 1) break;\n    }\n    if (__cnt == 1) return __r;\n  }\n\n  return 0;\n};\n\n\
+    }  // namespace workspace\n\n#endif\n"
   code: "/**\n * @file primitive_root.hpp\n * @brief Primitive Root\n * @date 2020-12-28\n\
-    \ */\n\n#include <type_traits>\n\n#include \"src/utils/sfinae.hpp\"\n\nnamespace\
-    \ workspace {\n\n/**\n * @brief Compile time primitive root\n *\n * @tparam Mod\n\
-    \ */\ntemplate <auto Mod>\nconstexpr static\n    typename std::enable_if<(is_integral_ext<decltype(Mod)>::value\
-    \ && Mod > 0),\n                            decltype(Mod)>::type primitive_root\
-    \ = [] {\n      using result_type = decltype(Mod);\n      using int_type = typename\
-    \ multiplicable_uint<result_type>::type;\n\n      if constexpr (Mod == 2) return\
-    \ static_cast<result_type>(1);\n\n      auto __m = Mod - 1;\n      while (!(__m\
-    \ & 1)) __m >>= 1;\n\n      int_type __p[16] = {2}, *__t = __p + 1;\n\n      for\
-    \ (int_type __i = 3; __i <= __m / __i; __i += 2) {\n        if (__m % __i) continue;\n\
-    \        *__t++ = __i;\n        while (!(__m % __i)) __m /= __i;\n      }\n  \
-    \    if (__m != 1) *__t++ = __m;\n\n      int_type __r = 1;\n      for (bool __yet\
-    \ = true; __yet; ++__r) {\n        __yet = false;\n        for (auto __i = __p;\
-    \ __i != __t; ++__i) {\n          int_type __w = 1, __x = __r;\n          for\
-    \ (auto e = (Mod - 1) / *__i; e; e >>= 1, (__x *= __x) %= Mod)\n            if\
-    \ (e & 1) (__w *= __x) %= Mod;\n          if (__w == 1) {\n            __yet =\
-    \ true;\n            break;\n          }\n        }\n      }\n      return static_cast<result_type>(--__r);\n\
-    \    }();\n\n}  // namespace workspace\n"
+    \ */\n\n#include <type_traits>\n\n#include \"src/utils/sfinae.hpp\"\n\n#if __cplusplus\
+    \ >= 201703L\n\n#include <optional>\n\nnamespace workspace {\n\n/**\n * @brief\
+    \ Compile time primitive root.\n *\n * @tparam __mod A positive integer\n * @return\
+    \ Minimum positive one if it exists. Otherwise 0.\n */\ntemplate <class Tp>\n\
+    constexpr typename std::enable_if<(is_integral_ext<Tp>::value), Tp>::type\nprimitive_root(const\
+    \ Tp __mod) noexcept {\n  assert(__mod > 0);\n  using int_type = typename multiplicable_uint<Tp>::type;\n\
+    \n  int_type __r = __mod, __p[16] = {}, *__q = __p;\n  for (int_type __i = 2;\
+    \ __i <= __r / __i; ++__i) {\n    if (__r % __i) continue;\n    *__q++ = __i;\n\
+    \    while (!(__r % __i)) __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\n\
+    \  int_type __tot = __mod;\n  for (__q = __p; *__q; *__q++ = 0) (__tot /= *__q)\
+    \ *= *__q - 1;\n  __r = __tot, __q = __p + 1, __p[0] = 1;\n  for (int_type __i\
+    \ = 2; __i <= __r / __i; ++__i) {\n    if (__r % __i) continue;\n    *__q++ =\
+    \ __i;\n    while (!(__r % __i)) __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\
+    \n  for (int_type __r = 1; __r != __mod; ++__r) {\n    auto __cnt = 0;\n    for\
+    \ (__q = __p; *__q; ++__q) {\n      int_type __w = 1;\n      for (int_type __e\
+    \ = __tot / *__q, __x = __r; __e;\n           __e >>= 1, (__x *= __x) %= __mod)\n\
+    \        if (__e & 1) (__w *= __x) %= __mod;\n      if (__w == 1 && ++__cnt >\
+    \ 1) break;\n    }\n    if (__cnt == 1) return __r;\n  }\n\n  return 0;\n};\n\n\
+    }  // namespace workspace\n\n#endif\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
   requiredBy: []
-  timestamp: '2020-12-28 18:59:54+09:00'
+  timestamp: '2020-12-28 23:08:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/number_theory/primitive_root.hpp
