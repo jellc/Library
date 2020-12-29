@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file rolling_hash.hpp
  * @brief Rolling Hash
  */
@@ -15,7 +15,7 @@
 
 namespace workspace {
 
-/*
+/**
  * @struct rolling_hashed
  * @brief hash data of a string.
  */
@@ -23,29 +23,26 @@ struct rolling_hashed {
   using u64 = uint_least64_t;
   using u128 = __uint128_t;
 
-  /*
-   * @var mod
+  /**
    * @brief modulus used for hashing.
    */
   constexpr static u64 mod = (1ull << 61) - 1;
 
   const static u64 base;
 
-  /*
-   * @var value
+  /**
    * @brief hash value.
    */
   u64 value = 0;
 
-  /*
-   * @var lenght
+  /**
    * @brief length of the string.
    */
   size_t length = 0;
 
   rolling_hashed() = default;
 
-  /*
+  /**
    * @brief construct hash data from one character.
    * @param c a character
    */
@@ -57,7 +54,9 @@ struct rolling_hashed {
 
   operator std::pair<u64, size_t>() const { return {value, length}; }
 
-  /*
+  operator u64() const { return value; }
+
+  /**
    * @return whether or not (*this) and (rhs) are equal
    * @param rhs
    */
@@ -65,13 +64,13 @@ struct rolling_hashed {
     return value == rhs.value && length == rhs.length;
   }
 
-  /*
+  /**
    * @return whether or not (*this) and (rhs) are distinct
    * @param rhs
    */
   bool operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }
 
-  /*
+  /**
    * @param rhs the right operand
    * @return hash data of concatenated string
    */
@@ -80,7 +79,7 @@ struct rolling_hashed {
             length + rhs.length};
   }
 
-  /*
+  /**
    * @param rhs appended to right end
    * @return reference to updated hash data
    */
@@ -88,7 +87,7 @@ struct rolling_hashed {
     return *this = operator+(rhs);
   }
 
-  /*
+  /**
    * @param rhs the erased suffix
    * @return hash data of erased string
    */
@@ -98,7 +97,7 @@ struct rolling_hashed {
             length - rhs.length};
   }
 
-  /*
+  /**
    * @param rhs erased from right end
    * @return reference to updated hash data
    */
@@ -106,7 +105,7 @@ struct rolling_hashed {
     return *this = operator-(rhs);
   }
 
-  /*
+  /**
    * @fn base_pow
    * @param exp the exponent
    * @return base ** pow
@@ -135,14 +134,13 @@ struct rolling_hashed {
   }
 };
 
-/*
- * @var base
+/**
  * @brief base used for hashing
  */
 const rolling_hashed::u64 rolling_hashed::base =
     random_number_generator<u64>(1 << 30, mod - 1)();
 
-/*
+/**
  * @struct rolling_hash_table
  * @brief make hash data table of suffix.
  */
@@ -157,12 +155,20 @@ template <class str_type> struct rolling_hash_table {
     std::reverse(suffix.begin(), suffix.end());
   }
 
-  /*
+  template <class Tp, typename = typename std::enable_if<
+                          std::is_convertible<rolling_hashed, Tp>::value>::type>
+  operator Tp() const {
+    return substr();
+  }
+
+  operator rolling_hashed() const { return substr(); }
+
+  /**
    * @return length of the string
    */
   size_t size() const { return suffix.size() - 1; }
 
-  /*
+  /**
    * @param pos start position
    * @param n length of the substring
    * @return hash data of the substring
@@ -172,7 +178,7 @@ template <class str_type> struct rolling_hash_table {
     return suffix[pos] - suffix[pos + std::min(n, size() - pos)];
   }
 
-  /*
+  /**
    * @param rhs
    * @return length of the longest common prefix
    */
