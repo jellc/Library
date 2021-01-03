@@ -14,7 +14,9 @@ namespace workspace {
 void main();
 
 struct {
-  unsigned current{0}, total{1};
+  // 1-indexed
+  unsigned current{0};
+  unsigned total{1};
 
   void read() { (std::cin >> total).ignore(); }
 
