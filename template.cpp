@@ -14,7 +14,7 @@
 #include "lib/sys"
 #include "lib/utils"
 
-int main() {
+signed main() {
   using namespace workspace;
 
   io_setup(15);
