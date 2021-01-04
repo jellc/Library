@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file zip.hpp
  * @brief Zip
  */
@@ -15,6 +15,8 @@
 #if __cplusplus >= 201703L
 
 namespace workspace {
+
+namespace internal {
 
 template <class> struct zipped_iterator;
 
@@ -80,6 +82,14 @@ template <class... Args> class zipped {
       }
     }
 
+    template <size_t N = 0>
+    constexpr void advance(difference_type __d) noexcept {
+      if constexpr (N != std::tuple_size<base_tuple>::value) {
+        std::get<N>(current) += __d;
+        advance<N + 1>(__d);
+      }
+    }
+
    public:
     constexpr iterator() noexcept = default;
     constexpr iterator(base_tuple const &current) noexcept : current(current) {}
@@ -98,6 +108,36 @@ template <class... Args> class zipped {
     constexpr iterator &operator--() noexcept {
       decrement();
       return *this;
+    }
+
+    constexpr bool operator<(const iterator &rhs) const noexcept {
+      return std::get<0>(current) < std::get<0>(rhs.current);
+    }
+
+    constexpr bool operator<=(const iterator &rhs) const noexcept {
+      return std::get<0>(current) <= std::get<0>(rhs.current);
+    }
+
+    constexpr iterator &operator+=(difference_type __d) noexcept {
+      advance(__d);
+      return *this;
+    }
+
+    constexpr iterator &operator-=(difference_type __d) noexcept {
+      advance(-__d);
+      return *this;
+    }
+
+    constexpr iterator operator+(difference_type __d) const noexcept {
+      return iterator{*this} += __d;
+    }
+
+    constexpr iterator operator-(difference_type __d) const noexcept {
+      return iterator{*this} -= __d;
+    }
+
+    constexpr difference_type operator-(const iterator &rhs) const noexcept {
+      return std::get<0>(current) - std::get<0>(rhs.current);
     }
 
     constexpr reference operator*() noexcept { return current; }
@@ -126,29 +166,44 @@ template <class Iter_tuple> struct zipped_iterator : Iter_tuple {
   constexpr zipped_iterator(Iter_tuple const &__t) noexcept
       : Iter_tuple::tuple(__t) {}
 
+  constexpr zipped_iterator(zipped_iterator const &__t) = default;
+
+  constexpr zipped_iterator &operator=(zipped_iterator const &__t) = default;
+
+  // Avoid move initialization.
+  constexpr zipped_iterator(zipped_iterator &&__t)
+      : zipped_iterator(static_cast<zipped_iterator const &>(__t)) {}
+
+  // Avoid move assignment.
+  zipped_iterator &operator=(zipped_iterator &&__t) {
+    return operator=(static_cast<zipped_iterator const &>(__t));
+  }
+
   template <size_t N>
   friend constexpr auto &get(zipped_iterator<Iter_tuple> const &__z) noexcept {
     return *std::get<N>(__z);
   }
 
   template <size_t N>
-  friend constexpr auto get(zipped_iterator<Iter_tuple> const &&__z) noexcept {
-    return std::move(*std::get<N>(__z));
+  friend constexpr auto get(zipped_iterator<Iter_tuple> &&__z) noexcept {
+    return *std::get<N>(__z);
   }
 };
+
+}  // namespace internal
 
 }  // namespace workspace
 
 namespace std {
 
 template <size_t N, class Iter_tuple>
-struct tuple_element<N, workspace::zipped_iterator<Iter_tuple>> {
+struct tuple_element<N, workspace::internal::zipped_iterator<Iter_tuple>> {
   using type = typename remove_reference<typename iterator_traits<
       typename tuple_element<N, Iter_tuple>::type>::reference>::type;
 };
 
 template <class Iter_tuple>
-struct tuple_size<workspace::zipped_iterator<Iter_tuple>>
+struct tuple_size<workspace::internal::zipped_iterator<Iter_tuple>>
     : tuple_size<Iter_tuple> {};
 
 }  // namespace std
@@ -156,12 +211,12 @@ struct tuple_size<workspace::zipped_iterator<Iter_tuple>>
 namespace workspace {
 
 template <class... Args> constexpr auto zip(Args &&... args) noexcept {
-  return zipped<Args...>(std::forward<Args>(args)...);
+  return internal::zipped<Args...>(std::forward<Args>(args)...);
 }
 
 template <class... Args>
 constexpr auto zip(std::initializer_list<Args> const &... args) noexcept {
-  return zipped<std::vector<Args>...>(args...);
+  return internal::zipped<const std::initializer_list<Args>...>(args...);
 }
 
 }  // namespace workspace
