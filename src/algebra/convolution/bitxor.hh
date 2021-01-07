@@ -1,3 +1,5 @@
+#include <iterator>
+
 #include "lib/bit"
 
 namespace workspace {
