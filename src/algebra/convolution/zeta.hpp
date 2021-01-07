@@ -30,7 +30,7 @@ template <class A> A fast_zeta(A f, size_t n) {
  * @return Value list of resulting function.
  */
 template <class A> A fast_zeta(A const &f) {
-  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));
+  return fast_zeta(f, std::__countr_zero(std::__bit_floor(std::size(f))));
 }
 
 /**
@@ -52,7 +52,7 @@ template <class A> A fast_mobius(A f, size_t n) {
  * @return Value list of resulting function.
  */
 template <class A> A fast_mobius(A const &f) {
-  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));
+  return fast_mobius(f, std::__countr_zero(std::__bit_floor(std::size(f))));
 }
 
 }  // namespace workspace
