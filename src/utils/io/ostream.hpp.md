@@ -6,6 +6,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/bitwise_xor_convolution.test.cpp
+    title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
@@ -13,7 +19,7 @@ data:
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Output Stream
     links: []
@@ -60,10 +66,12 @@ data:
   path: src/utils/io/ostream.hpp
   requiredBy: []
   timestamp: '2020-11-23 02:53:42+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/utils/io/ostream.hpp
 layout: document

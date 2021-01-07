@@ -56,7 +56,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/convolution/zeta.hpp
       title: Fast Zeta Transform
   - name: src/algebra/linear
@@ -158,7 +158,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -231,15 +231,15 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -337,6 +337,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
+    - icon: ':x:'
+      path: test/library-checker/bitwise_and_convolution.test.cpp
+      title: test/library-checker/bitwise_and_convolution.test.cpp
+    - icon: ':x:'
+      path: test/library-checker/bitwise_xor_convolution.test.cpp
+      title: test/library-checker/bitwise_xor_convolution.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp

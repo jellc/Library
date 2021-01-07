@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Fast Zeta Transform
     links: []
@@ -122,8 +125,9 @@ data:
   path: src/algebra/convolution/zeta.hpp
   requiredBy: []
   timestamp: '2021-01-07 23:57:46+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/library-checker/bitwise_and_convolution.test.cpp
 documentation_of: src/algebra/convolution/zeta.hpp
 layout: document
 redirect_from:
