@@ -1,3 +1,11 @@
+#pragma once
+
+/**
+ * @file bitand.hh
+ * @brief Bitwise And Convolution
+ * @date 2021-01-08
+ */
+
 #include <algorithm>
 
 #include "bitor.hh"

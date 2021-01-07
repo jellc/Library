@@ -1,3 +1,11 @@
+#pragma once
+
+/**
+ * @file bitor.hh
+ * @brief Bitwise Or Convolution
+ * @date 2021-01-08
+ */
+
 #include "zeta.hpp"
 
 namespace workspace {

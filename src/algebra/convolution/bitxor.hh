@@ -1,3 +1,11 @@
+#pragma once
+
+/**
+ * @file bitxor.hh
+ * @brief Bitwise Xor Convolution
+ * @date 2021-01-08
+ */
+
 #include <iterator>
 
 #include "lib/bit"
