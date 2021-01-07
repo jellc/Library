@@ -1,8 +1,3 @@
-/**
- * @file template.cpp
- * @brief Template
- */
-
 // #undef _GLIBCXX_DEBUG
 // #define NDEBUG
 #include <bits/extc++.h>
@@ -23,7 +18,7 @@ signed main() {
     case_info.read();  //*/
 
   /* unspecified
-    case_info.total = -1;//*/
+    case_info.total = -1;  //*/
 
   return case_info.iterate();
 }
