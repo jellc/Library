@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file xor_elimination.hpp
  * @brief XOR Elimination
  */
@@ -9,15 +9,19 @@
 
 namespace workspace {
 
-template <class Expr> struct xor_elimination {
-  std::vector<Expr> base;
-  bool add(Expr e) {
-    for (const Expr &b : base)
-      if ((b ^ e) < e) e ^= b;
-    if (e) base.emplace_back(e);
-    return e;
+template <class Expr> class xor_elimination : std::vector<Expr> {
+  using base = std::vector<Expr>;
+ public:
+  using base::begin;
+  using base::end;
+  using base::size;
+
+  bool add(Expr __e) {
+    for (auto __i = begin(); __i != end(); ++__i)
+      if ((*__i ^ __e) < __e) __e ^= *__i;
+    if (__e) base::emplace_back(__e);
+    return __e;
   }
-  size_t dim() const { return base.size(); }
 };
 
 }  // namespace workspace
