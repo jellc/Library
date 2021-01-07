@@ -1,3 +1,9 @@
+#if __cplusplus > 201703L
+
+#include <bit>
+
+#else
+
 #ifndef _GLIBCXX_BIT
 #define _GLIBCXX_BIT 1
 
@@ -160,5 +166,7 @@ template <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept {
 }
 
 }  // namespace std
+
+#endif
 
 #endif
