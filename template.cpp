@@ -20,18 +20,18 @@ signed main() {
   io_setup(15);
 
   /* given
-  case_info.read();  //*/
+    case_info.read();  //*/
 
   /* unspecified
-  case_info.total = -1; //*/
+    case_info.total = -1;//*/
 
   return case_info.iterate();
 }
 
 namespace workspace {
 
-void main() {
-  // start here!
+void main() {  //
+  /* start here! */
 }
 
 }  // namespace workspace
