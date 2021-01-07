@@ -22,25 +22,27 @@ data:
   bundledCode: "#line 1 \"test/library-checker/subset_convolution.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n#include <iostream>\n\
     \n#line 2 \"src/algebra/convolution/subset.hpp\"\n\n/*\n * @brief Subset Convolution\n\
-    \ */\n\n#include <cassert>\n#include <vector>\n\n#line 1 \"lib/bit\"\n\n\n\n#include\
-    \ <limits>\n#include <type_traits>\n\nnamespace std {\n\ntemplate <typename _Tp>\
-    \ constexpr _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
-    \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
-    \ > 0)\n    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return\
-    \ (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate\
-    \ <typename _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr\
+    \ */\n\n#include <cassert>\n#include <vector>\n\n#line 1 \"lib/bit\"\n#if __cplusplus\
+    \ > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT\
+    \ 1\n\n#include <limits>\n#include <type_traits>\n\nnamespace std {\n\ntemplate\
+    \ <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr\
     \ auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if\
-    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x >> __r) |\
-    \ (__x << ((_Nd - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd\
-    \ + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int\
-    \ __countl_zero(_Tp __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
-    \n  if (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
-    \ long long>::digits;\n  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;\n\
-    \  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR\
-    \ (_Nd <= _Nd_u) {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x)\
-    \ - __diff;\n  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {\n    constexpr\
-    \ int __diff = _Nd_ul - _Nd;\n    return __builtin_clzl(__x) - __diff;\n  } else\
-    \ if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {\n    constexpr int __diff = _Nd_ull\
+    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x << __r) |\
+    \ (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x >> -__r) | (__x << ((_Nd\
+    \ + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename _Tp> constexpr _Tp\
+    \ __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
+    \ > 0)\n    return (__x >> __r) | (__x << ((_Nd - __r) % _Nd));\n  else\n    return\
+    \ (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate\
+    \ <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {\n  constexpr\
+    \ auto _Nd = numeric_limits<_Tp>::digits;\n\n  if (__x == 0) return _Nd;\n\n \
+    \ constexpr auto _Nd_ull = numeric_limits<unsigned long long>::digits;\n  constexpr\
+    \ auto _Nd_ul = numeric_limits<unsigned long>::digits;\n  constexpr auto _Nd_u\
+    \ = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)\
+    \ {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x) -\
+    \ __diff;\n  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {\n    constexpr int\
+    \ __diff = _Nd_ul - _Nd;\n    return __builtin_clzl(__x) - __diff;\n  } else if\
+    \ _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {\n    constexpr int __diff = _Nd_ull\
     \ - _Nd;\n    return __builtin_clzll(__x) - __diff;\n  } else  // (_Nd > _Nd_ull)\n\
     \  {\n    static_assert(_Nd <= (2 * _Nd_ull),\n                  \"Maximum supported\
     \ integer size is 128-bit\");\n\n    unsigned long long __high = __x >> _Nd_ull;\n\
@@ -91,8 +93,8 @@ data:
     \  if (__x == 0) return 0;\n  return (_Tp)1u << (_Nd - __countl_zero((_Tp)(__x\
     \ >> 1)));\n}\n\ntemplate <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept\
     \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  return _Nd - __countl_zero(__x);\n\
-    }\n\n}  // namespace std\n\n\n#line 11 \"src/algebra/convolution/subset.hpp\"\n\
-    \nnamespace workspace {\n\ntemplate <class A> A subset_conv(const A &f, const\
+    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 11 \"src/algebra/convolution/subset.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class A> A subset_conv(const A &f, const\
     \ A &g) {\n  const size_t len = std::__bit_floor(std::size(f));\n  const size_t\
     \ n = std::__countr_zero(len);\n\n  std::vector<A> ff(n + 1, A(len)), gg(ff);\n\
     \  ff[0] = f, gg[0] = g;\n\n  for (size_t k = 0; k != n; ++k)\n    for (size_t\
@@ -109,11 +111,11 @@ data:
     \ workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n *\
     \ @brief Modular Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\n\n#line\
     \ 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
-    \n#include <cstdint>\n#include <iterator>\n#line 11 \"src/utils/sfinae.hpp\"\n\
-    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
-    \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
-    \ make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t>\
-    \ { using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    namespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
     \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
     \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
     \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
@@ -234,7 +236,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-07 23:47:01+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp

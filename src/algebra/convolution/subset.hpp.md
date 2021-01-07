@@ -13,13 +13,14 @@ data:
     links: []
   bundledCode: "#line 2 \"src/algebra/convolution/subset.hpp\"\n\n/*\n * @brief Subset\
     \ Convolution\n */\n\n#include <cassert>\n#include <vector>\n\n#line 1 \"lib/bit\"\
-    \n\n\n\n#include <limits>\n#include <type_traits>\n\nnamespace std {\n\ntemplate\
-    \ <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr\
-    \ auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if\
-    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x << __r) |\
-    \ (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x >> -__r) | (__x << ((_Nd\
-    \ + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename _Tp> constexpr _Tp\
-    \ __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n\
+    #define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\nnamespace\
+    \ std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept\
+    \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s\
+    \ % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x\
+    \ << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x >> -__r) |\
+    \ (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename _Tp>\
+    \ constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
     \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
     \ > 0)\n    return (__x >> __r) | (__x << ((_Nd - __r) % _Nd));\n  else\n    return\
     \ (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate\
@@ -82,8 +83,8 @@ data:
     \  if (__x == 0) return 0;\n  return (_Tp)1u << (_Nd - __countl_zero((_Tp)(__x\
     \ >> 1)));\n}\n\ntemplate <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept\
     \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  return _Nd - __countl_zero(__x);\n\
-    }\n\n}  // namespace std\n\n\n#line 11 \"src/algebra/convolution/subset.hpp\"\n\
-    \nnamespace workspace {\n\ntemplate <class A> A subset_conv(const A &f, const\
+    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 11 \"src/algebra/convolution/subset.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class A> A subset_conv(const A &f, const\
     \ A &g) {\n  const size_t len = std::__bit_floor(std::size(f));\n  const size_t\
     \ n = std::__countr_zero(len);\n\n  std::vector<A> ff(n + 1, A(len)), gg(ff);\n\
     \  ff[0] = f, gg[0] = g;\n\n  for (size_t k = 0; k != n; ++k)\n    for (size_t\
@@ -118,7 +119,7 @@ data:
   isVerificationFile: false
   path: src/algebra/convolution/subset.hpp
   requiredBy: []
-  timestamp: '2020-12-08 03:07:51+09:00'
+  timestamp: '2021-01-07 23:47:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/subset_convolution.test.cpp
