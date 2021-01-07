@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file iteration.hpp
  * @brief Case Iteration
  */
@@ -27,7 +27,7 @@ struct {
     while (current++ < total) {
       try {
         main();
-      } catch (ejection const& status) {
+      } catch (internal::ejection const& status) {
         if (status.exit) break;
       }
     }
