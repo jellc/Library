@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/zeta.hpp
     title: Fast Zeta Transform
   - icon: ':question:'
@@ -19,7 +19,7 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/bitwise_and_convolution
@@ -27,29 +27,31 @@ data:
     - https://judge.yosupo.jp/problem/bitwise_and_convolution
   bundledCode: "#line 1 \"test/library-checker/bitwise_and_convolution.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\n\n\
-    #line 1 \"src/algebra/convolution/bitand.hh\"\n#include <algorithm>\n\n#line 2\
-    \ \"src/algebra/convolution/zeta.hpp\"\n\n/**\n * @file zeta.hpp\n * @brief Fast\
-    \ Zeta Transform\n */\n\n#include <cstddef>\n\n#line 1 \"lib/bit\"\n#if __cplusplus\
-    \ > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT\
-    \ 1\n\n#include <limits>\n#include <type_traits>\n\nnamespace std {\n\ntemplate\
-    \ <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr\
-    \ auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if\
-    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x << __r) |\
-    \ (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x >> -__r) | (__x << ((_Nd\
-    \ + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename _Tp> constexpr _Tp\
-    \ __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
-    \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
-    \ > 0)\n    return (__x >> __r) | (__x << ((_Nd - __r) % _Nd));\n  else\n    return\
-    \ (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate\
-    \ <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {\n  constexpr\
-    \ auto _Nd = numeric_limits<_Tp>::digits;\n\n  if (__x == 0) return _Nd;\n\n \
-    \ constexpr auto _Nd_ull = numeric_limits<unsigned long long>::digits;\n  constexpr\
-    \ auto _Nd_ul = numeric_limits<unsigned long>::digits;\n  constexpr auto _Nd_u\
-    \ = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)\
-    \ {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x) -\
-    \ __diff;\n  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {\n    constexpr int\
-    \ __diff = _Nd_ul - _Nd;\n    return __builtin_clzl(__x) - __diff;\n  } else if\
-    \ _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {\n    constexpr int __diff = _Nd_ull\
+    #line 2 \"src/algebra/convolution/bitand.hh\"\n\n/**\n * @file bitand.hh\n * @brief\
+    \ Bitwise And Convolution\n * @date 2021-01-08\n */\n\n#include <algorithm>\n\n\
+    #line 2 \"src/algebra/convolution/bitor.hh\"\n\n/**\n * @file bitor.hh\n * @brief\
+    \ Bitwise Or Convolution\n * @date 2021-01-08\n */\n\n#line 2 \"src/algebra/convolution/zeta.hpp\"\
+    \n\n/**\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\n#include <cstddef>\n\
+    \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
+    #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
+    \nnamespace std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int\
+    \ __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const\
+    \ int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r > 0)\n\
+    \    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x\
+    \ >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename\
+    \ _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd\
+    \ = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if (__r == 0)\n\
+    \    return __x;\n  else if (__r > 0)\n    return (__x >> __r) | (__x << ((_Nd\
+    \ - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));\
+    \  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int __countl_zero(_Tp\
+    \ __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\n  if\
+    \ (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
+    \ long long>::digits;\n  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;\n\
+    \  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR\
+    \ (_Nd <= _Nd_u) {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x)\
+    \ - __diff;\n  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {\n    constexpr\
+    \ int __diff = _Nd_ul - _Nd;\n    return __builtin_clzl(__x) - __diff;\n  } else\
+    \ if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {\n    constexpr int __diff = _Nd_ull\
     \ - _Nd;\n    return __builtin_clzll(__x) - __diff;\n  } else  // (_Nd > _Nd_ull)\n\
     \  {\n    static_assert(_Nd <= (2 * _Nd_ull),\n                  \"Maximum supported\
     \ integer size is 128-bit\");\n\n    unsigned long long __high = __x >> _Nd_ull;\n\
@@ -108,7 +110,7 @@ data:
     \ (size_t s = 0; s != std::size(f); ++s)\n      if (s >> n & 1) f[s] += f[s ^\
     \ 1 << n];\n  return f;\n}\n\n/**\n * @brief Fast zeta transform on a lattice.\n\
     \ * @param f Value list of the function\n * @return Value list of resulting function.\n\
-    \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @param n Number of join-irreducible elements, bit-width of\
     \ indices\n * @return Value list of resulting function.\n */\ntemplate <class\
@@ -116,12 +118,12 @@ data:
     \ std::size(f); ++s)\n      if (s >> n & 1) f[s] -= f[s ^ 1 << n];\n  return f;\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @return Value list of resulting function.\n */\ntemplate <class\
-    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));\n\
-    }\n\n}  // namespace workspace\n#line 2 \"src/algebra/convolution/bitor.hh\"\n\
+    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
+    }\n\n}  // namespace workspace\n#line 10 \"src/algebra/convolution/bitor.hh\"\n\
     \nnamespace workspace {\n\ntemplate <class A> A bitor_conv(A f, A g) {\n  f =\
     \ fast_zeta(f);\n  g = fast_zeta(g);\n  for (size_t i = 0; i != std::__bit_floor(std::size(f));\
     \ ++i) f[i] *= g[i];\n  f = fast_mobius(f);\n  return f;\n}\n\n}  // namespace\
-    \ workspace\n#line 4 \"src/algebra/convolution/bitand.hh\"\n\nnamespace workspace\
+    \ workspace\n#line 12 \"src/algebra/convolution/bitand.hh\"\n\nnamespace workspace\
     \ {\n\ntemplate <class A> A bitand_conv(A f, A g) {\n  std::reverse(std::begin(f),\
     \ std::end(f));\n  std::reverse(std::begin(g), std::end(g));\n  f = bitor_conv(f,\
     \ g);\n  std::reverse(std::begin(f), std::end(f));\n  return f;\n}\n\n}  // namespace\
@@ -310,8 +312,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-08 00:31:33+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-01-08 00:38:02+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp
 layout: document

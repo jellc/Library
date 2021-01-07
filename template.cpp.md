@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Template
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -17,14 +16,13 @@ data:
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
     )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/opt: line\
     \ -1: no such header\n"
-  code: "/**\n * @file template.cpp\n * @brief Template\n */\n\n// #undef _GLIBCXX_DEBUG\n\
-    // #define NDEBUG\n#include <bits/extc++.h>\n\n#include \"lib/alias\"\n#include\
-    \ \"lib/cxx20\"\n#include \"lib/direct\"\n#include \"lib/opt\"\n#include \"lib/sys\"\
-    \n#include \"lib/utils\"\n\nsigned main() {\n  using namespace workspace;\n\n\
-    \  io_setup(15);\n\n  /* given\n    case_info.read();  //*/\n\n  /* unspecified\n\
-    \    case_info.total = -1;//*/\n\n  return case_info.iterate();\n}\n\nnamespace\
-    \ workspace {\n\nvoid main() {  //\n  /* start here! */\n}\n\n}  // namespace\
-    \ workspace\n"
+  code: "// #undef _GLIBCXX_DEBUG\n// #define NDEBUG\n#include <bits/extc++.h>\n\n\
+    #include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/direct\"\n#include\
+    \ \"lib/opt\"\n#include \"lib/sys\"\n#include \"lib/utils\"\n\nsigned main() {\n\
+    \  using namespace workspace;\n\n  io_setup(15);\n\n  /* given\n    case_info.read();\
+    \  //*/\n\n  /* unspecified\n    case_info.total = -1;  //*/\n\n  return case_info.iterate();\n\
+    }\n\nnamespace workspace {\n\nvoid main() {  //\n  /* start here! */\n}\n\n} \
+    \ // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
@@ -37,5 +35,5 @@ layout: document
 redirect_from:
 - /library/template.cpp
 - /library/template.cpp.html
-title: Template
+title: template.cpp
 ---

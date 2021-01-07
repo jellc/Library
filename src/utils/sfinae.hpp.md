@@ -54,7 +54,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
     title: test/library-checker/associative_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
   - icon: ':x:'

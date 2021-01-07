@@ -56,7 +56,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/zeta.hpp
       title: Fast Zeta Transform
   - name: src/algebra/linear
@@ -279,7 +279,7 @@ data:
     pages:
     - icon: ':warning:'
       path: template.cpp
-      title: Template
+      title: template.cpp
   - name: variant
     pages:
     - icon: ':warning:'
@@ -337,7 +337,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_and_convolution.test.cpp
       title: test/library-checker/bitwise_and_convolution.test.cpp
     - icon: ':x:'

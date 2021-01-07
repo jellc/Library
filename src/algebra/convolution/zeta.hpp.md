@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Fast Zeta Transform
     links: []
@@ -91,7 +91,7 @@ data:
     \ (size_t s = 0; s != std::size(f); ++s)\n      if (s >> n & 1) f[s] += f[s ^\
     \ 1 << n];\n  return f;\n}\n\n/**\n * @brief Fast zeta transform on a lattice.\n\
     \ * @param f Value list of the function\n * @return Value list of resulting function.\n\
-    \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @param n Number of join-irreducible elements, bit-width of\
     \ indices\n * @return Value list of resulting function.\n */\ntemplate <class\
@@ -99,7 +99,7 @@ data:
     \ std::size(f); ++s)\n      if (s >> n & 1) f[s] -= f[s ^ 1 << n];\n  return f;\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @return Value list of resulting function.\n */\ntemplate <class\
-    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
     }\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\
     \n#include <cstddef>\n\n#include \"lib/bit\"\n\nnamespace workspace {\n\n/**\n\
@@ -110,7 +110,7 @@ data:
     \      if (s >> n & 1) f[s] += f[s ^ 1 << n];\n  return f;\n}\n\n/**\n * @brief\
     \ Fast zeta transform on a lattice.\n * @param f Value list of the function\n\
     \ * @return Value list of resulting function.\n */\ntemplate <class A> A fast_zeta(A\
-    \ const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    \ const &f) {\n  return fast_zeta(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @param n Number of join-irreducible elements, bit-width of\
     \ indices\n * @return Value list of resulting function.\n */\ntemplate <class\
@@ -118,14 +118,14 @@ data:
     \ std::size(f); ++s)\n      if (s >> n & 1) f[s] -= f[s ^ 1 << n];\n  return f;\n\
     }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @return Value list of resulting function.\n */\ntemplate <class\
-    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, std::__countr_zero(std::__bit_floor(std::size(f))));\n\
     }\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/algebra/convolution/zeta.hpp
   requiredBy: []
-  timestamp: '2021-01-07 23:57:46+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-01-08 00:38:02+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bitwise_and_convolution.test.cpp
 documentation_of: src/algebra/convolution/zeta.hpp

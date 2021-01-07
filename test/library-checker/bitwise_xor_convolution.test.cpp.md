@@ -24,9 +24,10 @@ data:
     - https://judge.yosupo.jp/problem/bitwise_xor_convolution
   bundledCode: "#line 1 \"test/library-checker/bitwise_xor_convolution.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\n\n\
-    #line 1 \"src/algebra/convolution/bitxor.hh\"\n#include <iterator>\n\n#line 1\
-    \ \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef\
-    \ _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
+    #line 2 \"src/algebra/convolution/bitxor.hh\"\n\n/**\n * @file bitxor.hh\n * @brief\
+    \ Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\n#include <iterator>\n\n\
+    #line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
+    #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
     \nnamespace std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int\
     \ __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const\
     \ int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r > 0)\n\
@@ -95,7 +96,7 @@ data:
     \  if (__x == 0) return 0;\n  return (_Tp)1u << (_Nd - __countl_zero((_Tp)(__x\
     \ >> 1)));\n}\n\ntemplate <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept\
     \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  return _Nd - __countl_zero(__x);\n\
-    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 4 \"src/algebra/convolution/bitxor.hh\"\
+    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 12 \"src/algebra/convolution/bitxor.hh\"\
     \n\nnamespace workspace {\n\ntemplate <class A> A bitwise_fft(A f) {\n  size_t\
     \ len = std::__bit_floor(std::size(f));\n  for (size_t p = 1; p < len; p <<= 1)\
     \ {\n    for (size_t i = 0; i < len; i += p << 1) {\n      for (size_t j = 0;\
@@ -293,7 +294,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-08 00:31:33+09:00'
+  timestamp: '2021-01-08 00:37:53+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_xor_convolution.test.cpp
