@@ -8,7 +8,7 @@ data:
   attributes:
     document_title: Fast Zeta Transform
     links: []
-  bundledCode: "#line 1 \"src/algebra/convolution/zeta.hpp\"\n/*\n * @file zeta.hpp\n\
+  bundledCode: "#line 2 \"src/algebra/convolution/zeta.hpp\"\n\n/**\n * @file zeta.hpp\n\
     \ * @brief Fast Zeta Transform\n */\n\n#include <cstddef>\n\n#line 1 \"lib/bit\"\
     \n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n\
     #define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\nnamespace\
@@ -80,39 +80,40 @@ data:
     \  if (__x == 0) return 0;\n  return (_Tp)1u << (_Nd - __countl_zero((_Tp)(__x\
     \ >> 1)));\n}\n\ntemplate <typename _Tp> constexpr _Tp __bit_width(_Tp __x) noexcept\
     \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  return _Nd - __countl_zero(__x);\n\
-    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 9 \"src/algebra/convolution/zeta.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @brief Fast zeta transform on a lattice.\n\
+    }\n\n}  // namespace std\n\n#endif\n\n#endif\n#line 11 \"src/algebra/convolution/zeta.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Fast zeta transform on a lattice.\n\
     \ * @param f Value list of the function\n * @param n Number of join-irreducible\
     \ elements, bit-width of indices\n * @return Value list of resulting function.\n\
     \ */\ntemplate <class A> A fast_zeta(A f, size_t n) {\n  while (n--)\n    for\
     \ (size_t s = 0; s != std::size(f); ++s)\n      if (s >> n & 1) f[s] += f[s ^\
-    \ 1 << n];\n  return f;\n}\n\n/*\n * @brief Fast zeta transform on a lattice.\n\
+    \ 1 << n];\n  return f;\n}\n\n/**\n * @brief Fast zeta transform on a lattice.\n\
     \ * @param f Value list of the function\n * @return Value list of resulting function.\n\
     \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
-    }\n\n/*\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
+    }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @param n Number of join-irreducible elements, bit-width of\
     \ indices\n * @return Value list of resulting function.\n */\ntemplate <class\
     \ A> A fast_mobius(A f, size_t n) {\n  while (n--)\n    for (size_t s = 0; s !=\
     \ std::size(f); ++s)\n      if (s >> n & 1) f[s] -= f[s ^ 1 << n];\n  return f;\n\
-    }\n\n/*\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
+    }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @return Value list of resulting function.\n */\ntemplate <class\
     \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));\n\
     }\n\n}  // namespace workspace\n"
-  code: "/*\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\n#include <cstddef>\n\
-    \n#include \"lib/bit\"\n\nnamespace workspace {\n\n/*\n * @brief Fast zeta transform\
-    \ on a lattice.\n * @param f Value list of the function\n * @param n Number of\
-    \ join-irreducible elements, bit-width of indices\n * @return Value list of resulting\
-    \ function.\n */\ntemplate <class A> A fast_zeta(A f, size_t n) {\n  while (n--)\n\
-    \    for (size_t s = 0; s != std::size(f); ++s)\n      if (s >> n & 1) f[s] +=\
-    \ f[s ^ 1 << n];\n  return f;\n}\n\n/*\n * @brief Fast zeta transform on a lattice.\n\
-    \ * @param f Value list of the function\n * @return Value list of resulting function.\n\
-    \ */\ntemplate <class A> A fast_zeta(A const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
-    }\n\n/*\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
+  code: "#pragma once\n\n/**\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\
+    \n#include <cstddef>\n\n#include \"lib/bit\"\n\nnamespace workspace {\n\n/**\n\
+    \ * @brief Fast zeta transform on a lattice.\n * @param f Value list of the function\n\
+    \ * @param n Number of join-irreducible elements, bit-width of indices\n * @return\
+    \ Value list of resulting function.\n */\ntemplate <class A> A fast_zeta(A f,\
+    \ size_t n) {\n  while (n--)\n    for (size_t s = 0; s != std::size(f); ++s)\n\
+    \      if (s >> n & 1) f[s] += f[s ^ 1 << n];\n  return f;\n}\n\n/**\n * @brief\
+    \ Fast zeta transform on a lattice.\n * @param f Value list of the function\n\
+    \ * @return Value list of resulting function.\n */\ntemplate <class A> A fast_zeta(A\
+    \ const &f) {\n  return fast_zeta(f, __countr_zero(__bit_floor(std::size(f))));\n\
+    }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @param n Number of join-irreducible elements, bit-width of\
     \ indices\n * @return Value list of resulting function.\n */\ntemplate <class\
     \ A> A fast_mobius(A f, size_t n) {\n  while (n--)\n    for (size_t s = 0; s !=\
     \ std::size(f); ++s)\n      if (s >> n & 1) f[s] -= f[s ^ 1 << n];\n  return f;\n\
-    }\n\n/*\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
+    }\n\n/**\n * @brief Inverse of fast zeta transform.\n * @param f Value list of\
     \ the function\n * @return Value list of resulting function.\n */\ntemplate <class\
     \ A> A fast_mobius(A const &f) {\n  return fast_mobius(f, __countr_zero(__bit_floor(std::size(f))));\n\
     }\n\n}  // namespace workspace\n"
@@ -120,7 +121,7 @@ data:
   isVerificationFile: false
   path: src/algebra/convolution/zeta.hpp
   requiredBy: []
-  timestamp: '2021-01-07 23:47:01+09:00'
+  timestamp: '2021-01-07 23:57:46+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/convolution/zeta.hpp
