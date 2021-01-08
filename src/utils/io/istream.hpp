@@ -1,7 +1,7 @@
 #pragma once
 
-/*
- * @file stream.hpp
+/**
+ * @file istream.hpp
  * @brief Input Stream
  */
 
