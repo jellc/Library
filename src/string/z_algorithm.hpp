@@ -1,8 +1,9 @@
 #pragma once
 
-/*
- * @file z_algorith.hpp
+/**
+ * @file z_algorithm.hpp
  * @brief Z-Algorithm
+ * @date 2021-01-08
  */
 
 #include <string>
@@ -10,67 +11,28 @@
 
 namespace workspace {
 
-/*
- * @class z_algorithm
- * @brief construct Z-array in linear time.
- * @tparam str_type the type of string
+/**
+ * @brief Construct Z-array in linear time.
+ * @param __s A string
+ * @return The i-th element (0-indexed) is the length of the Longest Common
+ * Prefix between __s and __s[i:].
  */
-template <class str_type = std::string> class z_algorithm {
-  str_type key;
-  std::vector<size_t> z;
-
-  void make() {
-    if (z.empty()) return;
-    for (size_t i{1}, j{0}; i != size(); ++i) {
-      if (z[i - j] + i < z[j] + j) {
-        z[i] = z[i - j];
+template <class _Str> std::vector<size_t> z_algorithm(_Str const &__s) {
+  std::vector<size_t> __z;
+  if (!__s.empty()) {
+    for (size_t __i{1}, __j{0}; __i != __s.size(); ++__i) {
+      if (__z[__i - __j] + __i < __z[__j] + __j) {
+        __z[__i] = __z[__i - __j];
       } else {
-        size_t k{z[j] + j > i ? z[j] + j - i : 0};
-        while (k + i < size() && key[k] == key[k + i]) ++k;
-        z[i] = k;
-        j = i;
+        size_t __k{__z[__j] + __j > __i ? __z[__j] + __j - __i : 0};
+        while (__k + __i < __s.size() && __s[__k] == __s[__k + __i]) ++__k;
+        __z[__i] = __k;
+        __j = __i;
       }
     }
-    z.front() = size();
+    __z.front() = __s.size();
   }
-
- public:
-  z_algorithm(const str_type &key) : key(key), z(size()) { make(); }
-
-  std::vector<size_t>::const_iterator begin() const { return z.begin(); }
-
-  std::vector<size_t>::const_iterator end() const { return z.end(); }
-
-  /*
-   * @fn size
-   * @return length of the string
-   */
-  size_t size() const { return key.size(); }
-
-  /*
-   * @fn operator[]
-   * @param i index
-   * @return LCP of (i)-th suffix and the whole string
-   */
-  size_t operator[](size_t i) const {
-    assert(i < size());
-    return z[i];
-  }
-
-  /*
-   * @fn pattern_search
-   * @param str
-   * @return length of the string
-   */
-  std::vector<size_t> pattern_search(const str_type &str) const {
-    str_type ccat(key);
-    ccat.insert(end(ccat), begin(str), end(str));
-    z_algorithm z(ccat);
-    std::vector<size_t> res(z.begin() + size(), z.end());
-    for (size_t &x : res)
-      if (x > size()) x = size();
-    return res;
-  }
-};
+  return __z;
+}
 
 }  // namespace workspace

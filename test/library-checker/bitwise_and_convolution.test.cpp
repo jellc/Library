@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/bitwise_and_convolution"
 
-#include "src/algebra/convolution/bitand.hh"
+#include "src/algebra/convolution/bitand.hpp"
 #include "src/modular/modint.hpp"
 #include "src/utils/io/istream.hpp"
 #include "src/utils/io/ostream.hpp"

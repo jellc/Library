@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include "src/string/kmp.hh"
+#include "src/string/kmp.hpp"
 
 int main() {
   using namespace workspace;
