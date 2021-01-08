@@ -11,7 +11,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -32,7 +32,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -54,6 +54,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
     title: test/library-checker/associative_array.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/bitwise_xor_convolution.test.cpp
+    title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
@@ -76,7 +79,7 @@ data:
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: SFINAE
     links: []
@@ -159,11 +162,12 @@ data:
   - src/string/rolling_hash.hpp
   - src/string/suffix_array.hpp
   timestamp: '2020-12-21 17:31:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/associative_array.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp

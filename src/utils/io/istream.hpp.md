@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -9,8 +9,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/bitwise_xor_convolution.test.cpp
+    title: test/library-checker/bitwise_xor_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Input Stream
     links: []
@@ -127,8 +130,9 @@ data:
   path: src/utils/io/istream.hpp
   requiredBy: []
   timestamp: '2020-12-21 17:31:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/utils/io/istream.hpp
 layout: document

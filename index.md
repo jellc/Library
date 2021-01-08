@@ -53,7 +53,7 @@ data:
     - icon: ':warning:'
       path: src/algebra/convolution/bitor.hpp
       title: Bitwise Or Convolution
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
     - icon: ':warning:'
@@ -167,7 +167,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -200,7 +200,7 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/string/kmp.hpp
       title: Knuth-Morris-Pratt Algorithm
     - icon: ':heavy_check_mark:'
@@ -209,7 +209,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/sys
@@ -243,15 +243,15 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -323,7 +323,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_B.test.cpp
       title: test/aizu-online-judge/ALDS1_14_B.test.cpp
     - icon: ':heavy_check_mark:'
@@ -406,7 +406,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'

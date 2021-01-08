@@ -1,32 +1,46 @@
 ---
 data:
-  _extendedDependsOn: []
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: src/string/kmp.hpp
+    title: Knuth-Morris-Pratt Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
-  attributes: {}
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
-    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
-    , line 193, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 401, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
-    \  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: src/string/kmp.hh:\
-    \ line -1: no such header\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
-    \n#include <algorithm>\n#include <iostream>\n\n#include \"src/string/kmp.hh\"\n\
-    \nint main() {\n  using namespace workspace;\n\n  std::string t, p;\n  std::cin\
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B
+    links:
+    - https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B
+  bundledCode: "#line 1 \"test/aizu-online-judge/ALDS1_14_B.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\n#include <algorithm>\n\
+    #include <iostream>\n\n#line 1 \"src/string/kmp.hpp\"\n/**\n * @file kmp.hpp\n\
+    \ * @brief Knuth-Morris-Pratt Algorithm\n * @date 2021-01-08\n */\n\n#include\
+    \ <vector>\n\nnamespace workspace {\n\n/**\n * @brief Knuth-Morris-Pratt algorithm.\n\
+    \ *\n * @param __s A string\n * @return The i-th element (1-indexed) describes\
+    \ the prefix of length i.\n */\ntemplate <class _Str> std::vector<size_t> kmp_algorithm(_Str\
+    \ const& __s) {\n  std::vector<size_t> __k(std::size(__s));\n  if (!__k.empty())\n\
+    \    for (size_t __p{}, __q{1}; __q != __k.size(); __k[__q++] = ++__p)\n     \
+    \ while (__s[__p] != __s[__q]) {\n        if (!__p--) break;\n        __p = __k[__p];\n\
+    \      }\n  return __k;\n}\n\n}  // namespace workspace\n#line 7 \"test/aizu-online-judge/ALDS1_14_B.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  std::string t, p;\n  std::cin\
     \ >> t >> p;\n  auto k = kmp_algorithm(p + '$' + t);\n  for (size_t i = 0, j =\
     \ p.size() * 2; j < k.size(); ++i, ++j)\n    if (k[j] == p.size()) std::cout <<\
     \ i << \"\\n\";\n}\n"
-  dependsOn: []
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
+    \n#include <algorithm>\n#include <iostream>\n\n#include \"src/string/kmp.hpp\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  std::string t, p;\n  std::cin\
+    \ >> t >> p;\n  auto k = kmp_algorithm(p + '$' + t);\n  for (size_t i = 0, j =\
+    \ p.size() * 2; j < k.size(); ++i, ++j)\n    if (k[j] == p.size()) std::cout <<\
+    \ i << \"\\n\";\n}\n"
+  dependsOn:
+  - src/string/kmp.hpp
   isVerificationFile: true
   path: test/aizu-online-judge/ALDS1_14_B.test.cpp
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-01-08 22:21:16+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ALDS1_14_B.test.cpp
 layout: document
