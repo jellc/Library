@@ -18,8 +18,8 @@ namespace workspace {
  * Prefix between __s and __s[i:].
  */
 template <class _Str> std::vector<size_t> z_algorithm(_Str const &__s) {
-  std::vector<size_t> __z;
-  if (!__s.empty()) {
+  std::vector<size_t> __z(__s.size());
+  if (!__z.empty()) {
     for (size_t __i{1}, __j{0}; __i != __s.size(); ++__i) {
       if (__z[__i - __j] + __i < __z[__j] + __j) {
         __z[__i] = __z[__i - __j];
