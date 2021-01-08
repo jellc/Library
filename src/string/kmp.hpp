@@ -9,7 +9,7 @@
 namespace workspace {
 
 /**
- * @brief Knuth-Morris-Pratt Algorithm.
+ * @brief Knuth-Morris-Pratt algorithm.
  *
  * @param __s A string
  * @return i-th element(1-indexed) describes the prefix of length i.
