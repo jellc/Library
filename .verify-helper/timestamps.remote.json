@@ -3,6 +3,7 @@
 "test/aizu-online-judge/1342.test.cpp": "2020-12-08 15:39:54 +0900",
 "test/aizu-online-judge/2450.test.cpp": "2020-12-25 02:27:50 +0900",
 "test/aizu-online-judge/2815.test.cpp": "2020-11-16 21:56:28 +0900",
+"test/aizu-online-judge/ALDS1_14_B.test.cpp": "2021-01-08 22:21:16 +0900",
 "test/aizu-online-judge/ALDS1_14_C.test.cpp": "2020-12-29 13:52:07 +0900",
 "test/aizu-online-judge/DPL_5_D.test.cpp": "2020-12-21 17:31:55 +0900",
 "test/aizu-online-judge/DSL_2_A.test.cpp": "2020-12-23 18:52:56 +0900",
@@ -26,6 +27,5 @@
 "test/library-checker/suffix_array.test.cpp": "2020-12-21 17:31:55 +0900",
 "test/library-checker/two_edge_connected_components.test.cpp": "2020-11-16 22:30:50 +0900",
 "test/library-checker/unionfind.test.cpp": "2020-11-25 21:36:50 +0900",
-"test/library-checker/zalgorithm.test.cpp": "2020-11-23 02:53:42 +0900",
 "test/library-checker/zalgorithm_2.test.cpp": "2020-12-29 13:52:07 +0900"
 }
