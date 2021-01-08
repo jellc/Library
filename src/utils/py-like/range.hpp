@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file range.hpp
  * @brief Range
  */
@@ -65,7 +65,7 @@ template <class Index> class range {
 };
 
 template <class... Args> constexpr auto rrange(Args &&... args) noexcept {
-  return reversal(range(std::forward<Args>(args)...));
+  return internal::reversed(range(std::forward<Args>(args)...));
 }
 
 }  // namespace workspace
