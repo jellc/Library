@@ -312,6 +312,9 @@ data:
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/ALDS1_14_B.test.cpp
+      title: test/aizu-online-judge/ALDS1_14_B.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_C.test.cpp
       title: test/aizu-online-judge/ALDS1_14_C.test.cpp
     - icon: ':heavy_check_mark:'
