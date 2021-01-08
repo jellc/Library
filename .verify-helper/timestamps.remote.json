@@ -13,6 +13,7 @@
 "test/library-checker/associative_array.test.cpp": "2020-12-21 17:31:55 +0900",
 "test/library-checker/bipartitematching.test.cpp": "2020-11-16 22:30:50 +0900",
 "test/library-checker/bitwise_and_convolution.test.cpp": "2021-01-08 22:28:38 +0900",
+"test/library-checker/bitwise_xor_convolution.test.cpp": "2021-01-08 23:01:49 +0900",
 "test/library-checker/line_add_get_min.test.cpp": "2020-11-23 14:16:28 +0900",
 "test/library-checker/lowest_common_ancestor.test.cpp": "2020-11-16 23:30:10 +0900",
 "test/library-checker/number_of_substrings.test.cpp": "2021-01-05 00:59:42 +0900",
