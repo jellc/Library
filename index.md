@@ -48,6 +48,15 @@ data:
   - name: src/algebra/convolution
     pages:
     - icon: ':warning:'
+      path: src/algebra/convolution/bitand.hpp
+      title: Bitwise And Convolution
+    - icon: ':warning:'
+      path: src/algebra/convolution/bitor.hpp
+      title: Bitwise Or Convolution
+    - icon: ':warning:'
+      path: src/algebra/convolution/bitxor.hpp
+      title: Bitwise Xor Convolution
+    - icon: ':warning:'
       path: src/algebra/convolution/fast_Fourier_transform.hpp
       title: src/algebra/convolution/fast_Fourier_transform.hpp
     - icon: ':warning:'
@@ -56,7 +65,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/algebra/convolution/zeta.hpp
       title: Fast Zeta Transform
   - name: src/algebra/linear
@@ -158,7 +167,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -191,6 +200,9 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
+    - icon: ':warning:'
+      path: src/string/kmp.hpp
+      title: Knuth-Morris-Pratt Algorithm
     - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
@@ -231,15 +243,15 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -311,7 +323,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/ALDS1_14_B.test.cpp
       title: test/aizu-online-judge/ALDS1_14_B.test.cpp
     - icon: ':heavy_check_mark:'
@@ -340,7 +352,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/bitwise_and_convolution.test.cpp
       title: test/library-checker/bitwise_and_convolution.test.cpp
     - icon: ':x:'

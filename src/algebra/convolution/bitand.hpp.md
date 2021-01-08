@@ -3,9 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
-  attributes: {}
+  _pathExtension: hpp
+  _verificationStatusIcon: ':warning:'
+  attributes:
+    document_title: Bitwise And Convolution
+    links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
@@ -13,25 +15,25 @@ data:
     , line 401, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.1/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: src/string/kmp.hh:\
-    \ line -1: no such header\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
-    \n#include <algorithm>\n#include <iostream>\n\n#include \"src/string/kmp.hh\"\n\
-    \nint main() {\n  using namespace workspace;\n\n  std::string t, p;\n  std::cin\
-    \ >> t >> p;\n  auto k = kmp_algorithm(p + '$' + t);\n  for (size_t i = 0, j =\
-    \ p.size() * 2; j < k.size(); ++i, ++j)\n    if (k[j] == p.size()) std::cout <<\
-    \ i << \"\\n\";\n}\n"
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: bitor.hh: line\
+    \ -1: no such header\n"
+  code: "#pragma once\n\n/**\n * @file bitand.hh\n * @brief Bitwise And Convolution\n\
+    \ * @date 2021-01-08\n */\n\n#include <algorithm>\n\n#include \"bitor.hh\"\n\n\
+    namespace workspace {\n\ntemplate <class A> A bitand_conv(A f, A g) {\n  std::reverse(std::begin(f),\
+    \ std::end(f));\n  std::reverse(std::begin(g), std::end(g));\n  f = bitor_conv(f,\
+    \ g);\n  std::reverse(std::begin(f), std::end(f));\n  return f;\n}\n\n}  // namespace\
+    \ workspace\n"
   dependsOn: []
-  isVerificationFile: true
-  path: test/aizu-online-judge/ALDS1_14_B.test.cpp
+  isVerificationFile: false
+  path: src/algebra/convolution/bitand.hpp
   requiredBy: []
   timestamp: '1970-01-01 00:00:00+00:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: test/aizu-online-judge/ALDS1_14_B.test.cpp
+documentation_of: src/algebra/convolution/bitand.hpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/ALDS1_14_B.test.cpp
-- /verify/test/aizu-online-judge/ALDS1_14_B.test.cpp.html
-title: test/aizu-online-judge/ALDS1_14_B.test.cpp
+- /library/src/algebra/convolution/bitand.hpp
+- /library/src/algebra/convolution/bitand.hpp.html
+title: Bitwise And Convolution
 ---
