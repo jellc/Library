@@ -27,7 +27,7 @@ data:
     - https://judge.yosupo.jp/problem/bitwise_xor_convolution
   bundledCode: "#line 1 \"test/library-checker/bitwise_xor_convolution.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\n\n\
-    #line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n * @file bitxor.hh\n *\
+    #line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n * @file bitxor.hpp\n *\
     \ @brief Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\n#include <iterator>\n\
     \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
     #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
@@ -222,7 +222,7 @@ data:
     \ modint_runtime\n * @brief runtime modular arithmetic.\n * @tparam type_id uniquely\
     \ assigned\n */\ntemplate <unsigned type_id = 0>\nusing modint_runtime = internal::modint_base<-(signed)type_id>;\n\
     \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n\
-    #line 2 \"src/utils/io/istream.hpp\"\n\n/*\n * @file stream.hpp\n * @brief Input\
+    #line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n * @brief Input\
     \ Stream\n */\n\n#include <cxxabi.h>\n\n#line 12 \"src/utils/io/istream.hpp\"\n\
     #include <tuple>\n\n#line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace\
     \ {\n\nnamespace internal {\n\ntemplate <class Tp, typename = std::nullptr_t>\
@@ -298,7 +298,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-08 22:21:16+09:00'
+  timestamp: '2021-01-08 22:28:38+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_xor_convolution.test.cpp

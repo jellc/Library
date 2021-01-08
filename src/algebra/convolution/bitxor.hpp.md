@@ -11,7 +11,7 @@ data:
   attributes:
     document_title: Bitwise Xor Convolution
     links: []
-  bundledCode: "#line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n * @file bitxor.hh\n\
+  bundledCode: "#line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n * @file bitxor.hpp\n\
     \ * @brief Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\n#include <iterator>\n\
     \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
     #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
@@ -97,7 +97,7 @@ data:
     \ A bitxor_conv(A f, A g) {\n  f = bitwise_fft(f);\n  g = bitwise_fft(g);\n  for\
     \ (size_t i = 0; i != std::size(f); ++i) f[i] *= g[i];\n  f = bitwise_ifft(f);\n\
     \  return f;\n}\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file bitxor.hh\n * @brief Bitwise Xor Convolution\n\
+  code: "#pragma once\n\n/**\n * @file bitxor.hpp\n * @brief Bitwise Xor Convolution\n\
     \ * @date 2021-01-08\n */\n\n#include <iterator>\n\n#include \"lib/bit\"\n\nnamespace\
     \ workspace {\n\ntemplate <class A> A bitwise_fft(A f) {\n  size_t len = std::__bit_floor(std::size(f));\n\
     \  for (size_t p = 1; p < len; p <<= 1) {\n    for (size_t i = 0; i < len; i +=\
@@ -115,7 +115,7 @@ data:
   isVerificationFile: false
   path: src/algebra/convolution/bitxor.hpp
   requiredBy: []
-  timestamp: '2021-01-08 22:03:18+09:00'
+  timestamp: '2021-01-08 22:27:46+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/library-checker/bitwise_xor_convolution.test.cpp

@@ -9,6 +9,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
   - icon: ':x:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
@@ -17,7 +20,7 @@ data:
   attributes:
     document_title: Input Stream
     links: []
-  bundledCode: "#line 2 \"src/utils/io/istream.hpp\"\n\n/*\n * @file stream.hpp\n\
+  bundledCode: "#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n\
     \ * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#include <cassert>\n#include\
     \ <iostream>\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file\
     \ sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
@@ -86,7 +89,7 @@ data:
     \           << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n    }\n\
     \    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr = (istream\
     \ *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file stream.hpp\n * @brief Input Stream\n */\n\n\
+  code: "#pragma once\n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n\
     #include <cxxabi.h>\n\n#include <cassert>\n#include <iostream>\n#include <tuple>\n\
     \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
     \ {\n\ntemplate <class Tp, typename = std::nullptr_t> struct istream_helper {\n\
@@ -129,10 +132,11 @@ data:
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-08 22:28:38+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/utils/io/istream.hpp
 layout: document

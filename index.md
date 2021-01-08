@@ -47,10 +47,10 @@ data:
       title: dev/fraction.hpp
   - name: src/algebra/convolution
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitand.hpp
       title: Bitwise And Convolution
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitor.hpp
       title: Bitwise Or Convolution
     - icon: ':x:'
@@ -65,7 +65,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/zeta.hpp
       title: Fast Zeta Transform
   - name: src/algebra/linear
@@ -209,7 +209,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/sys
@@ -352,7 +352,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_and_convolution.test.cpp
       title: test/library-checker/bitwise_and_convolution.test.cpp
     - icon: ':x:'
@@ -406,7 +406,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'

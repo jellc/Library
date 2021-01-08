@@ -1,17 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/zeta.hpp
     title: Fast Zeta Transform
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/convolution/bitand.hpp
+    title: Bitwise And Convolution
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Bitwise Or Convolution
     links: []
-  bundledCode: "#line 2 \"src/algebra/convolution/bitor.hpp\"\n\n/**\n * @file bitor.hh\n\
+  bundledCode: "#line 2 \"src/algebra/convolution/bitor.hpp\"\n\n/**\n * @file bitor.hpp\n\
     \ * @brief Bitwise Or Convolution\n * @date 2021-01-08\n */\n\n#line 2 \"src/algebra/convolution/zeta.hpp\"\
     \n\n/**\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\n#include <cstddef>\n\
     \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
@@ -106,7 +112,7 @@ data:
     \ = fast_zeta(f);\n  g = fast_zeta(g);\n  for (size_t i = 0; i != std::__bit_floor(std::size(f));\
     \ ++i) f[i] *= g[i];\n  f = fast_mobius(f);\n  return f;\n}\n\n}  // namespace\
     \ workspace\n"
-  code: "#pragma once\n\n/**\n * @file bitor.hh\n * @brief Bitwise Or Convolution\n\
+  code: "#pragma once\n\n/**\n * @file bitor.hpp\n * @brief Bitwise Or Convolution\n\
     \ * @date 2021-01-08\n */\n\n#include \"zeta.hpp\"\n\nnamespace workspace {\n\n\
     template <class A> A bitor_conv(A f, A g) {\n  f = fast_zeta(f);\n  g = fast_zeta(g);\n\
     \  for (size_t i = 0; i != std::__bit_floor(std::size(f)); ++i) f[i] *= g[i];\n\
@@ -115,10 +121,12 @@ data:
   - src/algebra/convolution/zeta.hpp
   isVerificationFile: false
   path: src/algebra/convolution/bitor.hpp
-  requiredBy: []
-  timestamp: '2021-01-08 22:03:18+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  requiredBy:
+  - src/algebra/convolution/bitand.hpp
+  timestamp: '2021-01-08 22:27:46+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/bitwise_and_convolution.test.cpp
 documentation_of: src/algebra/convolution/bitor.hpp
 layout: document
 redirect_from:

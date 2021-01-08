@@ -54,6 +54,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/associative_array.test.cpp
     title: test/library-checker/associative_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
   - icon: ':x:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
@@ -169,6 +172,7 @@ data:
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
