@@ -4,8 +4,8 @@
 #include "src/utils/io/ostream.hpp"
 
 int main() {
+  using namespace workspace;
   std::string s;
   std::cin >> s;
-  workspace::z_algorithm z(s);
-  std::cout << z << "\n";
+  std::cout << z_algorithm(s) << "\n";
 }
