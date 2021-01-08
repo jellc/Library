@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file bitor.hh
+ * @file bitor.hpp
  * @brief Bitwise Or Convolution
  * @date 2021-01-08
  */

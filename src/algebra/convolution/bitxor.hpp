@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file bitxor.hh
+ * @file bitxor.hpp
  * @brief Bitwise Xor Convolution
  * @date 2021-01-08
  */

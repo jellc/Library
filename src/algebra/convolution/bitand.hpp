@@ -1,14 +1,14 @@
 #pragma once
 
 /**
- * @file bitand.hh
+ * @file bitand.hpp
  * @brief Bitwise And Convolution
  * @date 2021-01-08
  */
 
 #include <algorithm>
 
-#include "bitor.hh"
+#include "bitor.hpp"
 
 namespace workspace {
 
