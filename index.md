@@ -53,7 +53,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitor.hpp
       title: Bitwise Or Convolution
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
     - icon: ':warning:'
@@ -167,7 +167,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -243,15 +243,15 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -355,7 +355,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_and_convolution.test.cpp
       title: test/library-checker/bitwise_and_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_xor_convolution.test.cpp
       title: test/library-checker/bitwise_xor_convolution.test.cpp
     - icon: ':heavy_check_mark:'

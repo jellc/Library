@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/bitxor.hpp
     title: Bitwise Xor Convolution
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/bitwise_xor_convolution
@@ -27,22 +27,22 @@ data:
     - https://judge.yosupo.jp/problem/bitwise_xor_convolution
   bundledCode: "#line 1 \"test/library-checker/bitwise_xor_convolution.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\n\n\
-    #line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n * @file bitxor.hpp\n *\
-    \ @brief Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\n#include <iterator>\n\
-    \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
-    #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
-    \nnamespace std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int\
-    \ __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const\
-    \ int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r > 0)\n\
-    \    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x\
-    \ >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename\
-    \ _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd\
-    \ = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if (__r == 0)\n\
-    \    return __x;\n  else if (__r > 0)\n    return (__x >> __r) | (__x << ((_Nd\
-    \ - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));\
-    \  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int __countl_zero(_Tp\
-    \ __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\n  if\
-    \ (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
+    #include <vector>\n\n#line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n *\
+    \ @file bitxor.hpp\n * @brief Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\
+    \n#include <iterator>\n\n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include\
+    \ <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n\
+    #include <type_traits>\n\nnamespace std {\n\ntemplate <typename _Tp> constexpr\
+    \ _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
+    \ > 0)\n    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return\
+    \ (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate\
+    \ <typename _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr\
+    \ auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if\
+    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x >> __r) |\
+    \ (__x << ((_Nd - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd\
+    \ + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int\
+    \ __countl_zero(_Tp __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \n  if (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
     \ long long>::digits;\n  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;\n\
     \  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR\
     \ (_Nd <= _Nd_u) {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x)\
@@ -279,16 +279,17 @@ data:
     \ char *>::value,\n    std::ostream &>::type\noperator<<(std::ostream &os, const\
     \ Container &cont) {\n  bool head = true;\n  for (auto &&e : cont) head ? head\
     \ = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n\n}  // namespace workspace\n\
-    #line 7 \"test/library-checker/bitwise_xor_convolution.test.cpp\"\n\nint main()\
+    #line 9 \"test/library-checker/bitwise_xor_convolution.test.cpp\"\n\nint main()\
     \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  size_t\
     \ n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >> a >> b;\n\
     \  std::cout << bitxor_conv(a, b) << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\
-    \n\n#include \"src/algebra/convolution/bitxor.hpp\"\n#include \"src/modular/modint.hpp\"\
-    \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
-    \n\nint main() {\n  using namespace workspace;\n  using mint = modint<998244353>;\n\
-    \  size_t n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >>\
-    \ a >> b;\n  std::cout << bitxor_conv(a, b) << \"\\n\";\n}\n"
+    \n\n#include <vector>\n\n#include \"src/algebra/convolution/bitxor.hpp\"\n#include\
+    \ \"src/modular/modint.hpp\"\n#include \"src/utils/io/istream.hpp\"\n#include\
+    \ \"src/utils/io/ostream.hpp\"\n\nint main() {\n  using namespace workspace;\n\
+    \  using mint = modint<998244353>;\n  size_t n;\n  cin >> n;\n  std::vector<mint>\
+    \ a(1 << n), b(1 << n);\n  cin >> a >> b;\n  std::cout << bitxor_conv(a, b) <<\
+    \ \"\\n\";\n}\n"
   dependsOn:
   - src/algebra/convolution/bitxor.hpp
   - src/modular/modint.hpp
@@ -298,8 +299,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-08 22:28:38+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-01-08 23:01:49+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_xor_convolution.test.cpp
 layout: document

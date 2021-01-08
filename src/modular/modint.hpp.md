@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -18,7 +18,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
@@ -34,7 +34,7 @@ data:
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Modular Arithmetic
     links: []
@@ -233,7 +233,7 @@ data:
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
   timestamp: '2020-12-21 17:31:55+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
