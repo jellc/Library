@@ -24,12 +24,12 @@ data:
     document_title: Enumerate
     links: []
   bundledCode: "#line 2 \"src/utils/py-like/enumerate.hpp\"\n\n/*\n * @file enumerate.hpp\n\
-    \ * @brief Enumerate\n */\n\n#line 2 \"src/utils/py-like/range.hpp\"\n\n/*\n *\
-    \ @file range.hpp\n * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"src/utils/iterator/reverse.hpp\"\
-    \n\n/*\n * @file reverse_iterator.hpp\n * @brief Reverse Iterator\n */\n\n#if\
-    \ __cplusplus >= 201703L\n\n#line 11 \"src/utils/iterator/reverse.hpp\"\n#include\
-    \ <optional>\n\nnamespace workspace {\n\n/*\n * @class reverse_iterator\n * @brief\
-    \ Wrapper class for `std::reverse_iterator`.\n * @see http://gcc.gnu.org/PR51823\n\
+    \ * @brief Enumerate\n */\n\n#line 2 \"src/utils/py-like/range.hpp\"\n\n/**\n\
+    \ * @file range.hpp\n * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"\
+    src/utils/iterator/reverse.hpp\"\n\n/*\n * @file reverse_iterator.hpp\n * @brief\
+    \ Reverse Iterator\n */\n\n#if __cplusplus >= 201703L\n\n#line 11 \"src/utils/iterator/reverse.hpp\"\
+    \n#include <optional>\n\nnamespace workspace {\n\n/*\n * @class reverse_iterator\n\
+    \ * @brief Wrapper class for `std::reverse_iterator`.\n * @see http://gcc.gnu.org/PR51823\n\
     \ */\ntemplate <class Iterator>\nclass reverse_iterator : public std::reverse_iterator<Iterator>\
     \ {\n  using base_std = std::reverse_iterator<Iterator>;\n  std::optional<typename\
     \ base_std::value_type> deref;\n\n public:\n  using base_std::reverse_iterator;\n\
@@ -73,11 +73,11 @@ data:
     \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
     \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
     \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
-    \ {\n  return reversal(range(std::forward<Args>(args)...));\n}\n\n}  // namespace\
-    \ workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\n\n/**\n * @file\
-    \ zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include <tuple>\n#include\
-    \ <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n/*\n * @file category.hpp\n\
-    \ * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
+    \ {\n  return internal::reversed(range(std::forward<Args>(args)...));\n}\n\n}\
+    \  // namespace workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\n\n\
+    /**\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include <tuple>\n\
+    #include <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n/*\n * @file\
+    \ category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
     \n\nnamespace workspace {\n\n/*\n * @tparam Tuple Tuple of iterator types\n */\n\
     template <class Tuple, size_t N = std::tuple_size<Tuple>::value - 1>\nstruct common_iterator_category\
     \ {\n  using type = typename std::common_type<\n      typename common_iterator_category<Tuple,\
@@ -192,7 +192,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-01-05 01:55:07+09:00'
+  timestamp: '2021-01-08 15:34:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp

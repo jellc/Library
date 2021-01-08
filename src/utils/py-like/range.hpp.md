@@ -17,7 +17,7 @@ data:
   attributes:
     document_title: Range
     links: []
-  bundledCode: "#line 2 \"src/utils/py-like/range.hpp\"\n\n/*\n * @file range.hpp\n\
+  bundledCode: "#line 2 \"src/utils/py-like/range.hpp\"\n\n/**\n * @file range.hpp\n\
     \ * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"src/utils/iterator/reverse.hpp\"\
     \n\n/*\n * @file reverse_iterator.hpp\n * @brief Reverse Iterator\n */\n\n#if\
     \ __cplusplus >= 201703L\n\n#line 11 \"src/utils/iterator/reverse.hpp\"\n#include\
@@ -66,9 +66,9 @@ data:
     \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
     \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
     \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
-    \ {\n  return reversal(range(std::forward<Args>(args)...));\n}\n\n}  // namespace\
-    \ workspace\n\n#endif\n"
-  code: "#pragma once\n\n/*\n * @file range.hpp\n * @brief Range\n */\n\n#include\
+    \ {\n  return internal::reversed(range(std::forward<Args>(args)...));\n}\n\n}\
+    \  // namespace workspace\n\n#endif\n"
+  code: "#pragma once\n\n/**\n * @file range.hpp\n * @brief Range\n */\n\n#include\
     \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n#include \"reversed.hpp\"\
     \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class Index>\
     \ class range {\n  Index first, last;\n\n public:\n  class iterator {\n    Index\
@@ -90,8 +90,8 @@ data:
     \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
     \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
     \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
-    \ {\n  return reversal(range(std::forward<Args>(args)...));\n}\n\n}  // namespace\
-    \ workspace\n\n#endif\n"
+    \ {\n  return internal::reversed(range(std::forward<Args>(args)...));\n}\n\n}\
+    \  // namespace workspace\n\n#endif\n"
   dependsOn:
   - src/utils/iterator/reverse.hpp
   - src/utils/py-like/reversed.hpp
@@ -99,7 +99,7 @@ data:
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-01-05 01:55:07+09:00'
+  timestamp: '2021-01-08 15:34:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp
