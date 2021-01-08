@@ -1,5 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/bitwise_xor_convolution"
 
+#include <vector>
+
 #include "src/algebra/convolution/bitxor.hpp"
 #include "src/modular/modint.hpp"
 #include "src/utils/io/istream.hpp"
