@@ -21,8 +21,8 @@ data:
     \ \"lib/opt\"\n#include \"lib/sys\"\n#include \"lib/utils\"\n\nsigned main() {\n\
     \  using namespace workspace;\n\n  io_setup(15);\n\n  /* given\n    case_info.read();\
     \  //*/\n\n  /* unspecified\n    case_info.total = -1;  //*/\n\n  return case_info.iterate();\n\
-    }\n\nnamespace workspace {\n\nvoid main() {  //\n  /* start here! */\n}\n\n} \
-    \ // namespace workspace\n"
+    }\n\nnamespace workspace {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace\
+    \ workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
