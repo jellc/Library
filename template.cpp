@@ -25,8 +25,8 @@ signed main() {
 
 namespace workspace {
 
-void main() {  //
-  /* start here! */
+void main() {
+  // start here!
 }
 
 }  // namespace workspace
