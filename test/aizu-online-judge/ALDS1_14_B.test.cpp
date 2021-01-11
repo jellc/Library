@@ -10,7 +10,7 @@ int main() {
 
   std::string t, p;
   std::cin >> t >> p;
-  auto k = kmp_algorithm(p + '$' + t);
-  for (size_t i = 0, j = p.size() * 2; j < k.size(); ++i, ++j)
-    if (k[j] == p.size()) std::cout << i << "\n";
+  auto b = mp_algorithm(p + '$' + t);
+  for (size_t i = 0, j = p.size() * 2; j < b.size(); ++i, ++j)
+    if (b[j + 1] == p.size()) std::cout << i << "\n";
 }
