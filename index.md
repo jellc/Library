@@ -200,7 +200,7 @@ data:
     - icon: ':warning:'
       path: src/string/binary_trie.hpp
       title: src/string/binary_trie.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/string/kmp.hpp
       title: Knuth-Morris-Pratt Algorithm
     - icon: ':heavy_check_mark:'
@@ -323,7 +323,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/ALDS1_14_B.test.cpp
       title: test/aizu-online-judge/ALDS1_14_B.test.cpp
     - icon: ':heavy_check_mark:'
