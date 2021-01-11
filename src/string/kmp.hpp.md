@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ALDS1_14_B.test.cpp
     title: test/aizu-online-judge/ALDS1_14_B.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Knuth-Morris-Pratt Algorithm
     links: []
@@ -16,7 +16,7 @@ data:
     \ {\n\n/**\n * @brief Morris-Pratt algorithm.\n *\n * @param __s String\n * @return\
     \ The border array of given string.\n */\ntemplate <class _Str> std::vector<size_t>\
     \ mp_algorithm(_Str const& __s) {\n  std::vector<size_t> __b(std::size(__s) +\
-    \ 1);\n  for (size_t __p{__b[0] = -1}, __q{}; __q != __b.size(); __b[++__q] =\
+    \ 1);\n  for (size_t __p{__b[0] = -1}, __q{}; __q != __s.size(); __b[++__q] =\
     \ ++__p)\n    while (~__p && __s[__p] != __s[__q]) __p = __b[__p];\n  return __b;\n\
     }\n\n/**\n * @brief Knuth-Morris-Pratt algorithm.\n *\n * @param __s String\n\
     \ * @return The strong-border array of given string.\n */\ntemplate <class _Str>\
@@ -28,7 +28,7 @@ data:
     \ algorithm.\n *\n * @param __s String\n * @return The border array of given string.\n\
     \ */\ntemplate <class _Str> std::vector<size_t> mp_algorithm(_Str const& __s)\
     \ {\n  std::vector<size_t> __b(std::size(__s) + 1);\n  for (size_t __p{__b[0]\
-    \ = -1}, __q{}; __q != __b.size(); __b[++__q] = ++__p)\n    while (~__p && __s[__p]\
+    \ = -1}, __q{}; __q != __s.size(); __b[++__q] = ++__p)\n    while (~__p && __s[__p]\
     \ != __s[__q]) __p = __b[__p];\n  return __b;\n}\n\n/**\n * @brief Knuth-Morris-Pratt\
     \ algorithm.\n *\n * @param __s String\n * @return The strong-border array of\
     \ given string.\n */\ntemplate <class _Str> std::vector<size_t> kmp_algorithm(_Str\
@@ -39,8 +39,8 @@ data:
   isVerificationFile: false
   path: src/string/kmp.hpp
   requiredBy: []
-  timestamp: '2021-01-11 15:36:46+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-01-11 15:54:41+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ALDS1_14_B.test.cpp
 documentation_of: src/string/kmp.hpp

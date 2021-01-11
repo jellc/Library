@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/string/kmp.hpp
     title: Knuth-Morris-Pratt Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B
@@ -21,7 +21,7 @@ data:
     \ algorithm.\n *\n * @param __s String\n * @return The border array of given string.\n\
     \ */\ntemplate <class _Str> std::vector<size_t> mp_algorithm(_Str const& __s)\
     \ {\n  std::vector<size_t> __b(std::size(__s) + 1);\n  for (size_t __p{__b[0]\
-    \ = -1}, __q{}; __q != __b.size(); __b[++__q] = ++__p)\n    while (~__p && __s[__p]\
+    \ = -1}, __q{}; __q != __s.size(); __b[++__q] = ++__p)\n    while (~__p && __s[__p]\
     \ != __s[__q]) __p = __b[__p];\n  return __b;\n}\n\n/**\n * @brief Knuth-Morris-Pratt\
     \ algorithm.\n *\n * @param __s String\n * @return The strong-border array of\
     \ given string.\n */\ntemplate <class _Str> std::vector<size_t> kmp_algorithm(_Str\
@@ -46,8 +46,8 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/ALDS1_14_B.test.cpp
   requiredBy: []
-  timestamp: '2021-01-11 15:46:26+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-01-11 15:54:41+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ALDS1_14_B.test.cpp
 layout: document
