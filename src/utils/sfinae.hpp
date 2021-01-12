@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file sfinae.hpp
  * @brief SFINAE
  */
@@ -93,5 +93,10 @@ struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
 };
 
 #endif
+
+template <typename T> struct multiplicable_int {
+  using type =
+      typename std::make_signed<typename multiplicable_uint<T>::type>::type;
+};
 
 }  // namespace workspace
