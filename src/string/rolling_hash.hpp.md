@@ -89,7 +89,7 @@ data:
     \n public:\n  template <class... Args>\n  random_number_generator(Args&&... args)\n\
     \      : base(args...), engine(std::random_device{}()) {}\n\n  auto operator()()\
     \ { return base::operator()(engine); }\n};\n\n}  // namespace workspace\n#line\
-    \ 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
+    \ 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
     \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     namespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
@@ -118,36 +118,38 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\
-    \n/**\n * @struct rolling_hashed\n * @brief hash data of a string.\n */\nstruct\
-    \ rolling_hashed {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\
-    \n  /**\n   * @brief modulus used for hashing.\n   */\n  constexpr static u64\
-    \ mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /**\n   * @brief hash\
-    \ value.\n   */\n  u64 value = 0;\n\n  /**\n   * @brief length of the string.\n\
-    \   */\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /**\n   * @brief\
-    \ construct hash data from one character.\n   * @param c a character\n   */\n\
-    \  template <class char_type, typename std::enable_if<std::is_convertible<\n \
-    \                                char_type, u64>::value>::type * = nullptr>\n\
-    \  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64\
-    \ value, size_t length) : value(value), length(length) {}\n\n  operator std::pair<u64,\
-    \ size_t>() const { return {value, length}; }\n\n  operator u64() const { return\
-    \ value; }\n\n  /**\n   * @return whether or not (*this) and (rhs) are equal\n\
-    \   * @param rhs\n   */\n  bool operator==(const rolling_hashed &rhs) const {\n\
-    \    return value == rhs.value && length == rhs.length;\n  }\n\n  /**\n   * @return\
-    \ whether or not (*this) and (rhs) are distinct\n   * @param rhs\n   */\n  bool\
-    \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
-    \  /**\n   * @param rhs the right operand\n   * @return hash data of concatenated\
-    \ string\n   */\n  rolling_hashed operator+(const rolling_hashed &rhs) const {\n\
-    \    return {plus(value, mult(rhs.value, base_pow(length))),\n            length\
-    \ + rhs.length};\n  }\n\n  /**\n   * @param rhs appended to right end\n   * @return\
-    \ reference to updated hash data\n   */\n  rolling_hashed operator+=(const rolling_hashed\
-    \ &rhs) {\n    return *this = operator+(rhs);\n  }\n\n  /**\n   * @param rhs the\
-    \ erased suffix\n   * @return hash data of erased string\n   */\n  rolling_hashed\
-    \ operator-(const rolling_hashed &rhs) const {\n    assert(!(length < rhs.length));\n\
-    \    return {minus(value, mult(rhs.value, base_pow(length - rhs.length))),\n \
-    \           length - rhs.length};\n  }\n\n  /**\n   * @param rhs erased from right\
-    \ end\n   * @return reference to updated hash data\n   */\n  rolling_hashed operator-=(const\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/**\n * @struct\
+    \ rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
+    \ {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  /**\n   *\
+    \ @brief modulus used for hashing.\n   */\n  constexpr static u64 mod = (1ull\
+    \ << 61) - 1;\n\n  const static u64 base;\n\n  /**\n   * @brief hash value.\n\
+    \   */\n  u64 value = 0;\n\n  /**\n   * @brief length of the string.\n   */\n\
+    \  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /**\n   * @brief construct\
+    \ hash data from one character.\n   * @param c a character\n   */\n  template\
+    \ <class char_type, typename std::enable_if<std::is_convertible<\n           \
+    \                      char_type, u64>::value>::type * = nullptr>\n  rolling_hashed(char_type\
+    \ c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64 value, size_t length)\
+    \ : value(value), length(length) {}\n\n  operator std::pair<u64, size_t>() const\
+    \ { return {value, length}; }\n\n  operator u64() const { return value; }\n\n\
+    \  /**\n   * @return whether or not (*this) and (rhs) are equal\n   * @param rhs\n\
+    \   */\n  bool operator==(const rolling_hashed &rhs) const {\n    return value\
+    \ == rhs.value && length == rhs.length;\n  }\n\n  /**\n   * @return whether or\
+    \ not (*this) and (rhs) are distinct\n   * @param rhs\n   */\n  bool operator!=(const\
+    \ rolling_hashed &rhs) const { return !operator==(rhs); }\n\n  /**\n   * @param\
+    \ rhs the right operand\n   * @return hash data of concatenated string\n   */\n\
+    \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
+    \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
+    \n  /**\n   * @param rhs appended to right end\n   * @return reference to updated\
+    \ hash data\n   */\n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n\
+    \    return *this = operator+(rhs);\n  }\n\n  /**\n   * @param rhs the erased\
+    \ suffix\n   * @return hash data of erased string\n   */\n  rolling_hashed operator-(const\
+    \ rolling_hashed &rhs) const {\n    assert(!(length < rhs.length));\n    return\
+    \ {minus(value, mult(rhs.value, base_pow(length - rhs.length))),\n           \
+    \ length - rhs.length};\n  }\n\n  /**\n   * @param rhs erased from right end\n\
+    \   * @return reference to updated hash data\n   */\n  rolling_hashed operator-=(const\
     \ rolling_hashed &rhs) {\n    return *this = operator-(rhs);\n  }\n\n  /**\n \
     \  * @fn base_pow\n   * @param exp the exponent\n   * @return base ** pow\n  \
     \ */\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64> pow{1};\n\
@@ -246,7 +248,7 @@ data:
   isVerificationFile: false
   path: src/string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2020-12-29 13:52:07+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/zalgorithm_2.test.cpp

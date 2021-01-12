@@ -37,7 +37,7 @@ data:
     \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
     \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
     \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
-    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n\
+    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
     \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
     \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
@@ -66,16 +66,17 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line\
-    \ 5 \"src/data_structure/segment_tree/waitings.hpp\"\n\nnamespace workspace {\n\
-    \nnamespace internal {\n\nstruct waitings : std::queue<size_t> {\n  waitings(size_t\
-    \ n) : in(n) {}\n\n  bool push(size_t index) {\n    // assert(index < in.size());\n\
-    \    if (in[index]) return false;\n    emplace(index);\n    return (in[index]\
-    \ = true);\n  }\n\n  size_t pop() {\n    // assert(!empty());\n    auto index\
-    \ = front();\n    std::queue<size_t>::pop();\n    in[index] = false;\n    return\
-    \ index;\n  }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n}  // namespace\
-    \ internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line 5 \"src/data_structure/segment_tree/waitings.hpp\"\
+    \n\nnamespace workspace {\n\nnamespace internal {\n\nstruct waitings : std::queue<size_t>\
+    \ {\n  waitings(size_t n) : in(n) {}\n\n  bool push(size_t index) {\n    // assert(index\
+    \ < in.size());\n    if (in[index]) return false;\n    emplace(index);\n    return\
+    \ (in[index] = true);\n  }\n\n  size_t pop() {\n    // assert(!empty());\n   \
+    \ auto index = front();\n    std::queue<size_t>::pop();\n    in[index] = false;\n\
+    \    return index;\n  }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n\
+    }  // namespace internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class Monoid, class Endomorphism,\n   \
     \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
     \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(std::is_same<Monoid,\
@@ -338,7 +339,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2020-12-25 02:27:50+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

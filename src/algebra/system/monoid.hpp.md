@@ -61,17 +61,17 @@ data:
   isVerificationFile: false
   path: src/algebra/system/monoid.hpp
   requiredBy:
-  - src/data_structure/segment_tree/basic.hpp
   - src/data_structure/segment_tree/lazy.hpp
+  - src/data_structure/segment_tree/basic.hpp
   timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/point_add_range_sum.test.cpp
-  - test/aizu-online-judge/2450.test.cpp
+  - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/algebra/system/monoid.hpp
 layout: document
 redirect_from:

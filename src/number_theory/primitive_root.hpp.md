@@ -13,7 +13,7 @@ data:
     links: []
   bundledCode: "#line 1 \"src/number_theory/primitive_root.hpp\"\n/**\n * @file primitive_root.hpp\n\
     \ * @brief Primitive Root\n * @date 2020-12-28\n */\n\n#include <type_traits>\n\
-    \n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    \n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
     \ */\n\n#include <cstdint>\n#include <iterator>\n#line 11 \"src/utils/sfinae.hpp\"\
     \n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
     \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
@@ -42,12 +42,14 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 10 \"src/number_theory/primitive_root.hpp\"\n\n#if __cplusplus\
-    \ >= 201703L\n\n#include <optional>\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Compile time primitive root.\n *\n * @tparam __mod A positive integer\n * @return\
-    \ Minimum positive one if it exists. Otherwise 0.\n */\ntemplate <class Tp>\n\
-    constexpr typename std::enable_if<(is_integral_ext<Tp>::value), Tp>::type\nprimitive_root(const\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 10 \"src/number_theory/primitive_root.hpp\"\n\n#if __cplusplus >= 201703L\n\n\
+    #include <optional>\n\nnamespace workspace {\n\n/**\n * @brief Compile time primitive\
+    \ root.\n *\n * @tparam __mod A positive integer\n * @return Minimum positive\
+    \ one if it exists. Otherwise 0.\n */\ntemplate <class Tp>\nconstexpr typename\
+    \ std::enable_if<(is_integral_ext<Tp>::value), Tp>::type\nprimitive_root(const\
     \ Tp __mod) noexcept {\n  assert(__mod > 0);\n  using int_type = typename multiplicable_uint<Tp>::type;\n\
     \n  int_type __r = __mod, __p[16] = {}, *__q = __p;\n  for (int_type __i = 2;\
     \ __i <= __r / __i; ++__i) {\n    if (__r % __i) continue;\n    *__q++ = __i;\n\
@@ -87,7 +89,7 @@ data:
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
   requiredBy: []
-  timestamp: '2020-12-28 23:08:41+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/number_theory/primitive_root.hpp

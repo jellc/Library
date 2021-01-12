@@ -68,10 +68,10 @@ data:
   timestamp: '2020-11-23 02:53:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
-  - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/suffix_array.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/utils/io/ostream.hpp
 layout: document

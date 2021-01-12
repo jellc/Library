@@ -22,8 +22,8 @@ data:
     links: []
   bundledCode: "#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n\
     \ * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#include <cassert>\n#include\
-    \ <iostream>\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file\
-    \ sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
+    \ <iostream>\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n *\
+    \ @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
     #include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
     \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\
     \ntemplate <> struct make_signed<__uint128_t> { using type = __int128_t; };\n\
@@ -52,15 +52,17 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\n\
-    namespace internal {\n\ntemplate <class Tp, typename = std::nullptr_t> struct\
-    \ istream_helper {\n  istream_helper(std::istream &is, Tp &x) {\n    if constexpr\
-    \ (has_begin<Tp>::value)\n      for (auto &&e : x)\n        istream_helper<typename\
-    \ std::decay<decltype(e)>::type>(is, e);\n    else\n      static_assert(has_begin<Tp>::value,\
-    \ \"istream unsupported type.\");\n  }\n};\n\ntemplate <class Tp>\nstruct istream_helper<\n\
-    \    Tp,\n    decltype(std::declval<std::decay<decltype(std::declval<std::istream\
-    \ &>() >>\n                                              std::declval<Tp &>())>>(),\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
+    \ {\n\ntemplate <class Tp, typename = std::nullptr_t> struct istream_helper {\n\
+    \  istream_helper(std::istream &is, Tp &x) {\n    if constexpr (has_begin<Tp>::value)\n\
+    \      for (auto &&e : x)\n        istream_helper<typename std::decay<decltype(e)>::type>(is,\
+    \ e);\n    else\n      static_assert(has_begin<Tp>::value, \"istream unsupported\
+    \ type.\");\n  }\n};\n\ntemplate <class Tp>\nstruct istream_helper<\n    Tp,\n\
+    \    decltype(std::declval<std::decay<decltype(std::declval<std::istream &>()\
+    \ >>\n                                              std::declval<Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &is, Tp &x) { is >> x;\
     \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__int128_t,\
     \ std::nullptr_t> {\n  istream_helper(std::istream &is, __int128_t &x) {\n   \
@@ -132,11 +134,11 @@ data:
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2021-01-08 22:28:38+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/utils/io/istream.hpp
 layout: document

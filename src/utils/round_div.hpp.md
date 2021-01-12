@@ -13,7 +13,7 @@ data:
     links: []
   bundledCode: "#line 2 \"src/utils/round_div.hpp\"\n\n/*\n * @file round_div.hpp\n\
     \ * @brief Round Integer Division\n */\n\n#include <cassert>\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
     \ <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
     \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\
     \ntemplate <> struct make_signed<__uint128_t> { using type = __int128_t; };\n\
@@ -42,23 +42,24 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 11 \"src/utils/round_div.hpp\"\n\nnamespace workspace {\n\n\
-    /*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
-    \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
-    \ @note y must be nonzero.\n */\ntemplate <typename T1, typename T2>\nconstexpr\
-    \ typename std::enable_if<(is_integral_ext<T1>::value &&\n                   \
-    \                is_integral_ext<T2>::value),\n                              \
-    \    typename std::common_type<T1, T2>::type>::type\nfloor_div(T1 x, T2 y) {\n\
-    \  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0 ? (x - y + 1)\
-    \ / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of fraction.\n * @param\
-    \ x the numerator\n * @param y the denominator\n * @return minimum integer z s.t.\
-    \ z >= x / y\n * @note y must be nonzero.\n */\ntemplate <typename T1, typename\
-    \ T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value &&\n    \
-    \                               is_integral_ext<T2>::value),\n               \
-    \                   typename std::common_type<T1, T2>::type>::type\nceil_div(T1\
-    \ x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0\
-    \ ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 11 \"src/utils/round_div.hpp\"\n\nnamespace workspace {\n\n/*\n * @fn floor_div\n\
+    \ * @brief floor of fraction.\n * @param x the numerator\n * @param y the denominator\n\
+    \ * @return maximum integer z s.t. z <= x / y\n * @note y must be nonzero.\n */\n\
+    template <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
+    \ &&\n                                   is_integral_ext<T2>::value),\n      \
+    \                            typename std::common_type<T1, T2>::type>::type\n\
+    floor_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
+    \ x < 0 ? (x - y + 1) / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of\
+    \ fraction.\n * @param x the numerator\n * @param y the denominator\n * @return\
+    \ minimum integer z s.t. z >= x / y\n * @note y must be nonzero.\n */\ntemplate\
+    \ <typename T1, typename T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value\
+    \ &&\n                                   is_integral_ext<T2>::value),\n      \
+    \                            typename std::common_type<T1, T2>::type>::type\n\
+    ceil_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
+    \ x < 0 ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file round_div.hpp\n * @brief Round Integer Division\n\
     \ */\n\n#include <cassert>\n\n#include \"sfinae.hpp\"\n\nnamespace workspace {\n\
     \n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
@@ -81,7 +82,7 @@ data:
   isVerificationFile: false
   path: src/utils/round_div.hpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/round_div.hpp

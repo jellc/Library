@@ -135,7 +135,7 @@ data:
     \ g);\n  std::reverse(std::begin(f), std::end(f));\n  return f;\n}\n\n}  // namespace\
     \ workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/*\n * @file modint.hpp\n *\
     \ @brief Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\n\
-    #line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    #line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
     \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef\
     \ __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
     \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
@@ -164,11 +164,13 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\n\
-    namespace internal {\n\n/*\n * @struct modint_base\n * @brief base of modular\
-    \ arithmetic.\n * @tparam Mod identifier, which represents modulus if positive\n\
-    \ */\ntemplate <auto Mod> struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 12 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
+    \ {\n\n/*\n * @struct modint_base\n * @brief base of modular arithmetic.\n * @tparam\
+    \ Mod identifier, which represents modulus if positive\n */\ntemplate <auto Mod>\
+    \ struct modint_base {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
     \                \"Mod must be integral type.\");\n\n  using mod_type =\n    \
     \  typename std::conditional<0 < Mod,\n                                typename\
     \ std::add_const<decltype(Mod)>::type,\n                                decltype(Mod)>::type;\n\
@@ -320,7 +322,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-08 22:28:38+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp

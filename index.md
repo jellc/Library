@@ -181,6 +181,9 @@ data:
     - icon: ':warning:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
+    - icon: ':heavy_check_mark:'
+      path: src/number_theory/totient.hpp
+      title: Euler's Totient Function
   - name: src/opt
     pages:
     - icon: ':heavy_check_mark:'
@@ -338,6 +341,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/NTL_1_D.test.cpp
+      title: test/aizu-online-judge/NTL_1_D.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp

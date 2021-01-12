@@ -20,7 +20,7 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/associative_array\"\n\n#line 2 \"\
     src/utils/hash.hpp\"\n#include <ext/pb_ds/assoc_container.hpp>\n#include <functional>\n\
     #include <random>\n#include <unordered_set>\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
     \ <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
     \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\
     \ntemplate <> struct make_signed<__uint128_t> { using type = __int128_t; };\n\
@@ -49,12 +49,14 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class\
-    \ T, class = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\n\
-    template <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n           \
-    \ enable_if_trait_type<Unique_bits_type,\n                                 std::has_unique_object_representations>>\
-    \ {\n  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class =\
+    \ void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate <class\
+    \ Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
+    \                                 std::has_unique_object_representations>> {\n\
+    \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
     \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
     \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
     \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
@@ -99,7 +101,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/associative_array.test.cpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/associative_array.test.cpp

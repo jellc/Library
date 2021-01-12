@@ -16,8 +16,8 @@ data:
     links: []
   bundledCode: "#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/*\n * @file ext_gcd\n\
     \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
-    src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include\
-    \ <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n\
+    src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
+    #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     namespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
     \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
@@ -45,18 +45,19 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
-    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
-    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
-    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
-    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
-    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
-    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
-    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
-    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
-    \ workspace\n"
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param\
+    \ a Integer\n * @param b Integer\n * @return Pair of integers (x, y) s.t. ax +\
+    \ by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note return (0, 0) if\
+    \ (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr auto ext_gcd(T1\
+    \ a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n  static_assert(is_integral_ext<T2>::value);\n\
+    \  using result_type =\n      typename std::make_signed<typename std::common_type<T1,\
+    \ T2>::type>::type;\n  result_type p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n \
+    \   r ^= p ^= r ^= p -= (t = a / b) * r;\n    s ^= q ^= s ^= q -= t * s;\n   \
+    \ b ^= a ^= b ^= a %= b;\n  }\n  if (a < 0) p = -p, q = -q;\n  return std::make_pair(p,\
+    \ q);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean Algorithm\n\
     \ */\n\n#include <tuple>\n\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
     \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
@@ -74,7 +75,7 @@ data:
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/NTL_1_E.test.cpp

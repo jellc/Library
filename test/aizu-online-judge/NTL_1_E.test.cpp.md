@@ -22,8 +22,8 @@ data:
   bundledCode: "#line 1 \"test/aizu-online-judge/NTL_1_E.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E\"\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\
     \n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean Algorithm\n */\n\n#include\
-    \ <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/*\n * @file sfinae.hpp\n * @brief\
-    \ SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \ <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n *\
+    \ @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
     \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
     \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
     \ make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t>\
@@ -51,31 +51,33 @@ data:
     \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
     \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
     \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\n}  // namespace\
-    \ workspace\n#line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
-    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
-    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
-    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
-    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
-    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
-    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
-    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
-    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/*\n * @file ostream.hpp\n\
-    \ * @brief Output Stream\n */\n\n#include <iostream>\n#line 10 \"src/utils/io/ostream.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class T, class U>\nstd::ostream &operator<<(std::ostream\
-    \ &os, const std::pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n\
-    }\ntemplate <class tuple_t, size_t index> struct tuple_os {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t, index -\
-    \ 1>::apply(os, t);\n    return os << ' ' << std::get<index>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, 0> {\n  static std::ostream &apply(std::ostream\
-    \ &os, const tuple_t &t) {\n    return os << std::get<0>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) { return os; }\n};\n\ntemplate <class...\
-    \ T>\nstd::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {\n\
-    \  return tuple_os<std::tuple<T...>,\n                  std::tuple_size<std::tuple<T...>>::value\
-    \ - 1>::apply(os, t);\n}\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
+    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
+    \ 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param\
+    \ a Integer\n * @param b Integer\n * @return Pair of integers (x, y) s.t. ax +\
+    \ by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note return (0, 0) if\
+    \ (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr auto ext_gcd(T1\
+    \ a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n  static_assert(is_integral_ext<T2>::value);\n\
+    \  using result_type =\n      typename std::make_signed<typename std::common_type<T1,\
+    \ T2>::type>::type;\n  result_type p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n \
+    \   r ^= p ^= r ^= p -= (t = a / b) * r;\n    s ^= q ^= s ^= q -= t * s;\n   \
+    \ b ^= a ^= b ^= a %= b;\n  }\n  if (a < 0) p = -p, q = -q;\n  return std::make_pair(p,\
+    \ q);\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n\
+    /*\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#include <iostream>\n\
+    #line 10 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate <class\
+    \ T, class U>\nstd::ostream &operator<<(std::ostream &os, const std::pair<T, U>\
+    \ &p) {\n  return os << p.first << ' ' << p.second;\n}\ntemplate <class tuple_t,\
+    \ size_t index> struct tuple_os {\n  static std::ostream &apply(std::ostream &os,\
+    \ const tuple_t &t) {\n    tuple_os<tuple_t, index - 1>::apply(os, t);\n    return\
+    \ os << ' ' << std::get<index>(t);\n  }\n};\ntemplate <class tuple_t> struct tuple_os<tuple_t,\
+    \ 0> {\n  static std::ostream &apply(std::ostream &os, const tuple_t &t) {\n \
+    \   return os << std::get<0>(t);\n  }\n};\ntemplate <class tuple_t> struct tuple_os<tuple_t,\
+    \ SIZE_MAX> {\n  static std::ostream &apply(std::ostream &os, const tuple_t &t)\
+    \ { return os; }\n};\n\ntemplate <class... T>\nstd::ostream &operator<<(std::ostream\
+    \ &os, const std::tuple<T...> &t) {\n  return tuple_os<std::tuple<T...>,\n   \
+    \               std::tuple_size<std::tuple<T...>>::value - 1>::apply(os, t);\n\
+    }\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
     typename std::enable_if<\n    !std::is_same<typename std::decay<Container>::type,\
     \ std::string>::value &&\n        !std::is_same<typename std::decay<Container>::type,\
     \ char *>::value,\n    std::ostream &>::type\noperator<<(std::ostream &os, const\
@@ -99,7 +101,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2020-12-21 17:31:55+09:00'
+  timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp
