@@ -394,9 +394,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
-    - icon: ':x:'
-      path: test/library-checker/set_xor_min.test.cpp
-      title: test/library-checker/set_xor_min.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
