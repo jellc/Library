@@ -11,55 +11,32 @@ data:
   attributes:
     document_title: Manacher's Algorithm
     links: []
-  bundledCode: "#line 2 \"src/string/Manacher.hpp\"\n\n/*\n * @file Manacher.hpp\n\
-    \ * @brief Manacher's Algorithm\n */\n\n#include <iostream>\n#include <string>\n\
-    #include <vector>\n\nnamespace workspace {\n\n/*\n * @class Manacher\n * @brief\
-    \ Manacher's Algorithm.\n * @tparam str_type the type of string\n */\ntemplate\
-    \ <class str_type = std::string> class Manacher {\n  const size_t len;\n  std::vector<size_t>\
-    \ rad;\n\n public:\n  Manacher(const str_type &str) : len(str.size()), rad(str.size())\
-    \ {\n    for (size_t i = 0, c = 0; i != len; ++i) {\n      int l = c * 2 - i;\n\
-    \      if (l >= 0 && c + rad[c] > i + rad[l])\n        rad[i] = rad[l];\n    \
-    \  else {\n        size_t j = c + rad[c] - i;\n        while (i >= j && i + j\
-    \ != len && str[i - j] == str[i + j]) ++j;\n        rad[c = i] = j;\n      }\n\
-    \    }\n  }\n\n  std::vector<size_t>::const_iterator begin() const { return rad.begin();\
-    \ }\n\n  std::vector<size_t>::const_iterator end() const { return rad.end(); }\n\
-    \n  /*\n   * @fn size\n   * @return length of the string\n   */\n  size_t size()\
-    \ const { return rad.size(); }\n\n  /*\n   * @fn operator[]\n   * @param i index\n\
-    \   * @return the maximum radius L s.t. the substring (i - L, i + L) is\n   *\
-    \ palindrome\n   */\n  size_t operator[](size_t i) const { return rad[i]; }\n\n\
-    \  /*\n   * @fn operator<<\n   * @brief print a Manacher object.\n   * @param\
-    \ os ostream\n   * @param manacher a Manacher object\n   * @return os\n   */\n\
-    \  friend std::ostream &operator<<(std::ostream &os, const Manacher &manacher)\
-    \ {\n    bool is_front = true;\n    for (size_t r : manacher.rad) {\n      if\
-    \ (is_front)\n        is_front = false;\n      else\n        os << \" \";\n  \
-    \    os << r;\n    }\n    return os;\n  }\n};\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file Manacher.hpp\n * @brief Manacher's Algorithm\n\
-    \ */\n\n#include <iostream>\n#include <string>\n#include <vector>\n\nnamespace\
-    \ workspace {\n\n/*\n * @class Manacher\n * @brief Manacher's Algorithm.\n * @tparam\
-    \ str_type the type of string\n */\ntemplate <class str_type = std::string> class\
-    \ Manacher {\n  const size_t len;\n  std::vector<size_t> rad;\n\n public:\n  Manacher(const\
-    \ str_type &str) : len(str.size()), rad(str.size()) {\n    for (size_t i = 0,\
-    \ c = 0; i != len; ++i) {\n      int l = c * 2 - i;\n      if (l >= 0 && c + rad[c]\
-    \ > i + rad[l])\n        rad[i] = rad[l];\n      else {\n        size_t j = c\
-    \ + rad[c] - i;\n        while (i >= j && i + j != len && str[i - j] == str[i\
-    \ + j]) ++j;\n        rad[c = i] = j;\n      }\n    }\n  }\n\n  std::vector<size_t>::const_iterator\
-    \ begin() const { return rad.begin(); }\n\n  std::vector<size_t>::const_iterator\
-    \ end() const { return rad.end(); }\n\n  /*\n   * @fn size\n   * @return length\
-    \ of the string\n   */\n  size_t size() const { return rad.size(); }\n\n  /*\n\
-    \   * @fn operator[]\n   * @param i index\n   * @return the maximum radius L s.t.\
-    \ the substring (i - L, i + L) is\n   * palindrome\n   */\n  size_t operator[](size_t\
-    \ i) const { return rad[i]; }\n\n  /*\n   * @fn operator<<\n   * @brief print\
-    \ a Manacher object.\n   * @param os ostream\n   * @param manacher a Manacher\
-    \ object\n   * @return os\n   */\n  friend std::ostream &operator<<(std::ostream\
-    \ &os, const Manacher &manacher) {\n    bool is_front = true;\n    for (size_t\
-    \ r : manacher.rad) {\n      if (is_front)\n        is_front = false;\n      else\n\
-    \        os << \" \";\n      os << r;\n    }\n    return os;\n  }\n};\n\n}  //\
-    \ namespace workspace\n"
+  bundledCode: "#line 2 \"src/string/Manacher.hpp\"\n\n/**\n * @file Manacher.hpp\n\
+    \ * @brief Manacher's Algorithm\n */\n\n#include <vector>\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief Manacher's Algorithm.\n *\n * @param __s String\n * @return\
+    \ Radiuses of the longest palindromic substring with each fixed center.\n */\n\
+    template <class _Str> std::vector<size_t> Manacher(_Str const &__s) {\n  const\
+    \ auto __n = std::size(__s);\n  std::vector<size_t> __r(__n);\n  for (size_t __i\
+    \ = 0, __c = 0; __i != __n; ++__i)\n    if (auto __j = __c * 2 - __i; __j < __n\
+    \ && __c + __r[__c] > __i + __r[__j])\n      __r[__i] = __r[__j];\n    else {\n\
+    \      __j = __c + __r[__c] - __i;\n      while (__i >= __j && __i + __j != __n\
+    \ && __s[__i - __j] == __s[__i + __j])\n        ++__j;\n      __r[__c = __i] =\
+    \ __j;\n    }\n  return __r;\n}\n\n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file Manacher.hpp\n * @brief Manacher's Algorithm\n\
+    \ */\n\n#include <vector>\n\nnamespace workspace {\n\n/**\n * @brief Manacher's\
+    \ Algorithm.\n *\n * @param __s String\n * @return Radiuses of the longest palindromic\
+    \ substring with each fixed center.\n */\ntemplate <class _Str> std::vector<size_t>\
+    \ Manacher(_Str const &__s) {\n  const auto __n = std::size(__s);\n  std::vector<size_t>\
+    \ __r(__n);\n  for (size_t __i = 0, __c = 0; __i != __n; ++__i)\n    if (auto\
+    \ __j = __c * 2 - __i; __j < __n && __c + __r[__c] > __i + __r[__j])\n      __r[__i]\
+    \ = __r[__j];\n    else {\n      __j = __c + __r[__c] - __i;\n      while (__i\
+    \ >= __j && __i + __j != __n && __s[__i - __j] == __s[__i + __j])\n        ++__j;\n\
+    \      __r[__c = __i] = __j;\n    }\n  return __r;\n}\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/string/Manacher.hpp
   requiredBy: []
-  timestamp: '2020-11-16 22:49:01+09:00'
+  timestamp: '2021-01-15 02:34:06+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aizu-online-judge/2292.test.cpp
