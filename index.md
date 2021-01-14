@@ -97,6 +97,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/deque_aggregation.hpp
       title: src/data_structure/deque_aggregation.hpp
+    - icon: ':heavy_check_mark:'
+      path: src/data_structure/disjoint_sparse_table.hpp
+      title: Disjoint Sparse Table
   - name: src/data_structure/convex_hull_trick
     pages:
     - icon: ':heavy_check_mark:'
@@ -338,6 +341,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_2_A.test.cpp
       title: test/aizu-online-judge/DSL_2_A.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/DSL_3_D.test.cpp
+      title: test/aizu-online-judge/DSL_3_D.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
