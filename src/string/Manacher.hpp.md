@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
-    path: test/aizu-online-judge/2292.test.cpp
-    title: test/aizu-online-judge/2292.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2934.test.cpp
+    title: test/aizu-online-judge/2934.test.cpp
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Manacher's Algorithm
     links: []
@@ -37,9 +37,9 @@ data:
   path: src/string/Manacher.hpp
   requiredBy: []
   timestamp: '2021-01-15 02:34:06+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/2292.test.cpp
+  - test/aizu-online-judge/2934.test.cpp
 documentation_of: src/string/Manacher.hpp
 layout: document
 redirect_from:

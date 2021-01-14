@@ -200,7 +200,7 @@ data:
       title: Trinary Search
   - name: src/string
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/Manacher.hpp
       title: Manacher's Algorithm
     - icon: ':warning:'
@@ -320,15 +320,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1342.test.cpp
       title: test/aizu-online-judge/1342.test.cpp
-    - icon: ':x:'
-      path: test/aizu-online-judge/2292.test.cpp
-      title: test/aizu-online-judge/2292.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/2934.test.cpp
+      title: test/aizu-online-judge/2934.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_B.test.cpp
       title: test/aizu-online-judge/ALDS1_14_B.test.cpp
