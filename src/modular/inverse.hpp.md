@@ -7,16 +7,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: src/combinatorics/binomial.hpp
-    title: Binomial Coefficient
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/DPL_5_D.test.cpp
-    title: test/aizu-online-judge/DPL_5_D.test.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Inverse Table
     links: []
@@ -158,12 +152,10 @@ data:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/modular/inverse.hpp
-  requiredBy:
-  - src/combinatorics/binomial.hpp
+  requiredBy: []
   timestamp: '2021-01-13 00:11:06+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/aizu-online-judge/DPL_5_D.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: src/modular/inverse.hpp
 layout: document
 redirect_from:

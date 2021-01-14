@@ -167,7 +167,7 @@ data:
       title: src/graph/undirected/two_edge_connected_components.hpp
   - name: src/modular
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/modular/inverse.hpp
       title: Inverse Table
     - icon: ':heavy_check_mark:'

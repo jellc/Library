@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
     path: src/modular/inverse.hpp
     title: Inverse Table
   _extendedVerifiedWith:

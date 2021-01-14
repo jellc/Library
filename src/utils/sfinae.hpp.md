@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
     path: src/modular/inverse.hpp
     title: Inverse Table
   - icon: ':heavy_check_mark:'
