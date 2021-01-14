@@ -1,40 +1,26 @@
 #pragma once
 
-/*
+/**
  * @file binomial.hpp
  * @brief Binomial Coefficient
+ * @date 2021-01-15
+ *
+ *
  */
 
-#include "../modular/inverse.hpp"
 #include "../modular/modint.hpp"
 #include "factorial.hpp"
 
 namespace workspace {
 
-template <class, class = int> struct binomial;
-template <class Modint> struct binomial<Modint> {
-  static_assert(std::is_same<std::nullptr_t,
-                             decltype((void *)Modint::mod, nullptr)>::value);
-
-  using value_type = Modint;
-  struct mulinv_Op {
-    value_type operator()(const value_type &f, const size_t &n) const {
-      return f * inv(n);
-    }
-  };
-
-  static inverse_table<value_type> inv;
-  static factorial<value_type, mulinv_Op> fact_inv;
-  static factorial<value_type> fact;
-
-  value_type operator()(int_least32_t n, int_least32_t k) {
-    return fact_inv(k) * fact_inv(n - k) * fact(n);
-  }
-};
-
-template <class Modint> inverse_table<Modint> binomial<Modint>::inv;
-template <class Modint>
-factorial<Modint, class binomial<Modint>::mulinv_Op> binomial<Modint>::fact_inv;
-template <class Modint> factorial<Modint> binomial<Modint>::fact;
+/**
+ * @brief Binomial coefficient for integer args.
+ */
+template <class Tp> Tp binomial(int_fast32_t __x, int_fast32_t __y) {
+  if (!__y) return 1;
+  if (__y < 0 || __x < __y) return 0;
+  return factorial<Tp>(__x) * factorial_inverse<Tp>(__y) *
+         factorial_inverse<Tp>(__x - __y);
+}
 
 }  // namespace workspace
