@@ -137,13 +137,13 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/Dinic.hpp
-      title: src/graph/directed/flow/Dinic.hpp
+      title: Dinic's Algorithm
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/base.hpp
-      title: src/graph/directed/flow/base.hpp
+      title: Flow Graph
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/min_cost_flow.hpp
-      title: src/graph/directed/flow/min_cost_flow.hpp
+      title: Minimum Cost Flow
   - name: src/graph/directed
     pages:
     - icon: ':heavy_check_mark:'
