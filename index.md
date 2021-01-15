@@ -182,6 +182,9 @@ data:
       path: src/number_theory/least_factor.hpp
       title: Least Prime Factor
     - icon: ':warning:'
+      path: src/number_theory/order.hpp
+      title: Order
+    - icon: ':warning:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
     - icon: ':heavy_check_mark:'

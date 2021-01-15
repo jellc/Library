@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/number_theory/order.hpp
+    title: Order
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
@@ -74,7 +77,8 @@ data:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
-  requiredBy: []
+  requiredBy:
+  - src/number_theory/order.hpp
   timestamp: '2021-01-13 00:11:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
