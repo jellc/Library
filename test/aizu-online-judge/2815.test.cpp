@@ -5,6 +5,8 @@
 #include "src/graph/directed/flow/min_cost_flow.hpp"
 
 int main() {
+  using namespace workspace;
+
   int n, m, k;
   std::cin >> n >> m >> k;
   const int total = n + m + 3;
@@ -30,5 +32,6 @@ int main() {
     std::cin >> k;
     mcf.add_edge(j + n, dst3, k, 0);
   }
-  std::cout << -mcf.optimal() << "\n";
+  assert(mcf.flow());
+  std::cout << -mcf.cost() << "\n";
 }

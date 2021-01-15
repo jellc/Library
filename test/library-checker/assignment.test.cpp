@@ -6,6 +6,8 @@
 #include "src/graph/directed/flow/min_cost_flow.hpp"
 
 int main() {
+  using namespace workspace;
+
   int n;
   scanf("%d", &n);
   min_cost_flow<int, int64_t> mcf(n * 2);
@@ -18,7 +20,8 @@ int main() {
       mcf.add_edge(i, j + n, 1, a);
     }
   }
-  printf("%lld\n", mcf.optimal());
+  assert(mcf.flow());
+  printf("%lld\n", mcf.cost());
   for (int i = 0; i < n; i++) {
     for (auto &e : mcf[i]) {
       if (!e.cap) printf("%d ", e.dst - n);

@@ -5,6 +5,8 @@
 #include "src/graph/directed/flow/Dinic.hpp"
 
 int main() {
+  using namespace workspace;
+
   int l, r, m;
   scanf("%d%d%d", &l, &r, &m);
   Dinic<int> dinic(l + r + 2);

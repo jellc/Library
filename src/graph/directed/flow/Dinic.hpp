@@ -1,65 +1,110 @@
 #pragma once
+
+/**
+ * @file Dinic.hpp
+ * @brief Dinic's Algorithm
+ * @date 2021-01-15
+ *
+ *
+ */
+
 #include "base.hpp"
-// compute the maximum flow.
-template <class cap_t = int>
-class Dinic : public flow_base<cap_t, bool>
-{
-    using base = flow_base<cap_t, bool>;
-    using edge_t = typename base::edge_t;
-    using base::adjs;
 
-    std::vector<size_t> level;
-    std::vector<edge_t*> itr;
-    constexpr static size_t level_infty = -1;
+namespace workspace {
 
-    cap_t dfs(const size_t &src, const size_t &dst, cap_t bound)
-    {
-        if(src == dst || bound == 0) return bound;
-        cap_t flow(0);
-        for(edge_t* &e{itr[dst]}; e != adjs[dst].end(); ++e)
-            if(e->rev->avbl() && level[e->dst] < level[dst])
-                if(cap_t achv = dfs(src, e->dst, std::min(bound, e->rev->cap)); achv > 0)
-                {
-                    e->rev->flow(achv);
-                    flow += achv, bound -= achv;
-                    if(bound == 0) break;
-                }
-        return flow;
-    }
+/**
+ * @brief Compute the maximum flow.
+ *
+ * @tparam Cap Capacity type
+ */
+template <class Cap = int> class Dinic : public flow_graph<Cap, bool> {
+  using base = flow_graph<Cap, bool>;
+  using base::add_edge;
+  using base::graph;
+  using base::nil;
 
-public:
-    using base::size;
+ public:
+  using edge = typename base::edge;
+  using size_type = typename base::size_type;
 
-    Dinic(size_t n = 0) : base::flow_base(n), level(n, level_infty), itr(n) {}
+ protected:
+  std::vector<size_type> level;
+  std::vector<edge *> itr;
 
-    Dinic(const Dinic &other) : base::flow_base(other), level(other.level), itr(other.itr)  {}
-
-    Dinic &operator=(const Dinic &rhs)
-    {
-        if(this != &rhs) base::operator=(rhs), level = rhs.level, itr = rhs.itr;
-        return *this;
-    }
-
-    void add_edge(size_t src, size_t dst, cap_t cap) { base::add_edge(src, dst, cap, false); }
-
-    void add_undirected_edge(size_t src, size_t dst, cap_t cap) { base::add_undirected_edge(src, dst, cap, false); }
-
-    cap_t max_flow(size_t src, size_t dst)
-    {
-        assert(src < size()); assert(dst < size());
-        cap_t flow(0), bound(0);
-        for(const edge_t &e : adjs[src]) bound += e.cap;
-        for(std::vector<size_t> que(size()); ; std::fill(level.begin(), level.end(), level_infty))
-        {
-            level[que.front() = src] = 0;
-            for(auto ql{que.begin()}, qr{std::next(ql)}; level[dst] == level_infty && ql != qr; ++ql)
-                for(const edge_t &e : adjs[*ql])
-                    if(e.avbl() && level[e.dst] == level_infty)
-                        level[*qr++ = e.dst] = level[*ql] + 1;
-            if(level[dst] == level_infty) break;
-            for(size_t node{}; node != size(); ++node) itr[node] = adjs[node].begin();
-            flow += dfs(src, dst, bound);
+  Cap dfs(size_type src, size_type dst, Cap bound) {
+    if (src == dst || bound == 0) return bound;
+    Cap flow(0);
+    for (edge *&e{itr[dst]}; e != graph[dst].end(); ++e)
+      if (static_cast<Cap>(0) < e->rev->cap && level[e->dst] < level[dst])
+        if (Cap achv = dfs(src, e->dst, std::min(bound, e->rev->cap));
+            achv > 0) {
+          e->rev->flow(achv);
+          flow += achv, bound -= achv;
+          if (bound == 0) break;
         }
-        return flow;
+    return flow;
+  }
+
+ public:
+  /**
+   * @brief Construct a new Dinic object
+   *
+   * @param n Number of nodes.
+   */
+  Dinic(size_type n = 0) : base::flow_graph(n), level(n, nil), itr(n) {}
+
+  Dinic(const Dinic &other)
+      : base::flow_graph(other), level(other.level), itr(other.itr) {}
+
+  Dinic &operator=(const Dinic &rhs) {
+    if (this != &rhs) base::operator=(rhs), level = rhs.level, itr = rhs.itr;
+    return *this;
+  }
+
+  /**
+   * @brief Add an edge to the graph.
+   *
+   * @param src Source
+   * @param dst Destination
+   * @param cap Capacity
+   * @return Pointer to the edge.
+   */
+  typename base::adjacency::pointer add_edge(size_type src, size_type dst,
+                                             Cap cap) {
+    return add_edge(src, dst, cap, false);
+  }
+
+  // void add_undirected_edge(size_type src, size_type dst, Cap cap) {
+  //   base::add_undirected_edge(src, dst, cap, false);
+  // }
+
+  /**
+   * @brief Run Dinic's algorithm.
+   *
+   * @param src Source
+   * @param dst Destination
+   * @return Maximum flow.
+   */
+  Cap max_flow(size_type src, size_type dst) {
+    assert(src < base::size());
+    assert(dst < base::size());
+    Cap flow(0), bound(0);
+    for (const edge &e : graph[src]) bound += e.cap;
+    for (std::vector<size_type> que(base::size());;
+         std::fill(level.begin(), level.end(), nil)) {
+      level[que.front() = src] = 0;
+      for (auto ql{que.begin()}, qr{std::next(ql)};
+           level[dst] == nil && ql != qr; ++ql)
+        for (const edge &e : graph[*ql])
+          if (static_cast<Cap>(0) < e.cap && level[e.dst] == nil)
+            level[ *qr++ = e.dst] = level[*ql] + 1;
+      if (level[dst] == nil) break;
+      for (size_type node{}; node != base::size(); ++node)
+        itr[node] = graph[node].begin();
+      flow += dfs(src, dst, bound);
     }
-}; // class Dinic
+    return flow;
+  }
+};
+
+}  // namespace workspace

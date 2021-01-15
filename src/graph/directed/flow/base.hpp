@@ -1,93 +1,164 @@
 #pragma once
+
+/**
+ * @file base.hpp
+ * @brief Flow Graph
+ * @date 2021-01-15
+ *
+ *
+ */
+
 #include <cassert>
 #include <vector>
-// the base class of flow algorithms.
-template <class cap_t, class cost_t> struct flow_base {
-  struct edge_t {
-    size_t src, dst;
-    cap_t cap;
-    cost_t cost;
-    edge_t *rev;
-    edge_t() = default;
-    edge_t(size_t src, size_t dst, const cap_t &cap, edge_t *rev)
-        : src(src), dst(dst), cap(cap), rev(rev) {}
-    edge_t(size_t src, size_t dst, const cap_t &cap, const cost_t &cost,
-           edge_t *rev)
-        : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
-    const cap_t &flow(const cap_t &f = 0) { return cap -= f, rev->cap += f; }
-    bool avbl() const { return static_cast<cap_t>(0) < cap; }
-  };  // class edge_t
 
-  class adj_type {
-    edge_t *fst, *lst, *clst;
+namespace workspace {
+
+template <class Cap, class Cost> class flow_graph {
+ protected:
+  class adjacency;
+
+ public:
+  using value_type = adjacency;
+  using reference = adjacency &;
+  using const_reference = adjacency const &;
+  using container_type = std::vector<value_type>;
+  using size_type = typename container_type::size_type;
+
+ protected:
+  /**
+   * @brief Edge of flow graph.
+   *
+   */
+  class edge {
+   public:
+    size_type src, dst;
+    Cap cap;
+    Cost cost;
+    edge *rev;
+
+    edge() = default;
+
+    edge(size_type src, size_type dst, const Cap &cap, edge *rev)
+        : src(src), dst(dst), cap(cap), rev(rev) {}
+
+    edge(size_type src, size_type dst, const Cap &cap, const Cost &cost,
+         edge *rev)
+        : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
+
+    const Cap &flow(const Cap &f = 0) { return cap -= f, rev->cap += f; }
+  };
+
+  class adjacency {
+    edge *first, *iter, *last;
 
    public:
-    template <class... Args> edge_t *emplace(Args &&... args) {
-      if (lst == clst) {
-        size_t len(clst - fst);
-        edge_t *nfst = lst = new edge_t[len << 1];
-        for (edge_t *p{fst}; p != clst; ++p, ++lst)
-          p->rev->rev = lst, *lst = *p;
-        delete[] fst;
-        fst = nfst;
-        clst = lst + len;
+    using value_type = edge;
+    using reference = edge &;
+    using const_reference = edge const &;
+    using pointer = edge *;
+    using const_pointer = const edge *;
+
+    adjacency() : first(new edge[1]), iter(first), last(first + 1) {}
+    ~adjacency() { delete[] first; }
+
+    template <class... Args> pointer emplace(Args &&... args) {
+      if (iter == last) {
+        size_type len(last - first);
+        edge *nfst = iter = new edge[len << 1];
+        for (edge *p{first}; p != last; ++p, ++iter)
+          p->rev->rev = iter, *iter = *p;
+        delete[] first;
+        first = nfst;
+        last = iter + len;
       }
-      *lst = edge_t(args...);
-      return lst++;
+      *iter = edge(args...);
+      return iter++;
     }
-    adj_type() : fst(new edge_t[1]), lst(fst), clst(fst + 1) {}
-    ~adj_type() { delete[] fst; }
-    edge_t &operator[](size_t i) {
+
+    reference operator[](size_type i) {
       assert(i < size());
-      return *(fst + i);
+      return *(first + i);
     }
-    size_t size() const { return lst - fst; }
-    edge_t *begin() const { return fst; }
-    edge_t *end() const { return lst; }
-  };  // class adj_type
 
-  flow_base(size_t n = 0) : adjs(n) {}
+    const_reference operator[](size_type i) const {
+      assert(i < size());
+      return *(first + i);
+    }
 
-  flow_base(const flow_base &other) : adjs(other.size()) {
-    for (size_t node{}; node != size(); ++node)
+    size_type size() const { return iter - first; }
+
+    pointer begin() { return first; }
+    const_pointer begin() const { return first; }
+
+    pointer end() { return iter; }
+    const_pointer end() const { return iter; }
+  };
+
+ public:
+  /**
+   * @brief Construct a new flow base object
+   *
+   * @param n Number of vertices
+   */
+  flow_graph(size_type n = 0) : graph(n) {}
+
+  flow_graph(const flow_graph &other) : graph(other.size()) {
+    for (size_type node{}; node != size(); ++node)
       for (const auto &[src, dst, cap, cost, rev] : other[node])
         if (src == node) {
-          edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-          ptr->rev = adjs[dst].emplace(dst, src, rev->cap, -cost, ptr);
+          edge *ptr = graph[src].emplace(src, dst, cap, cost, nullptr);
+          ptr->rev = graph[dst].emplace(dst, src, rev->cap, -cost, ptr);
           rev->src = nil;
         } else {
           rev->rev->src = node;
         }
   }
 
-  flow_base &operator=(const flow_base &rhs) {
-    if (this != &rhs) adjs.swap(flow_base(rhs).adjs);
+  flow_graph &operator=(const flow_graph &rhs) {
+    if (this != &rhs) graph.swap(flow_graph(rhs).graph);
     return *this;
   }
 
-  size_t size() const { return adjs.size(); }
+  /**
+   * @return Number of vertices.
+   */
+  size_type size() const { return graph.size(); }
 
-  adj_type &operator[](size_t node) {
+  reference operator[](size_type node) {
     assert(node < size());
-    return adjs[node];
-  }
-  const adj_type &operator[](size_t node) const {
-    assert(node < size());
-    return adjs[node];
+    return graph[node];
   }
 
-  virtual edge_t *add_edge(size_t src, size_t dst, const cap_t &cap,
-                           const cost_t &cost) {
+  const_reference &operator[](size_type node) const {
+    assert(node < size());
+    return graph[node];
+  }
+
+  typename container_type::iterator begin() { return graph.begin(); }
+
+  typename container_type::iterator end() { return graph.end(); }
+
+  typename container_type::const_iterator begin() const {
+    return graph.begin();
+  }
+
+  typename container_type::const_iterator end() const { return graph.end(); }
+
+  virtual typename adjacency::pointer add_edge(size_type src, size_type dst,
+                                               const Cap &cap,
+                                               const Cost &cost) {
     assert(src < size());
     assert(dst < size());
-    assert(!(cap < static_cast<cap_t>(0)));
-    if (!(static_cast<cap_t>(0) < cap) || src == dst) return nullptr;
-    edge_t *ptr = adjs[src].emplace(src, dst, cap, cost, nullptr);
-    ptr->rev = adjs[dst].emplace(dst, src, 0, -cost, ptr);
+    assert(!(cap < static_cast<Cap>(0)));
+    if (!(static_cast<Cap>(0) < cap) || src == dst) return nullptr;
+    auto ptr = graph[src].emplace(src, dst, cap, cost, nullptr);
+    ptr->rev = graph[dst].emplace(dst, src, 0, -cost, ptr);
     return ptr;
   }
 
  protected:
-  constexpr static size_t nil = -1;
-  std::vector<adj_type> adjs;
-};  // class flow_base
+  constexpr static size_type nil = -1;
+  container_type graph;
+};
+
+}  // namespace workspace
