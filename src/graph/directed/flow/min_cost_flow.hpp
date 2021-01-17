@@ -151,11 +151,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param dst Destination
    * @param cap Capacity
    * @param cost Cost
-   * @return Pointer to the edge.
+   * @return Reference to the edge.
    */
-  typename base::adjacency::pointer add_edge(size_type src, size_type dst,
-                                             const Cap &cap,
-                                             const Cost &cost) override {
+  typename base::adjacency::reference add_edge(size_type src, size_type dst,
+                                               const Cap &cap,
+                                               const Cost &cost) override {
     assert(src != dst);
     if (cost < static_cast<Cost>(0)) {
       supp[src] -= cap;
@@ -176,11 +176,12 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param lower Lower bound of flow
    * @param upper Upper bound of flow
    * @param cost Cost
-   * @return Pointer to the edge.
+   * @return Reference to the edge.
    */
-  typename base::adjacency::pointer add_edge(size_type src, size_type dst,
-                                             const Cap &lower, const Cap &upper,
-                                             const Cost &cost) {
+  typename base::adjacency::reference add_edge(size_type src, size_type dst,
+                                               const Cap &lower,
+                                               const Cap &upper,
+                                               const Cost &cost) {
     assert(!(upper < lower));
     supp[src] -= lower;
     supp[dst] += lower;

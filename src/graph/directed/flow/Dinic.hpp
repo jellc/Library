@@ -67,10 +67,10 @@ template <class Cap = int> class Dinic : public flow_graph<Cap, bool> {
    * @param src Source
    * @param dst Destination
    * @param cap Capacity
-   * @return Pointer to the edge.
+   * @return Reference to the edge.
    */
-  typename base::adjacency::pointer add_edge(size_type src, size_type dst,
-                                             Cap cap) {
+  typename base::adjacency::reference add_edge(size_type src, size_type dst,
+                                               Cap cap) {
     return add_edge(src, dst, cap, false);
   }
 

@@ -61,7 +61,7 @@ template <class Cap, class Cost> class flow_graph {
     adjacency() : first(new edge[1]), iter(first), last(first + 1) {}
     ~adjacency() { delete[] first; }
 
-    template <class... Args> pointer emplace(Args &&... args) {
+    template <class... Args> reference emplace(Args &&... args) {
       if (iter == last) {
         size_type len(last - first);
         edge *nfst = iter = new edge[len << 1];
@@ -71,15 +71,13 @@ template <class Cap, class Cost> class flow_graph {
         first = nfst;
         last = iter + len;
       }
-      *iter = edge(args...);
-      return iter++;
+      return *iter++ = edge(args...);
     }
 
     reference operator[](size_type i) {
       assert(i < size());
       return *(first + i);
     }
-
     const_reference operator[](size_type i) const {
       assert(i < size());
       return *(first + i);
@@ -106,12 +104,11 @@ template <class Cap, class Cost> class flow_graph {
     for (size_type node{}; node != size(); ++node)
       for (const auto &[src, dst, cap, cost, rev] : other[node])
         if (src == node) {
-          edge *ptr = graph[src].emplace(src, dst, cap, cost, nullptr);
-          ptr->rev = graph[dst].emplace(dst, src, rev->cap, -cost, ptr);
+          edge &e = graph[src].emplace(src, dst, cap, cost, nullptr);
+          e.rev = graph[dst].emplace(dst, src, rev->cap, -cost, &e);
           rev->src = nil;
-        } else {
+        } else
           rev->rev->src = node;
-        }
   }
 
   flow_graph &operator=(const flow_graph &rhs) {
@@ -144,16 +141,15 @@ template <class Cap, class Cost> class flow_graph {
 
   typename container_type::const_iterator end() const { return graph.end(); }
 
-  virtual typename adjacency::pointer add_edge(size_type src, size_type dst,
-                                               const Cap &cap,
-                                               const Cost &cost) {
+  virtual typename adjacency::reference add_edge(size_t src, size_t dst,
+                                                 Cap const &cap,
+                                                 Cost const &cost) {
     assert(src < size());
     assert(dst < size());
     assert(!(cap < static_cast<Cap>(0)));
-    if (!(static_cast<Cap>(0) < cap) || src == dst) return nullptr;
-    auto ptr = graph[src].emplace(src, dst, cap, cost, nullptr);
-    ptr->rev = graph[dst].emplace(dst, src, 0, -cost, ptr);
-    return ptr;
+    auto &ref = graph[src].emplace(src, dst, cap, cost, nullptr);
+    ref.rev = &graph[dst].emplace(dst, src, 0, -cost, &ref);
+    return ref;
   }
 
  protected:
