@@ -13,44 +13,53 @@
 
 namespace workspace {
 
-template <class Cap, class Cost> class flow_graph {
- protected:
-  class adjacency;
-
+template <class Cap, class Cost = void> class flow_graph {
  public:
+  class adjacency;
   using value_type = adjacency;
   using reference = adjacency &;
   using const_reference = adjacency const &;
   using container_type = std::vector<value_type>;
   using size_type = typename container_type::size_type;
 
- protected:
-  /**
-   * @brief Edge of flow graph.
-   *
-   */
-  class edge {
+  class unweighted_edge {
    public:
     size_type src, dst;
     Cap cap;
-    Cost cost;
-    edge *rev;
+    unweighted_edge *rev;
 
-    edge() = default;
+    unweighted_edge() = default;
 
-    edge(size_type src, size_type dst, const Cap &cap, edge *rev)
-        : src(src), dst(dst), cap(cap), rev(rev) {}
-
-    edge(size_type src, size_type dst, const Cap &cap, const Cost &cost,
-         edge *rev)
-        : src(src), dst(dst), cap(cap), cost(cost), rev(rev) {}
+    unweighted_edge(size_type src, size_type dst, const Cap &cap,
+                    unweighted_edge *rev)
+        : src(src), dst(dst), cap(cap), rev(rev) {
+      assert(!(cap < static_cast<Cap>(0)));
+    }
 
     const Cap &flow(const Cap &f = 0) { return cap -= f, rev->cap += f; }
+
+    unweighted_edge make_rev() { return {dst, src, 0, this}; }
   };
 
-  class adjacency {
-    edge *first, *iter, *last;
+  class weighted_edge : public unweighted_edge {
+   public:
+    Cost cost;
 
+    weighted_edge() = default;
+
+    weighted_edge(size_type src, size_type dst, const Cap &cap,
+                  const Cost &cost, weighted_edge *rev)
+        : unweighted_edge(src, dst, cap, rev), cost(cost) {}
+
+    weighted_edge make_rev() {
+      return {unweighted_edge::dst, unweighted_edge::src, 0, -cost, this};
+    }
+  };
+
+  using edge = typename std::conditional<std::is_void<Cost>::value,
+                                         unweighted_edge, weighted_edge>::type;
+
+  class adjacency {
    public:
     using value_type = edge;
     using reference = edge &;
@@ -90,9 +99,11 @@ template <class Cap, class Cost> class flow_graph {
 
     pointer end() { return iter; }
     const_pointer end() const { return iter; }
+
+   protected:
+    pointer first, iter, last;
   };
 
- public:
   /**
    * @brief Construct a new flow base object
    *
@@ -101,14 +112,16 @@ template <class Cap, class Cost> class flow_graph {
   flow_graph(size_type n = 0) : graph(n) {}
 
   flow_graph(const flow_graph &other) : graph(other.size()) {
-    for (size_type node{}; node != size(); ++node)
-      for (const auto &[src, dst, cap, cost, rev] : other[node])
-        if (src == node) {
-          edge &e = graph[src].emplace(src, dst, cap, cost, nullptr);
-          e.rev = graph[dst].emplace(dst, src, rev->cap, -cost, &e);
-          rev->src = nil;
+    for (size_type node = 0; node != size(); ++node)
+      for (edge cp : other[node])
+        if (cp.src == node) {
+          edge rcp = *cp.rev;
+          cp.rev->src = nil;
+          edge &ref = graph[node].emplace(cp);
+          rcp.rev = &ref;
+          ref.rev = &graph[cp.dst].emplace(rcp);
         } else
-          rev->rev->src = node;
+          cp.rev->rev->src = node;
   }
 
   flow_graph &operator=(const flow_graph &rhs) {
@@ -141,14 +154,13 @@ template <class Cap, class Cost> class flow_graph {
 
   typename container_type::const_iterator end() const { return graph.end(); }
 
-  virtual typename adjacency::reference add_edge(size_t src, size_t dst,
-                                                 Cap const &cap,
-                                                 Cost const &cost) {
+  template <class... Args>
+  typename adjacency::reference add_edge(size_type src, size_type dst,
+                                         Args &&... args) {
     assert(src < size());
     assert(dst < size());
-    assert(!(cap < static_cast<Cap>(0)));
-    auto &ref = graph[src].emplace(src, dst, cap, cost, nullptr);
-    ref.rev = &graph[dst].emplace(dst, src, 0, -cost, &ref);
+    auto &ref = graph[src].emplace(src, dst, args..., nullptr);
+    ref.rev = &graph[dst].emplace(ref.make_rev());
     return ref;
   }
 

@@ -155,7 +155,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    */
   typename base::adjacency::reference add_edge(size_type src, size_type dst,
                                                const Cap &cap,
-                                               const Cost &cost) override {
+                                               const Cost &cost) {
     assert(src != dst);
     if (cost < static_cast<Cost>(0)) {
       supp[src] -= cap;

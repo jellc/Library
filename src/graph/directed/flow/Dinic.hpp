@@ -17,9 +17,8 @@ namespace workspace {
  *
  * @tparam Cap Capacity type
  */
-template <class Cap = int> class Dinic : public flow_graph<Cap, bool> {
-  using base = flow_graph<Cap, bool>;
-  using base::add_edge;
+template <class Cap> class Dinic : public flow_graph<Cap> {
+  using base = flow_graph<Cap>;
   using base::graph;
   using base::nil;
 
@@ -71,7 +70,7 @@ template <class Cap = int> class Dinic : public flow_graph<Cap, bool> {
    */
   typename base::adjacency::reference add_edge(size_type src, size_type dst,
                                                Cap cap) {
-    return add_edge(src, dst, cap, false);
+    return base::add_edge(src, dst, cap);
   }
 
   // void add_undirected_edge(size_type src, size_type dst, Cap cap) {
