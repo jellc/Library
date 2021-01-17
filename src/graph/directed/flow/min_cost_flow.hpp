@@ -33,30 +33,30 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   using size_type = typename base::size_type;
 
  protected:
-  Cost min_cost, cost_bound;
-  std::vector<Cap> supp;
-  std::vector<Cost> ptnl;
+  Cost current, abs_sum;
+  std::vector<Cap> b;
+  std::vector<Cost> p;
 
   void copy(const min_cost_flow &other) {
-    min_cost = other.min_cost;
-    cost_bound = other.cost_bound;
-    supp = other.supp;
-    ptnl = other.ptnl;
+    current = other.current;
+    abs_sum = other.abs_sum;
+    b = other.b;
+    p = other.p;
   }
 
   void Dijkstra(std::vector<edge *> &last) {
-    const Cost infty(cost_bound + 1);
-    std::vector<Cost> nptnl(size(), infty);
+    const Cost infty(abs_sum + 1);
+    std::vector<Cost> newp(size(), infty);
     if constexpr (Density_tag) {  // O(V^2)
       std::vector<bool> used(size());
       for (size_type src{}; src != size(); ++src) {
-        if (static_cast<Cap>(0) < supp[src]) {
+        if (static_cast<Cap>(0) < b[src]) {
           used[src] = true;
-          nptnl[src] = 0;
+          newp[src] = 0;
           for (edge &e : base::graph[src]) {
-            if (static_cast<Cap>(0) < supp[e.dst]) continue;
-            if (e.avbl() && e.cost < nptnl[e.dst]) {
-              nptnl[e.dst] = e.cost;
+            if (static_cast<Cap>(0) < b[e.dst]) continue;
+            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {
+              newp[e.dst] = e.cost;
               last[e.dst] = &e;
             }
           }
@@ -66,8 +66,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         size_type src{nil};
         Cost sp{infty};
         for (size_type node{}; node != size(); ++node) {
-          if (used[node] || nptnl[node] == infty) continue;
-          Cost dist{nptnl[node] - ptnl[node]};
+          if (used[node] || newp[node] == infty) continue;
+          Cost dist{newp[node] - p[node]};
           if (dist < sp) {
             sp = dist;
             src = node;
@@ -76,8 +76,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         if (src == nil) break;
         used[src] = true;
         for (edge &e : base::graph[src]) {
-          if (e.avbl() && nptnl[src] + e.cost < nptnl[e.dst]) {
-            nptnl[e.dst] = nptnl[src] + e.cost;
+          if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {
+            newp[e.dst] = newp[src] + e.cost;
             last[e.dst] = &e;
           }
         }
@@ -89,35 +89,29 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         sp_node(size_type id, Cost dist) : id(id), dist(dist) {}
         bool operator<(const sp_node &rhs) const { return rhs.dist < dist; }
       };
-
-      std::priority_queue<sp_node> que;
-
+      std::priority_queue<sp_node> q;
       for (size_type src{}; src != size(); ++src)
-        if (supp[src] > static_cast<Cap>(0)) {
-          nptnl[src] = 0;
+        if (static_cast<Cap>(0) < b[src]) {
+          newp[src] = 0;
           for (edge &e : base::graph[src])
-            if (!(static_cast<Cap>(0) < supp[e.dst]) &&
-                static_cast<Cap>(0) < e.cap && nptnl[e.dst] > e.cost) {
-              que.emplace(e.dst, (nptnl[e.dst] = e.cost) - ptnl[e.dst]);
+            if (!(static_cast<Cap>(0) < b[e.dst]) &&
+                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {
+              q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
               last[e.dst] = &e;
             }
         }
-
-      while (!que.empty()) {
-        auto [src, ndist] = que.top();
-        que.pop();
-        if (ndist + ptnl[src] != nptnl[src]) continue;
+      while (!q.empty()) {
+        auto [src, ndist] = q.top();
+        q.pop();
+        if (ndist + p[src] != newp[src]) continue;
         for (edge &e : base::graph[src])
-          if (static_cast<Cap>(0) < e.cap &&
-              nptnl[e.dst] > nptnl[src] + e.cost) {
-            que.emplace(e.dst,
-                        (nptnl[e.dst] = nptnl[src] + e.cost) - ptnl[e.dst]);
+          if (static_cast<Cap>(0) < e.cap && newp[e.dst] > newp[src] + e.cost) {
+            q.emplace(e.dst, (newp[e.dst] = newp[src] + e.cost) - p[e.dst]);
             last[e.dst] = &e;
           }
       }
     }
-
-    ptnl.swap(nptnl);
+    p.swap(newp);
   }
 
  public:
@@ -129,7 +123,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param n Number of vertices.
    */
   min_cost_flow(size_type n = 0)
-      : base::flow_graph(n), min_cost(0), cost_bound(0), supp(n), ptnl(n) {}
+      : base::flow_graph(n), current(0), abs_sum(0), b(n), p(n) {}
 
   min_cost_flow(const min_cost_flow &other) : base::flow_graph(other) {
     copy(other);
@@ -158,13 +152,13 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
                                                const Cost &cost) {
     assert(src != dst);
     if (cost < static_cast<Cost>(0)) {
-      supp[src] -= cap;
-      supp[dst] += cap;
-      min_cost += cap * cost;
-      cost_bound -= cap * cost;
+      b[src] -= cap;
+      b[dst] += cap;
+      current += cap * cost;
+      abs_sum -= cap * cost;
       return base::add_edge(dst, src, cap, -cost);
     }
-    cost_bound += cap * cost;
+    abs_sum += cap * cost;
     return base::add_edge(src, dst, cap, cost);
   }
 
@@ -183,9 +177,9 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
                                                const Cap &upper,
                                                const Cost &cost) {
     assert(!(upper < lower));
-    supp[src] -= lower;
-    supp[dst] += lower;
-    min_cost += lower * cost;
+    b[src] -= lower;
+    b[dst] += lower;
+    current += lower * cost;
     return add_edge(src, dst, upper - lower, cost);
   }
 
@@ -197,7 +191,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    */
   void supply(size_type node, const Cap &vol) {
     assert(node < size());
-    supp[node] += vol;
+    b[node] += vol;
   }
 
   /**
@@ -212,12 +206,12 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param node
    * @return Balance of the node
    */
-  Cap balance(size_type node) { return supp[node]; }
+  Cap balance(size_type node) { return b[node]; }
 
   /**
    * @return Cost of current flow.
    */
-  Cost cost() const { return min_cost; }
+  Cost cost() const { return current; }
 
   /**
    * @brief Run Successive Shortest Path Algorithm.
@@ -231,8 +225,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       Dijkstra(last);
       std::vector<bool> shut(size());
       for (size_type dst{}; dst != size(); ++dst) {
-        if (supp[dst] < static_cast<Cap>(0) and last[dst]) {
-          Cap resid{-supp[dst]};
+        if (b[dst] < static_cast<Cap>(0) and last[dst]) {
+          Cap resid{-b[dst]};
           size_type src{dst}, block{nil};
           while (last[src] && !shut[src]) {
             if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
@@ -241,14 +235,14 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
           if (shut[src])
             block = src;
           else {
-            if (!(resid < supp[src])) resid = supp[block = src];
+            if (!(resid < b[src])) resid = b[block = src];
             for (edge *e{last[dst]}; e; e = last[e->src]) {
               e->cap -= resid;
               e->rev->cap += resid;
             }
-            supp[src] -= resid;
-            supp[dst] += resid;
-            min_cost += ptnl[dst] * resid;
+            b[src] -= resid;
+            b[dst] += resid;
+            current += p[dst] * resid;
             aug = true;
           }
           if (~block) {
@@ -260,7 +254,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         }
       }
     }
-    return std::none_of(begin(supp), end(supp), [](const Cap &s) {
+    return std::none_of(begin(b), end(b), [](const Cap &s) {
       return s < static_cast<Cap>(0) || static_cast<Cap>(0) < s;
     });
   }
