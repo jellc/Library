@@ -14,20 +14,20 @@ int main() {
 
   for (int i = 0, a, b; i < m; ++i) {
     scanf("%d%d", &a, &b);
-    dinic.add_edge(a, b + l, 1);
+    dinic.add_edge(a, b + l);
   }
   for (int i = 0; i < l; ++i) {
-    dinic.add_edge(s, i, 1);
+    dinic.add_edge(s, i);
   }
   for (int i = 0; i < r; ++i) {
-    dinic.add_edge(i + l, t, 1);
+    dinic.add_edge(i + l, t);
   }
 
-  printf("%d\n", dinic.max_flow(s, t));
+  printf("%d\n", dinic.flow(s, t));
 
   for (int i = 0; i < l; ++i) {
     for (const auto &e : dinic[i]) {
-      if (!e.cap and e.dst < l + r) {
+      if (!e.cap) {
         printf("%d %d\n", i, e.dst - l);
       }
     }

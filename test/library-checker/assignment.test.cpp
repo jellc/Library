@@ -12,12 +12,12 @@ int main() {
   scanf("%d", &n);
   min_cost_flow<int, int64_t> mcf(n * 2);
   for (int i = 0; i < n; i++) {
-    mcf.supply(i, 1);
-    mcf.supply(i + n, -1);
+    mcf.supply(i);
+    mcf.demand(i + n);
     for (int j = 0; j < n; j++) {
       int a;
       scanf("%d", &a);
-      mcf.add_edge(i, j + n, 1, a);
+      mcf.add_edge(i, j + n, a);
     }
   }
   assert(mcf.flow());
