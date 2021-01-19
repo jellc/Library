@@ -177,34 +177,33 @@ data:
     \ {  // O(V^2)\n      std::vector<bool> used(size());\n\n      for (size_type\
     \ src{}; src != size(); ++src)\n        if (static_cast<Cap>(0) < b[src]) {\n\
     \          used[src] = true;\n          newp[src] = 0;\n\n          for (auto\
-    \ &e : base::graph[src])\n            if (!(static_cast<Cap>(0) < b[e.dst]) &&\n\
-    \                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost)\n      \
-    \        newp[e.dst] = e.cost, last[e.dst] = &e;\n        }\n\n      for (;;)\
-    \ {\n        size_type src{nil};\n        Cost sp{infty};\n\n        for (size_type\
-    \ node{}; node != size(); ++node) {\n          if (used[node] || newp[node] ==\
-    \ infty) continue;\n          if (Cost __d = newp[node] - p[node]; __d < sp) sp\
-    \ = __d, src = node;\n        }\n\n        if (src == nil) break;\n        used[src]\
-    \ = true;\n\n        for (auto &e : base::graph[src])\n          if (static_cast<Cap>(0)\
-    \ < e.cap && newp[src] + e.cost < newp[e.dst]) {\n            newp[e.dst] = newp[src]\
-    \ + e.cost;\n            last[e.dst] = &e;\n          }\n      }\n    }\n\n  \
-    \  else {  // O((V + E)logV)\n      struct sp_node {\n        size_type id;\n\
-    \        Cost __d;\n        sp_node(size_type id, Cost __d) : id(id), __d(__d)\
-    \ {}\n        bool operator<(const sp_node &rhs) const { return rhs.__d < __d;\
-    \ }\n      };\n\n      std::priority_queue<sp_node> __q;\n      for (size_type\
-    \ src{}; src != size(); ++src)\n        if (b[src] > static_cast<Cap>(0)) {\n\
-    \          newp[src] = 0;\n          for (auto &e : base::graph[src])\n      \
-    \      if (static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {\n          \
-    \    __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);\n              last[e.dst]\
-    \ = &e;\n            }\n        }\n\n      while (!__q.empty()) {\n        auto\
-    \ [src, __d] = __q.top();\n        __q.pop();\n        if (__d + p[src] != newp[src])\
-    \ continue;\n        for (auto &e : base::graph[src])\n          if (auto __d\
-    \ = newp[src] + e.cost;\n              static_cast<Cap>(0) < e.cap && __d < newp[e.dst])\
-    \ {\n            __q.emplace(e.dst, (newp[e.dst] = __d) - p[e.dst]);\n       \
-    \     last[e.dst] = &e;\n          }\n      }\n    }\n\n    p.swap(newp);\n  }\n\
-    };\n\ntemplate <class Cap, class Gain = Cap, bool Density_tag = false>\nclass\
-    \ max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {\n  using base\
-    \ = min_cost_flow<Cap, Gain, Density_tag>;\n  using base::cost;\n\n public:\n\
-    \  using base::min_cost_flow;\n  using size_type = typename base::size_type;\n\
+    \ &e : base::graph[src])\n            if (static_cast<Cap>(0) < e.cap && e.cost\
+    \ < newp[e.dst])\n              newp[e.dst] = e.cost, last[e.dst] = &e;\n    \
+    \    }\n\n      for (;;) {\n        size_type src{nil};\n        Cost sp{infty};\n\
+    \n        for (size_type node{}; node != size(); ++node) {\n          if (used[node]\
+    \ || newp[node] == infty) continue;\n          if (Cost __d = newp[node] - p[node];\
+    \ __d < sp) sp = __d, src = node;\n        }\n\n        if (src == nil) break;\n\
+    \        used[src] = true;\n\n        for (auto &e : base::graph[src])\n     \
+    \     if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {\n\
+    \            newp[e.dst] = newp[src] + e.cost;\n            last[e.dst] = &e;\n\
+    \          }\n      }\n    }\n\n    else {  // O((V + E)logV)\n      struct sp_node\
+    \ {\n        size_type id;\n        Cost __d;\n        sp_node(size_type id, Cost\
+    \ __d) : id(id), __d(__d) {}\n        bool operator<(const sp_node &rhs) const\
+    \ { return rhs.__d < __d; }\n      };\n\n      std::priority_queue<sp_node> __q;\n\
+    \      for (size_type src{}; src != size(); ++src)\n        if (b[src] > static_cast<Cap>(0))\
+    \ {\n          newp[src] = 0;\n          for (auto &e : base::graph[src])\n  \
+    \          if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {\n      \
+    \        __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);\n            \
+    \  last[e.dst] = &e;\n            }\n        }\n\n      while (!__q.empty()) {\n\
+    \        auto [src, __d] = __q.top();\n        __q.pop();\n        if (__d + p[src]\
+    \ != newp[src]) continue;\n        for (auto &e : base::graph[src])\n        \
+    \  if (auto __d = newp[src] + e.cost;\n              static_cast<Cap>(0) < e.cap\
+    \ && __d < newp[e.dst]) {\n            __q.emplace(e.dst, (newp[e.dst] = __d)\
+    \ - p[e.dst]);\n            last[e.dst] = &e;\n          }\n      }\n    }\n\n\
+    \    p.swap(newp);\n  }\n};\n\ntemplate <class Cap, class Gain = Cap, bool Density_tag\
+    \ = false>\nclass max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag>\
+    \ {\n  using base = min_cost_flow<Cap, Gain, Density_tag>;\n  using base::cost;\n\
+    \n public:\n  using base::min_cost_flow;\n  using size_type = typename base::size_type;\n\
     \n  /**\n   * @brief Add an edge with a unit capacity to the graph.\n   *\n  \
     \ * @param src Source\n   * @param dst Destination\n   * @param gain Gain\n  \
     \ * @return Reference to the edge.\n   */\n  auto &add_edge(size_type src, size_type\
@@ -286,34 +285,33 @@ data:
     \ {  // O(V^2)\n      std::vector<bool> used(size());\n\n      for (size_type\
     \ src{}; src != size(); ++src)\n        if (static_cast<Cap>(0) < b[src]) {\n\
     \          used[src] = true;\n          newp[src] = 0;\n\n          for (auto\
-    \ &e : base::graph[src])\n            if (!(static_cast<Cap>(0) < b[e.dst]) &&\n\
-    \                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost)\n      \
-    \        newp[e.dst] = e.cost, last[e.dst] = &e;\n        }\n\n      for (;;)\
-    \ {\n        size_type src{nil};\n        Cost sp{infty};\n\n        for (size_type\
-    \ node{}; node != size(); ++node) {\n          if (used[node] || newp[node] ==\
-    \ infty) continue;\n          if (Cost __d = newp[node] - p[node]; __d < sp) sp\
-    \ = __d, src = node;\n        }\n\n        if (src == nil) break;\n        used[src]\
-    \ = true;\n\n        for (auto &e : base::graph[src])\n          if (static_cast<Cap>(0)\
-    \ < e.cap && newp[src] + e.cost < newp[e.dst]) {\n            newp[e.dst] = newp[src]\
-    \ + e.cost;\n            last[e.dst] = &e;\n          }\n      }\n    }\n\n  \
-    \  else {  // O((V + E)logV)\n      struct sp_node {\n        size_type id;\n\
-    \        Cost __d;\n        sp_node(size_type id, Cost __d) : id(id), __d(__d)\
-    \ {}\n        bool operator<(const sp_node &rhs) const { return rhs.__d < __d;\
-    \ }\n      };\n\n      std::priority_queue<sp_node> __q;\n      for (size_type\
-    \ src{}; src != size(); ++src)\n        if (b[src] > static_cast<Cap>(0)) {\n\
-    \          newp[src] = 0;\n          for (auto &e : base::graph[src])\n      \
-    \      if (static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {\n          \
-    \    __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);\n              last[e.dst]\
-    \ = &e;\n            }\n        }\n\n      while (!__q.empty()) {\n        auto\
-    \ [src, __d] = __q.top();\n        __q.pop();\n        if (__d + p[src] != newp[src])\
-    \ continue;\n        for (auto &e : base::graph[src])\n          if (auto __d\
-    \ = newp[src] + e.cost;\n              static_cast<Cap>(0) < e.cap && __d < newp[e.dst])\
-    \ {\n            __q.emplace(e.dst, (newp[e.dst] = __d) - p[e.dst]);\n       \
-    \     last[e.dst] = &e;\n          }\n      }\n    }\n\n    p.swap(newp);\n  }\n\
-    };\n\ntemplate <class Cap, class Gain = Cap, bool Density_tag = false>\nclass\
-    \ max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {\n  using base\
-    \ = min_cost_flow<Cap, Gain, Density_tag>;\n  using base::cost;\n\n public:\n\
-    \  using base::min_cost_flow;\n  using size_type = typename base::size_type;\n\
+    \ &e : base::graph[src])\n            if (static_cast<Cap>(0) < e.cap && e.cost\
+    \ < newp[e.dst])\n              newp[e.dst] = e.cost, last[e.dst] = &e;\n    \
+    \    }\n\n      for (;;) {\n        size_type src{nil};\n        Cost sp{infty};\n\
+    \n        for (size_type node{}; node != size(); ++node) {\n          if (used[node]\
+    \ || newp[node] == infty) continue;\n          if (Cost __d = newp[node] - p[node];\
+    \ __d < sp) sp = __d, src = node;\n        }\n\n        if (src == nil) break;\n\
+    \        used[src] = true;\n\n        for (auto &e : base::graph[src])\n     \
+    \     if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {\n\
+    \            newp[e.dst] = newp[src] + e.cost;\n            last[e.dst] = &e;\n\
+    \          }\n      }\n    }\n\n    else {  // O((V + E)logV)\n      struct sp_node\
+    \ {\n        size_type id;\n        Cost __d;\n        sp_node(size_type id, Cost\
+    \ __d) : id(id), __d(__d) {}\n        bool operator<(const sp_node &rhs) const\
+    \ { return rhs.__d < __d; }\n      };\n\n      std::priority_queue<sp_node> __q;\n\
+    \      for (size_type src{}; src != size(); ++src)\n        if (b[src] > static_cast<Cap>(0))\
+    \ {\n          newp[src] = 0;\n          for (auto &e : base::graph[src])\n  \
+    \          if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {\n      \
+    \        __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);\n            \
+    \  last[e.dst] = &e;\n            }\n        }\n\n      while (!__q.empty()) {\n\
+    \        auto [src, __d] = __q.top();\n        __q.pop();\n        if (__d + p[src]\
+    \ != newp[src]) continue;\n        for (auto &e : base::graph[src])\n        \
+    \  if (auto __d = newp[src] + e.cost;\n              static_cast<Cap>(0) < e.cap\
+    \ && __d < newp[e.dst]) {\n            __q.emplace(e.dst, (newp[e.dst] = __d)\
+    \ - p[e.dst]);\n            last[e.dst] = &e;\n          }\n      }\n    }\n\n\
+    \    p.swap(newp);\n  }\n};\n\ntemplate <class Cap, class Gain = Cap, bool Density_tag\
+    \ = false>\nclass max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag>\
+    \ {\n  using base = min_cost_flow<Cap, Gain, Density_tag>;\n  using base::cost;\n\
+    \n public:\n  using base::min_cost_flow;\n  using size_type = typename base::size_type;\n\
     \n  /**\n   * @brief Add an edge with a unit capacity to the graph.\n   *\n  \
     \ * @param src Source\n   * @param dst Destination\n   * @param gain Gain\n  \
     \ * @return Reference to the edge.\n   */\n  auto &add_edge(size_type src, size_type\
@@ -335,7 +333,7 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
-  timestamp: '2021-01-19 16:21:33+09:00'
+  timestamp: '2021-01-19 16:29:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/assignment.test.cpp
