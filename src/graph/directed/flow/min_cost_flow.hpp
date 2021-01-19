@@ -198,8 +198,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
           newp[src] = 0;
 
           for (auto &e : base::graph[src])
-            if (!(static_cast<Cap>(0) < b[e.dst]) &&
-                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost)
+            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst])
               newp[e.dst] = e.cost, last[e.dst] = &e;
         }
 
@@ -236,7 +235,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         if (b[src] > static_cast<Cap>(0)) {
           newp[src] = 0;
           for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {
+            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {
               __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
               last[e.dst] = &e;
             }
