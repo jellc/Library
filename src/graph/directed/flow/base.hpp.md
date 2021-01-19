@@ -25,126 +25,183 @@ data:
     links: []
   bundledCode: "#line 2 \"src/graph/directed/flow/base.hpp\"\n\n/**\n * @file base.hpp\n\
     \ * @brief Flow Graph\n * @date 2021-01-15\n *\n *\n */\n\n#include <cassert>\n\
-    #include <vector>\n\nnamespace workspace {\n\ntemplate <class Cap, class Cost\
-    \ = void> class flow_graph {\n public:\n  class adjacency;\n  using value_type\
-    \ = adjacency;\n  using reference = adjacency &;\n  using const_reference = adjacency\
-    \ const &;\n  using container_type = std::vector<value_type>;\n  using size_type\
-    \ = typename container_type::size_type;\n\n  class unweighted_edge {\n   public:\n\
-    \    size_type src, dst;\n    Cap cap;\n    unweighted_edge *rev;\n\n    unweighted_edge()\
-    \ = default;\n\n    unweighted_edge(size_type src, size_type dst, const Cap &cap,\n\
-    \                    unweighted_edge *rev)\n        : src(src), dst(dst), cap(cap),\
-    \ rev(rev) {\n      assert(!(cap < static_cast<Cap>(0)));\n    }\n\n    const\
-    \ Cap &flow(const Cap &f = 0) { return cap -= f, rev->cap += f; }\n\n    unweighted_edge\
-    \ make_rev() { return {dst, src, 0, this}; }\n  };\n\n  class weighted_edge :\
-    \ public unweighted_edge {\n   public:\n    Cost cost;\n\n    weighted_edge()\
-    \ = default;\n\n    weighted_edge(size_type src, size_type dst, const Cap &cap,\n\
-    \                  const Cost &cost, weighted_edge *rev)\n        : unweighted_edge(src,\
-    \ dst, cap, rev), cost(cost) {}\n\n    weighted_edge make_rev() {\n      return\
-    \ {unweighted_edge::dst, unweighted_edge::src, 0, -cost, this};\n    }\n  };\n\
-    \n  using edge = typename std::conditional<std::is_void<Cost>::value,\n      \
-    \                                   unweighted_edge, weighted_edge>::type;\n\n\
-    \  class adjacency {\n   public:\n    using value_type = edge;\n    using reference\
-    \ = edge &;\n    using const_reference = edge const &;\n    using pointer = edge\
-    \ *;\n    using const_pointer = const edge *;\n\n    adjacency() : first(new edge[1]),\
-    \ iter(first), last(first + 1) {}\n    ~adjacency() { delete[] first; }\n\n  \
-    \  template <class... Args> reference emplace(Args &&... args) {\n      if (iter\
-    \ == last) {\n        size_type len(last - first);\n        edge *nfst = iter\
-    \ = new edge[len << 1];\n        for (edge *p{first}; p != last; ++p, ++iter)\n\
-    \          p->rev->rev = iter, *iter = *p;\n        delete[] first;\n        first\
-    \ = nfst;\n        last = iter + len;\n      }\n      return *iter++ = edge(args...);\n\
-    \    }\n\n    reference operator[](size_type i) {\n      assert(i < size());\n\
-    \      return *(first + i);\n    }\n    const_reference operator[](size_type i)\
-    \ const {\n      assert(i < size());\n      return *(first + i);\n    }\n\n  \
-    \  size_type size() const { return iter - first; }\n\n    pointer begin() { return\
-    \ first; }\n    const_pointer begin() const { return first; }\n\n    pointer end()\
-    \ { return iter; }\n    const_pointer end() const { return iter; }\n\n   protected:\n\
-    \    pointer first, iter, last;\n  };\n\n  /**\n   * @brief Construct a new flow\
-    \ base object\n   *\n   * @param n Number of vertices\n   */\n  flow_graph(size_type\
-    \ n = 0) : graph(n) {}\n\n  flow_graph(const flow_graph &other) : graph(other.size())\
-    \ {\n    for (size_type node = 0; node != size(); ++node)\n      for (edge cp\
-    \ : other[node])\n        if (cp.src == node) {\n          edge rcp = *cp.rev;\n\
-    \          cp.rev->src = nil;\n          edge &ref = graph[node].emplace(cp);\n\
-    \          rcp.rev = &ref;\n          ref.rev = &graph[cp.dst].emplace(rcp);\n\
-    \        } else\n          cp.rev->rev->src = node;\n  }\n\n  flow_graph &operator=(const\
-    \ flow_graph &rhs) {\n    if (this != &rhs) graph.swap(flow_graph(rhs).graph);\n\
-    \    return *this;\n  }\n\n  /**\n   * @return Number of vertices.\n   */\n  size_type\
-    \ size() const { return graph.size(); }\n\n  reference operator[](size_type node)\
-    \ {\n    assert(node < size());\n    return graph[node];\n  }\n\n  const_reference\
-    \ &operator[](size_type node) const {\n    assert(node < size());\n    return\
-    \ graph[node];\n  }\n\n  typename container_type::iterator begin() { return graph.begin();\
-    \ }\n\n  typename container_type::iterator end() { return graph.end(); }\n\n \
-    \ typename container_type::const_iterator begin() const {\n    return graph.begin();\n\
-    \  }\n\n  typename container_type::const_iterator end() const { return graph.end();\
-    \ }\n\n  template <class... Args>\n  typename adjacency::reference add_edge(size_type\
-    \ src, size_type dst,\n                                         Args &&... args)\
-    \ {\n    assert(src < size());\n    assert(dst < size());\n    auto &ref = graph[src].emplace(src,\
-    \ dst, args..., nullptr);\n    ref.rev = &graph[dst].emplace(ref.make_rev());\n\
-    \    return ref;\n  }\n\n protected:\n  constexpr static size_type nil = -1;\n\
-    \  container_type graph;\n};\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file base.hpp\n * @brief Flow Graph\n * @date 2021-01-15\n\
-    \ *\n *\n */\n\n#include <cassert>\n#include <vector>\n\nnamespace workspace {\n\
-    \ntemplate <class Cap, class Cost = void> class flow_graph {\n public:\n  class\
-    \ adjacency;\n  using value_type = adjacency;\n  using reference = adjacency &;\n\
-    \  using const_reference = adjacency const &;\n  using container_type = std::vector<value_type>;\n\
-    \  using size_type = typename container_type::size_type;\n\n  class unweighted_edge\
-    \ {\n   public:\n    size_type src, dst;\n    Cap cap;\n    unweighted_edge *rev;\n\
+    #include <numeric>\n#include <vector>\n\nnamespace workspace {\n\ntemplate <class\
+    \ Cap, class Cost = void> class flow_graph {\n protected:\n  class adjacency_impl;\n\
+    \n public:\n  class adjacency;\n  using value_type = adjacency;\n  using reference\
+    \ = adjacency &;\n  using const_reference = adjacency const &;\n  using container_type\
+    \ = std::vector<adjacency_impl>;\n  using size_type = typename container_type::size_type;\n\
+    \n  class unweighted_edge {\n   public:\n    size_type src, dst;\n    Cap cap;\n\
     \n    unweighted_edge() = default;\n\n    unweighted_edge(size_type src, size_type\
-    \ dst, const Cap &cap,\n                    unweighted_edge *rev)\n        : src(src),\
-    \ dst(dst), cap(cap), rev(rev) {\n      assert(!(cap < static_cast<Cap>(0)));\n\
-    \    }\n\n    const Cap &flow(const Cap &f = 0) { return cap -= f, rev->cap +=\
-    \ f; }\n\n    unweighted_edge make_rev() { return {dst, src, 0, this}; }\n  };\n\
-    \n  class weighted_edge : public unweighted_edge {\n   public:\n    Cost cost;\n\
-    \n    weighted_edge() = default;\n\n    weighted_edge(size_type src, size_type\
-    \ dst, const Cap &cap,\n                  const Cost &cost, weighted_edge *rev)\n\
-    \        : unweighted_edge(src, dst, cap, rev), cost(cost) {}\n\n    weighted_edge\
-    \ make_rev() {\n      return {unweighted_edge::dst, unweighted_edge::src, 0, -cost,\
-    \ this};\n    }\n  };\n\n  using edge = typename std::conditional<std::is_void<Cost>::value,\n\
+    \ dst, const Cap &cap)\n        : src(src), dst(dst), cap(cap) {\n      assert(!(cap\
+    \ < static_cast<Cap>(0)));\n    }\n\n   protected:\n    unweighted_edge make_rev()\
+    \ { return {dst, src, 0}; }\n  };\n\n  class weighted_edge : public unweighted_edge\
+    \ {\n   public:\n    Cost cost;\n\n    weighted_edge() = default;\n\n    weighted_edge(size_type\
+    \ src, size_type dst, const Cap &cap,\n                  const Cost &cost)\n \
+    \       : unweighted_edge(src, dst, cap), cost(cost) {}\n\n   protected:\n   \
+    \ weighted_edge make_rev() {\n      return {unweighted_edge::dst, unweighted_edge::src,\
+    \ 0, -cost};\n    }\n  };\n\n  using edge = typename std::conditional<std::is_void<Cost>::value,\n\
     \                                         unweighted_edge, weighted_edge>::type;\n\
-    \n  class adjacency {\n   public:\n    using value_type = edge;\n    using reference\
-    \ = edge &;\n    using const_reference = edge const &;\n    using pointer = edge\
-    \ *;\n    using const_pointer = const edge *;\n\n    adjacency() : first(new edge[1]),\
-    \ iter(first), last(first + 1) {}\n    ~adjacency() { delete[] first; }\n\n  \
-    \  template <class... Args> reference emplace(Args &&... args) {\n      if (iter\
-    \ == last) {\n        size_type len(last - first);\n        edge *nfst = iter\
-    \ = new edge[len << 1];\n        for (edge *p{first}; p != last; ++p, ++iter)\n\
-    \          p->rev->rev = iter, *iter = *p;\n        delete[] first;\n        first\
-    \ = nfst;\n        last = iter + len;\n      }\n      return *iter++ = edge(args...);\n\
-    \    }\n\n    reference operator[](size_type i) {\n      assert(i < size());\n\
-    \      return *(first + i);\n    }\n    const_reference operator[](size_type i)\
-    \ const {\n      assert(i < size());\n      return *(first + i);\n    }\n\n  \
-    \  size_type size() const { return iter - first; }\n\n    pointer begin() { return\
-    \ first; }\n    const_pointer begin() const { return first; }\n\n    pointer end()\
-    \ { return iter; }\n    const_pointer end() const { return iter; }\n\n   protected:\n\
-    \    pointer first, iter, last;\n  };\n\n  /**\n   * @brief Construct a new flow\
-    \ base object\n   *\n   * @param n Number of vertices\n   */\n  flow_graph(size_type\
-    \ n = 0) : graph(n) {}\n\n  flow_graph(const flow_graph &other) : graph(other.size())\
-    \ {\n    for (size_type node = 0; node != size(); ++node)\n      for (edge cp\
-    \ : other[node])\n        if (cp.src == node) {\n          edge rcp = *cp.rev;\n\
-    \          cp.rev->src = nil;\n          edge &ref = graph[node].emplace(cp);\n\
-    \          rcp.rev = &ref;\n          ref.rev = &graph[cp.dst].emplace(rcp);\n\
-    \        } else\n          cp.rev->rev->src = node;\n  }\n\n  flow_graph &operator=(const\
-    \ flow_graph &rhs) {\n    if (this != &rhs) graph.swap(flow_graph(rhs).graph);\n\
-    \    return *this;\n  }\n\n  /**\n   * @return Number of vertices.\n   */\n  size_type\
+    \n protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
+    \ *rev = nullptr;\n\n    edge_impl() = default;\n\n    edge_impl(const edge &__e)\
+    \ : edge(__e) {}\n\n    const Cap &flow(const Cap &f = 0) { return edge::cap -=\
+    \ f, rev->cap += f; }\n\n    edge_impl make_rev() {\n      edge_impl __e = edge::make_rev();\n\
+    \      __e.aux = true;\n      __e.rev = this;\n      return __e;\n    }\n  };\n\
+    \n public:\n  class adjacency {\n    friend flow_graph;\n\n   public:\n    using\
+    \ value_type = edge;\n    using reference = edge &;\n    using const_reference\
+    \ = edge const &;\n    using pointer = edge *;\n    using const_pointer = const\
+    \ edge *;\n\n    class const_iterator {\n     public:\n      const edge_impl *__p;\n\
+    \n      bool operator!=(const_iterator const &__x) const {\n        return __p\
+    \ != __x.__p;\n      }\n\n      const_iterator &operator++() {\n        do\n \
+    \         ++__p;\n        while (__p->rev && __p->aux);\n        return *this;\n\
+    \      }\n\n      const_pointer operator->() const { return __p; }\n\n      const_reference\
+    \ operator*() const { return *__p; }\n    };\n\n    adjacency()\n        : first(new\
+    \ edge_impl[2]), last(first + 1), __s(first), __t(first) {}\n\n    ~adjacency()\
+    \ { delete[] first; }\n\n    const_reference operator[](size_type i) const {\n\
+    \      assert(i < size());\n      return *(first + i);\n    }\n\n    size_type\
+    \ size() const { return __t - first; }\n\n    auto begin() const { return const_iterator{__s};\
+    \ }\n    auto end() const { return const_iterator{__t}; }\n\n    /**\n     * @brief\
+    \ Construct a new adjacency object\n     *\n     * @param __x Rvalue reference\
+    \ to another object\n     */\n    adjacency(adjacency &&__x) : first(nullptr)\
+    \ { operator=(std::move(__x)); }\n\n    /**\n     * @brief Assignment operator.\n\
+    \     *\n     * @param __x Rvalue reference to another object\n     * @return\
+    \ Reference to this object.\n     */\n    adjacency &operator=(adjacency &&__x)\
+    \ {\n      std::swap(first, __x.first);\n      last = __x.last;\n      __s = __x.__s;\n\
+    \      __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl\
+    \ *first, *last, *__s, *__t;\n  };\n\n protected:\n  class adjacency_impl : public\
+    \ adjacency {\n   public:\n    using base = adjacency;\n    using base::__s;\n\
+    \    using base::__t;\n    using base::first;\n    using base::last;\n\n    template\
+    \ <class... Args> auto emplace(Args &&... args) {\n      if (__t == last) {\n\
+    \        size_type __n(last - first);\n        edge_impl *loc = new edge_impl[__n\
+    \ << 1 | 1];\n        __s += loc - first;\n        __t = loc;\n        for (edge_impl\
+    \ *__p{first}; __p != last; ++__p, ++__t)\n          __p->rev->rev = __t, *__t\
+    \ = *__p;\n        delete[] first;\n        first = loc;\n        last = __t +\
+    \ __n;\n      }\n      *__t = edge_impl(args...);\n      if (__s->aux) ++__s;\n\
+    \      return __t++;\n    }\n\n    using iterator = edge_impl *;\n    auto begin()\
+    \ const { return first; }\n    auto end() const { return __t; }\n  };\n\n public:\n\
+    \  /**\n   * @brief Construct a new flow graph object\n   *\n   * @param __n Number\
+    \ of vertices\n   */\n  flow_graph(size_type __n = 0) : graph(__n) {}\n\n  /**\n\
+    \   * @brief Construct a new flow graph object\n   *\n   * @param __x Const reference\
+    \ to another object\n   */\n  flow_graph(const flow_graph &__x) : graph(__x.size())\
+    \ {\n    for (auto &&__adj : __x)\n      for (auto &&__e : __adj) _add_edge(__e);\n\
+    \  }\n\n  /**\n   * @brief Assignment operator.\n   *\n   * @param __x Rvalue\
+    \ reference to another object\n   * @return Reference to this object.\n   */\n\
+    \  flow_graph &operator=(flow_graph &&__x) {\n    graph.swap(__x.graph);\n   \
+    \ return *this;\n  }\n\n  /**\n   * @return Number of nodes.\n   */\n  size_type\
     \ size() const { return graph.size(); }\n\n  reference operator[](size_type node)\
     \ {\n    assert(node < size());\n    return graph[node];\n  }\n\n  const_reference\
     \ &operator[](size_type node) const {\n    assert(node < size());\n    return\
-    \ graph[node];\n  }\n\n  typename container_type::iterator begin() { return graph.begin();\
-    \ }\n\n  typename container_type::iterator end() { return graph.end(); }\n\n \
-    \ typename container_type::const_iterator begin() const {\n    return graph.begin();\n\
-    \  }\n\n  typename container_type::const_iterator end() const { return graph.end();\
-    \ }\n\n  template <class... Args>\n  typename adjacency::reference add_edge(size_type\
-    \ src, size_type dst,\n                                         Args &&... args)\
-    \ {\n    assert(src < size());\n    assert(dst < size());\n    auto &ref = graph[src].emplace(src,\
-    \ dst, args..., nullptr);\n    ref.rev = &graph[dst].emplace(ref.make_rev());\n\
-    \    return ref;\n  }\n\n protected:\n  constexpr static size_type nil = -1;\n\
-    \  container_type graph;\n};\n\n}  // namespace workspace\n"
+    \ graph[node];\n  }\n\n  class const_iterator : public container_type::const_iterator\
+    \ {\n   public:\n    using base = typename container_type::const_iterator;\n \
+    \   using const_reference = const adjacency &;\n    using const_pointer = const\
+    \ adjacency *;\n\n    const_iterator(base const &__i) : base(__i) {}\n\n    const_pointer\
+    \ operator->() const { return base::operator->(); }\n\n    const_reference operator*()\
+    \ const { return base::operator*(); }\n  };\n\n  auto begin() const { return const_iterator{graph.begin()};\
+    \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  size_type\
+    \ add_node() { return add_nodes(1).front(); }\n\n  virtual std::vector<size_type>\
+    \ add_nodes(size_type __n) {\n    std::vector<size_type> __nds(__n);\n    std::iota(__nds.begin(),\
+    \ __nds.end(), graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity())\
+    \ {\n      flow_graph __x(__n);\n      for (auto iter = begin(); iter != end();\
+    \ ++iter)\n        for (auto &&__e : *iter) __x._add_edge(__e);\n      graph.swap(__x.graph);\n\
+    \    } else\n      graph.resize(__n);\n    return __nds;\n  }\n\n  template <class...\
+    \ Args> const edge &add_edge(Args &&... args) {\n    return *_add_edge(std::forward<Args>(args)...);\n\
+    \  }\n\n protected:\n  template <class... Args> edge_impl *_add_edge(Args &&...\
+    \ args) {\n    edge __e(args...);\n    assert(__e.src < size());\n    assert(__e.dst\
+    \ < size());\n    auto __p = graph[__e.src].emplace(__e);\n    __p->rev = graph[__e.dst].emplace(__p->make_rev());\n\
+    \    return __p;\n  }\n\n  constexpr static size_type nil = -1;\n  container_type\
+    \ graph;\n};\n\n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file base.hpp\n * @brief Flow Graph\n * @date 2021-01-15\n\
+    \ *\n *\n */\n\n#include <cassert>\n#include <numeric>\n#include <vector>\n\n\
+    namespace workspace {\n\ntemplate <class Cap, class Cost = void> class flow_graph\
+    \ {\n protected:\n  class adjacency_impl;\n\n public:\n  class adjacency;\n  using\
+    \ value_type = adjacency;\n  using reference = adjacency &;\n  using const_reference\
+    \ = adjacency const &;\n  using container_type = std::vector<adjacency_impl>;\n\
+    \  using size_type = typename container_type::size_type;\n\n  class unweighted_edge\
+    \ {\n   public:\n    size_type src, dst;\n    Cap cap;\n\n    unweighted_edge()\
+    \ = default;\n\n    unweighted_edge(size_type src, size_type dst, const Cap &cap)\n\
+    \        : src(src), dst(dst), cap(cap) {\n      assert(!(cap < static_cast<Cap>(0)));\n\
+    \    }\n\n   protected:\n    unweighted_edge make_rev() { return {dst, src, 0};\
+    \ }\n  };\n\n  class weighted_edge : public unweighted_edge {\n   public:\n  \
+    \  Cost cost;\n\n    weighted_edge() = default;\n\n    weighted_edge(size_type\
+    \ src, size_type dst, const Cap &cap,\n                  const Cost &cost)\n \
+    \       : unweighted_edge(src, dst, cap), cost(cost) {}\n\n   protected:\n   \
+    \ weighted_edge make_rev() {\n      return {unweighted_edge::dst, unweighted_edge::src,\
+    \ 0, -cost};\n    }\n  };\n\n  using edge = typename std::conditional<std::is_void<Cost>::value,\n\
+    \                                         unweighted_edge, weighted_edge>::type;\n\
+    \n protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
+    \ *rev = nullptr;\n\n    edge_impl() = default;\n\n    edge_impl(const edge &__e)\
+    \ : edge(__e) {}\n\n    const Cap &flow(const Cap &f = 0) { return edge::cap -=\
+    \ f, rev->cap += f; }\n\n    edge_impl make_rev() {\n      edge_impl __e = edge::make_rev();\n\
+    \      __e.aux = true;\n      __e.rev = this;\n      return __e;\n    }\n  };\n\
+    \n public:\n  class adjacency {\n    friend flow_graph;\n\n   public:\n    using\
+    \ value_type = edge;\n    using reference = edge &;\n    using const_reference\
+    \ = edge const &;\n    using pointer = edge *;\n    using const_pointer = const\
+    \ edge *;\n\n    class const_iterator {\n     public:\n      const edge_impl *__p;\n\
+    \n      bool operator!=(const_iterator const &__x) const {\n        return __p\
+    \ != __x.__p;\n      }\n\n      const_iterator &operator++() {\n        do\n \
+    \         ++__p;\n        while (__p->rev && __p->aux);\n        return *this;\n\
+    \      }\n\n      const_pointer operator->() const { return __p; }\n\n      const_reference\
+    \ operator*() const { return *__p; }\n    };\n\n    adjacency()\n        : first(new\
+    \ edge_impl[2]), last(first + 1), __s(first), __t(first) {}\n\n    ~adjacency()\
+    \ { delete[] first; }\n\n    const_reference operator[](size_type i) const {\n\
+    \      assert(i < size());\n      return *(first + i);\n    }\n\n    size_type\
+    \ size() const { return __t - first; }\n\n    auto begin() const { return const_iterator{__s};\
+    \ }\n    auto end() const { return const_iterator{__t}; }\n\n    /**\n     * @brief\
+    \ Construct a new adjacency object\n     *\n     * @param __x Rvalue reference\
+    \ to another object\n     */\n    adjacency(adjacency &&__x) : first(nullptr)\
+    \ { operator=(std::move(__x)); }\n\n    /**\n     * @brief Assignment operator.\n\
+    \     *\n     * @param __x Rvalue reference to another object\n     * @return\
+    \ Reference to this object.\n     */\n    adjacency &operator=(adjacency &&__x)\
+    \ {\n      std::swap(first, __x.first);\n      last = __x.last;\n      __s = __x.__s;\n\
+    \      __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl\
+    \ *first, *last, *__s, *__t;\n  };\n\n protected:\n  class adjacency_impl : public\
+    \ adjacency {\n   public:\n    using base = adjacency;\n    using base::__s;\n\
+    \    using base::__t;\n    using base::first;\n    using base::last;\n\n    template\
+    \ <class... Args> auto emplace(Args &&... args) {\n      if (__t == last) {\n\
+    \        size_type __n(last - first);\n        edge_impl *loc = new edge_impl[__n\
+    \ << 1 | 1];\n        __s += loc - first;\n        __t = loc;\n        for (edge_impl\
+    \ *__p{first}; __p != last; ++__p, ++__t)\n          __p->rev->rev = __t, *__t\
+    \ = *__p;\n        delete[] first;\n        first = loc;\n        last = __t +\
+    \ __n;\n      }\n      *__t = edge_impl(args...);\n      if (__s->aux) ++__s;\n\
+    \      return __t++;\n    }\n\n    using iterator = edge_impl *;\n    auto begin()\
+    \ const { return first; }\n    auto end() const { return __t; }\n  };\n\n public:\n\
+    \  /**\n   * @brief Construct a new flow graph object\n   *\n   * @param __n Number\
+    \ of vertices\n   */\n  flow_graph(size_type __n = 0) : graph(__n) {}\n\n  /**\n\
+    \   * @brief Construct a new flow graph object\n   *\n   * @param __x Const reference\
+    \ to another object\n   */\n  flow_graph(const flow_graph &__x) : graph(__x.size())\
+    \ {\n    for (auto &&__adj : __x)\n      for (auto &&__e : __adj) _add_edge(__e);\n\
+    \  }\n\n  /**\n   * @brief Assignment operator.\n   *\n   * @param __x Rvalue\
+    \ reference to another object\n   * @return Reference to this object.\n   */\n\
+    \  flow_graph &operator=(flow_graph &&__x) {\n    graph.swap(__x.graph);\n   \
+    \ return *this;\n  }\n\n  /**\n   * @return Number of nodes.\n   */\n  size_type\
+    \ size() const { return graph.size(); }\n\n  reference operator[](size_type node)\
+    \ {\n    assert(node < size());\n    return graph[node];\n  }\n\n  const_reference\
+    \ &operator[](size_type node) const {\n    assert(node < size());\n    return\
+    \ graph[node];\n  }\n\n  class const_iterator : public container_type::const_iterator\
+    \ {\n   public:\n    using base = typename container_type::const_iterator;\n \
+    \   using const_reference = const adjacency &;\n    using const_pointer = const\
+    \ adjacency *;\n\n    const_iterator(base const &__i) : base(__i) {}\n\n    const_pointer\
+    \ operator->() const { return base::operator->(); }\n\n    const_reference operator*()\
+    \ const { return base::operator*(); }\n  };\n\n  auto begin() const { return const_iterator{graph.begin()};\
+    \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  size_type\
+    \ add_node() { return add_nodes(1).front(); }\n\n  virtual std::vector<size_type>\
+    \ add_nodes(size_type __n) {\n    std::vector<size_type> __nds(__n);\n    std::iota(__nds.begin(),\
+    \ __nds.end(), graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity())\
+    \ {\n      flow_graph __x(__n);\n      for (auto iter = begin(); iter != end();\
+    \ ++iter)\n        for (auto &&__e : *iter) __x._add_edge(__e);\n      graph.swap(__x.graph);\n\
+    \    } else\n      graph.resize(__n);\n    return __nds;\n  }\n\n  template <class...\
+    \ Args> const edge &add_edge(Args &&... args) {\n    return *_add_edge(std::forward<Args>(args)...);\n\
+    \  }\n\n protected:\n  template <class... Args> edge_impl *_add_edge(Args &&...\
+    \ args) {\n    edge __e(args...);\n    assert(__e.src < size());\n    assert(__e.dst\
+    \ < size());\n    auto __p = graph[__e.src].emplace(__e);\n    __p->rev = graph[__e.dst].emplace(__p->make_rev());\n\
+    \    return __p;\n  }\n\n  constexpr static size_type nil = -1;\n  container_type\
+    \ graph;\n};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/graph/directed/flow/base.hpp
   requiredBy:
   - src/graph/directed/flow/Dinic.hpp
   - src/graph/directed/flow/min_cost_flow.hpp
-  timestamp: '2021-01-18 04:02:07+09:00'
+  timestamp: '2021-01-19 03:50:24+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
