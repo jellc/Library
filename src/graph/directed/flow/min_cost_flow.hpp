@@ -33,85 +33,6 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   using size_type = typename base::size_type;
   using base::size;
 
- protected:
-  Cost current, abs_sum;
-  std::vector<Cap> b;
-  std::vector<Cost> p;
-
-  void Dijkstra(std::vector<edge_impl *> &last) {
-    const Cost infty(abs_sum + 1);
-    std::vector<Cost> newp(size(), infty);
-
-    if constexpr (Density_tag) {  // O(V^2)
-      std::vector<bool> used(size());
-      for (size_type src{}; src != size(); ++src) {
-        if (static_cast<Cap>(0) < b[src]) {
-          used[src] = true;
-          newp[src] = 0;
-          for (auto &e : base::graph[src]) {
-            if (!(static_cast<Cap>(0) < b[e.dst]) &&
-                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {
-              newp[e.dst] = e.cost;
-              last[e.dst] = &e;
-            }
-          }
-        }
-      }
-      for (;;) {
-        size_type src{nil};
-        Cost sp{infty};
-        for (size_type node{}; node != size(); ++node) {
-          if (used[node] || newp[node] == infty) continue;
-          Cost dist{newp[node] - p[node]};
-          if (dist < sp) {
-            sp = dist;
-            src = node;
-          }
-        }
-        if (src == nil) break;
-        used[src] = true;
-        for (auto &e : base::graph[src])
-          if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {
-            newp[e.dst] = newp[src] + e.cost;
-            last[e.dst] = &e;
-          }
-      }
-    }
-
-    else {  // O((V + E)logV)
-      struct sp_node {
-        size_type id;
-        Cost dist;
-        sp_node(size_type id, Cost dist) : id(id), dist(dist) {}
-        bool operator<(const sp_node &rhs) const { return rhs.dist < dist; }
-      };
-      std::priority_queue<sp_node> __q;
-      for (size_type src{}; src != size(); ++src)
-        if (b[src] > static_cast<Cap>(0)) {
-          newp[src] = 0;
-          for (auto &e : base::graph[src])
-            if (!(static_cast<Cap>(0) < b[e.dst]) &&
-                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {
-              __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
-              last[e.dst] = &e;
-            }
-        }
-      while (!__q.empty()) {
-        auto [src, ndist] = __q.top();
-        __q.pop();
-        if (ndist + p[src] != newp[src]) continue;
-        for (auto &e : base::graph[src])
-          if (static_cast<Cap>(0) < e.cap && newp[e.dst] > newp[src] + e.cost) {
-            __q.emplace(e.dst, (newp[e.dst] = newp[src] + e.cost) - p[e.dst]);
-            last[e.dst] = &e;
-          }
-      }
-    }
-
-    p.swap(newp);
-  }
-
- public:
   /**
    * @brief Construct a new min_cost_flow object
    *
@@ -148,18 +69,17 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param cost Cost
    * @return Reference to the edge.
    */
-  auto &add_edge(size_type src, size_type dst, const Cap &cap,
-                 const Cost &cost) {
-    edge_impl *__p = base::_add_edge(src, dst, cap, cost);
+  typename base::edge const &add_edge(size_type src, size_type dst,
+                                      const Cap &cap, const Cost &cost) {
+    edge_impl *__p = base::_add_edge(typename base::edge(src, dst, cap, cost));
     if (cost < static_cast<Cost>(0)) {
       __p->flow(cap);
       b[src] -= cap;
       b[dst] += cap;
       current += cap * cost;
       abs_sum -= cap * cost;
-    } else {
+    } else
       abs_sum += cap * cost;
-    }
     return *__p;
   }
 
@@ -227,7 +147,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       Dijkstra(last);
       std::vector<bool> shut(size());
       for (size_type dst{}; dst != size(); ++dst) {
-        if (b[dst] < static_cast<Cap>(0) and last[dst]) {
+        if (b[dst] < static_cast<Cap>(0) && last[dst]) {
           Cap resid{-b[dst]};
           size_type src{dst}, block{nil};
           while (last[src] && !shut[src]) {
@@ -247,12 +167,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
             current += p[dst] * resid;
             aug = true;
           }
-          if (~block) {
+          if (block != nil)
             for (size_type node{dst};; node = last[node]->src) {
               shut[node] = true;
               if (node == block) break;
             }
-          }
         }
       }
     }
@@ -260,6 +179,140 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       return s < static_cast<Cap>(0) || static_cast<Cap>(0) < s;
     });
   }
+
+ protected:
+  Cost current, abs_sum;
+  std::vector<Cap> b;
+  std::vector<Cost> p;
+
+  void Dijkstra(std::vector<edge_impl *> &last) {
+    const Cost infty(abs_sum + 1);
+    std::vector<Cost> newp(size(), infty);
+
+    if constexpr (Density_tag) {  // O(V^2)
+      std::vector<bool> used(size());
+
+      for (size_type src{}; src != size(); ++src)
+        if (static_cast<Cap>(0) < b[src]) {
+          used[src] = true;
+          newp[src] = 0;
+
+          for (auto &e : base::graph[src])
+            if (!(static_cast<Cap>(0) < b[e.dst]) &&
+                static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost)
+              newp[e.dst] = e.cost, last[e.dst] = &e;
+        }
+
+      for (;;) {
+        size_type src{nil};
+        Cost sp{infty};
+
+        for (size_type node{}; node != size(); ++node) {
+          if (used[node] || newp[node] == infty) continue;
+          if (Cost __d = newp[node] - p[node]; __d < sp) sp = __d, src = node;
+        }
+
+        if (src == nil) break;
+        used[src] = true;
+
+        for (auto &e : base::graph[src])
+          if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {
+            newp[e.dst] = newp[src] + e.cost;
+            last[e.dst] = &e;
+          }
+      }
+    }
+
+    else {  // O((V + E)logV)
+      struct sp_node {
+        size_type id;
+        Cost __d;
+        sp_node(size_type id, Cost __d) : id(id), __d(__d) {}
+        bool operator<(const sp_node &rhs) const { return rhs.__d < __d; }
+      };
+
+      std::priority_queue<sp_node> __q;
+      for (size_type src{}; src != size(); ++src)
+        if (b[src] > static_cast<Cap>(0)) {
+          newp[src] = 0;
+          for (auto &e : base::graph[src])
+            if (static_cast<Cap>(0) < e.cap && newp[e.dst] > e.cost) {
+              __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
+              last[e.dst] = &e;
+            }
+        }
+
+      while (!__q.empty()) {
+        auto [src, __d] = __q.top();
+        __q.pop();
+        if (__d + p[src] != newp[src]) continue;
+        for (auto &e : base::graph[src])
+          if (auto __d = newp[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
+            __q.emplace(e.dst, (newp[e.dst] = __d) - p[e.dst]);
+            last[e.dst] = &e;
+          }
+      }
+    }
+
+    p.swap(newp);
+  }
+};
+
+template <class Cap, class Gain = Cap, bool Density_tag = false>
+class max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {
+  using base = min_cost_flow<Cap, Gain, Density_tag>;
+  using base::cost;
+
+ public:
+  using base::min_cost_flow;
+  using size_type = typename base::size_type;
+
+  /**
+   * @brief Add an edge with a unit capacity to the graph.
+   *
+   * @param src Source
+   * @param dst Destination
+   * @param gain Gain
+   * @return Reference to the edge.
+   */
+  auto &add_edge(size_type src, size_type dst, const Gain &gain) {
+    return add_edge(src, dst, 1, gain);
+  }
+
+  /**
+   * @brief Add an edge to the graph.
+   *
+   * @param src Source
+   * @param dst Destination
+   * @param cap Capacity
+   * @param gain Gain
+   * @return Reference to the edge.
+   */
+  auto &add_edge(size_type src, size_type dst, const Cap &cap,
+                 const Gain &gain) {
+    return base::add_edge(src, dst, cap, -gain);
+  }
+
+  /**
+   * @brief Add an edge to the graph.
+   *
+   * @param src Source
+   * @param dst Destination
+   * @param lower Lower bound of flow
+   * @param upper Upper bound of flow
+   * @param gain Gain
+   * @return Reference to the edge.
+   */
+  auto &add_edge(size_type src, size_type dst, const Cap &lower,
+                 const Cap &upper, const Gain &gain) {
+    return base::add_edge(src, dst, lower, upper, -gain);
+  }
+
+  /**
+   * @return Gain of current flow.
+   */
+  Gain gain() const { return -base::current; }
 };
 
 }  // namespace workspace

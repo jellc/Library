@@ -19,10 +19,6 @@ template <class Cap, class Cost = void> class flow_graph {
   class adjacency_impl;
 
  public:
-  class adjacency;
-  using value_type = adjacency;
-  using reference = adjacency &;
-  using const_reference = adjacency const &;
   using container_type = std::vector<adjacency_impl>;
   using size_type = typename container_type::size_type;
 
@@ -38,6 +34,11 @@ template <class Cap, class Cost = void> class flow_graph {
       assert(!(cap < static_cast<Cap>(0)));
     }
 
+    template <class Os>
+    friend Os &operator<<(Os &__os, unweighted_edge const &__e) {
+      return __os << __e.src << " " << __e.dst << " " << __e.cap;
+    }
+
    protected:
     unweighted_edge make_rev() { return {dst, src, 0}; }
   };
@@ -51,6 +52,11 @@ template <class Cap, class Cost = void> class flow_graph {
     weighted_edge(size_type src, size_type dst, const Cap &cap,
                   const Cost &cost)
         : unweighted_edge(src, dst, cap), cost(cost) {}
+
+    template <class Os>
+    friend Os &operator<<(Os &__os, weighted_edge const &__e) {
+      return __os << static_cast<unweighted_edge>(__e) << " " << __e.cost;
+    }
 
    protected:
     weighted_edge make_rev() {
@@ -68,13 +74,20 @@ template <class Cap, class Cost = void> class flow_graph {
 
     edge_impl() = default;
 
+    edge_impl(const edge_impl &__e) = default;
+
     edge_impl(const edge &__e) : edge(__e) {}
 
-    const Cap &flow(const Cap &f = 0) { return edge::cap -= f, rev->cap += f; }
+    void flow(const Cap &f) { edge::cap -= f, rev->cap += f; }
 
-    edge_impl make_rev() {
-      edge_impl __e = edge::make_rev();
-      __e.aux = true;
+    edge_impl rev_cp() {
+      edge_impl __e;
+      if (rev)
+        __e = *rev;
+      else {
+        __e = edge::make_rev();
+        __e.aux = true;
+      }
       __e.rev = this;
       return __e;
     }
@@ -82,8 +95,6 @@ template <class Cap, class Cost = void> class flow_graph {
 
  public:
   class adjacency {
-    friend flow_graph;
-
    public:
     using value_type = edge;
     using reference = edge &;
@@ -150,6 +161,10 @@ template <class Cap, class Cost = void> class flow_graph {
    protected:
     edge_impl *first, *last, *__s, *__t;
   };
+
+  using value_type = adjacency;
+  using reference = adjacency &;
+  using const_reference = adjacency const &;
 
  protected:
   class adjacency_impl : public adjacency {
@@ -250,8 +265,9 @@ template <class Cap, class Cost = void> class flow_graph {
     __n += graph.size();
     if (__n > graph.capacity()) {
       flow_graph __x(__n);
-      for (auto iter = begin(); iter != end(); ++iter)
-        for (auto &&__e : *iter) __x._add_edge(__e);
+      for (auto &&adj : graph)
+        for (auto &&__e : adj)
+          if (!__e.aux) __x._add_edge(__e);
       graph.swap(__x.graph);
     } else
       graph.resize(__n);
@@ -259,21 +275,27 @@ template <class Cap, class Cost = void> class flow_graph {
   }
 
   template <class... Args> const edge &add_edge(Args &&... args) {
-    return *_add_edge(std::forward<Args>(args)...);
+    return *_add_edge(edge(args...));
   }
 
  protected:
   template <class... Args> edge_impl *_add_edge(Args &&... args) {
-    edge __e(args...);
+    edge_impl __e(args...);
     assert(__e.src < size());
     assert(__e.dst < size());
     auto __p = graph[__e.src].emplace(__e);
-    __p->rev = graph[__e.dst].emplace(__p->make_rev());
+    __p->rev = graph[__e.dst].emplace(__p->rev_cp());
     return __p;
   }
 
   constexpr static size_type nil = -1;
   container_type graph;
+
+  template <class Os> friend Os &operator<<(Os &__os, flow_graph const &__g) {
+    for (const auto &adj : __g)
+      for (const auto &e : adj) __os << e << "\n";
+    return __os;
+  }
 };
 
 }  // namespace workspace

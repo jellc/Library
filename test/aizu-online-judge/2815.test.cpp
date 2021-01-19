@@ -9,29 +9,36 @@ int main() {
 
   int n, m, k;
   std::cin >> n >> m >> k;
-  const int total = n + m + 3;
-  const int dst = total - 1;
-  const int dst2 = total - 2;
-  const int dst3 = total - 3;
-  min_cost_flow<int, int> mcf(total);
-  mcf.supply(dst, -n);
+
+  min_cost_flow<int, int> mcf;
+  const auto dst = mcf.add_node();
+  const auto dst2 = mcf.add_node();
+  const auto dst3 = mcf.add_node();
+
+  mcf.demand(dst, n);
   mcf.add_edge(dst2, dst, n, 0);
   mcf.add_edge(dst3, dst, n - k, 0);
-  for (int i = 0; i < n; ++i) {
-    mcf.supply(i, 1);
+
+  const auto r = mcf.add_nodes(n);
+  for (auto u : r) {
+    mcf.supply(u);
     std::cin >> k;
-    mcf.add_edge(i, dst2, 1, -k);
+    mcf.add_edge(u, dst2, -k);
   }
-  for (int j = 0; j < m; j++) {
-    for (int i = 0; i < n; i++) {
+
+  const auto f = mcf.add_nodes(m);
+  for (auto v : f) {
+    for (auto u : r) {
       std::cin >> k;
-      mcf.add_edge(i, j + n, 1, -k);
+      mcf.add_edge(u, v, -k);
     }
   }
-  for (int j = 0; j < m; j++) {
+
+  for (auto v : f) {
     std::cin >> k;
-    mcf.add_edge(j + n, dst3, k, 0);
+    mcf.add_edge(v, dst3, k, 0);
   }
+
   assert(mcf.flow());
   std::cout << -mcf.cost() << "\n";
 }
