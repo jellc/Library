@@ -215,8 +215,9 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         used[src] = true;
 
         for (auto &e : base::graph[src])
-          if (static_cast<Cap>(0) < e.cap && newp[src] + e.cost < newp[e.dst]) {
-            newp[e.dst] = newp[src] + e.cost;
+          if (Cost __d = newp[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
+            newp[e.dst] = __d;
             last[e.dst] = &e;
           }
       }
