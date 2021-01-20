@@ -216,13 +216,30 @@ template <class Cap, class Cost = void> class flow_graph {
   }
 
   /**
+   * @brief Construct a new flow graph object
+   *
+   * @param __x Rvalue reference to another object
+   */
+  flow_graph(flow_graph &&__x) : graph(std::move(__x.graph)) {}
+
+  /**
+   * @brief Assignment operator.
+   *
+   * @param __x Const reference to another object
+   * @return Reference to this object.
+   */
+  flow_graph &operator=(const flow_graph &__x) {
+    return operator=(std::move(flow_graph{__x}));
+  }
+
+  /**
    * @brief Assignment operator.
    *
    * @param __x Rvalue reference to another object
    * @return Reference to this object.
    */
   flow_graph &operator=(flow_graph &&__x) {
-    graph.swap(__x.graph);
+    graph = std::move(__x.graph);
     return *this;
   }
 
@@ -268,7 +285,7 @@ template <class Cap, class Cost = void> class flow_graph {
       for (auto &&adj : graph)
         for (auto &&__e : adj)
           if (!__e.aux) __x._add_edge(__e);
-      graph.swap(__x.graph);
+      graph = std::move(__x.graph);
     } else
       graph.resize(__n);
     return __nds;
