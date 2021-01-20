@@ -59,23 +59,6 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
   }
 
   /**
-   * @brief Add an edge to the graph.
-   *
-   * @param src Source
-   * @param dst Destination
-   * @param cap Capacity(defalut: 1)
-   * @return Reference to the edge.
-   */
-  typename base::edge const &add_edge(size_type src, size_type dst,
-                                      const Cap &cap = 1) {
-    return base::add_edge(src, dst, cap);
-  }
-
-  // void add_undirected_edge(size_type src, size_type dst, Cap cap) {
-  //   base::add_undirected_edge(src, dst, cap, false);
-  // }
-
-  /**
    * @brief Run Dinic's algorithm.
    *
    * @param src Source

@@ -27,9 +27,7 @@ template <class Cap, class Cost = void> class flow_graph {
     size_type src, dst;
     Cap cap;
 
-    unweighted_edge() = default;
-
-    unweighted_edge(size_type src, size_type dst, const Cap &cap)
+    unweighted_edge(size_type src, size_type dst, const Cap &cap = 1)
         : src(src), dst(dst), cap(cap) {
       assert(!(cap < static_cast<Cap>(0)));
     }
@@ -40,14 +38,19 @@ template <class Cap, class Cost = void> class flow_graph {
     }
 
    protected:
-    unweighted_edge make_rev() { return {dst, src, 0}; }
+    unweighted_edge() = default;
+
+    unweighted_edge make_rev() const { return {dst, src, 0}; }
+
+    unweighted_edge make_ud_rev() const { return {dst, src, cap}; }
   };
 
   class weighted_edge : public unweighted_edge {
    public:
     Cost cost;
 
-    weighted_edge() = default;
+    weighted_edge(const unweighted_edge &__e, const Cost &__c)
+        : unweighted_edge(__e), cost(__c) {}
 
     weighted_edge(size_type src, size_type dst, const Cap &cap,
                   const Cost &cost)
@@ -59,8 +62,14 @@ template <class Cap, class Cost = void> class flow_graph {
     }
 
    protected:
-    weighted_edge make_rev() {
-      return {unweighted_edge::dst, unweighted_edge::src, 0, -cost};
+    weighted_edge() = default;
+
+    weighted_edge make_rev() const {
+      return {unweighted_edge::make_rev(), -cost};
+    }
+
+    weighted_edge make_ud_rev() const {
+      return {unweighted_edge::make_ud_rev(), -cost};
     }
   };
 
@@ -78,7 +87,7 @@ template <class Cap, class Cost = void> class flow_graph {
 
     edge_impl(const edge &__e) : edge(__e) {}
 
-    void flow(const Cap &f) { edge::cap -= f, rev->cap += f; }
+    void flow(const Cap &__f) { edge::cap -= __f, rev->cap += __f; }
 
     edge_impl rev_cp() {
       edge_impl __e;
@@ -88,6 +97,12 @@ template <class Cap, class Cost = void> class flow_graph {
         __e = edge::make_rev();
         __e.aux = true;
       }
+      __e.rev = this;
+      return __e;
+    }
+
+    edge_impl ud_rev_cp() {
+      edge_impl __e = rev ? *rev : edge::make_ud_rev();
       __e.rev = this;
       return __e;
     }
@@ -291,8 +306,22 @@ template <class Cap, class Cost = void> class flow_graph {
     return __nds;
   }
 
+  /**
+   * @brief Add an directed edge to the graph. The default capacity is 1.
+   *
+   * @return Reference to the edge.
+   */
   template <class... Args> const edge &add_edge(Args &&... args) {
     return *_add_edge(edge(args...));
+  }
+
+  /**
+   * @brief Add an undirected edge to the graph. The default capacity is 1.
+   *
+   * @return Reference to the edge.
+   */
+  template <class... Args> const edge &add_undirected_edge(Args &&... args) {
+    return *_add_ud_edge(edge(args...));
   }
 
  protected:
@@ -302,6 +331,15 @@ template <class Cap, class Cost = void> class flow_graph {
     assert(__e.dst < size());
     auto __p = graph[__e.src].emplace(__e);
     __p->rev = graph[__e.dst].emplace(__p->rev_cp());
+    return __p;
+  }
+
+  template <class... Args> edge_impl *_add_ud_edge(Args &&... args) {
+    edge_impl __e(args...);
+    assert(__e.src < size());
+    assert(__e.dst < size());
+    auto __p = graph[__e.src].emplace(__e);
+    __p->rev = graph[__e.dst].emplace(__p->ud_rev_cp());
     return __p;
   }
 
