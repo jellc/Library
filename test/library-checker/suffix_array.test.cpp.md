@@ -20,15 +20,15 @@ data:
     links:
     - https://judge.yosupo.jp/problem/suffixarray
   bundledCode: "#line 1 \"test/library-checker/suffix_array.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/suffixarray\"\n#include <bits/stdc++.h>\n\n\
-    #line 2 \"src/string/suffix_array.hpp\"\n\n/*\n * @file suffix_array.hpp\n * @brief\
-    \ Suffix Array\n */\n\n#line 11 \"src/string/suffix_array.hpp\"\n\n#line 2 \"\
-    src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
-    #line 10 \"src/utils/sfinae.hpp\"\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    namespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ \"https://judge.yosupo.jp/problem/suffixarray\"\n\n#include <iostream>\n\n#line\
+    \ 2 \"src/string/suffix_array.hpp\"\n\n/*\n * @file suffix_array.hpp\n * @brief\
+    \ Suffix Array\n */\n\n#include <algorithm>\n#include <numeric>\n#include <vector>\n\
+    \n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifdef\
+    \ __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
+    \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
+    \ make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t>\
+    \ { using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
     \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
     \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
     \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
@@ -102,29 +102,38 @@ data:
     \  }\n\n  /*\n   * @return lengths of LCP of each adjacent pairs in the suffix\n\
     \   * array\n   */\n  const std::vector<size_t> &lcp_array() const { return lcp;\
     \ }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n\
-    /*\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#line 10 \"src/utils/io/ostream.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class T, class U>\nstd::ostream &operator<<(std::ostream\
-    \ &os, const std::pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n\
-    }\ntemplate <class tuple_t, size_t index> struct tuple_os {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t, index -\
-    \ 1>::apply(os, t);\n    return os << ' ' << std::get<index>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, 0> {\n  static std::ostream &apply(std::ostream\
-    \ &os, const tuple_t &t) {\n    return os << std::get<0>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) { return os; }\n};\n\ntemplate <class...\
-    \ T>\nstd::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {\n\
-    \  return tuple_os<std::tuple<T...>,\n                  std::tuple_size<std::tuple<T...>>::value\
-    \ - 1>::apply(os, t);\n}\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
+    /**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#include <tuple>\n\n\
+    namespace workspace {\n\n/**\n * @brief Stream insertion operator for std::pair.\n\
+    \ *\n * @param __os Output stream\n * @param __p Pair\n * @return Reference to\
+    \ __os.\n */\ntemplate <class Os, class T1, class T2>\nOs &operator<<(Os &__os,\
+    \ const std::pair<T1, T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
+    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
+    \ <class Os, class Tp, size_t N = 0>\ntypename std::enable_if<bool(std::tuple_size<Tp>::value\
+    \ + 1), Os &>::type\noperator<<(Os &__os, const Tp &__t) {\n  if constexpr (N\
+    \ != std::tuple_size<Tp>::value) {\n    if constexpr (N) __os << ' ';\n    __os\
+    \ << std::get<N>(__t);\n    operator<<<Os, Tp, N + 1>(__os, __t);\n  }\n  return\
+    \ __os;\n}\n\ntemplate <class Os, class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
     typename std::enable_if<\n    !std::is_same<typename std::decay<Container>::type,\
     \ std::string>::value &&\n        !std::is_same<typename std::decay<Container>::type,\
-    \ char *>::value,\n    std::ostream &>::type\noperator<<(std::ostream &os, const\
-    \ Container &cont) {\n  bool head = true;\n  for (auto &&e : cont) head ? head\
-    \ = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n\n}  // namespace workspace\n\
-    #line 6 \"test/library-checker/suffix_array.test.cpp\"\n\nint main() {\n  std::string\
-    \ s;\n  std::cin >> s;\n  std::cout << workspace::suffix_array<std::string>(s)\
+    \ char *>::value,\n    Os &>::type\noperator<<(Os &__os, const Container &__cont)\
+    \ {\n  bool __h = true;\n  for (auto &&__e : __cont) __h ? __h = 0 : (__os <<\
+    \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
+    \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
+    \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
+    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (__x < 0)\
+    \ __os << '-', __x = -__x;\n  return __os << static_cast<__uint128_t>(__x);\n\
+    }\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param\
+    \ __os Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
+    \ to __os.\n */\ntemplate <class Os> Os &operator<<(Os &__os, __uint128_t __x)\
+    \ {\n  char __s[40], *__p = __s;\n  if (!__x) *__p++ = '0';\n  while (__x) *__p++\
+    \ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p;\
+    \ ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n\
+    }  // namespace workspace\n#line 7 \"test/library-checker/suffix_array.test.cpp\"\
+    \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  std::cout << workspace::suffix_array<std::string>(s)\
     \ << \"\\n\";\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/suffixarray\"\n#include\
-    \ <bits/stdc++.h>\n\n#include \"src/string/suffix_array.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/suffixarray\"\n\n#include\
+    \ <iostream>\n\n#include \"src/string/suffix_array.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
     \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  std::cout << workspace::suffix_array<std::string>(s)\
     \ << \"\\n\";\n}\n"
   dependsOn:
@@ -134,7 +143,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2021-01-13 00:11:06+09:00'
+  timestamp: '2021-01-21 14:27:18+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/suffix_array.test.cpp

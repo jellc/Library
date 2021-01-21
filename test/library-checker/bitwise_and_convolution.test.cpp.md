@@ -255,56 +255,66 @@ data:
     \    Tp,\n    decltype(std::declval<std::decay<decltype(std::declval<std::istream\
     \ &>() >>\n                                              std::declval<Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &is, Tp &x) { is >> x;\
-    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__int128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __int128_t &x) {\n   \
-    \ std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\ntemplate <> struct istream_helper<__uint128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __uint128_t &x) {\n  \
-    \  std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\n#endif  // INT128\n\ntemplate <class T1, class\
-    \ T2> struct istream_helper<std::pair<T1, T2>> {\n  istream_helper(std::istream\
-    \ &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is, x.first), istream_helper<T2>(is,\
-    \ x.second);\n  }\n};\n\ntemplate <class... Tps> struct istream_helper<std::tuple<Tps...>>\
-    \ {\n  istream_helper(std::istream &is, std::tuple<Tps...> &x) { iterate(is, x);\
-    \ }\n\n private:\n  template <class Tp, size_t N = 0> void iterate(std::istream\
-    \ &is, Tp &x) {\n    if constexpr (N == std::tuple_size<Tp>::value)\n      return;\n\
-    \    else\n      istream_helper<typename std::tuple_element<N, Tp>::type>(is,\n\
-    \                                                               std::get<N>(x)),\n\
-    \          iterate<Tp, N + 1>(is, x);\n  }\n};\n\n}  // namespace internal\n\n\
-    /**\n * @brief A wrapper class for std::istream.\n */\nclass istream : public\
-    \ std::istream {\n public:\n  /**\n   * @brief Wrapped operator.\n   */\n  template\
-    \ <typename Tp> istream &operator>>(Tp &x) {\n    internal::istream_helper<Tp>(*this,\
-    \ x);\n    if (std::istream::fail()) {\n      static auto once = atexit([] {\n\
-    \        std::cerr << \"\\n\\033[43m\\033[30mwarning: failed to read \\'\"\n \
-    \                 << abi::__cxa_demangle(typeid(Tp).name(), 0, 0, 0)\n       \
-    \           << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n    }\n\
-    \    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr = (istream\
-    \ *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace workspace\n\
-    #line 2 \"src/utils/io/ostream.hpp\"\n\n/*\n * @file ostream.hpp\n * @brief Output\
-    \ Stream\n */\n\n#line 10 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace\
-    \ {\n\ntemplate <class T, class U>\nstd::ostream &operator<<(std::ostream &os,\
-    \ const std::pair<T, U> &p) {\n  return os << p.first << ' ' << p.second;\n}\n\
-    template <class tuple_t, size_t index> struct tuple_os {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) {\n    tuple_os<tuple_t, index -\
-    \ 1>::apply(os, t);\n    return os << ' ' << std::get<index>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, 0> {\n  static std::ostream &apply(std::ostream\
-    \ &os, const tuple_t &t) {\n    return os << std::get<0>(t);\n  }\n};\ntemplate\
-    \ <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {\n  static std::ostream\
-    \ &apply(std::ostream &os, const tuple_t &t) { return os; }\n};\n\ntemplate <class...\
-    \ T>\nstd::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {\n\
-    \  return tuple_os<std::tuple<T...>,\n                  std::tuple_size<std::tuple<T...>>::value\
-    \ - 1>::apply(os, t);\n}\n\ntemplate <class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
+    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
+    \ std::nullptr_t> {\n  istream_helper(std::istream &__is, __uint128_t &__x) {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n\
+    \    for (char __d : __s)\n      if (__d == '-')\n        __neg = !__neg;\n  \
+    \    else\n        __x = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n \
+    \ }\n};\n\ntemplate <> struct istream_helper<__int128_t, std::nullptr_t> {\n \
+    \ istream_helper(std::istream &__is, __int128_t &__x) {\n    std::string __s;\n\
+    \    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n    for (char __d :\
+    \ __s)\n      if (__d == '-')\n        __neg = !__neg;\n      else\n        __x\
+    \ = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n  }\n};\n\n#endif  // INT128\n\
+    \ntemplate <class T1, class T2> struct istream_helper<std::pair<T1, T2>> {\n \
+    \ istream_helper(std::istream &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is,\
+    \ x.first), istream_helper<T2>(is, x.second);\n  }\n};\n\ntemplate <class... Tps>\
+    \ struct istream_helper<std::tuple<Tps...>> {\n  istream_helper(std::istream &is,\
+    \ std::tuple<Tps...> &x) { iterate(is, x); }\n\n private:\n  template <class Tp,\
+    \ size_t N = 0> void iterate(std::istream &is, Tp &x) {\n    if constexpr (N ==\
+    \ std::tuple_size<Tp>::value)\n      return;\n    else\n      istream_helper<typename\
+    \ std::tuple_element<N, Tp>::type>(is,\n                                     \
+    \                          std::get<N>(x)),\n          iterate<Tp, N + 1>(is,\
+    \ x);\n  }\n};\n\n}  // namespace internal\n\n/**\n * @brief A wrapper class for\
+    \ std::istream.\n */\nclass istream : public std::istream {\n public:\n  /**\n\
+    \   * @brief Wrapped operator.\n   */\n  template <typename Tp> istream &operator>>(Tp\
+    \ &x) {\n    internal::istream_helper<Tp>(*this, x);\n    if (std::istream::fail())\
+    \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
+    033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
+    \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
+    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
+    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/**\n * @file ostream.hpp\n\
+    \ * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n\
+    \ * @param __os Output stream\n * @param __p Pair\n * @return Reference to __os.\n\
+    \ */\ntemplate <class Os, class T1, class T2>\nOs &operator<<(Os &__os, const\
+    \ std::pair<T1, T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
+    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
+    \ <class Os, class Tp, size_t N = 0>\ntypename std::enable_if<bool(std::tuple_size<Tp>::value\
+    \ + 1), Os &>::type\noperator<<(Os &__os, const Tp &__t) {\n  if constexpr (N\
+    \ != std::tuple_size<Tp>::value) {\n    if constexpr (N) __os << ' ';\n    __os\
+    \ << std::get<N>(__t);\n    operator<<<Os, Tp, N + 1>(__os, __t);\n  }\n  return\
+    \ __os;\n}\n\ntemplate <class Os, class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
     typename std::enable_if<\n    !std::is_same<typename std::decay<Container>::type,\
     \ std::string>::value &&\n        !std::is_same<typename std::decay<Container>::type,\
-    \ char *>::value,\n    std::ostream &>::type\noperator<<(std::ostream &os, const\
-    \ Container &cont) {\n  bool head = true;\n  for (auto &&e : cont) head ? head\
-    \ = 0 : (os << ' ', 0), os << e;\n  return os;\n}\n\n}  // namespace workspace\n\
-    #line 7 \"test/library-checker/bitwise_and_convolution.test.cpp\"\n\nint main()\
-    \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  size_t\
-    \ n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >> a >> b;\n\
-    \  std::cout << bitand_conv(a, b) << \"\\n\";\n}\n"
+    \ char *>::value,\n    Os &>::type\noperator<<(Os &__os, const Container &__cont)\
+    \ {\n  bool __h = true;\n  for (auto &&__e : __cont) __h ? __h = 0 : (__os <<\
+    \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
+    \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
+    \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
+    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (__x < 0)\
+    \ __os << '-', __x = -__x;\n  return __os << static_cast<__uint128_t>(__x);\n\
+    }\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param\
+    \ __os Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
+    \ to __os.\n */\ntemplate <class Os> Os &operator<<(Os &__os, __uint128_t __x)\
+    \ {\n  char __s[40], *__p = __s;\n  if (!__x) *__p++ = '0';\n  while (__x) *__p++\
+    \ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p;\
+    \ ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n\
+    }  // namespace workspace\n#line 7 \"test/library-checker/bitwise_and_convolution.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n  using mint = modint<998244353>;\n\
+    \  size_t n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >>\
+    \ a >> b;\n  std::cout << bitand_conv(a, b) << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
     \n\n#include \"src/algebra/convolution/bitand.hpp\"\n#include \"src/modular/modint.hpp\"\
     \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
@@ -322,7 +332,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-13 00:11:06+09:00'
+  timestamp: '2021-01-21 14:27:18+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp

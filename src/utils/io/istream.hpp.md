@@ -64,33 +64,35 @@ data:
     \    decltype(std::declval<std::decay<decltype(std::declval<std::istream &>()\
     \ >>\n                                              std::declval<Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &is, Tp &x) { is >> x;\
-    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__int128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __int128_t &x) {\n   \
-    \ std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\ntemplate <> struct istream_helper<__uint128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __uint128_t &x) {\n  \
-    \  std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\n#endif  // INT128\n\ntemplate <class T1, class\
-    \ T2> struct istream_helper<std::pair<T1, T2>> {\n  istream_helper(std::istream\
-    \ &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is, x.first), istream_helper<T2>(is,\
-    \ x.second);\n  }\n};\n\ntemplate <class... Tps> struct istream_helper<std::tuple<Tps...>>\
-    \ {\n  istream_helper(std::istream &is, std::tuple<Tps...> &x) { iterate(is, x);\
-    \ }\n\n private:\n  template <class Tp, size_t N = 0> void iterate(std::istream\
-    \ &is, Tp &x) {\n    if constexpr (N == std::tuple_size<Tp>::value)\n      return;\n\
-    \    else\n      istream_helper<typename std::tuple_element<N, Tp>::type>(is,\n\
-    \                                                               std::get<N>(x)),\n\
-    \          iterate<Tp, N + 1>(is, x);\n  }\n};\n\n}  // namespace internal\n\n\
-    /**\n * @brief A wrapper class for std::istream.\n */\nclass istream : public\
-    \ std::istream {\n public:\n  /**\n   * @brief Wrapped operator.\n   */\n  template\
-    \ <typename Tp> istream &operator>>(Tp &x) {\n    internal::istream_helper<Tp>(*this,\
-    \ x);\n    if (std::istream::fail()) {\n      static auto once = atexit([] {\n\
-    \        std::cerr << \"\\n\\033[43m\\033[30mwarning: failed to read \\'\"\n \
-    \                 << abi::__cxa_demangle(typeid(Tp).name(), 0, 0, 0)\n       \
-    \           << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n    }\n\
-    \    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr = (istream\
-    \ *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace workspace\n"
+    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
+    \ std::nullptr_t> {\n  istream_helper(std::istream &__is, __uint128_t &__x) {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n\
+    \    for (char __d : __s)\n      if (__d == '-')\n        __neg = !__neg;\n  \
+    \    else\n        __x = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n \
+    \ }\n};\n\ntemplate <> struct istream_helper<__int128_t, std::nullptr_t> {\n \
+    \ istream_helper(std::istream &__is, __int128_t &__x) {\n    std::string __s;\n\
+    \    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n    for (char __d :\
+    \ __s)\n      if (__d == '-')\n        __neg = !__neg;\n      else\n        __x\
+    \ = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n  }\n};\n\n#endif  // INT128\n\
+    \ntemplate <class T1, class T2> struct istream_helper<std::pair<T1, T2>> {\n \
+    \ istream_helper(std::istream &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is,\
+    \ x.first), istream_helper<T2>(is, x.second);\n  }\n};\n\ntemplate <class... Tps>\
+    \ struct istream_helper<std::tuple<Tps...>> {\n  istream_helper(std::istream &is,\
+    \ std::tuple<Tps...> &x) { iterate(is, x); }\n\n private:\n  template <class Tp,\
+    \ size_t N = 0> void iterate(std::istream &is, Tp &x) {\n    if constexpr (N ==\
+    \ std::tuple_size<Tp>::value)\n      return;\n    else\n      istream_helper<typename\
+    \ std::tuple_element<N, Tp>::type>(is,\n                                     \
+    \                          std::get<N>(x)),\n          iterate<Tp, N + 1>(is,\
+    \ x);\n  }\n};\n\n}  // namespace internal\n\n/**\n * @brief A wrapper class for\
+    \ std::istream.\n */\nclass istream : public std::istream {\n public:\n  /**\n\
+    \   * @brief Wrapped operator.\n   */\n  template <typename Tp> istream &operator>>(Tp\
+    \ &x) {\n    internal::istream_helper<Tp>(*this, x);\n    if (std::istream::fail())\
+    \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
+    033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
+    \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
+    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
+    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
+    \ workspace\n"
   code: "#pragma once\n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n\
     #include <cxxabi.h>\n\n#include <cassert>\n#include <iostream>\n#include <tuple>\n\
     \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
@@ -102,39 +104,41 @@ data:
     \    decltype(std::declval<std::decay<decltype(std::declval<std::istream &>()\
     \ >>\n                                              std::declval<Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &is, Tp &x) { is >> x;\
-    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__int128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __int128_t &x) {\n   \
-    \ std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\ntemplate <> struct istream_helper<__uint128_t,\
-    \ std::nullptr_t> {\n  istream_helper(std::istream &is, __uint128_t &x) {\n  \
-    \  std::string s;\n    is >> s;\n    bool negative = s.front() == '-' ? s.erase(s.begin()),\
-    \ true : false;\n    x = 0;\n    for (char e : s) x = x * 10 + e - '0';\n    if\
-    \ (negative) x = -x;\n  }\n};\n\n#endif  // INT128\n\ntemplate <class T1, class\
-    \ T2> struct istream_helper<std::pair<T1, T2>> {\n  istream_helper(std::istream\
-    \ &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is, x.first), istream_helper<T2>(is,\
-    \ x.second);\n  }\n};\n\ntemplate <class... Tps> struct istream_helper<std::tuple<Tps...>>\
-    \ {\n  istream_helper(std::istream &is, std::tuple<Tps...> &x) { iterate(is, x);\
-    \ }\n\n private:\n  template <class Tp, size_t N = 0> void iterate(std::istream\
-    \ &is, Tp &x) {\n    if constexpr (N == std::tuple_size<Tp>::value)\n      return;\n\
-    \    else\n      istream_helper<typename std::tuple_element<N, Tp>::type>(is,\n\
-    \                                                               std::get<N>(x)),\n\
-    \          iterate<Tp, N + 1>(is, x);\n  }\n};\n\n}  // namespace internal\n\n\
-    /**\n * @brief A wrapper class for std::istream.\n */\nclass istream : public\
-    \ std::istream {\n public:\n  /**\n   * @brief Wrapped operator.\n   */\n  template\
-    \ <typename Tp> istream &operator>>(Tp &x) {\n    internal::istream_helper<Tp>(*this,\
-    \ x);\n    if (std::istream::fail()) {\n      static auto once = atexit([] {\n\
-    \        std::cerr << \"\\n\\033[43m\\033[30mwarning: failed to read \\'\"\n \
-    \                 << abi::__cxa_demangle(typeid(Tp).name(), 0, 0, 0)\n       \
-    \           << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n    }\n\
-    \    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr = (istream\
-    \ *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace workspace\n"
+    \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
+    \ std::nullptr_t> {\n  istream_helper(std::istream &__is, __uint128_t &__x) {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n\
+    \    for (char __d : __s)\n      if (__d == '-')\n        __neg = !__neg;\n  \
+    \    else\n        __x = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n \
+    \ }\n};\n\ntemplate <> struct istream_helper<__int128_t, std::nullptr_t> {\n \
+    \ istream_helper(std::istream &__is, __int128_t &__x) {\n    std::string __s;\n\
+    \    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n    for (char __d :\
+    \ __s)\n      if (__d == '-')\n        __neg = !__neg;\n      else\n        __x\
+    \ = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n  }\n};\n\n#endif  // INT128\n\
+    \ntemplate <class T1, class T2> struct istream_helper<std::pair<T1, T2>> {\n \
+    \ istream_helper(std::istream &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is,\
+    \ x.first), istream_helper<T2>(is, x.second);\n  }\n};\n\ntemplate <class... Tps>\
+    \ struct istream_helper<std::tuple<Tps...>> {\n  istream_helper(std::istream &is,\
+    \ std::tuple<Tps...> &x) { iterate(is, x); }\n\n private:\n  template <class Tp,\
+    \ size_t N = 0> void iterate(std::istream &is, Tp &x) {\n    if constexpr (N ==\
+    \ std::tuple_size<Tp>::value)\n      return;\n    else\n      istream_helper<typename\
+    \ std::tuple_element<N, Tp>::type>(is,\n                                     \
+    \                          std::get<N>(x)),\n          iterate<Tp, N + 1>(is,\
+    \ x);\n  }\n};\n\n}  // namespace internal\n\n/**\n * @brief A wrapper class for\
+    \ std::istream.\n */\nclass istream : public std::istream {\n public:\n  /**\n\
+    \   * @brief Wrapped operator.\n   */\n  template <typename Tp> istream &operator>>(Tp\
+    \ &x) {\n    internal::istream_helper<Tp>(*this, x);\n    if (std::istream::fail())\
+    \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
+    033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
+    \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
+    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
+    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
+    \ workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2021-01-13 00:11:06+09:00'
+  timestamp: '2021-01-21 14:27:18+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bitwise_xor_convolution.test.cpp
