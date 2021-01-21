@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/suffixarray"
-#include <bits/stdc++.h>
+
+#include <iostream>
 
 #include "src/string/suffix_array.hpp"
 #include "src/utils/io/ostream.hpp"

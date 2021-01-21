@@ -38,25 +38,33 @@ struct istream_helper<
 
 #ifdef __SIZEOF_INT128__
 
-template <> struct istream_helper<__int128_t, std::nullptr_t> {
-  istream_helper(std::istream &is, __int128_t &x) {
-    std::string s;
-    is >> s;
-    bool negative = s.front() == '-' ? s.erase(s.begin()), true : false;
-    x = 0;
-    for (char e : s) x = x * 10 + e - '0';
-    if (negative) x = -x;
+template <> struct istream_helper<__uint128_t, std::nullptr_t> {
+  istream_helper(std::istream &__is, __uint128_t &__x) {
+    std::string __s;
+    __is >> __s;
+    bool __neg = false;
+    __x = 0;
+    for (char __d : __s)
+      if (__d == '-')
+        __neg = !__neg;
+      else
+        __x = __x * 10 + __d - '0';
+    if (__neg) __x = -__x;
   }
 };
 
-template <> struct istream_helper<__uint128_t, std::nullptr_t> {
-  istream_helper(std::istream &is, __uint128_t &x) {
-    std::string s;
-    is >> s;
-    bool negative = s.front() == '-' ? s.erase(s.begin()), true : false;
-    x = 0;
-    for (char e : s) x = x * 10 + e - '0';
-    if (negative) x = -x;
+template <> struct istream_helper<__int128_t, std::nullptr_t> {
+  istream_helper(std::istream &__is, __int128_t &__x) {
+    std::string __s;
+    __is >> __s;
+    bool __neg = false;
+    __x = 0;
+    for (char __d : __s)
+      if (__d == '-')
+        __neg = !__neg;
+      else
+        __x = __x * 10 + __d - '0';
+    if (__neg) __x = -__x;
   }
 };
 

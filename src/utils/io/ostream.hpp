@@ -1,50 +1,86 @@
 #pragma once
 
-/*
+/**
  * @file ostream.hpp
  * @brief Output Stream
  */
 
-#include <iostream>
 #include <tuple>
 
 namespace workspace {
 
-template <class T, class U>
-std::ostream &operator<<(std::ostream &os, const std::pair<T, U> &p) {
-  return os << p.first << ' ' << p.second;
-}
-template <class tuple_t, size_t index> struct tuple_os {
-  static std::ostream &apply(std::ostream &os, const tuple_t &t) {
-    tuple_os<tuple_t, index - 1>::apply(os, t);
-    return os << ' ' << std::get<index>(t);
-  }
-};
-template <class tuple_t> struct tuple_os<tuple_t, 0> {
-  static std::ostream &apply(std::ostream &os, const tuple_t &t) {
-    return os << std::get<0>(t);
-  }
-};
-template <class tuple_t> struct tuple_os<tuple_t, SIZE_MAX> {
-  static std::ostream &apply(std::ostream &os, const tuple_t &t) { return os; }
-};
-
-template <class... T>
-std::ostream &operator<<(std::ostream &os, const std::tuple<T...> &t) {
-  return tuple_os<std::tuple<T...>,
-                  std::tuple_size<std::tuple<T...>>::value - 1>::apply(os, t);
+/**
+ * @brief Stream insertion operator for std::pair.
+ *
+ * @param __os Output stream
+ * @param __p Pair
+ * @return Reference to __os.
+ */
+template <class Os, class T1, class T2>
+Os &operator<<(Os &__os, const std::pair<T1, T2> &__p) {
+  return __os << __p.first << ' ' << __p.second;
 }
 
-template <class Container,
+/**
+ * @brief Stream insertion operator for std::tuple.
+ *
+ * @param __os Output stream
+ * @param __t Tuple
+ * @return Reference to __os.
+ */
+template <class Os, class Tp, size_t N = 0>
+typename std::enable_if<bool(std::tuple_size<Tp>::value + 1), Os &>::type
+operator<<(Os &__os, const Tp &__t) {
+  if constexpr (N != std::tuple_size<Tp>::value) {
+    if constexpr (N) __os << ' ';
+    __os << std::get<N>(__t);
+    operator<<<Os, Tp, N + 1>(__os, __t);
+  }
+  return __os;
+}
+
+template <class Os, class Container,
           typename = decltype(std::begin(std::declval<Container>()))>
 typename std::enable_if<
     !std::is_same<typename std::decay<Container>::type, std::string>::value &&
         !std::is_same<typename std::decay<Container>::type, char *>::value,
-    std::ostream &>::type
-operator<<(std::ostream &os, const Container &cont) {
-  bool head = true;
-  for (auto &&e : cont) head ? head = 0 : (os << ' ', 0), os << e;
-  return os;
+    Os &>::type
+operator<<(Os &__os, const Container &__cont) {
+  bool __h = true;
+  for (auto &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;
+  return __os;
 }
+
+#ifdef __SIZEOF_INT128__
+
+/**
+ * @brief Stream insertion operator for __int128_t.
+ *
+ * @param __os Output Stream
+ * @param __x 128-bit integer
+ * @return Reference to __os.
+ */
+template <class Os> Os &operator<<(Os &__os, __int128_t __x) {
+  if (__x < 0) __os << '-', __x = -__x;
+  return __os << static_cast<__uint128_t>(__x);
+}
+
+/**
+ * @brief Stream insertion operator for __uint128_t.
+ *
+ * @param __os Output Stream
+ * @param __x 128-bit unsigned integer
+ * @return Reference to __os.
+ */
+template <class Os> Os &operator<<(Os &__os, __uint128_t __x) {
+  char __s[40], *__p = __s;
+  if (!__x) *__p++ = '0';
+  while (__x) *__p++ = '0' + __x % 10, __x /= 10;
+  *__p = 0;
+  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;
+  return __os << __s;
+}
+
+#endif
 
 }  // namespace workspace
