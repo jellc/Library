@@ -289,7 +289,7 @@ class max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {
    *
    * @return Reference to the edge.
    */
-  template <class... Args> auto &add_edge(Args &&... __args) {
+  template <class... Args> decltype(auto) add_edge(Args &&... __args) {
     return add_edge(std::tuple{std::forward<Args>(__args)...});
   }
 
