@@ -9,10 +9,14 @@
 #include <iterator>
 #include <type_traits>
 
+#ifndef __INT128_DEFINED__
+
 #ifdef __SIZEOF_INT128__
 #define __INT128_DEFINED__ 1
 #else
 #define __INT128_DEFINED__ 0
+#endif
+
 #endif
 
 namespace std {
@@ -30,6 +34,16 @@ template <> struct make_unsigned<__int128_t> { using type = __uint128_t; };
 }  // namespace std
 
 namespace workspace {
+
+template <class Tp, class... Args> struct variadic_front { using type = Tp; };
+
+template <class... Args> struct variadic_back;
+
+template <class Tp> struct variadic_back<Tp> { using type = Tp; };
+
+template <class Tp, class... Args> struct variadic_back<Tp, Args...> {
+  using type = typename variadic_back<Args...>::type;
+};
 
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
