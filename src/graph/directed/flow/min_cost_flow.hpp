@@ -168,6 +168,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   std::vector<Cap> b;
   std::vector<Cost> p;
 
+  // internal
   void Dijkstra(std::vector<edge_impl *> &last) {
     constexpr Cost infty = std::numeric_limits<Cost>::max();
     std::vector<Cost> newp(size(), infty);
@@ -238,7 +239,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       }
     }
 
-    p.swap(newp);
+    p = std::move(newp);
   }
 };
 
@@ -279,7 +280,7 @@ class max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {
   add_edge(Tp __t) {
     std::get<std::tuple_size<decltype(__t)>::value - 1>(__t) *=
         -1;  // Flip the sign of cost.
-    return base::add_edge(__t);
+    return base::add_edge(std::move(__t));
   }
 
   /**

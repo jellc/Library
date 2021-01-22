@@ -217,7 +217,7 @@ template <class Cap, class Cost = void> class flow_graph {
     using base::first;
     using base::last;
 
-    template <class... Args> auto emplace(Args &&... args) {
+    template <class... Args> auto emplace(Args &&... __args) {
       if (__t == last) {
         size_type __n(last - first);
         edge_impl *loc = new edge_impl[__n << 1 | 1];
@@ -229,7 +229,7 @@ template <class Cap, class Cost = void> class flow_graph {
         first = loc;
         last = __t + __n;
       }
-      *__t = edge_impl(args...);
+      *__t = edge_impl(std::forward<Args>(__args)...);
       if (__s->aux) ++__s;
       return __t++;
     }
@@ -377,9 +377,22 @@ template <class Cap, class Cost = void> class flow_graph {
    */
   template <class... Args>
   typename std::enable_if<std::is_constructible<edge, Args...>::value,
-                          const edge &>::type
+                          edge &>::type
   add_edge(Args &&... __args) {
     return *_add_edge(edge(std::forward<Args>(__args)...));
+  }
+
+  /**
+   * @brief Add an undirected edge to the graph. The default capacity is 1.
+   *
+   * @return Reference to the edge.
+   */
+  template <class... Args> edge &add_undirected_edge(Args &&... __args) {
+    edge __e(std::forward<Args>(__args)...);
+    (__e.flow += __e.flow) += __e.cap;
+    edge_impl *__p = _add_edge(std::move(__e));
+    __p->aux = false;
+    return *__p;
   }
 
   /**
@@ -390,50 +403,30 @@ template <class Cap, class Cost = void> class flow_graph {
   template <class Tp>
   typename std::enable_if<
       (std::tuple_size<typename std::decay<Tp>::type>::value >= 0),
-      const edge &>::type
+      edge &>::type
   add_edge(Tp &&__t) {
     return _add_unpacked_tuple(std::forward<Tp>(__t));
   }
 
- private:
+ protected:
+  // internal
   template <class Tp, size_t N = 0, class... Args>
-  const edge &_add_unpacked_tuple(Tp &&__t, Args &&... __args) {
+  edge &_add_unpacked_tuple(Tp &&__t, Args &&... __args) {
     if constexpr (N == std::tuple_size<typename std::decay<Tp>::type>::value)
-      return add_edge(__args...);
+      return add_edge(std::forward<Args>(__args)...);
     else
       return _add_unpacked_tuple<Tp, N + 1>(std::forward<Tp>(__t),
                                             std::forward<Args>(__args)...,
                                             std::get<N>(__t));
   }
 
- public:
-  /**
-   * @brief Add an undirected edge to the graph. The default capacity is 1.
-   *
-   * @return Reference to the edge.
-   */
-  template <class... Args> const edge &add_undirected_edge(Args &&... args) {
-    return *_add_ud_edge(edge(args...));
-  }
-
- protected:
-  template <class... Args> edge_impl *_add_edge(Args &&... args) {
-    edge_impl __e(args...);
+  // internal
+  template <class... Args> edge_impl *_add_edge(Args &&... __args) {
+    edge_impl __e(std::forward<Args>(__args)...);
     assert(__e.src < size());
     assert(__e.dst < size());
-    auto __p = graph[__e.src].emplace(__e);
+    auto __p = graph[__e.src].emplace(std::move(__e));
     __p->rev = graph[__e.dst].emplace(__p->make_rev());
-    return __p;
-  }
-
-  template <class... Args> edge_impl *_add_ud_edge(Args &&... args) {
-    edge_impl __e(args...), *__p;
-    assert(__e.src < size());
-    assert(__e.dst < size());
-    __e.flow += __e.cap + __e.flow;
-    __p = graph[__e.src].emplace(__e);
-    __p->rev = graph[__e.dst].emplace(__p->make_rev());
-    __p->rev->aux = false;
     return __p;
   }
 
