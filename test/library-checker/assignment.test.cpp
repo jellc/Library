@@ -20,7 +20,7 @@ int main() {
       mcf.add_edge(i, j + n, 1, a);
     }
   }
-  assert(mcf.flow());
+  assert(mcf.run());
   printf("%lld\n", mcf.cost());
   for (int i = 0; i < n; i++) {
     for (auto &e : mcf[i]) {

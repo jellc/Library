@@ -39,6 +39,6 @@ int main() {
     mcf.add_edge(v, dst3, k, 0);
   }
 
-  assert(mcf.flow());
+  assert(mcf.run());
   std::cout << -mcf.cost() << "\n";
 }

@@ -12,19 +12,15 @@ int main() {
   Dinic<int> dinic(l + r + 2);
   const int s = l + r, t = s + 1;
 
-  for (int i = 0, a, b; i < m; ++i) {
+  for (int i = 0; i < m; ++i) {
+    int a, b;
     scanf("%d%d", &a, &b);
     dinic.add_edge(a, b + l);
   }
-  for (int i = 0; i < l; ++i) {
-    dinic.add_edge(s, i);
-  }
-  for (int i = 0; i < r; ++i) {
-    dinic.add_edge(i + l, t);
-  }
+  for (int i = 0; i < l; ++i) dinic.add_edge(s, i);
+  for (int i = 0; i < r; ++i) dinic.add_edge(i + l, t);
 
-  printf("%d\n", dinic.flow(s, t));
-
+  printf("%d\n", dinic.run(s, t));
   for (int i = 0; i < l; ++i) {
     for (const auto &e : dinic[i]) {
       if (!e.cap) {

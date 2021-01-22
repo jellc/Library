@@ -27,7 +27,6 @@ template <class Cap, class Cost = Cap, bool Density_tag = false>
 class min_cost_flow : public flow_graph<Cap, Cost> {
   using base = flow_graph<Cap, Cost>;
   using edge_impl = typename base::edge_impl;
-  using base::nil;
 
  public:
   using edge = typename base::edge;
@@ -52,7 +51,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   using base::add_edge;
 
   /**
-   * @brief Add an edge to the graph.
+   * @brief Add a directed edge to the graph.
    *
    * @param __s Source
    * @param __d Destination
@@ -61,22 +60,29 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param __c Cost
    * @return Reference to the edge.
    */
-  const edge &add_edge(size_type __s, size_type __d, const Cap &__l,
-                       const Cap &__u, const Cost &__c) {
+  edge &add_edge(size_type __s, size_type __d, const Cap &__l, const Cap &__u,
+                 const Cost &__c) {
     assert(!(__u < __l));
     b[__s] -= __l;
     b[__d] += __l;
     current += __l * __c;
-    edge_impl *__p = base::_add_edge(edge(__s, __d, __u - __l, __c));
-    __p->flow = __l;
-    return *__p;
+    auto &__e = base::add_edge(__s, __d, __u - __l, __c);
+    __e.flow = __l;
+    return __e;
   }
 
   /**
-   * @brief Deleted.
+   * @brief Add an undirected edge to the graph.
+   *
+   * @return Reference to the edge.
    */
-  template <class... Args>
-  const edge &add_undirected_edge(Args &&... args) = delete;
+  template <class... Args> edge &add_undirected_edge(Args &&... __args) {
+    auto &__e = static_cast<edge_impl &>(
+        base::add_undirected_edge(std::forward<Args>(__args)...));
+    assert(!(__e.cost < 0));
+    __e.rev->cost = __e.cost;
+    return __e;
+  }
 
   /**
    * @brief Increase the balance of a node.
@@ -101,10 +107,26 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   }
 
   /**
-   * @param node
-   * @return Balance of the node
+   * @return Balance of the graph.
    */
-  Cap balance(size_type node) { return b[node]; }
+  const auto &balance() const { return b; }
+
+  /**
+   * @param node Node
+   * @return Balance of the node.
+   */
+  Cap balance(size_type node) const { return b[node]; }
+
+  /**
+   * @return Potential of the graph.
+   */
+  const auto &potential() const { return p; }
+
+  /**
+   * @param node Node
+   * @return Potential of the node.
+   */
+  Cost potential(size_type node) const { return p[node]; }
 
   /**
    * @return Cost of current flow.
@@ -116,8 +138,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    *
    * @return Whether a balanced flow exists.
    */
-  bool flow() {
-    // Cancel negative edges.
+  bool run() {
+    // Saturate negative edges.
     for (auto &&__adj : base::graph)
       for (auto &&__e : __adj)
         if (__e.cost < static_cast<Cost>(0) && static_cast<Cap>(0) < __e.cap) {
@@ -130,7 +152,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     for (bool aug = true; aug;) {
       aug = false;
       std::vector<edge_impl *> last(size());
-      Dijkstra(last);
+      dual(last);
       std::vector<bool> shut(size());
       for (size_type dst{}; dst != size(); ++dst) {
         if (b[dst] < static_cast<Cap>(0) && last[dst]) {
@@ -158,18 +180,21 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         }
       }
     }
+
     return std::none_of(begin(b), end(b), [](const Cap &s) {
       return s < static_cast<Cap>(0) || static_cast<Cap>(0) < s;
     });
   }
 
  protected:
+  constexpr static size_type nil = -1;
+
   Cost current;
   std::vector<Cap> b;
   std::vector<Cost> p;
 
   // internal
-  void Dijkstra(std::vector<edge_impl *> &last) {
+  void dual(std::vector<edge_impl *> &last) {
     constexpr Cost infty = std::numeric_limits<Cost>::max();
     std::vector<Cost> newp(size(), infty);
 

@@ -25,7 +25,7 @@ int main() {
     for (int l = m / n, u; l >= 0; --l) {
       auto h = g;
       for (auto v : p) h.add_edge(v, t, l, l, 0);
-      for (u = l; u - l < max - min && !h.flow(); ++u)
+      for (u = l; u - l < max - min && !h.run(); ++u)
         for (auto &&v : p)
           for (auto &&e : h[v]) ++e.cap;
       if (u - l < max - min) min = l, max = u;

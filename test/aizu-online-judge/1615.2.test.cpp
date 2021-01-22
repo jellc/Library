@@ -23,7 +23,7 @@ int main() {
     for (int i = 0; i < n; ++i)
       for (int j = 1; j < n; ++j) g.add_edge(p[i], t, 1, j * 2 + 1);
 
-    assert(g.flow());
+    assert(g.run());
     int min = n, max = 0;
     for (auto v : p) {
       int f = 0;
