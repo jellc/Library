@@ -80,13 +80,18 @@ data:
     \ */\n\n#line 9 \"src/modular/modint.hpp\"\n#include <iostream>\n\n#line 2 \"\
     src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
     #include <cstdint>\n#line 10 \"src/utils/sfinae.hpp\"\n#include <type_traits>\n\
-    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
-    \ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct\
-    \ make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t>\
-    \ { using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
-    \ workspace {\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
+    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
+    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
+    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace workspace {\n\
+    \ntemplate <class Tp, class... Args> struct variadic_front { using type = Tp;\
+    \ };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate <class Tp>\
+    \ struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class Tp, class...\
+    \ Args> struct variadic_back<Tp, Args...> {\n  using type = typename variadic_back<Args...>::type;\n\
+    };\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
     \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
     using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
     \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
@@ -214,7 +219,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-01-13 00:11:06+09:00'
+  timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/queue_operate_all_composite.test.cpp

@@ -14,14 +14,19 @@ data:
   bundledCode: "#line 2 \"src/utils/round_div.hpp\"\n\n/*\n * @file round_div.hpp\n\
     \ * @brief Round Integer Division\n */\n\n#include <cassert>\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
-    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\
-    \ntemplate <> struct make_signed<__uint128_t> { using type = __int128_t; };\n\
-    template <> struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate\
-    \ <> struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate\
-    \ <> struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\n#endif\n\
-    \n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
+    \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
+    \ workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front { using\
+    \ type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate\
+    \ <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class\
+    \ Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type = typename\
+    \ variadic_back<Args...>::type;\n};\n\ntemplate <class type, template <class>\
+    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
@@ -82,7 +87,7 @@ data:
   isVerificationFile: false
   path: src/utils/round_div.hpp
   requiredBy: []
-  timestamp: '2021-01-13 00:11:06+09:00'
+  timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/round_div.hpp

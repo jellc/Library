@@ -24,14 +24,19 @@ data:
     \n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/*\n * @file ext_gcd\n * @brief\
     \ Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
-    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\
-    \ntemplate <> struct make_signed<__uint128_t> { using type = __int128_t; };\n\
-    template <> struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate\
-    \ <> struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate\
-    \ <> struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\n#endif\n\
-    \n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
+    \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
+    \ workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front { using\
+    \ type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate\
+    \ <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class\
+    \ Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type = typename\
+    \ variadic_back<Args...>::type;\n};\n\ntemplate <class type, template <class>\
+    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
@@ -110,7 +115,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2021-01-21 14:27:18+09:00'
+  timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp
