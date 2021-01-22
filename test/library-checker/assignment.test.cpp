@@ -17,7 +17,7 @@ int main() {
     for (int j = 0; j < n; j++) {
       int a;
       scanf("%d", &a);
-      mcf.add_edge(i, j + n, a);
+      mcf.add_edge(i, j + n, 1, a);
     }
   }
   assert(mcf.flow());

@@ -10,6 +10,7 @@
 
 #include <cassert>
 #include <numeric>
+#include <tuple>
 #include <vector>
 
 namespace workspace {
@@ -24,41 +25,52 @@ template <class Cap, class Cost = void> class flow_graph {
 
   class unweighted_edge {
    public:
-    size_type src, dst;
-    Cap cap;
+    size_type src;  // Source
+    size_type dst;  // Destination
+    Cap cap;        // Capacity
+    Cap flow = 0;   // Flow
 
-    unweighted_edge(size_type src, size_type dst, const Cap &cap = 1)
-        : src(src), dst(dst), cap(cap) {
+    unweighted_edge(size_type __s, size_type __d, const Cap &__u = 1)
+        : src(__s), dst(__d), cap(__u) {
       assert(!(cap < static_cast<Cap>(0)));
     }
 
+    /**
+     * @brief Source, Destination, Capacity, Flow
+     */
     template <class Os>
     friend Os &operator<<(Os &__os, unweighted_edge const &__e) {
-      return __os << __e.src << " " << __e.dst << " " << __e.cap;
+      return __os << __e.src << ' ' << __e.dst << ' ' << __e.cap << ' '
+                  << __e.flow;
     }
 
    protected:
     unweighted_edge() = default;
 
-    unweighted_edge make_rev() const { return {dst, src, 0}; }
+    unweighted_edge(size_type __s, size_type __d, const Cap &__u,
+                    const Cap &__f)
+        : src(__s), dst(__d), cap(__u), flow(__f) {}
 
-    unweighted_edge make_ud_rev() const { return {dst, src, cap}; }
+    unweighted_edge make_rev() const { return {dst, src, flow, cap}; }
   };
 
   class weighted_edge : public unweighted_edge {
    public:
-    Cost cost;
+    Cost cost;  // Cost
 
-    weighted_edge(const unweighted_edge &__e, const Cost &__c)
+    weighted_edge(const unweighted_edge &__e, const Cost &__c = 0)
         : unweighted_edge(__e), cost(__c) {}
 
-    weighted_edge(size_type src, size_type dst, const Cap &cap,
-                  const Cost &cost)
-        : unweighted_edge(src, dst, cap), cost(cost) {}
+    weighted_edge(size_type __s, size_type __d, const Cap &__u = 1,
+                  const Cost &__c = 0)
+        : unweighted_edge(__s, __d, __u), cost(__c) {}
 
+    /**
+     * @brief Source, Destination, Capacity, Flow, Cost
+     */
     template <class Os>
     friend Os &operator<<(Os &__os, weighted_edge const &__e) {
-      return __os << static_cast<unweighted_edge>(__e) << " " << __e.cost;
+      return __os << static_cast<unweighted_edge>(__e) << ' ' << __e.cost;
     }
 
    protected:
@@ -66,10 +78,6 @@ template <class Cap, class Cost = void> class flow_graph {
 
     weighted_edge make_rev() const {
       return {unweighted_edge::make_rev(), -cost};
-    }
-
-    weighted_edge make_ud_rev() const {
-      return {unweighted_edge::make_ud_rev(), -cost};
     }
   };
 
@@ -87,22 +95,16 @@ template <class Cap, class Cost = void> class flow_graph {
 
     edge_impl(const edge &__e) : edge(__e) {}
 
-    void flow(const Cap &__f) { edge::cap -= __f, rev->cap += __f; }
-
-    edge_impl rev_cp() {
-      edge_impl __e;
-      if (rev)
-        __e = *rev;
-      else {
-        __e = edge::make_rev();
-        __e.aux = true;
-      }
-      __e.rev = this;
-      return __e;
+    void aug(Cap __f) {
+      edge::cap -= __f;
+      edge::flow += __f;
+      rev->cap += __f;
+      rev->flow -= __f;
     }
 
-    edge_impl ud_rev_cp() {
-      edge_impl __e = rev ? *rev : edge::make_ud_rev();
+    edge_impl make_rev() {
+      edge_impl __e = edge::make_rev();
+      __e.aux = true;
       __e.rev = this;
       return __e;
     }
@@ -117,9 +119,31 @@ template <class Cap, class Cost = void> class flow_graph {
     using pointer = edge *;
     using const_pointer = const edge *;
 
-    class const_iterator {
+    class iterator {
+      edge_impl *__p;
+
      public:
+      iterator(edge_impl *__p = nullptr) : __p(__p) {}
+
+      bool operator!=(iterator const &__x) const { return __p != __x.__p; }
+
+      iterator &operator++() {
+        do
+          ++__p;
+        while (__p->rev && __p->aux);
+        return *this;
+      }
+
+      pointer operator->() const { return __p; }
+
+      reference operator*() const { return *__p; }
+    };
+
+    class const_iterator {
       const edge_impl *__p;
+
+     public:
+      const_iterator(const edge_impl *__p = nullptr) : __p(__p) {}
 
       bool operator!=(const_iterator const &__x) const {
         return __p != __x.__p;
@@ -149,7 +173,10 @@ template <class Cap, class Cost = void> class flow_graph {
 
     size_type size() const { return __t - first; }
 
+    auto begin() { return iterator{__s}; }
     auto begin() const { return const_iterator{__s}; }
+
+    auto end() { return iterator{__t}; }
     auto end() const { return const_iterator{__t}; }
 
     /**
@@ -263,19 +290,42 @@ template <class Cap, class Cost = void> class flow_graph {
    */
   size_type size() const { return graph.size(); }
 
+  /**
+   * @param node Node
+   * @return Referece to the adjacency list of the node.
+   */
   reference operator[](size_type node) {
     assert(node < size());
     return graph[node];
   }
 
-  const_reference &operator[](size_type node) const {
+  /**
+   * @param node Node
+   * @return Const referece to the adjacency list of the node.
+   */
+  const_reference operator[](size_type node) const {
     assert(node < size());
     return graph[node];
   }
 
-  class const_iterator : public container_type::const_iterator {
+  class iterator : public container_type::iterator {
+    using base = typename container_type::iterator;
+
    public:
+    using reference = adjacency &;
+    using pointer = adjacency *;
+
+    iterator(base const &__i) : base(__i) {}
+
+    pointer operator->() const { return base::operator->(); }
+
+    reference operator*() const { return base::operator*(); }
+  };
+
+  class const_iterator : public container_type::const_iterator {
     using base = typename container_type::const_iterator;
+
+   public:
     using const_reference = const adjacency &;
     using const_pointer = const adjacency *;
 
@@ -286,11 +336,25 @@ template <class Cap, class Cost = void> class flow_graph {
     const_reference operator*() const { return base::operator*(); }
   };
 
+  auto begin() { return iterator{graph.begin()}; }
   auto begin() const { return const_iterator{graph.begin()}; }
+
+  auto end() { return iterator{graph.end()}; }
   auto end() const { return const_iterator{graph.end()}; }
 
+  /**
+   * @brief Add a node to the graph.
+   *
+   * @return Index of the node.
+   */
   size_type add_node() { return add_nodes(1).front(); }
 
+  /**
+   * @brief Add some nodes to the graph.
+   *
+   * @param __n Number of nodes added
+   * @return List of indices of the nodes.
+   */
   virtual std::vector<size_type> add_nodes(size_type __n) {
     std::vector<size_type> __nds(__n);
     std::iota(__nds.begin(), __nds.end(), graph.size());
@@ -307,14 +371,42 @@ template <class Cap, class Cost = void> class flow_graph {
   }
 
   /**
-   * @brief Add an directed edge to the graph. The default capacity is 1.
+   * @brief Add a directed edge to the graph. The default capacity is 1.
    *
    * @return Reference to the edge.
    */
-  template <class... Args> const edge &add_edge(Args &&... args) {
-    return *_add_edge(edge(args...));
+  template <class... Args>
+  typename std::enable_if<std::is_constructible<edge, Args...>::value,
+                          const edge &>::type
+  add_edge(Args &&... __args) {
+    return *_add_edge(edge(std::forward<Args>(__args)...));
   }
 
+  /**
+   * @brief Add a directed edge to the graph. The default capacity is 1.
+   *
+   * @return Reference to the edge.
+   */
+  template <class Tp>
+  typename std::enable_if<
+      (std::tuple_size<typename std::decay<Tp>::type>::value >= 0),
+      const edge &>::type
+  add_edge(Tp &&__t) {
+    return _add_unpacked_tuple(std::forward<Tp>(__t));
+  }
+
+ private:
+  template <class Tp, size_t N = 0, class... Args>
+  const edge &_add_unpacked_tuple(Tp &&__t, Args &&... __args) {
+    if constexpr (N == std::tuple_size<typename std::decay<Tp>::type>::value)
+      return add_edge(__args...);
+    else
+      return _add_unpacked_tuple<Tp, N + 1>(std::forward<Tp>(__t),
+                                            std::forward<Args>(__args)...,
+                                            std::get<N>(__t));
+  }
+
+ public:
   /**
    * @brief Add an undirected edge to the graph. The default capacity is 1.
    *
@@ -330,16 +422,18 @@ template <class Cap, class Cost = void> class flow_graph {
     assert(__e.src < size());
     assert(__e.dst < size());
     auto __p = graph[__e.src].emplace(__e);
-    __p->rev = graph[__e.dst].emplace(__p->rev_cp());
+    __p->rev = graph[__e.dst].emplace(__p->make_rev());
     return __p;
   }
 
   template <class... Args> edge_impl *_add_ud_edge(Args &&... args) {
-    edge_impl __e(args...);
+    edge_impl __e(args...), *__p;
     assert(__e.src < size());
     assert(__e.dst < size());
-    auto __p = graph[__e.src].emplace(__e);
-    __p->rev = graph[__e.dst].emplace(__p->ud_rev_cp());
+    __e.flow += __e.cap + __e.flow;
+    __p = graph[__e.src].emplace(__e);
+    __p->rev = graph[__e.dst].emplace(__p->make_rev());
+    __p->rev->aux = false;
     return __p;
   }
 

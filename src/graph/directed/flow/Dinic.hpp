@@ -29,15 +29,15 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
   std::vector<typename base::container_type::value_type::iterator> iter;
 
   Cap dfs(size_type src, size_type dst, Cap bound) {
-    if (src == dst || bound == 0) return bound;
+    if (src == dst) return bound;
     Cap flow(0);
     for (auto &e{iter[dst]}; e != base::graph[dst].end(); ++e)
-      if (static_cast<Cap>(0) < e->rev->cap && level[e->dst] < level[dst])
-        if (Cap achv = dfs(src, e->dst, std::min(bound, e->rev->cap));
-            achv > 0) {
-          e->rev->flow(achv);
+      if (static_cast<Cap>(0) < e->flow && level[e->dst] < level[dst])
+        if (Cap achv = dfs(src, e->dst, std::min(bound, e->flow));
+            static_cast<Cap>(0) < achv) {
+          e->aug(-achv);
           flow += achv, bound -= achv;
-          if (bound == 0) break;
+          if (bound == static_cast<Cap>(0)) break;
         }
     return flow;
   }
@@ -51,6 +51,12 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
   Dinic(size_type __n = 0)
       : base::flow_graph(__n), level(__n, nil), iter(__n) {}
 
+  /**
+   * @brief Add some nodes to the graph.
+   *
+   * @param __n Number of nodes added
+   * @return List of indices of the nodes.
+   */
   std::vector<size_type> add_nodes(size_type __n) override {
     auto __nds = base::add_nodes(__n);
     level.resize(base::size(), nil);

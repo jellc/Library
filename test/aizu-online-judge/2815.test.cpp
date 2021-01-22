@@ -23,14 +23,14 @@ int main() {
   for (auto u : r) {
     mcf.supply(u);
     std::cin >> k;
-    mcf.add_edge(u, dst2, -k);
+    mcf.add_edge(u, dst2, 1, -k);
   }
 
   const auto f = mcf.add_nodes(m);
   for (auto v : f) {
     for (auto u : r) {
       std::cin >> k;
-      mcf.add_edge(u, v, -k);
+      mcf.add_edge(u, v, 1, -k);
     }
   }
 
