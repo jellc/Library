@@ -43,13 +43,16 @@ template <> struct istream_helper<__uint128_t, std::nullptr_t> {
     std::string __s;
     __is >> __s;
     bool __neg = false;
+    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());
     __x = 0;
-    for (char __d : __s)
-      if (__d == '-')
-        __neg = !__neg;
+    for (char __d : __s) {
+      __x *= 10;
+      __d -= '0';
+      if (__neg)
+        __x -= __d;
       else
-        __x = __x * 10 + __d - '0';
-    if (__neg) __x = -__x;
+        __x += __d;
+    }
   }
 };
 
@@ -58,13 +61,16 @@ template <> struct istream_helper<__int128_t, std::nullptr_t> {
     std::string __s;
     __is >> __s;
     bool __neg = false;
+    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());
     __x = 0;
-    for (char __d : __s)
-      if (__d == '-')
-        __neg = !__neg;
+    for (char __d : __s) {
+      __x *= 10;
+      __d -= '0';
+      if (__neg)
+        __x -= __d;
       else
-        __x = __x * 10 + __d - '0';
-    if (__neg) __x = -__x;
+        __x += __d;
+    }
   }
 };
 

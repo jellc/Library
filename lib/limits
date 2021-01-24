@@ -1,0 +1,23 @@
+#pragma once
+
+#include <limits>
+
+namespace std {
+
+#if defined(__STRICT_ANSI__) && defined(__SIZEOF_INT128__)
+
+template <> struct numeric_limits<__uint128_t> {
+  constexpr static __uint128_t max() { return ~__uint128_t(0); }
+  constexpr static __uint128_t min() { return 0; }
+};
+
+template <> struct numeric_limits<__int128_t> {
+  constexpr static __int128_t max() {
+    return numeric_limits<__uint128_t>::max() >> 1;
+  }
+  constexpr static __int128_t min() { return -max() - 1; }
+};
+
+#endif
+
+}  // namespace std

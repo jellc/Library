@@ -61,8 +61,17 @@ operator<<(Os &__os, const Container &__cont) {
  * @return Reference to __os.
  */
 template <class Os> Os &operator<<(Os &__os, __int128_t __x) {
-  if (__x < 0) __os << '-', __x = -__x;
-  return __os << static_cast<__uint128_t>(__x);
+  if (!__x) return __os << '0';
+  if (__x < 0) __os << '-';
+  char __s[40], *__p = __s;
+  while (__x) {
+    auto __d = __x % 10;
+    *__p++ = '0' + (__x < 0 ? -__d : __d);
+    __x /= 10;
+  }
+  *__p = 0;
+  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;
+  return __os << __s;
 }
 
 /**
@@ -73,8 +82,8 @@ template <class Os> Os &operator<<(Os &__os, __int128_t __x) {
  * @return Reference to __os.
  */
 template <class Os> Os &operator<<(Os &__os, __uint128_t __x) {
+  if (!__x) return __os << '0';
   char __s[40], *__p = __s;
-  if (!__x) *__p++ = '0';
   while (__x) *__p++ = '0' + __x % 10, __x /= 10;
   *__p = 0;
   for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;
