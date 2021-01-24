@@ -149,10 +149,10 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
           __e.aug(__e.cap);
         }
 
-    for (bool aug = true; aug;) {
-      aug = false;
+    while (true) {
+      bool aug = false;
       std::vector<edge_impl *> last(size());
-      dual(last);
+      auto __nx = dual(last);
       std::vector<bool> shut(size());
       for (size_type dst{}; dst != size(); ++dst) {
         if (b[dst] < static_cast<Cap>(0) && last[dst]) {
@@ -169,7 +169,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
             for (edge_impl *e{last[dst]}; e; e = last[e->src]) e->aug(resid);
             b[src] -= resid;
             b[dst] += resid;
-            current += p[dst] * resid;
+            current += __nx[dst] * resid;
             aug = true;
           }
           if (block != nil)
@@ -179,6 +179,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
             }
         }
       }
+      if (!aug) break;
+      p = std::move(__nx);
     }
 
     return std::none_of(begin(b), end(b), [](const Cap &s) {
@@ -194,9 +196,9 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   std::vector<Cost> p;
 
   // internal
-  void dual(std::vector<edge_impl *> &last) {
+  auto dual(std::vector<edge_impl *> &last) {
     constexpr Cost infty = std::numeric_limits<Cost>::max();
-    std::vector<Cost> newp(size(), infty);
+    std::vector<Cost> __nx(size(), infty);
 
     if constexpr (Density_tag) {  // O(V^2)
       std::vector<bool> used(size());
@@ -204,11 +206,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       for (size_type src{}; src != size(); ++src)
         if (static_cast<Cap>(0) < b[src]) {
           used[src] = true;
-          newp[src] = 0;
+          __nx[src] = 0;
 
           for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst])
-              newp[e.dst] = e.cost, last[e.dst] = &e;
+            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst])
+              __nx[e.dst] = e.cost, last[e.dst] = &e;
         }
 
       for (;;) {
@@ -216,17 +218,17 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         Cost sp{infty};
 
         for (size_type node{}; node != size(); ++node) {
-          if (used[node] || newp[node] == infty) continue;
-          if (Cost __d = newp[node] - p[node]; __d < sp) sp = __d, src = node;
+          if (used[node] || __nx[node] == infty) continue;
+          if (Cost __d = __nx[node] - p[node]; __d < sp) sp = __d, src = node;
         }
 
         if (src == nil) break;
         used[src] = true;
 
         for (auto &e : base::graph[src])
-          if (Cost __d = newp[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
-            newp[e.dst] = __d;
+          if (Cost __d = __nx[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
+            __nx[e.dst] = __d;
             last[e.dst] = &e;
           }
       }
@@ -243,10 +245,10 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       std::priority_queue<sp_node> __q;
       for (size_type src{}; src != size(); ++src)
         if (static_cast<Cap>(0) < b[src]) {
-          newp[src] = 0;
+          __nx[src] = 0;
           for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {
-              __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
+            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst]) {
+              __q.emplace(e.dst, (__nx[e.dst] = e.cost) - p[e.dst]);
               last[e.dst] = &e;
             }
         }
@@ -254,17 +256,17 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       while (!__q.empty()) {
         auto [src, __d] = __q.top();
         __q.pop();
-        if (__d + p[src] != newp[src]) continue;
+        if (__d + p[src] != __nx[src]) continue;
         for (auto &e : base::graph[src])
-          if (auto __d = newp[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
-            __q.emplace(e.dst, (newp[e.dst] = __d) - p[e.dst]);
+          if (auto __d = __nx[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
+            __q.emplace(e.dst, (__nx[e.dst] = __d) - p[e.dst]);
             last[e.dst] = &e;
           }
       }
     }
 
-    p = std::move(newp);
+    return __nx;
   }
 };
 
