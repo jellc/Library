@@ -6,6 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2934.test.cpp
     title: test/aizu-online-judge/2934.test.cpp
+  _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

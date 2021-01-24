@@ -9,6 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/lowest_common_ancestor.test.cpp
     title: test/library-checker/lowest_common_ancestor.test.cpp
+  _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

@@ -324,6 +324,12 @@ data:
       path: test/aizu-online-judge/1342.test.cpp
       title: test/aizu-online-judge/1342.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/1615.2.test.cpp
+      title: test/aizu-online-judge/1615.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/1615.test.cpp
+      title: test/aizu-online-judge/1615.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -347,6 +353,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_3_D.test.cpp
       title: test/aizu-online-judge/DSL_3_D.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_6_A.test.cpp
+      title: test/aizu-online-judge/GRL_6_A.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp

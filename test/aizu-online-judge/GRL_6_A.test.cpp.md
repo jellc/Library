@@ -14,11 +14,11 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/bipartitematching
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
     links:
-    - https://judge.yosupo.jp/problem/bipartitematching
-  bundledCode: "#line 1 \"test/library-checker/bipartitematching.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n#include <cstdio>\n\
+    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
+  bundledCode: "#line 1 \"test/aizu-online-judge/GRL_6_A.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n#include <cstdio>\n\
     \n#line 2 \"src/graph/directed/flow/Dinic.hpp\"\n\n/**\n * @file Dinic.hpp\n *\
     \ @brief Dinic's Algorithm\n * @date 2021-01-15\n *\n *\n */\n\n#include <limits>\n\
     \n#line 2 \"src/graph/directed/flow/base.hpp\"\n\n/**\n * @file base.hpp\n * @brief\
@@ -210,38 +210,29 @@ data:
     \   level[ *qr++ = e.dst] = level[*ql] + 1;\n      if (level[__d] == nil) break;\n\
     \      for (size_type node{}; node != base::size(); ++node)\n        iter[node]\
     \ = base::graph[node].begin();\n      flow += dfs(__s, __d, bound);\n    }\n \
-    \   return flow;\n  }\n};\n\n}  // namespace workspace\n#line 6 \"test/library-checker/bipartitematching.test.cpp\"\
-    \n\nint main() {\n  using namespace workspace;\n\n  int l, r, m;\n  scanf(\"%d%d%d\"\
-    , &l, &r, &m);\n  Dinic<int> dinic(l + r + 2);\n  const int s = l + r, t = s +\
-    \ 1;\n\n  for (int i = 0; i < m; ++i) {\n    int a, b;\n    scanf(\"%d%d\", &a,\
-    \ &b);\n    dinic.add_edge(a, b + l);\n  }\n  for (int i = 0; i < l; ++i) dinic.add_edge(s,\
-    \ i);\n  for (int i = 0; i < r; ++i) dinic.add_edge(i + l, t);\n\n  printf(\"\
-    %d\\n\", dinic.run(s, t));\n  for (int i = 0; i < l; ++i) {\n    for (const auto\
-    \ &e : dinic[i]) {\n      if (!e.cap) {\n        printf(\"%d %d\\n\", i, e.dst\
-    \ - l);\n      }\n    }\n  }\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n\
+    \   return flow;\n  }\n};\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/GRL_6_A.test.cpp\"\
+    \n\nint main() {\n  int n, m;\n  scanf(\"%d%d\", &n, &m);\n  workspace::Dinic<int>\
+    \ dinic(n);\n  while (m--) {\n    int u, v, c;\n    scanf(\"%d%d%d\", &u, &v,\
+    \ &c);\n    dinic.add_edge(u, v, c);\n  }\n  printf(\"%d\\n\", dinic.run(0, n\
+    \ - 1));\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
     #include <cstdio>\n\n#include \"src/graph/directed/flow/Dinic.hpp\"\n\nint main()\
-    \ {\n  using namespace workspace;\n\n  int l, r, m;\n  scanf(\"%d%d%d\", &l, &r,\
-    \ &m);\n  Dinic<int> dinic(l + r + 2);\n  const int s = l + r, t = s + 1;\n\n\
-    \  for (int i = 0; i < m; ++i) {\n    int a, b;\n    scanf(\"%d%d\", &a, &b);\n\
-    \    dinic.add_edge(a, b + l);\n  }\n  for (int i = 0; i < l; ++i) dinic.add_edge(s,\
-    \ i);\n  for (int i = 0; i < r; ++i) dinic.add_edge(i + l, t);\n\n  printf(\"\
-    %d\\n\", dinic.run(s, t));\n  for (int i = 0; i < l; ++i) {\n    for (const auto\
-    \ &e : dinic[i]) {\n      if (!e.cap) {\n        printf(\"%d %d\\n\", i, e.dst\
-    \ - l);\n      }\n    }\n  }\n}\n"
+    \ {\n  int n, m;\n  scanf(\"%d%d\", &n, &m);\n  workspace::Dinic<int> dinic(n);\n\
+    \  while (m--) {\n    int u, v, c;\n    scanf(\"%d%d%d\", &u, &v, &c);\n    dinic.add_edge(u,\
+    \ v, c);\n  }\n  printf(\"%d\\n\", dinic.run(0, n - 1));\n}\n"
   dependsOn:
   - src/graph/directed/flow/Dinic.hpp
   - src/graph/directed/flow/base.hpp
   isVerificationFile: true
-  path: test/library-checker/bipartitematching.test.cpp
+  path: test/aizu-online-judge/GRL_6_A.test.cpp
   requiredBy: []
   timestamp: '2021-01-24 13:28:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/library-checker/bipartitematching.test.cpp
+documentation_of: test/aizu-online-judge/GRL_6_A.test.cpp
 layout: document
 redirect_from:
-- /verify/test/library-checker/bipartitematching.test.cpp
-- /verify/test/library-checker/bipartitematching.test.cpp.html
-title: test/library-checker/bipartitematching.test.cpp
+- /verify/test/aizu-online-judge/GRL_6_A.test.cpp
+- /verify/test/aizu-online-judge/GRL_6_A.test.cpp.html
+title: test/aizu-online-judge/GRL_6_A.test.cpp
 ---

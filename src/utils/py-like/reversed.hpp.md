@@ -9,6 +9,7 @@ data:
     path: src/utils/py-like/range.hpp
     title: Range
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:

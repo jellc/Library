@@ -12,6 +12,7 @@ data:
     path: src/utils/py-like/enumerate.hpp
     title: Enumerate
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:

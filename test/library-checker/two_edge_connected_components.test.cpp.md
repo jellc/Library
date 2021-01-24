@@ -6,6 +6,7 @@ data:
     title: src/graph/undirected/two_edge_connected_components.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
