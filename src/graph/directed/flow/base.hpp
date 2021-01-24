@@ -100,7 +100,7 @@ template <class Cap, class Cost = void> class flow_graph {
     edge_impl(const edge &__e) : edge(__e) {}
     edge_impl(edge &&__e) : edge(__e) {}
 
-    void aug(Cap __f) {
+    void push(Cap __f) {
       edge::cap -= __f;
       edge::flow += __f;
       if (rev) {

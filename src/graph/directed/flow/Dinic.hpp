@@ -38,7 +38,7 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
       if (static_cast<Cap>(0) < e->flow && level[e->dst] < level[__d])
         if (Cap achv = dfs(__s, e->dst, std::min(bound, e->flow));
             static_cast<Cap>(0) < achv) {
-          e->aug(-achv);
+          e->push(-achv);
           flow += achv, bound -= achv;
           if (bound == static_cast<Cap>(0)) break;
         }
