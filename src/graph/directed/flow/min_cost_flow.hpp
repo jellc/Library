@@ -13,6 +13,7 @@
 #include <queue>
 
 #include "base.hpp"
+#include "lib/limits"
 
 namespace workspace {
 
@@ -38,13 +39,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    *
    * @param __n Number of vertices
    */
-  min_cost_flow(size_type __n = 0)
-      : base::flow_graph(__n), current(0), b(__n), p(__n) {}
+  min_cost_flow(size_type __n = 0) : base::flow_graph(__n), b(__n) {}
 
   std::vector<size_type> add_nodes(size_type __n) override {
     auto __nds = base::add_nodes(__n);
     b.resize(size());
-    p.resize(size());
     return __nds;
   }
 
@@ -65,7 +64,6 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     assert(!(__u < __l));
     b[__s] -= __l;
     b[__d] += __l;
-    current += __l * __c;
     auto &__e = base::add_edge(__s, __d, __u - __l, __c);
     __e.flow = __l;
     return __e;
@@ -145,130 +143,153 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         if (__e.cost < static_cast<Cost>(0) && static_cast<Cap>(0) < __e.cap) {
           b[__e.src] -= __e.cap;
           b[__e.dst] += __e.cap;
-          current += __e.cost * __e.cap;
-          __e.aug(__e.cap);
+          __e.push(__e.cap);
         }
 
-    while (true) {
-      bool aug = false;
-      std::vector<edge_impl *> last(size());
-      auto __nx = dual(last);
-      std::vector<bool> shut(size());
-      for (size_type dst{}; dst != size(); ++dst) {
-        if (b[dst] < static_cast<Cap>(0) && last[dst]) {
-          Cap resid{-b[dst]};
-          size_type src{dst}, block{nil};
-          while (last[src] && !shut[src]) {
-            if (!(resid < last[src]->cap)) resid = last[block = src]->cap;
-            src = last[src]->src;
-          }
-          if (shut[src])
-            block = src;
-          else {
-            if (!(resid < b[src])) resid = b[block = src];
-            for (edge_impl *e{last[dst]}; e; e = last[e->src]) e->aug(resid);
-            b[src] -= resid;
-            b[dst] += resid;
-            current += __nx[dst] * resid;
-            aug = true;
-          }
-          if (block != nil)
-            for (size_type node{dst};; node = last[node]->src) {
-              shut[node] = true;
-              if (node == block) break;
-            }
-        }
-      }
-      if (!aug) break;
-      p = std::move(__nx);
+    sources.clear();
+    sinks.clear();
+    for (size_type __i = 0; __i != b.size(); ++__i)
+      if (b[__i] != static_cast<Cap>(0))
+        (static_cast<Cap>(0) < b[__i] ? sources : sinks).emplace_back(__i);
+
+    p.resize(size());
+    parent.resize(size());
+
+    // Primal-Dual
+    while (dual()) {
+      primal();
+      sources.erase(std::remove_if(sources.begin(), sources.end(),
+                                   [&](auto __v) {
+                                     return b[__v] == static_cast<Cap>(0);
+                                   }),
+                    sources.end());
+      sinks.erase(std::remove_if(
+                      sinks.begin(), sinks.end(),
+                      [&](auto __v) { return b[__v] == static_cast<Cap>(0); }),
+                  sinks.end());
     }
 
-    return std::none_of(begin(b), end(b), [](const Cap &s) {
-      return s < static_cast<Cap>(0) || static_cast<Cap>(0) < s;
-    });
+    current = 0;
+    for (auto &&adj : base::graph)
+      for (auto &&__e : adj)
+        if (!__e.aux) current += __e.cost * __e.flow;
+
+    return sources.empty() && sinks.empty();
   }
 
  protected:
-  constexpr static size_type nil = -1;
-
+  // Cost of flow.
   Cost current;
+
+  // Balance
   std::vector<Cap> b;
+
+  // The dual solution.
   std::vector<Cost> p;
 
-  // internal
-  auto dual(std::vector<edge_impl *> &last) {
+  std::vector<edge_impl *> parent;
+  std::vector<size_type> sources, sinks;
+
+  // Augment along the dual solution.
+  void primal() {
+    for (auto __t : sinks)
+      if (parent[__t]) {
+        auto __f = -b[__t];
+        auto __s = __t;
+        while (parent[__s])
+          __f = std::min(__f, parent[__s]->cap), __s = parent[__s]->src;
+        if (static_cast<Cap>(0) < b[__s]) {
+          __f = std::min(__f, b[__s]);
+          b[__s] -= __f;
+          b[__t] += __f;
+          for (auto *__p = parent[__t]; __p; __p = parent[__p->src]) {
+            __p->push(__f);
+            if (__p->cap == static_cast<Cap>(0)) parent[__p->dst] = nullptr;
+          }
+        }
+      }
+  }
+
+  // Improve the dual solution.
+  bool dual() {
+    std::fill(parent.begin(), parent.end(), nullptr);
+
     constexpr Cost infty = std::numeric_limits<Cost>::max();
     std::vector<Cost> __nx(size(), infty);
+    size_type reachable = 0;
 
     if constexpr (Density_tag) {  // O(V^2)
+      constexpr static size_type nil = -1;
       std::vector<bool> used(size());
 
-      for (size_type src{}; src != size(); ++src)
-        if (static_cast<Cap>(0) < b[src]) {
-          used[src] = true;
-          __nx[src] = 0;
+      for (auto __s : sources) {
+        used[__s] = true;
+        __nx[__s] = 0;
+        for (auto &__e : base::graph[__s])
+          if (static_cast<Cap>(0) < __e.cap && __e.cost < __nx[__e.dst])
+            __nx[__e.dst] = __e.cost, parent[__e.dst] = &__e;
+      }
 
-          for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst])
-              __nx[e.dst] = e.cost, last[e.dst] = &e;
+      while (true) {
+        size_type __v{nil};
+        Cost __sd{infty};
+
+        for (size_type __i{}; __i != size(); ++__i) {
+          if (used[__i] || __nx[__i] == infty) continue;
+          if (Cost __d = __nx[__i] - p[__i]; __d < __sd) __sd = __d, __v = __i;
         }
 
-      for (;;) {
-        size_type src{nil};
-        Cost sp{infty};
+        if (__v == nil) break;
+        used[__v] = true;
+        if (b[__v] < static_cast<Cap>(0))
+          if (++reachable == sinks.size()) break;
 
-        for (size_type node{}; node != size(); ++node) {
-          if (used[node] || __nx[node] == infty) continue;
-          if (Cost __d = __nx[node] - p[node]; __d < sp) sp = __d, src = node;
-        }
-
-        if (src == nil) break;
-        used[src] = true;
-
-        for (auto &e : base::graph[src])
-          if (Cost __d = __nx[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
-            __nx[e.dst] = __d;
-            last[e.dst] = &e;
+        for (auto &__e : base::graph[__v])
+          if (Cost __d = __nx[__v] + __e.cost;
+              static_cast<Cap>(0) < __e.cap && __d < __nx[__e.dst]) {
+            __nx[__e.dst] = __d;
+            parent[__e.dst] = &__e;
           }
       }
     }
 
     else {  // O((V + E)logV)
-      struct sp_node {
-        size_type id;
+      struct state {
+        size_type __v;
         Cost __d;
-        sp_node(size_type id, Cost __d) : id(id), __d(__d) {}
-        bool operator<(const sp_node &rhs) const { return rhs.__d < __d; }
+        state(size_type __v, Cost __d) : __v(__v), __d(__d) {}
+        bool operator<(const state &__x) const { return __x.__d < __d; }
       };
 
-      std::priority_queue<sp_node> __q;
-      for (size_type src{}; src != size(); ++src)
-        if (static_cast<Cap>(0) < b[src]) {
-          __nx[src] = 0;
-          for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst]) {
-              __q.emplace(e.dst, (__nx[e.dst] = e.cost) - p[e.dst]);
-              last[e.dst] = &e;
-            }
-        }
+      std::priority_queue<state> __q;
+      for (auto __v : sources) {
+        __nx[__v] = 0;
+        for (auto &__e : base::graph[__v])
+          if (static_cast<Cap>(0) < __e.cap && __e.cost < __nx[__e.dst])
+            __q.emplace(__e.dst, (__nx[__e.dst] = __e.cost) - p[__e.dst]),
+                parent[__e.dst] = &__e;
+      }
 
       while (!__q.empty()) {
-        auto [src, __d] = __q.top();
+        auto [__v, __d] = __q.top();
         __q.pop();
-        if (__d + p[src] != __nx[src]) continue;
-        for (auto &e : base::graph[src])
-          if (auto __d = __nx[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
-            __q.emplace(e.dst, (__nx[e.dst] = __d) - p[e.dst]);
-            last[e.dst] = &e;
+        if (__d + p[__v] != __nx[__v]) continue;
+        if (b[__v] < static_cast<Cap>(0))
+          if (++reachable == sinks.size()) break;
+        for (auto &__e : base::graph[__v])
+          if (auto __d = __nx[__v] + __e.cost;
+              static_cast<Cap>(0) < __e.cap && __d < __nx[__e.dst]) {
+            __q.emplace(__e.dst, (__nx[__e.dst] = __d) - p[__e.dst]);
+            parent[__e.dst] = &__e;
           }
       }
     }
 
-    return __nx;
+    if (reachable) p = std::move(__nx);
+    return reachable;
   }
-};
+
+};  // namespace workspace
 
 /**
  * @brief Successive Shortest Path Algorithm.
