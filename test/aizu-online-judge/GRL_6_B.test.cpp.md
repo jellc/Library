@@ -14,43 +14,43 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/assignment
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B
     links:
-    - https://judge.yosupo.jp/problem/assignment
-  bundledCode: "#line 1 \"test/library-checker/assignment.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/assignment\"\n\n#include <cstdint>\n#include\
-    \ <cstdio>\n\n#line 2 \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n/**\n *\
-    \ @file min_cost_flow.hpp\n * @brief Minimum Cost Flow\n * @date 2021-01-15\n\
-    \ *\n *\n */\n\n#include <algorithm>\n#include <optional>\n#include <queue>\n\n\
-    #line 2 \"src/graph/directed/flow/base.hpp\"\n\n/**\n * @file base.hpp\n * @brief\
-    \ Flow Graph\n * @date 2021-01-15\n *\n *\n */\n\n#include <cassert>\n#include\
-    \ <numeric>\n#include <tuple>\n#include <vector>\n\nnamespace workspace {\n\n\
-    template <class Cap, class Cost = void> class flow_graph {\n protected:\n  class\
-    \ adjacency_impl;\n\n public:\n  using container_type = std::vector<adjacency_impl>;\n\
-    \  using size_type = typename container_type::size_type;\n\n  class unweighted_edge\
-    \ {\n   public:\n    size_type src;  // Source\n    size_type dst;  // Destination\n\
-    \    Cap cap;        // Capacity\n    Cap flow = 0;   // Flow\n\n    unweighted_edge(size_type\
-    \ __s, size_type __d, const Cap &__u = 1)\n        : src(__s), dst(__d), cap(__u)\
-    \ {\n      assert(!(cap < static_cast<Cap>(0)));\n    }\n\n    /**\n     * @brief\
-    \ Source, Destination, Capacity, Flow\n     */\n    template <class Os>\n    friend\
-    \ Os &operator<<(Os &__os, unweighted_edge const &__e) {\n      return __os <<\
-    \ __e.src << ' ' << __e.dst << ' ' << __e.cap << ' '\n                  << __e.flow;\n\
-    \    }\n\n   protected:\n    unweighted_edge() = default;\n\n    unweighted_edge(size_type\
-    \ __s, size_type __d, const Cap &__u,\n                    const Cap &__f)\n \
-    \       : src(__s), dst(__d), cap(__u), flow(__f) {}\n\n    unweighted_edge make_rev()\
-    \ const { return {dst, src, flow, cap}; }\n  };\n\n  class weighted_edge : public\
-    \ unweighted_edge {\n   public:\n    Cost cost;  // Cost\n\n    weighted_edge(const\
-    \ unweighted_edge &__e, const Cost &__c = 0)\n        : unweighted_edge(__e),\
-    \ cost(__c) {}\n\n    weighted_edge(size_type __s, size_type __d, const Cap &__u\
-    \ = 1,\n                  const Cost &__c = 0)\n        : unweighted_edge(__s,\
-    \ __d, __u), cost(__c) {}\n\n    /**\n     * @brief Source, Destination, Capacity,\
-    \ Flow, Cost\n     */\n    template <class Os>\n    friend Os &operator<<(Os &__os,\
-    \ weighted_edge const &__e) {\n      return __os << static_cast<unweighted_edge>(__e)\
-    \ << ' ' << __e.cost;\n    }\n\n   protected:\n    weighted_edge() = default;\n\
-    \n    weighted_edge make_rev() const {\n      return {unweighted_edge::make_rev(),\
-    \ -cost};\n    }\n  };\n\n  using edge = typename std::conditional<std::is_void<Cost>::value,\n\
-    \                                         unweighted_edge, weighted_edge>::type;\n\
-    \n protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
+    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B
+  bundledCode: "#line 1 \"test/aizu-online-judge/GRL_6_B.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B\"\n\n#include <cstdio>\n\
+    \n#line 2 \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n/**\n * @file min_cost_flow.hpp\n\
+    \ * @brief Minimum Cost Flow\n * @date 2021-01-15\n *\n *\n */\n\n#include <algorithm>\n\
+    #include <optional>\n#include <queue>\n\n#line 2 \"src/graph/directed/flow/base.hpp\"\
+    \n\n/**\n * @file base.hpp\n * @brief Flow Graph\n * @date 2021-01-15\n *\n *\n\
+    \ */\n\n#include <cassert>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\
+    \nnamespace workspace {\n\ntemplate <class Cap, class Cost = void> class flow_graph\
+    \ {\n protected:\n  class adjacency_impl;\n\n public:\n  using container_type\
+    \ = std::vector<adjacency_impl>;\n  using size_type = typename container_type::size_type;\n\
+    \n  class unweighted_edge {\n   public:\n    size_type src;  // Source\n    size_type\
+    \ dst;  // Destination\n    Cap cap;        // Capacity\n    Cap flow = 0;   //\
+    \ Flow\n\n    unweighted_edge(size_type __s, size_type __d, const Cap &__u = 1)\n\
+    \        : src(__s), dst(__d), cap(__u) {\n      assert(!(cap < static_cast<Cap>(0)));\n\
+    \    }\n\n    /**\n     * @brief Source, Destination, Capacity, Flow\n     */\n\
+    \    template <class Os>\n    friend Os &operator<<(Os &__os, unweighted_edge\
+    \ const &__e) {\n      return __os << __e.src << ' ' << __e.dst << ' ' << __e.cap\
+    \ << ' '\n                  << __e.flow;\n    }\n\n   protected:\n    unweighted_edge()\
+    \ = default;\n\n    unweighted_edge(size_type __s, size_type __d, const Cap &__u,\n\
+    \                    const Cap &__f)\n        : src(__s), dst(__d), cap(__u),\
+    \ flow(__f) {}\n\n    unweighted_edge make_rev() const { return {dst, src, flow,\
+    \ cap}; }\n  };\n\n  class weighted_edge : public unweighted_edge {\n   public:\n\
+    \    Cost cost;  // Cost\n\n    weighted_edge(const unweighted_edge &__e, const\
+    \ Cost &__c = 0)\n        : unweighted_edge(__e), cost(__c) {}\n\n    weighted_edge(size_type\
+    \ __s, size_type __d, const Cap &__u = 1,\n                  const Cost &__c =\
+    \ 0)\n        : unweighted_edge(__s, __d, __u), cost(__c) {}\n\n    /**\n    \
+    \ * @brief Source, Destination, Capacity, Flow, Cost\n     */\n    template <class\
+    \ Os>\n    friend Os &operator<<(Os &__os, weighted_edge const &__e) {\n     \
+    \ return __os << static_cast<unweighted_edge>(__e) << ' ' << __e.cost;\n    }\n\
+    \n   protected:\n    weighted_edge() = default;\n\n    weighted_edge make_rev()\
+    \ const {\n      return {unweighted_edge::make_rev(), -cost};\n    }\n  };\n\n\
+    \  using edge = typename std::conditional<std::is_void<Cost>::value,\n       \
+    \                                  unweighted_edge, weighted_edge>::type;\n\n\
+    \ protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
     \ *rev = nullptr;\n\n    edge_impl() = default;\n\n    edge_impl(const edge_impl\
     \ &__e) = default;\n    edge_impl &operator=(const edge_impl &__e) = default;\n\
     \n    edge_impl(edge_impl &&__e) = default;\n    edge_impl &operator=(edge_impl\
@@ -298,36 +298,32 @@ data:
     \ >= 0),\n      const edge &>::type\n  add_edge(Tp __t) {\n    std::get<std::tuple_size<decltype(__t)>::value\
     \ - 1>(__t) *=\n        -1;  // Flip the sign of cost.\n    return base::add_edge(std::move(__t));\n\
     \  }\n\n  /**\n   * @return Gain of current flow.\n   */\n  Gain gain() const\
-    \ { return -cost(); }\n};\n\n}  // namespace workspace\n#line 7 \"test/library-checker/assignment.test.cpp\"\
-    \n\nint main() {\n  using namespace workspace;\n\n  int n;\n  scanf(\"%d\", &n);\n\
-    \  min_cost_flow<int, int64_t> mcf(n * 2);\n  for (int i = 0; i < n; i++) {\n\
-    \    mcf.supply(i);\n    mcf.demand(i + n);\n    for (int j = 0; j < n; j++) {\n\
-    \      int a;\n      scanf(\"%d\", &a);\n      mcf.add_edge(i, j + n, 1, a);\n\
-    \    }\n  }\n  assert(mcf.run());\n  printf(\"%lld\\n\", mcf.cost());\n  for (int\
-    \ i = 0; i < n; i++) {\n    for (auto &e : mcf[i]) {\n      if (!e.cap) printf(\"\
-    %d \", e.dst - n);\n    }\n  }\n  puts(\"\");\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n\n#include\
-    \ <cstdint>\n#include <cstdio>\n\n#include \"src/graph/directed/flow/min_cost_flow.hpp\"\
-    \n\nint main() {\n  using namespace workspace;\n\n  int n;\n  scanf(\"%d\", &n);\n\
-    \  min_cost_flow<int, int64_t> mcf(n * 2);\n  for (int i = 0; i < n; i++) {\n\
-    \    mcf.supply(i);\n    mcf.demand(i + n);\n    for (int j = 0; j < n; j++) {\n\
-    \      int a;\n      scanf(\"%d\", &a);\n      mcf.add_edge(i, j + n, 1, a);\n\
-    \    }\n  }\n  assert(mcf.run());\n  printf(\"%lld\\n\", mcf.cost());\n  for (int\
-    \ i = 0; i < n; i++) {\n    for (auto &e : mcf[i]) {\n      if (!e.cap) printf(\"\
-    %d \", e.dst - n);\n    }\n  }\n  puts(\"\");\n}\n"
+    \ { return -cost(); }\n};\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/GRL_6_B.test.cpp\"\
+    \n\nint main() {\n  int n, m, f;\n  scanf(\"%d%d%d\", &n, &m, &f);\n  workspace::min_cost_flow<int>\
+    \ mcf(n);\n  mcf.supply(0, f);\n  mcf.demand(n - 1, f);\n  while (m--) {\n   \
+    \ int u, v, c, d;\n    scanf(\"%d%d%d%d\", &u, &v, &c, &d);\n    mcf.add_edge(u,\
+    \ v, c, d);\n  }\n  if (mcf.run()) {\n    printf(\"%d\\n\", mcf.cost());\n  }\
+    \ else\n    puts(\"-1\");\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B\"\n\n\
+    #include <cstdio>\n\n#include \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n\
+    int main() {\n  int n, m, f;\n  scanf(\"%d%d%d\", &n, &m, &f);\n  workspace::min_cost_flow<int>\
+    \ mcf(n);\n  mcf.supply(0, f);\n  mcf.demand(n - 1, f);\n  while (m--) {\n   \
+    \ int u, v, c, d;\n    scanf(\"%d%d%d%d\", &u, &v, &c, &d);\n    mcf.add_edge(u,\
+    \ v, c, d);\n  }\n  if (mcf.run()) {\n    printf(\"%d\\n\", mcf.cost());\n  }\
+    \ else\n    puts(\"-1\");\n}\n"
   dependsOn:
   - src/graph/directed/flow/min_cost_flow.hpp
   - src/graph/directed/flow/base.hpp
   isVerificationFile: true
-  path: test/library-checker/assignment.test.cpp
+  path: test/aizu-online-judge/GRL_6_B.test.cpp
   requiredBy: []
   timestamp: '2021-01-24 20:57:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/library-checker/assignment.test.cpp
+documentation_of: test/aizu-online-judge/GRL_6_B.test.cpp
 layout: document
 redirect_from:
-- /verify/test/library-checker/assignment.test.cpp
-- /verify/test/library-checker/assignment.test.cpp.html
-title: test/library-checker/assignment.test.cpp
+- /verify/test/aizu-online-judge/GRL_6_B.test.cpp
+- /verify/test/aizu-online-judge/GRL_6_B.test.cpp.html
+title: test/aizu-online-judge/GRL_6_B.test.cpp
 ---

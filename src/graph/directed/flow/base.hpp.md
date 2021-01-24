@@ -22,6 +22,9 @@ data:
     path: test/aizu-online-judge/GRL_6_A.test.cpp
     title: test/aizu-online-judge/GRL_6_A.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_6_B.test.cpp
+    title: test/aizu-online-judge/GRL_6_B.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/assignment.test.cpp
     title: test/library-checker/assignment.test.cpp
   - icon: ':heavy_check_mark:'
@@ -66,7 +69,7 @@ data:
     \ &__e) = default;\n    edge_impl &operator=(const edge_impl &__e) = default;\n\
     \n    edge_impl(edge_impl &&__e) = default;\n    edge_impl &operator=(edge_impl\
     \ &&__e) = default;\n\n    edge_impl(const edge &__e) : edge(__e) {}\n    edge_impl(edge\
-    \ &&__e) : edge(__e) {}\n\n    void aug(Cap __f) {\n      edge::cap -= __f;\n\
+    \ &&__e) : edge(__e) {}\n\n    void push(Cap __f) {\n      edge::cap -= __f;\n\
     \      edge::flow += __f;\n      if (rev) {\n        rev->cap += __f;\n      \
     \  rev->flow -= __f;\n      }\n    }\n\n    edge_impl make_rev() {\n      edge_impl\
     \ __e = edge::make_rev();\n      __e.aux = true;\n      __e.rev = this;\n    \
@@ -225,7 +228,7 @@ data:
     \ &__e) = default;\n    edge_impl &operator=(const edge_impl &__e) = default;\n\
     \n    edge_impl(edge_impl &&__e) = default;\n    edge_impl &operator=(edge_impl\
     \ &&__e) = default;\n\n    edge_impl(const edge &__e) : edge(__e) {}\n    edge_impl(edge\
-    \ &&__e) : edge(__e) {}\n\n    void aug(Cap __f) {\n      edge::cap -= __f;\n\
+    \ &&__e) : edge(__e) {}\n\n    void push(Cap __f) {\n      edge::cap -= __f;\n\
     \      edge::flow += __f;\n      if (rev) {\n        rev->cap += __f;\n      \
     \  rev->flow -= __f;\n      }\n    }\n\n    edge_impl make_rev() {\n      edge_impl\
     \ __e = edge::make_rev();\n      __e.aux = true;\n      __e.rev = this;\n    \
@@ -357,7 +360,7 @@ data:
   requiredBy:
   - src/graph/directed/flow/min_cost_flow.hpp
   - src/graph/directed/flow/Dinic.hpp
-  timestamp: '2021-01-24 13:28:37+09:00'
+  timestamp: '2021-01-24 18:01:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
@@ -365,6 +368,7 @@ data:
   - test/aizu-online-judge/GRL_6_A.test.cpp
   - test/aizu-online-judge/1615.test.cpp
   - test/aizu-online-judge/2815.test.cpp
+  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.2.test.cpp
 documentation_of: src/graph/directed/flow/base.hpp
 layout: document

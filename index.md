@@ -357,6 +357,9 @@ data:
       path: test/aizu-online-judge/GRL_6_A.test.cpp
       title: test/aizu-online-judge/GRL_6_A.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_6_B.test.cpp
+      title: test/aizu-online-judge/GRL_6_B.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
     - icon: ':heavy_check_mark:'

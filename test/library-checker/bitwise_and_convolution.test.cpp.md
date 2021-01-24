@@ -263,16 +263,17 @@ data:
     \             nullptr)> {\n  istream_helper(std::istream &is, Tp &x) { is >> x;\
     \ }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
     \ std::nullptr_t> {\n  istream_helper(std::istream &__is, __uint128_t &__x) {\n\
-    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n\
-    \    for (char __d : __s)\n      if (__d == '-')\n        __neg = !__neg;\n  \
-    \    else\n        __x = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n \
-    \ }\n};\n\ntemplate <> struct istream_helper<__int128_t, std::nullptr_t> {\n \
-    \ istream_helper(std::istream &__is, __int128_t &__x) {\n    std::string __s;\n\
-    \    __is >> __s;\n    bool __neg = false;\n    __x = 0;\n    for (char __d :\
-    \ __s)\n      if (__d == '-')\n        __neg = !__neg;\n      else\n        __x\
-    \ = __x * 10 + __d - '0';\n    if (__neg) __x = -__x;\n  }\n};\n\n#endif  // INT128\n\
-    \ntemplate <class T1, class T2> struct istream_helper<std::pair<T1, T2>> {\n \
-    \ istream_helper(std::istream &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is,\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ == '-') __neg = true, __s.erase(__s.begin());\n    __x = 0;\n    for (char __d\
+    \ : __s) {\n      __x *= 10;\n      __d -= '0';\n      if (__neg)\n        __x\
+    \ -= __d;\n      else\n        __x += __d;\n    }\n  }\n};\n\ntemplate <> struct\
+    \ istream_helper<__int128_t, std::nullptr_t> {\n  istream_helper(std::istream\
+    \ &__is, __int128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool\
+    \ __neg = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
+    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
+    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
+    \  }\n};\n\n#endif  // INT128\n\ntemplate <class T1, class T2> struct istream_helper<std::pair<T1,\
+    \ T2>> {\n  istream_helper(std::istream &is, std::pair<T1, T2> &x) {\n    istream_helper<T1>(is,\
     \ x.first), istream_helper<T2>(is, x.second);\n  }\n};\n\ntemplate <class... Tps>\
     \ struct istream_helper<std::tuple<Tps...>> {\n  istream_helper(std::istream &is,\
     \ std::tuple<Tps...> &x) { iterate(is, x); }\n\n private:\n  template <class Tp,\
@@ -309,18 +310,21 @@ data:
     \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
     \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
     \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
-    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (__x < 0)\
-    \ __os << '-', __x = -__x;\n  return __os << static_cast<__uint128_t>(__x);\n\
-    }\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param\
-    \ __os Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
-    \ to __os.\n */\ntemplate <class Os> Os &operator<<(Os &__os, __uint128_t __x)\
-    \ {\n  char __s[40], *__p = __s;\n  if (!__x) *__p++ = '0';\n  while (__x) *__p++\
-    \ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p;\
-    \ ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n\
-    }  // namespace workspace\n#line 7 \"test/library-checker/bitwise_and_convolution.test.cpp\"\
-    \n\nint main() {\n  using namespace workspace;\n  using mint = modint<998244353>;\n\
-    \  size_t n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >>\
-    \ a >> b;\n  std::cout << bitand_conv(a, b) << \"\\n\";\n}\n"
+    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (!__x) return\
+    \ __os << '0';\n  if (__x < 0) __os << '-';\n  char __s[40], *__p = __s;\n  while\
+    \ (__x) {\n    auto __d = __x % 10;\n    *__p++ = '0' + (__x < 0 ? -__d : __d);\n\
+    \    __x /= 10;\n  }\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t)\
+    \ *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n/**\n * @brief Stream\
+    \ insertion operator for __uint128_t.\n *\n * @param __os Output Stream\n * @param\
+    \ __x 128-bit unsigned integer\n * @return Reference to __os.\n */\ntemplate <class\
+    \ Os> Os &operator<<(Os &__os, __uint128_t __x) {\n  if (!__x) return __os <<\
+    \ '0';\n  char __s[40], *__p = __s;\n  while (__x) *__p++ = '0' + __x % 10, __x\
+    \ /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p\
+    \ ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n}  // namespace workspace\n\
+    #line 7 \"test/library-checker/bitwise_and_convolution.test.cpp\"\n\nint main()\
+    \ {\n  using namespace workspace;\n  using mint = modint<998244353>;\n  size_t\
+    \ n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >> a >> b;\n\
+    \  std::cout << bitand_conv(a, b) << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
     \n\n#include \"src/algebra/convolution/bitand.hpp\"\n#include \"src/modular/modint.hpp\"\
     \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
@@ -338,7 +342,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-22 09:52:55+09:00'
+  timestamp: '2021-01-24 20:27:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp

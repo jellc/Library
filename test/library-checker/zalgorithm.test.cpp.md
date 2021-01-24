@@ -51,17 +51,20 @@ data:
     \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
     \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
     \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
-    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (__x < 0)\
-    \ __os << '-', __x = -__x;\n  return __os << static_cast<__uint128_t>(__x);\n\
-    }\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param\
-    \ __os Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
-    \ to __os.\n */\ntemplate <class Os> Os &operator<<(Os &__os, __uint128_t __x)\
-    \ {\n  char __s[40], *__p = __s;\n  if (!__x) *__p++ = '0';\n  while (__x) *__p++\
-    \ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p;\
-    \ ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n\
-    }  // namespace workspace\n#line 7 \"test/library-checker/zalgorithm.test.cpp\"\
-    \n\nint main() {\n  using namespace workspace;\n  std::string s;\n  std::cin >>\
-    \ s;\n  std::cout << z_algorithm(s) << \"\\n\";\n}\n"
+    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (!__x) return\
+    \ __os << '0';\n  if (__x < 0) __os << '-';\n  char __s[40], *__p = __s;\n  while\
+    \ (__x) {\n    auto __d = __x % 10;\n    *__p++ = '0' + (__x < 0 ? -__d : __d);\n\
+    \    __x /= 10;\n  }\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t)\
+    \ *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n/**\n * @brief Stream\
+    \ insertion operator for __uint128_t.\n *\n * @param __os Output Stream\n * @param\
+    \ __x 128-bit unsigned integer\n * @return Reference to __os.\n */\ntemplate <class\
+    \ Os> Os &operator<<(Os &__os, __uint128_t __x) {\n  if (!__x) return __os <<\
+    \ '0';\n  char __s[40], *__p = __s;\n  while (__x) *__p++ = '0' + __x % 10, __x\
+    \ /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p\
+    \ ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n}  // namespace workspace\n\
+    #line 7 \"test/library-checker/zalgorithm.test.cpp\"\n\nint main() {\n  using\
+    \ namespace workspace;\n  std::string s;\n  std::cin >> s;\n  std::cout << z_algorithm(s)\
+    \ << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n\n#include\
     \ <iostream>\n\n#include \"src/string/z_algorithm.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
     \n\nint main() {\n  using namespace workspace;\n  std::string s;\n  std::cin >>\
@@ -72,7 +75,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2021-01-21 14:27:18+09:00'
+  timestamp: '2021-01-24 20:27:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm.test.cpp

@@ -54,7 +54,7 @@ data:
     \ &__e) = default;\n    edge_impl &operator=(const edge_impl &__e) = default;\n\
     \n    edge_impl(edge_impl &&__e) = default;\n    edge_impl &operator=(edge_impl\
     \ &&__e) = default;\n\n    edge_impl(const edge &__e) : edge(__e) {}\n    edge_impl(edge\
-    \ &&__e) : edge(__e) {}\n\n    void aug(Cap __f) {\n      edge::cap -= __f;\n\
+    \ &&__e) : edge(__e) {}\n\n    void push(Cap __f) {\n      edge::cap -= __f;\n\
     \      edge::flow += __f;\n      if (rev) {\n        rev->cap += __f;\n      \
     \  rev->flow -= __f;\n      }\n    }\n\n    edge_impl make_rev() {\n      edge_impl\
     \ __e = edge::make_rev();\n      __e.aux = true;\n      __e.rev = this;\n    \
@@ -189,10 +189,10 @@ data:
     \ __d) return bound;\n    Cap flow(0);\n    for (auto &e{iter[__d]}; e != base::graph[__d].end();\
     \ ++e)\n      if (static_cast<Cap>(0) < e->flow && level[e->dst] < level[__d])\n\
     \        if (Cap achv = dfs(__s, e->dst, std::min(bound, e->flow));\n        \
-    \    static_cast<Cap>(0) < achv) {\n          e->aug(-achv);\n          flow +=\
-    \ achv, bound -= achv;\n          if (bound == static_cast<Cap>(0)) break;\n \
-    \       }\n    return flow;\n  }\n\n public:\n  /**\n   * @brief Construct a new\
-    \ Dinic object\n   *\n   * @param __n Number of nodes\n   */\n  Dinic(size_type\
+    \    static_cast<Cap>(0) < achv) {\n          e->push(-achv);\n          flow\
+    \ += achv, bound -= achv;\n          if (bound == static_cast<Cap>(0)) break;\n\
+    \        }\n    return flow;\n  }\n\n public:\n  /**\n   * @brief Construct a\
+    \ new Dinic object\n   *\n   * @param __n Number of nodes\n   */\n  Dinic(size_type\
     \ __n = 0)\n      : base::flow_graph(__n), level(__n, nil), iter(__n) {}\n\n \
     \ /**\n   * @brief Add some nodes to the graph.\n   *\n   * @param __n Number\
     \ of nodes added\n   * @return List of indices of the nodes.\n   */\n  std::vector<size_type>\
@@ -235,7 +235,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bipartitematching.test.cpp
   requiredBy: []
-  timestamp: '2021-01-24 13:28:37+09:00'
+  timestamp: '2021-01-24 18:01:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bipartitematching.test.cpp
