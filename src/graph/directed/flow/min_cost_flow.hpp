@@ -21,15 +21,15 @@ namespace workspace {
  *
  * @tparam Cap Capacity type
  * @tparam Cost Cost type
- * @tparam Density_tag Whether the graph is dense.
+ * @tparam Density_tag Whether the graph is dense
  */
 template <class Cap, class Cost = Cap, bool Density_tag = false>
 class min_cost_flow : public flow_graph<Cap, Cost> {
   using base = flow_graph<Cap, Cost>;
   using edge_impl = typename base::edge_impl;
-  using base::nil;
 
  public:
+  using edge = typename base::edge;
   using size_type = typename base::size_type;
   using base::size;
 
@@ -39,7 +39,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param __n Number of vertices
    */
   min_cost_flow(size_type __n = 0)
-      : base::flow_graph(__n), current(0), abs_sum(0), b(__n), p(__n) {}
+      : base::flow_graph(__n), current(0), b(__n), p(__n) {}
 
   std::vector<size_type> add_nodes(size_type __n) override {
     auto __nds = base::add_nodes(__n);
@@ -48,58 +48,40 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     return __nds;
   }
 
+  using base::add_edge;
+
   /**
-   * @brief Add an edge with a unit capacity to the graph.
+   * @brief Add a directed edge to the graph.
    *
-   * @param src Source
-   * @param dst Destination
-   * @param cost Cost
+   * @param __s Source
+   * @param __d Destination
+   * @param __l Lower bound of flow
+   * @param __u Upper bound of flow
+   * @param __c Cost
    * @return Reference to the edge.
    */
-  auto &add_edge(size_type src, size_type dst, const Cost &cost) {
-    return add_edge(src, dst, 1, cost);
+  edge &add_edge(size_type __s, size_type __d, const Cap &__l, const Cap &__u,
+                 const Cost &__c) {
+    assert(!(__u < __l));
+    b[__s] -= __l;
+    b[__d] += __l;
+    current += __l * __c;
+    auto &__e = base::add_edge(__s, __d, __u - __l, __c);
+    __e.flow = __l;
+    return __e;
   }
 
   /**
-   * @brief Add an edge to the graph.
+   * @brief Add an undirected edge to the graph.
    *
-   * @param src Source
-   * @param dst Destination
-   * @param cap Capacity
-   * @param cost Cost
    * @return Reference to the edge.
    */
-  typename base::edge const &add_edge(size_type src, size_type dst,
-                                      const Cap &cap, const Cost &cost) {
-    edge_impl *__p = base::_add_edge(typename base::edge(src, dst, cap, cost));
-    if (cost < static_cast<Cost>(0)) {
-      __p->flow(cap);
-      b[src] -= cap;
-      b[dst] += cap;
-      current += cap * cost;
-      abs_sum -= cap * cost;
-    } else
-      abs_sum += cap * cost;
-    return *__p;
-  }
-
-  /**
-   * @brief Add an edge to the graph.
-   *
-   * @param src Source
-   * @param dst Destination
-   * @param lower Lower bound of flow
-   * @param upper Upper bound of flow
-   * @param cost Cost
-   * @return Reference to the edge.
-   */
-  auto &add_edge(size_type src, size_type dst, const Cap &lower,
-                 const Cap &upper, const Cost &cost) {
-    assert(!(upper < lower));
-    b[src] -= lower;
-    b[dst] += lower;
-    current += lower * cost;
-    return add_edge(src, dst, upper - lower, cost);
+  template <class... Args> edge &add_undirected_edge(Args &&... __args) {
+    auto &__e = static_cast<edge_impl &>(
+        base::add_undirected_edge(std::forward<Args>(__args)...));
+    assert(!(__e.cost < 0));
+    __e.rev->cost = __e.cost;
+    return __e;
   }
 
   /**
@@ -125,10 +107,26 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   }
 
   /**
-   * @param node
-   * @return Balance of the node
+   * @return Balance of the graph.
    */
-  Cap balance(size_type node) { return b[node]; }
+  const auto &balance() const { return b; }
+
+  /**
+   * @param node Node
+   * @return Balance of the node.
+   */
+  Cap balance(size_type node) const { return b[node]; }
+
+  /**
+   * @return Potential of the graph.
+   */
+  const auto &potential() const { return p; }
+
+  /**
+   * @param node Node
+   * @return Potential of the node.
+   */
+  Cost potential(size_type node) const { return p[node]; }
 
   /**
    * @return Cost of current flow.
@@ -140,11 +138,21 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    *
    * @return Whether a balanced flow exists.
    */
-  bool flow() {
-    for (bool aug = true; aug;) {
-      aug = false;
+  bool run() {
+    // Saturate negative edges.
+    for (auto &&__adj : base::graph)
+      for (auto &&__e : __adj)
+        if (__e.cost < static_cast<Cost>(0) && static_cast<Cap>(0) < __e.cap) {
+          b[__e.src] -= __e.cap;
+          b[__e.dst] += __e.cap;
+          current += __e.cost * __e.cap;
+          __e.aug(__e.cap);
+        }
+
+    while (true) {
+      bool aug = false;
       std::vector<edge_impl *> last(size());
-      Dijkstra(last);
+      auto __nx = dual(last);
       std::vector<bool> shut(size());
       for (size_type dst{}; dst != size(); ++dst) {
         if (b[dst] < static_cast<Cap>(0) && last[dst]) {
@@ -158,13 +166,10 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
             block = src;
           else {
             if (!(resid < b[src])) resid = b[block = src];
-            for (edge_impl *e{last[dst]}; e; e = last[e->src]) {
-              e->cap -= resid;
-              e->rev->cap += resid;
-            }
+            for (edge_impl *e{last[dst]}; e; e = last[e->src]) e->aug(resid);
             b[src] -= resid;
             b[dst] += resid;
-            current += p[dst] * resid;
+            current += __nx[dst] * resid;
             aug = true;
           }
           if (block != nil)
@@ -174,20 +179,26 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
             }
         }
       }
+      if (!aug) break;
+      p = std::move(__nx);
     }
+
     return std::none_of(begin(b), end(b), [](const Cap &s) {
       return s < static_cast<Cap>(0) || static_cast<Cap>(0) < s;
     });
   }
 
  protected:
-  Cost current, abs_sum;
+  constexpr static size_type nil = -1;
+
+  Cost current;
   std::vector<Cap> b;
   std::vector<Cost> p;
 
-  void Dijkstra(std::vector<edge_impl *> &last) {
-    const Cost infty(abs_sum + 1);
-    std::vector<Cost> newp(size(), infty);
+  // internal
+  auto dual(std::vector<edge_impl *> &last) {
+    constexpr Cost infty = std::numeric_limits<Cost>::max();
+    std::vector<Cost> __nx(size(), infty);
 
     if constexpr (Density_tag) {  // O(V^2)
       std::vector<bool> used(size());
@@ -195,11 +206,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       for (size_type src{}; src != size(); ++src)
         if (static_cast<Cap>(0) < b[src]) {
           used[src] = true;
-          newp[src] = 0;
+          __nx[src] = 0;
 
           for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst])
-              newp[e.dst] = e.cost, last[e.dst] = &e;
+            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst])
+              __nx[e.dst] = e.cost, last[e.dst] = &e;
         }
 
       for (;;) {
@@ -207,17 +218,17 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
         Cost sp{infty};
 
         for (size_type node{}; node != size(); ++node) {
-          if (used[node] || newp[node] == infty) continue;
-          if (Cost __d = newp[node] - p[node]; __d < sp) sp = __d, src = node;
+          if (used[node] || __nx[node] == infty) continue;
+          if (Cost __d = __nx[node] - p[node]; __d < sp) sp = __d, src = node;
         }
 
         if (src == nil) break;
         used[src] = true;
 
         for (auto &e : base::graph[src])
-          if (Cost __d = newp[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
-            newp[e.dst] = __d;
+          if (Cost __d = __nx[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
+            __nx[e.dst] = __d;
             last[e.dst] = &e;
           }
       }
@@ -233,11 +244,11 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
 
       std::priority_queue<sp_node> __q;
       for (size_type src{}; src != size(); ++src)
-        if (b[src] > static_cast<Cap>(0)) {
-          newp[src] = 0;
+        if (static_cast<Cap>(0) < b[src]) {
+          __nx[src] = 0;
           for (auto &e : base::graph[src])
-            if (static_cast<Cap>(0) < e.cap && e.cost < newp[e.dst]) {
-              __q.emplace(e.dst, (newp[e.dst] = e.cost) - p[e.dst]);
+            if (static_cast<Cap>(0) < e.cap && e.cost < __nx[e.dst]) {
+              __q.emplace(e.dst, (__nx[e.dst] = e.cost) - p[e.dst]);
               last[e.dst] = &e;
             }
         }
@@ -245,20 +256,27 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
       while (!__q.empty()) {
         auto [src, __d] = __q.top();
         __q.pop();
-        if (__d + p[src] != newp[src]) continue;
+        if (__d + p[src] != __nx[src]) continue;
         for (auto &e : base::graph[src])
-          if (auto __d = newp[src] + e.cost;
-              static_cast<Cap>(0) < e.cap && __d < newp[e.dst]) {
-            __q.emplace(e.dst, (newp[e.dst] = __d) - p[e.dst]);
+          if (auto __d = __nx[src] + e.cost;
+              static_cast<Cap>(0) < e.cap && __d < __nx[e.dst]) {
+            __q.emplace(e.dst, (__nx[e.dst] = __d) - p[e.dst]);
             last[e.dst] = &e;
           }
       }
     }
 
-    p.swap(newp);
+    return __nx;
   }
 };
 
+/**
+ * @brief Successive Shortest Path Algorithm.
+ *
+ * @tparam Cap Capacity type
+ * @tparam Gain Gain type
+ * @tparam Density_tag Whether the graph is dense
+ */
 template <class Cap, class Gain = Cap, bool Density_tag = false>
 class max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {
   using base = min_cost_flow<Cap, Gain, Density_tag>;
@@ -266,53 +284,36 @@ class max_gain_flow : public min_cost_flow<Cap, Gain, Density_tag> {
 
  public:
   using base::min_cost_flow;
-  using size_type = typename base::size_type;
+  using edge = typename base::edge;
 
   /**
-   * @brief Add an edge with a unit capacity to the graph.
+   * @brief Add a directed edge to the graph. The default capacity is 1.
    *
-   * @param src Source
-   * @param dst Destination
-   * @param gain Gain
    * @return Reference to the edge.
    */
-  auto &add_edge(size_type src, size_type dst, const Gain &gain) {
-    return add_edge(src, dst, 1, gain);
+  template <class... Args> decltype(auto) add_edge(Args &&... __args) {
+    return add_edge(std::tuple{std::forward<Args>(__args)...});
   }
 
   /**
-   * @brief Add an edge to the graph.
+   * @brief Add a directed edge to the graph. The default capacity is 1.
    *
-   * @param src Source
-   * @param dst Destination
-   * @param cap Capacity
-   * @param gain Gain
    * @return Reference to the edge.
    */
-  auto &add_edge(size_type src, size_type dst, const Cap &cap,
-                 const Gain &gain) {
-    return base::add_edge(src, dst, cap, -gain);
-  }
-
-  /**
-   * @brief Add an edge to the graph.
-   *
-   * @param src Source
-   * @param dst Destination
-   * @param lower Lower bound of flow
-   * @param upper Upper bound of flow
-   * @param gain Gain
-   * @return Reference to the edge.
-   */
-  auto &add_edge(size_type src, size_type dst, const Cap &lower,
-                 const Cap &upper, const Gain &gain) {
-    return base::add_edge(src, dst, lower, upper, -gain);
+  template <class Tp>
+  typename std::enable_if<
+      (std::tuple_size<typename std::decay<Tp>::type>::value >= 0),
+      const edge &>::type
+  add_edge(Tp __t) {
+    std::get<std::tuple_size<decltype(__t)>::value - 1>(__t) *=
+        -1;  // Flip the sign of cost.
+    return base::add_edge(std::move(__t));
   }
 
   /**
    * @return Gain of current flow.
    */
-  Gain gain() const { return -base::current; }
+  Gain gain() const { return -cost(); }
 };
 
 }  // namespace workspace
