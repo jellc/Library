@@ -103,8 +103,10 @@ template <class Cap, class Cost = void> class flow_graph {
     void aug(Cap __f) {
       edge::cap -= __f;
       edge::flow += __f;
-      rev->cap += __f;
-      rev->flow -= __f;
+      if (rev) {
+        rev->cap += __f;
+        rev->flow -= __f;
+      }
     }
 
     edge_impl make_rev() {
@@ -230,8 +232,10 @@ template <class Cap, class Cost = void> class flow_graph {
         iterator loc = new edge_impl[__n << 1 | 1];
         __s += loc - first;
         __t = loc;
-        for (iterator __p{first}; __p != last; ++__p, ++__t)
-          __p->rev->rev = __t, *__t = *__p;
+        for (iterator __p{first}; __p != last; ++__p, ++__t) {
+          *__t = *__p;
+          if (__p->rev) __p->rev->rev = __t;
+        }
         delete[] first;
         first = loc;
         last = __t + __n;
@@ -395,7 +399,8 @@ template <class Cap, class Cost = void> class flow_graph {
     assert(__e.src < size());
     assert(__e.dst < size());
     edge_impl *__p = graph[__e.src]._push(std::move(__e));
-    __p->rev = graph[__e.dst]._push(__p->make_rev());
+    // Careful with a self loop.
+    if (__e.src != __e.dst) __p->rev = graph[__e.dst]._push(__p->make_rev());
     return *__p;
   }
 
@@ -422,10 +427,13 @@ template <class Cap, class Cost = void> class flow_graph {
     assert(__e.src < size());
     assert(__e.dst < size());
     (__e.flow += __e.flow) += __e.cap;
-    edge_impl *__p = graph[__e.src]._push(std::move(__e)),
-              __r = __p->make_rev();
-    __r.aux = false;
-    __p->rev = graph[__e.dst]._push(std::move(__r));
+    edge_impl *__p = graph[__e.src]._push(std::move(__e));
+    // Careful with a self loop.
+    if (__e.src != __e.dst) {
+      edge_impl __r = __p->make_rev();
+      __r.aux = false;
+      __p->rev = graph[__e.dst]._push(std::move(__r));
+    }
     return *__p;
   }
 
