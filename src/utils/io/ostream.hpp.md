@@ -13,6 +13,9 @@ data:
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/min_cost_b_flow.test.cpp
+    title: test/library-checker/min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
   - icon: ':heavy_check_mark:'
@@ -96,6 +99,7 @@ data:
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/utils/io/ostream.hpp
 layout: document

@@ -4,64 +4,56 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/base.hpp
     title: Flow Graph
+  - icon: ':heavy_check_mark:'
+    path: src/graph/directed/flow/min_cost_flow.hpp
+    title: Minimum Cost Flow
+  - icon: ':heavy_check_mark:'
+    path: src/utils/io/ostream.hpp
+    title: Output Stream
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/1615.2.test.cpp
-    title: test/aizu-online-judge/1615.2.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/1615.test.cpp
-    title: test/aizu-online-judge/1615.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/2815.test.cpp
-    title: test/aizu-online-judge/2815.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_6_B.test.cpp
-    title: test/aizu-online-judge/GRL_6_B.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/assignment.test.cpp
-    title: test/library-checker/assignment.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/min_cost_b_flow.test.cpp
-    title: test/library-checker/min_cost_b_flow.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
-  _pathExtension: hpp
+  _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Minimum Cost Flow
-    links: []
-  bundledCode: "#line 2 \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n/**\n * @file\
-    \ min_cost_flow.hpp\n * @brief Minimum Cost Flow\n * @date 2021-01-15\n *\n *\n\
-    \ */\n\n#include <algorithm>\n#include <optional>\n#include <queue>\n\n#line 2\
-    \ \"src/graph/directed/flow/base.hpp\"\n\n/**\n * @file base.hpp\n * @brief Flow\
-    \ Graph\n * @date 2021-01-15\n *\n *\n */\n\n#include <cassert>\n#include <numeric>\n\
-    #include <tuple>\n#include <vector>\n\nnamespace workspace {\n\ntemplate <class\
-    \ Cap, class Cost = void> class flow_graph {\n protected:\n  class adjacency_impl;\n\
-    \n public:\n  using container_type = std::vector<adjacency_impl>;\n  using size_type\
-    \ = typename container_type::size_type;\n\n  class unweighted_edge {\n   public:\n\
-    \    size_type src;  // Source\n    size_type dst;  // Destination\n    Cap cap;\
-    \        // Capacity\n    Cap flow = 0;   // Flow\n\n    unweighted_edge(size_type\
-    \ __s, size_type __d, const Cap &__u = 1)\n        : src(__s), dst(__d), cap(__u)\
-    \ {\n      assert(!(cap < static_cast<Cap>(0)));\n    }\n\n    /**\n     * @brief\
-    \ Source, Destination, Capacity, Flow\n     */\n    template <class Os>\n    friend\
-    \ Os &operator<<(Os &__os, unweighted_edge const &__e) {\n      return __os <<\
-    \ __e.src << ' ' << __e.dst << ' ' << __e.cap << ' '\n                  << __e.flow;\n\
-    \    }\n\n   protected:\n    unweighted_edge() = default;\n\n    unweighted_edge(size_type\
-    \ __s, size_type __d, const Cap &__u,\n                    const Cap &__f)\n \
-    \       : src(__s), dst(__d), cap(__u), flow(__f) {}\n\n    unweighted_edge make_rev()\
-    \ const { return {dst, src, flow, cap}; }\n  };\n\n  class weighted_edge : public\
-    \ unweighted_edge {\n   public:\n    Cost cost;  // Cost\n\n    weighted_edge(const\
-    \ unweighted_edge &__e, const Cost &__c = 0)\n        : unweighted_edge(__e),\
-    \ cost(__c) {}\n\n    weighted_edge(size_type __s, size_type __d, const Cap &__u\
-    \ = 1,\n                  const Cost &__c = 0)\n        : unweighted_edge(__s,\
-    \ __d, __u), cost(__c) {}\n\n    /**\n     * @brief Source, Destination, Capacity,\
-    \ Flow, Cost\n     */\n    template <class Os>\n    friend Os &operator<<(Os &__os,\
-    \ weighted_edge const &__e) {\n      return __os << static_cast<unweighted_edge>(__e)\
-    \ << ' ' << __e.cost;\n    }\n\n   protected:\n    weighted_edge() = default;\n\
-    \n    weighted_edge make_rev() const {\n      return {unweighted_edge::make_rev(),\
-    \ -cost};\n    }\n  };\n\n  using edge = typename std::conditional<std::is_void<Cost>::value,\n\
-    \                                         unweighted_edge, weighted_edge>::type;\n\
-    \n protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://judge.yosupo.jp/problem/min_cost_b_flow
+    links:
+    - https://judge.yosupo.jp/problem/min_cost_b_flow
+  bundledCode: "#line 1 \"test/library-checker/min_cost_b_flow.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/min_cost_b_flow\"\n\n#include <iostream>\n\
+    \n#line 2 \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n/**\n * @file min_cost_flow.hpp\n\
+    \ * @brief Minimum Cost Flow\n * @date 2021-01-15\n *\n *\n */\n\n#include <algorithm>\n\
+    #include <optional>\n#include <queue>\n\n#line 2 \"src/graph/directed/flow/base.hpp\"\
+    \n\n/**\n * @file base.hpp\n * @brief Flow Graph\n * @date 2021-01-15\n *\n *\n\
+    \ */\n\n#include <cassert>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\
+    \nnamespace workspace {\n\ntemplate <class Cap, class Cost = void> class flow_graph\
+    \ {\n protected:\n  class adjacency_impl;\n\n public:\n  using container_type\
+    \ = std::vector<adjacency_impl>;\n  using size_type = typename container_type::size_type;\n\
+    \n  class unweighted_edge {\n   public:\n    size_type src;  // Source\n    size_type\
+    \ dst;  // Destination\n    Cap cap;        // Capacity\n    Cap flow = 0;   //\
+    \ Flow\n\n    unweighted_edge(size_type __s, size_type __d, const Cap &__u = 1)\n\
+    \        : src(__s), dst(__d), cap(__u) {\n      assert(!(cap < static_cast<Cap>(0)));\n\
+    \    }\n\n    /**\n     * @brief Source, Destination, Capacity, Flow\n     */\n\
+    \    template <class Os>\n    friend Os &operator<<(Os &__os, unweighted_edge\
+    \ const &__e) {\n      return __os << __e.src << ' ' << __e.dst << ' ' << __e.cap\
+    \ << ' '\n                  << __e.flow;\n    }\n\n   protected:\n    unweighted_edge()\
+    \ = default;\n\n    unweighted_edge(size_type __s, size_type __d, const Cap &__u,\n\
+    \                    const Cap &__f)\n        : src(__s), dst(__d), cap(__u),\
+    \ flow(__f) {}\n\n    unweighted_edge make_rev() const { return {dst, src, flow,\
+    \ cap}; }\n  };\n\n  class weighted_edge : public unweighted_edge {\n   public:\n\
+    \    Cost cost;  // Cost\n\n    weighted_edge(const unweighted_edge &__e, const\
+    \ Cost &__c = 0)\n        : unweighted_edge(__e), cost(__c) {}\n\n    weighted_edge(size_type\
+    \ __s, size_type __d, const Cap &__u = 1,\n                  const Cost &__c =\
+    \ 0)\n        : unweighted_edge(__s, __d, __u), cost(__c) {}\n\n    /**\n    \
+    \ * @brief Source, Destination, Capacity, Flow, Cost\n     */\n    template <class\
+    \ Os>\n    friend Os &operator<<(Os &__os, weighted_edge const &__e) {\n     \
+    \ return __os << static_cast<unweighted_edge>(__e) << ' ' << __e.cost;\n    }\n\
+    \n   protected:\n    weighted_edge() = default;\n\n    weighted_edge make_rev()\
+    \ const {\n      return {unweighted_edge::make_rev(), -cost};\n    }\n  };\n\n\
+    \  using edge = typename std::conditional<std::is_void<Cost>::value,\n       \
+    \                                  unweighted_edge, weighted_edge>::type;\n\n\
+    \ protected:\n  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl\
     \ *rev = nullptr;\n\n    edge_impl() = default;\n\n    edge_impl(const edge_impl\
     \ &__e) = default;\n    edge_impl &operator=(const edge_impl &__e) = default;\n\
     \n    edge_impl(edge_impl &&__e) = default;\n    edge_impl &operator=(edge_impl\
@@ -293,122 +285,77 @@ data:
     \ >= 0),\n      const edge &>::type\n  add_edge(Tp __t) {\n    std::get<std::tuple_size<decltype(__t)>::value\
     \ - 1>(__t) *=\n        -1;  // Flip the sign of cost.\n    return base::add_edge(std::move(__t));\n\
     \  }\n\n  /**\n   * @return Gain of current flow.\n   */\n  Gain gain() const\
-    \ { return -cost(); }\n};\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file min_cost_flow.hpp\n * @brief Minimum Cost Flow\n\
-    \ * @date 2021-01-15\n *\n *\n */\n\n#include <algorithm>\n#include <optional>\n\
-    #include <queue>\n\n#include \"base.hpp\"\n#include \"lib/limits\"\n\nnamespace\
-    \ workspace {\n\n/**\n * @brief Capacity Scaling Algorithm.\n *\n * @tparam Cap\
-    \ Capacity type\n * @tparam Cost Cost type\n */\ntemplate <class Cap, class Cost\
-    \ = Cap>\nclass min_cost_flow : public flow_graph<Cap, Cost> {\n  using base =\
-    \ flow_graph<Cap, Cost>;\n  using edge_impl = typename base::edge_impl;\n\n public:\n\
-    \  using edge = typename base::edge;\n  using size_type = typename base::size_type;\n\
-    \  using base::size;\n\n  /**\n   * @brief Construct a new min_cost_flow object\n\
-    \   *\n   * @param __n Number of vertices\n   */\n  min_cost_flow(size_type __n\
-    \ = 0) : base::flow_graph(__n), b(__n) {}\n\n  std::vector<size_type> add_nodes(size_type\
-    \ __n) override {\n    auto __nds = base::add_nodes(__n);\n    b.resize(size());\n\
-    \    return __nds;\n  }\n\n  using base::add_edge;\n\n  /**\n   * @brief Add a\
-    \ directed edge to the graph.\n   *\n   * @param __s Source\n   * @param __d Destination\n\
-    \   * @param __l Lower bound of flow\n   * @param __u Upper bound of flow\n  \
-    \ * @param __c Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
-    \ __s, size_type __d, const Cap &__l, const Cap &__u,\n                 const\
-    \ Cost &__c) {\n    assert(!(__u < __l));\n    b[__s] -= __l;\n    b[__d] += __l;\n\
-    \    auto &__e = base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow = __l;\n\
-    \    return __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to the graph.\n\
-    \   *\n   * @return Reference to the edge.\n   */\n  template <class... Args>\
-    \ edge &add_undirected_edge(Args &&... __args) {\n    auto &__e = static_cast<edge_impl\
-    \ &>(\n        base::add_undirected_edge(std::forward<Args>(__args)...));\n  \
-    \  assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
-    \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
-    \ node\n   * @param vol Default: 1\n   */\n  void supply(size_type node, const\
-    \ Cap &vol = 1) {\n    assert(node < size());\n    b[node] += vol;\n  }\n\n  /**\n\
-    \   * @brief Decrease the balance of a node.\n   *\n   * @param node\n   * @param\
-    \ vol Default: 1\n   */\n  void demand(size_type node, const Cap &vol = 1) {\n\
-    \    assert(node < size());\n    b[node] -= vol;\n  }\n\n  /**\n   * @return Balance.\n\
-    \   */\n  const auto &balance() const { return b; }\n\n  /**\n   * @param node\
-    \ Node\n   * @return Balance of the node.\n   */\n  Cap balance(size_type node)\
-    \ const { return b[node]; }\n\n  /**\n   * @return Potential. The dual solution.\n\
-    \   */\n  const auto &potential() const { return p; }\n\n  /**\n   * @param node\
-    \ Node\n   * @return Potential of the node.\n   */\n  Cost potential(size_type\
-    \ node) const { return p[node]; }\n\n  /**\n   * @return Cost of current flow.\n\
-    \   */\n  Cost cost() const { return current; }\n\n  /**\n   * @brief Run Capacity\
-    \ Scaling Algorithm.\n   *\n   * @return Whether a balanced flow exists.\n   */\n\
-    \  bool run() {\n    p.resize(b.size());\n\n    Cap delta = 0;\n    for (auto\
-    \ &&__adj : base::graph)\n      for (auto &&__e : __adj) delta = std::max(delta,\
-    \ __e.cap);\n    if (delta == static_cast<Cap>(0))\n      return std::none_of(b.begin(),\
-    \ b.end(),\n                          [](Cap __x) { return __x != static_cast<Cap>(0);\
-    \ });\n\n    parent.resize(b.size());\n\n    while (static_cast<Cap>(0) < delta)\
-    \ {\n      delta /= 2;\n\n      for (auto &&__adj : base::graph)\n        for\
-    \ (auto &&__e : __adj)\n          if (delta < __e.cap && __e.cost < p[__e.dst]\
-    \ - p[__e.src]) {\n            b[__e.src] -= __e.cap;\n            b[__e.dst]\
-    \ += __e.cap;\n            __e.push(__e.cap);\n          }\n\n      sources.clear();\n\
-    \      sinks.clear();\n      for (size_type __v = 0; __v != b.size(); ++__v)\n\
-    \        if (delta < b[__v])\n          sources.emplace_back(__v);\n        else\
-    \ if (b[__v] < -delta)\n          sinks.emplace_back(__v);\n\n      while (dual(delta))\
-    \ {\n        primal(delta);\n        sources.erase(\n            std::remove_if(sources.begin(),\
-    \ sources.end(),\n                           [&](auto __v) { return !(delta <\
-    \ b[__v]); }),\n            sources.end());\n        sinks.erase(\n          \
-    \  std::remove_if(sinks.begin(), sinks.end(),\n                           [&](auto\
-    \ __v) { return !(b[__v] < -delta); }),\n            sinks.end());\n      }\n\
-    \    }\n\n    current = 0;\n    for (auto &&adj : base::graph)\n      for (auto\
-    \ &&__e : adj)\n        if (!__e.aux) current += __e.cost * __e.flow;\n\n    return\
-    \ sources.empty() && sinks.empty();\n  }\n\n protected:\n  // Cost of flow.\n\
-    \  Cost current{};\n\n  // Balance\n  std::vector<Cap> b;\n\n  // The dual solution.\n\
-    \  std::vector<Cost> p;\n\n  std::vector<edge_impl *> parent;\n  std::vector<size_type>\
-    \ sources, sinks;\n\n  // Augment along the dual solution.\n  void primal(Cap\
-    \ delta) {\n    for (auto __t : sinks)\n      if (parent[__t]) {\n        auto\
-    \ __f = -b[__t];\n        auto __s = __t;\n        while (parent[__s])\n     \
-    \     __f = std::min(__f, parent[__s]->cap), __s = parent[__s]->src;\n       \
-    \ if (delta < b[__s]) {\n          __f = std::min(__f, b[__s]);\n          b[__s]\
-    \ -= __f;\n          b[__t] += __f;\n          for (auto *__p = parent[__t]; __p;\
-    \ __p = parent[__p->src]) {\n            __p->push(__f);\n            parent[__p->dst]\
-    \ = nullptr;\n          }\n        }\n      }\n  }\n\n  // Improve the dual solution.\n\
-    \  bool dual(Cap delta) {\n    std::fill(parent.begin(), parent.end(), nullptr);\n\
-    \    size_type reachable = 0;\n\n    struct state {\n      size_type __v;\n  \
-    \    Cost __d;\n      state(size_type __v, Cost __d) : __v(__v), __d(__d) {}\n\
-    \      bool operator<(const state &__x) const { return __x.__d < __d; }\n    };\n\
-    \n    std::priority_queue<state> __q;\n    decltype(p) __nx(p.size(), std::numeric_limits<Cost>::max());\n\
-    \    Cost __ld = 0;\n\n    for (auto __v : sources) {\n      __nx[__v] = p[__v];\n\
-    \      __q.emplace(__v, 0);\n    }\n\n    while (!__q.empty()) {\n      auto [__v,\
-    \ __d] = __q.top();\n      __q.pop();\n      if (__d + p[__v] != __nx[__v]) continue;\n\
-    \      __ld = __d;\n      if (b[__v] < -delta && ++reachable == sinks.size())\
-    \ break;\n      for (auto &__e : base::graph[__v])\n        if (delta < __e.cap\
-    \ && (__d = __nx[__v] + __e.cost) < __nx[__e.dst]) {\n          __q.emplace(__e.dst,\
-    \ (__nx[__e.dst] = __d) - p[__e.dst]);\n          parent[__e.dst] = &__e;\n  \
-    \      }\n    }\n\n    for (size_type __v = 0; __v != p.size(); ++__v)\n     \
-    \ p[__v] = std::min(__nx[__v], p[__v] += __ld);\n\n    return reachable;\n  }\n\
-    \n};  // namespace workspace\n\n/**\n * @brief Capacity Scaling Algorithm.\n *\n\
-    \ * @tparam Cap Capacity type\n * @tparam Gain Gain type\n */\ntemplate <class\
-    \ Cap, class Gain = Cap>\nclass max_gain_flow : public min_cost_flow<Cap, Gain>\
-    \ {\n  using base = min_cost_flow<Cap, Gain>;\n  using base::cost;\n\n public:\n\
-    \  using base::min_cost_flow;\n  using edge = typename base::edge;\n\n  /**\n\
-    \   * @brief Add a directed edge to the graph. The default capacity is 1.\n  \
-    \ *\n   * @return Reference to the edge.\n   */\n  template <class... Args> decltype(auto)\
-    \ add_edge(Args &&... __args) {\n    return add_edge(std::tuple{std::forward<Args>(__args)...});\n\
-    \  }\n\n  /**\n   * @brief Add a directed edge to the graph. The default capacity\
-    \ is 1.\n   *\n   * @return Reference to the edge.\n   */\n  template <class Tp>\n\
-    \  typename std::enable_if<\n      (std::tuple_size<typename std::decay<Tp>::type>::value\
-    \ >= 0),\n      const edge &>::type\n  add_edge(Tp __t) {\n    std::get<std::tuple_size<decltype(__t)>::value\
-    \ - 1>(__t) *=\n        -1;  // Flip the sign of cost.\n    return base::add_edge(std::move(__t));\n\
-    \  }\n\n  /**\n   * @return Gain of current flow.\n   */\n  Gain gain() const\
-    \ { return -cost(); }\n};\n\n}  // namespace workspace\n"
+    \ { return -cost(); }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\
+    \n\n/**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Stream insertion operator for std::pair.\n\
+    \ *\n * @param __os Output stream\n * @param __p Pair\n * @return Reference to\
+    \ __os.\n */\ntemplate <class Os, class T1, class T2>\nOs &operator<<(Os &__os,\
+    \ const std::pair<T1, T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
+    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
+    \ <class Os, class Tp, size_t N = 0>\ntypename std::enable_if<bool(std::tuple_size<Tp>::value\
+    \ + 1), Os &>::type\noperator<<(Os &__os, const Tp &__t) {\n  if constexpr (N\
+    \ != std::tuple_size<Tp>::value) {\n    if constexpr (N) __os << ' ';\n    __os\
+    \ << std::get<N>(__t);\n    operator<<<Os, Tp, N + 1>(__os, __t);\n  }\n  return\
+    \ __os;\n}\n\ntemplate <class Os, class Container,\n          typename = decltype(std::begin(std::declval<Container>()))>\n\
+    typename std::enable_if<\n    !std::is_same<typename std::decay<Container>::type,\
+    \ std::string>::value &&\n        !std::is_same<typename std::decay<Container>::type,\
+    \ char *>::value,\n    Os &>::type\noperator<<(Os &__os, const Container &__cont)\
+    \ {\n  bool __h = true;\n  for (auto &&__e : __cont) __h ? __h = 0 : (__os <<\
+    \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
+    \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
+    \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
+    template <class Os> Os &operator<<(Os &__os, __int128_t __x) {\n  if (!__x) return\
+    \ __os << '0';\n  if (__x < 0) __os << '-';\n  char __s[40], *__p = __s;\n  while\
+    \ (__x) {\n    auto __d = __x % 10;\n    *__p++ = '0' + (__x < 0 ? -__d : __d);\n\
+    \    __x /= 10;\n  }\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t)\
+    \ *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n/**\n * @brief Stream\
+    \ insertion operator for __uint128_t.\n *\n * @param __os Output Stream\n * @param\
+    \ __x 128-bit unsigned integer\n * @return Reference to __os.\n */\ntemplate <class\
+    \ Os> Os &operator<<(Os &__os, __uint128_t __x) {\n  if (!__x) return __os <<\
+    \ '0';\n  char __s[40], *__p = __s;\n  while (__x) *__p++ = '0' + __x % 10, __x\
+    \ /= 10;\n  *__p = 0;\n  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p\
+    \ ^= *__t ^= *__p;\n  return __os << __s;\n}\n\n#endif\n\n}  // namespace workspace\n\
+    #line 7 \"test/library-checker/min_cost_b_flow.test.cpp\"\n\nint main() {\n  using\
+    \ namespace workspace;\n\n  int n, m;\n  std::cin >> n >> m;\n  workspace::min_cost_flow<int64_t,\
+    \ __int128_t> mcf(n);\n  for (int i = 0; i < n; ++i) {\n    int b;\n    std::cin\
+    \ >> b;\n    mcf.supply(i, b);\n  }\n  std::vector<std::vector<int>> ids(n);\n\
+    \  for (int i = 0; i < m; ++i) {\n    int s, t, l, u, c;\n    std::cin >> s >>\
+    \ t >> l >> u >> c;\n    mcf.add_edge(s, t, l, u, c);\n    ids[s].emplace_back(i);\n\
+    \  }\n  if (mcf.run()) {\n    std::cout << mcf.cost() << \"\\n\";\n    for (const\
+    \ auto &p : mcf.potential()) std::cout << p << \"\\n\";\n    std::vector<int>\
+    \ fs(m);\n    for (int v = 0; v < n; ++v) {\n      auto iter = ids[v].begin();\n\
+    \      for (const auto &e : mcf[v]) fs[*iter++] = e.flow;\n    }\n    for (const\
+    \ auto &f : fs) std::cout << f << \"\\n\";\n  } else\n    std::cout << \"infeasible\\\
+    n\";\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/min_cost_b_flow\"\n\n#include\
+    \ <iostream>\n\n#include \"src/graph/directed/flow/min_cost_flow.hpp\"\n#include\
+    \ \"src/utils/io/ostream.hpp\"\n\nint main() {\n  using namespace workspace;\n\
+    \n  int n, m;\n  std::cin >> n >> m;\n  workspace::min_cost_flow<int64_t, __int128_t>\
+    \ mcf(n);\n  for (int i = 0; i < n; ++i) {\n    int b;\n    std::cin >> b;\n \
+    \   mcf.supply(i, b);\n  }\n  std::vector<std::vector<int>> ids(n);\n  for (int\
+    \ i = 0; i < m; ++i) {\n    int s, t, l, u, c;\n    std::cin >> s >> t >> l >>\
+    \ u >> c;\n    mcf.add_edge(s, t, l, u, c);\n    ids[s].emplace_back(i);\n  }\n\
+    \  if (mcf.run()) {\n    std::cout << mcf.cost() << \"\\n\";\n    for (const auto\
+    \ &p : mcf.potential()) std::cout << p << \"\\n\";\n    std::vector<int> fs(m);\n\
+    \    for (int v = 0; v < n; ++v) {\n      auto iter = ids[v].begin();\n      for\
+    \ (const auto &e : mcf[v]) fs[*iter++] = e.flow;\n    }\n    for (const auto &f\
+    \ : fs) std::cout << f << \"\\n\";\n  } else\n    std::cout << \"infeasible\\\
+    n\";\n}\n"
   dependsOn:
+  - src/graph/directed/flow/min_cost_flow.hpp
   - src/graph/directed/flow/base.hpp
-  isVerificationFile: false
-  path: src/graph/directed/flow/min_cost_flow.hpp
+  - src/utils/io/ostream.hpp
+  isVerificationFile: true
+  path: test/library-checker/min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2021-01-25 15:58:25+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/min_cost_b_flow.test.cpp
-  - test/library-checker/assignment.test.cpp
-  - test/aizu-online-judge/1615.test.cpp
-  - test/aizu-online-judge/2815.test.cpp
-  - test/aizu-online-judge/GRL_6_B.test.cpp
-  - test/aizu-online-judge/1615.2.test.cpp
-documentation_of: src/graph/directed/flow/min_cost_flow.hpp
+  timestamp: '2021-01-25 16:09:04+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: test/library-checker/min_cost_b_flow.test.cpp
 layout: document
 redirect_from:
-- /library/src/graph/directed/flow/min_cost_flow.hpp
-- /library/src/graph/directed/flow/min_cost_flow.hpp.html
-title: Minimum Cost Flow
+- /verify/test/library-checker/min_cost_b_flow.test.cpp
+- /verify/test/library-checker/min_cost_b_flow.test.cpp.html
+title: test/library-checker/min_cost_b_flow.test.cpp
 ---

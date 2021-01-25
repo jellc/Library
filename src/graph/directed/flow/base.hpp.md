@@ -30,6 +30,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/bipartitematching.test.cpp
     title: test/library-checker/bipartitematching.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/min_cost_b_flow.test.cpp
+    title: test/library-checker/min_cost_b_flow.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -366,6 +369,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/assignment.test.cpp
   - test/aizu-online-judge/GRL_6_A.test.cpp
   - test/aizu-online-judge/1615.test.cpp
