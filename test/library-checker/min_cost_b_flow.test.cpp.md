@@ -278,7 +278,7 @@ data:
     \  using base::min_cost_flow;\n  using edge = typename base::edge;\n\n  /**\n\
     \   * @brief Add a directed edge to the graph. The default capacity is 1.\n  \
     \ *\n   * @return Reference to the edge.\n   */\n  template <class... Args> decltype(auto)\
-    \ add_edge(Args &&... __args) {\n    return add_edge(std::tuple{std::forward<Args>(__args)...});\n\
+    \ add_edge(Args &&... __args) {\n    return add_edge(std::tuple<Args...>{std::forward<Args>(__args)...});\n\
     \  }\n\n  /**\n   * @brief Add a directed edge to the graph. The default capacity\
     \ is 1.\n   *\n   * @return Reference to the edge.\n   */\n  template <class Tp>\n\
     \  typename std::enable_if<\n      (std::tuple_size<typename std::decay<Tp>::type>::value\
@@ -349,7 +349,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2021-01-25 16:09:04+09:00'
+  timestamp: '2021-01-25 21:09:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/min_cost_b_flow.test.cpp
