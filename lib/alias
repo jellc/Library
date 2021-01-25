@@ -41,7 +41,7 @@ template <typename _Tp> constexpr _Tp __bsf(_Tp __x) noexcept {
 }
 
 template <typename _Tp> constexpr _Tp __bsr(_Tp __x) noexcept {
-  return std::__bit_width(__x);
+  return std::__bit_width(__x) - 1;
 }
 
 }  // namespace workspace
