@@ -302,6 +302,11 @@ template <class Cap, class Cost = void> class flow_graph {
   }
 
   /**
+   * @return Whether the graph is empty.
+   */
+  bool empty() const { return graph.empty(); }
+
+  /**
    * @return Number of nodes.
    */
   size_type size() const { return graph.size(); }
