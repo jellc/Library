@@ -9,7 +9,6 @@
  */
 
 #include <algorithm>
-#include <optional>
 #include <queue>
 
 #include "base.hpp"
@@ -31,7 +30,6 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
  public:
   using edge = typename base::edge;
   using size_type = typename base::size_type;
-  using base::size;
 
   /**
    * @brief Construct a new min_cost_flow object
@@ -42,7 +40,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
 
   std::vector<size_type> add_nodes(size_type __n) override {
     auto __nds = base::add_nodes(__n);
-    b.resize(size());
+    b.resize(b.size() + __n);
     return __nds;
   }
 
@@ -58,8 +56,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param __c Cost
    * @return Reference to the edge.
    */
-  edge &add_edge(size_type __s, size_type __d, const Cap &__l, const Cap &__u,
-                 const Cost &__c) {
+  edge &add_edge(size_type __s, size_type __d, Cap __l, Cap __u, Cost __c) {
     assert(!(__u < __l));
     b[__s] -= __l;
     b[__d] += __l;
@@ -85,22 +82,22 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @brief Increase the balance of a node.
    *
    * @param node
-   * @param vol Default: 1
+   * @param __f Default: 1
    */
-  void supply(size_type node, const Cap &vol = 1) {
-    assert(node < size());
-    b[node] += vol;
+  void supply(size_type node, Cap __f = 1) {
+    assert(node < b.size());
+    b[node] += __f;
   }
 
   /**
    * @brief Decrease the balance of a node.
    *
    * @param node
-   * @param vol Default: 1
+   * @param __f Default: 1
    */
-  void demand(size_type node, const Cap &vol = 1) {
-    assert(node < size());
-    b[node] -= vol;
+  void demand(size_type node, Cap __f = 1) {
+    assert(node < b.size());
+    b[node] -= __f;
   }
 
   /**
@@ -142,8 +139,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     for (auto &&__adj : base::graph)
       for (auto &&__e : __adj) delta = std::max(delta, __e.cap);
     if (delta == static_cast<Cap>(0))
-      return std::none_of(b.begin(), b.end(),
-                          [](Cap __x) { return __x != static_cast<Cap>(0); });
+      return std::all_of(b.begin(), b.end(),
+                         [](Cap __x) { return __x == static_cast<Cap>(0); });
 
     parent.resize(b.size());
 
@@ -180,8 +177,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     }
 
     current = 0;
-    for (auto &&adj : base::graph)
-      for (auto &&__e : adj)
+    for (auto &&__adj : base::graph)
+      for (auto &&__e : __adj)
         if (!__e.aux) current += __e.cost * __e.flow;
 
     return sources.empty() && sinks.empty();
