@@ -39,9 +39,8 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   min_cost_flow(size_type __n = 0) : base::flow_graph(__n), b(__n) {}
 
   std::vector<size_type> add_nodes(size_type __n) override {
-    auto __nds = base::add_nodes(__n);
     b.resize(b.size() + __n);
-    return __nds;
+    return base::add_nodes(__n);
   }
 
   using base::add_edge;
