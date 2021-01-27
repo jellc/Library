@@ -244,11 +244,11 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bitwise_xor_convolution.test.cpp
-  - test/library-checker/queue_operate_all_composite.test.cpp
-  - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document

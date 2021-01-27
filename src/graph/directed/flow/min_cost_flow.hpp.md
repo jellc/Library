@@ -208,16 +208,16 @@ data:
     \n  /**\n   * @brief Construct a new min_cost_flow object\n   *\n   * @param __n\
     \ Number of vertices\n   */\n  min_cost_flow(size_type __n = 0) : base::flow_graph(__n),\
     \ b(__n) {}\n\n  std::vector<size_type> add_nodes(size_type __n) override {\n\
-    \    auto __nds = base::add_nodes(__n);\n    b.resize(b.size() + __n);\n    return\
-    \ __nds;\n  }\n\n  using base::add_edge;\n\n  /**\n   * @brief Add a directed\
-    \ edge to the graph.\n   *\n   * @param __s Source\n   * @param __d Destination\n\
-    \   * @param __l Lower bound of flow\n   * @param __u Upper bound of flow\n  \
-    \ * @param __c Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
-    \ __s, size_type __d, Cap __l, Cap __u, Cost __c) {\n    assert(!(__u < __l));\n\
-    \    b[__s] -= __l;\n    b[__d] += __l;\n    auto &__e = base::add_edge(__s, __d,\
-    \ __u - __l, __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n\
-    \   */\n  template <class... Args> edge &add_undirected_edge(Args &&... __args)\
+    \    b.resize(b.size() + __n);\n    return base::add_nodes(__n);\n  }\n\n  using\
+    \ base::add_edge;\n\n  /**\n   * @brief Add a directed edge to the graph.\n  \
+    \ *\n   * @param __s Source\n   * @param __d Destination\n   * @param __l Lower\
+    \ bound of flow\n   * @param __u Upper bound of flow\n   * @param __c Cost\n \
+    \  * @return Reference to the edge.\n   */\n  edge &add_edge(size_type __s, size_type\
+    \ __d, Cap __l, Cap __u, Cost __c) {\n    assert(!(__u < __l));\n    b[__s] -=\
+    \ __l;\n    b[__d] += __l;\n    auto &__e = base::add_edge(__s, __d, __u - __l,\
+    \ __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief Add an\
+    \ undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n \
+    \  */\n  template <class... Args> edge &add_undirected_edge(Args &&... __args)\
     \ {\n    auto &__e = static_cast<edge_impl &>(\n        base::add_undirected_edge(std::forward<Args>(__args)...));\n\
     \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
@@ -303,19 +303,18 @@ data:
     \  using size_type = typename base::size_type;\n\n  /**\n   * @brief Construct\
     \ a new min_cost_flow object\n   *\n   * @param __n Number of vertices\n   */\n\
     \  min_cost_flow(size_type __n = 0) : base::flow_graph(__n), b(__n) {}\n\n  std::vector<size_type>\
-    \ add_nodes(size_type __n) override {\n    auto __nds = base::add_nodes(__n);\n\
-    \    b.resize(b.size() + __n);\n    return __nds;\n  }\n\n  using base::add_edge;\n\
-    \n  /**\n   * @brief Add a directed edge to the graph.\n   *\n   * @param __s\
-    \ Source\n   * @param __d Destination\n   * @param __l Lower bound of flow\n \
-    \  * @param __u Upper bound of flow\n   * @param __c Cost\n   * @return Reference\
-    \ to the edge.\n   */\n  edge &add_edge(size_type __s, size_type __d, Cap __l,\
-    \ Cap __u, Cost __c) {\n    assert(!(__u < __l));\n    b[__s] -= __l;\n    b[__d]\
-    \ += __l;\n    auto &__e = base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow\
-    \ = __l;\n    return __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to\
-    \ the graph.\n   *\n   * @return Reference to the edge.\n   */\n  template <class...\
-    \ Args> edge &add_undirected_edge(Args &&... __args) {\n    auto &__e = static_cast<edge_impl\
-    \ &>(\n        base::add_undirected_edge(std::forward<Args>(__args)...));\n  \
-    \  assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
+    \ add_nodes(size_type __n) override {\n    b.resize(b.size() + __n);\n    return\
+    \ base::add_nodes(__n);\n  }\n\n  using base::add_edge;\n\n  /**\n   * @brief\
+    \ Add a directed edge to the graph.\n   *\n   * @param __s Source\n   * @param\
+    \ __d Destination\n   * @param __l Lower bound of flow\n   * @param __u Upper\
+    \ bound of flow\n   * @param __c Cost\n   * @return Reference to the edge.\n \
+    \  */\n  edge &add_edge(size_type __s, size_type __d, Cap __l, Cap __u, Cost __c)\
+    \ {\n    assert(!(__u < __l));\n    b[__s] -= __l;\n    b[__d] += __l;\n    auto\
+    \ &__e = base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow = __l;\n    return\
+    \ __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to the graph.\n   *\n\
+    \   * @return Reference to the edge.\n   */\n  template <class... Args> edge &add_undirected_edge(Args\
+    \ &&... __args) {\n    auto &__e = static_cast<edge_impl &>(\n        base::add_undirected_edge(std::forward<Args>(__args)...));\n\
+    \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
     \ node\n   * @param __f Default: 1\n   */\n  void supply(size_type node, Cap __f\
     \ = 1) {\n    assert(node < b.size());\n    b[node] += __f;\n  }\n\n  /**\n  \
@@ -394,15 +393,15 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
-  timestamp: '2021-01-25 21:49:49+09:00'
+  timestamp: '2021-01-27 17:57:50+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/assignment.test.cpp
+  - test/aizu-online-judge/1615.2.test.cpp
+  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.test.cpp
   - test/aizu-online-judge/2815.test.cpp
-  - test/aizu-online-judge/GRL_6_B.test.cpp
-  - test/aizu-online-judge/1615.2.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document
 redirect_from:

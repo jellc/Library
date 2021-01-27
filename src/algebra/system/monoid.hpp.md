@@ -68,8 +68,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/static_range_inversions_query.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_add_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
