@@ -1,34 +1,77 @@
 #pragma once
 
-/*
+/**
  * @file fixed_point.hpp
  * @brief Fixed Point Combinator
  */
 
-#include <utility>
+#include <map>
 
 namespace workspace {
 
-/*
- * @class fixed_point
- * @brief Recursive calling of lambda expression.
+/**
+ * @brief Fixed Point Combinator
  */
-template <class lambda_type> class fixed_point {
-  lambda_type func;
+template <class _F> class fixed_point {
+  _F __fn;
 
  public:
-  /*
-   * @param func 1st arg callable with the rest of args, and the return type
-   * specified.
+  /**
+   * @param __fn 1st argument callable with the rest of its arguments, and the
+   * return type specified.
    */
-  fixed_point(lambda_type &&func) : func(std::move(func)) {}
+  fixed_point(_F &&__fn) noexcept : __fn(std::forward<_F>(__fn)) {}
 
-  /*
-   * @brief Recursively apply *this to 1st arg of func.
-   * @param args Arguments of the recursive method.
+  /**
+   * @brief Apply *this to 1st argument.
+   * @param __args Rest of arguments.
    */
-  template <class... Args> auto operator()(Args &&... args) const {
-    return func(*this, std::forward<Args>(args)...);
+  template <class... _Args>
+  decltype(auto) operator()(_Args &&... __args) const noexcept {
+    return __fn(*this, std::forward<_Args>(__args)...);
+  }
+};
+
+/**
+ * @brief Cached version of Fixed Point Combinator
+ */
+template <class _F> class fixed_point_cached {
+  template <class...> struct _cache;
+
+  template <class _G, class _R, class _H, class... _Args>
+  struct _cache<_R (_G::*)(_H, _Args...) const>
+      : std::map<std::tuple<_Args...>, _R> {};
+
+  using cache =
+      _cache<decltype(&_F::template operator()<fixed_point_cached<_F> &>)>;
+
+  _F __fn;
+  cache __ca;
+
+ public:
+  /**
+   * @param __fn 1st argument callable with the rest of its arguments, and the
+   * return type specified.
+   */
+  fixed_point_cached(_F &&__fn) noexcept : __fn(std::forward<_F>(__fn)) {}
+
+  /**
+   * @brief Apply *this to 1st argument.
+   * @param __args Rest of arguments.
+   */
+  template <class... _Args>
+  decltype(auto) operator()(_Args &&... __args) noexcept {
+    typename cache::key_type __key(__args...);
+
+    if (auto __i = __ca.lower_bound(__key);
+        __i != __ca.end() && __i->first == __key)
+      return __i->second;
+
+    else
+      return __ca
+          .emplace_hint(__i, std::move(__key),
+                        __fn(*this, std::forward<_Args>(__args)...))
+          ->second;
   }
 };
 
