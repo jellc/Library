@@ -35,7 +35,7 @@ template <class _F> class fixed_point {
 /**
  * @brief Cached version of Fixed Point Combinator
  */
-template <class _F> class fixed_point_cached {
+template <class _F> class cached_fixed_point {
   template <class...> struct _cache;
 
   template <class _G, class _R, class _H, class... _Args>
@@ -43,17 +43,17 @@ template <class _F> class fixed_point_cached {
       : std::map<std::tuple<_Args...>, _R> {};
 
   using cache =
-      _cache<decltype(&_F::template operator()<fixed_point_cached<_F> &>)>;
+      _cache<decltype(&_F::template operator()<cached_fixed_point<_F> &>)>;
 
   _F __fn;
-  cache __ca;
+  static cache __ca;
 
  public:
   /**
    * @param __fn 1st argument callable with the rest of its arguments, and the
    * return type specified.
    */
-  fixed_point_cached(_F &&__fn) noexcept : __fn(std::forward<_F>(__fn)) {}
+  cached_fixed_point(_F &&__fn) noexcept : __fn(std::forward<_F>(__fn)) {}
 
   /**
    * @brief Apply *this to 1st argument.
@@ -74,5 +74,8 @@ template <class _F> class fixed_point_cached {
           ->second;
   }
 };
+
+template <class _F>
+typename cached_fixed_point<_F>::cache cached_fixed_point<_F>::__ca;
 
 }  // namespace workspace
