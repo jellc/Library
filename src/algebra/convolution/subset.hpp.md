@@ -13,8 +13,8 @@ data:
     document_title: Subset Convolution
     links: []
   bundledCode: "#line 2 \"src/algebra/convolution/subset.hpp\"\n\n/*\n * @brief Subset\
-    \ Convolution\n */\n\n#include <cassert>\n#include <vector>\n\n#line 1 \"lib/bit\"\
-    \n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n\
+    \ Convolution\n */\n\n#include <cassert>\n#include <vector>\n\n#line 2 \"lib/bit\"\
+    \n\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n\
     #define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\nnamespace\
     \ std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept\
     \ {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s\
@@ -120,7 +120,7 @@ data:
   isVerificationFile: false
   path: src/algebra/convolution/subset.hpp
   requiredBy: []
-  timestamp: '2021-01-07 23:47:01+09:00'
+  timestamp: '2021-02-09 12:03:18+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/subset_convolution.test.cpp

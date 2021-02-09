@@ -30,10 +30,10 @@ data:
     #define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\n\n\
     #include <vector>\n\n#line 2 \"src/algebra/convolution/bitxor.hpp\"\n\n/**\n *\
     \ @file bitxor.hpp\n * @brief Bitwise Xor Convolution\n * @date 2021-01-08\n */\n\
-    \n#include <iterator>\n\n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include\
-    \ <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n\
-    #include <type_traits>\n\nnamespace std {\n\ntemplate <typename _Tp> constexpr\
-    \ _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \n#include <iterator>\n\n#line 2 \"lib/bit\"\n\n#if __cplusplus > 201703L\n\n\
+    #include <bit>\n\n#else\n\n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include\
+    \ <limits>\n#include <type_traits>\n\nnamespace std {\n\ntemplate <typename _Tp>\
+    \ constexpr _Tp __rotl(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
     \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
     \ > 0)\n    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return\
     \ (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate\
@@ -321,7 +321,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-24 20:27:26+09:00'
+  timestamp: '2021-02-09 12:03:18+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_xor_convolution.test.cpp

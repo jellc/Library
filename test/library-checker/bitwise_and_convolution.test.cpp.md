@@ -39,20 +39,20 @@ data:
     \n#line 2 \"src/algebra/convolution/bitor.hpp\"\n\n/**\n * @file bitor.hpp\n *\
     \ @brief Bitwise Or Convolution\n * @date 2021-01-08\n */\n\n#line 2 \"src/algebra/convolution/zeta.hpp\"\
     \n\n/**\n * @file zeta.hpp\n * @brief Fast Zeta Transform\n */\n\n#include <cstddef>\n\
-    \n#line 1 \"lib/bit\"\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\n\
-    #ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include <type_traits>\n\
-    \nnamespace std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp __x, int\
-    \ __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n  const\
-    \ int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r > 0)\n\
-    \    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return (__x\
-    \ >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate <typename\
-    \ _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr auto _Nd\
-    \ = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if (__r == 0)\n\
-    \    return __x;\n  else if (__r > 0)\n    return (__x >> __r) | (__x << ((_Nd\
-    \ - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));\
-    \  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int __countl_zero(_Tp\
-    \ __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\n  if\
-    \ (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
+    \n#line 2 \"lib/bit\"\n\n#if __cplusplus > 201703L\n\n#include <bit>\n\n#else\n\
+    \n#ifndef _GLIBCXX_BIT\n#define _GLIBCXX_BIT 1\n\n#include <limits>\n#include\
+    \ <type_traits>\n\nnamespace std {\n\ntemplate <typename _Tp> constexpr _Tp __rotl(_Tp\
+    \ __x, int __s) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \  const int __r = __s % _Nd;\n  if (__r == 0)\n    return __x;\n  else if (__r\
+    \ > 0)\n    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));\n  else\n    return\
+    \ (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)\n}\n\ntemplate\
+    \ <typename _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {\n  constexpr\
+    \ auto _Nd = numeric_limits<_Tp>::digits;\n  const int __r = __s % _Nd;\n  if\
+    \ (__r == 0)\n    return __x;\n  else if (__r > 0)\n    return (__x >> __r) |\
+    \ (__x << ((_Nd - __r) % _Nd));\n  else\n    return (__x << -__r) | (__x >> ((_Nd\
+    \ + __r) % _Nd));  // rotl(x, -r)\n}\n\ntemplate <typename _Tp> constexpr int\
+    \ __countl_zero(_Tp __x) noexcept {\n  constexpr auto _Nd = numeric_limits<_Tp>::digits;\n\
+    \n  if (__x == 0) return _Nd;\n\n  constexpr auto _Nd_ull = numeric_limits<unsigned\
     \ long long>::digits;\n  constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;\n\
     \  constexpr auto _Nd_u = numeric_limits<unsigned>::digits;\n\n  if _GLIBCXX17_CONSTEXPR\
     \ (_Nd <= _Nd_u) {\n    constexpr int __diff = _Nd_u - _Nd;\n    return __builtin_clz(__x)\
@@ -342,7 +342,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-01-24 20:27:26+09:00'
+  timestamp: '2021-02-09 12:03:18+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp
