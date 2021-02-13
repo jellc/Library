@@ -257,8 +257,8 @@ data:
   timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/library-checker/zalgorithm_2.test.cpp
 documentation_of: src/string/rolling_hash.hpp
 layout: document
 redirect_from:

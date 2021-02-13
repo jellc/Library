@@ -46,8 +46,8 @@ data:
   timestamp: '2020-12-12 22:39:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/zalgorithm_2.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
+  - test/library-checker/zalgorithm_2.test.cpp
 documentation_of: src/utils/rand/rng.hpp
 layout: document
 redirect_from:

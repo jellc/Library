@@ -149,9 +149,9 @@ data:
   timestamp: '2021-01-24 20:27:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aizu-online-judge/2450.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/utils/io/istream.hpp
 layout: document
 redirect_from:
