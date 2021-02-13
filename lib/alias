@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "bit"
+#include "limits"
 
 namespace workspace {
 
