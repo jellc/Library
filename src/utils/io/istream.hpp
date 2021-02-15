@@ -120,9 +120,6 @@ class istream : public std::istream {
   }
 };
 
-namespace internal {
-auto *const cin_ptr = (istream *)&std::cin;
-}
-auto &cin = *internal::cin_ptr;
+decltype(auto) cin = static_cast<istream &>(std::cin);
 
 }  // namespace workspace
