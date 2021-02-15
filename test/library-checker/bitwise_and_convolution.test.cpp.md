@@ -288,14 +288,13 @@ data:
     \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
     033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
     \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
-    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
-    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/**\n * @file ostream.hpp\n\
-    \ * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\n\nnamespace\
-    \ workspace {\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n\
-    \ * @param __os Output stream\n * @param __p Pair\n * @return Reference to __os.\n\
-    \ */\ntemplate <class Os, class T1, class T2>\nOs &operator<<(Os &__os, const\
-    \ std::pair<T1, T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    \    }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream\
+    \ &>(std::cin);\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\
+    \n\n/**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Stream insertion operator for std::pair.\n\
+    \ *\n * @param __os Output stream\n * @param __p Pair\n * @return Reference to\
+    \ __os.\n */\ntemplate <class Os, class T1, class T2>\nOs &operator<<(Os &__os,\
+    \ const std::pair<T1, T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
     }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
     \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
     \ <class Os, class Tp, size_t N = 0>\ntypename std::enable_if<bool(std::tuple_size<Tp>::value\
@@ -342,7 +341,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-02-09 12:03:18+09:00'
+  timestamp: '2021-02-16 02:23:42+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp

@@ -97,9 +97,8 @@ data:
     \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
     033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
     \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
-    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
-    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
-    \ workspace\n"
+    \    }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream\
+    \ &>(std::cin);\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n\
     #include <cxxabi.h>\n\n#include <cassert>\n#include <iostream>\n#include <tuple>\n\
     \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\nnamespace internal\
@@ -138,15 +137,14 @@ data:
     \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
     033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(Tp).name(),\
     \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
-    \    }\n    return *this;\n  }\n};\n\nnamespace internal {\nauto *const cin_ptr\
-    \ = (istream *)&std::cin;\n}\nauto &cin = *internal::cin_ptr;\n\n}  // namespace\
-    \ workspace\n"
+    \    }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream\
+    \ &>(std::cin);\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2021-01-24 20:27:26+09:00'
+  timestamp: '2021-02-16 02:23:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp
