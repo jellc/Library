@@ -70,6 +70,12 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/linear/lu.hpp
+      title: LU decomposition
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/linear/matrix.hpp
+      title: Matrix
     - icon: ':warning:'
       path: src/algebra/linear/xor_elimination.hpp
       title: XOR Elimination
@@ -363,6 +369,9 @@ data:
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/ITP1_7_D.test.cpp
+      title: test/aizu-online-judge/ITP1_7_D.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_D.test.cpp
       title: test/aizu-online-judge/NTL_1_D.test.cpp
     - icon: ':heavy_check_mark:'
@@ -391,6 +400,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/matrix_det.test.cpp
+      title: test/library-checker/matrix_det.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/min_cost_b_flow.test.cpp
       title: test/library-checker/min_cost_b_flow.test.cpp
@@ -427,6 +439,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/system_of_linear_equations.test.cpp
+      title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/two_edge_connected_components.test.cpp
       title: test/library-checker/two_edge_connected_components.test.cpp

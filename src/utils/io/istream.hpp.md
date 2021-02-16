@@ -10,11 +10,20 @@ data:
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/ITP1_7_D.test.cpp
+    title: test/aizu-online-judge/ITP1_7_D.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/matrix_det.test.cpp
+    title: test/library-checker/matrix_det.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/system_of_linear_equations.test.cpp
+    title: test/library-checker/system_of_linear_equations.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -148,6 +157,9 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp
+  - test/aizu-online-judge/ITP1_7_D.test.cpp
+  - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
 documentation_of: src/utils/io/istream.hpp

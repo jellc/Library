@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/ITP1_7_D.test.cpp
+    title: test/aizu-online-judge/ITP1_7_D.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
   - icon: ':heavy_check_mark:'
@@ -18,6 +21,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/system_of_linear_equations.test.cpp
+    title: test/library-checker/system_of_linear_equations.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
@@ -111,8 +117,10 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/NTL_1_E.test.cpp
+  - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/zalgorithm.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
