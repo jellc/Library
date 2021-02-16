@@ -10,14 +10,32 @@
 namespace workspace {
 
 /**
+ * @brief Stream insertion operator for C-style array.
+ *
+ * @param __os Output stream
+ * @param __a Array
+ * @return Reference to __os.
+ */
+template <class _Os, class _Tp, size_t _Nm>
+typename std::enable_if<bool(sizeof(_Tp) > 2), _Os &>::type operator<<(
+    _Os &__os, const _Tp (&__a)[_Nm]) {
+  if constexpr (_Nm) {
+    __os << *__a;
+    for (auto __i = __a + 1, __e = __a + _Nm; __i != __e; ++__i)
+      __os << ' ' << *__i;
+  }
+  return __os;
+}
+
+/**
  * @brief Stream insertion operator for std::pair.
  *
  * @param __os Output stream
  * @param __p Pair
  * @return Reference to __os.
  */
-template <class Os, class T1, class T2>
-Os &operator<<(Os &__os, const std::pair<T1, T2> &__p) {
+template <class _Os, class _T1, class _T2>
+_Os &operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {
   return __os << __p.first << ' ' << __p.second;
 }
 
@@ -28,24 +46,24 @@ Os &operator<<(Os &__os, const std::pair<T1, T2> &__p) {
  * @param __t Tuple
  * @return Reference to __os.
  */
-template <class Os, class Tp, size_t N = 0>
-typename std::enable_if<bool(std::tuple_size<Tp>::value + 1), Os &>::type
-operator<<(Os &__os, const Tp &__t) {
-  if constexpr (N != std::tuple_size<Tp>::value) {
-    if constexpr (N) __os << ' ';
-    __os << std::get<N>(__t);
-    operator<<<Os, Tp, N + 1>(__os, __t);
+template <class _Os, class _Tp, size_t _Nm = 0>
+typename std::enable_if<bool(std::tuple_size<_Tp>::value + 1), _Os &>::type
+operator<<(_Os &__os, const _Tp &__t) {
+  if constexpr (_Nm != std::tuple_size<_Tp>::value) {
+    if constexpr (_Nm) __os << ' ';
+    __os << std::get<_Nm>(__t);
+    operator<<<_Os, _Tp, _Nm + 1>(__os, __t);
   }
   return __os;
 }
 
-template <class Os, class Container,
-          typename = decltype(std::begin(std::declval<Container>()))>
+template <class _Os, class _Container,
+          typename = decltype(std::begin(std::declval<_Container>()))>
 typename std::enable_if<
-    !std::is_same<typename std::decay<Container>::type, std::string>::value &&
-        !std::is_same<typename std::decay<Container>::type, char *>::value,
-    Os &>::type
-operator<<(Os &__os, const Container &__cont) {
+    !std::is_same<typename std::decay<_Container>::type, std::string>::value &&
+        !std::is_same<typename std::decay<_Container>::type, char *>::value,
+    _Os &>::type
+operator<<(_Os &__os, const _Container &__cont) {
   bool __h = true;
   for (auto &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;
   return __os;
@@ -60,7 +78,7 @@ operator<<(Os &__os, const Container &__cont) {
  * @param __x 128-bit integer
  * @return Reference to __os.
  */
-template <class Os> Os &operator<<(Os &__os, __int128_t __x) {
+template <class _Os> _Os &operator<<(_Os &__os, __int128_t __x) {
   if (!__x) return __os << '0';
   if (__x < 0) __os << '-';
   char __s[40], *__p = __s;
@@ -81,7 +99,7 @@ template <class Os> Os &operator<<(Os &__os, __int128_t __x) {
  * @param __x 128-bit unsigned integer
  * @return Reference to __os.
  */
-template <class Os> Os &operator<<(Os &__os, __uint128_t __x) {
+template <class _Os> _Os &operator<<(_Os &__os, __uint128_t __x) {
   if (!__x) return __os << '0';
   char __s[40], *__p = __s;
   while (__x) *__p++ = '0' + __x % 10, __x /= 10;
