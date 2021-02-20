@@ -1,23 +1,19 @@
+#pragma once
+
 /**
  * @file primitive_root.hpp
  * @brief Primitive Root
  * @date 2020-12-28
  */
 
-#include <type_traits>
-
 #include "src/utils/sfinae.hpp"
-
-#if __cplusplus >= 201703L
-
-#include <optional>
 
 namespace workspace {
 
 /**
  * @brief Compile time primitive root.
  *
- * @tparam __mod A positive integer
+ * @tparam __mod Positive integer
  * @return Minimum positive one if it exists. Otherwise 0.
  */
 template <class Tp>
@@ -44,7 +40,7 @@ primitive_root(const Tp __mod) noexcept {
   }
   if (__r != 1) *__q++ = __r;
 
-  for (int_type __r = 1; __r != __mod; ++__r) {
+  for (Tp __r = 1; __r != __mod; ++__r) {
     auto __cnt = 0;
     for (__q = __p; *__q; ++__q) {
       int_type __w = 1;
@@ -60,5 +56,3 @@ primitive_root(const Tp __mod) noexcept {
 };
 
 }  // namespace workspace
-
-#endif
