@@ -9,6 +9,19 @@
 
 namespace workspace {
 
+template <class _Os> struct is_ostream {
+  template <typename... _Args>
+  static std::true_type __test(std::basic_ostream<_Args...> *);
+
+  static std::false_type __test(void *);
+
+  constexpr static bool value = decltype(__test(std::declval<_Os *>()))::value;
+};
+
+template <class _Os>
+using ostream_ref =
+    typename std::enable_if<is_ostream<_Os>::value, _Os &>::type;
+
 /**
  * @brief Stream insertion operator for C-style array.
  *
@@ -17,8 +30,8 @@ namespace workspace {
  * @return Reference to __os.
  */
 template <class _Os, class _Tp, size_t _Nm>
-typename std::enable_if<bool(sizeof(_Tp) > 2), _Os &>::type operator<<(
-    _Os &__os, const _Tp (&__a)[_Nm]) {
+typename std::enable_if<bool(sizeof(_Tp) > 2), ostream_ref<_Os>>::type
+operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {
   if constexpr (_Nm) {
     __os << *__a;
     for (auto __i = __a + 1, __e = __a + _Nm; __i != __e; ++__i)
@@ -35,7 +48,7 @@ typename std::enable_if<bool(sizeof(_Tp) > 2), _Os &>::type operator<<(
  * @return Reference to __os.
  */
 template <class _Os, class _T1, class _T2>
-_Os &operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {
+ostream_ref<_Os> operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {
   return __os << __p.first << ' ' << __p.second;
 }
 
@@ -47,7 +60,8 @@ _Os &operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {
  * @return Reference to __os.
  */
 template <class _Os, class _Tp, size_t _Nm = 0>
-typename std::enable_if<bool(std::tuple_size<_Tp>::value + 1), _Os &>::type
+typename std::enable_if<bool(std::tuple_size<_Tp>::value + 1),
+                        ostream_ref<_Os>>::type
 operator<<(_Os &__os, const _Tp &__t) {
   if constexpr (_Nm != std::tuple_size<_Tp>::value) {
     if constexpr (_Nm) __os << ' ';
@@ -62,7 +76,7 @@ template <class _Os, class _Container,
 typename std::enable_if<
     !std::is_same<typename std::decay<_Container>::type, std::string>::value &&
         !std::is_same<typename std::decay<_Container>::type, char *>::value,
-    _Os &>::type
+    ostream_ref<_Os>>::type
 operator<<(_Os &__os, const _Container &__cont) {
   bool __h = true;
   for (auto &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;
@@ -78,7 +92,7 @@ operator<<(_Os &__os, const _Container &__cont) {
  * @param __x 128-bit integer
  * @return Reference to __os.
  */
-template <class _Os> _Os &operator<<(_Os &__os, __int128_t __x) {
+template <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __int128_t __x) {
   if (!__x) return __os << '0';
   if (__x < 0) __os << '-';
   char __s[40], *__p = __s;
@@ -99,7 +113,7 @@ template <class _Os> _Os &operator<<(_Os &__os, __int128_t __x) {
  * @param __x 128-bit unsigned integer
  * @return Reference to __os.
  */
-template <class _Os> _Os &operator<<(_Os &__os, __uint128_t __x) {
+template <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __uint128_t __x) {
   if (!__x) return __os << '0';
   char __s[40], *__p = __s;
   while (__x) *__p++ = '0' + __x % 10, __x /= 10;
