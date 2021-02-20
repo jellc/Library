@@ -18,7 +18,7 @@ data:
   attributes:
     document_title: Extended Euclidean Algorithm
     links: []
-  bundledCode: "#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/*\n * @file ext_gcd\n\
+  bundledCode: "#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
     \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
     src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
     #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
@@ -58,34 +58,37 @@ data:
     \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
     \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
     \ 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param\
-    \ a Integer\n * @param b Integer\n * @return Pair of integers (x, y) s.t. ax +\
-    \ by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note return (0, 0) if\
-    \ (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr auto ext_gcd(T1\
-    \ a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n  static_assert(is_integral_ext<T2>::value);\n\
-    \  using result_type =\n      typename std::make_signed<typename std::common_type<T1,\
-    \ T2>::type>::type;\n  result_type p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n \
-    \   r ^= p ^= r ^= p -= (t = a / b) * r;\n    s ^= q ^= s ^= q -= t * s;\n   \
-    \ b ^= a ^= b ^= a %= b;\n  }\n  if (a < 0) p = -p, q = -q;\n  return std::make_pair(p,\
-    \ q);\n}\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file ext_gcd\n * @brief Extended Euclidean Algorithm\n\
+    \ __a Integer\n * @param __b Integer\n * @return Pair of integers (x, y) s.t.\
+    \ ax + by = g = gcd(a, b), 0 <= x <\n * |b/g|, -|a/g| < y <= 0. Return (0, 0)\
+    \ if (a, b) = (0, 0).\n */\ntemplate <typename _T1, typename _T2> constexpr auto\
+    \ ext_gcd(_T1 __a, _T2 __b) {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n\n  using result_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
+    \n  result_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  // Euclidean algorithm\n\
+    \  while (b) {\n    result_type t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n \
+    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  // Normalize\n\
+    \  if (a < 0) p = -p, q = -q;\n  if (p < 0) p += __b / a, q -= __a / a;\n\n  return\
+    \ std::make_pair(p, q);\n}\n\n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file ext_gcd.hpp\n * @brief Extended Euclidean Algorithm\n\
     \ */\n\n#include <tuple>\n\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @param a Integer\n * @param b Integer\n * @return Pair of integers\
-    \ (x, y) s.t. ax + by = g = gcd(a, b), |x| < |b/g|,\n * |y| < |a/g|.\n * @note\
-    \ return (0, 0) if (a, b) = (0, 0)\n */\ntemplate <typename T1, typename T2> constexpr\
-    \ auto ext_gcd(T1 a, T2 b) {\n  static_assert(is_integral_ext<T1>::value);\n \
-    \ static_assert(is_integral_ext<T2>::value);\n  using result_type =\n      typename\
-    \ std::make_signed<typename std::common_type<T1, T2>::type>::type;\n  result_type\
-    \ p{1}, q{}, r{}, s{1}, t;\n  while (b) {\n    r ^= p ^= r ^= p -= (t = a / b)\
-    \ * r;\n    s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a %= b;\n  }\n  if\
-    \ (a < 0) p = -p, q = -q;\n  return std::make_pair(p, q);\n}\n\n}  // namespace\
-    \ workspace\n"
+    \ {\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @return Pair of integers\
+    \ (x, y) s.t. ax + by = g = gcd(a, b), 0 <= x <\n * |b/g|, -|a/g| < y <= 0. Return\
+    \ (0, 0) if (a, b) = (0, 0).\n */\ntemplate <typename _T1, typename _T2> constexpr\
+    \ auto ext_gcd(_T1 __a, _T2 __b) {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n\n  using result_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
+    \n  result_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  // Euclidean algorithm\n\
+    \  while (b) {\n    result_type t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n \
+    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  // Normalize\n\
+    \  if (a < 0) p = -p, q = -q;\n  if (p < 0) p += __b / a, q -= __a / a;\n\n  return\
+    \ std::make_pair(p, q);\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
   requiredBy:
   - src/number_theory/order.hpp
-  timestamp: '2021-01-22 09:52:55+09:00'
+  timestamp: '2021-02-20 12:57:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/NTL_1_E.test.cpp
