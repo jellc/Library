@@ -73,7 +73,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -258,15 +258,15 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -368,7 +368,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
+      path: test/aizu-online-judge/ITP1_6_D.test.cpp
+      title: test/aizu-online-judge/ITP1_6_D.test.cpp
+    - icon: ':x:'
       path: test/aizu-online-judge/ITP1_7_D.test.cpp
       title: test/aizu-online-judge/ITP1_7_D.test.cpp
     - icon: ':heavy_check_mark:'

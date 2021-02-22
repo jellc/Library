@@ -20,11 +20,11 @@ data:
   _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/ITP1_7_D
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/ITP1_6_D
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/ITP1_7_D
-  bundledCode: "#line 1 \"test/aizu-online-judge/ITP1_7_D.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/ITP1_7_D\"\n\n#line 2 \"src/algebra/linear/matrix.hpp\"\
+    - https://onlinejudge.u-aizu.ac.jp/problems/ITP1_6_D
+  bundledCode: "#line 1 \"test/aizu-online-judge/ITP1_6_D.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/ITP1_6_D\"\n\n#line 2 \"src/algebra/linear/matrix.hpp\"\
     \n\n/**\n * @file matrix.hpp\n * @brief Matrix\n * @date 2021-02-15\n *\n *\n\
     \ */\n\n#include <cassert>\n#include <valarray>\n\nnamespace workspace {\n\n/**\n\
     \ * @brief Fixed size matrix.\n *\n * @tparam _Scalar\n * @tparam _Rows Number\
@@ -270,30 +270,30 @@ data:
     \ __x) {\n  if (!__x) return __os << '0';\n  char __s[40], *__p = __s;\n  while\
     \ (__x) *__p++ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s;\
     \ __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\
-    \n#endif\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/ITP1_7_D.test.cpp\"\
-    \n\nint main() {\n  using namespace workspace;\n  int n, m, l;\n  cin >> n >>\
-    \ m >> l;\n  matrix<long long> a(n, m), b(m, l);\n  cin >> a >> b;\n  std::cout\
-    \ << (a *= b);\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ITP1_7_D\"\n\n\
+    \n#endif\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/ITP1_6_D.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n  int n, m;\n  cin >> n >> m;\n\
+    \  matrix<long long> a(n, m), b(m, 1);\n  cin >> a >> b;\n  std::cout << (a *=\
+    \ b);\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ITP1_6_D\"\n\n\
     #include \"src/algebra/linear/matrix.hpp\"\n#include \"src/utils/io/istream.hpp\"\
     \n#include \"src/utils/io/ostream.hpp\"\n\nint main() {\n  using namespace workspace;\n\
-    \  int n, m, l;\n  cin >> n >> m >> l;\n  matrix<long long> a(n, m), b(m, l);\n\
-    \  cin >> a >> b;\n  std::cout << (a *= b);\n}\n"
+    \  int n, m;\n  cin >> n >> m;\n  matrix<long long> a(n, m), b(m, 1);\n  cin >>\
+    \ a >> b;\n  std::cout << (a *= b);\n}\n"
   dependsOn:
   - src/algebra/linear/matrix.hpp
   - src/utils/io/istream.hpp
   - src/utils/sfinae.hpp
   - src/utils/io/ostream.hpp
   isVerificationFile: true
-  path: test/aizu-online-judge/ITP1_7_D.test.cpp
+  path: test/aizu-online-judge/ITP1_6_D.test.cpp
   requiredBy: []
   timestamp: '2021-02-22 16:43:34+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
-documentation_of: test/aizu-online-judge/ITP1_7_D.test.cpp
+documentation_of: test/aizu-online-judge/ITP1_6_D.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aizu-online-judge/ITP1_7_D.test.cpp
-- /verify/test/aizu-online-judge/ITP1_7_D.test.cpp.html
-title: test/aizu-online-judge/ITP1_7_D.test.cpp
+- /verify/test/aizu-online-judge/ITP1_6_D.test.cpp
+- /verify/test/aizu-online-judge/ITP1_6_D.test.cpp.html
+title: test/aizu-online-judge/ITP1_6_D.test.cpp
 ---

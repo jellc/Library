@@ -13,13 +13,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
