@@ -140,21 +140,20 @@ data:
     \ assigned\n */\ntemplate <unsigned type_id = 0>\nusing modint_runtime = internal::modint_base<-(signed)type_id>;\n\
     \n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  // namespace workspace\n\
     #line 2 \"src/combinatorics/factorial.hpp\"\n\n/**\n * @file factorial.hpp\n *\
-    \ @brief Factorial\n * @date 2021-01-15\n *\n *\n */\n\n#line 12 \"src/combinatorics/factorial.hpp\"\
-    \n#include <functional>\n#include <vector>\n\nnamespace workspace {\n\ntemplate\
-    \ <class Tp> Tp factorial(int_fast32_t __x) noexcept {\n  if (__x < 0) return\
-    \ 0;\n  static std::vector<Tp> __t{1};\n  static int_fast32_t __i = (__t.reserve(0x1000000),\
-    \ 0);\n  while (__i < __x) {\n    ++__i;\n    __t.emplace_back(__t.back() * __i);\n\
-    \  }\n  return __t[__x];\n}\n\ntemplate <class Tp> Tp factorial_inverse(int_fast32_t\
-    \ __x) noexcept {\n  if (__x < 0) return 0;\n  static std::vector<Tp> __t{1};\n\
-    \  static int_fast32_t __i = (__t.reserve(0x1000000), 0);\n  while (__i < __x)\
-    \ {\n    ++__i;\n    __t.emplace_back(__t.back() / __i);\n  }\n  return __t[__x];\n\
-    }\n\n}  // namespace workspace\n#line 13 \"src/combinatorics/binomial.hpp\"\n\n\
-    namespace workspace {\n\n/**\n * @brief Binomial coefficient for integer args.\n\
-    \ */\ntemplate <class Tp> Tp binomial(int_fast32_t __x, int_fast32_t __y) {\n\
-    \  if (!__y) return 1;\n  if (__y < 0 || __x < __y) return 0;\n  return factorial<Tp>(__x)\
-    \ * factorial_inverse<Tp>(__y) *\n         factorial_inverse<Tp>(__x - __y);\n\
-    }\n\n}  // namespace workspace\n"
+    \ @brief Factorial\n * @date 2021-01-15\n *\n *\n */\n\n#include <vector>\n\n\
+    namespace workspace {\n\ntemplate <class _Tp> _Tp factorial(int32_t __x) noexcept\
+    \ {\n  if (__x < 0) return 0;\n\n  static std::vector<_Tp> __t{1};\n  static int32_t\
+    \ __i = (__t.reserve(0x1000000), 0);\n\n  while (__i < __x) {\n    ++__i;\n  \
+    \  __t.emplace_back(__t.back() * _Tp(__i));\n  }\n\n  return __t[__x];\n}\n\n\
+    template <class _Tp> _Tp factorial_inverse(int32_t __x) noexcept {\n  if (__x\
+    \ < 0) return 0;\n\n  static std::vector<_Tp> __t{1};\n  static int32_t __i =\
+    \ (__t.reserve(0x1000000), 0);\n\n  while (__i < __x) {\n    ++__i;\n    __t.emplace_back(__t.back()\
+    \ / _Tp(__i));\n  }\n\n  return __t[__x];\n}\n\n}  // namespace workspace\n#line\
+    \ 13 \"src/combinatorics/binomial.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
+    \ Binomial coefficient for integer args.\n */\ntemplate <class Tp> Tp binomial(int_fast32_t\
+    \ __x, int_fast32_t __y) {\n  if (!__y) return 1;\n  if (__y < 0 || __x < __y)\
+    \ return 0;\n  return factorial<Tp>(__x) * factorial_inverse<Tp>(__y) *\n    \
+    \     factorial_inverse<Tp>(__x - __y);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file binomial.hpp\n * @brief Binomial Coefficient\n\
     \ * @date 2021-01-15\n *\n *\n */\n\n#include \"../modular/modint.hpp\"\n#include\
     \ \"factorial.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Binomial coefficient\
@@ -169,7 +168,7 @@ data:
   isVerificationFile: false
   path: src/combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2021-01-22 09:52:55+09:00'
+  timestamp: '2021-02-22 17:01:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
