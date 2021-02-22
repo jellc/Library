@@ -125,15 +125,18 @@ class matrix {
     return *this;
   }
 
-  template <class _Scalar2, size_type _Cols2>
-  constexpr auto operator*(const matrix<_Scalar2, _Cols, _Cols2>& __x) const {
-    matrix<_Scalar, _Rows, _Cols2> __m;
+  template <class _Scalar2, size_type _Rows2, size_type _Cols2>
+  constexpr auto operator*(const matrix<_Scalar2, _Rows2, _Cols2>& __x) const {
+    matrix<typename std::common_type<_Scalar, _Scalar2>::type, _Rows, _Cols2>
+        __m;
 
     auto __w = *__m.__data;
     for (const auto& __r : __data)
-      for (auto __v = *__x.__data, __end = __v + _Cols2; __v != __end; ++__w) {
+      for (auto __v = *__x.__data, __v_end = __v + _Cols2; __v != __v_end;
+           ++__w) {
         auto __i = __v++;
-        for (const auto& __e : __r) *__w += __e * *__i, __i += _Cols2;
+        for (auto __e = __r; __e != __r + std::min(_Cols, _Rows2); ++__e)
+          *__w += *__e * *__i, __i += _Cols2;
       }
 
     return __m;
@@ -144,13 +147,11 @@ class matrix {
       typename std::enable_if<!std::is_convertible<_Matrix, value_type>::value,
                               matrix<_Scalar>>::type
       operator*(const _Matrix& __x) const {
-    assert(_Cols <= __x.rows());
-
     matrix<_Scalar> __m(_Rows, __x.cols());
 
     for (size_type __r = 0; __r != _Rows; ++__r)
       for (size_type __i = 0; __i != __x.cols(); ++__i)
-        for (size_type __c = 0; __c != _Cols; ++__c)
+        for (size_type __c = 0; __c != std::min(_Cols, __x.rows()); ++__c)
           __m[__r][__i] += __data[__r][__c] * __x[__c][__i];
 
     return __m;
@@ -181,7 +182,6 @@ class matrix {
   }
 
   template <class _Int> constexpr matrix pow(_Int __e) const {
-    static_assert(_Rows == _Cols);
     assert(0 <= __e);
 
     matrix __m = eye();
@@ -282,26 +282,24 @@ class matrix<_Scalar, 0, 0> : public std::valarray<std::valarray<_Scalar>> {
   typename std::enable_if<!std::is_convertible<_Matrix, value_type>::value,
                           matrix&>::type
   operator*=(_Matrix&& __x) {
-    return operator=(operator*(std::forward<_Matrix>(__x)));
+    return *this = operator*(std::forward<_Matrix>(__x));
   }
 
   template <class _Matrix>
   typename std::enable_if<!std::is_convertible<_Matrix, value_type>::value,
                           matrix>::type
   operator*(const _Matrix& __x) const {
-    assert(cols() <= __x.rows());
-
     matrix __m(rows(), __x.cols());
 
     if constexpr (is_valarray_based<_Matrix>::value)
       for (size_type __r = 0; __r != rows(); ++__r)
-        for (size_type __c = 0; __c != cols(); ++__c)
+        for (size_type __c = 0; __c != std::min(cols(), __x.rows()); ++__c)
           __m[__r] += operator[](__r)[__c] * __x[__c];
 
     else
       for (size_type __r = 0; __r != rows(); ++__r)
-        for (size_type __c = 0; __c != cols(); ++__c)
-          for (size_type __i = 0; __i != __x.cols(); ++__i)
+        for (size_type __i = 0; __i != __x.cols(); ++__i)
+          for (size_type __c = 0; __c != std::min(cols(), __x.rows()); ++__c)
             __m[__r][__i] += operator[](__r)[__c] * __x[__c][__i];
 
     return __m;
