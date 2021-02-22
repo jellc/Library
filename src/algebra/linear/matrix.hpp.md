@@ -6,10 +6,10 @@ data:
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_6_D.test.cpp
     title: test/aizu-online-judge/ITP1_6_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_7_D.test.cpp
     title: test/aizu-online-judge/ITP1_7_D.test.cpp
   - icon: ':heavy_check_mark:'
@@ -18,9 +18,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Matrix
     links: []
@@ -64,30 +64,31 @@ data:
     \      for (auto& __w : __tmp) {\n        auto __i = __v++;\n        for (const\
     \ auto& __e : __r) __w += __e * *__i, __i += _Cols;\n      }\n\n      auto __w\
     \ = __tmp;\n      for (auto& __e : __r) __e = std::move(*__w++);\n    }\n\n  \
-    \  return *this;\n  }\n\n  template <class _Scalar2, size_type _Cols2>\n  constexpr\
-    \ auto operator*(const matrix<_Scalar2, _Cols, _Cols2>& __x) const {\n    matrix<_Scalar,\
-    \ _Rows, _Cols2> __m;\n\n    auto __w = *__m.__data;\n    for (const auto& __r\
-    \ : __data)\n      for (auto __v = *__x.__data, __end = __v + _Cols2; __v != __end;\
-    \ ++__w) {\n        auto __i = __v++;\n        for (const auto& __e : __r) *__w\
-    \ += __e * *__i, __i += _Cols2;\n      }\n\n    return __m;\n  }\n\n  template\
+    \  return *this;\n  }\n\n  template <class _Scalar2, size_type _Rows2, size_type\
+    \ _Cols2>\n  constexpr auto operator*(const matrix<_Scalar2, _Rows2, _Cols2>&\
+    \ __x) const {\n    matrix<typename std::common_type<_Scalar, _Scalar2>::type,\
+    \ _Rows, _Cols2>\n        __m;\n\n    auto __w = *__m.__data;\n    for (const\
+    \ auto& __r : __data)\n      for (auto __v = *__x.__data, __v_end = __v + _Cols2;\
+    \ __v != __v_end;\n           ++__w) {\n        auto __i = __v++;\n        for\
+    \ (auto __e = __r; __e != __r + std::min(_Cols, _Rows2); ++__e)\n          *__w\
+    \ += *__e * *__i, __i += _Cols2;\n      }\n\n    return __m;\n  }\n\n  template\
     \ <class _Matrix>\n  constexpr\n      typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                              matrix<_Scalar>>::type\n\
-    \      operator*(const _Matrix& __x) const {\n    assert(_Cols <= __x.rows());\n\
-    \n    matrix<_Scalar> __m(_Rows, __x.cols());\n\n    for (size_type __r = 0; __r\
-    \ != _Rows; ++__r)\n      for (size_type __i = 0; __i != __x.cols(); ++__i)\n\
-    \        for (size_type __c = 0; __c != _Cols; ++__c)\n          __m[__r][__i]\
-    \ += __data[__r][__c] * __x[__c][__i];\n\n    return __m;\n  }\n\n  constexpr\
-    \ matrix& operator*=(const value_type& __x) {\n    for (auto& __v : __data)\n\
-    \      for (auto& __e : __v) __e *= __x;\n\n    return *this;\n  }\n\n  constexpr\
-    \ matrix operator*(const value_type& __x) const {\n    return matrix(*this) *=\
-    \ __x;\n  }\n\n  constexpr matrix& operator/=(const value_type& __x) {\n    assert(__x\
-    \ != value_type(0));\n\n    for (auto& __v : __data)\n      for (auto& __e : __v)\
-    \ __e /= __x;\n\n    return *this;\n  }\n\n  constexpr matrix operator/(const\
-    \ value_type& __x) const {\n    return matrix(*this) /= __x;\n  }\n\n  template\
-    \ <class _Int> constexpr matrix pow(_Int __e) const {\n    static_assert(_Rows\
-    \ == _Cols);\n    assert(0 <= __e);\n\n    matrix __m = eye();\n    for (matrix\
-    \ __cp = *this; __e; __cp *= __cp, __e >>= 1)\n      if (__e & 1) __m *= __cp;\n\
-    \n    return __m;\n  }\n\n  template <class _Os>\n  constexpr friend _Os& operator<<(_Os&\
+    \      operator*(const _Matrix& __x) const {\n    matrix<_Scalar> __m(_Rows, __x.cols());\n\
+    \n    for (size_type __r = 0; __r != _Rows; ++__r)\n      for (size_type __i =\
+    \ 0; __i != __x.cols(); ++__i)\n        for (size_type __c = 0; __c != std::min(_Cols,\
+    \ __x.rows()); ++__c)\n          __m[__r][__i] += __data[__r][__c] * __x[__c][__i];\n\
+    \n    return __m;\n  }\n\n  constexpr matrix& operator*=(const value_type& __x)\
+    \ {\n    for (auto& __v : __data)\n      for (auto& __e : __v) __e *= __x;\n\n\
+    \    return *this;\n  }\n\n  constexpr matrix operator*(const value_type& __x)\
+    \ const {\n    return matrix(*this) *= __x;\n  }\n\n  constexpr matrix& operator/=(const\
+    \ value_type& __x) {\n    assert(__x != value_type(0));\n\n    for (auto& __v\
+    \ : __data)\n      for (auto& __e : __v) __e /= __x;\n\n    return *this;\n  }\n\
+    \n  constexpr matrix operator/(const value_type& __x) const {\n    return matrix(*this)\
+    \ /= __x;\n  }\n\n  template <class _Int> constexpr matrix pow(_Int __e) const\
+    \ {\n    assert(0 <= __e);\n\n    matrix __m = eye();\n    for (matrix __cp =\
+    \ *this; __e; __cp *= __cp, __e >>= 1)\n      if (__e & 1) __m *= __cp;\n\n  \
+    \  return __m;\n  }\n\n  template <class _Os>\n  constexpr friend _Os& operator<<(_Os&\
     \ __os, const matrix& __x) {\n    for (auto __i = __x.begin(); __i != __x.end();\
     \ ++__i, __os << '\\n')\n      for (size_type __c = 0; __c != _Cols; ++__c)\n\
     \        __c ? void(__os << ' ') : (void)0, __os << *(*__i + __c);\n\n    return\
@@ -120,16 +121,16 @@ data:
     \                        std::declval<_Matrix>()[0])>::type>::value>::type>\n\
     \      : std::true_type {};\n\n  template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                          matrix&>::type\n  operator*=(_Matrix&&\
-    \ __x) {\n    return operator=(operator*(std::forward<_Matrix>(__x)));\n  }\n\n\
-    \  template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
+    \ __x) {\n    return *this = operator*(std::forward<_Matrix>(__x));\n  }\n\n \
+    \ template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                          matrix>::type\n  operator*(const\
-    \ _Matrix& __x) const {\n    assert(cols() <= __x.rows());\n\n    matrix __m(rows(),\
-    \ __x.cols());\n\n    if constexpr (is_valarray_based<_Matrix>::value)\n     \
-    \ for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type __c =\
-    \ 0; __c != cols(); ++__c)\n          __m[__r] += operator[](__r)[__c] * __x[__c];\n\
-    \n    else\n      for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type\
-    \ __c = 0; __c != cols(); ++__c)\n          for (size_type __i = 0; __i != __x.cols();\
-    \ ++__i)\n            __m[__r][__i] += operator[](__r)[__c] * __x[__c][__i];\n\
+    \ _Matrix& __x) const {\n    matrix __m(rows(), __x.cols());\n\n    if constexpr\
+    \ (is_valarray_based<_Matrix>::value)\n      for (size_type __r = 0; __r != rows();\
+    \ ++__r)\n        for (size_type __c = 0; __c != std::min(cols(), __x.rows());\
+    \ ++__c)\n          __m[__r] += operator[](__r)[__c] * __x[__c];\n\n    else\n\
+    \      for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type __i\
+    \ = 0; __i != __x.cols(); ++__i)\n          for (size_type __c = 0; __c != std::min(cols(),\
+    \ __x.rows()); ++__c)\n            __m[__r][__i] += operator[](__r)[__c] * __x[__c][__i];\n\
     \n    return __m;\n  }\n\n  matrix& operator*=(const value_type& __x) {\n    for\
     \ (size_type __r = 0; __r != rows(); ++__r)\n      operator[](__r).operator*=(__x);\n\
     \n    return *this;\n  }\n\n  matrix operator*(const value_type& __x) const {\
@@ -190,30 +191,31 @@ data:
     \      for (auto& __w : __tmp) {\n        auto __i = __v++;\n        for (const\
     \ auto& __e : __r) __w += __e * *__i, __i += _Cols;\n      }\n\n      auto __w\
     \ = __tmp;\n      for (auto& __e : __r) __e = std::move(*__w++);\n    }\n\n  \
-    \  return *this;\n  }\n\n  template <class _Scalar2, size_type _Cols2>\n  constexpr\
-    \ auto operator*(const matrix<_Scalar2, _Cols, _Cols2>& __x) const {\n    matrix<_Scalar,\
-    \ _Rows, _Cols2> __m;\n\n    auto __w = *__m.__data;\n    for (const auto& __r\
-    \ : __data)\n      for (auto __v = *__x.__data, __end = __v + _Cols2; __v != __end;\
-    \ ++__w) {\n        auto __i = __v++;\n        for (const auto& __e : __r) *__w\
-    \ += __e * *__i, __i += _Cols2;\n      }\n\n    return __m;\n  }\n\n  template\
+    \  return *this;\n  }\n\n  template <class _Scalar2, size_type _Rows2, size_type\
+    \ _Cols2>\n  constexpr auto operator*(const matrix<_Scalar2, _Rows2, _Cols2>&\
+    \ __x) const {\n    matrix<typename std::common_type<_Scalar, _Scalar2>::type,\
+    \ _Rows, _Cols2>\n        __m;\n\n    auto __w = *__m.__data;\n    for (const\
+    \ auto& __r : __data)\n      for (auto __v = *__x.__data, __v_end = __v + _Cols2;\
+    \ __v != __v_end;\n           ++__w) {\n        auto __i = __v++;\n        for\
+    \ (auto __e = __r; __e != __r + std::min(_Cols, _Rows2); ++__e)\n          *__w\
+    \ += *__e * *__i, __i += _Cols2;\n      }\n\n    return __m;\n  }\n\n  template\
     \ <class _Matrix>\n  constexpr\n      typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                              matrix<_Scalar>>::type\n\
-    \      operator*(const _Matrix& __x) const {\n    assert(_Cols <= __x.rows());\n\
-    \n    matrix<_Scalar> __m(_Rows, __x.cols());\n\n    for (size_type __r = 0; __r\
-    \ != _Rows; ++__r)\n      for (size_type __i = 0; __i != __x.cols(); ++__i)\n\
-    \        for (size_type __c = 0; __c != _Cols; ++__c)\n          __m[__r][__i]\
-    \ += __data[__r][__c] * __x[__c][__i];\n\n    return __m;\n  }\n\n  constexpr\
-    \ matrix& operator*=(const value_type& __x) {\n    for (auto& __v : __data)\n\
-    \      for (auto& __e : __v) __e *= __x;\n\n    return *this;\n  }\n\n  constexpr\
-    \ matrix operator*(const value_type& __x) const {\n    return matrix(*this) *=\
-    \ __x;\n  }\n\n  constexpr matrix& operator/=(const value_type& __x) {\n    assert(__x\
-    \ != value_type(0));\n\n    for (auto& __v : __data)\n      for (auto& __e : __v)\
-    \ __e /= __x;\n\n    return *this;\n  }\n\n  constexpr matrix operator/(const\
-    \ value_type& __x) const {\n    return matrix(*this) /= __x;\n  }\n\n  template\
-    \ <class _Int> constexpr matrix pow(_Int __e) const {\n    static_assert(_Rows\
-    \ == _Cols);\n    assert(0 <= __e);\n\n    matrix __m = eye();\n    for (matrix\
-    \ __cp = *this; __e; __cp *= __cp, __e >>= 1)\n      if (__e & 1) __m *= __cp;\n\
-    \n    return __m;\n  }\n\n  template <class _Os>\n  constexpr friend _Os& operator<<(_Os&\
+    \      operator*(const _Matrix& __x) const {\n    matrix<_Scalar> __m(_Rows, __x.cols());\n\
+    \n    for (size_type __r = 0; __r != _Rows; ++__r)\n      for (size_type __i =\
+    \ 0; __i != __x.cols(); ++__i)\n        for (size_type __c = 0; __c != std::min(_Cols,\
+    \ __x.rows()); ++__c)\n          __m[__r][__i] += __data[__r][__c] * __x[__c][__i];\n\
+    \n    return __m;\n  }\n\n  constexpr matrix& operator*=(const value_type& __x)\
+    \ {\n    for (auto& __v : __data)\n      for (auto& __e : __v) __e *= __x;\n\n\
+    \    return *this;\n  }\n\n  constexpr matrix operator*(const value_type& __x)\
+    \ const {\n    return matrix(*this) *= __x;\n  }\n\n  constexpr matrix& operator/=(const\
+    \ value_type& __x) {\n    assert(__x != value_type(0));\n\n    for (auto& __v\
+    \ : __data)\n      for (auto& __e : __v) __e /= __x;\n\n    return *this;\n  }\n\
+    \n  constexpr matrix operator/(const value_type& __x) const {\n    return matrix(*this)\
+    \ /= __x;\n  }\n\n  template <class _Int> constexpr matrix pow(_Int __e) const\
+    \ {\n    assert(0 <= __e);\n\n    matrix __m = eye();\n    for (matrix __cp =\
+    \ *this; __e; __cp *= __cp, __e >>= 1)\n      if (__e & 1) __m *= __cp;\n\n  \
+    \  return __m;\n  }\n\n  template <class _Os>\n  constexpr friend _Os& operator<<(_Os&\
     \ __os, const matrix& __x) {\n    for (auto __i = __x.begin(); __i != __x.end();\
     \ ++__i, __os << '\\n')\n      for (size_type __c = 0; __c != _Cols; ++__c)\n\
     \        __c ? void(__os << ' ') : (void)0, __os << *(*__i + __c);\n\n    return\
@@ -246,16 +248,16 @@ data:
     \                        std::declval<_Matrix>()[0])>::type>::value>::type>\n\
     \      : std::true_type {};\n\n  template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                          matrix&>::type\n  operator*=(_Matrix&&\
-    \ __x) {\n    return operator=(operator*(std::forward<_Matrix>(__x)));\n  }\n\n\
-    \  template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
+    \ __x) {\n    return *this = operator*(std::forward<_Matrix>(__x));\n  }\n\n \
+    \ template <class _Matrix>\n  typename std::enable_if<!std::is_convertible<_Matrix,\
     \ value_type>::value,\n                          matrix>::type\n  operator*(const\
-    \ _Matrix& __x) const {\n    assert(cols() <= __x.rows());\n\n    matrix __m(rows(),\
-    \ __x.cols());\n\n    if constexpr (is_valarray_based<_Matrix>::value)\n     \
-    \ for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type __c =\
-    \ 0; __c != cols(); ++__c)\n          __m[__r] += operator[](__r)[__c] * __x[__c];\n\
-    \n    else\n      for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type\
-    \ __c = 0; __c != cols(); ++__c)\n          for (size_type __i = 0; __i != __x.cols();\
-    \ ++__i)\n            __m[__r][__i] += operator[](__r)[__c] * __x[__c][__i];\n\
+    \ _Matrix& __x) const {\n    matrix __m(rows(), __x.cols());\n\n    if constexpr\
+    \ (is_valarray_based<_Matrix>::value)\n      for (size_type __r = 0; __r != rows();\
+    \ ++__r)\n        for (size_type __c = 0; __c != std::min(cols(), __x.rows());\
+    \ ++__c)\n          __m[__r] += operator[](__r)[__c] * __x[__c];\n\n    else\n\
+    \      for (size_type __r = 0; __r != rows(); ++__r)\n        for (size_type __i\
+    \ = 0; __i != __x.cols(); ++__i)\n          for (size_type __c = 0; __c != std::min(cols(),\
+    \ __x.rows()); ++__c)\n            __m[__r][__i] += operator[](__r)[__c] * __x[__c][__i];\n\
     \n    return __m;\n  }\n\n  matrix& operator*=(const value_type& __x) {\n    for\
     \ (size_type __r = 0; __r != rows(); ++__r)\n      operator[](__r).operator*=(__x);\n\
     \n    return *this;\n  }\n\n  matrix operator*(const value_type& __x) const {\
@@ -282,8 +284,8 @@ data:
   path: src/algebra/linear/matrix.hpp
   requiredBy:
   - src/algebra/linear/lu.hpp
-  timestamp: '2021-02-16 15:15:56+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2021-02-22 16:48:42+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
