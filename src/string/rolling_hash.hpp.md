@@ -81,29 +81,31 @@ data:
     \ {\n      (res[i] ? std::get<0>(ends[i]) : std::get<1>(ends[i])) = mids[i];\n\
     \    }\n  }\n  return mids;\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/rand/rng.hpp\"\
     \n\n/**\n * @file rng.hpp\n * @brief Random Number Generator\n */\n\n#include\
-    \ <random>\n\nnamespace workspace {\n\ntemplate <typename Arithmetic>\nusing uniform_distribution\
-    \ =\n    typename std::conditional<std::is_integral<Arithmetic>::value,\n    \
-    \                          std::uniform_int_distribution<Arithmetic>,\n      \
-    \                        std::uniform_real_distribution<Arithmetic>>::type;\n\n\
-    template <typename Arithmetic>\nclass random_number_generator : uniform_distribution<Arithmetic>\
-    \ {\n  using base = uniform_distribution<Arithmetic>;\n\n  std::mt19937 engine;\n\
-    \n public:\n  template <class... Args>\n  random_number_generator(Args&&... args)\n\
-    \      : base(args...), engine(std::random_device{}()) {}\n\n  auto operator()()\
-    \ { return base::operator()(engine); }\n};\n\n}  // namespace workspace\n#line\
-    \ 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
-    \n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
-    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
-    \ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate\
-    \ <> struct make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <>\
-    \ struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate <>\
-    \ struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate <>\
-    \ struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\n#endif\n\n\
-    }  // namespace std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args>\
-    \ struct variadic_front { using type = Tp; };\n\ntemplate <class... Args> struct\
-    \ variadic_back;\n\ntemplate <class Tp> struct variadic_back<Tp> { using type\
-    \ = Tp; };\n\ntemplate <class Tp, class... Args> struct variadic_back<Tp, Args...>\
-    \ {\n  using type = typename variadic_back<Args...>::type;\n};\n\ntemplate <class\
-    \ type, template <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \ <random>\n\nnamespace workspace {\n\ntemplate <typename _Arithmetic>\nusing\
+    \ uniform_distribution = typename std::conditional<\n    std::is_integral<_Arithmetic>::value,\n\
+    \    std::uniform_int_distribution<_Arithmetic>,\n    std::uniform_real_distribution<_Arithmetic>>::type;\n\
+    \ntemplate <typename _Arithmetic>\nclass random_number_generator : uniform_distribution<_Arithmetic>\
+    \ {\n  using base = uniform_distribution<_Arithmetic>;\n\n  std::mt19937 engine;\n\
+    \n public:\n  random_number_generator(_Arithmetic __min, _Arithmetic __max)\n\
+    \      : base(__min, __max), engine(std::random_device{}()) {}\n\n  random_number_generator(_Arithmetic\
+    \ __max = 1)\n      : base(_Arithmetic(0), __max), engine(std::random_device{}())\
+    \ {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
+    \      : base(__param) {}\n\n  decltype(auto) operator()() noexcept { return base::operator()(engine);\
+    \ }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
+    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
+    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
+    \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
+    \ workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front { using\
+    \ type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate\
+    \ <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class\
+    \ Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type = typename\
+    \ variadic_back<Args...>::type;\n};\n\ntemplate <class type, template <class>\
+    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
     \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
     \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
@@ -254,7 +256,7 @@ data:
   isVerificationFile: false
   path: src/string/rolling_hash.hpp
   requiredBy: []
-  timestamp: '2021-01-22 09:52:55+09:00'
+  timestamp: '2021-02-24 23:27:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
