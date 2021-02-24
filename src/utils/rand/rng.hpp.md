@@ -23,32 +23,34 @@ data:
     \ntemplate <typename _Arithmetic>\nusing uniform_distribution = typename std::conditional<\n\
     \    std::is_integral<_Arithmetic>::value,\n    std::uniform_int_distribution<_Arithmetic>,\n\
     \    std::uniform_real_distribution<_Arithmetic>>::type;\n\ntemplate <typename\
-    \ _Arithmetic>\nclass random_number_generator : uniform_distribution<_Arithmetic>\
-    \ {\n  using base = uniform_distribution<_Arithmetic>;\n\n  std::mt19937 engine;\n\
-    \n public:\n  random_number_generator(_Arithmetic __min, _Arithmetic __max)\n\
-    \      : base(__min, __max), engine(std::random_device{}()) {}\n\n  random_number_generator(_Arithmetic\
-    \ __max = 1)\n      : base(_Arithmetic(0), __max), engine(std::random_device{}())\
-    \ {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
-    \      : base(__param) {}\n\n  decltype(auto) operator()() noexcept { return base::operator()(engine);\
-    \ }\n};\n\n}  // namespace workspace\n"
+    \ _Arithmetic, class _Engine = std::mt19937>\nclass random_number_generator :\
+    \ uniform_distribution<_Arithmetic> {\n  using base = uniform_distribution<_Arithmetic>;\n\
+    \n  _Engine __engine;\n\n public:\n  random_number_generator(_Arithmetic __min,\
+    \ _Arithmetic __max)\n      : base(__min, __max), __engine(std::random_device{}())\
+    \ {}\n\n  random_number_generator(_Arithmetic __max = 1)\n      : random_number_generator(0,\
+    \ __max) {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
+    \      : base(__param), __engine(std::random_device{}()) {}\n\n  decltype(auto)\
+    \ operator()() noexcept { return base::operator()(__engine); }\n};\n\n}  // namespace\
+    \ workspace\n"
   code: "#pragma once\n\n/**\n * @file rng.hpp\n * @brief Random Number Generator\n\
     \ */\n\n#include <random>\n\nnamespace workspace {\n\ntemplate <typename _Arithmetic>\n\
     using uniform_distribution = typename std::conditional<\n    std::is_integral<_Arithmetic>::value,\n\
     \    std::uniform_int_distribution<_Arithmetic>,\n    std::uniform_real_distribution<_Arithmetic>>::type;\n\
-    \ntemplate <typename _Arithmetic>\nclass random_number_generator : uniform_distribution<_Arithmetic>\
-    \ {\n  using base = uniform_distribution<_Arithmetic>;\n\n  std::mt19937 engine;\n\
-    \n public:\n  random_number_generator(_Arithmetic __min, _Arithmetic __max)\n\
-    \      : base(__min, __max), engine(std::random_device{}()) {}\n\n  random_number_generator(_Arithmetic\
-    \ __max = 1)\n      : base(_Arithmetic(0), __max), engine(std::random_device{}())\
-    \ {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
-    \      : base(__param) {}\n\n  decltype(auto) operator()() noexcept { return base::operator()(engine);\
-    \ }\n};\n\n}  // namespace workspace\n"
+    \ntemplate <typename _Arithmetic, class _Engine = std::mt19937>\nclass random_number_generator\
+    \ : uniform_distribution<_Arithmetic> {\n  using base = uniform_distribution<_Arithmetic>;\n\
+    \n  _Engine __engine;\n\n public:\n  random_number_generator(_Arithmetic __min,\
+    \ _Arithmetic __max)\n      : base(__min, __max), __engine(std::random_device{}())\
+    \ {}\n\n  random_number_generator(_Arithmetic __max = 1)\n      : random_number_generator(0,\
+    \ __max) {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
+    \      : base(__param), __engine(std::random_device{}()) {}\n\n  decltype(auto)\
+    \ operator()() noexcept { return base::operator()(__engine); }\n};\n\n}  // namespace\
+    \ workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/rand/rng.hpp
   requiredBy:
   - src/string/rolling_hash.hpp
-  timestamp: '2021-02-24 23:27:21+09:00'
+  timestamp: '2021-02-24 23:48:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ALDS1_14_C.test.cpp

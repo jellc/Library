@@ -85,35 +85,35 @@ data:
     \ <random>\n\nnamespace workspace {\n\ntemplate <typename _Arithmetic>\nusing\
     \ uniform_distribution = typename std::conditional<\n    std::is_integral<_Arithmetic>::value,\n\
     \    std::uniform_int_distribution<_Arithmetic>,\n    std::uniform_real_distribution<_Arithmetic>>::type;\n\
-    \ntemplate <typename _Arithmetic>\nclass random_number_generator : uniform_distribution<_Arithmetic>\
-    \ {\n  using base = uniform_distribution<_Arithmetic>;\n\n  std::mt19937 engine;\n\
-    \n public:\n  random_number_generator(_Arithmetic __min, _Arithmetic __max)\n\
-    \      : base(__min, __max), engine(std::random_device{}()) {}\n\n  random_number_generator(_Arithmetic\
-    \ __max = 1)\n      : base(_Arithmetic(0), __max), engine(std::random_device{}())\
-    \ {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
-    \      : base(__param) {}\n\n  decltype(auto) operator()() noexcept { return base::operator()(engine);\
-    \ }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
-    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
-    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace\
-    \ workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front { using\
-    \ type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate\
-    \ <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class\
-    \ Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type = typename\
-    \ variadic_back<Args...>::type;\n};\n\ntemplate <class type, template <class>\
-    \ class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class T, class\
-    \ = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate <class\
-    \ T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>\n\
-    \    : std::true_type {};\n\ntemplate <class T, class = int> struct mapped_of\
-    \ {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct mapped_of<T,\n\
-    \                 typename std::pair<int, typename T::mapped_type>::first_type>\
+    \ntemplate <typename _Arithmetic, class _Engine = std::mt19937>\nclass random_number_generator\
+    \ : uniform_distribution<_Arithmetic> {\n  using base = uniform_distribution<_Arithmetic>;\n\
+    \n  _Engine __engine;\n\n public:\n  random_number_generator(_Arithmetic __min,\
+    \ _Arithmetic __max)\n      : base(__min, __max), __engine(std::random_device{}())\
+    \ {}\n\n  random_number_generator(_Arithmetic __max = 1)\n      : random_number_generator(0,\
+    \ __max) {}\n\n  random_number_generator(typename base::param_type const& __param)\n\
+    \      : base(__param), __engine(std::random_device{}()) {}\n\n  decltype(auto)\
+    \ operator()() noexcept { return base::operator()(__engine); }\n};\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n *\
+    \ @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
+    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
+    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
+    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace workspace {\n\
+    \ntemplate <class Tp, class... Args> struct variadic_front { using type = Tp;\
+    \ };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate <class Tp>\
+    \ struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class Tp, class...\
+    \ Args> struct variadic_back<Tp, Args...> {\n  using type = typename variadic_back<Args...>::type;\n\
+    };\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
+    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
+    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
+    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
+    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
     \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
     \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
     \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
@@ -223,7 +223,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/ALDS1_14_C.test.cpp
   requiredBy: []
-  timestamp: '2021-02-24 23:27:21+09:00'
+  timestamp: '2021-02-24 23:48:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ALDS1_14_C.test.cpp
