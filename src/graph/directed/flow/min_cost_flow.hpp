@@ -229,7 +229,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
     };
 
     std::priority_queue<state> __q;
-    decltype(p) __nx(p.size(), std::numeric_limits<Cost>::max());
+    decltype(p) __nx(p.size(), numeric_limits<Cost>::max());
     Cost __ld = 0;
 
     for (auto __v : sources) {
