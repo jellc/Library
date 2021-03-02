@@ -184,31 +184,32 @@ data:
     \ <class Os> friend Os &operator<<(Os &__os, flow_graph const &__g) {\n    for\
     \ (const auto &adj : __g)\n      for (const auto &e : adj) __os << e << \"\\n\"\
     ;\n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"lib/limits\"\
-    \n\n#include <limits>\n\nnamespace std {\n\n#if defined(__STRICT_ANSI__) && defined(__SIZEOF_INT128__)\n\
-    \ntemplate <> struct numeric_limits<__uint128_t> {\n  constexpr static __uint128_t\
+    \n\n#include <limits>\n\nnamespace workspace {\n\ntemplate <class _Tp> struct\
+    \ numeric_limits : std::numeric_limits<_Tp> {};\n\n#ifdef __SIZEOF_INT128__\n\
+    template <> struct numeric_limits<__uint128_t> {\n  constexpr static __uint128_t\
     \ max() { return ~__uint128_t(0); }\n  constexpr static __uint128_t min() { return\
     \ 0; }\n};\n\ntemplate <> struct numeric_limits<__int128_t> {\n  constexpr static\
     \ __int128_t max() {\n    return numeric_limits<__uint128_t>::max() >> 1;\n  }\n\
     \  constexpr static __int128_t min() { return -max() - 1; }\n};\n\n#endif\n\n\
-    }  // namespace std\n#line 16 \"src/graph/directed/flow/min_cost_flow.hpp\"\n\n\
-    namespace workspace {\n\n/**\n * @brief Capacity Scaling Algorithm.\n *\n * @tparam\
-    \ Cap Capacity type\n * @tparam Cost Cost type\n */\ntemplate <class Cap, class\
-    \ Cost = Cap>\nclass min_cost_flow : public flow_graph<Cap, Cost> {\n  using base\
-    \ = flow_graph<Cap, Cost>;\n  using edge_impl = typename base::edge_impl;\n\n\
-    \ public:\n  using edge = typename base::edge;\n  using size_type = typename base::size_type;\n\
-    \n  /**\n   * @brief Construct a new min_cost_flow object\n   *\n   * @param __n\
-    \ Number of vertices\n   */\n  min_cost_flow(size_type __n = 0) : base::flow_graph(__n),\
-    \ b(__n) {}\n\n  std::vector<size_type> add_nodes(size_type __n) override {\n\
-    \    b.resize(b.size() + __n);\n    return base::add_nodes(__n);\n  }\n\n  using\
-    \ base::add_edge;\n\n  /**\n   * @brief Add a directed edge to the graph.\n  \
-    \ *\n   * @param __s Source\n   * @param __d Destination\n   * @param __l Lower\
-    \ bound of flow\n   * @param __u Upper bound of flow\n   * @param __c Cost\n \
-    \  * @return Reference to the edge.\n   */\n  edge &add_edge(size_type __s, size_type\
-    \ __d, Cap __l, Cap __u, Cost __c) {\n    assert(!(__u < __l));\n    b[__s] -=\
-    \ __l;\n    b[__d] += __l;\n    auto &__e = base::add_edge(__s, __d, __u - __l,\
-    \ __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief Add an\
-    \ undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n \
-    \  */\n  template <class... Args> edge &add_undirected_edge(Args &&... __args)\
+    }  // namespace workspace\n#line 16 \"src/graph/directed/flow/min_cost_flow.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Capacity Scaling Algorithm.\n *\n\
+    \ * @tparam Cap Capacity type\n * @tparam Cost Cost type\n */\ntemplate <class\
+    \ Cap, class Cost = Cap>\nclass min_cost_flow : public flow_graph<Cap, Cost> {\n\
+    \  using base = flow_graph<Cap, Cost>;\n  using edge_impl = typename base::edge_impl;\n\
+    \n public:\n  using edge = typename base::edge;\n  using size_type = typename\
+    \ base::size_type;\n\n  /**\n   * @brief Construct a new min_cost_flow object\n\
+    \   *\n   * @param __n Number of vertices\n   */\n  min_cost_flow(size_type __n\
+    \ = 0) : base::flow_graph(__n), b(__n) {}\n\n  std::vector<size_type> add_nodes(size_type\
+    \ __n) override {\n    b.resize(b.size() + __n);\n    return base::add_nodes(__n);\n\
+    \  }\n\n  using base::add_edge;\n\n  /**\n   * @brief Add a directed edge to the\
+    \ graph.\n   *\n   * @param __s Source\n   * @param __d Destination\n   * @param\
+    \ __l Lower bound of flow\n   * @param __u Upper bound of flow\n   * @param __c\
+    \ Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
+    \ __s, size_type __d, Cap __l, Cap __u, Cost __c) {\n    assert(!(__u < __l));\n\
+    \    b[__s] -= __l;\n    b[__d] += __l;\n    auto &__e = base::add_edge(__s, __d,\
+    \ __u - __l, __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief\
+    \ Add an undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n\
+    \   */\n  template <class... Args> edge &add_undirected_edge(Args &&... __args)\
     \ {\n    auto &__e = static_cast<edge_impl &>(\n        base::add_undirected_edge(std::forward<Args>(__args)...));\n\
     \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
@@ -259,7 +260,7 @@ data:
     \    size_type reachable = 0;\n\n    struct state {\n      size_type __v;\n  \
     \    Cost __d;\n      state(size_type __v, Cost __d) : __v(__v), __d(__d) {}\n\
     \      bool operator<(const state &__x) const { return __x.__d < __d; }\n    };\n\
-    \n    std::priority_queue<state> __q;\n    decltype(p) __nx(p.size(), std::numeric_limits<Cost>::max());\n\
+    \n    std::priority_queue<state> __q;\n    decltype(p) __nx(p.size(), numeric_limits<Cost>::max());\n\
     \    Cost __ld = 0;\n\n    for (auto __v : sources) {\n      __nx[__v] = p[__v];\n\
     \      __q.emplace(__v, 0);\n    }\n\n    while (!__q.empty()) {\n      auto [__v,\
     \ __d] = __q.top();\n      __q.pop();\n      if (__d + p[__v] != __nx[__v]) continue;\n\
@@ -359,7 +360,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2021-02-20 12:59:55+09:00'
+  timestamp: '2021-03-02 18:31:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/min_cost_b_flow.test.cpp
