@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file setup.hpp
  * @brief I/O Setup
  */
@@ -10,15 +10,13 @@
 
 namespace workspace {
 
-/*
- * @fn io_setup
+/**
  * @brief Setup I/O.
- * @param precision Standard output precision
+ * @param __n Standard output precision
  */
-void io_setup(int precision) {
-  std::ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-  std::cout << std::fixed << std::setprecision(precision);
+void io_setup(int __n) {
+  std::cin.tie(0)->sync_with_stdio(0);
+  std::cout << std::fixed << std::setprecision(__n);
 
 #ifdef _buffer_check
   atexit([] {
