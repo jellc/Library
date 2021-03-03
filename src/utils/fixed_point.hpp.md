@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/utils/cached.hpp
+    title: Cached
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: hpp
@@ -32,7 +35,8 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/utils/fixed_point.hpp
-  requiredBy: []
+  requiredBy:
+  - src/utils/cached.hpp
   timestamp: '2021-03-03 13:12:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

@@ -241,6 +241,9 @@ data:
   - name: src/utils
     pages:
     - icon: ':warning:'
+      path: src/utils/cached.hpp
+      title: Cached
+    - icon: ':warning:'
       path: src/utils/cat.hpp
       title: Cat
     - icon: ':warning:'
