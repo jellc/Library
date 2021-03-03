@@ -7,6 +7,7 @@ namespace workspace {
 template <class _Tp> struct numeric_limits : std::numeric_limits<_Tp> {};
 
 #ifdef __SIZEOF_INT128__
+
 template <> struct numeric_limits<__uint128_t> {
   constexpr static __uint128_t max() { return ~__uint128_t(0); }
   constexpr static __uint128_t min() { return 0; }
