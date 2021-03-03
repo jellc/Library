@@ -37,6 +37,73 @@ using priority_queue = std::priority_queue<T, vector<T>, Comp>;
 
 template <class T> using stack = std::stack<T, vector<T>>;
 
+template <class _T1, class _T2,
+          typename = decltype(std::declval<const _T2 &>() <
+                              std::declval<const _T1 &>())>
+constexpr
+    typename std::conditional<std::is_same<_T1, _T2>::value, const _T1 &,
+                              typename std::common_type<_T1, _T2>::type>::type
+    min(const _T1 &__x, const _T2 &__y) noexcept {
+  return __y < __x ? __y : __x;
+}
+
+template <class _T1, class _T2, class _Compare,
+          typename = decltype(std::declval<_Compare>()(
+              std::declval<const _T2 &>(), std::declval<const _T1 &>()))>
+constexpr
+    typename std::conditional<std::is_same<_T1, _T2>::value, const _T1 &,
+                              typename std::common_type<_T1, _T2>::type>::type
+    min(const _T1 &__x, const _T2 &__y, _Compare __comp) noexcept {
+  return __comp(__y, __x) ? __y : __x;
+}
+
+template <class _Tp, typename = decltype(std::declval<const _Tp &>() <
+                                         std::declval<const _Tp &>())>
+constexpr _Tp min(std::initializer_list<_Tp> __x) noexcept {
+  return *std::min_element(__x.begin(), __x.end());
+}
+
+template <class _Tp, class _Compare,
+          typename = decltype(std::declval<_Compare>()(
+              std::declval<const _Tp &>(), std::declval<const _Tp &>()))>
+constexpr _Tp min(std::initializer_list<_Tp> __x, _Compare __comp) noexcept {
+  return *std::min_element(__x.begin(), __x.end(), __comp);
+}
+
+template <class _T1, class _T2,
+          typename = decltype(std::declval<const _T1 &>() <
+                              std::declval<const _T2 &>())>
+
+constexpr
+    typename std::conditional<std::is_same<_T1, _T2>::value, const _T1 &,
+                              typename std::common_type<_T1, _T2>::type>::type
+    max(const _T1 &__x, const _T2 &__y) noexcept {
+  return __x < __y ? __y : __x;
+}
+
+template <class _T1, class _T2, class _Compare,
+          typename = decltype(std::declval<_Compare>()(
+              std::declval<const _T1 &>(), std::declval<const _T2 &>()))>
+constexpr
+    typename std::conditional<std::is_same<_T1, _T2>::value, const _T1 &,
+                              typename std::common_type<_T1, _T2>::type>::type
+    max(const _T1 &__x, const _T2 &__y, _Compare __comp) noexcept {
+  return __comp(__x, __y) ? __y : __x;
+}
+
+template <class _Tp, typename = decltype(std::declval<const _Tp &>() <
+                                         std::declval<const _Tp &>())>
+constexpr _Tp max(std::initializer_list<_Tp> __x) noexcept {
+  return *std::max_element(__x.begin(), __x.end());
+}
+
+template <class _Tp, class _Compare,
+          typename = decltype(std::declval<_Compare>()(
+              std::declval<const _Tp &>(), std::declval<const _Tp &>()))>
+constexpr _Tp max(std::initializer_list<_Tp> __x, _Compare __comp) noexcept {
+  return *std::max_element(__x.begin(), __x.end(), __comp);
+}
+
 template <typename _Tp> constexpr _Tp __bsf(_Tp __x) noexcept {
   return std::__countr_zero(__x);
 }
