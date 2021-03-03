@@ -194,7 +194,7 @@ data:
     \ (const auto &adj : __g)\n      for (const auto &e : adj) __os << e << \"\\n\"\
     ;\n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"lib/limits\"\
     \n\n#include <limits>\n\nnamespace workspace {\n\ntemplate <class _Tp> struct\
-    \ numeric_limits : std::numeric_limits<_Tp> {};\n\n#ifdef __SIZEOF_INT128__\n\
+    \ numeric_limits : std::numeric_limits<_Tp> {};\n\n#ifdef __SIZEOF_INT128__\n\n\
     template <> struct numeric_limits<__uint128_t> {\n  constexpr static __uint128_t\
     \ max() { return ~__uint128_t(0); }\n  constexpr static __uint128_t min() { return\
     \ 0; }\n};\n\ntemplate <> struct numeric_limits<__int128_t> {\n  constexpr static\
@@ -394,7 +394,7 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
-  timestamp: '2021-03-02 18:31:09+09:00'
+  timestamp: '2021-03-03 11:16:22+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/1615.2.test.cpp
