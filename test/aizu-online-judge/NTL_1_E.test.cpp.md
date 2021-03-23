@@ -85,13 +85,18 @@ data:
     \ > 2), ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Tp (&__a)[_Nm])\
     \ {\n  if constexpr (_Nm) {\n    __os << *__a;\n    for (auto __i = __a + 1, __e\
     \ = __a + _Nm; __i != __e; ++__i)\n      __os << ' ' << *__i;\n  }\n  return __os;\n\
-    }\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n * @param __os\
-    \ Output stream\n * @param __p Pair\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _T1, class _T2>\nostream_ref<_Os> operator<<(_Os &__os, const\
-    \ std::pair<_T1, _T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
-    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
-    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
+    }\n\n/**\n * @brief Stream insertion operator for std::array.\n *\n * @param __os\
+    \ Output stream\n * @param __a Array\n * @return Reference to __os.\n */\ntemplate\
+    \ <class _Os, class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os &__os, const\
+    \ std::array<_Tp, _Nm> &__a) {\n  if constexpr (_Nm) {\n    __os << __a[0];\n\
+    \    for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];\n  }\n \
+    \ return __os;\n}\n\n/**\n * @brief Stream insertion operator for std::pair.\n\
+    \ *\n * @param __os Output stream\n * @param __p Pair\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _T1, class _T2>\nostream_ref<_Os> operator<<(_Os\
+    \ &__os, const std::pair<_T1, _T2> &__p) {\n  return __os << __p.first << ' '\
+    \ << __p.second;\n}\n\n/**\n * @brief Stream insertion operator for std::tuple.\n\
+    \ *\n * @param __os Output stream\n * @param __t Tuple\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
     \ + 1),\n                        ostream_ref<_Os>>::type\noperator<<(_Os &__os,\
     \ const _Tp &__t) {\n  if constexpr (_Nm != std::tuple_size<_Tp>::value) {\n \
     \   if constexpr (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n    operator<<<_Os,\
@@ -133,7 +138,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2021-02-20 12:59:55+09:00'
+  timestamp: '2021-03-23 15:52:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp

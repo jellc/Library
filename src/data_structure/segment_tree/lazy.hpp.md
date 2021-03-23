@@ -348,8 +348,8 @@ data:
   timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/2450.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/data_structure/segment_tree/lazy.hpp
 layout: document
 redirect_from:

@@ -244,20 +244,20 @@ data:
   isVerificationFile: false
   path: src/modular/modint.hpp
   requiredBy:
-  - src/modular/inverse.hpp
   - src/combinatorics/binomial.hpp
+  - src/modular/inverse.hpp
   timestamp: '2021-01-22 09:52:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/DPL_5_D.test.cpp
-  - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/queue_operate_all_composite.test.cpp
-  - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document
 redirect_from:
