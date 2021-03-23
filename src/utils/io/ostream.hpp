@@ -41,6 +41,22 @@ operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {
 }
 
 /**
+ * @brief Stream insertion operator for std::array.
+ *
+ * @param __os Output stream
+ * @param __a Array
+ * @return Reference to __os.
+ */
+template <class _Os, class _Tp, size_t _Nm>
+ostream_ref<_Os> operator<<(_Os &__os, const std::array<_Tp, _Nm> &__a) {
+  if constexpr (_Nm) {
+    __os << __a[0];
+    for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];
+  }
+  return __os;
+}
+
+/**
  * @brief Stream insertion operator for std::pair.
  *
  * @param __os Output stream
