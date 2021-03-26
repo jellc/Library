@@ -29,7 +29,7 @@ int main() {
   std::vector<int> k(q), ans(q);
   for (int l, r, i = 0; i < q; i++) {
     scanf("%d%d%d", &l, &r, &k[i]);
-    mo.set(l, r);
+    mo.add_query(l, r);
   }
   mo.make();
   for (int t = 0; t < q; t++) {
