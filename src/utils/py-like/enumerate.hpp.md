@@ -24,7 +24,7 @@ data:
   attributes:
     document_title: Enumerate
     links: []
-  bundledCode: "#line 2 \"src/utils/py-like/enumerate.hpp\"\n\n/*\n * @file enumerate.hpp\n\
+  bundledCode: "#line 2 \"src/utils/py-like/enumerate.hpp\"\n\n/**\n * @file enumerate.hpp\n\
     \ * @brief Enumerate\n */\n\n#line 2 \"src/utils/py-like/range.hpp\"\n\n/**\n\
     \ * @file range.hpp\n * @brief Range\n */\n\n#include <iterator>\n\n#line 2 \"\
     src/utils/iterator/reverse.hpp\"\n\n/*\n * @file reverse_iterator.hpp\n * @brief\
@@ -164,26 +164,29 @@ data:
     \ <class... Args>\nconstexpr auto zip(std::initializer_list<Args> const &... args)\
     \ noexcept {\n  return internal::zipped<const std::initializer_list<Args>...>(args...);\n\
     }\n\n}  // namespace workspace\n\n#endif\n#line 10 \"src/utils/py-like/enumerate.hpp\"\
-    \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\nconstexpr size_t min_size()\
-    \ noexcept { return SIZE_MAX; }\n\ntemplate <class Container, class... Args>\n\
-    constexpr size_t min_size(Container const &cont, Args &&... args) noexcept {\n\
-    \  return std::min(std::size(cont), min_size(std::forward<Args>(args)...));\n\
-    }\n\ntemplate <class... Args> constexpr auto enumerate(Args &&... args) noexcept\
-    \ {\n  return zip(range(min_size(args...)), std::forward<Args>(args)...);\n}\n\
-    \ntemplate <class... Args>\nconstexpr auto enumerate(std::initializer_list<Args>\
-    \ const &... args) noexcept {\n  return zip(range(min_size(args...)), std::vector(args)...);\n\
-    }\n\n}  // namespace workspace\n\n#endif\n"
-  code: "#pragma once\n\n/*\n * @file enumerate.hpp\n * @brief Enumerate\n */\n\n\
+    \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\nnamespace _enumerate_impl\
+    \ {\n\nconstexpr size_t min_size() noexcept { return SIZE_MAX; }\n\ntemplate <class\
+    \ _Container, class... _Args>\nconstexpr size_t min_size(_Container const &__cont,\n\
+    \                          _Args &&... __args) noexcept {\n  return std::min(std::size(__cont),\
+    \ min_size(std::forward<_Args>(__args)...));\n}\n\n}  // namespace _enumerate_impl\n\
+    \ntemplate <class... _Args>\nconstexpr decltype(auto) enumerate(_Args &&... __args)\
+    \ noexcept {\n  return zip(range(_enumerate_impl::min_size(__args...)),\n    \
+    \         std::forward<_Args>(__args)...);\n}\n\ntemplate <class... _Args>\nconstexpr\
+    \ decltype(auto) enumerate(\n    std::initializer_list<_Args> const &... __args)\
+    \ noexcept {\n  return zip(range(_enumerate_impl::min_size(__args...)),\n    \
+    \         std::vector(__args)...);\n}\n\n}  // namespace workspace\n\n#endif\n"
+  code: "#pragma once\n\n/**\n * @file enumerate.hpp\n * @brief Enumerate\n */\n\n\
     #include \"range.hpp\"\n#include \"zip.hpp\"\n\n#if __cplusplus >= 201703L\n\n\
-    namespace workspace {\n\nconstexpr size_t min_size() noexcept { return SIZE_MAX;\
-    \ }\n\ntemplate <class Container, class... Args>\nconstexpr size_t min_size(Container\
-    \ const &cont, Args &&... args) noexcept {\n  return std::min(std::size(cont),\
-    \ min_size(std::forward<Args>(args)...));\n}\n\ntemplate <class... Args> constexpr\
-    \ auto enumerate(Args &&... args) noexcept {\n  return zip(range(min_size(args...)),\
-    \ std::forward<Args>(args)...);\n}\n\ntemplate <class... Args>\nconstexpr auto\
-    \ enumerate(std::initializer_list<Args> const &... args) noexcept {\n  return\
-    \ zip(range(min_size(args...)), std::vector(args)...);\n}\n\n}  // namespace workspace\n\
-    \n#endif\n"
+    namespace workspace {\n\nnamespace _enumerate_impl {\n\nconstexpr size_t min_size()\
+    \ noexcept { return SIZE_MAX; }\n\ntemplate <class _Container, class... _Args>\n\
+    constexpr size_t min_size(_Container const &__cont,\n                        \
+    \  _Args &&... __args) noexcept {\n  return std::min(std::size(__cont), min_size(std::forward<_Args>(__args)...));\n\
+    }\n\n}  // namespace _enumerate_impl\n\ntemplate <class... _Args>\nconstexpr decltype(auto)\
+    \ enumerate(_Args &&... __args) noexcept {\n  return zip(range(_enumerate_impl::min_size(__args...)),\n\
+    \             std::forward<_Args>(__args)...);\n}\n\ntemplate <class... _Args>\n\
+    constexpr decltype(auto) enumerate(\n    std::initializer_list<_Args> const &...\
+    \ __args) noexcept {\n  return zip(range(_enumerate_impl::min_size(__args...)),\n\
+    \             std::vector(__args)...);\n}\n\n}  // namespace workspace\n\n#endif\n"
   dependsOn:
   - src/utils/py-like/range.hpp
   - src/utils/iterator/reverse.hpp
@@ -193,7 +196,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-01-08 15:34:42+09:00'
+  timestamp: '2021-03-26 16:58:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
