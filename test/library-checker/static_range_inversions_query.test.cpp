@@ -42,7 +42,7 @@ int main() {
   for (int i = 0; i < q; i++) {
     int l, r;
     scanf("%d%d", &l, &r);
-    mo.set(l, r);
+    mo.add_query(l, r);
   }
   mo.make();
   std::vector<i64> ans(q);
