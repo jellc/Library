@@ -81,7 +81,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
@@ -94,10 +94,10 @@ data:
       title: Factorial
   - name: src/data_structure
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/data_structure/Mo.hpp
       title: Mo's Algorithm
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/data_structure/coordinate_compression.hpp
       title: Coordinate Compression
     - icon: ':heavy_check_mark:'
@@ -116,7 +116,7 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
     - icon: ':heavy_check_mark:'
@@ -427,7 +427,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/range_kth_smallest.test.cpp
       title: test/library-checker/range_kth_smallest.test.cpp
     - icon: ':heavy_check_mark:'
@@ -436,7 +436,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
     - icon: ':heavy_check_mark:'

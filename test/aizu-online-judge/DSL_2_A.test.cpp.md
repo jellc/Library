@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   _extendedRequiredBy: []
