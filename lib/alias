@@ -32,10 +32,60 @@ using u128 = __uint128_t;
 #warning 128bit integer is not available.
 #endif
 
-template <class T, class Comp = less<T>>
-using priority_queue = std::priority_queue<T, vector<T>, Comp>;
+namespace _alias_impl {
 
-template <class T> using stack = std::stack<T, vector<T>>;
+template <class> struct first_arg { using type = void; };
+
+template <class _Tp, class = void> struct parse_comp : first_arg<_Tp> {};
+
+template <class _Tp>
+struct parse_comp<_Tp, std::__void_t<decltype(&_Tp::operator())>>
+    : first_arg<decltype(&_Tp::operator())> {};
+
+template <class _R, class _Tp, class... _Args>
+struct first_arg<_R(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _R, class _Tp, class... _Args>
+struct first_arg<_R (*)(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _G, class _R, class _Tp, class... _Args>
+struct first_arg<_R (_G::*)(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _G, class _R, class _Tp, class... _Args>
+struct first_arg<_R (_G::*)(_Tp, _Args...) const> {
+  using type = _Tp;
+};
+
+}  // namespace _alias_impl
+
+template <class _Tp = void, class _Compare = std::less<_Tp>>
+decltype(auto) make_priority_queue(_Compare __x = _Compare()) noexcept {
+  using type = std::conditional_t<
+      std::is_void<_Tp>::value,
+      std::decay_t<typename _alias_impl::parse_comp<_Compare>::type>, _Tp>;
+
+  return std::priority_queue<type, std::vector<type>, _Compare>(__x);
+}
+
+template <class _Tp = void, class _Compare = std::less<_Tp>>
+decltype(auto) make_set(_Compare __x = _Compare()) noexcept {
+  using type = std::conditional_t<
+      std::is_void<_Tp>::value,
+      std::decay_t<typename _alias_impl::parse_comp<_Compare>::type>, _Tp>;
+
+  return std::set<type, _Compare>(__x);
+}
+
+template <class _Key, class _Mapped, class _Compare = std::less<_Key>>
+decltype(auto) make_map(_Compare __x = _Compare()) noexcept {
+  return std::map<_Key, _Mapped, _Compare>(__x);
+}
 
 template <class _T1, class _T2,
           typename = decltype(std::declval<const _T2 &>() <
