@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file Mo.hpp
  * @brief Mo's Algorithm
  */
@@ -13,13 +13,13 @@
 
 namespace workspace {
 
-/*
- * @class Mo
- * @brief process queries about contiguous subarray
+/**
+ * @brief Mo's Alorithm. Process queries about contiguous subarrays.
+ *
  * @tparam Push_back
  * @tparam Pop_back
- * @tparam Push_front Push_back as default
- * @tparam Pop_front Pop_back as default
+ * @tparam Push_front Use `Push_back` as default
+ * @tparam Pop_front Use `Pop_back` as default
  */
 template <class Push_back, class Pop_back, class Push_front = Push_back,
           class Pop_front = Pop_back>
@@ -29,18 +29,22 @@ class Mo {
   Push_back push_back;
   Pop_back pop_back;
   std::vector<size_t> lft, rgt, ord;
-  std::vector<size_t>::iterator itr;
+  std::vector<size_t>::iterator iter;
   size_t lpos, rpos;
 
  public:
-  /*
+  /**
+   * @brief Construct a new Mo object.
+   *
    * @param push_back
    * @param pop_back
    */
   Mo(Push_back push_back, Pop_back pop_back)
       : Mo(push_back, pop_back, push_back, pop_back) {}
 
-  /*
+  /**
+   * @brief Construct a new Mo object.
+   *
    * @param push_front
    * @param pop_front
    * @param push_back
@@ -55,43 +59,47 @@ class Mo {
         lpos(),
         rpos() {}
 
-  /*
-   * @return number of queries
+  /**
+   * @return Number of queries.
    */
   size_t size() const { return lft.size(); }
 
-  /*
-   * @brief add query
-   * @param l left end, inclusive
-   * @param r right end, exclusive
+  /**
+   * @brief Add a query for the interval [l, r).
+   *
+   * @param __l Left end, inclusive
+   * @param __r Right end, exclusive
+   * @return Index of the query.
    */
-  void set(size_t l, size_t r) {
-    assert(!(r < l));
-    lft.emplace_back(l), rgt.emplace_back(r);
+  size_t add_query(size_t __l, size_t __r) {
+    assert(__l <= __r);
+    lft.emplace_back(__l), rgt.emplace_back(__r);
+    return lft.size() - 1;
   }
 
-  /*
-   * @brief sort queries
+  /**
+   * @brief Sort all queries.
    */
   void make() {
     assert(size());
     ord.resize(size());
-    iota(ord.begin(), ord.end(), 0);
-    const size_t width = sqrt(*max_element(rgt.begin(), rgt.end()));
+    std::iota(ord.begin(), ord.end(), 0);
+    const size_t width =
+        ceil(*max_element(rgt.begin(), rgt.end()) / sqrt(size()));
     std::sort(ord.begin(), ord.end(), [&](size_t x, size_t y) {
       if (lft[x] / width != lft[y] / width) return lft[x] < lft[y];
       return rgt[x] < rgt[y];
     });
-    itr = ord.begin();
+    iter = ord.begin();
   }
 
-  /*
-   * @brief process one query
-   * @return index of query
+  /**
+   * @brief Process the next query.
+   * @return Index of the query.
    */
   size_t process() {
-    if (itr == ord.end()) return ord.size();
-    const size_t id = *itr++, l = lft[id], r = rgt[id];
+    if (iter == ord.end()) return ord.size();
+    const size_t id = *iter++, l = lft[id], r = rgt[id];
     while (lpos > l) push_front(--lpos);
     while (rpos < r) push_back(rpos++);
     while (lpos < l) pop_front(lpos++);
