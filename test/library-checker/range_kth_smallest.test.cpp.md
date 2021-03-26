@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/Mo.hpp
     title: Mo's Algorithm
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/coordinate_compression.hpp
     title: Coordinate Compression
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_kth_smallest
@@ -75,13 +75,13 @@ data:
     \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = a[i];\n\
     \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  workspace::Mo mo(add, del);\n\
     \  std::vector<int> k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n   \
-    \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for\
-    \ (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i = 0,\
-    \ j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n\
-    \        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n\
-    \        }\n        ans[qid] = ccmp[h];\n        break;\n      } else {\n    \
-    \    nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\"\
-    , e);\n}\n"
+    \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.add_query(l, r);\n  }\n  mo.make();\n\
+    \  for (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i\
+    \ = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] >\
+    \ nk) {\n        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk\
+    \ -= cnt[h];\n        }\n        ans[qid] = ccmp[h];\n        break;\n      }\
+    \ else {\n        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"\
+    %d\\n\", e);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n\
     #include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/coordinate_compression.hpp\"\
     \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
@@ -92,21 +92,21 @@ data:
     \    bcnt[now / bsize]++;\n  };\n  auto del = [&](int i) {\n    int now = a[i];\n\
     \    cnt[now]--;\n    bcnt[now / bsize]--;\n  };\n  workspace::Mo mo(add, del);\n\
     \  std::vector<int> k(q), ans(q);\n  for (int l, r, i = 0; i < q; i++) {\n   \
-    \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.set(l, r);\n  }\n  mo.make();\n  for\
-    \ (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i = 0,\
-    \ j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] > nk) {\n\
-    \        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk -= cnt[h];\n\
-    \        }\n        ans[qid] = ccmp[h];\n        break;\n      } else {\n    \
-    \    nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"%d\\n\"\
-    , e);\n}\n"
+    \ scanf(\"%d%d%d\", &l, &r, &k[i]);\n    mo.add_query(l, r);\n  }\n  mo.make();\n\
+    \  for (int t = 0; t < q; t++) {\n    int qid = mo.process();\n    for (int i\
+    \ = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {\n      if (bcnt[i] >\
+    \ nk) {\n        int h;\n        for (h = j; nk >= cnt[h]; h++) {\n          nk\
+    \ -= cnt[h];\n        }\n        ans[qid] = ccmp[h];\n        break;\n      }\
+    \ else {\n        nk -= bcnt[i];\n      }\n    }\n  }\n  for (int e : ans) printf(\"\
+    %d\\n\", e);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
   - src/data_structure/coordinate_compression.hpp
   isVerificationFile: true
   path: test/library-checker/range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2021-03-26 17:16:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-03-26 17:22:43+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_kth_smallest.test.cpp
 layout: document

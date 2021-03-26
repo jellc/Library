@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/Mo.hpp
     title: Mo's Algorithm
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/coordinate_compression.hpp
     title: Coordinate Compression
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
@@ -199,9 +199,9 @@ data:
     \  };\n  auto delr = [&](int i) -> auto {\n    i = a[i];\n    invs -= seg.fold(i\
     \ + 1, n);\n    seg[i]--;\n  };\n  workspace::Mo mo(addl, dell, addr, delr);\n\
     \  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n\
-    \    mo.set(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for (int\
-    \ i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n  }\n\
-    \  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
+    \    mo.add_query(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for\
+    \ (int i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n\
+    \  }\n  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
     \n\n#include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/coordinate_compression.hpp\"\
     \n#include \"src/data_structure/segment_tree/basic.hpp\"\n\nint main() {\n  using\
@@ -216,9 +216,9 @@ data:
     \  };\n  auto delr = [&](int i) -> auto {\n    i = a[i];\n    invs -= seg.fold(i\
     \ + 1, n);\n    seg[i]--;\n  };\n  workspace::Mo mo(addl, dell, addr, delr);\n\
     \  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n\
-    \    mo.set(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for (int\
-    \ i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n  }\n\
-    \  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
+    \    mo.add_query(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for\
+    \ (int i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n\
+    \  }\n  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
   - src/data_structure/coordinate_compression.hpp
@@ -227,8 +227,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2021-03-26 17:16:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-03-26 17:22:13+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp
 layout: document
