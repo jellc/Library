@@ -30,7 +30,7 @@ typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chle(
  */
 template <class _T1, class _T2,
           typename = decltype(std::declval<_T1 &>() < std::declval<_T2>())>
-typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chge(
+typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chgr(
     _T1 &__x, _T2 &&__y) noexcept {
   return __x < __y ? __x = std::forward<_T2>(__y), true : false;
 }
@@ -60,7 +60,7 @@ typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chle(
 template <class _T1, class _T2, class _Compare,
           typename = decltype(std::declval<_Compare>()(std::declval<_T1 &>(),
                                                        std::declval<_T2>()))>
-typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chge(
+typename std::enable_if<std::is_assignable<_T1 &, _T2>::value, bool>::type chgr(
     _T1 &__x, _T2 &&__y, _Compare __comp) noexcept {
   return __comp(__x, __y) ? __x = std::forward<_T2>(__y), true : false;
 }
