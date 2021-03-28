@@ -10,10 +10,10 @@
 
 namespace workspace {
 
-template <class RAIter>
-void shuffle(RAIter const& __first, RAIter const& __last) {
-  static std::mt19937 engine(std::random_device{}());
-  std::shuffle(__first, __last, engine);
+template <class _RAIter, class _Engine = std::mt19937>
+void shuffle(_RAIter __first, _RAIter __last) {
+  static _Engine __engine(std::random_device{}());
+  std::shuffle(__first, __last, __engine);
 }
 
 }  // namespace workspace
