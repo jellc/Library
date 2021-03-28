@@ -10,7 +10,7 @@ int main() {
   struct min {
     int _v;
     min(int _v) : _v(_v) {}
-    min operator+(min r) { return {_v < r._v ? _v : r._v}; }
+    min operator+(min r) const { return {_v < r._v ? _v : r._v}; }
   };
 
   int n, k, a[1 << 20];
