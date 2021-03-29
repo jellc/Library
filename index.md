@@ -264,6 +264,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
+  - name: src/utils/grid
+    pages:
+    - icon: ':warning:'
+      path: src/utils/grid/motion.hpp
+      title: Motion
   - name: src/utils/io
     pages:
     - icon: ':heavy_check_mark:'
