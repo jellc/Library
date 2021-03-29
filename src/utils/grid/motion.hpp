@@ -1,0 +1,144 @@
+#pragma once
+
+/**
+ * @file motion.hpp
+ * @brief Motion
+ */
+
+#include <algorithm>
+
+namespace workspace {
+
+/**
+ * @brief Transpose.
+ *
+ * @param __grid
+ */
+template <class _Grid, typename = decltype(std::declval<_Grid>()[0].resize(0))>
+constexpr decltype(auto) transpose(_Grid &&__grid) {
+  auto __h = std::size(__grid), __w = std::size(__grid[0]);
+
+  std::decay_t<_Grid> __t(__w);
+  for (auto &__r : __t) __r.resize(__h);
+
+  using reference = decltype(__grid[0][0]);
+
+  for (size_t __i = 0; __i != __h; ++__i)
+    for (size_t __j = 0; __j != __w; ++__j)
+      __t[__j][__i] = std::forward<reference>(__grid[__i][__j]);
+
+  return __t;
+}
+
+/**
+ * @brief Transpose.
+ *
+ * @param __grid
+ */
+template <class _Tp, size_t _Rows, size_t _Cols>
+constexpr decltype(auto) transpose(const _Tp (&__grid)[_Rows][_Cols]) {
+  std::array<std::array<_Tp, _Rows>, _Cols> __t;
+
+  for (size_t __i = 0; __i != _Rows; ++__i)
+    for (size_t __j = 0; __j != _Cols; ++__j) __t[__j][__i] = __grid[__i][__j];
+
+  return __t;
+}
+
+/**
+ * @brief Transpose.
+ *
+ * @param __grid
+ */
+template <class _Tp, size_t _Rows, size_t _Cols>
+constexpr decltype(auto) transpose(_Tp(&&__grid)[_Rows][_Cols]) {
+  std::array<std::array<_Tp, _Rows>, _Cols> __t;
+
+  for (size_t __i = 0; __i != _Rows; ++__i)
+    for (size_t __j = 0; __j != _Cols; ++__j)
+      __t[__j][__i] = std::move(__grid[__i][__j]);
+
+  return __t;
+}
+
+/**
+ * @brief Transpose.
+ *
+ * @param __grid
+ */
+template <class _Tp, size_t _Rows, size_t _Cols>
+constexpr decltype(auto) transpose(
+    const std::array<std::array<_Tp, _Cols>, _Rows> &__grid) {
+  std::array<std::array<_Tp, _Rows>, _Cols> __t;
+
+  for (size_t __i = 0; __i != _Rows; ++__i)
+    for (size_t __j = 0; __j != _Cols; ++__j) __t[__j][__i] = __grid[__i][__j];
+
+  return __t;
+}
+
+/**
+ * @brief Transpose.
+ *
+ * @param __grid
+ */
+template <class _Tp, size_t _Rows, size_t _Cols>
+constexpr decltype(auto) transpose(
+    std::array<std::array<_Tp, _Cols>, _Rows> &&__grid) {
+  std::array<std::array<_Tp, _Rows>, _Cols> __t;
+
+  for (size_t __i = 0; __i != _Rows; ++__i)
+    for (size_t __j = 0; __j != _Cols; ++__j)
+      __t[__j][__i] = std::move(__grid[__i][__j]);
+
+  return __t;
+}
+
+/**
+ * @brief Roll the grid counter-clockwise.
+ *
+ * @param __grid
+ * @return
+ */
+template <class _Grid> decltype(auto) roll_ccw(const _Grid &__grid) {
+  auto __t = transpose(__grid);
+  std::reverse(std::begin(__t), std::end(__t));
+  return __t;
+}
+
+/**
+ * @brief Roll the grid counter-clockwise.
+ *
+ * @param __grid
+ * @return
+ */
+template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) {
+  auto __t = transpose(std::move(__grid));
+  std::reverse(std::begin(__t), std::end(__t));
+  return __t;
+}
+
+/**
+ * @brief Roll the grid clockwise.
+ *
+ * @param __grid
+ * @return
+ */
+template <class _Grid> decltype(auto) roll_cw(const _Grid &__grid) {
+  auto __t = __grid;
+  std::reverse(std::begin(__t), std::end(__t));
+  return transpose(std::move(__t));
+}
+
+/**
+ * @brief Roll the grid clockwise.
+ *
+ * @param __grid
+ * @return
+ */
+template <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) {
+  std::reverse(std::begin(__grid), std::end(__grid));
+  return transpose(std::move(__grid));
+}
+
+}  // namespace workspace
