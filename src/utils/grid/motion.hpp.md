@@ -12,10 +12,10 @@ data:
   bundledCode: "#line 2 \"src/utils/grid/motion.hpp\"\n\n/**\n * @file motion.hpp\n\
     \ * @brief Motion\n */\n\n#include <algorithm>\n\nnamespace workspace {\n\n/**\n\
     \ * @brief Transpose.\n *\n * @param __grid\n */\ntemplate <class _Grid, typename\
-    \ = decltype(std::declval<_Grid>()[0].resize(0))>\nconstexpr decltype(auto) transpose(_Grid\
-    \ &&__grid) {\n  auto __h = std::size(__grid), __w = std::size(__grid[0]);\n\n\
-    \  std::decay_t<_Grid> __t(__w);\n  for (auto &__r : __t) __r.resize(__h);\n\n\
-    \  using reference = decltype(__grid[0][0]);\n\n  for (size_t __i = 0; __i !=\
+    \ = decltype(std::declval<std::decay_t< _Grid>>()[0].resize(0))>\nconstexpr decltype(auto)\
+    \ transpose(_Grid &&__grid) {\n  auto __h = std::size(__grid), __w = std::size(__grid[0]);\n\
+    \n  std::decay_t<_Grid> __t(__w);\n  for (auto &&__r : __t) __r.resize(__h);\n\
+    \n  using reference = decltype(__grid[0][0]);\n\n  for (size_t __i = 0; __i !=\
     \ __h; ++__i)\n    for (size_t __j = 0; __j != __w; ++__j)\n      __t[__j][__i]\
     \ = std::forward<reference>(__grid[__i][__j]);\n\n  return __t;\n}\n\n/**\n *\
     \ @brief Transpose.\n *\n * @param __grid\n */\ntemplate <class _Tp, size_t _Rows,\
@@ -45,21 +45,21 @@ data:
     \ roll_ccw(_Grid &&__grid) {\n  auto __t = transpose(std::move(__grid));\n  std::reverse(std::begin(__t),\
     \ std::end(__t));\n  return __t;\n}\n\n/**\n * @brief Roll the grid clockwise.\n\
     \ *\n * @param __grid\n * @return\n */\ntemplate <class _Grid> decltype(auto)\
-    \ roll_cw(const _Grid &__grid) {\n  auto __t = __grid;\n  std::reverse(std::begin(__t),\
-    \ std::end(__t));\n  return transpose(std::move(__t));\n}\n\n/**\n * @brief Roll\
-    \ the grid clockwise.\n *\n * @param __grid\n * @return\n */\ntemplate <class\
-    \ _Grid> decltype(auto) roll_cw(_Grid &&__grid) {\n  std::reverse(std::begin(__grid),\
+    \ roll_cw(const _Grid &__grid) {\n  auto __t = transpose(__grid);\n  for (auto\
+    \ &&__r : __t) std::reverse(std::begin(__r), std::end(__r));\n  return __t;\n\
+    }\n\n/**\n * @brief Roll the grid clockwise.\n *\n * @param __grid\n * @return\n\
+    \ */\ntemplate <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) {\n  std::reverse(std::begin(__grid),\
     \ std::end(__grid));\n  return transpose(std::move(__grid));\n}\n\n}  // namespace\
     \ workspace\n"
   code: "#pragma once\n\n/**\n * @file motion.hpp\n * @brief Motion\n */\n\n#include\
     \ <algorithm>\n\nnamespace workspace {\n\n/**\n * @brief Transpose.\n *\n * @param\
-    \ __grid\n */\ntemplate <class _Grid, typename = decltype(std::declval<_Grid>()[0].resize(0))>\n\
-    constexpr decltype(auto) transpose(_Grid &&__grid) {\n  auto __h = std::size(__grid),\
-    \ __w = std::size(__grid[0]);\n\n  std::decay_t<_Grid> __t(__w);\n  for (auto\
-    \ &__r : __t) __r.resize(__h);\n\n  using reference = decltype(__grid[0][0]);\n\
-    \n  for (size_t __i = 0; __i != __h; ++__i)\n    for (size_t __j = 0; __j != __w;\
-    \ ++__j)\n      __t[__j][__i] = std::forward<reference>(__grid[__i][__j]);\n\n\
-    \  return __t;\n}\n\n/**\n * @brief Transpose.\n *\n * @param __grid\n */\ntemplate\
+    \ __grid\n */\ntemplate <class _Grid, typename = decltype(std::declval<std::decay_t<\
+    \ _Grid>>()[0].resize(0))>\nconstexpr decltype(auto) transpose(_Grid &&__grid)\
+    \ {\n  auto __h = std::size(__grid), __w = std::size(__grid[0]);\n\n  std::decay_t<_Grid>\
+    \ __t(__w);\n  for (auto &&__r : __t) __r.resize(__h);\n\n  using reference =\
+    \ decltype(__grid[0][0]);\n\n  for (size_t __i = 0; __i != __h; ++__i)\n    for\
+    \ (size_t __j = 0; __j != __w; ++__j)\n      __t[__j][__i] = std::forward<reference>(__grid[__i][__j]);\n\
+    \n  return __t;\n}\n\n/**\n * @brief Transpose.\n *\n * @param __grid\n */\ntemplate\
     \ <class _Tp, size_t _Rows, size_t _Cols>\nconstexpr decltype(auto) transpose(const\
     \ _Tp (&__grid)[_Rows][_Cols]) {\n  std::array<std::array<_Tp, _Rows>, _Cols>\
     \ __t;\n\n  for (size_t __i = 0; __i != _Rows; ++__i)\n    for (size_t __j = 0;\
@@ -87,17 +87,17 @@ data:
     \ &&__grid) {\n  auto __t = transpose(std::move(__grid));\n  std::reverse(std::begin(__t),\
     \ std::end(__t));\n  return __t;\n}\n\n/**\n * @brief Roll the grid clockwise.\n\
     \ *\n * @param __grid\n * @return\n */\ntemplate <class _Grid> decltype(auto)\
-    \ roll_cw(const _Grid &__grid) {\n  auto __t = __grid;\n  std::reverse(std::begin(__t),\
-    \ std::end(__t));\n  return transpose(std::move(__t));\n}\n\n/**\n * @brief Roll\
-    \ the grid clockwise.\n *\n * @param __grid\n * @return\n */\ntemplate <class\
-    \ _Grid> decltype(auto) roll_cw(_Grid &&__grid) {\n  std::reverse(std::begin(__grid),\
+    \ roll_cw(const _Grid &__grid) {\n  auto __t = transpose(__grid);\n  for (auto\
+    \ &&__r : __t) std::reverse(std::begin(__r), std::end(__r));\n  return __t;\n\
+    }\n\n/**\n * @brief Roll the grid clockwise.\n *\n * @param __grid\n * @return\n\
+    \ */\ntemplate <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) {\n  std::reverse(std::begin(__grid),\
     \ std::end(__grid));\n  return transpose(std::move(__grid));\n}\n\n}  // namespace\
     \ workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/grid/motion.hpp
   requiredBy: []
-  timestamp: '2021-03-29 23:40:45+09:00'
+  timestamp: '2021-03-30 00:15:19+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/grid/motion.hpp
