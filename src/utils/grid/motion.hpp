@@ -14,12 +14,12 @@ namespace workspace {
  *
  * @param __grid
  */
-template <class _Grid, typename = decltype(std::declval<_Grid>()[0].resize(0))>
+template <class _Grid, typename = decltype(std::declval<std::decay_t< _Grid>>()[0].resize(0))>
 constexpr decltype(auto) transpose(_Grid &&__grid) {
   auto __h = std::size(__grid), __w = std::size(__grid[0]);
 
   std::decay_t<_Grid> __t(__w);
-  for (auto &__r : __t) __r.resize(__h);
+  for (auto &&__r : __t) __r.resize(__h);
 
   using reference = decltype(__grid[0][0]);
 
@@ -125,9 +125,9 @@ template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) {
  * @return
  */
 template <class _Grid> decltype(auto) roll_cw(const _Grid &__grid) {
-  auto __t = __grid;
-  std::reverse(std::begin(__t), std::end(__t));
-  return transpose(std::move(__t));
+  auto __t = transpose(__grid);
+  for (auto &&__r : __t) std::reverse(std::begin(__r), std::end(__r));
+  return __t;
 }
 
 /**
