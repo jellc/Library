@@ -9,79 +9,55 @@ data:
   attributes:
     document_title: Multi-dimensional Vector
     links: []
-  bundledCode: "#line 2 \"src/utils/make_vector.hpp\"\n\n/*\n * @file make_vector.hpp\n\
+  bundledCode: "#line 2 \"src/utils/make_vector.hpp\"\n\n/**\n * @file make_vector.hpp\n\
     \ * @brief Multi-dimensional Vector\n */\n\n#if __cplusplus >= 201703L\n\n#include\
-    \ <tuple>\n#include <vector>\n\nnamespace workspace {\n\n/*\n * @brief Make a\
-    \ multi-dimensional vector.\n * @tparam Tp type of the elements\n * @tparam N\
-    \ dimension\n * @tparam S integer type\n * @param sizes The size of each dimension\n\
-    \ * @param init The initial value\n */\ntemplate <typename Tp, size_t N, typename\
-    \ S>\nconstexpr auto make_vector([[maybe_unused]] S* sizes, Tp const& init = Tp())\
-    \ {\n  static_assert(std::is_convertible_v<S, size_t>);\n  if constexpr (N)\n\
-    \    return std::vector(*sizes,\n                       make_vector<Tp, N - 1,\
-    \ S>(std::next(sizes), init));\n  else\n    return init;\n}\n\n/*\n * @brief Make\
-    \ a multi-dimensional vector.\n * @param sizes The size of each dimension\n *\
-    \ @param init The initial value\n */\ntemplate <typename Tp, size_t N, typename\
-    \ S>\nconstexpr auto make_vector(const S (&sizes)[N], Tp const& init = Tp()) {\n\
-    \  return make_vector<Tp, N, S>((S*)sizes, init);\n}\n\n/*\n * @brief Make a multi-dimensional\
-    \ vector.\n * @param sizes The size of each dimension\n * @param init The initial\
-    \ value\n */\ntemplate <typename Tp, size_t N, typename S, size_t I = 0>\nconstexpr\
-    \ auto make_vector([[maybe_unused]] std::array<S, N> const& sizes,\n         \
-    \                  Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<S,\
-    \ size_t>);\n  if constexpr (I == N)\n    return init;\n  else\n    return std::vector(sizes[I],\
-    \ make_vector<Tp, N, S, I + 1>(sizes, init));\n}\n\n/*\n * @brief Make a multi-dimensional\
-    \ vector.\n * @param sizes The size of each dimension\n * @param init The initial\
-    \ value\n */\ntemplate <typename Tp, size_t N = SIZE_MAX, size_t I = 0, class...\
-    \ Args>\nconstexpr auto make_vector([[maybe_unused]] std::tuple<Args...> const&\
-    \ sizes,\n                           Tp const& init = Tp()) {\n  using tuple_type\
-    \ = std::tuple<Args...>;\n  if constexpr (I == std::tuple_size_v<tuple_type> ||\
-    \ I == N)\n    return init;\n  else {\n    static_assert(\n        std::is_convertible_v<std::tuple_element_t<I,\
-    \ tuple_type>, size_t>);\n    return std::vector(std::get<I>(sizes),\n       \
-    \                make_vector<Tp, N, I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief\
-    \ Make a multi-dimensional vector.\n * @param sizes The size of each dimension\n\
-    \ * @param init The initial value\n */\ntemplate <typename Tp, class Fst, class\
-    \ Snd>\nconstexpr auto make_vector(std::pair<Fst, Snd> const& sizes,\n       \
-    \                    Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<Fst,\
-    \ size_t>);\n  static_assert(std::is_convertible_v<Snd, size_t>);\n  return make_vector({(size_t)sizes.first,\
-    \ (size_t)sizes.second}, init);\n}\n\n}  // namespace workspace\n\n#endif\n"
-  code: "#pragma once\n\n/*\n * @file make_vector.hpp\n * @brief Multi-dimensional\
+    \ <tuple>\n#include <vector>\n\nnamespace workspace {\n\n/**\n * @brief Make a\
+    \ multi-dimensional vector.\n *\n * @param __dim Dimension\n * @param __x Initial\
+    \ value\n */\ntemplate <typename _Tp, class _Dim, size_t _Nm>\nconstexpr decltype(auto)\
+    \ make_vector([[maybe_unused]] _Dim* __dim,\n                                \
+    \     const _Tp& __x = _Tp()) {\n  static_assert(std::is_convertible<_Dim, size_t>::value);\n\
+    \n  if constexpr (_Nm)\n    return std::vector(*__dim,\n                     \
+    \  make_vector<_Tp, _Dim, _Nm - 1>(std::next(__dim), __x));\n  else\n    return\
+    \ __x;\n}\n\n/**\n * @brief Make a multi-dimensional vector.\n *\n * @param __dim\
+    \ Dimension\n * @param __x Initial value\n */\ntemplate <typename _Tp, class _Dim,\
+    \ size_t _Nm>\nconstexpr decltype(auto) make_vector(const _Dim (&__dim)[_Nm],\n\
+    \                                     const _Tp& __x = _Tp()) {\n  return make_vector<_Tp,\
+    \ _Dim, _Nm>((_Dim*)__dim, __x);\n}\n\n/**\n * @brief Make a multi-dimensional\
+    \ vector.\n *\n * @param __dim Dimension\n * @param __x Initial value\n */\ntemplate\
+    \ <typename _Tp, class _Dim, size_t _Nm = 0>\nconstexpr decltype(auto) make_vector([[maybe_unused]]\
+    \ const _Dim& __dim,\n                                     const _Tp& __x = _Tp())\
+    \ {\n  if constexpr (_Nm == std::tuple_size<_Dim>::value)\n    return __x;\n\n\
+    \  else {\n    static_assert(\n        std::is_convertible<std::tuple_element_t<_Nm,\
+    \ _Dim>, size_t>::value);\n\n    return std::vector(std::get<_Nm>(__dim),\n  \
+    \                     make_vector<_Tp, _Dim, _Nm + 1>(__dim, __x));\n  }\n}\n\n\
+    }  // namespace workspace\n\n#endif\n"
+  code: "#pragma once\n\n/**\n * @file make_vector.hpp\n * @brief Multi-dimensional\
     \ Vector\n */\n\n#if __cplusplus >= 201703L\n\n#include <tuple>\n#include <vector>\n\
-    \nnamespace workspace {\n\n/*\n * @brief Make a multi-dimensional vector.\n *\
-    \ @tparam Tp type of the elements\n * @tparam N dimension\n * @tparam S integer\
-    \ type\n * @param sizes The size of each dimension\n * @param init The initial\
-    \ value\n */\ntemplate <typename Tp, size_t N, typename S>\nconstexpr auto make_vector([[maybe_unused]]\
-    \ S* sizes, Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<S,\
-    \ size_t>);\n  if constexpr (N)\n    return std::vector(*sizes,\n            \
-    \           make_vector<Tp, N - 1, S>(std::next(sizes), init));\n  else\n    return\
-    \ init;\n}\n\n/*\n * @brief Make a multi-dimensional vector.\n * @param sizes\
-    \ The size of each dimension\n * @param init The initial value\n */\ntemplate\
-    \ <typename Tp, size_t N, typename S>\nconstexpr auto make_vector(const S (&sizes)[N],\
-    \ Tp const& init = Tp()) {\n  return make_vector<Tp, N, S>((S*)sizes, init);\n\
-    }\n\n/*\n * @brief Make a multi-dimensional vector.\n * @param sizes The size\
-    \ of each dimension\n * @param init The initial value\n */\ntemplate <typename\
-    \ Tp, size_t N, typename S, size_t I = 0>\nconstexpr auto make_vector([[maybe_unused]]\
-    \ std::array<S, N> const& sizes,\n                           Tp const& init =\
-    \ Tp()) {\n  static_assert(std::is_convertible_v<S, size_t>);\n  if constexpr\
-    \ (I == N)\n    return init;\n  else\n    return std::vector(sizes[I], make_vector<Tp,\
-    \ N, S, I + 1>(sizes, init));\n}\n\n/*\n * @brief Make a multi-dimensional vector.\n\
-    \ * @param sizes The size of each dimension\n * @param init The initial value\n\
-    \ */\ntemplate <typename Tp, size_t N = SIZE_MAX, size_t I = 0, class... Args>\n\
-    constexpr auto make_vector([[maybe_unused]] std::tuple<Args...> const& sizes,\n\
-    \                           Tp const& init = Tp()) {\n  using tuple_type = std::tuple<Args...>;\n\
-    \  if constexpr (I == std::tuple_size_v<tuple_type> || I == N)\n    return init;\n\
-    \  else {\n    static_assert(\n        std::is_convertible_v<std::tuple_element_t<I,\
-    \ tuple_type>, size_t>);\n    return std::vector(std::get<I>(sizes),\n       \
-    \                make_vector<Tp, N, I + 1>(sizes, init));\n  }\n}\n\n/*\n * @brief\
-    \ Make a multi-dimensional vector.\n * @param sizes The size of each dimension\n\
-    \ * @param init The initial value\n */\ntemplate <typename Tp, class Fst, class\
-    \ Snd>\nconstexpr auto make_vector(std::pair<Fst, Snd> const& sizes,\n       \
-    \                    Tp const& init = Tp()) {\n  static_assert(std::is_convertible_v<Fst,\
-    \ size_t>);\n  static_assert(std::is_convertible_v<Snd, size_t>);\n  return make_vector({(size_t)sizes.first,\
-    \ (size_t)sizes.second}, init);\n}\n\n}  // namespace workspace\n\n#endif\n"
+    \nnamespace workspace {\n\n/**\n * @brief Make a multi-dimensional vector.\n *\n\
+    \ * @param __dim Dimension\n * @param __x Initial value\n */\ntemplate <typename\
+    \ _Tp, class _Dim, size_t _Nm>\nconstexpr decltype(auto) make_vector([[maybe_unused]]\
+    \ _Dim* __dim,\n                                     const _Tp& __x = _Tp()) {\n\
+    \  static_assert(std::is_convertible<_Dim, size_t>::value);\n\n  if constexpr\
+    \ (_Nm)\n    return std::vector(*__dim,\n                       make_vector<_Tp,\
+    \ _Dim, _Nm - 1>(std::next(__dim), __x));\n  else\n    return __x;\n}\n\n/**\n\
+    \ * @brief Make a multi-dimensional vector.\n *\n * @param __dim Dimension\n *\
+    \ @param __x Initial value\n */\ntemplate <typename _Tp, class _Dim, size_t _Nm>\n\
+    constexpr decltype(auto) make_vector(const _Dim (&__dim)[_Nm],\n             \
+    \                        const _Tp& __x = _Tp()) {\n  return make_vector<_Tp,\
+    \ _Dim, _Nm>((_Dim*)__dim, __x);\n}\n\n/**\n * @brief Make a multi-dimensional\
+    \ vector.\n *\n * @param __dim Dimension\n * @param __x Initial value\n */\ntemplate\
+    \ <typename _Tp, class _Dim, size_t _Nm = 0>\nconstexpr decltype(auto) make_vector([[maybe_unused]]\
+    \ const _Dim& __dim,\n                                     const _Tp& __x = _Tp())\
+    \ {\n  if constexpr (_Nm == std::tuple_size<_Dim>::value)\n    return __x;\n\n\
+    \  else {\n    static_assert(\n        std::is_convertible<std::tuple_element_t<_Nm,\
+    \ _Dim>, size_t>::value);\n\n    return std::vector(std::get<_Nm>(__dim),\n  \
+    \                     make_vector<_Tp, _Dim, _Nm + 1>(__dim, __x));\n  }\n}\n\n\
+    }  // namespace workspace\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/make_vector.hpp
   requiredBy: []
-  timestamp: '2020-12-27 01:19:45+09:00'
+  timestamp: '2021-03-30 01:16:02+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/make_vector.hpp
