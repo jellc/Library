@@ -10,28 +10,37 @@
 
 namespace workspace {
 
-namespace internal {
+namespace _reversed_impl {
 
-template <class Container> class reversed {
-  Container cont;
+template <class _Container> class reversed {
+  _Container __cont;
 
  public:
-  constexpr reversed(Container &&cont) : cont(cont) {}
+  constexpr reversed(_Container &&__cont) noexcept : __cont(__cont) {}
 
-  constexpr auto begin() { return std::rbegin(cont); }
-  constexpr auto end() { return std::rend(cont); }
+  constexpr decltype(auto) begin() noexcept { return std::rbegin(__cont); }
+  constexpr decltype(auto) begin() const noexcept {
+    return std::rbegin(__cont);
+  }
+
+  constexpr decltype(auto) end() noexcept { return std::rend(__cont); }
+  constexpr decltype(auto) end() const noexcept { return std::rend(__cont); }
+
+  constexpr decltype(auto) size() const noexcept { return std::size(__cont); }
 };
 
-}  // namespace internal
+}  // namespace _reversed_impl
 
-template <class Container> constexpr auto reversed(Container &&cont) noexcept {
-  return internal::reversed<Container>{std::forward<Container>(cont)};
+template <class _Container>
+constexpr decltype(auto) reversed(_Container &&__cont) noexcept {
+  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};
 }
 
-template <class Tp>
-constexpr auto reversed(std::initializer_list<Tp> &&cont) noexcept {
-  return internal::reversed<std::initializer_list<Tp>>{
-      std::forward<std::initializer_list<Tp>>(cont)};
+template <class _Tp>
+constexpr decltype(auto) reversed(
+    std::initializer_list<_Tp> &&__cont) noexcept {
+  return _reversed_impl::reversed<std::initializer_list<_Tp>>{
+      std::forward<std::initializer_list<_Tp>>(__cont)};
 }
 
 }  // namespace workspace
