@@ -59,31 +59,31 @@ data:
     \ &&__cont) noexcept {\n  return _reversed_impl::reversed<std::initializer_list<_Tp>>{\n\
     \      std::forward<std::initializer_list<_Tp>>(__cont)};\n}\n\n}  // namespace\
     \ workspace\n#line 12 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\
-    \nnamespace workspace {\n\ntemplate <class Index> class range {\n  Index first,\
-    \ last;\n\n public:\n  class iterator {\n    Index current;\n\n   public:\n  \
-    \  using difference_type = std::ptrdiff_t;\n    using value_type = Index;\n  \
-    \  using reference = typename std::add_const<Index>::type &;\n    using pointer\
+    \nnamespace workspace {\n\ntemplate <class _Index> class range {\n  _Index __first,\
+    \ __last;\n\n public:\n  class iterator {\n    _Index current;\n\n   public:\n\
+    \    using difference_type = std::ptrdiff_t;\n    using value_type = _Index;\n\
+    \    using reference = typename std::add_const<_Index>::type &;\n    using pointer\
     \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
-    \n    constexpr iterator(Index const &__i = Index()) noexcept : current(__i) {}\n\
-    \n    constexpr bool operator==(iterator const &rhs) const noexcept {\n      return\
-    \ current == rhs.current;\n    }\n    constexpr bool operator!=(iterator const\
-    \ &rhs) const noexcept {\n      return current != rhs.current;\n    }\n\n    constexpr\
-    \ iterator &operator++() noexcept {\n      ++current;\n      return *this;\n \
-    \   }\n    constexpr iterator &operator--() noexcept {\n      --current;\n   \
-    \   return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
-    \ { return current; }\n  };\n\n  constexpr range(Index first, Index last) noexcept\n\
-    \      : first(first), last(last) {}\n  constexpr range(Index last) noexcept :\
-    \ first(), last(last) {}\n\n  constexpr iterator begin() const noexcept { return\
-    \ iterator{first}; }\n  constexpr iterator end() const noexcept { return iterator{last};\
-    \ }\n\n  constexpr reverse_iterator<iterator> rbegin() const noexcept {\n    return\
-    \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
-    \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
-    \ }\n};\n\ntemplate <class... Args> constexpr auto rrange(Args &&... args) noexcept\
-    \ {\n  return internal::reversed(range(std::forward<Args>(args)...));\n}\n\n}\
-    \  // namespace workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\n\n\
-    /**\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include <tuple>\n\
-    #include <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n/*\n * @file\
-    \ category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
+    \n    constexpr iterator(_Index const &__i = _Index()) noexcept : current(__i)\
+    \ {}\n\n    constexpr bool operator==(iterator const &__x) const noexcept {\n\
+    \      return current == __x.current;\n    }\n    constexpr bool operator!=(iterator\
+    \ const &__x) const noexcept {\n      return current != __x.current;\n    }\n\n\
+    \    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
+    \ *this;\n    }\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
+    \      return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
+    \ { return current; }\n  };\n\n  constexpr range(_Index __first, _Index __last)\
+    \ noexcept\n      : __first(__first), __last(__last) {}\n  constexpr range(_Index\
+    \ __last) noexcept : __first(), __last(__last) {}\n\n  constexpr iterator begin()\
+    \ const noexcept { return iterator{__first}; }\n  constexpr iterator end() const\
+    \ noexcept { return iterator{__last}; }\n\n  constexpr reverse_iterator<iterator>\
+    \ rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n \
+    \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
+    \ reverse_iterator<iterator>(begin());\n  }\n};\n\ntemplate <class... _Args>\n\
+    constexpr decltype(auto) rrange(_Args &&...__args) noexcept {\n  return reversed(range(std::forward<_Args>(__args)...));\n\
+    }\n\n}  // namespace workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\
+    \n\n/**\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include\
+    \ <tuple>\n#include <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n\
+    /*\n * @file category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
     \n\nnamespace workspace {\n\n/*\n * @tparam Tuple Tuple of iterator types\n */\n\
     template <class Tuple, size_t N = std::tuple_size<Tuple>::value - 1>\nstruct common_iterator_category\
     \ {\n  using type = typename std::common_type<\n      typename common_iterator_category<Tuple,\
@@ -201,7 +201,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-04-03 14:10:18+09:00'
+  timestamp: '2021-04-03 14:17:03+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
