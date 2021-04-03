@@ -17,32 +17,42 @@ data:
     links: []
   bundledCode: "#line 2 \"src/utils/py-like/reversed.hpp\"\n\n/**\n * @file reversed.hpp\n\
     \ * @brief Reversed\n */\n\n#include <initializer_list>\n#include <iterator>\n\
-    \nnamespace workspace {\n\nnamespace internal {\n\ntemplate <class Container>\
-    \ class reversed {\n  Container cont;\n\n public:\n  constexpr reversed(Container\
-    \ &&cont) : cont(cont) {}\n\n  constexpr auto begin() { return std::rbegin(cont);\
-    \ }\n  constexpr auto end() { return std::rend(cont); }\n};\n\n}  // namespace\
-    \ internal\n\ntemplate <class Container> constexpr auto reversed(Container &&cont)\
-    \ noexcept {\n  return internal::reversed<Container>{std::forward<Container>(cont)};\n\
-    }\n\ntemplate <class Tp>\nconstexpr auto reversed(std::initializer_list<Tp> &&cont)\
-    \ noexcept {\n  return internal::reversed<std::initializer_list<Tp>>{\n      std::forward<std::initializer_list<Tp>>(cont)};\n\
-    }\n\n}  // namespace workspace\n"
+    \nnamespace workspace {\n\nnamespace _reversed_impl {\n\ntemplate <class _Container>\
+    \ class reversed {\n  _Container __cont;\n\n public:\n  constexpr reversed(_Container\
+    \ &&__cont) noexcept : __cont(__cont) {}\n\n  constexpr decltype(auto) begin()\
+    \ noexcept { return std::rbegin(__cont); }\n  constexpr decltype(auto) begin()\
+    \ const noexcept {\n    return std::rbegin(__cont);\n  }\n\n  constexpr decltype(auto)\
+    \ end() noexcept { return std::rend(__cont); }\n  constexpr decltype(auto) end()\
+    \ const noexcept { return std::rend(__cont); }\n\n  constexpr decltype(auto) size()\
+    \ const noexcept { return std::size(__cont); }\n};\n\n}  // namespace _reversed_impl\n\
+    \ntemplate <class _Container>\nconstexpr decltype(auto) reversed(_Container &&__cont)\
+    \ noexcept {\n  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};\n\
+    }\n\ntemplate <class _Tp>\nconstexpr decltype(auto) reversed(\n    std::initializer_list<_Tp>\
+    \ &&__cont) noexcept {\n  return _reversed_impl::reversed<std::initializer_list<_Tp>>{\n\
+    \      std::forward<std::initializer_list<_Tp>>(__cont)};\n}\n\n}  // namespace\
+    \ workspace\n"
   code: "#pragma once\n\n/**\n * @file reversed.hpp\n * @brief Reversed\n */\n\n#include\
     \ <initializer_list>\n#include <iterator>\n\nnamespace workspace {\n\nnamespace\
-    \ internal {\n\ntemplate <class Container> class reversed {\n  Container cont;\n\
-    \n public:\n  constexpr reversed(Container &&cont) : cont(cont) {}\n\n  constexpr\
-    \ auto begin() { return std::rbegin(cont); }\n  constexpr auto end() { return\
-    \ std::rend(cont); }\n};\n\n}  // namespace internal\n\ntemplate <class Container>\
-    \ constexpr auto reversed(Container &&cont) noexcept {\n  return internal::reversed<Container>{std::forward<Container>(cont)};\n\
-    }\n\ntemplate <class Tp>\nconstexpr auto reversed(std::initializer_list<Tp> &&cont)\
-    \ noexcept {\n  return internal::reversed<std::initializer_list<Tp>>{\n      std::forward<std::initializer_list<Tp>>(cont)};\n\
-    }\n\n}  // namespace workspace\n"
+    \ _reversed_impl {\n\ntemplate <class _Container> class reversed {\n  _Container\
+    \ __cont;\n\n public:\n  constexpr reversed(_Container &&__cont) noexcept : __cont(__cont)\
+    \ {}\n\n  constexpr decltype(auto) begin() noexcept { return std::rbegin(__cont);\
+    \ }\n  constexpr decltype(auto) begin() const noexcept {\n    return std::rbegin(__cont);\n\
+    \  }\n\n  constexpr decltype(auto) end() noexcept { return std::rend(__cont);\
+    \ }\n  constexpr decltype(auto) end() const noexcept { return std::rend(__cont);\
+    \ }\n\n  constexpr decltype(auto) size() const noexcept { return std::size(__cont);\
+    \ }\n};\n\n}  // namespace _reversed_impl\n\ntemplate <class _Container>\nconstexpr\
+    \ decltype(auto) reversed(_Container &&__cont) noexcept {\n  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};\n\
+    }\n\ntemplate <class _Tp>\nconstexpr decltype(auto) reversed(\n    std::initializer_list<_Tp>\
+    \ &&__cont) noexcept {\n  return _reversed_impl::reversed<std::initializer_list<_Tp>>{\n\
+    \      std::forward<std::initializer_list<_Tp>>(__cont)};\n}\n\n}  // namespace\
+    \ workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/py-like/reversed.hpp
   requiredBy:
-  - src/utils/py-like/enumerate.hpp
   - src/utils/py-like/range.hpp
-  timestamp: '2021-01-05 01:55:07+09:00'
+  - src/utils/py-like/enumerate.hpp
+  timestamp: '2021-04-03 14:10:18+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/reversed.hpp
