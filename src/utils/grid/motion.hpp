@@ -16,7 +16,7 @@ namespace workspace {
  */
 template <class _Grid,
           typename = decltype(std::declval<std::decay_t<_Grid>>()[0].resize(0))>
-constexpr decltype(auto) transpose(_Grid &&__grid) {
+constexpr decltype(auto) transpose(_Grid &&__grid) noexcept {
   auto __h = std::size(__grid), __w = std::size(__grid[0]);
 
   std::decay_t<_Grid> __t(__w);
@@ -38,7 +38,7 @@ constexpr decltype(auto) transpose(_Grid &&__grid) {
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
-constexpr decltype(auto) transpose(const _Tp (&__grid)[_Rows][_Cols]) {
+constexpr decltype(auto) transpose(const _Tp (&__grid)[_Rows][_Cols]) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
 
   for (size_t __i = 0; __i != _Rows; ++__i)
@@ -53,7 +53,7 @@ constexpr decltype(auto) transpose(const _Tp (&__grid)[_Rows][_Cols]) {
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
-constexpr decltype(auto) transpose(_Tp(&&__grid)[_Rows][_Cols]) {
+constexpr decltype(auto) transpose(_Tp(&&__grid)[_Rows][_Cols]) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
 
   for (size_t __i = 0; __i != _Rows; ++__i)
@@ -70,7 +70,7 @@ constexpr decltype(auto) transpose(_Tp(&&__grid)[_Rows][_Cols]) {
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(
-    const std::array<std::array<_Tp, _Cols>, _Rows> &__grid) {
+    const std::array<std::array<_Tp, _Cols>, _Rows> &__grid) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
 
   for (size_t __i = 0; __i != _Rows; ++__i)
@@ -86,7 +86,7 @@ constexpr decltype(auto) transpose(
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(
-    std::array<std::array<_Tp, _Cols>, _Rows> &&__grid) {
+    std::array<std::array<_Tp, _Cols>, _Rows> &&__grid) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
 
   for (size_t __i = 0; __i != _Rows; ++__i)
@@ -102,7 +102,7 @@ constexpr decltype(auto) transpose(
  * @param __grid
  * @return
  */
-template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) {
+template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) noexcept {
   if constexpr (std::is_rvalue_reference<decltype(__grid)>::value) {
     auto __t = transpose(std::move(__grid));
     std::reverse(std::begin(__t), std::end(__t));
@@ -122,7 +122,7 @@ template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) {
  * @param __grid
  * @return
  */
-template <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) {
+template <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) noexcept {
   if constexpr (std::is_rvalue_reference<decltype(__grid)>::value) {
     std::reverse(std::begin(__grid), std::end(__grid));
     return transpose(std::move(__grid));
