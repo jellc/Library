@@ -3,9 +3,6 @@
 /**
  * @file Dinic.hpp
  * @brief Dinic's Algorithm
- * @date 2021-01-15
- *
- *
  */
 
 #include <limits>
@@ -17,10 +14,10 @@ namespace workspace {
 /**
  * @brief Compute the maximum flow.
  *
- * @tparam Cap Capacity type
+ * @tparam _Cap Capacity type
  */
-template <class Cap> class Dinic : public flow_graph<Cap> {
-  using base = flow_graph<Cap>;
+template <class _Cap> class Dinic : public flow_graph<_Cap> {
+  using base = flow_graph<_Cap>;
 
  public:
   using size_type = typename base::size_type;
@@ -31,23 +28,26 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
   std::vector<size_type> level;
   std::vector<typename base::container_type::value_type::iterator> iter;
 
-  Cap dfs(size_type __s, size_type __d, Cap bound) {
-    if (__s == __d) return bound;
-    Cap flow(0);
-    for (auto &e{iter[__d]}; e != base::graph[__d].end(); ++e)
-      if (static_cast<Cap>(0) < e->flow && level[e->dst] < level[__d])
-        if (Cap achv = dfs(__s, e->dst, std::min(bound, e->flow));
-            static_cast<Cap>(0) < achv) {
-          e->push(-achv);
-          flow += achv, bound -= achv;
-          if (bound == static_cast<Cap>(0)) break;
+  _Cap dfs(size_type __src, size_type __dst, _Cap __bound) {
+    if (__src == __dst) return __bound;
+
+    _Cap __flow(0);
+
+    for (auto &__e{iter[__dst]}; __e != base::graph[__dst].end(); ++__e)
+      if (static_cast<_Cap>(0) < __e->flow && level[__e->dst] < level[__dst])
+        if (_Cap achv = dfs(__src, __e->dst, std::min(__bound, __e->flow));
+            static_cast<_Cap>(0) < achv) {
+          __e->push(-achv);
+          __flow += achv, __bound -= achv;
+          if (__bound == static_cast<_Cap>(0)) break;
         }
-    return flow;
+
+    return __flow;
   }
 
  public:
   /**
-   * @brief Construct a new Dinic object
+   * @brief Construct a new Dinic object.
    *
    * @param __n Number of nodes
    */
@@ -70,29 +70,36 @@ template <class Cap> class Dinic : public flow_graph<Cap> {
   /**
    * @brief Run Dinic's algorithm.
    *
-   * @param __s Source
-   * @param __d Destination
+   * @param __src Source
+   * @param __dst Destination
    * @return Maximum flow.
    */
-  Cap run(size_type __s, size_type __d) {
-    assert(__s < base::size());
-    assert(__d < base::size());
-    assert(__s != __d);
-    Cap flow = 0, bound = std::numeric_limits<Cap>::max();
-    for (std::vector<size_type> que(base::size());;
+  _Cap run(size_type __src, size_type __dst) {
+    assert(__src < base::size());
+    assert(__dst < base::size());
+    assert(__src != __dst);
+
+    _Cap __flow = 0, __bound = std::numeric_limits<_Cap>::max();
+
+    for (std::vector<size_type> __q(base::size());;
          std::fill(level.begin(), level.end(), nil)) {
-      level[que.front() = __s] = 0;
-      for (auto ql{que.begin()}, qr{std::next(ql)};
-           level[__d] == nil && ql != qr; ++ql)
-        for (const auto &e : base::graph[*ql])
-          if (static_cast<Cap>(0) < e.cap && level[e.dst] == nil)
-            level[ *qr++ = e.dst] = level[*ql] + 1;
-      if (level[__d] == nil) break;
-      for (size_type node{}; node != base::size(); ++node)
-        iter[node] = base::graph[node].begin();
-      flow += dfs(__s, __d, bound);
+      level[__q.front() = __src] = 0;
+
+      for (auto __ql{__q.begin()}, __qr{std::next(__ql)};
+           level[__dst] == nil && __ql != __qr; ++__ql)
+        for (const auto &__e : base::graph[*__ql])
+          if (static_cast<_Cap>(0) < __e.cap && level[__e.dst] == nil)
+            level[ *__qr++ = __e.dst] = level[*__ql] + 1;
+
+      if (level[__dst] == nil) break;
+
+      for (size_type __x{}; __x != base::size(); ++__x)
+        iter[__x] = base::graph[__x].begin();
+
+      __flow += dfs(__src, __dst, __bound);
     }
-    return flow;
+
+    return __flow;
   }
 };
 

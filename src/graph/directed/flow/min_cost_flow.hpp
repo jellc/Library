@@ -3,9 +3,6 @@
 /**
  * @file min_cost_flow.hpp
  * @brief Minimum Cost Flow
- * @date 2021-01-15
- *
- *
  */
 
 #include <algorithm>
@@ -19,12 +16,12 @@ namespace workspace {
 /**
  * @brief Capacity Scaling Algorithm.
  *
- * @tparam Cap Capacity type
- * @tparam Cost Cost type
+ * @tparam _Cap Capacity type
+ * @tparam _Cost Cost type
  */
-template <class Cap, class Cost = Cap>
-class min_cost_flow : public flow_graph<Cap, Cost> {
-  using base = flow_graph<Cap, Cost>;
+template <class _Cap, class _Cost = _Cap>
+class min_cost_flow : public flow_graph<_Cap, _Cost> {
+  using base = flow_graph<_Cap, _Cost>;
   using edge_impl = typename base::edge_impl;
 
  public:
@@ -52,10 +49,10 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param __d Destination
    * @param __l Lower bound of flow
    * @param __u Upper bound of flow
-   * @param __c Cost
+   * @param __c _Cost
    * @return Reference to the edge.
    */
-  edge &add_edge(size_type __s, size_type __d, Cap __l, Cap __u, Cost __c) {
+  edge &add_edge(size_type __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {
     assert(!(__u < __l));
     b[__s] -= __l;
     b[__d] += __l;
@@ -69,9 +66,9 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    *
    * @return Reference to the edge.
    */
-  template <class... Args> edge &add_undirected_edge(Args &&... __args) {
+  template <class... _Args> edge &add_undirected_edge(_Args &&...__args) {
     auto &__e = static_cast<edge_impl &>(
-        base::add_undirected_edge(std::forward<Args>(__args)...));
+        base::add_undirected_edge(std::forward<_Args>(__args)...));
     assert(!(__e.cost < 0));
     __e.rev->cost = __e.cost;
     return __e;
@@ -83,7 +80,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param node
    * @param __f Default: 1
    */
-  void supply(size_type node, Cap __f = 1) {
+  void supply(size_type node, _Cap __f = 1) {
     assert(node < b.size());
     b[node] += __f;
   }
@@ -94,7 +91,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param node
    * @param __f Default: 1
    */
-  void demand(size_type node, Cap __f = 1) {
+  void demand(size_type node, _Cap __f = 1) {
     assert(node < b.size());
     b[node] -= __f;
   }
@@ -108,7 +105,7 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param node Node
    * @return Balance of the node.
    */
-  Cap balance(size_type node) const { return b[node]; }
+  _Cap balance(size_type node) const { return b[node]; }
 
   /**
    * @return Potential. The dual solution.
@@ -119,12 +116,12 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
    * @param node Node
    * @return Potential of the node.
    */
-  Cost potential(size_type node) const { return p[node]; }
+  _Cost potential(size_type node) const { return p[node]; }
 
   /**
-   * @return Cost of current flow.
+   * @return _Cost of current flow.
    */
-  Cost cost() const { return current; }
+  _Cost cost() const { return current; }
 
   /**
    * @brief Run Capacity Scaling Algorithm.
@@ -134,16 +131,16 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   bool run() {
     p.resize(b.size());
 
-    Cap delta = 0;
+    _Cap delta = 0;
     for (auto &&__adj : base::graph)
       for (auto &&__e : __adj) delta = std::max(delta, __e.cap);
-    if (delta == static_cast<Cap>(0))
+    if (delta == static_cast<_Cap>(0))
       return std::all_of(b.begin(), b.end(),
-                         [](Cap __x) { return __x == static_cast<Cap>(0); });
+                         [](_Cap __x) { return __x == static_cast<_Cap>(0); });
 
     parent.resize(b.size());
 
-    while (static_cast<Cap>(0) < delta) {
+    while (static_cast<_Cap>(0) < delta) {
       delta /= 2;
 
       for (auto &&__adj : base::graph)
@@ -184,20 +181,20 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   }
 
  protected:
-  // Cost of flow.
-  Cost current{};
+  // _Cost of flow.
+  _Cost current{};
 
   // Balance
-  std::vector<Cap> b;
+  std::vector<_Cap> b;
 
   // The dual solution.
-  std::vector<Cost> p;
+  std::vector<_Cost> p;
 
   std::vector<edge_impl *> parent;
   std::vector<size_type> sources, sinks;
 
   // Augment along the dual solution.
-  void primal(Cap delta) {
+  void primal(_Cap delta) {
     for (auto __t : sinks)
       if (parent[__t]) {
         auto __f = -b[__t];
@@ -217,20 +214,20 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
   }
 
   // Improve the dual solution.
-  bool dual(Cap delta) {
+  bool dual(_Cap delta) {
     std::fill(parent.begin(), parent.end(), nullptr);
     size_type reachable = 0;
 
     struct state {
       size_type __v;
-      Cost __d;
-      state(size_type __v, Cost __d) : __v(__v), __d(__d) {}
+      _Cost __d;
+      state(size_type __v, _Cost __d) : __v(__v), __d(__d) {}
       bool operator<(const state &__x) const { return __x.__d < __d; }
     };
 
     std::priority_queue<state> __q;
-    decltype(p) __nx(p.size(), numeric_limits<Cost>::max());
-    Cost __ld = 0;
+    decltype(p) __nx(p.size(), numeric_limits<_Cost>::max());
+    _Cost __ld = 0;
 
     for (auto __v : sources) {
       __nx[__v] = p[__v];
@@ -261,12 +258,12 @@ class min_cost_flow : public flow_graph<Cap, Cost> {
 /**
  * @brief Capacity Scaling Algorithm.
  *
- * @tparam Cap Capacity type
- * @tparam Gain Gain type
+ * @tparam _Cap Capacity type
+ * @tparam _Gain Gain type
  */
-template <class Cap, class Gain = Cap>
-class max_gain_flow : public min_cost_flow<Cap, Gain> {
-  using base = min_cost_flow<Cap, Gain>;
+template <class _Cap, class _Gain = _Cap>
+class max_gain_flow : public min_cost_flow<_Cap, _Gain> {
+  using base = min_cost_flow<_Cap, _Gain>;
   using base::cost;
 
  public:
@@ -278,8 +275,8 @@ class max_gain_flow : public min_cost_flow<Cap, Gain> {
    *
    * @return Reference to the edge.
    */
-  template <class... Args> decltype(auto) add_edge(Args &&... __args) {
-    return add_edge(std::tuple<Args...>{std::forward<Args>(__args)...});
+  template <class... _Args> decltype(auto) add_edge(_Args &&...__args) {
+    return add_edge(std::tuple<_Args...>{std::forward<_Args>(__args)...});
   }
 
   /**
@@ -287,20 +284,19 @@ class max_gain_flow : public min_cost_flow<Cap, Gain> {
    *
    * @return Reference to the edge.
    */
-  template <class Tp>
-  typename std::enable_if<
-      (std::tuple_size<typename std::decay<Tp>::type>::value >= 0),
-      const edge &>::type
-  add_edge(Tp __t) {
+  template <class _Tp>
+  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value >= 0),
+                          const edge &>::type
+  add_edge(_Tp __t) {
     std::get<std::tuple_size<decltype(__t)>::value - 1>(__t) *=
         -1;  // Flip the sign of cost.
     return base::add_edge(std::move(__t));
   }
 
   /**
-   * @return Gain of current flow.
+   * @return _Gain of current flow.
    */
-  Gain gain() const { return -cost(); }
+  _Gain gain() const { return -cost(); }
 };
 
 }  // namespace workspace
