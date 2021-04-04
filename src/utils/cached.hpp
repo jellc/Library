@@ -12,14 +12,14 @@
 
 namespace workspace {
 
-namespace cached_impl {
+namespace _cached_impl {
 
 // Convert keys to tuple.
 template <class... _Args> struct get_tuple {
-  using type = decltype(std::tuple_cat(
-      std::declval<std::tuple<std::conditional_t<
-          std::is_convertible<std::__decay_t<_Args>, _Args>::value,
-          std::__decay_t<_Args>, _Args>>>()...));
+  using type = decltype(
+      std::tuple_cat(std::declval<std::tuple<std::conditional_t<
+                         std::is_convertible<std::decay_t<_Args>, _Args>::value,
+                         std::decay_t<_Args>, _Args>>>()...));
 };
 
 // Associative array.
@@ -148,24 +148,24 @@ template <class _F>
 using _cached = std::conditional_t<is_recursive<_F>::value, _recursive<_F>,
                                    _non_recursive<_F>>;
 
-}  // namespace cached_impl
+}  // namespace _cached_impl
 
 /**
  * @brief Cached caller of function
  */
-template <class _F> class cached : public cached_impl::_cached<_F> {
+template <class _F> class cached : public _cached_impl::_cached<_F> {
  public:
   /**
    * @brief Construct a new cached object
    */
-  cached() noexcept : cached_impl::_cached<_F>(_F{}) {}
+  cached() noexcept : _cached_impl::_cached<_F>(_F{}) {}
 
   /**
    * @brief Construct a new cached object
    *
    * @param __x Function
    */
-  cached(_F __x) noexcept : cached_impl::_cached<_F>(__x) {}
+  cached(_F __x) noexcept : _cached_impl::_cached<_F>(__x) {}
 };
 
 }  // namespace workspace

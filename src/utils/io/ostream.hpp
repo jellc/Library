@@ -90,8 +90,8 @@ operator<<(_Os &__os, const _Tp &__t) {
 template <class _Os, class _Container,
           typename = decltype(std::begin(std::declval<_Container>()))>
 typename std::enable_if<
-    !std::is_same<std::__decay_t<_Container>, std::string>::value &&
-        !std::is_same<std::__decay_t<_Container>, char *>::value,
+    !std::is_same<std::decay_t<_Container>, std::string>::value &&
+        !std::is_same<std::decay_t<_Container>, char *>::value,
     ostream_ref<_Os>>::type
 operator<<(_Os &__os, const _Container &__cont) {
   bool __h = true;

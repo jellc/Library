@@ -21,7 +21,7 @@ template <class _Tp, typename = std::nullptr_t> struct istream_helper {
   istream_helper(std::istream &__is, _Tp &__x) {
     if constexpr (has_begin<_Tp>::value)
       for (auto &&__e : __x)
-        istream_helper<std::__decay_t<decltype(__e)>>(__is, __e);
+        istream_helper<std::decay_t<decltype(__e)>>(__is, __e);
     else
       static_assert(has_begin<_Tp>::value, "istream unsupported type.");
   }
@@ -30,7 +30,7 @@ template <class _Tp, typename = std::nullptr_t> struct istream_helper {
 template <class _Tp>
 struct istream_helper<
     _Tp,
-    decltype(std::declval<std::__decay_t<decltype(
+    decltype(std::declval<std::decay_t<decltype(
                  std::declval<std::istream &>() >> std::declval<_Tp &>())>>(),
              nullptr)> {
   istream_helper(std::istream &__is, _Tp &__x) { __is >> __x; }
