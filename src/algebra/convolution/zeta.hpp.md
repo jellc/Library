@@ -2,19 +2,19 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/bitand.hpp
     title: Bitwise And Convolution
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/bitor.hpp
     title: Bitwise Or Convolution
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Fast Zeta Transform
     links: []
@@ -134,7 +134,7 @@ data:
   - src/algebra/convolution/bitor.hpp
   - src/algebra/convolution/bitand.hpp
   timestamp: '2021-02-09 12:03:18+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bitwise_and_convolution.test.cpp
 documentation_of: src/algebra/convolution/zeta.hpp

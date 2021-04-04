@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -9,12 +9,12 @@ data:
     path: src/number_theory/order.hpp
     title: Order
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Extended Euclidean Algorithm
     links: []
@@ -89,7 +89,7 @@ data:
   requiredBy:
   - src/number_theory/order.hpp
   timestamp: '2021-02-20 12:57:04+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp

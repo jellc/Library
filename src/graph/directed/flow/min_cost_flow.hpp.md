@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/base.hpp
     title: Flow Graph
   _extendedRequiredBy: []
@@ -21,12 +21,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/assignment.test.cpp
     title: test/library-checker/assignment.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/min_cost_b_flow.test.cpp
     title: test/library-checker/min_cost_b_flow.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Minimum Cost Flow
     links: []
@@ -395,7 +395,7 @@ data:
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
   timestamp: '2021-03-03 11:16:22+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.2.test.cpp

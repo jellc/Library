@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -15,13 +15,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
     title: test/aizu-online-judge/DPL_5_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -36,12 +36,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Modular Arithmetic
     links: []
@@ -342,7 +342,7 @@ data:
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
   timestamp: '2021-03-29 22:27:35+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp

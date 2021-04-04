@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/Dinic.hpp
     title: Dinic's Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/base.hpp
     title: Flow Graph
   _extendedRequiredBy: []

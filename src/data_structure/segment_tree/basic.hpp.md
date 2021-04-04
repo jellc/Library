@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
   _extendedRequiredBy: []

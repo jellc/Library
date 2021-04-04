@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E
@@ -102,8 +102,8 @@ data:
     \   if constexpr (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n    operator<<<_Os,\
     \ _Tp, _Nm + 1>(__os, __t);\n  }\n  return __os;\n}\n\ntemplate <class _Os, class\
     \ _Container,\n          typename = decltype(std::begin(std::declval<_Container>()))>\n\
-    typename std::enable_if<\n    !std::is_same<std::__decay_t<_Container>, std::string>::value\
-    \ &&\n        !std::is_same<std::__decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
+    typename std::enable_if<\n    !std::is_same<std::decay_t<_Container>, std::string>::value\
+    \ &&\n        !std::is_same<std::decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
     operator<<(_Os &__os, const _Container &__cont) {\n  bool __h = true;\n  for (auto\
     \ &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;\n  return __os;\n\
     }\n\n#ifdef __SIZEOF_INT128__\n\n/**\n * @brief Stream insertion operator for\
@@ -137,8 +137,8 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2021-04-04 23:17:34+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-04-04 23:33:06+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp
 layout: document

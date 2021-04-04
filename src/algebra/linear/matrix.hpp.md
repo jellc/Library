@@ -2,25 +2,25 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_6_D.test.cpp
     title: test/aizu-online-judge/ITP1_6_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_7_D.test.cpp
     title: test/aizu-online-judge/ITP1_7_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Matrix
     links: []
@@ -285,7 +285,7 @@ data:
   requiredBy:
   - src/algebra/linear/lu.hpp
   timestamp: '2021-02-22 16:48:42+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp

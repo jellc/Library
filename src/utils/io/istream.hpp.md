@@ -1,35 +1,35 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_6_D.test.cpp
     title: test/aizu-online-judge/ITP1_6_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_7_D.test.cpp
     title: test/aizu-online-judge/ITP1_7_D.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_and_convolution.test.cpp
     title: test/library-checker/bitwise_and_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Input Stream
     links: []
@@ -76,10 +76,10 @@ data:
     \ 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace _istream_impl\
     \ {\n\ntemplate <class _Tp, typename = std::nullptr_t> struct istream_helper {\n\
     \  istream_helper(std::istream &__is, _Tp &__x) {\n    if constexpr (has_begin<_Tp>::value)\n\
-    \      for (auto &&__e : __x)\n        istream_helper<std::__decay_t<decltype(__e)>>(__is,\
+    \      for (auto &&__e : __x)\n        istream_helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n\
-    \    decltype(std::declval<std::__decay_t<decltype(\n                 std::declval<std::istream\
+    \    decltype(std::declval<std::decay_t<decltype(\n                 std::declval<std::istream\
     \ &>() >> std::declval<_Tp &>())>>(),\n             nullptr)> {\n  istream_helper(std::istream\
     \ &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate\
     \ <> struct istream_helper<__uint128_t, std::nullptr_t> {\n  istream_helper(std::istream\
@@ -115,10 +115,10 @@ data:
     \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\nnamespace _istream_impl\
     \ {\n\ntemplate <class _Tp, typename = std::nullptr_t> struct istream_helper {\n\
     \  istream_helper(std::istream &__is, _Tp &__x) {\n    if constexpr (has_begin<_Tp>::value)\n\
-    \      for (auto &&__e : __x)\n        istream_helper<std::__decay_t<decltype(__e)>>(__is,\
+    \      for (auto &&__e : __x)\n        istream_helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n\
-    \    decltype(std::declval<std::__decay_t<decltype(\n                 std::declval<std::istream\
+    \    decltype(std::declval<std::decay_t<decltype(\n                 std::declval<std::istream\
     \ &>() >> std::declval<_Tp &>())>>(),\n             nullptr)> {\n  istream_helper(std::istream\
     \ &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate\
     \ <> struct istream_helper<__uint128_t, std::nullptr_t> {\n  istream_helper(std::istream\
@@ -154,8 +154,8 @@ data:
   isVerificationFile: false
   path: src/utils/io/istream.hpp
   requiredBy: []
-  timestamp: '2021-04-04 23:17:34+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-04-04 23:33:06+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp

@@ -1,29 +1,29 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -383,9 +383,9 @@ data:
     \ {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename = std::nullptr_t>\
     \ struct istream_helper {\n  istream_helper(std::istream &__is, _Tp &__x) {\n\
     \    if constexpr (has_begin<_Tp>::value)\n      for (auto &&__e : __x)\n    \
-    \    istream_helper<std::__decay_t<decltype(__e)>>(__is, __e);\n    else\n   \
-    \   static_assert(has_begin<_Tp>::value, \"istream unsupported type.\");\n  }\n\
-    };\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n    decltype(std::declval<std::__decay_t<decltype(\n\
+    \    istream_helper<std::decay_t<decltype(__e)>>(__is, __e);\n    else\n     \
+    \ static_assert(has_begin<_Tp>::value, \"istream unsupported type.\");\n  }\n\
+    };\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n    decltype(std::declval<std::decay_t<decltype(\n\
     \                 std::declval<std::istream &>() >> std::declval<_Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &__is, _Tp &__x) { __is\
     \ >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
@@ -446,8 +446,8 @@ data:
     \   if constexpr (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n    operator<<<_Os,\
     \ _Tp, _Nm + 1>(__os, __t);\n  }\n  return __os;\n}\n\ntemplate <class _Os, class\
     \ _Container,\n          typename = decltype(std::begin(std::declval<_Container>()))>\n\
-    typename std::enable_if<\n    !std::is_same<std::__decay_t<_Container>, std::string>::value\
-    \ &&\n        !std::is_same<std::__decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
+    typename std::enable_if<\n    !std::is_same<std::decay_t<_Container>, std::string>::value\
+    \ &&\n        !std::is_same<std::decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
     operator<<(_Os &__os, const _Container &__cont) {\n  bool __h = true;\n  for (auto\
     \ &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;\n  return __os;\n\
     }\n\n#ifdef __SIZEOF_INT128__\n\n/**\n * @brief Stream insertion operator for\
@@ -493,8 +493,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2021-04-04 23:17:34+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-04-04 23:33:06+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/system_of_linear_equations.test.cpp
 layout: document

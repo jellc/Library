@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/base.hpp
     title: Flow Graph
   _extendedRequiredBy: []
