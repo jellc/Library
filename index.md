@@ -47,13 +47,13 @@ data:
       title: dev/fraction.hpp
   - name: src/algebra/convolution
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/bitand.hpp
       title: Bitwise And Convolution
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/bitor.hpp
       title: Bitwise Or Convolution
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
     - icon: ':warning:'
@@ -65,15 +65,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/zeta.hpp
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -81,7 +81,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
@@ -119,10 +119,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -144,10 +144,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/Dinic.hpp
       title: Dinic's Algorithm
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/graph/directed/flow/base.hpp
       title: Flow Graph
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/graph/directed/flow/min_cost_flow.hpp
       title: Minimum Cost Flow
   - name: src/graph/directed
@@ -160,7 +160,7 @@ data:
     - icon: ':warning:'
       path: src/graph/undirected/tree/centroid_decomposition.hpp
       title: src/graph/undirected/tree/centroid_decomposition.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy-Light Decomposition
     - icon: ':heavy_check_mark:'
@@ -176,12 +176,12 @@ data:
     - icon: ':warning:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -221,10 +221,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/sys
@@ -261,7 +261,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/grid
@@ -271,10 +271,10 @@ data:
       title: Motion
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -343,7 +343,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.test.cpp
       title: test/aizu-online-judge/1615.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -376,16 +376,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ITP1_3_B.test.cpp
       title: test/aizu-online-judge/ITP1_3_B.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/ITP1_6_D.test.cpp
       title: test/aizu-online-judge/ITP1_6_D.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/ITP1_7_D.test.cpp
       title: test/aizu-online-judge/ITP1_7_D.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/NTL_1_D.test.cpp
       title: test/aizu-online-judge/NTL_1_D.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/NTL_1_E.test.cpp
       title: test/aizu-online-judge/NTL_1_E.test.cpp
   - name: test/library-checker
@@ -399,10 +399,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bipartitematching.test.cpp
       title: test/library-checker/bipartitematching.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/bitwise_and_convolution.test.cpp
       title: test/library-checker/bitwise_and_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/bitwise_xor_convolution.test.cpp
       title: test/library-checker/bitwise_xor_convolution.test.cpp
     - icon: ':heavy_check_mark:'
@@ -411,10 +411,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/matrix_det.test.cpp
       title: test/library-checker/matrix_det.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/min_cost_b_flow.test.cpp
       title: test/library-checker/min_cost_b_flow.test.cpp
     - icon: ':heavy_check_mark:'
@@ -447,10 +447,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
@@ -459,7 +459,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'

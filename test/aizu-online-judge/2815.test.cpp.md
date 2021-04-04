@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/graph/directed/flow/base.hpp
     title: Flow Graph
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/graph/directed/flow/min_cost_flow.hpp
     title: Minimum Cost Flow
   _extendedRequiredBy: []

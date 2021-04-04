@@ -13,24 +13,23 @@ data:
     document_title: Cached
     links: []
   bundledCode: "#line 2 \"src/utils/cached.hpp\"\n\n/**\n * @file cached.hpp\n * @brief\
-    \ Cached\n * @date 2021-02-25\n *\n *\n */\n\n#include <map>\n#include <memory>\n\
-    \n#line 2 \"src/utils/fixed_point.hpp\"\n\n/**\n * @file fixed_point.hpp\n * @brief\
-    \ Fixed Point Combinator\n */\n\n#line 9 \"src/utils/fixed_point.hpp\"\n\nnamespace\
-    \ workspace {\n\n/**\n * @brief Fixed Point Combinator\n */\ntemplate <class _F>\
-    \ class fixed_point {\n  _F __fn;\n\n public:\n  /**\n   * @brief Construct a\
-    \ new fixed point object\n   *\n   * @param __fn 1st argument callable with the\
-    \ rest of its arguments.\n   * Return type specified.\n   */\n  fixed_point(_F\
-    \ __fn) noexcept : __fn(std::forward<_F>(__fn)) {}\n\n  /**\n   * @brief Apply\
-    \ *this to 1st argument.\n   * @param __args Rest of arguments.\n   */\n  template\
-    \ <class... _Args>\n  decltype(auto) operator()(_Args &&...__args) const noexcept\
-    \ {\n    return __fn(*this, std::forward<_Args>(__args)...);\n  }\n};\n\n}  //\
-    \ namespace workspace\n#line 15 \"src/utils/cached.hpp\"\n\nnamespace workspace\
-    \ {\n\nnamespace cached_impl {\n\n// Convert keys to tuple.\ntemplate <class...\
-    \ _Args> struct get_tuple {\n  using type = decltype(\n      std::tuple_cat(std::declval<std::tuple<std::conditional_t<\n\
-    \                         std::is_convertible<std::decay_t<_Args>, _Args>::value,\n\
-    \                         std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative\
-    \ array.\ntemplate <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
-    \ !std::is_void<_Value>::value>,\n      std::conditional_t<std::is_void<_Value>::value,\n\
+    \ Cached\n */\n\n#include <map>\n#include <memory>\n\n#line 2 \"src/utils/fixed_point.hpp\"\
+    \n\n/**\n * @file fixed_point.hpp\n * @brief Fixed Point Combinator\n */\n\n#line\
+    \ 9 \"src/utils/fixed_point.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Fixed\
+    \ Point Combinator\n */\ntemplate <class _F> class fixed_point {\n  _F __fn;\n\
+    \n public:\n  /**\n   * @brief Construct a new fixed point object\n   *\n   *\
+    \ @param __fn 1st argument callable with the rest of its arguments.\n   * Return\
+    \ type specified.\n   */\n  fixed_point(_F __fn) noexcept : __fn(std::forward<_F>(__fn))\
+    \ {}\n\n  /**\n   * @brief Apply *this to 1st argument.\n   * @param __args Rest\
+    \ of arguments.\n   */\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
+    \ &&...__args) const noexcept {\n    return __fn(*this, std::forward<_Args>(__args)...);\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 12 \"src/utils/cached.hpp\"\n\nnamespace\
+    \ workspace {\n\nnamespace cached_impl {\n\n// Convert keys to tuple.\ntemplate\
+    \ <class... _Args> struct get_tuple {\n  using type = decltype(std::tuple_cat(\n\
+    \      std::declval<std::tuple<std::conditional_t<\n          std::is_convertible<std::__decay_t<_Args>,\
+    \ _Args>::value,\n          std::__decay_t<_Args>, _Args>>>()...));\n};\n\n//\
+    \ Associative array.\ntemplate <class _Value, class... _Keys>\nstruct assoc\n\
+    \    : std::integral_constant<int, !std::is_void<_Value>::value>,\n      std::conditional_t<std::is_void<_Value>::value,\n\
     \                         std::set<typename get_tuple<_Keys...>::type>,\n    \
     \                     std::map<typename get_tuple<_Keys...>::type, _Value>> {\n\
     };\n\n// Non-resursive lambda type.\ntemplate <class _F, class = void> struct\
@@ -83,14 +82,13 @@ data:
     \ {}\n\n  /**\n   * @brief Construct a new cached object\n   *\n   * @param __x\
     \ Function\n   */\n  cached(_F __x) noexcept : cached_impl::_cached<_F>(__x) {}\n\
     };\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file cached.hpp\n * @brief Cached\n * @date 2021-02-25\n\
-    \ *\n *\n */\n\n#include <map>\n#include <memory>\n\n#include \"fixed_point.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace cached_impl {\n\n// Convert keys to tuple.\n\
-    template <class... _Args> struct get_tuple {\n  using type = decltype(\n     \
-    \ std::tuple_cat(std::declval<std::tuple<std::conditional_t<\n               \
-    \          std::is_convertible<std::decay_t<_Args>, _Args>::value,\n         \
-    \                std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative array.\n\
-    template <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
+  code: "#pragma once\n\n/**\n * @file cached.hpp\n * @brief Cached\n */\n\n#include\
+    \ <map>\n#include <memory>\n\n#include \"fixed_point.hpp\"\n\nnamespace workspace\
+    \ {\n\nnamespace cached_impl {\n\n// Convert keys to tuple.\ntemplate <class...\
+    \ _Args> struct get_tuple {\n  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<std::conditional_t<\n\
+    \          std::is_convertible<std::__decay_t<_Args>, _Args>::value,\n       \
+    \   std::__decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative array.\ntemplate\
+    \ <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
     \ !std::is_void<_Value>::value>,\n      std::conditional_t<std::is_void<_Value>::value,\n\
     \                         std::set<typename get_tuple<_Keys...>::type>,\n    \
     \                     std::map<typename get_tuple<_Keys...>::type, _Value>> {\n\
@@ -149,7 +147,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-03-03 17:41:36+09:00'
+  timestamp: '2021-04-04 23:17:34+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp
