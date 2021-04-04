@@ -3,9 +3,6 @@
 /**
  * @file cached.hpp
  * @brief Cached
- * @date 2021-02-25
- *
- *
  */
 
 #include <map>
@@ -19,10 +16,10 @@ namespace cached_impl {
 
 // Convert keys to tuple.
 template <class... _Args> struct get_tuple {
-  using type = decltype(
-      std::tuple_cat(std::declval<std::tuple<std::conditional_t<
-                         std::is_convertible<std::decay_t<_Args>, _Args>::value,
-                         std::decay_t<_Args>, _Args>>>()...));
+  using type = decltype(std::tuple_cat(
+      std::declval<std::tuple<std::conditional_t<
+          std::is_convertible<std::__decay_t<_Args>, _Args>::value,
+          std::__decay_t<_Args>, _Args>>>()...));
 };
 
 // Associative array.
