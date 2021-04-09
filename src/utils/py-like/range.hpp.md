@@ -57,11 +57,11 @@ data:
     \    using difference_type = std::ptrdiff_t;\n    using value_type = _Index;\n\
     \    using reference = typename std::add_const<_Index>::type &;\n    using pointer\
     \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
-    \n    constexpr iterator(_Index const &__i = _Index()) noexcept : current(__i)\
-    \ {}\n\n    constexpr bool operator==(iterator const &__x) const noexcept {\n\
-    \      return current == __x.current;\n    }\n    constexpr bool operator!=(iterator\
-    \ const &__x) const noexcept {\n      return current != __x.current;\n    }\n\n\
-    \    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
+    \n    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i)\
+    \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
+    \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
+    \ iterator &__x) const noexcept {\n      return current != __x.current;\n    }\n\
+    \n    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
     \ *this;\n    }\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
     \      return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
     \ { return current; }\n  };\n\n  constexpr range(_Index __first, _Index __last)\
@@ -71,9 +71,11 @@ data:
     \ noexcept { return iterator{__last}; }\n\n  constexpr reverse_iterator<iterator>\
     \ rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n \
     \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
-    \ reverse_iterator<iterator>(begin());\n  }\n};\n\ntemplate <class... _Args>\n\
-    constexpr decltype(auto) rrange(_Args &&...__args) noexcept {\n  return reversed(range(std::forward<_Args>(__args)...));\n\
-    }\n\n}  // namespace workspace\n\n#endif\n"
+    \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
+    \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
+    \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
+    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\n}  // namespace\
+    \ workspace\n\n#endif\n"
   code: "#pragma once\n\n/**\n * @file range.hpp\n * @brief Range\n */\n\n#include\
     \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n#include \"reversed.hpp\"\
     \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\ntemplate <class _Index>\
@@ -81,11 +83,11 @@ data:
     \   _Index current;\n\n   public:\n    using difference_type = std::ptrdiff_t;\n\
     \    using value_type = _Index;\n    using reference = typename std::add_const<_Index>::type\
     \ &;\n    using pointer = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
-    \n    constexpr iterator(_Index const &__i = _Index()) noexcept : current(__i)\
-    \ {}\n\n    constexpr bool operator==(iterator const &__x) const noexcept {\n\
-    \      return current == __x.current;\n    }\n    constexpr bool operator!=(iterator\
-    \ const &__x) const noexcept {\n      return current != __x.current;\n    }\n\n\
-    \    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
+    \n    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i)\
+    \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
+    \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
+    \ iterator &__x) const noexcept {\n      return current != __x.current;\n    }\n\
+    \n    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
     \ *this;\n    }\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
     \      return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
     \ { return current; }\n  };\n\n  constexpr range(_Index __first, _Index __last)\
@@ -95,9 +97,11 @@ data:
     \ noexcept { return iterator{__last}; }\n\n  constexpr reverse_iterator<iterator>\
     \ rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n \
     \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
-    \ reverse_iterator<iterator>(begin());\n  }\n};\n\ntemplate <class... _Args>\n\
-    constexpr decltype(auto) rrange(_Args &&...__args) noexcept {\n  return reversed(range(std::forward<_Args>(__args)...));\n\
-    }\n\n}  // namespace workspace\n\n#endif\n"
+    \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
+    \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
+    \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
+    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\n}  // namespace\
+    \ workspace\n\n#endif\n"
   dependsOn:
   - src/utils/iterator/reverse.hpp
   - src/utils/py-like/reversed.hpp
@@ -105,7 +109,7 @@ data:
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-04-03 14:17:03+09:00'
+  timestamp: '2021-04-09 23:40:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp
