@@ -28,12 +28,12 @@ template <class _Index> class range {
     using pointer = iterator;
     using iterator_category = std::bidirectional_iterator_tag;
 
-    constexpr iterator(_Index const &__i = _Index()) noexcept : current(__i) {}
+    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i) {}
 
-    constexpr bool operator==(iterator const &__x) const noexcept {
+    constexpr bool operator==(const iterator &__x) const noexcept {
       return current == __x.current;
     }
-    constexpr bool operator!=(iterator const &__x) const noexcept {
+    constexpr bool operator!=(const iterator &__x) const noexcept {
       return current != __x.current;
     }
 
@@ -61,6 +61,10 @@ template <class _Index> class range {
   }
   constexpr reverse_iterator<iterator> rend() const noexcept {
     return reverse_iterator<iterator>(begin());
+  }
+
+  constexpr size_t size() const noexcept {
+    return std::distance(__first, __last);
   }
 };
 
