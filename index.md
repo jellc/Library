@@ -190,9 +190,15 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
+    - icon: ':heavy_check_mark:'
+      path: src/number_theory/pow_mod.hpp
+      title: Modular Exponentiation
     - icon: ':warning:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
+    - icon: ':heavy_check_mark:'
+      path: src/number_theory/sqrt_mod.hpp
+      title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
       path: src/number_theory/totient.hpp
       title: Euler's Totient Function
@@ -447,6 +453,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/sort_points_by_argument.test.cpp
       title: test/library-checker/sort_points_by_argument.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/sqrt_mod.test.cpp
+      title: test/library-checker/sqrt_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp

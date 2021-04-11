@@ -23,9 +23,15 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
+  - icon: ':heavy_check_mark:'
+    path: src/number_theory/pow_mod.hpp
+    title: Modular Exponentiation
   - icon: ':warning:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
+  - icon: ':heavy_check_mark:'
+    path: src/number_theory/sqrt_mod.hpp
+    title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
     path: src/number_theory/totient.hpp
     title: Euler's Totient Function
@@ -96,6 +102,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/sort_points_by_argument.test.cpp
     title: test/library-checker/sort_points_by_argument.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/sqrt_mod.test.cpp
+    title: test/library-checker/sqrt_mod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
@@ -214,6 +223,8 @@ data:
   - src/utils/round_div.hpp
   - src/utils/hash.hpp
   - src/data_structure/segment_tree/lazy.hpp
+  - src/number_theory/sqrt_mod.hpp
+  - src/number_theory/pow_mod.hpp
   - src/number_theory/primitive_root.hpp
   - src/number_theory/totient.hpp
   - src/number_theory/order.hpp
@@ -242,6 +253,7 @@ data:
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/zalgorithm_2.test.cpp
   - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/sqrt_mod.test.cpp
   - test/library-checker/sort_points_by_argument.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
