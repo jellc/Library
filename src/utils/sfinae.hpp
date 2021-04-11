@@ -29,6 +29,12 @@ template <> struct make_signed<__int128_t> { using type = __int128_t; };
 template <> struct make_unsigned<__uint128_t> { using type = __uint128_t; };
 template <> struct make_unsigned<__int128_t> { using type = __uint128_t; };
 
+template <> struct is_signed<__uint128_t> : std::false_type {};
+template <> struct is_signed<__int128_t> : std::true_type {};
+
+template <> struct is_unsigned<__uint128_t> : std::true_type {};
+template <> struct is_unsigned<__int128_t> : std::false_type {};
+
 #endif
 
 }  // namespace std
@@ -48,31 +54,34 @@ template <class Tp, class... Args> struct variadic_back<Tp, Args...> {
 template <class type, template <class> class trait>
 using enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;
 
+/**
+ * @brief Return type of subscripting ( @c [] ) access.
+ */
+template <class _Tp>
+using subscripted_type =
+    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;
+
 template <class Container>
 using element_type = typename std::decay<decltype(
     *std::begin(std::declval<Container&>()))>::type;
 
-template <class T, class = std::nullptr_t>
+template <class _Tp, class = std::nullptr_t>
 struct has_begin : std::false_type {};
 
-template <class T>
-struct has_begin<T, decltype(std::begin(std::declval<T>()), nullptr)>
+template <class _Tp>
+struct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()), nullptr)>
     : std::true_type {};
 
-template <class T, class = int> struct mapped_of {
-  using type = element_type<T>;
-};
-template <class T>
-struct mapped_of<T,
-                 typename std::pair<int, typename T::mapped_type>::first_type> {
-  using type = typename T::mapped_type;
-};
-template <class T> using mapped_type = typename mapped_of<T>::type;
+template <class _Tp, class = std::nullptr_t>
+struct has_mod : std::false_type {};
 
-template <class T, class = void> struct is_integral_ext : std::false_type {};
-template <class T>
+template <class _Tp>
+struct has_mod<_Tp, decltype(_Tp::mod, nullptr)> : std::true_type {};
+
+template <class _Tp, class = void> struct is_integral_ext : std::false_type {};
+template <class _Tp>
 struct is_integral_ext<
-    T, typename std::enable_if<std::is_integral<T>::value>::type>
+    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>
     : std::true_type {};
 
 #if __INT128_DEFINED__
@@ -84,33 +93,44 @@ template <> struct is_integral_ext<__uint128_t> : std::true_type {};
 
 #if __cplusplus >= 201402
 
-template <class T>
-constexpr static bool is_integral_ext_v = is_integral_ext<T>::value;
+template <class _Tp>
+constexpr static bool is_integral_ext_v = is_integral_ext<_Tp>::value;
 
 #endif
 
-template <typename T, typename = void> struct multiplicable_uint {
+template <typename _Tp, typename = void> struct multiplicable_uint {
   using type = uint_least32_t;
 };
-template <typename T>
+template <typename _Tp>
 struct multiplicable_uint<
-    T, typename std::enable_if<(2 < sizeof(T)) &&
-                               (!__INT128_DEFINED__ || sizeof(T) <= 4)>::type> {
+    _Tp,
+    typename std::enable_if<(2 < sizeof(_Tp)) &&
+                            (!__INT128_DEFINED__ || sizeof(_Tp) <= 4)>::type> {
   using type = uint_least64_t;
 };
 
 #if __INT128_DEFINED__
 
-template <typename T>
-struct multiplicable_uint<T, typename std::enable_if<(4 < sizeof(T))>::type> {
+template <typename _Tp>
+struct multiplicable_uint<_Tp,
+                          typename std::enable_if<(4 < sizeof(_Tp))>::type> {
   using type = __uint128_t;
 };
 
 #endif
 
-template <typename T> struct multiplicable_int {
+template <typename _Tp> struct multiplicable_int {
   using type =
-      typename std::make_signed<typename multiplicable_uint<T>::type>::type;
+      typename std::make_signed<typename multiplicable_uint<_Tp>::type>::type;
+};
+
+template <typename _Tp> struct multiplicable {
+  using type = std::conditional_t<
+      is_integral_ext<_Tp>::value,
+      std::conditional_t<std::is_signed<_Tp>::value,
+                         typename multiplicable_int<_Tp>::type,
+                         typename multiplicable_uint<_Tp>::type>,
+      _Tp>;
 };
 
 }  // namespace workspace
