@@ -81,7 +81,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
   - name: src/combinatorics
@@ -119,10 +119,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -160,7 +160,7 @@ data:
     - icon: ':warning:'
       path: src/graph/undirected/tree/centroid_decomposition.hpp
       title: src/graph/undirected/tree/centroid_decomposition.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy-Light Decomposition
     - icon: ':heavy_check_mark:'
@@ -176,7 +176,7 @@ data:
     - icon: ':warning:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -270,7 +270,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/grid
@@ -280,7 +280,7 @@ data:
       title: Motion
   - name: src/utils/io
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
     - icon: ':heavy_check_mark:'
@@ -352,7 +352,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.test.cpp
       title: test/aizu-online-judge/1615.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -438,7 +438,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'

@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/factorial.hpp
     title: Factorial
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
