@@ -19,25 +19,30 @@ template <class Monoid, class Endomorphism,
           class Monoid_container = std::vector<Monoid>,
           class Endomorphism_container = std::vector<Endomorphism>>
 class lazy_segment_tree {
-  static_assert(std::is_same<Monoid, mapped_type<Monoid_container>>::value);
+  static_assert(
+      std::is_same<Monoid, typename Monoid_container::value_type>::value);
 
   static_assert(
-      std::is_same<Endomorphism, mapped_type<Endomorphism_container>>::value);
-
-  static_assert(std::is_same<Monoid, decltype(std::declval<Monoid>() +
-                                              std::declval<Monoid>())>::value,
-                "\'Monoid\' has no proper binary \'operator+\'.");
+      std::is_same<Endomorphism,
+                   typename Endomorphism_container::value_type>::value);
 
   static_assert(
-      std::is_same<Endomorphism, decltype(std::declval<Endomorphism>() *
-                                          std::declval<Endomorphism>())>::value,
+      std::is_assignable<Monoid &, decltype(std::declval<Monoid>() +
+                                            std::declval<Monoid>())>::value,
+      "\'Monoid\' has no proper binary \'operator+\'.");
+
+  static_assert(
+      std::is_assignable<Endomorphism &,
+                         decltype(std::declval<Endomorphism>() *
+                                  std::declval<Endomorphism>())>::value,
       "\'Endomorphism\' has no proper binary operator*.");
 
-  static_assert(
-      std::is_same<Monoid, decltype(std::declval<Monoid>() *
-                                    std::declval<Endomorphism>())>::value,
-      "\'Endomorphism\' is not applicable to \'Monoid\'.");
+  static_assert(std::is_assignable<
+                    Monoid &, decltype(std::declval<Monoid>() *
+                                       std::declval<Endomorphism>())>::value,
+                "\'Endomorphism\' is not applicable to \'Monoid\'.");
 
+ protected:
   size_t size_orig, height, size_ext;
   Monoid_container data;
   Endomorphism_container lazy;
@@ -192,10 +197,6 @@ class lazy_segment_tree {
       *iter = Monoid(*first);
     for (size_t i{size_ext}; --i;) pull(i);
   }
-
-  template <class Container, typename = element_type<Container>>
-  lazy_segment_tree(const Container &cont)
-      : lazy_segment_tree(std::begin(cont), std::end(cont)) {}
 
   /**
    * @return Number of elements.
