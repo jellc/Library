@@ -34,6 +34,7 @@
 "test/library-checker/scc.test.cpp": "2020-11-25 12:11:14 +0900",
 "test/library-checker/segment_add_get_min.test.cpp": "2021-01-25 22:14:35 +0900",
 "test/library-checker/sort_points_by_argument.test.cpp": "2021-04-11 21:05:14 +0900",
+"test/library-checker/sqrt_mod.test.cpp": "2021-04-11 22:17:20 +0900",
 "test/library-checker/static_range_inversions_query.test.cpp": "2021-03-26 17:22:13 +0900",
 "test/library-checker/subset_convolution.test.cpp": "2021-04-11 21:05:14 +0900",
 "test/library-checker/suffix_array.test.cpp": "2021-04-11 21:05:14 +0900",
