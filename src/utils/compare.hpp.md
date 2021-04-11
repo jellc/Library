@@ -7,23 +7,22 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/NTL_1_D.test.cpp
-    title: test/aizu-online-judge/NTL_1_D.test.cpp
+    path: test/library-checker/sort_points_by_argument.test.cpp
+    title: test/library-checker/sort_points_by_argument.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Euler's Totient Function
+    document_title: Compare
     links: []
-  bundledCode: "#line 1 \"src/number_theory/totient.hpp\"\n/**\n * @file totient.hpp\n\
-    \ * @brief Euler's Totient Function\n * @date 2021-01-13\n */\n\n#include <cassert>\n\
-    \n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
-    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef\
-    \ __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n\
-    #else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if\
-    \ __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using type\
-    \ = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type =\
-    \ __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+  bundledCode: "#line 1 \"src/utils/compare.hpp\"\n/**\n * @file compare.hpp\n * @brief\
+    \ Compare\n */\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
+    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
+    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
+    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
+    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
     \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
     \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
     \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
@@ -63,40 +62,42 @@ data:
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
     \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
-    #line 10 \"src/number_theory/totient.hpp\"\n\nnamespace workspace {\n\n/**\n *\
-    \ @brief Euler's totient function.\n *\n * @tparam __mod Positive integer\n */\n\
-    template <class Tp>\nconstexpr typename std::enable_if<(is_integral_ext<Tp>::value),\
-    \ Tp>::type\ntotient(const Tp __mod) noexcept {\n  assert(__mod > 0);\n  using\
-    \ int_type = typename multiplicable_uint<Tp>::type;\n\n  int_type __r = __mod,\
-    \ __p[16] = {}, *__q = __p;\n  for (int_type __i = 2; __i <= __r / __i; ++__i)\
-    \ {\n    if (__r % __i) continue;\n    *__q++ = __i;\n    while (!(__r % __i))\
-    \ __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\n  int_type __tot = __mod;\n\
-    \  for (__q = __p; *__q; *__q++ = 0) (__tot /= *__q) *= *__q - 1;\n\n  return\
-    \ __tot;\n};\n\n}  // namespace workspace\n"
-  code: "/**\n * @file totient.hpp\n * @brief Euler's Totient Function\n * @date 2021-01-13\n\
-    \ */\n\n#include <cassert>\n\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @brief Euler's totient function.\n *\n * @tparam __mod Positive\
-    \ integer\n */\ntemplate <class Tp>\nconstexpr typename std::enable_if<(is_integral_ext<Tp>::value),\
-    \ Tp>::type\ntotient(const Tp __mod) noexcept {\n  assert(__mod > 0);\n  using\
-    \ int_type = typename multiplicable_uint<Tp>::type;\n\n  int_type __r = __mod,\
-    \ __p[16] = {}, *__q = __p;\n  for (int_type __i = 2; __i <= __r / __i; ++__i)\
-    \ {\n    if (__r % __i) continue;\n    *__q++ = __i;\n    while (!(__r % __i))\
-    \ __r /= __i;\n  }\n  if (__r != 1) *__q++ = __r;\n\n  int_type __tot = __mod;\n\
-    \  for (__q = __p; *__q; *__q++ = 0) (__tot /= *__q) *= *__q - 1;\n\n  return\
-    \ __tot;\n};\n\n}  // namespace workspace\n"
+    #line 7 \"src/utils/compare.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Compare\
+    \ 2 points by their value of `atan2`.\n *\n * @return\n */\ntemplate <class _Tp>\n\
+    bool compare_arg(const _Tp& __p1, const _Tp& __p2) noexcept {\n  const auto& [__x1,\
+    \ __y1] = __p1;\n  const auto& [__x2, __y2] = __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n\
+    \  using mul_type = typename multiplicable<value_type>::type;\n\n  if (__y1 ==\
+    \ value_type(0))\n    return value_type(0) <= __x1 &&\n           (value_type(0)\
+    \ < __y2 ||\n            (__y2 == value_type(0) && __x2 < value_type(0)));\n\n\
+    \  return value_type(0) < __y1\n             ? value_type(0) <= __y2 &&\n    \
+    \               mul_type(__y1) * __x2 < mul_type(__x1) * __y2\n             :\
+    \ value_type(0) <= __y2 ||\n                   mul_type(__y1) * __x2 < mul_type(__x1)\
+    \ * __y2;\n}\n\n}  // namespace workspace\n"
+  code: "/**\n * @file compare.hpp\n * @brief Compare\n */\n\n#include \"sfinae.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Compare 2 points by their value of\
+    \ `atan2`.\n *\n * @return\n */\ntemplate <class _Tp>\nbool compare_arg(const\
+    \ _Tp& __p1, const _Tp& __p2) noexcept {\n  const auto& [__x1, __y1] = __p1;\n\
+    \  const auto& [__x2, __y2] = __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n\
+    \  using mul_type = typename multiplicable<value_type>::type;\n\n  if (__y1 ==\
+    \ value_type(0))\n    return value_type(0) <= __x1 &&\n           (value_type(0)\
+    \ < __y2 ||\n            (__y2 == value_type(0) && __x2 < value_type(0)));\n\n\
+    \  return value_type(0) < __y1\n             ? value_type(0) <= __y2 &&\n    \
+    \               mul_type(__y1) * __x2 < mul_type(__x1) * __y2\n             :\
+    \ value_type(0) <= __y2 ||\n                   mul_type(__y1) * __x2 < mul_type(__x1)\
+    \ * __y2;\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
-  path: src/number_theory/totient.hpp
+  path: src/utils/compare.hpp
   requiredBy: []
   timestamp: '2021-04-11 21:05:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/NTL_1_D.test.cpp
-documentation_of: src/number_theory/totient.hpp
+  - test/library-checker/sort_points_by_argument.test.cpp
+documentation_of: src/utils/compare.hpp
 layout: document
 redirect_from:
-- /library/src/number_theory/totient.hpp
-- /library/src/number_theory/totient.hpp.html
-title: Euler's Totient Function
+- /library/src/utils/compare.hpp
+- /library/src/utils/compare.hpp.html
+title: Compare
 ---

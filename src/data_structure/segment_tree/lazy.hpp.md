@@ -1,26 +1,26 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Lazy Segment Tree
     links: []
@@ -46,36 +46,45 @@ data:
     \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
     \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
     \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
-    \ = __uint128_t; };\n\n#endif\n\n}  // namespace std\n\nnamespace workspace {\n\
-    \ntemplate <class Tp, class... Args> struct variadic_front { using type = Tp;\
-    \ };\n\ntemplate <class... Args> struct variadic_back;\n\ntemplate <class Tp>\
-    \ struct variadic_back<Tp> { using type = Tp; };\n\ntemplate <class Tp, class...\
-    \ Args> struct variadic_back<Tp, Args...> {\n  using type = typename variadic_back<Args...>::type;\n\
-    };\n\ntemplate <class type, template <class> class trait>\nusing enable_if_trait_type\
-    \ = typename std::enable_if<trait<type>::value>::type;\n\ntemplate <class Container>\n\
-    using element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class T, class = std::nullptr_t>\nstruct has_begin : std::false_type\
-    \ {};\n\ntemplate <class T>\nstruct has_begin<T, decltype(std::begin(std::declval<T>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class T, class = int> struct\
-    \ mapped_of {\n  using type = element_type<T>;\n};\ntemplate <class T>\nstruct\
-    \ mapped_of<T,\n                 typename std::pair<int, typename T::mapped_type>::first_type>\
-    \ {\n  using type = typename T::mapped_type;\n};\ntemplate <class T> using mapped_type\
-    \ = typename mapped_of<T>::type;\n\ntemplate <class T, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class T>\nstruct is_integral_ext<\n    T, typename\
-    \ std::enable_if<std::is_integral<T>::value>::type>\n    : std::true_type {};\n\
-    \n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type {};\n\n\
-    #endif\n\n#if __cplusplus >= 201402\n\ntemplate <class T>\nconstexpr static bool\
-    \ is_integral_ext_v = is_integral_ext<T>::value;\n\n#endif\n\ntemplate <typename\
-    \ T, typename = void> struct multiplicable_uint {\n  using type = uint_least32_t;\n\
-    };\ntemplate <typename T>\nstruct multiplicable_uint<\n    T, typename std::enable_if<(2\
-    \ < sizeof(T)) &&\n                               (!__INT128_DEFINED__ || sizeof(T)\
-    \ <= 4)>::type> {\n  using type = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\
-    \ntemplate <typename T>\nstruct multiplicable_uint<T, typename std::enable_if<(4\
-    \ < sizeof(T))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
-    \ <typename T> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
-    \ multiplicable_uint<T>::type>::type;\n};\n\n}  // namespace workspace\n#line\
-    \ 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line 5 \"src/data_structure/segment_tree/waitings.hpp\"\
+    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
+    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
+    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
+    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
+    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
+    template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
+    \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
+    \ = typename variadic_back<Args...>::type;\n};\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
+    \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
+    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
+    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = std::nullptr_t>\n\
+    struct has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp,\
+    \ decltype(_Tp::mod, nullptr)> : std::true_type {};\n\ntemplate <class _Tp, class\
+    \ = void> struct is_integral_ext : std::false_type {};\ntemplate <class _Tp>\n\
+    struct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
+    \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
+    \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
+    \ <typename _Tp, typename = void> struct multiplicable_uint {\n  using type =\
+    \ uint_least32_t;\n};\ntemplate <typename _Tp>\nstruct multiplicable_uint<\n \
+    \   _Tp,\n    typename std::enable_if<(2 < sizeof(_Tp)) &&\n                 \
+    \           (!__INT128_DEFINED__ || sizeof(_Tp) <= 4)>::type> {\n  using type\
+    \ = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\ntemplate <typename _Tp>\n\
+    struct multiplicable_uint<_Tp,\n                          typename std::enable_if<(4\
+    \ < sizeof(_Tp))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
+    \ <typename _Tp> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
+    \ multiplicable_uint<_Tp>::type>::type;\n};\n\ntemplate <typename _Tp> struct\
+    \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
+    \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
+    \   typename multiplicable_int<_Tp>::type,\n                         typename\
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
+    #line 2 \"src/data_structure/segment_tree/waitings.hpp\"\n\n#line 5 \"src/data_structure/segment_tree/waitings.hpp\"\
     \n\nnamespace workspace {\n\nnamespace internal {\n\nstruct waitings : std::queue<size_t>\
     \ {\n  waitings(size_t n) : in(n) {}\n\n  bool push(size_t index) {\n    // assert(index\
     \ < in.size());\n    if (in[index]) return false;\n    emplace(index);\n    return\
@@ -345,8 +354,8 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2021-01-22 09:52:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2021-04-11 21:05:14+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp

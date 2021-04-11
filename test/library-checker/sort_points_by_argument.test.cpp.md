@@ -2,23 +2,25 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: src/number_theory/ext_gcd.hpp
-    title: Extended Euclidean Algorithm
+    path: src/utils/compare.hpp
+    title: Compare
   - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
-  _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Order
-    links: []
-  bundledCode: "#line 1 \"src/number_theory/order.hpp\"\n/**\n * @file order.hpp\n\
-    \ * @brief Order\n * @date 2021-01-15\n *\n *\n */\n\n#include <unordered_map>\n\
-    \n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n * @brief\
-    \ Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://judge.yosupo.jp/problem/sort_points_by_argument
+    links:
+    - https://judge.yosupo.jp/problem/sort_points_by_argument
+  bundledCode: "#line 1 \"test/library-checker/sort_points_by_argument.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/sort_points_by_argument\"\n\n\
+    #include <algorithm>\n#include <cstdio>\n\n#line 1 \"src/utils/compare.hpp\"\n\
+    /**\n * @file compare.hpp\n * @brief Compare\n */\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
     \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
@@ -64,55 +66,40 @@ data:
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
     \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
-    #line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n *\
-    \ @param __a Integer\n * @param __b Integer\n * @return Pair of integers (x, y)\
-    \ s.t. ax + by = g = gcd(a, b), 0 <= x <\n * |b/g|, -|a/g| < y <= 0. Return (0,\
-    \ 0) if (a, b) = (0, 0).\n */\ntemplate <typename _T1, typename _T2> constexpr\
-    \ auto ext_gcd(_T1 __a, _T2 __b) {\n  static_assert(is_integral_ext<_T1>::value);\n\
-    \  static_assert(is_integral_ext<_T2>::value);\n\n  using result_type = typename\
-    \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
-    \n  result_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  // Euclidean algorithm\n\
-    \  while (b) {\n    result_type t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n \
-    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  // Normalize\n\
-    \  if (a < 0) p = -p, q = -q;\n  if (p < 0) p += __b / a, q -= __a / a;\n\n  return\
-    \ std::make_pair(p, q);\n}\n\n}  // namespace workspace\n#line 12 \"src/number_theory/order.hpp\"\
-    \n\nnamespace workspace {\n\n/**\n * @brief\n *\n * @param __x Integer\n * @param\
-    \ __mod Modulus\n * @return The order of @p __x modulo @p __mod.\n */\ntemplate\
-    \ <class Tp>\nconstexpr typename std::enable_if<(is_integral_ext<Tp>::value),\
-    \ Tp>::type order(\n    Tp __x, const Tp __mod) noexcept {\n  assert(__mod > 0);\n\
-    \  using int_type = typename multiplicable_int<Tp>::type;\n\n  __x %= __mod;\n\
-    \  if (__x < 0) __x += __mod;\n  std::unordered_map<Tp, Tp> __ls;\n  int_type\
-    \ __p;\n  Tp __i;\n  for (__i = 1, __p = __x; __i * __i < __mod; ++__i, (__p *=\
-    \ __x) %= __mod)\n    __ls.emplace(__p, __i);\n\n  for (int_type __q{1}, __v{1},\
-    \ __j{0};;\n       __v = ext_gcd((__q *= __p) %= __mod, __mod).first, __j += __i,\n\
-    \       __ls[1] = 0)\n    if (auto __f = __ls.find(__v < 0 ? __v += __mod : __v);\
-    \ __f != __ls.end())\n      return __j + __f->second;\n};\n\n}  // namespace workspace\n"
-  code: "/**\n * @file order.hpp\n * @brief Order\n * @date 2021-01-15\n *\n *\n */\n\
-    \n#include <unordered_map>\n\n#include \"ext_gcd.hpp\"\n\nnamespace workspace\
-    \ {\n\n/**\n * @brief\n *\n * @param __x Integer\n * @param __mod Modulus\n *\
-    \ @return The order of @p __x modulo @p __mod.\n */\ntemplate <class Tp>\nconstexpr\
-    \ typename std::enable_if<(is_integral_ext<Tp>::value), Tp>::type order(\n   \
-    \ Tp __x, const Tp __mod) noexcept {\n  assert(__mod > 0);\n  using int_type =\
-    \ typename multiplicable_int<Tp>::type;\n\n  __x %= __mod;\n  if (__x < 0) __x\
-    \ += __mod;\n  std::unordered_map<Tp, Tp> __ls;\n  int_type __p;\n  Tp __i;\n\
-    \  for (__i = 1, __p = __x; __i * __i < __mod; ++__i, (__p *= __x) %= __mod)\n\
-    \    __ls.emplace(__p, __i);\n\n  for (int_type __q{1}, __v{1}, __j{0};;\n   \
-    \    __v = ext_gcd((__q *= __p) %= __mod, __mod).first, __j += __i,\n       __ls[1]\
-    \ = 0)\n    if (auto __f = __ls.find(__v < 0 ? __v += __mod : __v); __f != __ls.end())\n\
-    \      return __j + __f->second;\n};\n\n}  // namespace workspace\n"
+    #line 7 \"src/utils/compare.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Compare\
+    \ 2 points by their value of `atan2`.\n *\n * @return\n */\ntemplate <class _Tp>\n\
+    bool compare_arg(const _Tp& __p1, const _Tp& __p2) noexcept {\n  const auto& [__x1,\
+    \ __y1] = __p1;\n  const auto& [__x2, __y2] = __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n\
+    \  using mul_type = typename multiplicable<value_type>::type;\n\n  if (__y1 ==\
+    \ value_type(0))\n    return value_type(0) <= __x1 &&\n           (value_type(0)\
+    \ < __y2 ||\n            (__y2 == value_type(0) && __x2 < value_type(0)));\n\n\
+    \  return value_type(0) < __y1\n             ? value_type(0) <= __y2 &&\n    \
+    \               mul_type(__y1) * __x2 < mul_type(__x1) * __y2\n             :\
+    \ value_type(0) <= __y2 ||\n                   mul_type(__y1) * __x2 < mul_type(__x1)\
+    \ * __y2;\n}\n\n}  // namespace workspace\n#line 7 \"test/library-checker/sort_points_by_argument.test.cpp\"\
+    \n\nint main() {\n  struct point {\n    int x, y;\n  };\n\n  int n;\n  point pos[1\
+    \ << 18];\n\n  scanf(\"%d\", &n);\n  for (int i = 0; i != n; ++i) scanf(\"%d%d\"\
+    , &pos[i].x, &pos[i].y);\n\n  std::sort(pos, pos + n, workspace::compare_arg<point>);\n\
+    \n  for (int i = 0; i != n; ++i) printf(\"%d %d\\n\", pos[i].x, pos[i].y);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sort_points_by_argument\"\
+    \n\n#include <algorithm>\n#include <cstdio>\n\n#include \"src/utils/compare.hpp\"\
+    \n\nint main() {\n  struct point {\n    int x, y;\n  };\n\n  int n;\n  point pos[1\
+    \ << 18];\n\n  scanf(\"%d\", &n);\n  for (int i = 0; i != n; ++i) scanf(\"%d%d\"\
+    , &pos[i].x, &pos[i].y);\n\n  std::sort(pos, pos + n, workspace::compare_arg<point>);\n\
+    \n  for (int i = 0; i != n; ++i) printf(\"%d %d\\n\", pos[i].x, pos[i].y);\n}\n"
   dependsOn:
-  - src/number_theory/ext_gcd.hpp
+  - src/utils/compare.hpp
   - src/utils/sfinae.hpp
-  isVerificationFile: false
-  path: src/number_theory/order.hpp
+  isVerificationFile: true
+  path: test/library-checker/sort_points_by_argument.test.cpp
   requiredBy: []
   timestamp: '2021-04-11 21:05:14+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: src/number_theory/order.hpp
+documentation_of: test/library-checker/sort_points_by_argument.test.cpp
 layout: document
 redirect_from:
-- /library/src/number_theory/order.hpp
-- /library/src/number_theory/order.hpp.html
-title: Order
+- /verify/test/library-checker/sort_points_by_argument.test.cpp
+- /verify/test/library-checker/sort_points_by_argument.test.cpp.html
+title: test/library-checker/sort_points_by_argument.test.cpp
 ---
