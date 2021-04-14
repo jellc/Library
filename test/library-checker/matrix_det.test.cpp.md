@@ -34,18 +34,17 @@ data:
     - https://judge.yosupo.jp/problem/matrix_det
   bundledCode: "#line 1 \"test/library-checker/matrix_det.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/matrix_det\"\n\n#line 2 \"src/algebra/linear/lu.hpp\"\
-    \n\n/**\n * @file lu.hpp\n * @brief LU decomposition\n * @date 2021-02-12\n *\n\
-    \ *\n */\n\n#include <numeric>\n\n#line 2 \"src/algebra/linear/matrix.hpp\"\n\n\
-    /**\n * @file matrix.hpp\n * @brief Matrix\n * @date 2021-02-15\n *\n *\n */\n\
-    \n#include <cassert>\n#include <valarray>\n\nnamespace workspace {\n\n/**\n *\
-    \ @brief Fixed size matrix.\n *\n * @tparam _Scalar\n * @tparam _Rows Number of\
-    \ rows\n * @tparam _Cols Number of columns\n */\ntemplate <class _Scalar, std::size_t\
-    \ _Rows = 0, std::size_t _Cols = _Rows>\nclass matrix {\n public:\n  _Scalar __data[_Rows][_Cols]\
-    \ = {};\n\n  using value_type = _Scalar;\n  using size_type = std::size_t;\n\n\
-    \  constexpr static matrix eye() {\n    static_assert(_Rows == _Cols);\n\n   \
-    \ matrix __e;\n    for (size_type __d = 0; __d != _Rows; ++__d) __e.__data[__d][__d]\
-    \ = 1;\n    return __e;\n  }\n\n  constexpr operator decltype((__data))() { return\
-    \ __data; }\n  constexpr operator decltype(std::declval<const matrix>().__data)\n\
+    \n\n/**\n * @file lu.hpp\n * @brief LU decomposition\n */\n\n#include <numeric>\n\
+    \n#line 2 \"src/algebra/linear/matrix.hpp\"\n\n/**\n * @file matrix.hpp\n * @brief\
+    \ Matrix\n * @date 2021-02-15\n *\n *\n */\n\n#include <cassert>\n#include <valarray>\n\
+    \nnamespace workspace {\n\n/**\n * @brief Fixed size matrix.\n *\n * @tparam _Scalar\n\
+    \ * @tparam _Rows Number of rows\n * @tparam _Cols Number of columns\n */\ntemplate\
+    \ <class _Scalar, std::size_t _Rows = 0, std::size_t _Cols = _Rows>\nclass matrix\
+    \ {\n public:\n  _Scalar __data[_Rows][_Cols] = {};\n\n  using value_type = _Scalar;\n\
+    \  using size_type = std::size_t;\n\n  constexpr static matrix eye() {\n    static_assert(_Rows\
+    \ == _Cols);\n\n    matrix __e;\n    for (size_type __d = 0; __d != _Rows; ++__d)\
+    \ __e.__data[__d][__d] = 1;\n    return __e;\n  }\n\n  constexpr operator decltype((__data))()\
+    \ { return __data; }\n  constexpr operator decltype(std::declval<const matrix>().__data)\n\
     \      const&() const {\n    return __data;\n  }\n\n  constexpr auto begin() {\
     \ return __data; }\n  constexpr auto begin() const { return __data; }\n\n  constexpr\
     \ auto end() { return __data + _Rows; }\n  constexpr auto end() const { return\
@@ -162,7 +161,7 @@ data:
     \ __os, const matrix& __x) {\n    for (size_type __r = 0; __r != __x.rows(); ++__r,\
     \ __os << '\\n')\n      for (size_type __c = 0; __c != __x.cols(); ++__c)\n  \
     \      __c ? void(__os << ' ') : (void)0,\n            __os << __x.operator[](__r).operator[](__c);\n\
-    \n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 14 \"src/algebra/linear/lu.hpp\"\
+    \n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 11 \"src/algebra/linear/lu.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class _Matrix> class lu_decomposition :\
     \ public _Matrix {\n public:\n  using value_type = typename _Matrix::value_type;\n\
     \  using size_type = typename _Matrix::size_type;\n\n  lu_decomposition() = default;\n\
@@ -199,7 +198,7 @@ data:
     \ i=0, ..., rows()\n    return __inv;\n  }\n\n  // O(dim(ker) * size)\n  _Matrix\
     \ kernel() const {\n    _Matrix __ker(_Matrix::cols() - rank(), _Matrix::cols());\n\
     \n    for (size_type __c = 0, __i = 0; __c != _Matrix::cols(); ++__c) {\n    \
-    \  if (__i != _Matrix::rows() && __pivots[__i] == __c) {\n        ++__i;\n   \
+    \  if (__i != __pivots.size() && __pivots[__i] == __c) {\n        ++__i;\n   \
     \     continue;\n      }\n\n      auto &__v = __ker[__c - __i];\n      __v[__c]\
     \ = 1;\n\n      for (size_type __j = __i, __k = __c;;) {\n        for (size_type\
     \ __r = 0; __r != __j; ++__r)\n          __v[__r] -= __v[__k] * (*this)[__r][__k];\n\
@@ -213,29 +212,28 @@ data:
     \    }\n\n    // Backward substitution with U\n    for (size_type __i = __rank;\
     \ __i != _Matrix::rows(); ++__i)\n      if (__y[__i] != static_cast<value_type>(0))\n\
     \        return std::make_pair(false, __x);\n\n    for (size_type __i = __rank;\
-    \ __i--;) {\n      // do  // Find the next pivot\n      //   --__c;\n      //\
-    \ while ((*this)[__i][__c] == static_cast<value_type>(0));\n\n      auto __c =\
-    \ __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\n      for\
-    \ (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c] * (*this)[__r][__c];\n\
-    \    }\n\n    return std::make_pair(true, __x);\n  }\n};\n\n}  // namespace workspace\n\
-    #line 2 \"src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n * @brief\
-    \ Modular Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\n#include <iostream>\n\
-    #include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file\
-    \ sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
-    \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
-    \ 9 \"src/number_theory/pow_mod.hpp\"\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n\
-    /**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \ __i--;) {\n      auto __c = __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\
+    \n      for (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c]\
+    \ * (*this)[__r][__c];\n    }\n\n    return std::make_pair(true, __x);\n  }\n\
+    };\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/**\n *\
+    \ @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\
+    \n#include <iostream>\n#include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\
+    \n\n/**\n * @file sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line\
+    \ 2 \"src/number_theory/pow_mod.hpp\"\n\n/**\n * @file mod_pow.hpp\n * @brief\
+    \ Modular Exponentiation\n */\n\n#line 9 \"src/number_theory/pow_mod.hpp\"\n\n\
+    #line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef\
+    \ __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n\
+    #else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if\
+    \ __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using type\
+    \ = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type =\
+    \ __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
+    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
+    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
+    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
+    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
     \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
     template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
     \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
@@ -473,7 +471,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/matrix_det.test.cpp
   requiredBy: []
-  timestamp: '2021-04-14 16:05:28+09:00'
+  timestamp: '2021-04-14 16:51:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/matrix_det.test.cpp

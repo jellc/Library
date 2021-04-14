@@ -19,17 +19,17 @@ data:
     document_title: LU decomposition
     links: []
   bundledCode: "#line 2 \"src/algebra/linear/lu.hpp\"\n\n/**\n * @file lu.hpp\n *\
-    \ @brief LU decomposition\n * @date 2021-02-12\n *\n *\n */\n\n#include <numeric>\n\
-    \n#line 2 \"src/algebra/linear/matrix.hpp\"\n\n/**\n * @file matrix.hpp\n * @brief\
-    \ Matrix\n * @date 2021-02-15\n *\n *\n */\n\n#include <cassert>\n#include <valarray>\n\
-    \nnamespace workspace {\n\n/**\n * @brief Fixed size matrix.\n *\n * @tparam _Scalar\n\
-    \ * @tparam _Rows Number of rows\n * @tparam _Cols Number of columns\n */\ntemplate\
-    \ <class _Scalar, std::size_t _Rows = 0, std::size_t _Cols = _Rows>\nclass matrix\
-    \ {\n public:\n  _Scalar __data[_Rows][_Cols] = {};\n\n  using value_type = _Scalar;\n\
-    \  using size_type = std::size_t;\n\n  constexpr static matrix eye() {\n    static_assert(_Rows\
-    \ == _Cols);\n\n    matrix __e;\n    for (size_type __d = 0; __d != _Rows; ++__d)\
-    \ __e.__data[__d][__d] = 1;\n    return __e;\n  }\n\n  constexpr operator decltype((__data))()\
-    \ { return __data; }\n  constexpr operator decltype(std::declval<const matrix>().__data)\n\
+    \ @brief LU decomposition\n */\n\n#include <numeric>\n\n#line 2 \"src/algebra/linear/matrix.hpp\"\
+    \n\n/**\n * @file matrix.hpp\n * @brief Matrix\n * @date 2021-02-15\n *\n *\n\
+    \ */\n\n#include <cassert>\n#include <valarray>\n\nnamespace workspace {\n\n/**\n\
+    \ * @brief Fixed size matrix.\n *\n * @tparam _Scalar\n * @tparam _Rows Number\
+    \ of rows\n * @tparam _Cols Number of columns\n */\ntemplate <class _Scalar, std::size_t\
+    \ _Rows = 0, std::size_t _Cols = _Rows>\nclass matrix {\n public:\n  _Scalar __data[_Rows][_Cols]\
+    \ = {};\n\n  using value_type = _Scalar;\n  using size_type = std::size_t;\n\n\
+    \  constexpr static matrix eye() {\n    static_assert(_Rows == _Cols);\n\n   \
+    \ matrix __e;\n    for (size_type __d = 0; __d != _Rows; ++__d) __e.__data[__d][__d]\
+    \ = 1;\n    return __e;\n  }\n\n  constexpr operator decltype((__data))() { return\
+    \ __data; }\n  constexpr operator decltype(std::declval<const matrix>().__data)\n\
     \      const&() const {\n    return __data;\n  }\n\n  constexpr auto begin() {\
     \ return __data; }\n  constexpr auto begin() const { return __data; }\n\n  constexpr\
     \ auto end() { return __data + _Rows; }\n  constexpr auto end() const { return\
@@ -146,7 +146,7 @@ data:
     \ __os, const matrix& __x) {\n    for (size_type __r = 0; __r != __x.rows(); ++__r,\
     \ __os << '\\n')\n      for (size_type __c = 0; __c != __x.cols(); ++__c)\n  \
     \      __c ? void(__os << ' ') : (void)0,\n            __os << __x.operator[](__r).operator[](__c);\n\
-    \n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 14 \"src/algebra/linear/lu.hpp\"\
+    \n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 11 \"src/algebra/linear/lu.hpp\"\
     \n\nnamespace workspace {\n\ntemplate <class _Matrix> class lu_decomposition :\
     \ public _Matrix {\n public:\n  using value_type = typename _Matrix::value_type;\n\
     \  using size_type = typename _Matrix::size_type;\n\n  lu_decomposition() = default;\n\
@@ -183,7 +183,7 @@ data:
     \ i=0, ..., rows()\n    return __inv;\n  }\n\n  // O(dim(ker) * size)\n  _Matrix\
     \ kernel() const {\n    _Matrix __ker(_Matrix::cols() - rank(), _Matrix::cols());\n\
     \n    for (size_type __c = 0, __i = 0; __c != _Matrix::cols(); ++__c) {\n    \
-    \  if (__i != _Matrix::rows() && __pivots[__i] == __c) {\n        ++__i;\n   \
+    \  if (__i != __pivots.size() && __pivots[__i] == __c) {\n        ++__i;\n   \
     \     continue;\n      }\n\n      auto &__v = __ker[__c - __i];\n      __v[__c]\
     \ = 1;\n\n      for (size_type __j = __i, __k = __c;;) {\n        for (size_type\
     \ __r = 0; __r != __j; ++__r)\n          __v[__r] -= __v[__k] * (*this)[__r][__k];\n\
@@ -197,35 +197,34 @@ data:
     \    }\n\n    // Backward substitution with U\n    for (size_type __i = __rank;\
     \ __i != _Matrix::rows(); ++__i)\n      if (__y[__i] != static_cast<value_type>(0))\n\
     \        return std::make_pair(false, __x);\n\n    for (size_type __i = __rank;\
-    \ __i--;) {\n      // do  // Find the next pivot\n      //   --__c;\n      //\
-    \ while ((*this)[__i][__c] == static_cast<value_type>(0));\n\n      auto __c =\
-    \ __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\n      for\
-    \ (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c] * (*this)[__r][__c];\n\
-    \    }\n\n    return std::make_pair(true, __x);\n  }\n};\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file lu.hpp\n * @brief LU decomposition\n * @date\
-    \ 2021-02-12\n *\n *\n */\n\n#include <numeric>\n\n#include \"matrix.hpp\"\n\n\
-    namespace workspace {\n\ntemplate <class _Matrix> class lu_decomposition : public\
-    \ _Matrix {\n public:\n  using value_type = typename _Matrix::value_type;\n  using\
-    \ size_type = typename _Matrix::size_type;\n\n  lu_decomposition() = default;\n\
-    \n  lu_decomposition(const _Matrix &__x) : _Matrix(__x) { run(); }\n\n  lu_decomposition(_Matrix\
-    \ &&__x) : _Matrix(std::move(__x)) { run(); }\n\n protected:\n  size_type __rank\
-    \ = 0;\n  std::vector<size_type> __perm, __pivots;\n  bool sgn;\n\n  void run()\
-    \ {\n    __perm.resize(_Matrix::rows());\n    std::iota(__perm.begin(), __perm.end(),\
-    \ 0);\n    sgn = false;\n    __pivots.clear();\n\n    for (size_type __c = 0;\
-    \ __c != _Matrix::cols() && __rank != _Matrix::rows();\n         ++__c) {\n  \
-    \    auto __s = (*this)[__rank][__c];\n      auto __pivot = __rank;\n\n      if\
-    \ constexpr (std::is_floating_point<\n                        value_type>::value)\
-    \ {  // Find the biggest absolute\n                                          \
-    \     // value in the column.\n        for (size_type __r = __rank + 1; __r !=\
-    \ _Matrix::rows(); ++__r)\n          if (std::abs(__s) < std::abs((*this)[__r][__c]))\n\
-    \            __s = (*this)[__pivot = __r][__c];\n      }\n\n      else if (__s\
-    \ == static_cast<value_type>(\n                          0))  // Find the first\
-    \ non-zero element in the column.\n        for (size_type __r = __rank + 1; __r\
-    \ != _Matrix::rows(); ++__r)\n          if ((__s = (*this)[__r][__c]) != static_cast<value_type>(0))\
-    \ {\n            __pivot = __r;\n            break;\n          }\n\n      if (__pivot\
-    \ != __rank) {\n        sgn = !sgn;\n        std::swap(__perm[__pivot], __perm[__rank]);\n\
-    \        std::swap((*this)[__pivot], (*this)[__rank]);\n      }\n\n      if (__s\
-    \ != static_cast<value_type>(0)) {  // Forward elimination\n        for (size_type\
+    \ __i--;) {\n      auto __c = __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\
+    \n      for (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c]\
+    \ * (*this)[__r][__c];\n    }\n\n    return std::make_pair(true, __x);\n  }\n\
+    };\n\n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file lu.hpp\n * @brief LU decomposition\n */\n\n\
+    #include <numeric>\n\n#include \"matrix.hpp\"\n\nnamespace workspace {\n\ntemplate\
+    \ <class _Matrix> class lu_decomposition : public _Matrix {\n public:\n  using\
+    \ value_type = typename _Matrix::value_type;\n  using size_type = typename _Matrix::size_type;\n\
+    \n  lu_decomposition() = default;\n\n  lu_decomposition(const _Matrix &__x) :\
+    \ _Matrix(__x) { run(); }\n\n  lu_decomposition(_Matrix &&__x) : _Matrix(std::move(__x))\
+    \ { run(); }\n\n protected:\n  size_type __rank = 0;\n  std::vector<size_type>\
+    \ __perm, __pivots;\n  bool sgn;\n\n  void run() {\n    __perm.resize(_Matrix::rows());\n\
+    \    std::iota(__perm.begin(), __perm.end(), 0);\n    sgn = false;\n    __pivots.clear();\n\
+    \n    for (size_type __c = 0; __c != _Matrix::cols() && __rank != _Matrix::rows();\n\
+    \         ++__c) {\n      auto __s = (*this)[__rank][__c];\n      auto __pivot\
+    \ = __rank;\n\n      if constexpr (std::is_floating_point<\n                 \
+    \       value_type>::value) {  // Find the biggest absolute\n                \
+    \                               // value in the column.\n        for (size_type\
+    \ __r = __rank + 1; __r != _Matrix::rows(); ++__r)\n          if (std::abs(__s)\
+    \ < std::abs((*this)[__r][__c]))\n            __s = (*this)[__pivot = __r][__c];\n\
+    \      }\n\n      else if (__s == static_cast<value_type>(\n                 \
+    \         0))  // Find the first non-zero element in the column.\n        for\
+    \ (size_type __r = __rank + 1; __r != _Matrix::rows(); ++__r)\n          if ((__s\
+    \ = (*this)[__r][__c]) != static_cast<value_type>(0)) {\n            __pivot =\
+    \ __r;\n            break;\n          }\n\n      if (__pivot != __rank) {\n  \
+    \      sgn = !sgn;\n        std::swap(__perm[__pivot], __perm[__rank]);\n    \
+    \    std::swap((*this)[__pivot], (*this)[__rank]);\n      }\n\n      if (__s !=\
+    \ static_cast<value_type>(0)) {  // Forward elimination\n        for (size_type\
     \ __r = __rank + 1; __r != _Matrix::rows(); ++__r) {\n          auto __m = (*this)[__r][__c]\
     \ / __s;\n          (*this)[__r][__c] = 0;\n          (*this)[__r][__rank] = __m;\n\
     \n          for (size_type __i = __c + 1; __i != _Matrix::cols(); ++__i)\n   \
@@ -240,7 +239,7 @@ data:
     \ i=0, ..., rows()\n    return __inv;\n  }\n\n  // O(dim(ker) * size)\n  _Matrix\
     \ kernel() const {\n    _Matrix __ker(_Matrix::cols() - rank(), _Matrix::cols());\n\
     \n    for (size_type __c = 0, __i = 0; __c != _Matrix::cols(); ++__c) {\n    \
-    \  if (__i != _Matrix::rows() && __pivots[__i] == __c) {\n        ++__i;\n   \
+    \  if (__i != __pivots.size() && __pivots[__i] == __c) {\n        ++__i;\n   \
     \     continue;\n      }\n\n      auto &__v = __ker[__c - __i];\n      __v[__c]\
     \ = 1;\n\n      for (size_type __j = __i, __k = __c;;) {\n        for (size_type\
     \ __r = 0; __r != __j; ++__r)\n          __v[__r] -= __v[__k] * (*this)[__r][__k];\n\
@@ -254,17 +253,16 @@ data:
     \    }\n\n    // Backward substitution with U\n    for (size_type __i = __rank;\
     \ __i != _Matrix::rows(); ++__i)\n      if (__y[__i] != static_cast<value_type>(0))\n\
     \        return std::make_pair(false, __x);\n\n    for (size_type __i = __rank;\
-    \ __i--;) {\n      // do  // Find the next pivot\n      //   --__c;\n      //\
-    \ while ((*this)[__i][__c] == static_cast<value_type>(0));\n\n      auto __c =\
-    \ __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\n      for\
-    \ (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c] * (*this)[__r][__c];\n\
-    \    }\n\n    return std::make_pair(true, __x);\n  }\n};\n\n}  // namespace workspace\n"
+    \ __i--;) {\n      auto __c = __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\
+    \n      for (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c]\
+    \ * (*this)[__r][__c];\n    }\n\n    return std::make_pair(true, __x);\n  }\n\
+    };\n\n}  // namespace workspace\n"
   dependsOn:
   - src/algebra/linear/matrix.hpp
   isVerificationFile: false
   path: src/algebra/linear/lu.hpp
   requiredBy: []
-  timestamp: '2021-02-22 16:48:42+09:00'
+  timestamp: '2021-04-14 16:51:02+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/matrix_det.test.cpp
