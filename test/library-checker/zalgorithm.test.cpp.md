@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/string/z_algorithm.hpp
     title: Z-Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
   _extendedRequiredBy: []

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/compare.hpp
     title: Compare
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

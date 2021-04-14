@@ -70,10 +70,10 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -176,7 +176,7 @@ data:
     - icon: ':warning:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -190,13 +190,13 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
     - icon: ':warning:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
@@ -270,7 +270,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/grid
@@ -280,10 +280,10 @@ data:
       title: Motion
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -465,7 +465,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'

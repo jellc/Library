@@ -1,20 +1,56 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: src/combinatorics/binomial.hpp
+    title: Binomial Coefficient
+  - icon: ':warning:'
+    path: src/modular/inverse.hpp
+    title: Inverse Table
+  - icon: ':question:'
+    path: src/modular/modint.hpp
+    title: Modular Arithmetic
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/DPL_5_D.test.cpp
+    title: test/aizu-online-judge/DPL_5_D.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/bitwise_and_convolution.test.cpp
+    title: test/library-checker/bitwise_and_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/bitwise_xor_convolution.test.cpp
+    title: test/library-checker/bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/matrix_det.test.cpp
+    title: test/library-checker/matrix_det.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/point_set_range_composite.test.cpp
+    title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/queue_operate_all_composite.test.cpp
+    title: test/library-checker/queue_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/sqrt_mod.test.cpp
     title: test/library-checker/sqrt_mod.test.cpp
-  _isVerificationFailed: false
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/subset_convolution.test.cpp
+    title: test/library-checker/subset_convolution.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/system_of_linear_equations.test.cpp
+    title: test/library-checker/system_of_linear_equations.test.cpp
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Modular Exponentiation
     links: []
@@ -90,10 +126,22 @@ data:
   path: src/number_theory/pow_mod.hpp
   requiredBy:
   - src/number_theory/sqrt_mod.hpp
+  - src/combinatorics/binomial.hpp
+  - src/modular/inverse.hpp
+  - src/modular/modint.hpp
   timestamp: '2021-04-11 22:17:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/aizu-online-judge/DPL_5_D.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/sqrt_mod.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
+  - test/library-checker/point_set_range_composite.test.cpp
 documentation_of: src/number_theory/pow_mod.hpp
 layout: document
 redirect_from:

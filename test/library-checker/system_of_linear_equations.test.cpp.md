@@ -1,29 +1,35 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
+    path: src/number_theory/pow_mod.hpp
+    title: Modular Exponentiation
+  - icon: ':question:'
+    path: src/number_theory/sqrt_mod.hpp
+    title: Tonelli-Shanks Algorithm
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -217,19 +223,22 @@ data:
     \    }\n\n    return std::make_pair(true, __x);\n  }\n};\n\n}  // namespace workspace\n\
     #line 2 \"src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n * @brief\
     \ Modular Arithmetic\n */\n\n#line 10 \"src/modular/modint.hpp\"\n#include <iostream>\n\
-    #include <vector>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
-    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
-    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
-    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
-    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
-    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
-    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
-    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
-    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
-    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
-    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
-    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
-    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    #include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file\
+    \ sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
+    \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
+    \ 9 \"src/number_theory/pow_mod.hpp\"\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n\
+    /**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
+    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
+    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
+    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
+    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
     \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
     template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
     \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
@@ -263,25 +272,45 @@ data:
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
     \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
-    #line 14 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace _modint_impl\
-    \ {\n\n/**\n * @brief Modular arithmetic.\n *\n * @tparam Mod identifier, which\
-    \ represents modulus if positive\n * @tparam Storage Reserved size for inverse\
-    \ calculation\n */\ntemplate <auto Mod, unsigned Storage> struct modint {\n  static_assert(is_integral_ext<decltype(Mod)>::value,\n\
-    \                \"Mod must be integral type.\");\n\n  using mod_type = typename\
-    \ std::make_signed<typename std::conditional<\n      0 < Mod, typename std::add_const<decltype(Mod)>::type,\n\
-    \      decltype(Mod)>::type>::type;\n\n  using value_type = typename std::decay<mod_type>::type;\n\
-    \n  using mul_type = typename multiplicable_uint<value_type>::type;\n\n  // Modulus\n\
-    \  static mod_type mod;\n\n  static unsigned storage;\n\n  constexpr static void\
-    \ reserve(unsigned __n) noexcept { storage = __n; }\n\n private:\n  value_type\
-    \ value = 0;\n\n  struct direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\
-    \n  // Direct constructor\n  template <class _Tp> constexpr modint(_Tp __n, direct_ctor_t)\
-    \ : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\n  template\
-    \ <class _Tp, typename std::enable_if<\n                           is_integral_ext<_Tp>::value>::type\
-    \ * = nullptr>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n %= mod)\
-    \ < 0 ? __n += mod : __n) {}\n\n  constexpr modint(bool __n) noexcept : value(__n)\
-    \ {}\n\n  constexpr operator value_type() const noexcept { return value; }\n\n\
-    \  constexpr static modint one() noexcept { return 1; }\n\n  // unary operators\
-    \ {{\n  constexpr modint operator++(int) noexcept {\n    modint __t{*this};\n\
+    #line 11 \"src/number_theory/pow_mod.hpp\"\n\nnamespace workspace {\n\n/**\n *\
+    \ @brief Compile time modular exponentiation.\n *\n * @param __x\n * @param __n\
+    \ Exponent\n * @param __mod Modulus\n * @return\n */\ntemplate <class _Tp>\nconstexpr\
+    \ std::enable_if_t<(is_integral_ext<_Tp>::value), _Tp> pow_mod(\n    _Tp __x,\
+    \ _Tp __n, _Tp __mod) noexcept {\n  assert(__mod > 0);\n\n  using mul_type = typename\
+    \ multiplicable_uint<_Tp>::type;\n\n  if ((__x %= __mod) < 0) __x += __mod;\n\n\
+    \  mul_type __y{1};\n\n  while (__n) {\n    if (__n & 1) (__y *= __x) %= __mod;\n\
+    \    __x = (mul_type)__x * __x % __mod;\n    __n >>= 1;\n  }\n\n  return __y;\n\
+    };\n\n}  // namespace workspace\n#line 10 \"src/number_theory/sqrt_mod.hpp\"\n\
+    \nnamespace workspace {\n\n/**\n * @brief Compile time modular square root.\n\
+    \ *\n * @param __x\n * @param __mod Modulus\n * @return One if it exists. Otherwise\
+    \ -1.\n */\ntemplate <class _Tp>\nconstexpr std::enable_if_t<(is_integral_ext<_Tp>::value),\
+    \ _Tp> sqrt_mod(\n    _Tp __x, _Tp __mod) noexcept {\n  assert(__mod > 0);\n\n\
+    \  using mul_type = typename multiplicable_uint<_Tp>::type;\n\n  if ((__x %= __mod)\
+    \ < 0) __x += __mod;\n\n  if (!__x) return 0;\n\n  if (__mod == 2) return __x;\n\
+    \n  if (pow_mod(__x, __mod >> 1, __mod) != 1) return -1;\n\n  _Tp __z = __builtin_ctz(__mod\
+    \ - 1), __q = __mod >> __z;\n\n  mul_type __a = pow_mod(__x, (__q + 1) >> 1, __mod),\
+    \ __b = 2;\n  while (pow_mod<_Tp>(__b, __mod >> 1, __mod) == 1) ++__b;\n  __b\
+    \ = pow_mod<_Tp>(__b, __q, __mod);\n\n  _Tp __shift = 0;\n\n  for (auto __r =\
+    \ __a * __a % __mod * pow_mod(__x, __mod - 2, __mod) % __mod;\n       __r != 1;\
+    \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
+    \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
+    \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/modular/modint.hpp\"\n\
+    \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
+    \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
+    \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
+    \ std::conditional<\n      0 < _Mod, std::add_const_t<decltype(_Mod)>, decltype(_Mod)>::type>;\n\
+    \n  using value_type = std::decay_t<mod_type>;\n\n  using mul_type = typename\
+    \ multiplicable_uint<value_type>::type;\n\n  // Modulus\n  static mod_type mod;\n\
+    \n  static unsigned storage;\n\n private:\n  value_type value = 0;\n\n  struct\
+    \ direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\n \
+    \ // Direct constructor\n  template <class _Tp>\n  constexpr modint(_Tp __n, direct_ctor_t)\
+    \ noexcept : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\
+    \n  template <class _Tp, typename = std::enable_if_t<is_integral_ext<_Tp>::value>>\n\
+    \  constexpr modint(_Tp __n) noexcept\n      : value((__n %= mod) < 0 ? __n +=\
+    \ mod : __n) {}\n\n  constexpr modint(bool __n) noexcept : value(__n) {}\n\n \
+    \ constexpr operator value_type() const noexcept { return value; }\n\n  // unary\
+    \ operators {{\n  constexpr modint operator++(int) noexcept {\n    modint __t{*this};\n\
     \    operator++();\n    return __t;\n  }\n\n  constexpr modint operator--(int)\
     \ noexcept {\n    modint __t{*this};\n    operator--();\n    return __t;\n  }\n\
     \n  constexpr modint &operator++() noexcept {\n    if (++value == mod) value =\
@@ -330,9 +359,9 @@ data:
     \ mod;\n    return {static_cast<mul_type>(__x) * __y.value % mod, direct_ctor_tag};\n\
     \  }\n\n  // }} operator*\n\n protected:\n  static value_type _mem(value_type\
     \ __x) {\n    static std::vector<value_type> __m{0, 1};\n    static value_type\
-    \ __i = (__m.reserve(Storage), 1);\n    while (__i < __x) {\n      ++__i;\n  \
-    \    __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);\n   \
-    \ }\n    return __m[__x];\n  }\n\n  template <class _Tp>\n  constexpr static\n\
+    \ __i = (__m.reserve(_Storage), 1);\n    while (__i < __x) {\n      ++__i;\n \
+    \     __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);\n  \
+    \  }\n    return __m[__x];\n  }\n\n  template <class _Tp>\n  constexpr static\n\
     \      typename std::enable_if<is_integral_ext<_Tp>::value, value_type>::type\n\
     \      _div(mul_type __r, _Tp __x) noexcept {\n    assert(__x != _Tp(0));\n  \
     \  if (!__r) return 0;\n\n    std::make_signed_t<_Tp> __v{};\n    bool __neg =\
@@ -359,42 +388,40 @@ data:
     \ (!__x) return {};\n    if ((__x %= mod) < 0) __x += mod;\n    return {_div(__x,\
     \ __y.value), direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr modint\
     \ inv() const noexcept { return _div(1, value); }\n\n  template <class _Tp>\n\
-    \  friend constexpr\n      typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n      pow(modint __b, _Tp __e) noexcept {\n    if (__e < 0) {\n\
-    \      __e = -__e;\n      __b.value = _div(1, __b.value);\n    }\n\n    modint\
-    \ __r{1, direct_ctor_tag};\n\n    for (; __e; __e >>= 1, __b *= __b)\n      if\
-    \ (__e & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Tp>\n  constexpr\
-    \ typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type\n  pow(_Tp\
-    \ __e) const noexcept {\n    modint __r{1, direct_ctor_tag};\n\n    for (modint\
-    \ __b{__e < 0 ? __e = -__e, _div(1, value) : value,\n                        \
-    \      direct_ctor_tag};\n         __e; __e >>= 1, __b *= __b)\n      if (__e\
-    \ & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Os>\n  friend\
-    \ _Os &operator<<(_Os &__os, const modint &__x) noexcept {\n    return __os <<\
-    \ __x.value;\n  }\n\n  friend std::istream &operator>>(std::istream &__is, modint\
-    \ &__x) noexcept {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n\
-    \    if (__s.front() == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n\
-    \    }\n    __x = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n\
-    \    if (__neg) __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto Mod,\
-    \ unsigned Storage>\ntypename modint<Mod, Storage>::mod_type modint<Mod, Storage>::mod\
-    \ =\n    Mod > 0 ? Mod : 0;\n\ntemplate <auto Mod, unsigned Storage>\nunsigned\
-    \ modint<Mod, Storage>::storage = Storage;\n\n}  // namespace _modint_impl\n\n\
-    /**\n * @brief Modular arithmetic.\n *\n * @tparam Mod modulus\n * @tparam Storage\
-    \ Reserved size for inverse calculation\n */\ntemplate <auto Mod, unsigned Storage\
-    \ = 0,\n          typename std::enable_if<(Mod > 0)>::type * = nullptr>\nusing\
-    \ modint = _modint_impl::modint<Mod, Storage>;\n\n/**\n * @brief Runtime modular\
-    \ arithmetic.\n *\n * @tparam type_id uniquely assigned\n * @tparam Storage Reserved\
-    \ size for inverse calculation\n */\ntemplate <unsigned type_id = 0, unsigned\
-    \ Storage = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)type_id,\
-    \ Storage>;\n\n// #define modint_newtype modint_runtime<__COUNTER__>\n\n}  //\
-    \ namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n\
-    \ * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#line 12 \"src/utils/io/istream.hpp\"\
-    \n#include <tuple>\n\n#line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace\
-    \ {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename = std::nullptr_t>\
-    \ struct istream_helper {\n  istream_helper(std::istream &__is, _Tp &__x) {\n\
-    \    if constexpr (has_begin<_Tp>::value)\n      for (auto &&__e : __x)\n    \
-    \    istream_helper<std::decay_t<decltype(__e)>>(__is, __e);\n    else\n     \
-    \ static_assert(has_begin<_Tp>::value, \"istream unsupported type.\");\n  }\n\
-    };\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n    decltype(std::declval<std::decay_t<decltype(\n\
+    \  constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n  \
+    \    _Tp __e) const noexcept {\n    modint __r{1, direct_ctor_tag};\n\n    for\
+    \ (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,\n                \
+    \              direct_ctor_tag};\n         __e; __e >>= 1, __b *= __b)\n     \
+    \ if (__e & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Tp>\n\
+    \  friend constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n\
+    \      modint __b, _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n\
+    \      __b.value = _div(1, __b.value);\n    }\n\n    modint __r{1, direct_ctor_tag};\n\
+    \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
+    \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
+    \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
+    \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
+    \  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os &__os, const modint\
+    \ &__x) noexcept {\n    return __os << __x.value;\n  }\n\n  friend std::istream\
+    \ &operator>>(std::istream &__is, modint &__x) noexcept {\n    std::string __s;\n\
+    \    __is >> __s;\n    bool __neg = false;\n    if (__s.front() == '-') {\n  \
+    \    __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x = 0;\n    for\
+    \ (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg) __x = -__x;\n\
+    \    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\ntypename\
+    \ modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod > 0\
+    \ ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
+    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
+    \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
+    \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
+    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
+    }  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file\
+    \ istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#line 12\
+    \ \"src/utils/io/istream.hpp\"\n#include <tuple>\n\n#line 15 \"src/utils/io/istream.hpp\"\
+    \n\nnamespace workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp,\
+    \ typename = std::nullptr_t> struct istream_helper {\n  istream_helper(std::istream\
+    \ &__is, _Tp &__x) {\n    if constexpr (has_begin<_Tp>::value)\n      for (auto\
+    \ &&__e : __x)\n        istream_helper<std::decay_t<decltype(__e)>>(__is, __e);\n\
+    \    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported type.\"\
+    );\n  }\n};\n\ntemplate <class _Tp>\nstruct istream_helper<\n    _Tp,\n    decltype(std::declval<std::decay_t<decltype(\n\
     \                 std::declval<std::istream &>() >> std::declval<_Tp &>())>>(),\n\
     \             nullptr)> {\n  istream_helper(std::istream &__is, _Tp &__x) { __is\
     \ >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct istream_helper<__uint128_t,\
@@ -496,14 +523,16 @@ data:
   - src/algebra/linear/lu.hpp
   - src/algebra/linear/matrix.hpp
   - src/modular/modint.hpp
+  - src/number_theory/sqrt_mod.hpp
+  - src/number_theory/pow_mod.hpp
   - src/utils/sfinae.hpp
   - src/utils/io/istream.hpp
   - src/utils/io/ostream.hpp
   isVerificationFile: true
   path: test/library-checker/system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2021-04-11 21:05:14+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-04-14 16:05:28+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/system_of_linear_equations.test.cpp
 layout: document
