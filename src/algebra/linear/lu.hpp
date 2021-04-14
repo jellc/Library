@@ -3,9 +3,6 @@
 /**
  * @file lu.hpp
  * @brief LU decomposition
- * @date 2021-02-12
- *
- *
  */
 
 #include <numeric>
@@ -108,7 +105,7 @@ template <class _Matrix> class lu_decomposition : public _Matrix {
     _Matrix __ker(_Matrix::cols() - rank(), _Matrix::cols());
 
     for (size_type __c = 0, __i = 0; __c != _Matrix::cols(); ++__c) {
-      if (__i != _Matrix::rows() && __pivots[__i] == __c) {
+      if (__i != __pivots.size() && __pivots[__i] == __c) {
         ++__i;
         continue;
       }
@@ -150,10 +147,6 @@ template <class _Matrix> class lu_decomposition : public _Matrix {
         return std::make_pair(false, __x);
 
     for (size_type __i = __rank; __i--;) {
-      // do  // Find the next pivot
-      //   --__c;
-      // while ((*this)[__i][__c] == static_cast<value_type>(0));
-
       auto __c = __pivots[__i];
 
       __x[__c] = __y[__i] / (*this)[__i][__c];

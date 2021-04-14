@@ -35,9 +35,7 @@ void main() {
 
   auto ker = lu.kernel();
   std::cout << ker.size() << "\n" << res.second << "\n";
-  for (auto &&v : ker) {
-    std::cout << v << "\n";
-  }
+  for (auto &&v : ker) std::cout << v << "\n";
 }
 
 }  // namespace workspace
