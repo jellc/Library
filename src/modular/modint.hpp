@@ -10,27 +10,21 @@
 #include <iostream>
 #include <vector>
 
+#include "src/number_theory/sqrt_mod.hpp"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
 
 namespace _modint_impl {
 
-/**
- * @brief Modular arithmetic.
- *
- * @tparam Mod identifier, which represents modulus if positive
- * @tparam Storage Reserved size for inverse calculation
- */
-template <auto Mod, unsigned Storage> struct modint {
-  static_assert(is_integral_ext<decltype(Mod)>::value,
-                "Mod must be integral type.");
+template <auto _Mod, unsigned _Storage> struct modint {
+  static_assert(is_integral_ext<decltype(_Mod)>::value,
+                "_Mod must be integral type.");
 
-  using mod_type = typename std::make_signed<typename std::conditional<
-      0 < Mod, typename std::add_const<decltype(Mod)>::type,
-      decltype(Mod)>::type>::type;
+  using mod_type = std::make_signed_t<typename std::conditional<
+      0 < _Mod, std::add_const_t<decltype(_Mod)>, decltype(_Mod)>::type>;
 
-  using value_type = typename std::decay<mod_type>::type;
+  using value_type = std::decay_t<mod_type>;
 
   using mul_type = typename multiplicable_uint<value_type>::type;
 
@@ -39,8 +33,6 @@ template <auto Mod, unsigned Storage> struct modint {
 
   static unsigned storage;
 
-  constexpr static void reserve(unsigned __n) noexcept { storage = __n; }
-
  private:
   value_type value = 0;
 
@@ -48,21 +40,19 @@ template <auto Mod, unsigned Storage> struct modint {
   constexpr static direct_ctor_t direct_ctor_tag{};
 
   // Direct constructor
-  template <class _Tp> constexpr modint(_Tp __n, direct_ctor_t) : value(__n) {}
+  template <class _Tp>
+  constexpr modint(_Tp __n, direct_ctor_t) noexcept : value(__n) {}
 
  public:
   constexpr modint() noexcept = default;
 
-  template <class _Tp, typename std::enable_if<
-                           is_integral_ext<_Tp>::value>::type * = nullptr>
+  template <class _Tp, typename = std::enable_if_t<is_integral_ext<_Tp>::value>>
   constexpr modint(_Tp __n) noexcept
       : value((__n %= mod) < 0 ? __n += mod : __n) {}
 
   constexpr modint(bool __n) noexcept : value(__n) {}
 
   constexpr operator value_type() const noexcept { return value; }
-
-  constexpr static modint one() noexcept { return 1; }
 
   // unary operators {{
   constexpr modint operator++(int) noexcept {
@@ -217,7 +207,7 @@ template <auto Mod, unsigned Storage> struct modint {
  protected:
   static value_type _mem(value_type __x) {
     static std::vector<value_type> __m{0, 1};
-    static value_type __i = (__m.reserve(Storage), 1);
+    static value_type __i = (__m.reserve(_Storage), 1);
     while (__i < __x) {
       ++__i;
       __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);
@@ -301,9 +291,21 @@ template <auto Mod, unsigned Storage> struct modint {
   constexpr modint inv() const noexcept { return _div(1, value); }
 
   template <class _Tp>
-  friend constexpr
-      typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type
-      pow(modint __b, _Tp __e) noexcept {
+  constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(
+      _Tp __e) const noexcept {
+    modint __r{1, direct_ctor_tag};
+
+    for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,
+                              direct_ctor_tag};
+         __e; __e >>= 1, __b *= __b)
+      if (__e & 1) __r *= __b;
+
+    return __r;
+  }
+
+  template <class _Tp>
+  friend constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(
+      modint __b, _Tp __e) noexcept {
     if (__e < 0) {
       __e = -__e;
       __b.value = _div(1, __b.value);
@@ -317,17 +319,12 @@ template <auto Mod, unsigned Storage> struct modint {
     return __r;
   }
 
-  template <class _Tp>
-  constexpr typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type
-  pow(_Tp __e) const noexcept {
-    modint __r{1, direct_ctor_tag};
+  constexpr modint sqrt() const noexcept {
+    return {sqrt_mod(value, mod), direct_ctor_tag};
+  }
 
-    for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,
-                              direct_ctor_tag};
-         __e; __e >>= 1, __b *= __b)
-      if (__e & 1) __r *= __b;
-
-    return __r;
+  friend constexpr modint sqrt(const modint &__x) noexcept {
+    return {sqrt_mod(__x.value, mod), direct_ctor_tag};
   }
 
   template <class _Os>
@@ -350,34 +347,20 @@ template <auto Mod, unsigned Storage> struct modint {
   }
 };
 
-template <auto Mod, unsigned Storage>
-typename modint<Mod, Storage>::mod_type modint<Mod, Storage>::mod =
-    Mod > 0 ? Mod : 0;
+template <auto _Mod, unsigned _Storage>
+typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =
+    _Mod > 0 ? _Mod : 0;
 
-template <auto Mod, unsigned Storage>
-unsigned modint<Mod, Storage>::storage = Storage;
+template <auto _Mod, unsigned _Storage>
+unsigned modint<_Mod, _Storage>::storage = _Storage;
 
 }  // namespace _modint_impl
 
-/**
- * @brief Modular arithmetic.
- *
- * @tparam Mod modulus
- * @tparam Storage Reserved size for inverse calculation
- */
-template <auto Mod, unsigned Storage = 0,
-          typename std::enable_if<(Mod > 0)>::type * = nullptr>
-using modint = _modint_impl::modint<Mod, Storage>;
+template <auto _Mod, unsigned _Storage = 0,
+          typename = std::enable_if_t<(_Mod > 0)>>
+using modint = _modint_impl::modint<_Mod, _Storage>;
 
-/**
- * @brief Runtime modular arithmetic.
- *
- * @tparam type_id uniquely assigned
- * @tparam Storage Reserved size for inverse calculation
- */
-template <unsigned type_id = 0, unsigned Storage = 0>
-using modint_runtime = _modint_impl::modint<-(signed)type_id, Storage>;
-
-// #define modint_newtype modint_runtime<__COUNTER__>
+template <unsigned _Id = 0>
+using modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;
 
 }  // namespace workspace
