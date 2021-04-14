@@ -14,28 +14,6 @@
 
 namespace std {
 
-template <typename _Tp> constexpr _Tp __rotl(_Tp __x, int __s) noexcept {
-  constexpr auto _Nd = numeric_limits<_Tp>::digits;
-  const int __r = __s % _Nd;
-  if (__r == 0)
-    return __x;
-  else if (__r > 0)
-    return (__x << __r) | (__x >> ((_Nd - __r) % _Nd));
-  else
-    return (__x >> -__r) | (__x << ((_Nd + __r) % _Nd));  // rotr(x, -r)
-}
-
-template <typename _Tp> constexpr _Tp __rotr(_Tp __x, int __s) noexcept {
-  constexpr auto _Nd = numeric_limits<_Tp>::digits;
-  const int __r = __s % _Nd;
-  if (__r == 0)
-    return __x;
-  else if (__r > 0)
-    return (__x >> __r) | (__x << ((_Nd - __r) % _Nd));
-  else
-    return (__x << -__r) | (__x >> ((_Nd + __r) % _Nd));  // rotl(x, -r)
-}
-
 template <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
 
@@ -45,16 +23,22 @@ template <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {
   constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
   constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
 
-  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u) {
-    constexpr int __diff = _Nd_u - _Nd;
-    return __builtin_clz(__x) - __diff;
-  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul) {
-    constexpr int __diff = _Nd_ul - _Nd;
-    return __builtin_clzl(__x) - __diff;
-  } else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull) {
-    constexpr int __diff = _Nd_ull - _Nd;
-    return __builtin_clzll(__x) - __diff;
-  } else  // (_Nd > _Nd_ull)
+  if
+    _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_u) {
+      constexpr int __diff = _Nd_u - _Nd;
+      return __builtin_clz(__x) - __diff;
+    }
+  else if
+    _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ul) {
+      constexpr int __diff = _Nd_ul - _Nd;
+      return __builtin_clzl(__x) - __diff;
+    }
+  else if
+    _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ull) {
+      constexpr int __diff = _Nd_ull - _Nd;
+      return __builtin_clzll(__x) - __diff;
+    }
+  else  // (_Nd > _Nd_ull)
   {
     static_assert(_Nd <= (2 * _Nd_ull),
                   "Maximum supported integer size is 128-bit");
@@ -70,11 +54,6 @@ template <typename _Tp> constexpr int __countl_zero(_Tp __x) noexcept {
   }
 }
 
-template <typename _Tp> constexpr int __countl_one(_Tp __x) noexcept {
-  if (__x == numeric_limits<_Tp>::max()) return numeric_limits<_Tp>::digits;
-  return __countl_zero<_Tp>((_Tp)~__x);
-}
-
 template <typename _Tp> constexpr int __countr_zero(_Tp __x) noexcept {
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
 
@@ -84,12 +63,11 @@ template <typename _Tp> constexpr int __countr_zero(_Tp __x) noexcept {
   constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
   constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
 
-  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)
-    return __builtin_ctz(__x);
-  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul)
-    return __builtin_ctzl(__x);
-  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull)
-    return __builtin_ctzll(__x);
+  if
+    _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_u)
+  return __builtin_ctz(__x);
+  else if _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ul) return __builtin_ctzl(__x);
+  else if _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ull) return __builtin_ctzll(__x);
   else  // (_Nd > _Nd_ull)
   {
     static_assert(_Nd <= (2 * _Nd_ull),
@@ -103,11 +81,6 @@ template <typename _Tp> constexpr int __countr_zero(_Tp __x) noexcept {
   }
 }
 
-template <typename _Tp> constexpr int __countr_one(_Tp __x) noexcept {
-  if (__x == numeric_limits<_Tp>::max()) return numeric_limits<_Tp>::digits;
-  return __countr_zero((_Tp)~__x);
-}
-
 template <typename _Tp> constexpr int __popcount(_Tp __x) noexcept {
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
 
@@ -117,12 +90,11 @@ template <typename _Tp> constexpr int __popcount(_Tp __x) noexcept {
   constexpr auto _Nd_ul = numeric_limits<unsigned long>::digits;
   constexpr auto _Nd_u = numeric_limits<unsigned>::digits;
 
-  if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_u)
-    return __builtin_popcount(__x);
-  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ul)
-    return __builtin_popcountl(__x);
-  else if _GLIBCXX17_CONSTEXPR (_Nd <= _Nd_ull)
-    return __builtin_popcountll(__x);
+  if
+    _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_u)
+  return __builtin_popcount(__x);
+  else if _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ul) return __builtin_popcountl(__x);
+  else if _GLIBCXX17_CONSTEXPR(_Nd <= _Nd_ull) return __builtin_popcountll(__x);
   else  // (_Nd > _Nd_ull)
   {
     static_assert(_Nd <= (2 * _Nd_ull),
@@ -135,10 +107,6 @@ template <typename _Tp> constexpr int __popcount(_Tp __x) noexcept {
   }
 }
 
-template <typename _Tp> constexpr bool __has_single_bit(_Tp __x) noexcept {
-  return __popcount(__x) == 1;
-}
-
 template <typename _Tp> constexpr _Tp __bit_ceil(_Tp __x) noexcept {
   constexpr auto _Nd = numeric_limits<_Tp>::digits;
   if (__x == 0 || __x == 1) return 1;
@@ -149,10 +117,11 @@ template <typename _Tp> constexpr _Tp __bit_ceil(_Tp __x) noexcept {
   }
 #endif
   using __promoted_type = decltype(__x << 1);
-  if _GLIBCXX17_CONSTEXPR (!is_same<__promoted_type, _Tp>::value) {
-    const int __extra_exp = sizeof(__promoted_type) / sizeof(_Tp) / 2;
-    __shift_exponent |= (__shift_exponent & _Nd) << __extra_exp;
-  }
+  if
+    _GLIBCXX17_CONSTEXPR(!is_same<__promoted_type, _Tp>::value) {
+      const int __extra_exp = sizeof(__promoted_type) / sizeof(_Tp) / 2;
+      __shift_exponent |= (__shift_exponent & _Nd) << __extra_exp;
+    }
   return (_Tp)1u << __shift_exponent;
 }
 
