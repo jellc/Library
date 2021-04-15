@@ -1,35 +1,35 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -169,53 +169,55 @@ data:
     \n\nnamespace workspace {\n\ntemplate <class _Matrix> class lu_decomposition :\
     \ public _Matrix {\n public:\n  using value_type = typename _Matrix::value_type;\n\
     \  using size_type = typename _Matrix::size_type;\n\n  lu_decomposition() = default;\n\
-    \n  lu_decomposition(const _Matrix &__x) : _Matrix(__x) { run(); }\n\n  lu_decomposition(_Matrix\
-    \ &&__x) : _Matrix(std::move(__x)) { run(); }\n\n protected:\n  size_type __rank\
-    \ = 0;\n  std::vector<size_type> __perm, __pivots;\n  bool sgn;\n\n  void run()\
-    \ {\n    __perm.resize(_Matrix::rows());\n    std::iota(__perm.begin(), __perm.end(),\
-    \ 0);\n    sgn = false;\n    __pivots.clear();\n\n    for (size_type __c = 0;\
-    \ __c != _Matrix::cols() && __rank != _Matrix::rows();\n         ++__c) {\n  \
-    \    auto __s = (*this)[__rank][__c];\n      auto __pivot = __rank;\n\n      if\
-    \ constexpr (std::is_floating_point<\n                        value_type>::value)\
-    \ {  // Find the biggest absolute\n                                          \
-    \     // value in the column.\n        for (size_type __r = __rank + 1; __r !=\
-    \ _Matrix::rows(); ++__r)\n          if (std::abs(__s) < std::abs((*this)[__r][__c]))\n\
-    \            __s = (*this)[__pivot = __r][__c];\n      }\n\n      else if (__s\
-    \ == static_cast<value_type>(\n                          0))  // Find the first\
-    \ non-zero element in the column.\n        for (size_type __r = __rank + 1; __r\
-    \ != _Matrix::rows(); ++__r)\n          if ((__s = (*this)[__r][__c]) != static_cast<value_type>(0))\
-    \ {\n            __pivot = __r;\n            break;\n          }\n\n      if (__pivot\
-    \ != __rank) {\n        sgn = !sgn;\n        std::swap(__perm[__pivot], __perm[__rank]);\n\
-    \        std::swap((*this)[__pivot], (*this)[__rank]);\n      }\n\n      if (__s\
-    \ != static_cast<value_type>(0)) {  // Forward elimination\n        for (size_type\
-    \ __r = __rank + 1; __r != _Matrix::rows(); ++__r) {\n          auto __m = (*this)[__r][__c]\
-    \ / __s;\n          (*this)[__r][__c] = 0;\n          (*this)[__r][__rank] = __m;\n\
+    \  lu_decomposition(const _Matrix &__x) : _Matrix(__x) { run(); }\n  lu_decomposition(_Matrix\
+    \ &&__x) : _Matrix(std::move(__x)) { run(); }\n\n protected:\n  std::vector<size_type>\
+    \ __perm, __pivots;\n  bool sgn;\n\n  void run() {\n    __perm.resize(_Matrix::rows());\n\
+    \    std::iota(__perm.begin(), __perm.end(), 0);\n    sgn = false;\n    __pivots.clear();\n\
+    \n    for (size_type __c = 0;\n         __c != _Matrix::cols() && __pivots.size()\
+    \ != _Matrix::rows(); ++__c) {\n      auto __max = (*this)[__pivots.size()][__c];\n\
+    \      auto __pos = __pivots.size();\n\n      if constexpr (std::is_floating_point<\n\
+    \                        value_type>::value) {  // Find the biggest absolute\n\
+    \                                               // value in the column.\n    \
+    \    for (size_type __r = __pivots.size() + 1; __r != _Matrix::rows(); ++__r)\n\
+    \          if (std::abs(__max) < std::abs((*this)[__r][__c]))\n            __max\
+    \ = (*this)[__pos = __r][__c];\n      }\n\n      else if (__max ==\n         \
+    \      static_cast<value_type>(\n                   0))  // Find the first non-zero\
+    \ element in the column.\n        for (size_type __r = __pivots.size() + 1; __r\
+    \ != _Matrix::rows(); ++__r)\n          if ((__max = (*this)[__r][__c]) != static_cast<value_type>(0))\
+    \ {\n            __pos = __r;\n            break;\n          }\n\n      if (__pos\
+    \ != __pivots.size()) {  // Swap 2 rows.\n        sgn = !sgn;\n        std::swap(__perm[__pos],\
+    \ __perm[__pivots.size()]);\n        std::swap((*this)[__pos], (*this)[__pivots.size()]);\n\
+    \      }\n\n      if (__max != static_cast<value_type>(0)) {  // Forward elimination\n\
+    \        for (size_type __r = __pivots.size() + 1; __r != _Matrix::rows();\n \
+    \            ++__r) {\n          auto __m = (*this)[__r][__c] / __max;\n     \
+    \     (*this)[__r][__c] = 0;\n          (*this)[__r][__pivots.size()] = __m;\n\
     \n          for (size_type __i = __c + 1; __i != _Matrix::cols(); ++__i)\n   \
-    \         (*this)[__r][__i] -= (*this)[__rank][__i] * __m;\n        }\n\n    \
-    \    __pivots.emplace_back(__c);\n        ++__rank;\n      }\n    }\n  }\n\n public:\n\
-    \  size_type rank() const { return __pivots.size(); }\n\n  value_type det() const\
-    \ {\n    assert(_Matrix::rows() == _Matrix::cols());\n\n    value_type __d = sgn\
-    \ ? -1 : 1;\n    for (size_type __i = 0; __i != _Matrix::rows(); ++__i)\n    \
-    \  __d *= (*this)[__i][__i];\n    return __d;\n  }\n\n  _Matrix lower() const;\n\
-    \n  _Matrix upper() const;\n\n  _Matrix inverse() const {\n    assert(_Matrix::rows()\
+    \         (*this)[__r][__i] -= (*this)[__pivots.size()][__i] * __m;\n        }\n\
+    \n        __pivots.emplace_back(__c);\n      }\n    }\n  }\n\n public:\n  size_type\
+    \ rank() const { return __pivots.size(); }\n\n  value_type det() const {\n   \
+    \ assert(_Matrix::rows() == _Matrix::cols());\n\n    value_type __d = sgn ? -1\
+    \ : 1;\n    for (size_type __i = 0; __i != _Matrix::rows(); ++__i)\n      __d\
+    \ *= (*this)[__i][__i];\n    return __d;\n  }\n\n  _Matrix lower() const;\n\n\
+    \  _Matrix upper() const;\n\n  _Matrix inverse() const {\n    assert(_Matrix::rows()\
     \ == _Matrix::cols());\n\n    _Matrix __inv;\n    // add solve(e_i) to __inv for\
     \ i=0, ..., rows()\n    return __inv;\n  }\n\n  // O(dim(ker) * size)\n  _Matrix\
     \ kernel() const {\n    _Matrix __ker(_Matrix::cols() - rank(), _Matrix::cols());\n\
     \n    for (size_type __c = 0, __i = 0; __c != _Matrix::cols(); ++__c) {\n    \
     \  if (__i != __pivots.size() && __pivots[__i] == __c) {\n        ++__i;\n   \
     \     continue;\n      }\n\n      auto &__v = __ker[__c - __i];\n      __v[__c]\
-    \ = 1;\n\n      for (size_type __j = __i, __k = __c;;) {\n        for (size_type\
-    \ __r = 0; __r != __j; ++__r)\n          __v[__r] -= __v[__k] * (*this)[__r][__k];\n\
-    \n        if (!__j--) break;\n\n        __k = __pivots[__j];\n        __v[__j]\
-    \ /= (*this)[__j][__k];\n      }\n    }\n\n    return __ker;\n  }\n\n  template\
-    \ <class _Vec> std::pair<bool, _Vec> solve(const _Vec &__b) const {\n    assert(!(__b.size()\
+    \ = 1;\n      for (size_type __r = 0; __r != __i; ++__r) __v[__r] = -(*this)[__r][__c];\n\
+    \n      for (size_type __j = __i; __j--;) {\n        auto __x = __v[__j] / (*this)[__j][__pivots[__j]];\n\
+    \        __v[__j] = 0;\n        __v[__pivots[__j]] = __x;\n\n        for (size_type\
+    \ __r = 0; __r != __j; ++__r)\n          __v[__r] -= (*this)[__r][__pivots[__j]]\
+    \ * __x;\n      }\n    }\n\n    return __ker;\n  }\n\n  template <class _Vec>\
+    \ std::pair<bool, _Vec> solve(const _Vec &__b) const {\n    assert(!(__b.size()\
     \ < _Matrix::rows()));\n\n    // Solution\n    _Vec __y(_Matrix::rows()), __x(_Matrix::cols());\n\
     \n    // Backward substitution with L\n    for (size_type __c = 0; __c != _Matrix::rows();\
     \ ++__c) {\n      __y[__c] += __b[__perm[__c]];\n\n      for (size_type __r =\
     \ __c + 1; __r != _Matrix::rows(); ++__r)\n        __y[__r] -= __y[__c] * (*this)[__r][__c];\n\
-    \    }\n\n    // Backward substitution with U\n    for (size_type __i = __rank;\
+    \    }\n\n    // Backward substitution with U\n    for (size_type __i = rank();\
     \ __i != _Matrix::rows(); ++__i)\n      if (__y[__i] != static_cast<value_type>(0))\n\
-    \        return std::make_pair(false, __x);\n\n    for (size_type __i = __rank;\
+    \        return std::make_pair(false, __x);\n\n    for (size_type __i = rank();\
     \ __i--;) {\n      auto __c = __pivots[__i];\n\n      __x[__c] = __y[__i] / (*this)[__i][__c];\n\
     \n      for (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c]\
     \ * (*this)[__r][__c];\n    }\n\n    return std::make_pair(true, __x);\n  }\n\
@@ -530,8 +532,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2021-04-14 16:51:02+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-04-15 16:09:50+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/system_of_linear_equations.test.cpp
 layout: document

@@ -11,7 +11,7 @@ data:
   - icon: ':warning:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -23,13 +23,13 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
   - icon: ':warning:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
@@ -47,7 +47,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -111,15 +111,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -236,7 +236,7 @@ data:
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   timestamp: '2021-04-11 21:05:14+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp

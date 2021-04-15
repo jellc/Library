@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -11,10 +11,10 @@ data:
   - icon: ':warning:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   _extendedVerifiedWith:
@@ -45,12 +45,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Modular Exponentiation
     links: []
@@ -130,7 +130,7 @@ data:
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
   timestamp: '2021-04-11 22:17:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
