@@ -224,6 +224,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/kmp.hpp
       title: Knuth-Morris-Pratt Algorithm
+    - icon: ':warning:'
+      path: src/string/rle.hpp
+      title: Run-length Encoding
     - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash

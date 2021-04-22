@@ -169,8 +169,8 @@ data:
   timestamp: '2021-04-11 21:05:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/suffix_array.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/suffix_array.test.cpp
 documentation_of: src/string/suffix_array.hpp
 layout: document
 redirect_from:

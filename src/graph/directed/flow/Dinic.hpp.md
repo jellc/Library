@@ -269,8 +269,8 @@ data:
   timestamp: '2021-04-05 00:56:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/GRL_6_A.test.cpp
   - test/library-checker/bipartitematching.test.cpp
+  - test/aizu-online-judge/GRL_6_A.test.cpp
 documentation_of: src/graph/directed/flow/Dinic.hpp
 layout: document
 redirect_from:
