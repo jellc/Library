@@ -73,6 +73,16 @@ constexpr decltype(auto) rrange(_Args &&...__args) noexcept {
   return reversed(range(std::forward<_Args>(__args)...));
 }
 
+template <class _Container>
+constexpr decltype(auto) iterate(_Container &&__cont) noexcept {
+  return range(std::begin(__cont), std::end(__cont));
+}
+
+template <class _Container>
+constexpr decltype(auto) riterate(_Container &&__cont) noexcept {
+  return range(std::rbegin(__cont), std::rend(__cont));
+}
+
 }  // namespace workspace
 
 #endif
