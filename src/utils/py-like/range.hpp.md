@@ -74,7 +74,11 @@ data:
     \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
     \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
     \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
-    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\n}  // namespace\
+    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\ntemplate\
+    \ <class _Container>\nconstexpr decltype(auto) iterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::begin(__cont), std::end(__cont));\n}\n\ntemplate <class\
+    \ _Container>\nconstexpr decltype(auto) riterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::rbegin(__cont), std::rend(__cont));\n}\n\n}  // namespace\
     \ workspace\n\n#endif\n"
   code: "#pragma once\n\n/**\n * @file range.hpp\n * @brief Range\n */\n\n#include\
     \ <iterator>\n\n#include \"../iterator/reverse.hpp\"\n#include \"reversed.hpp\"\
@@ -100,7 +104,11 @@ data:
     \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
     \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
     \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
-    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\n}  // namespace\
+    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\ntemplate\
+    \ <class _Container>\nconstexpr decltype(auto) iterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::begin(__cont), std::end(__cont));\n}\n\ntemplate <class\
+    \ _Container>\nconstexpr decltype(auto) riterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::rbegin(__cont), std::rend(__cont));\n}\n\n}  // namespace\
     \ workspace\n\n#endif\n"
   dependsOn:
   - src/utils/iterator/reverse.hpp
@@ -109,7 +117,7 @@ data:
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-04-09 23:40:55+09:00'
+  timestamp: '2021-04-23 12:09:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp

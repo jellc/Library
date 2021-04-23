@@ -81,7 +81,11 @@ data:
     \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
     \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
     \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
-    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\n}  // namespace\
+    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\ntemplate\
+    \ <class _Container>\nconstexpr decltype(auto) iterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::begin(__cont), std::end(__cont));\n}\n\ntemplate <class\
+    \ _Container>\nconstexpr decltype(auto) riterate(_Container &&__cont) noexcept\
+    \ {\n  return range(std::rbegin(__cont), std::rend(__cont));\n}\n\n}  // namespace\
     \ workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\n\n/**\n * @file\
     \ zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include <tuple>\n#include\
     \ <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n/*\n * @file category.hpp\n\
@@ -203,7 +207,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-04-09 23:40:55+09:00'
+  timestamp: '2021-04-23 12:09:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
