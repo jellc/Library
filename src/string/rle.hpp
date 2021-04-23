@@ -9,6 +9,13 @@
 
 namespace workspace {
 
+/**
+ * @brief Run-length encoding.
+ *
+ * @param __first
+ * @param __last
+ * @return List of (value, run-length).
+ */
 template <class _Iterator>
 auto run_length_encoding(_Iterator __first, _Iterator __last) {
   std::vector<std::pair<typename std::iterator_traits<_Iterator>::value_type,
