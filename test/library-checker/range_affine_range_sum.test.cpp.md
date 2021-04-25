@@ -321,28 +321,26 @@ data:
     \ mod;\n    return {static_cast<mul_type>(__x) * __y.value % mod, direct_ctor_tag};\n\
     \  }\n\n  // }} operator*\n\n protected:\n  static value_type _mem(value_type\
     \ __x) {\n    static std::vector<value_type> __m{0, 1};\n    static value_type\
-    \ __i = (__m.reserve(_Storage), 1);\n    while (__i < __x) {\n      ++__i;\n \
-    \     __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);\n  \
-    \  }\n    return __m[__x];\n  }\n\n  template <class _Tp>\n  constexpr static\n\
-    \      typename std::enable_if<is_integral_ext<_Tp>::value, value_type>::type\n\
-    \      _div(mul_type __r, _Tp __x) noexcept {\n    assert(__x != _Tp(0));\n  \
-    \  if (!__r) return 0;\n\n    std::make_signed_t<_Tp> __v{};\n    bool __neg =\
-    \ __x < 0 ? __x = -__x, true : false;\n\n    if (static_cast<decltype(storage)>(__x)\
-    \ < storage)\n      __v = _mem(__x);\n    else {\n      decltype(__v) __y{mod},\
-    \ __u{1}, __t;\n\n      while (__x)\n        __t = __y / __x, __y ^= __x ^= (__y\
-    \ -= __t * __x) ^= __x,\n        __v ^= __u ^= (__v -= __t * __u) ^= __u;\n\n\
-    \      if (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v\
-    \ ? mod - __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return\
-    \ __r == mul_type(1) ? static_cast<value_type>(__v)\n                        \
-    \      : static_cast<value_type>(__r * __v % mod);\n  }\n\n public:\n  // operator/=\
-    \ {{\n\n  constexpr modint &operator/=(const modint &__x) noexcept {\n    if (value)\
-    \ value = _div(value, __x.value);\n    return *this;\n  }\n\n  template <class\
-    \ _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type\
-    \ &\n  operator/=(_Tp __x) noexcept {\n    if (value) value = _div(value, __x\
-    \ %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/ {{\n\
-    \n  constexpr modint operator/(const modint &__x) const noexcept {\n    if (!value)\
-    \ return {};\n    return {_div(value, __x.value), direct_ctor_tag};\n  }\n\n \
-    \ template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
+    \ __i = (__m.reserve(storage), 1);\n    while (__i < __x) {\n      ++__i;\n  \
+    \    __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);\n   \
+    \ }\n    return __m[__x];\n  }\n\n  static value_type _div(mul_type __r, value_type\
+    \ __x) noexcept {\n    assert(__x != value_type(0));\n    if (!__r) return 0;\n\
+    \n    std::make_signed_t<value_type> __v{};\n    bool __neg = __x < 0 ? __x =\
+    \ -__x, true : false;\n\n    if (static_cast<decltype(storage)>(__x) < storage)\n\
+    \      __v = _mem(__x);\n    else {\n      value_type __y{mod}, __u{1}, __t;\n\
+    \n      while (__x)\n        __t = __y / __x, __y ^= __x ^= (__y -= __t * __x)\
+    \ ^= __x,\n        __v ^= __u ^= (__v -= __t * __u) ^= __u;\n\n      if (__y <\
+    \ 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod - __v : -__v;\n\
+    \    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1) ? static_cast<value_type>(__v)\n\
+    \                              : static_cast<value_type>(__r * __v % mod);\n \
+    \ }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const modint\
+    \ &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n    return\
+    \ *this;\n  }\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
+    \ modint>::type &\n  operator/=(_Tp __x) noexcept {\n    if (value) value = _div(value,\
+    \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
+    \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
+    \ if (!value) return {};\n    return {_div(value, __x.value), direct_ctor_tag};\n\
+    \  }\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
     \ modint>::type\n  operator/(_Tp __x) const noexcept {\n    if (!value) return\
     \ {};\n    return {_div(value, __x %= mod), direct_ctor_tag};\n  }\n\n  template\
     \ <class _Tp>\n  constexpr friend\n      typename std::enable_if<is_integral_ext<_Tp>::value,\
@@ -410,7 +408,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-04-14 16:05:28+09:00'
+  timestamp: '2021-04-26 04:26:50+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
