@@ -207,7 +207,7 @@ template <auto _Mod, unsigned _Storage> struct modint {
  protected:
   static value_type _mem(value_type __x) {
     static std::vector<value_type> __m{0, 1};
-    static value_type __i = (__m.reserve(_Storage), 1);
+    static value_type __i = (__m.reserve(storage), 1);
     while (__i < __x) {
       ++__i;
       __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);
@@ -215,20 +215,17 @@ template <auto _Mod, unsigned _Storage> struct modint {
     return __m[__x];
   }
 
-  template <class _Tp>
-  constexpr static
-      typename std::enable_if<is_integral_ext<_Tp>::value, value_type>::type
-      _div(mul_type __r, _Tp __x) noexcept {
-    assert(__x != _Tp(0));
+  static value_type _div(mul_type __r, value_type __x) noexcept {
+    assert(__x != value_type(0));
     if (!__r) return 0;
 
-    std::make_signed_t<_Tp> __v{};
+    std::make_signed_t<value_type> __v{};
     bool __neg = __x < 0 ? __x = -__x, true : false;
 
     if (static_cast<decltype(storage)>(__x) < storage)
       __v = _mem(__x);
     else {
-      decltype(__v) __y{mod}, __u{1}, __t;
+      value_type __y{mod}, __u{1}, __t;
 
       while (__x)
         __t = __y / __x, __y ^= __x ^= (__y -= __t * __x) ^= __x,
