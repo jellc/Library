@@ -28,25 +28,25 @@ data:
     document_title: Binomial Coefficient
     links: []
   bundledCode: "#line 2 \"src/combinatorics/binomial.hpp\"\n\n/**\n * @file binomial.hpp\n\
-    \ * @brief Binomial Coefficient\n * @date 2021-01-15\n *\n *\n */\n\n#line 2 \"\
-    src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n\
-    \ */\n\n#include <cassert>\n#include <iostream>\n#include <vector>\n\n#line 2\
-    \ \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n * @brief\
-    \ Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\n\
-    \n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line 9\
-    \ \"src/number_theory/pow_mod.hpp\"\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
-    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
-    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \ * @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/modint.hpp\"\n\n\
+    /**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#include <cassert>\n\
+    #include <iostream>\n#include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\
+    \n\n/**\n * @file sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line\
+    \ 2 \"src/number_theory/pow_mod.hpp\"\n\n/**\n * @file mod_pow.hpp\n * @brief\
+    \ Modular Exponentiation\n */\n\n#line 9 \"src/number_theory/pow_mod.hpp\"\n\n\
+    #line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
+    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef\
+    \ __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n\
+    #else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if\
+    \ __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using type\
+    \ = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type =\
+    \ __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
+    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
+    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
+    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
+    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
     \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
     template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
     \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
@@ -229,19 +229,39 @@ data:
     \ __x) noexcept {\n  if (__x < 0) return 0;\n\n  static std::vector<_Tp> __t{1};\n\
     \  static int32_t __i = (__t.reserve(0x1000000), 0);\n\n  while (__i < __x) {\n\
     \    ++__i;\n    __t.emplace_back(__t.back() / _Tp(__i));\n  }\n\n  return __t[__x];\n\
-    }\n\n}  // namespace workspace\n#line 13 \"src/combinatorics/binomial.hpp\"\n\n\
-    namespace workspace {\n\n/**\n * @brief Binomial coefficient for integer args.\n\
-    \ */\ntemplate <class Tp> Tp binomial(int_fast32_t __x, int_fast32_t __y) {\n\
-    \  if (!__y) return 1;\n  if (__y < 0 || __x < __y) return 0;\n  return factorial<Tp>(__x)\
-    \ * factorial_inverse<Tp>(__y) *\n         factorial_inverse<Tp>(__x - __y);\n\
-    }\n\n}  // namespace workspace\n"
+    }\n\n}  // namespace workspace\n#line 10 \"src/combinatorics/binomial.hpp\"\n\n\
+    namespace workspace {\n\nnamespace _binom_impl {\n\nstruct _binom_table {\n  constexpr\
+    \ static int size = 132;\n  __uint128_t __b[size][size]{1};\n\n  constexpr _binom_table()\
+    \ noexcept {\n    for (int __i = 1; __i != size; ++__i)\n      for (int __j =\
+    \ 0; __j != __i; ++__j)\n        __b[__i][__j] += __b[__i - 1][__j],\n       \
+    \     __b[__i][__j + 1] += __b[__i - 1][__j];\n  }\n\n  constexpr auto operator()(int\
+    \ __x, int __y) const noexcept {\n    return __x < 0 || __x < __y ? 0 : (assert(__x\
+    \ < size), __b[__x][__y]);\n  }\n};\n\nconstexpr _binom_table table;\n\n}  //\
+    \ namespace _binom_impl\n\n/**\n * @brief Binomial coefficient for integer args.\
+    \ Be careful with overflow.\n */\ntemplate <class _Tp> constexpr _Tp binomial(int32_t\
+    \ __x, int32_t __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n    return\
+    \ _binom_impl::table(__x, __y);\n\n  if (__y < 0 || __x < __y) return 0;\n\n \
+    \ return factorial<_Tp>(__x) * factorial_inverse<_Tp>(__y) *\n         factorial_inverse<_Tp>(__x\
+    \ - __y);\n}\n\n/**\n * @brief Catalan number.\n */\ntemplate <class _Tp> constexpr\
+    \ _Tp catalan(int32_t __x) {\n  return binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x\
+    \ << 1, __x + 1);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file binomial.hpp\n * @brief Binomial Coefficient\n\
-    \ * @date 2021-01-15\n *\n *\n */\n\n#include \"../modular/modint.hpp\"\n#include\
-    \ \"factorial.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Binomial coefficient\
-    \ for integer args.\n */\ntemplate <class Tp> Tp binomial(int_fast32_t __x, int_fast32_t\
-    \ __y) {\n  if (!__y) return 1;\n  if (__y < 0 || __x < __y) return 0;\n  return\
-    \ factorial<Tp>(__x) * factorial_inverse<Tp>(__y) *\n         factorial_inverse<Tp>(__x\
-    \ - __y);\n}\n\n}  // namespace workspace\n"
+    \ */\n\n#include \"../modular/modint.hpp\"\n#include \"factorial.hpp\"\n\nnamespace\
+    \ workspace {\n\nnamespace _binom_impl {\n\nstruct _binom_table {\n  constexpr\
+    \ static int size = 132;\n  __uint128_t __b[size][size]{1};\n\n  constexpr _binom_table()\
+    \ noexcept {\n    for (int __i = 1; __i != size; ++__i)\n      for (int __j =\
+    \ 0; __j != __i; ++__j)\n        __b[__i][__j] += __b[__i - 1][__j],\n       \
+    \     __b[__i][__j + 1] += __b[__i - 1][__j];\n  }\n\n  constexpr auto operator()(int\
+    \ __x, int __y) const noexcept {\n    return __x < 0 || __x < __y ? 0 : (assert(__x\
+    \ < size), __b[__x][__y]);\n  }\n};\n\nconstexpr _binom_table table;\n\n}  //\
+    \ namespace _binom_impl\n\n/**\n * @brief Binomial coefficient for integer args.\
+    \ Be careful with overflow.\n */\ntemplate <class _Tp> constexpr _Tp binomial(int32_t\
+    \ __x, int32_t __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n    return\
+    \ _binom_impl::table(__x, __y);\n\n  if (__y < 0 || __x < __y) return 0;\n\n \
+    \ return factorial<_Tp>(__x) * factorial_inverse<_Tp>(__y) *\n         factorial_inverse<_Tp>(__x\
+    \ - __y);\n}\n\n/**\n * @brief Catalan number.\n */\ntemplate <class _Tp> constexpr\
+    \ _Tp catalan(int32_t __x) {\n  return binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x\
+    \ << 1, __x + 1);\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/modular/modint.hpp
   - src/number_theory/sqrt_mod.hpp
@@ -251,7 +271,7 @@ data:
   isVerificationFile: false
   path: src/combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2021-04-26 04:26:50+09:00'
+  timestamp: '2021-04-28 17:04:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
