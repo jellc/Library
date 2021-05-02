@@ -16,7 +16,7 @@
 
 namespace workspace {
 
-constexpr char eol = '\n';
+constexpr static char eol = '\n';
 
 using namespace std;
 
@@ -29,7 +29,7 @@ using u64 = uint_least64_t;
 using i128 = __int128_t;
 using u128 = __uint128_t;
 #else
-#warning 128bit integer is not available.
+#warning 128-bit integer is not available.
 #endif
 
 namespace _alias_impl {
