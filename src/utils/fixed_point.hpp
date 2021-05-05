@@ -28,8 +28,7 @@ template <class _F> class fixed_point {
    * @brief Apply *this to 1st argument.
    * @param __args Rest of arguments.
    */
-  template <class... _Args>
-  decltype(auto) operator()(_Args &&...__args) const noexcept {
+  template <class... _Args> decltype(auto) operator()(_Args &&...__args) const {
     return __fn(*this, std::forward<_Args>(__args)...);
   }
 };

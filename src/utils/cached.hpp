@@ -59,8 +59,7 @@ template <class _F> class _recursive {
    * @brief Apply `*this` to 1st argument of the lambda.
    * @param __args Rest of arguments.
    */
-  template <class... _Args>
-  decltype(auto) operator()(_Args &&...__args) noexcept {
+  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
     typename cache::key_type __key{__args...};
 
     if constexpr (cache::value) {
@@ -117,8 +116,7 @@ template <class _F> class _non_recursive {
   /**
    * @param __args
    */
-  template <class... _Args>
-  decltype(auto) operator()(_Args &&...__args) noexcept {
+  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
     typename cache::key_type __key{__args...};
 
     if constexpr (cache::value) {
