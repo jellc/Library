@@ -117,8 +117,8 @@ data:
   isVerificationFile: false
   path: src/algebra/convolution/zeta.hpp
   requiredBy:
-  - src/algebra/convolution/bitand.hpp
   - src/algebra/convolution/bitor.hpp
+  - src/algebra/convolution/bitand.hpp
   timestamp: '2021-04-14 15:48:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

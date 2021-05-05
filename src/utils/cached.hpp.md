@@ -21,8 +21,8 @@ data:
     \ @param __fn 1st argument callable with the rest of its arguments.\n   * Return\
     \ type specified.\n   */\n  fixed_point(_F __fn) noexcept : __fn(std::forward<_F>(__fn))\
     \ {}\n\n  /**\n   * @brief Apply *this to 1st argument.\n   * @param __args Rest\
-    \ of arguments.\n   */\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
-    \ &&...__args) const noexcept {\n    return __fn(*this, std::forward<_Args>(__args)...);\n\
+    \ of arguments.\n   */\n  template <class... _Args> decltype(auto) operator()(_Args\
+    \ &&...__args) const {\n    return __fn(*this, std::forward<_Args>(__args)...);\n\
     \  }\n};\n\n}  // namespace workspace\n#line 12 \"src/utils/cached.hpp\"\n\nnamespace\
     \ workspace {\n\nnamespace _cached_impl {\n\n// Convert keys to tuple.\ntemplate\
     \ <class... _Args> struct get_tuple {\n  using type = decltype(\n      std::tuple_cat(std::declval<std::tuple<std::conditional_t<\n\
@@ -43,8 +43,8 @@ data:
     \ {};\n\n public:\n  using cache = _cache<decltype(&_F::template operator()<_recursive<_F>\
     \ &>)>;\n\n  _recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}\n\n\
     \  /**\n   * @brief Apply `*this` to 1st argument of the lambda.\n   * @param\
-    \ __args Rest of arguments.\n   */\n  template <class... _Args>\n  decltype(auto)\
-    \ operator()(_Args &&...__args) noexcept {\n    typename cache::key_type __key{__args...};\n\
+    \ __args Rest of arguments.\n   */\n  template <class... _Args> decltype(auto)\
+    \ operator()(_Args &&...__args) {\n    typename cache::key_type __key{__args...};\n\
     \n    if constexpr (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n\
     \          __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
     \n      else\n        return __cptr\n            ->emplace_hint(__i, std::move(__key),\n\
@@ -64,10 +64,10 @@ data:
     \ <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...) const>\
     \ : assoc<_R, _Args...> {};\n\n public:\n  using cache = _cache<typename _get_func<_F>::type>;\n\
     \n  _non_recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}\n\n  /**\n\
-    \   * @param __args\n   */\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
-    \ &&...__args) noexcept {\n    typename cache::key_type __key{__args...};\n\n\
-    \    if constexpr (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n\
-    \          __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
+    \   * @param __args\n   */\n  template <class... _Args> decltype(auto) operator()(_Args\
+    \ &&...__args) {\n    typename cache::key_type __key{__args...};\n\n    if constexpr\
+    \ (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n       \
+    \   __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
     \n      else\n        return __cptr\n            ->emplace_hint(__i, std::move(__key),\n\
     \                           __fn(std::forward<_Args>(__args)...))\n          \
     \  ->second;\n    }\n\n    else if (auto __i = __cptr->lower_bound(__key);\n \
@@ -103,8 +103,8 @@ data:
     \ {};\n\n public:\n  using cache = _cache<decltype(&_F::template operator()<_recursive<_F>\
     \ &>)>;\n\n  _recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}\n\n\
     \  /**\n   * @brief Apply `*this` to 1st argument of the lambda.\n   * @param\
-    \ __args Rest of arguments.\n   */\n  template <class... _Args>\n  decltype(auto)\
-    \ operator()(_Args &&...__args) noexcept {\n    typename cache::key_type __key{__args...};\n\
+    \ __args Rest of arguments.\n   */\n  template <class... _Args> decltype(auto)\
+    \ operator()(_Args &&...__args) {\n    typename cache::key_type __key{__args...};\n\
     \n    if constexpr (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n\
     \          __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
     \n      else\n        return __cptr\n            ->emplace_hint(__i, std::move(__key),\n\
@@ -124,10 +124,10 @@ data:
     \ <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...) const>\
     \ : assoc<_R, _Args...> {};\n\n public:\n  using cache = _cache<typename _get_func<_F>::type>;\n\
     \n  _non_recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}\n\n  /**\n\
-    \   * @param __args\n   */\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
-    \ &&...__args) noexcept {\n    typename cache::key_type __key{__args...};\n\n\
-    \    if constexpr (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n\
-    \          __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
+    \   * @param __args\n   */\n  template <class... _Args> decltype(auto) operator()(_Args\
+    \ &&...__args) {\n    typename cache::key_type __key{__args...};\n\n    if constexpr\
+    \ (cache::value) {\n      if (auto __i = __cptr->lower_bound(__key);\n       \
+    \   __i != __cptr->end() && __i->first == __key)\n        return __i->second;\n\
     \n      else\n        return __cptr\n            ->emplace_hint(__i, std::move(__key),\n\
     \                           __fn(std::forward<_Args>(__args)...))\n          \
     \  ->second;\n    }\n\n    else if (auto __i = __cptr->lower_bound(__key);\n \
@@ -147,7 +147,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-04-04 23:33:06+09:00'
+  timestamp: '2021-05-06 07:12:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp
