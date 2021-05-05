@@ -123,77 +123,75 @@ data:
     \ - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary operators\n\n  // operator+=\
     \ {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept {\n    if ((value\
     \ += __x.value) >= mod) value -= mod;\n    return *this;\n  }\n\n  template <class\
-    \ _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type\
-    \ &\n  operator+=(_Tp const &__x) noexcept {\n    if (((value += __x) %= mod)\
-    \ < 0) value += mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+\
-    \ {{\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n  operator+(_Tp const &__x) const noexcept {\n    return modint{*this}\
+    \ _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator+=(\n\
+    \      _Tp const &__x) noexcept {\n    if (((value += __x) %= mod) < 0) value\
+    \ += mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+ {{\n\
+    \n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> operator+(\n      _Tp const &__x) const noexcept {\n    return modint{*this}\
     \ += __x;\n  }\n\n  constexpr modint operator+(modint __x) const noexcept { return\
-    \ __x += *this; }\n\n  template <class _Tp>\n  constexpr friend\n      typename\
-    \ std::enable_if<is_integral_ext<_Tp>::value, modint>::type\n      operator+(_Tp\
-    \ const &__x, modint __y) noexcept {\n    return __y += __x;\n  }\n\n  // }} operator+\n\
-    \n  // operator-= {{\n\n  constexpr modint &operator-=(const modint &__x) noexcept\
-    \ {\n    if ((value -= __x.value) < 0) value += mod;\n    return *this;\n  }\n\
-    \n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type &\n  operator-=(_Tp __x) noexcept {\n    if (((value -= __x) %=\
-    \ mod) < 0) value += mod;\n    return *this;\n  }\n\n  // }} operator-=\n\n  //\
-    \ operator- {{\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n  operator-(_Tp const &__x) const noexcept {\n    return modint{*this}\
-    \ -= __x;\n  }\n\n  constexpr modint operator-(const modint &__x) const noexcept\
-    \ {\n    return modint{*this} -= __x;\n  }\n\n  template <class _Tp>\n  constexpr\
-    \ friend\n      typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type\n\
-    \      operator-(_Tp __x, const modint &__y) noexcept {\n    if (((__x -= __y.value)\
-    \ %= mod) < 0) __x += mod;\n    return {__x, direct_ctor_tag};\n  }\n\n  // }}\
-    \ operator-\n\n  // operator*= {{\n\n  constexpr modint &operator*=(const modint\
-    \ &__x) noexcept {\n    value =\n        static_cast<value_type>(value * static_cast<mul_type>(__x.value)\
-    \ % mod);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr typename\
-    \ std::enable_if<is_integral_ext<_Tp>::value, modint>::type &\n  operator*=(_Tp\
-    \ __x) noexcept {\n    value = static_cast<value_type>(\n        value * mul_type((__x\
-    \ %= mod) < 0 ? __x + mod : __x) % mod);\n    return *this;\n  }\n\n  // }} operator*=\n\
-    \n  // operator* {{\n\n  constexpr modint operator*(const modint &__x) const noexcept\
-    \ {\n    return {static_cast<mul_type>(value) * __x.value % mod, direct_ctor_tag};\n\
-    \  }\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n  operator*(_Tp __x) const noexcept {\n    __x %= mod;\n    if\
-    \ (__x < 0) __x += mod;\n    return {static_cast<mul_type>(value) * __x % mod,\
-    \ direct_ctor_tag};\n  }\n\n  template <class _Tp>\n  constexpr friend\n     \
-    \ typename std::enable_if<is_integral_ext<_Tp>::value, modint>::type\n      operator*(_Tp\
-    \ __x, const modint &__y) noexcept {\n    __x %= mod;\n    if (__x < 0) __x +=\
-    \ mod;\n    return {static_cast<mul_type>(__x) * __y.value % mod, direct_ctor_tag};\n\
-    \  }\n\n  // }} operator*\n\n protected:\n  static value_type _mem(value_type\
-    \ __x) {\n    static std::vector<value_type> __m{0, 1};\n    static value_type\
-    \ __i = (__m.reserve(storage), 1);\n    while (__i < __x) {\n      ++__i;\n  \
-    \    __m.emplace_back(mod - mul_type(mod / __i) * __m[mod % __i] % mod);\n   \
-    \ }\n    return __m[__x];\n  }\n\n  static value_type _div(mul_type __r, value_type\
-    \ __x) noexcept {\n    assert(__x != value_type(0));\n    if (!__r) return 0;\n\
-    \n    std::make_signed_t<value_type> __v{};\n    bool __neg = __x < 0 ? __x =\
-    \ -__x, true : false;\n\n    if (static_cast<decltype(storage)>(__x) < storage)\n\
-    \      __v = _mem(__x);\n    else {\n      value_type __y{mod}, __u{1}, __t;\n\
-    \n      while (__x)\n        __t = __y / __x, __y ^= __x ^= (__y -= __t * __x)\
-    \ ^= __x,\n        __v ^= __u ^= (__v -= __t * __u) ^= __u;\n\n      if (__y <\
-    \ 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod - __v : -__v;\n\
-    \    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1) ? static_cast<value_type>(__v)\n\
-    \                              : static_cast<value_type>(__r * __v % mod);\n \
-    \ }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const modint\
-    \ &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n    return\
-    \ *this;\n  }\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type &\n  operator/=(_Tp __x) noexcept {\n    if (value) value = _div(value,\
+    \ __x += *this; }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint>\n  operator+(_Tp const &__x, modint __y) noexcept {\n    return __y\
+    \ += __x;\n  }\n\n  // }} operator+\n\n  // operator-= {{\n\n  constexpr modint\
+    \ &operator-=(const modint &__x) noexcept {\n    if ((value -= __x.value) < 0)\
+    \ value += mod;\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr\
+    \ std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator-=(\n      _Tp\
+    \ __x) noexcept {\n    if (((value -= __x) %= mod) < 0) value += mod;\n    return\
+    \ *this;\n  }\n\n  // }} operator-=\n\n  // operator- {{\n\n  template <class\
+    \ _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> operator-(\n\
+    \      _Tp const &__x) const noexcept {\n    return modint{*this} -= __x;\n  }\n\
+    \n  constexpr modint operator-(const modint &__x) const noexcept {\n    return\
+    \ modint{*this} -= __x;\n  }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint>\n  operator-(_Tp __x, const modint &__y) noexcept {\n    if (((__x -=\
+    \ __y.value) %= mod) < 0) __x += mod;\n    return {__x, direct_ctor_tag};\n  }\n\
+    \n  // }} operator-\n\n  // operator*= {{\n\n  constexpr modint &operator*=(const\
+    \ modint &__x) noexcept {\n    value =\n        static_cast<value_type>(value\
+    \ * static_cast<mul_type>(__x.value) % mod);\n    return *this;\n  }\n\n  template\
+    \ <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint>\
+    \ &operator*=(\n      _Tp __x) noexcept {\n    value = static_cast<value_type>(\n\
+    \        value * mul_type((__x %= mod) < 0 ? __x + mod : __x) % mod);\n    return\
+    \ *this;\n  }\n\n  // }} operator*=\n\n  // operator* {{\n\n  constexpr modint\
+    \ operator*(const modint &__x) const noexcept {\n    return {static_cast<mul_type>(value)\
+    \ * __x.value % mod, direct_ctor_tag};\n  }\n\n  template <class _Tp>\n  constexpr\
+    \ std::enable_if_t<is_integral_ext<_Tp>::value, modint> operator*(\n      _Tp\
+    \ __x) const noexcept {\n    __x %= mod;\n    if (__x < 0) __x += mod;\n    return\
+    \ {static_cast<mul_type>(value) * __x % mod, direct_ctor_tag};\n  }\n\n  template\
+    \ <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint>\n  operator*(_Tp __x, const modint &__y) noexcept {\n    __x %= mod;\n\
+    \    if (__x < 0) __x += mod;\n    return {static_cast<mul_type>(__x) * __y.value\
+    \ % mod, direct_ctor_tag};\n  }\n\n  // }} operator*\n\n protected:\n  static\
+    \ value_type _mem(value_type __x) {\n    static std::vector<value_type> __m{0,\
+    \ 1};\n    static value_type __i = (__m.reserve(storage), 1);\n    while (__i\
+    \ < __x) {\n      ++__i;\n      __m.emplace_back(mod - mul_type(mod / __i) * __m[mod\
+    \ % __i] % mod);\n    }\n    return __m[__x];\n  }\n\n  static value_type _div(mul_type\
+    \ __r, value_type __x) noexcept {\n    assert(__x != value_type(0));\n    if (!__r)\
+    \ return 0;\n\n    std::make_signed_t<value_type> __v{};\n    bool __neg = __x\
+    \ < 0 ? __x = -__x, true : false;\n\n    if (static_cast<decltype(storage)>(__x)\
+    \ < storage)\n      __v = _mem(__x);\n    else {\n      value_type __y{mod}, __u{1},\
+    \ __t;\n\n      while (__x)\n        __t = __y / __x, __y ^= __x ^= (__y -= __t\
+    \ * __x) ^= __x,\n        __v ^= __u ^= (__v -= __t * __u) ^= __u;\n\n      if\
+    \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
+    \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
+    \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
+    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
+    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
+    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
     \ if (!value) return {};\n    return {_div(value, __x.value), direct_ctor_tag};\n\
-    \  }\n\n  template <class _Tp>\n  constexpr typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n  operator/(_Tp __x) const noexcept {\n    if (!value) return\
+    \  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> operator/(\n      _Tp __x) const noexcept {\n    if (!value) return\
     \ {};\n    return {_div(value, __x %= mod), direct_ctor_tag};\n  }\n\n  template\
-    \ <class _Tp>\n  constexpr friend\n      typename std::enable_if<is_integral_ext<_Tp>::value,\
-    \ modint>::type\n      operator/(_Tp __x, const modint &__y) noexcept {\n    if\
-    \ (!__x) return {};\n    if ((__x %= mod) < 0) __x += mod;\n    return {_div(__x,\
-    \ __y.value), direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr modint\
-    \ inv() const noexcept { return _div(1, value); }\n\n  template <class _Tp>\n\
-    \  constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n  \
-    \    _Tp __e) const noexcept {\n    modint __r{1, direct_ctor_tag};\n\n    for\
-    \ (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,\n                \
-    \              direct_ctor_tag};\n         __e; __e >>= 1, __b *= __b)\n     \
-    \ if (__e & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Tp>\n\
-    \  friend constexpr std::__enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n\
+    \ <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint>\n  operator/(_Tp __x, const modint &__y) noexcept {\n    if (!__x) return\
+    \ {};\n    if ((__x %= mod) < 0) __x += mod;\n    return {_div(__x, __y.value),\
+    \ direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr modint inv() const\
+    \ noexcept { return _div(1, value); }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> pow(\n      _Tp __e) const noexcept {\n    modint __r{1, direct_ctor_tag};\n\
+    \n    for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,\n        \
+    \                      direct_ctor_tag};\n         __e; __e >>= 1, __b *= __b)\n\
+    \      if (__e & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Tp>\n\
+    \  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n\
     \      modint __b, _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n\
     \      __b.value = _div(1, __b.value);\n    }\n\n    modint __r{1, direct_ctor_tag};\n\
     \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
@@ -242,7 +240,7 @@ data:
   isVerificationFile: false
   path: src/modular/inverse.hpp
   requiredBy: []
-  timestamp: '2021-04-26 04:26:50+09:00'
+  timestamp: '2021-05-06 08:39:23+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/modular/inverse.hpp
