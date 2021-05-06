@@ -98,6 +98,9 @@ data:
       path: src/data_structure/Mo.hpp
       title: Mo's Algorithm
     - icon: ':heavy_check_mark:'
+      path: src/data_structure/buckets.hpp
+      title: Buckets
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/coordinate_compression.hpp
       title: Coordinate Compression
     - icon: ':heavy_check_mark:'
@@ -365,6 +368,9 @@ data:
       path: test/aizu-online-judge/2934.test.cpp
       title: test/aizu-online-judge/2934.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/3170.test.cpp
+      title: test/aizu-online-judge/3170.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/ALDS1_14_B.test.cpp
       title: test/aizu-online-judge/ALDS1_14_B.test.cpp
     - icon: ':heavy_check_mark:'
@@ -445,6 +451,9 @@ data:
       path: test/library-checker/range_affine_range_sum.test.cpp
       title: test/library-checker/range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
+      title: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_kth_smallest.test.cpp
       title: test/library-checker/range_kth_smallest.test.cpp
     - icon: ':heavy_check_mark:'
@@ -462,6 +471,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/staticrmq.test.cpp
+      title: test/library-checker/staticrmq.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
