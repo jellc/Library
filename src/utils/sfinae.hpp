@@ -76,7 +76,7 @@ template <class _Tp, class = std::nullptr_t>
 struct has_mod : std::false_type {};
 
 template <class _Tp>
-struct has_mod<_Tp, decltype(_Tp::mod, nullptr)> : std::true_type {};
+struct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type {};
 
 template <class _Tp, class = void> struct is_integral_ext : std::false_type {};
 template <class _Tp>
