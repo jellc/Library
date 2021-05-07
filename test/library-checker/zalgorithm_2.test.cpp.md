@@ -119,9 +119,9 @@ data:
     \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
     \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = std::nullptr_t>\n\
     struct has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp,\
-    \ decltype(_Tp::mod, nullptr)> : std::true_type {};\n\ntemplate <class _Tp, class\
-    \ = void> struct is_integral_ext : std::false_type {};\ntemplate <class _Tp>\n\
-    struct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \ std::__void_t<decltype(_Tp::mod)>> : std::true_type {};\n\ntemplate <class _Tp,\
+    \ class = void> struct is_integral_ext : std::false_type {};\ntemplate <class\
+    \ _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
     \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
@@ -218,7 +218,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2021-04-11 21:05:14+09:00'
+  timestamp: '2021-05-07 23:35:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
