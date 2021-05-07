@@ -84,7 +84,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/operation.hpp
       title: Operation Traits
   - name: src/combinatorics

@@ -5,6 +5,9 @@ data:
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
+    path: src/algebra/system/operation.hpp
+    title: Operation Traits
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':heavy_check_mark:'
@@ -35,7 +38,7 @@ data:
   bundledCode: "#line 1 \"test/library-checker/range_affine_range_sum.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n\n\
     #include <cstdio>\n#include <vector>\n\n#line 2 \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n\n/*\n * @file lazy.hpp\n * @brief Lazy Segment Tree\n */\n\n#include <cassert>\n\
+    \n\n/**\n * @file lazy.hpp\n * @brief Lazy Segment Tree\n */\n\n#include <cassert>\n\
     #include <queue>\n#line 11 \"src/data_structure/segment_tree/lazy.hpp\"\n\n#line\
     \ 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace workspace\
     \ {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type =\
@@ -49,9 +52,53 @@ data:
     \ {\n  using base = min_monoid<T, E>;\n  using base::min_monoid;\n  max_monoid()\
     \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
     \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
-    \ E &rhs) const;\n};\n}\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
-    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
-    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ E &rhs) const;\n};\n}\n#line 2 \"src/algebra/system/operation.hpp\"\n\n/**\n\
+    \ * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
+    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
+    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
+    \ : std::true_type {};\n\n// Binary `+`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\n\
+    using require_binary_plus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
+    \ _Tp1 &>() +\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_plus : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_plus<_Tp1, _Tp2,\
+    \ require_binary_plus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `-`\n\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
+    \ _Tp1 &>() -\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1, _Tp2,\
+    \ require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `*`\n\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies =\n\
+    \    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>()\
+    \ *\n                                                  std::declval<const _Tp2\
+    \ &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_multiplies\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_multiplies<_Tp1,\
+    \ _Tp2, require_binary_multiplies<_Tp1, _Tp2>>\n    : std::true_type {};\n\n//\
+    \ Binary `/`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_divides\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() /\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_divides : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_divides<_Tp1, _Tp2,\
+    \ require_binary_divides<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `%`\n\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_modulus =\n   \
+    \ std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>() %\n\
+    \                                                  std::declval<const _Tp2 &>()),\n\
+    \                                         _Tp1>::value>;\n\ntemplate <class _Tp1,\
+    \ class _Tp2 = _Tp1, class = void>\nstruct has_binary_modulus : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_modulus<_Tp1, _Tp2,\
+    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n}  // namespace\
+    \ workspace\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n *\
+    \ @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#line 11 \"src/utils/sfinae.hpp\"\
+    \n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
     \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
     \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
     \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
@@ -102,51 +149,46 @@ data:
     \ (in[index] = true);\n  }\n\n  size_t pop() {\n    // assert(!empty());\n   \
     \ auto index = front();\n    std::queue<size_t>::pop();\n    in[index] = false;\n\
     \    return index;\n  }\n\n private:\n  std::vector<int_least8_t> in;\n};\n\n\
-    }  // namespace internal\n\n}  // namespace workspace\n#line 15 \"src/data_structure/segment_tree/lazy.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class Monoid, class Endomorphism,\n   \
-    \       class Monoid_container = std::vector<Monoid>,\n          class Endomorphism_container\
-    \ = std::vector<Endomorphism>>\nclass lazy_segment_tree {\n  static_assert(\n\
-    \      std::is_same<Monoid, typename Monoid_container::value_type>::value);\n\n\
-    \  static_assert(\n      std::is_same<Endomorphism,\n                   typename\
-    \ Endomorphism_container::value_type>::value);\n\n  static_assert(\n      std::is_assignable<Monoid\
-    \ &, decltype(std::declval<Monoid>() +\n                                     \
-    \       std::declval<Monoid>())>::value,\n      \"\\'Monoid\\' has no proper binary\
-    \ \\'operator+\\'.\");\n\n  static_assert(\n      std::is_assignable<Endomorphism\
-    \ &,\n                         decltype(std::declval<Endomorphism>() *\n     \
-    \                             std::declval<Endomorphism>())>::value,\n      \"\
-    \\'Endomorphism\\' has no proper binary operator*.\");\n\n  static_assert(std::is_assignable<\n\
-    \                    Monoid &, decltype(std::declval<Monoid>() *\n           \
-    \                            std::declval<Endomorphism>())>::value,\n        \
-    \        \"\\'Endomorphism\\' is not applicable to \\'Monoid\\'.\");\n\n protected:\n\
-    \  size_t size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
+    }  // namespace internal\n\n}  // namespace workspace\n#line 16 \"src/data_structure/segment_tree/lazy.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class _Monoid, class _End,\n          class\
+    \ Monoid_container = std::vector<_Monoid>,\n          class Endomorphism_container\
+    \ = std::vector<_End>>\nclass lazy_segment_tree {\n  static_assert(\n      std::is_same<_Monoid,\
+    \ typename Monoid_container::value_type>::value);\n\n  static_assert(\n      std::is_same<_End,\
+    \ typename Endomorphism_container::value_type>::value);\n\n  static_assert(has_binary_plus<_Monoid>::value,\n\
+    \                \"\\'_Monoid\\' has no proper binary \\'operator+\\'.\");\n\n\
+    \  static_assert(has_binary_multiplies<_End>::value,\n                \"\\'_End\\\
+    ' has no proper binary \\'operator*\\'.\");\n\n  static_assert(has_binary_multiplies<_Monoid,\
+    \ _End>::value,\n                \"\\'_End\\' is not applicable to \\'_Monoid\\\
+    '.\");\n\n  size_t size_orig, height, size_ext;\n  Monoid_container data;\n  Endomorphism_container\
     \ lazy;\n  internal::waitings wait;\n\n  void repair() {\n    while (!wait.empty())\
     \ {\n      const size_t index = wait.pop() >> 1;\n      if (index && wait.push(index))\
-    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const Endomorphism &endo)\
-    \ {\n    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node]\
-    \ = lazy[node] * endo;\n  }\n\n  void push(size_t node) {\n    apply(node << 1,\
-    \ lazy[node]);\n    apply(node << 1 | 1, lazy[node]);\n    lazy[node] = Endomorphism{};\n\
-    \  }\n\n  void pull(size_t node) { data[node] = data[node << 1] + data[node <<\
-    \ 1 | 1]; }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{}))\
-    \ pass_args(\n      Pred pred, Monoid const &_1, [[maybe_unused]] size_t _2) {\n\
-    \    return pred(_1);\n  }\n\n  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(Monoid{},\
-    \ size_t{})) pass_args(\n      Pred pred, Monoid const &_1, size_t _2) {\n   \
-    \ return pred(_1, _2);\n  }\n\n  template <class Pred>\n  size_t left_partition_subtree(size_t\
-    \ node, Monoid mono, size_t step,\n                                Pred pred)\
+    \ pull(index);\n    }\n  }\n\n  void apply(size_t node, const _End &endo) {\n\
+    \    data[node] = data[node] * endo;\n    if (node < size_ext) lazy[node] = lazy[node]\
+    \ * endo;\n  }\n\n  void push(size_t node) {\n    apply(node << 1, lazy[node]);\n\
+    \    apply(node << 1 | 1, lazy[node]);\n    lazy[node] = _End{};\n  }\n\n  void\
+    \ pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }\n\n\
+    \  template <class Pred>\n  static constexpr decltype(std::declval<Pred>()(_Monoid{}))\
+    \ pass_args(\n      Pred pred, _Monoid const &_1, [[maybe_unused]] size_t _2)\
+    \ {\n    return pred(_1);\n  }\n\n  template <class Pred>\n  static constexpr\
+    \ decltype(std::declval<Pred>()(_Monoid{}, size_t{}))\n  pass_args(Pred pred,\
+    \ _Monoid const &_1, size_t _2) {\n    return pred(_1, _2);\n  }\n\n  template\
+    \ <class Pred>\n  size_t left_partition_subtree(size_t node, _Monoid mono, size_t\
+    \ step,\n                                Pred pred) {\n    assert(node);\n   \
+    \ while (node < size_ext) {\n      push(node);\n      const _Monoid tmp = data[(node\
+    \ <<= 1) | 1] + mono;\n      if (pass_args(pred, tmp, ((node | 1) << --step) ^\
+    \ size_ext))\n        mono = tmp;\n      else\n        ++node;\n    }\n    return\
+    \ ++node -= size_ext;\n  }\n\n  template <class Pred>\n  size_t right_partition_subtree(size_t\
+    \ node, _Monoid mono, size_t step,\n                                 Pred pred)\
     \ {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n   \
-    \   const Monoid tmp = data[(node <<= 1) | 1] + mono;\n      if (pass_args(pred,\
-    \ tmp, ((node | 1) << --step) ^ size_ext))\n        mono = tmp;\n      else\n\
-    \        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
-    \ Pred>\n  size_t right_partition_subtree(size_t node, Monoid mono, size_t step,\n\
-    \                                 Pred pred) {\n    assert(node);\n    while (node\
-    \ < size_ext) {\n      push(node);\n      const Monoid tmp = mono + data[node\
-    \ <<= 1];\n      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))\n\
-    \        ++node, mono = tmp;\n    }\n    return (node -= size_ext) < size_orig\
-    \ ? node : size_orig;\n  }\n\n public:\n  class iterator {\n    lazy_segment_tree\
-    \ *__p;\n    size_t __i;\n\n   public:\n    using difference_type = typename std::make_signed<size_t>::type;\n\
-    \    using value_type = Monoid;\n    using reference = Monoid &;\n    using pointer\
-    \ = iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\
-    \n    /**\n     * @brief Construct a new iterator object\n     *\n     */\n  \
-    \  iterator() = default;\n\n    /**\n     * @brief Construct a new iterator object\n\
+    \   const _Monoid tmp = mono + data[node <<= 1];\n      if (pass_args(pred, tmp,\
+    \ ((node | 1) << --step) ^ size_ext))\n        ++node, mono = tmp;\n    }\n  \
+    \  return (node -= size_ext) < size_orig ? node : size_orig;\n  }\n\n public:\n\
+    \  class iterator {\n    lazy_segment_tree *__p;\n    size_t __i;\n\n   public:\n\
+    \    using difference_type = typename std::make_signed<size_t>::type;\n    using\
+    \ value_type = _Monoid;\n    using reference = _Monoid &;\n    using pointer =\
+    \ iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\n\
+    \    /**\n     * @brief Construct a new iterator object\n     *\n     */\n   \
+    \ iterator() = default;\n\n    /**\n     * @brief Construct a new iterator object\n\
     \     *\n     * @param __p Pointer to a segment tree object\n     * @param __i\
     \ Index\n     */\n    iterator(lazy_segment_tree *__p, size_t __i) : __p(__p),\
     \ __i(__i) {}\n\n    bool operator==(iterator const &rhs) const {\n      return\
@@ -167,70 +209,70 @@ data:
     \ n = 0)\n      : size_orig{n},\n        height(n > 1 ? 32 - __builtin_clz(n -\
     \ 1) : 0),\n        size_ext{1u << height},\n        data(size_ext << 1),\n  \
     \      lazy(size_ext),\n        wait(size_ext << 1) {}\n\n  lazy_segment_tree(size_t\
-    \ n, const Monoid &init) : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
+    \ n, const _Monoid &init) : lazy_segment_tree(n) {\n    std::fill(std::next(std::begin(data),\
     \ size_ext), std::end(data), init);\n    for (size_t i{size_ext}; --i;) pull(i);\n\
     \  }\n\n  template <class iter_type, class value_type = typename std::iterator_traits<\n\
     \                                 iter_type>::value_type>\n  lazy_segment_tree(iter_type\
     \ first, iter_type last)\n      : size_orig(std::distance(first, last)),\n   \
     \     height(size_orig > 1 ? 32 - __builtin_clz(size_orig - 1) : 0),\n       \
     \ size_ext{1u << height},\n        data(size_ext << 1),\n        lazy(size_ext),\n\
-    \        wait(size_ext << 1) {\n    static_assert(std::is_constructible<Monoid,\
-    \ value_type>::value,\n                  \"Monoid(iter_type::value_type) is not\
+    \        wait(size_ext << 1) {\n    static_assert(std::is_constructible<_Monoid,\
+    \ value_type>::value,\n                  \"_Monoid(iter_type::value_type) is not\
     \ constructible.\");\n    for (auto iter{std::next(std::begin(data), size_ext)};\n\
     \         iter != std::end(data) && first != last; ++iter, ++first)\n      *iter\
-    \ = Monoid(*first);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  /**\n\
+    \ = _Monoid(*first);\n    for (size_t i{size_ext}; --i;) pull(i);\n  }\n\n  /**\n\
     \   * @return Number of elements.\n   */\n  size_t size() const { return size_orig;\
     \ }\n\n  /**\n   * @param index Index of the element\n   * @return Reference to\
-    \ the element.\n   */\n  Monoid &operator[](size_t index) {\n    assert(index\
+    \ the element.\n   */\n  _Monoid &operator[](size_t index) {\n    assert(index\
     \ < size_orig);\n    index |= size_ext;\n    wait.push(index);\n    for (size_t\
     \ i = height; i; --i) push(index >> i);\n    return data[index];\n  }\n\n  void\
-    \ update(const Endomorphism &endo) { update(0, size_orig, endo); }\n\n  void update(size_t\
-    \ index, const Endomorphism &endo) {\n    update(index, index + 1, endo);\n  }\n\
-    \n  void update(size_t first, size_t last, const Endomorphism &endo) {\n    assert(last\
-    \ <= size_orig);\n    repair();\n    if (first >= last) return;\n    first +=\
-    \ size_ext, last += size_ext;\n    --last;\n    for (size_t i = height; i; --i)\
-    \ push(first >> i), push(last >> i);\n    ++last;\n    for (size_t l = first,\
-    \ r = last; l != r; l >>= 1, r >>= 1) {\n      if (l & 1) apply(l++, endo);\n\
-    \      if (r & 1) apply(--r, endo);\n    }\n    for (first >>= __builtin_ffs(first);\
-    \ first; first >>= 1) pull(first);\n    for (last >>= __builtin_ffs(last); last;\
-    \ last >>= 1) pull(last);\n  }\n\n  /**\n   * @param first Left end, inclusive\n\
-    \   * @param last Right end, exclusive\n   * @return Sum of elements in the interval.\n\
-    \   */\n  Monoid fold(size_t first, size_t last) {\n    assert(last <= size_orig);\n\
-    \    repair();\n    if (first >= last) return Monoid{};\n    first += size_ext,\
-    \ last += size_ext - 1;\n    Monoid left_val{}, right_val{};\n    for (size_t\
-    \ l = first, r = last + 1; l != r; l >>= 1, r >>= 1) {\n      if (l & 1) left_val\
-    \ = left_val + data[l++];\n      if (r & 1) right_val = data[--r] + right_val;\n\
-    \      left_val = left_val * lazy[first >>= 1];\n      right_val = right_val *\
-    \ lazy[last >>= 1];\n    }\n    while (first >>= 1, last >>= 1) {\n      left_val\
-    \ = left_val * lazy[first];\n      right_val = right_val * lazy[last];\n    }\n\
-    \    return left_val + right_val;\n  }\n\n  /**\n   * @return Sum of all elements.\n\
-    \   */\n  Monoid fold() { return fold(0, size_orig); }\n\n  /**\n   * @brief Binary\
-    \ search for the partition point.\n   * @param right Right fixed end of the interval,\
-    \ exclusive\n   * @param pred Predicate in the form of either 'bool(Monoid)' or\
-    \ 'bool(Monoid,\n   * size_t)'\n   * @return Left end of the extremal interval\
-    \ satisfying the condition,\n   * inclusive.\n   */\n  template <class Pred> size_t\
-    \ left_partition(size_t right, Pred pred) {\n    assert(right <= size_orig);\n\
-    \    repair();\n    right += size_ext - 1;\n    for (size_t i{height}; i; --i)\
-    \ push(right >> i);\n    ++right;\n    Monoid mono{};\n    for (size_t left{size_ext},\
-    \ step{}; left != right;\n         left >>= 1, right >>= 1, ++step) {\n      if\
-    \ ((left & 1) != (right & 1)) {\n        const Monoid tmp = data[--right] + mono;\n\
-    \        if (!pass_args(pred, tmp, (right << step) ^ size_ext))\n          return\
-    \ left_partition_subtree(right, mono, step, pred);\n        mono = tmp;\n    \
-    \  }\n    }\n    return 0;\n  }\n\n  /**\n   * @brief Binary search for the partition\
-    \ point.\n   * @param left Left fixed end of the interval, inclusive\n   * @param\
-    \ pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,\n   * size_t)'\n\
-    \   * @return Right end of the extremal interval satisfying the condition,\n \
-    \  * exclusive.\n   */\n  template <class Pred> size_t right_partition(size_t\
-    \ left, Pred pred) {\n    assert(left <= size_orig);\n    repair();\n    left\
-    \ += size_ext;\n    for (size_t i{height}; i; --i) push(left >> i);\n    Monoid\
-    \ mono{};\n    for (size_t right{size_ext << 1}, step{}; left != right;\n    \
-    \     left >>= 1, right >>= 1, ++step) {\n      if ((left & 1) != (right & 1))\
-    \ {\n        const Monoid tmp = mono + data[left];\n        if (!pass_args(pred,\
-    \ tmp, ((left + 1) << step) ^ size_ext))\n          return right_partition_subtree(left,\
-    \ mono, step, pred);\n        mono = tmp;\n        ++left;\n      }\n    }\n \
-    \   return size_orig;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\
-    \n\n/**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10\
-    \ \"src/modular/modint.hpp\"\n#include <iostream>\n#line 12 \"src/modular/modint.hpp\"\
+    \ update(const _End &endo) { update(0, size_orig, endo); }\n\n  void update(size_t\
+    \ index, const _End &endo) {\n    update(index, index + 1, endo);\n  }\n\n  void\
+    \ update(size_t first, size_t last, const _End &endo) {\n    assert(last <= size_orig);\n\
+    \    repair();\n    if (first >= last) return;\n    first += size_ext, last +=\
+    \ size_ext;\n    --last;\n    for (size_t i = height; i; --i) push(first >> i),\
+    \ push(last >> i);\n    ++last;\n    for (size_t l = first, r = last; l != r;\
+    \ l >>= 1, r >>= 1) {\n      if (l & 1) apply(l++, endo);\n      if (r & 1) apply(--r,\
+    \ endo);\n    }\n    for (first >>= __builtin_ffs(first); first; first >>= 1)\
+    \ pull(first);\n    for (last >>= __builtin_ffs(last); last; last >>= 1) pull(last);\n\
+    \  }\n\n  /**\n   * @param first Left end, inclusive\n   * @param last Right end,\
+    \ exclusive\n   * @return Sum of elements in the interval.\n   */\n  _Monoid fold(size_t\
+    \ first, size_t last) {\n    assert(last <= size_orig);\n    repair();\n    if\
+    \ (first >= last) return _Monoid{};\n    first += size_ext, last += size_ext -\
+    \ 1;\n    _Monoid left_val{}, right_val{};\n    for (size_t l = first, r = last\
+    \ + 1; l != r; l >>= 1, r >>= 1) {\n      if (l & 1) left_val = left_val + data[l++];\n\
+    \      if (r & 1) right_val = data[--r] + right_val;\n      left_val = left_val\
+    \ * lazy[first >>= 1];\n      right_val = right_val * lazy[last >>= 1];\n    }\n\
+    \    while (first >>= 1, last >>= 1) {\n      left_val = left_val * lazy[first];\n\
+    \      right_val = right_val * lazy[last];\n    }\n    return left_val + right_val;\n\
+    \  }\n\n  /**\n   * @return Sum of all elements.\n   */\n  _Monoid fold() {\n\
+    \    repair();\n    return data[1];\n  }\n\n  /**\n   * @brief Binary search for\
+    \ the partition point.\n   * @param right Right fixed end of the interval, exclusive\n\
+    \   * @param pred Predicate in the form of either 'bool(_Monoid)' or\n   * 'bool(_Monoid,\
+    \ size_t)'\n   * @return Left end of the extremal interval satisfying the condition,\n\
+    \   * inclusive.\n   */\n  template <class Pred> size_t left_partition(size_t\
+    \ right, Pred pred) {\n    assert(right <= size_orig);\n    repair();\n    right\
+    \ += size_ext - 1;\n    for (size_t i{height}; i; --i) push(right >> i);\n   \
+    \ ++right;\n    _Monoid mono{};\n    for (size_t left{size_ext}, step{}; left\
+    \ != right;\n         left >>= 1, right >>= 1, ++step) {\n      if ((left & 1)\
+    \ != (right & 1)) {\n        const _Monoid tmp = data[--right] + mono;\n     \
+    \   if (!pass_args(pred, tmp, (right << step) ^ size_ext))\n          return left_partition_subtree(right,\
+    \ mono, step, pred);\n        mono = tmp;\n      }\n    }\n    return 0;\n  }\n\
+    \n  /**\n   * @brief Binary search for the partition point.\n   * @param left\
+    \ Left fixed end of the interval, inclusive\n   * @param pred Predicate in the\
+    \ form of either 'bool(_Monoid)' or\n   * 'bool(_Monoid, size_t)'\n   * @return\
+    \ Right end of the extremal interval satisfying the condition,\n   * exclusive.\n\
+    \   */\n  template <class Pred> size_t right_partition(size_t left, Pred pred)\
+    \ {\n    assert(left <= size_orig);\n    repair();\n    left += size_ext;\n  \
+    \  for (size_t i{height}; i; --i) push(left >> i);\n    _Monoid mono{};\n    for\
+    \ (size_t right{size_ext << 1}, step{}; left != right;\n         left >>= 1, right\
+    \ >>= 1, ++step) {\n      if ((left & 1) != (right & 1)) {\n        const _Monoid\
+    \ tmp = mono + data[left];\n        if (!pass_args(pred, tmp, ((left + 1) << step)\
+    \ ^ size_ext))\n          return right_partition_subtree(left, mono, step, pred);\n\
+    \        mono = tmp;\n        ++left;\n      }\n    }\n    return size_orig;\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\n\n\
+    /**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10 \"\
+    src/modular/modint.hpp\"\n#include <iostream>\n#line 12 \"src/modular/modint.hpp\"\
     \n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n\
     \ * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
     \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
@@ -398,6 +440,7 @@ data:
   dependsOn:
   - src/data_structure/segment_tree/lazy.hpp
   - src/algebra/system/monoid.hpp
+  - src/algebra/system/operation.hpp
   - src/utils/sfinae.hpp
   - src/data_structure/segment_tree/waitings.hpp
   - src/modular/modint.hpp
@@ -406,7 +449,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-05-06 08:39:23+09:00'
+  timestamp: '2021-05-07 14:41:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

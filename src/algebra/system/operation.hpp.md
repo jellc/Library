@@ -1,11 +1,20 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/data_structure/segment_tree/lazy.hpp
+    title: Lazy Segment Tree
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2450.test.cpp
+    title: test/aizu-online-judge/2450.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/range_affine_range_sum.test.cpp
+    title: test/library-checker/range_affine_range_sum.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Operation Traits
     links: []
@@ -101,10 +110,13 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
-  requiredBy: []
+  requiredBy:
+  - src/data_structure/segment_tree/lazy.hpp
   timestamp: '2021-05-07 14:31:52+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/algebra/system/operation.hpp
 layout: document
 redirect_from:
