@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @file lazy.hpp
  * @brief Lazy Segment Tree
  */
@@ -10,39 +10,31 @@
 #include <vector>
 
 #include "src/algebra/system/monoid.hpp"
+#include "src/algebra/system/operation.hpp"
 #include "src/utils/sfinae.hpp"
 #include "waitings.hpp"
 
 namespace workspace {
 
-template <class Monoid, class Endomorphism,
-          class Monoid_container = std::vector<Monoid>,
-          class Endomorphism_container = std::vector<Endomorphism>>
+template <class _Monoid, class _End,
+          class Monoid_container = std::vector<_Monoid>,
+          class Endomorphism_container = std::vector<_End>>
 class lazy_segment_tree {
   static_assert(
-      std::is_same<Monoid, typename Monoid_container::value_type>::value);
+      std::is_same<_Monoid, typename Monoid_container::value_type>::value);
 
   static_assert(
-      std::is_same<Endomorphism,
-                   typename Endomorphism_container::value_type>::value);
+      std::is_same<_End, typename Endomorphism_container::value_type>::value);
 
-  static_assert(
-      std::is_assignable<Monoid &, decltype(std::declval<Monoid>() +
-                                            std::declval<Monoid>())>::value,
-      "\'Monoid\' has no proper binary \'operator+\'.");
+  static_assert(has_binary_plus<_Monoid>::value,
+                "\'_Monoid\' has no proper binary \'operator+\'.");
 
-  static_assert(
-      std::is_assignable<Endomorphism &,
-                         decltype(std::declval<Endomorphism>() *
-                                  std::declval<Endomorphism>())>::value,
-      "\'Endomorphism\' has no proper binary operator*.");
+  static_assert(has_binary_multiplies<_End>::value,
+                "\'_End\' has no proper binary \'operator*\'.");
 
-  static_assert(std::is_assignable<
-                    Monoid &, decltype(std::declval<Monoid>() *
-                                       std::declval<Endomorphism>())>::value,
-                "\'Endomorphism\' is not applicable to \'Monoid\'.");
+  static_assert(has_binary_multiplies<_Monoid, _End>::value,
+                "\'_End\' is not applicable to \'_Monoid\'.");
 
- protected:
   size_t size_orig, height, size_ext;
   Monoid_container data;
   Endomorphism_container lazy;
@@ -55,7 +47,7 @@ class lazy_segment_tree {
     }
   }
 
-  void apply(size_t node, const Endomorphism &endo) {
+  void apply(size_t node, const _End &endo) {
     data[node] = data[node] * endo;
     if (node < size_ext) lazy[node] = lazy[node] * endo;
   }
@@ -63,30 +55,30 @@ class lazy_segment_tree {
   void push(size_t node) {
     apply(node << 1, lazy[node]);
     apply(node << 1 | 1, lazy[node]);
-    lazy[node] = Endomorphism{};
+    lazy[node] = _End{};
   }
 
   void pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
   template <class Pred>
-  static constexpr decltype(std::declval<Pred>()(Monoid{})) pass_args(
-      Pred pred, Monoid const &_1, [[maybe_unused]] size_t _2) {
+  static constexpr decltype(std::declval<Pred>()(_Monoid{})) pass_args(
+      Pred pred, _Monoid const &_1, [[maybe_unused]] size_t _2) {
     return pred(_1);
   }
 
   template <class Pred>
-  static constexpr decltype(std::declval<Pred>()(Monoid{}, size_t{})) pass_args(
-      Pred pred, Monoid const &_1, size_t _2) {
+  static constexpr decltype(std::declval<Pred>()(_Monoid{}, size_t{}))
+  pass_args(Pred pred, _Monoid const &_1, size_t _2) {
     return pred(_1, _2);
   }
 
   template <class Pred>
-  size_t left_partition_subtree(size_t node, Monoid mono, size_t step,
+  size_t left_partition_subtree(size_t node, _Monoid mono, size_t step,
                                 Pred pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
-      const Monoid tmp = data[(node <<= 1) | 1] + mono;
+      const _Monoid tmp = data[(node <<= 1) | 1] + mono;
       if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
         mono = tmp;
       else
@@ -96,12 +88,12 @@ class lazy_segment_tree {
   }
 
   template <class Pred>
-  size_t right_partition_subtree(size_t node, Monoid mono, size_t step,
+  size_t right_partition_subtree(size_t node, _Monoid mono, size_t step,
                                  Pred pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
-      const Monoid tmp = mono + data[node <<= 1];
+      const _Monoid tmp = mono + data[node <<= 1];
       if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
         ++node, mono = tmp;
     }
@@ -115,8 +107,8 @@ class lazy_segment_tree {
 
    public:
     using difference_type = typename std::make_signed<size_t>::type;
-    using value_type = Monoid;
-    using reference = Monoid &;
+    using value_type = _Monoid;
+    using reference = _Monoid &;
     using pointer = iterator;
     using iterator_category = std::random_access_iterator_tag;
 
@@ -176,7 +168,7 @@ class lazy_segment_tree {
         lazy(size_ext),
         wait(size_ext << 1) {}
 
-  lazy_segment_tree(size_t n, const Monoid &init) : lazy_segment_tree(n) {
+  lazy_segment_tree(size_t n, const _Monoid &init) : lazy_segment_tree(n) {
     std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
     for (size_t i{size_ext}; --i;) pull(i);
   }
@@ -190,11 +182,11 @@ class lazy_segment_tree {
         data(size_ext << 1),
         lazy(size_ext),
         wait(size_ext << 1) {
-    static_assert(std::is_constructible<Monoid, value_type>::value,
-                  "Monoid(iter_type::value_type) is not constructible.");
+    static_assert(std::is_constructible<_Monoid, value_type>::value,
+                  "_Monoid(iter_type::value_type) is not constructible.");
     for (auto iter{std::next(std::begin(data), size_ext)};
          iter != std::end(data) && first != last; ++iter, ++first)
-      *iter = Monoid(*first);
+      *iter = _Monoid(*first);
     for (size_t i{size_ext}; --i;) pull(i);
   }
 
@@ -207,7 +199,7 @@ class lazy_segment_tree {
    * @param index Index of the element
    * @return Reference to the element.
    */
-  Monoid &operator[](size_t index) {
+  _Monoid &operator[](size_t index) {
     assert(index < size_orig);
     index |= size_ext;
     wait.push(index);
@@ -215,13 +207,13 @@ class lazy_segment_tree {
     return data[index];
   }
 
-  void update(const Endomorphism &endo) { update(0, size_orig, endo); }
+  void update(const _End &endo) { update(0, size_orig, endo); }
 
-  void update(size_t index, const Endomorphism &endo) {
+  void update(size_t index, const _End &endo) {
     update(index, index + 1, endo);
   }
 
-  void update(size_t first, size_t last, const Endomorphism &endo) {
+  void update(size_t first, size_t last, const _End &endo) {
     assert(last <= size_orig);
     repair();
     if (first >= last) return;
@@ -242,12 +234,12 @@ class lazy_segment_tree {
    * @param last Right end, exclusive
    * @return Sum of elements in the interval.
    */
-  Monoid fold(size_t first, size_t last) {
+  _Monoid fold(size_t first, size_t last) {
     assert(last <= size_orig);
     repair();
-    if (first >= last) return Monoid{};
+    if (first >= last) return _Monoid{};
     first += size_ext, last += size_ext - 1;
-    Monoid left_val{}, right_val{};
+    _Monoid left_val{}, right_val{};
     for (size_t l = first, r = last + 1; l != r; l >>= 1, r >>= 1) {
       if (l & 1) left_val = left_val + data[l++];
       if (r & 1) right_val = data[--r] + right_val;
@@ -264,13 +256,16 @@ class lazy_segment_tree {
   /**
    * @return Sum of all elements.
    */
-  Monoid fold() { return fold(0, size_orig); }
+  _Monoid fold() {
+    repair();
+    return data[1];
+  }
 
   /**
    * @brief Binary search for the partition point.
    * @param right Right fixed end of the interval, exclusive
-   * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
-   * size_t)'
+   * @param pred Predicate in the form of either 'bool(_Monoid)' or
+   * 'bool(_Monoid, size_t)'
    * @return Left end of the extremal interval satisfying the condition,
    * inclusive.
    */
@@ -280,11 +275,11 @@ class lazy_segment_tree {
     right += size_ext - 1;
     for (size_t i{height}; i; --i) push(right >> i);
     ++right;
-    Monoid mono{};
+    _Monoid mono{};
     for (size_t left{size_ext}, step{}; left != right;
          left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
-        const Monoid tmp = data[--right] + mono;
+        const _Monoid tmp = data[--right] + mono;
         if (!pass_args(pred, tmp, (right << step) ^ size_ext))
           return left_partition_subtree(right, mono, step, pred);
         mono = tmp;
@@ -296,8 +291,8 @@ class lazy_segment_tree {
   /**
    * @brief Binary search for the partition point.
    * @param left Left fixed end of the interval, inclusive
-   * @param pred Predicate in the form of either 'bool(Monoid)' or 'bool(Monoid,
-   * size_t)'
+   * @param pred Predicate in the form of either 'bool(_Monoid)' or
+   * 'bool(_Monoid, size_t)'
    * @return Right end of the extremal interval satisfying the condition,
    * exclusive.
    */
@@ -306,11 +301,11 @@ class lazy_segment_tree {
     repair();
     left += size_ext;
     for (size_t i{height}; i; --i) push(left >> i);
-    Monoid mono{};
+    _Monoid mono{};
     for (size_t right{size_ext << 1}, step{}; left != right;
          left >>= 1, right >>= 1, ++step) {
       if ((left & 1) != (right & 1)) {
-        const Monoid tmp = mono + data[left];
+        const _Monoid tmp = mono + data[left];
         if (!pass_args(pred, tmp, ((left + 1) << step) ^ size_ext))
           return right_partition_subtree(left, mono, step, pred);
         mono = tmp;
