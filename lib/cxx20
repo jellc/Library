@@ -14,8 +14,7 @@
 
 namespace std {
 
-/*
- * @fn erase_if
+/**
  * @brief Erase the elements of a container that do not satisfy the condition.
  * @param __cont Container.
  * @param __pred Predicate.
@@ -29,8 +28,7 @@ inline typename vector<_Tp, _Alloc>::size_type erase_if(
   return __osz - __cont.size();
 }
 
-/*
- * @fn erase
+/**
  * @brief Erase the elements of a container that are equal to the given value.
  * @param __cont Container.
  * @param __value Value.
