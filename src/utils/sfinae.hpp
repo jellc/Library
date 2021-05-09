@@ -72,8 +72,7 @@ template <class _Tp>
 struct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()), nullptr)>
     : std::true_type {};
 
-template <class _Tp, class = std::nullptr_t>
-struct has_mod : std::false_type {};
+template <class _Tp, class = void> struct has_mod : std::false_type {};
 
 template <class _Tp>
 struct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type {};
