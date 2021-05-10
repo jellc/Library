@@ -37,13 +37,58 @@ template <class _Index> class range {
       return current != __x.current;
     }
 
+    constexpr bool operator<(const iterator &__x) const noexcept {
+      return current < __x.current;
+    }
+    constexpr bool operator<=(const iterator &__x) const noexcept {
+      return current <= __x.current;
+    }
+
+    constexpr bool operator>(const iterator &__x) const noexcept {
+      return current > __x.current;
+    }
+    constexpr bool operator>=(const iterator &__x) const noexcept {
+      return current >= __x.current;
+    }
+
     constexpr iterator &operator++() noexcept {
       ++current;
       return *this;
     }
+    constexpr iterator &operator++(int) noexcept {
+      auto __tmp = *this;
+      ++current;
+      return __tmp;
+    }
+
     constexpr iterator &operator--() noexcept {
       --current;
       return *this;
+    }
+    constexpr iterator &operator--(int) noexcept {
+      auto __tmp = *this;
+      --current;
+      return __tmp;
+    }
+
+    constexpr difference_type operator-(const iterator &__x) const noexcept {
+      return current - __x.current;
+    }
+
+    constexpr iterator &operator+=(difference_type __x) noexcept {
+      current += __x;
+      return *this;
+    }
+    constexpr iterator operator+(difference_type __x) const noexcept {
+      return iterator(*this) += __x;
+    }
+
+    constexpr iterator &operator-=(difference_type __x) noexcept {
+      current -= __x;
+      return *this;
+    }
+    constexpr iterator operator-(difference_type __x) const noexcept {
+      return iterator(*this) -= __x;
     }
 
     constexpr reference operator*() const noexcept { return current; }
