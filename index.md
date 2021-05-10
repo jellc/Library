@@ -336,6 +336,11 @@ data:
     - icon: ':warning:'
       path: template.cpp
       title: template.cpp
+  - name: tool
+    pages:
+    - icon: ':warning:'
+      path: tool/interactor.py
+      title: tool/interactor.py
   - name: variant
     pages:
     - icon: ':warning:'
