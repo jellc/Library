@@ -61,16 +61,32 @@ data:
     \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
     \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
     \ iterator &__x) const noexcept {\n      return current != __x.current;\n    }\n\
-    \n    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
-    \ *this;\n    }\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
-    \      return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
-    \ { return current; }\n  };\n\n  constexpr range(_Index __first, _Index __last)\
-    \ noexcept\n      : __first(__first), __last(__last) {}\n  constexpr range(_Index\
-    \ __last) noexcept : __first(), __last(__last) {}\n\n  constexpr iterator begin()\
-    \ const noexcept { return iterator{__first}; }\n  constexpr iterator end() const\
-    \ noexcept { return iterator{__last}; }\n\n  constexpr reverse_iterator<iterator>\
-    \ rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n \
-    \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
+    \n    constexpr bool operator<(const iterator &__x) const noexcept {\n      return\
+    \ current < __x.current;\n    }\n    constexpr bool operator<=(const iterator\
+    \ &__x) const noexcept {\n      return current <= __x.current;\n    }\n\n    constexpr\
+    \ bool operator>(const iterator &__x) const noexcept {\n      return current >\
+    \ __x.current;\n    }\n    constexpr bool operator>=(const iterator &__x) const\
+    \ noexcept {\n      return current >= __x.current;\n    }\n\n    constexpr iterator\
+    \ &operator++() noexcept {\n      ++current;\n      return *this;\n    }\n   \
+    \ constexpr iterator &operator++(int) noexcept {\n      auto __tmp = *this;\n\
+    \      ++current;\n      return __tmp;\n    }\n\n    constexpr iterator &operator--()\
+    \ noexcept {\n      --current;\n      return *this;\n    }\n    constexpr iterator\
+    \ &operator--(int) noexcept {\n      auto __tmp = *this;\n      --current;\n \
+    \     return __tmp;\n    }\n\n    constexpr difference_type operator-(const iterator\
+    \ &__x) const noexcept {\n      return current - __x.current;\n    }\n\n    constexpr\
+    \ iterator &operator+=(difference_type __x) noexcept {\n      current += __x;\n\
+    \      return *this;\n    }\n    constexpr iterator operator+(difference_type\
+    \ __x) const noexcept {\n      return iterator(*this) += __x;\n    }\n\n    constexpr\
+    \ iterator &operator-=(difference_type __x) noexcept {\n      current -= __x;\n\
+    \      return *this;\n    }\n    constexpr iterator operator-(difference_type\
+    \ __x) const noexcept {\n      return iterator(*this) -= __x;\n    }\n\n    constexpr\
+    \ reference operator*() const noexcept { return current; }\n  };\n\n  constexpr\
+    \ range(_Index __first, _Index __last) noexcept\n      : __first(__first), __last(__last)\
+    \ {}\n  constexpr range(_Index __last) noexcept : __first(), __last(__last) {}\n\
+    \n  constexpr iterator begin() const noexcept { return iterator{__first}; }\n\
+    \  constexpr iterator end() const noexcept { return iterator{__last}; }\n\n  constexpr\
+    \ reverse_iterator<iterator> rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n\
+    \  }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
     \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
     \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
     \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
@@ -91,16 +107,32 @@ data:
     \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
     \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
     \ iterator &__x) const noexcept {\n      return current != __x.current;\n    }\n\
-    \n    constexpr iterator &operator++() noexcept {\n      ++current;\n      return\
-    \ *this;\n    }\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
-    \      return *this;\n    }\n\n    constexpr reference operator*() const noexcept\
-    \ { return current; }\n  };\n\n  constexpr range(_Index __first, _Index __last)\
-    \ noexcept\n      : __first(__first), __last(__last) {}\n  constexpr range(_Index\
-    \ __last) noexcept : __first(), __last(__last) {}\n\n  constexpr iterator begin()\
-    \ const noexcept { return iterator{__first}; }\n  constexpr iterator end() const\
-    \ noexcept { return iterator{__last}; }\n\n  constexpr reverse_iterator<iterator>\
-    \ rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n \
-    \ }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
+    \n    constexpr bool operator<(const iterator &__x) const noexcept {\n      return\
+    \ current < __x.current;\n    }\n    constexpr bool operator<=(const iterator\
+    \ &__x) const noexcept {\n      return current <= __x.current;\n    }\n\n    constexpr\
+    \ bool operator>(const iterator &__x) const noexcept {\n      return current >\
+    \ __x.current;\n    }\n    constexpr bool operator>=(const iterator &__x) const\
+    \ noexcept {\n      return current >= __x.current;\n    }\n\n    constexpr iterator\
+    \ &operator++() noexcept {\n      ++current;\n      return *this;\n    }\n   \
+    \ constexpr iterator &operator++(int) noexcept {\n      auto __tmp = *this;\n\
+    \      ++current;\n      return __tmp;\n    }\n\n    constexpr iterator &operator--()\
+    \ noexcept {\n      --current;\n      return *this;\n    }\n    constexpr iterator\
+    \ &operator--(int) noexcept {\n      auto __tmp = *this;\n      --current;\n \
+    \     return __tmp;\n    }\n\n    constexpr difference_type operator-(const iterator\
+    \ &__x) const noexcept {\n      return current - __x.current;\n    }\n\n    constexpr\
+    \ iterator &operator+=(difference_type __x) noexcept {\n      current += __x;\n\
+    \      return *this;\n    }\n    constexpr iterator operator+(difference_type\
+    \ __x) const noexcept {\n      return iterator(*this) += __x;\n    }\n\n    constexpr\
+    \ iterator &operator-=(difference_type __x) noexcept {\n      current -= __x;\n\
+    \      return *this;\n    }\n    constexpr iterator operator-(difference_type\
+    \ __x) const noexcept {\n      return iterator(*this) -= __x;\n    }\n\n    constexpr\
+    \ reference operator*() const noexcept { return current; }\n  };\n\n  constexpr\
+    \ range(_Index __first, _Index __last) noexcept\n      : __first(__first), __last(__last)\
+    \ {}\n  constexpr range(_Index __last) noexcept : __first(), __last(__last) {}\n\
+    \n  constexpr iterator begin() const noexcept { return iterator{__first}; }\n\
+    \  constexpr iterator end() const noexcept { return iterator{__last}; }\n\n  constexpr\
+    \ reverse_iterator<iterator> rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n\
+    \  }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
     \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
     \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
     \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
@@ -117,7 +149,7 @@ data:
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-04-23 12:09:10+09:00'
+  timestamp: '2021-05-11 02:06:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp

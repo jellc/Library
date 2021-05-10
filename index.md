@@ -217,6 +217,9 @@ data:
       path: src/opt/exponential_search.hpp
       title: Exponential Search
     - icon: ':warning:'
+      path: src/opt/golden_section.hpp
+      title: Golden Section
+    - icon: ':warning:'
       path: src/opt/trinary_search.hpp
       title: Trinary Search
   - name: src/string

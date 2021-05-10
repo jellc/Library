@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
+  - icon: ':warning:'
+    path: src/opt/golden_section.hpp
+    title: Golden Section
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
@@ -111,6 +114,7 @@ data:
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
   requiredBy:
+  - src/opt/golden_section.hpp
   - src/data_structure/segment_tree/lazy.hpp
   timestamp: '2021-05-07 14:31:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
