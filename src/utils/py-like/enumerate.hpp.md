@@ -63,7 +63,7 @@ data:
     \ __last;\n\n public:\n  class iterator {\n    _Index current;\n\n   public:\n\
     \    using difference_type = std::ptrdiff_t;\n    using value_type = _Index;\n\
     \    using reference = typename std::add_const<_Index>::type &;\n    using pointer\
-    \ = iterator;\n    using iterator_category = std::bidirectional_iterator_tag;\n\
+    \ = iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\
     \n    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i)\
     \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
     \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
@@ -223,7 +223,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-05-11 02:06:42+09:00'
+  timestamp: '2021-05-14 22:28:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
