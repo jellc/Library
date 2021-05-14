@@ -26,7 +26,7 @@ template <class _Index> class range {
     using value_type = _Index;
     using reference = typename std::add_const<_Index>::type &;
     using pointer = iterator;
-    using iterator_category = std::bidirectional_iterator_tag;
+    using iterator_category = std::random_access_iterator_tag;
 
     constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i) {}
 
