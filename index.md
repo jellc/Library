@@ -79,6 +79,14 @@ data:
     - icon: ':warning:'
       path: src/algebra/linear/xor_elimination.hpp
       title: XOR Elimination
+  - name: src/algebra
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/ntt.hpp
+      title: Number Theoretic Transform
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/polynomial.hpp
+      title: Polynomial
   - name: src/algebra/system
     pages:
     - icon: ':heavy_check_mark:'
@@ -199,7 +207,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
     - icon: ':heavy_check_mark:'
@@ -434,6 +442,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_xor_convolution.test.cpp
       title: test/library-checker/bitwise_xor_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/convolution_mod.test.cpp
+      title: test/library-checker/convolution_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp

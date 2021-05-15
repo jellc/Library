@@ -19,6 +19,9 @@ data:
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/min_cost_b_flow.test.cpp
     title: test/library-checker/min_cost_b_flow.test.cpp
   - icon: ':heavy_check_mark:'
@@ -139,6 +142,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp

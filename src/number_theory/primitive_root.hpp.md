@@ -4,11 +4,20 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/ntt.hpp
+    title: Number Theoretic Transform
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/polynomial.hpp
+    title: Polynomial
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Primitive Root
     links: []
@@ -100,10 +109,13 @@ data:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
-  requiredBy: []
+  requiredBy:
+  - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
   timestamp: '2021-05-10 01:25:19+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/convolution_mod.test.cpp
 documentation_of: src/number_theory/primitive_root.hpp
 layout: document
 redirect_from:

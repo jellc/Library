@@ -22,6 +22,9 @@ data:
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -167,6 +170,7 @@ data:
   verifiedWith:
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp

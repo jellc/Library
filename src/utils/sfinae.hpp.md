@@ -3,6 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: src/algebra/ntt.hpp
+    title: Number Theoretic Transform
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/polynomial.hpp
+    title: Polynomial
+  - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
   - icon: ':heavy_check_mark:'
@@ -26,7 +32,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
   - icon: ':heavy_check_mark:'
@@ -84,6 +90,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
@@ -227,6 +236,8 @@ data:
   - src/utils/round_div.hpp
   - src/utils/io/istream.hpp
   - src/utils/hash.hpp
+  - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
   - src/data_structure/segment_tree/lazy.hpp
   - src/number_theory/totient.hpp
   - src/number_theory/least_factor.hpp
@@ -243,6 +254,7 @@ data:
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/matrix_det.test.cpp
   - test/library-checker/sort_points_by_argument.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/sqrt_mod.test.cpp
