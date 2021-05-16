@@ -111,6 +111,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/buckets.hpp
       title: Buckets
+    - icon: ':warning:'
+      path: src/data_structure/cartesian_tree.hpp
+      title: Cartesian Tree
     - icon: ':heavy_check_mark:'
       path: src/data_structure/coordinate_compression.hpp
       title: Coordinate Compression
