@@ -256,6 +256,9 @@ data:
   - name: src/sys
     pages:
     - icon: ':warning:'
+      path: src/sys/call_once.hpp
+      title: Call Once
+    - icon: ':warning:'
       path: src/sys/clock.hpp
       title: Clock
     - icon: ':heavy_check_mark:'
