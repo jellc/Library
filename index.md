@@ -111,7 +111,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/buckets.hpp
       title: Buckets
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/cartesian_tree.hpp
       title: Cartesian Tree
     - icon: ':heavy_check_mark:'
@@ -448,6 +448,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/bitwise_xor_convolution.test.cpp
       title: test/library-checker/bitwise_xor_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/cartesian_tree.test.cpp
+      title: test/library-checker/cartesian_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/convolution_mod.test.cpp
       title: test/library-checker/convolution_mod.test.cpp

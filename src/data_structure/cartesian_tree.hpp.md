@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/cartesian_tree.test.cpp
+    title: test/library-checker/cartesian_tree.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Cartesian Tree
     links: []
@@ -44,8 +47,9 @@ data:
   path: src/data_structure/cartesian_tree.hpp
   requiredBy: []
   timestamp: '2021-05-16 13:40:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/library-checker/cartesian_tree.test.cpp
 documentation_of: src/data_structure/cartesian_tree.hpp
 layout: document
 redirect_from:

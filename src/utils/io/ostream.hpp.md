@@ -19,6 +19,9 @@ data:
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/cartesian_tree.test.cpp
+    title: test/library-checker/cartesian_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
   - icon: ':heavy_check_mark:'
@@ -145,6 +148,7 @@ data:
   - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/cartesian_tree.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/min_cost_b_flow.test.cpp
