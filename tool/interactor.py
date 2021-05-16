@@ -1,3 +1,9 @@
+import numpy
+import os
+import random
+import subprocess
+
+
 class interactor:
     def __init__(self, exec):
         self.proc = subprocess.Popen([exec], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -10,4 +16,4 @@ class interactor:
         self.proc.stdin.flush()
 
     def read(self):
-        return self.proc.stdout.readline().decode('utf-8')
+        return self.proc.stdout.readline().decode('utf-8').strip()
