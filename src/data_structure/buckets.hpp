@@ -115,6 +115,22 @@ template <class _Iterator, class _Pack, class _Unpack> struct buckets {
   }
 
   /**
+   * @brief Operate on a point.
+   *
+   * @param __pos
+   * @param __oper
+   */
+  template <class _Operator>
+  void operator()(_Iterator __pos, _Operator __oper) {
+    auto __index = std::distance(__begin, __pos);
+    auto __b = std::next(__buckets.begin(), __index / __unit);
+
+    __unpack(__b->__data, __b->__begin, __b->__end);
+    __oper(*__pos);
+    __b->__data = __pack(__b->__begin, __b->__end);
+  }
+
+  /**
    * @brief Operate on a subsegment.
    *
    * @param __i
@@ -124,6 +140,17 @@ template <class _Iterator, class _Pack, class _Unpack> struct buckets {
   template <class _Operator>
   void operator()(difference_type __i, difference_type __j, _Operator __oper) {
     operator()(std::next(__begin, __i), std::next(__begin, __j), __oper);
+  }
+
+  /**
+   * @brief Operate on a point.
+   *
+   * @param __pos
+   * @param __oper
+   */
+  template <class _Operator>
+  void operator()(difference_type __i, _Operator __oper) {
+    operator()(std::next(__begin, __i), __oper);
   }
 };
 
