@@ -52,17 +52,26 @@ data:
     \     __unpack(__b->__data, __b->__begin, __b->__end);\n\n      auto __tmp = __pack(__b->__begin,\
     \ __last);\n      __oper(__tmp);\n      __unpack(__tmp, __b->__begin, __last);\n\
     \n      __b->__data = __pack(__b->__begin, __b->__end);\n    }\n  }\n\n  /**\n\
-    \   * @brief Operate on a subsegment.\n   *\n   * @param __i\n   * @param __j\n\
-    \   * @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
-    \ __i, difference_type __j, _Operator __oper) {\n    operator()(std::next(__begin,\
-    \ __i), std::next(__begin, __j), __oper);\n  }\n};\n\n}  // namespace workspace\n\
-    #line 7 \"test/library-checker/staticrmq.test.cpp\"\n\nint main() {\n  using namespace\
-    \ workspace;\n\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<int> a(n);\n\
-    \  for (auto&& x : a) {\n    scanf(\"%d\", &x);\n  }\n\n  buckets b(\n      begin(a),\
-    \ end(a), [](auto l, auto r) { return *std::min_element(l, r); },\n      [](const\
-    \ auto& d, auto l, auto r) {});\n\n  for (int l, r; q--;) {\n    scanf(\"%d%d\"\
-    , &l, &r);\n    int ans = __INT_MAX__;\n    b(l, r, [&](auto x) {\n      if (ans\
-    \ > x) ans = x;\n    });\n    printf(\"%d\\n\", ans);\n  }\n}\n"
+    \   * @brief Operate on a point.\n   *\n   * @param __pos\n   * @param __oper\n\
+    \   */\n  template <class _Operator>\n  void operator()(_Iterator __pos, _Operator\
+    \ __oper) {\n    auto __index = std::distance(__begin, __pos);\n    auto __b =\
+    \ std::next(__buckets.begin(), __index / __unit);\n\n    __unpack(__b->__data,\
+    \ __b->__begin, __b->__end);\n    __oper(*__pos);\n    __b->__data = __pack(__b->__begin,\
+    \ __b->__end);\n  }\n\n  /**\n   * @brief Operate on a subsegment.\n   *\n   *\
+    \ @param __i\n   * @param __j\n   * @param __oper\n   */\n  template <class _Operator>\n\
+    \  void operator()(difference_type __i, difference_type __j, _Operator __oper)\
+    \ {\n    operator()(std::next(__begin, __i), std::next(__begin, __j), __oper);\n\
+    \  }\n\n  /**\n   * @brief Operate on a point.\n   *\n   * @param __pos\n   *\
+    \ @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
+    \ __i, _Operator __oper) {\n    operator()(std::next(__begin, __i), __oper);\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 7 \"test/library-checker/staticrmq.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  int n, q;\n  scanf(\"%d%d\"\
+    , &n, &q);\n  std::vector<int> a(n);\n  for (auto&& x : a) {\n    scanf(\"%d\"\
+    , &x);\n  }\n\n  buckets b(\n      begin(a), end(a), [](auto l, auto r) { return\
+    \ *std::min_element(l, r); },\n      [](const auto& d, auto l, auto r) {});\n\n\
+    \  for (int l, r; q--;) {\n    scanf(\"%d%d\", &l, &r);\n    int ans = __INT_MAX__;\n\
+    \    b(l, r, [&](auto x) {\n      if (ans > x) ans = x;\n    });\n    printf(\"\
+    %d\\n\", ans);\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
     \ <algorithm>\n#include <cstdio>\n\n#include \"src/data_structure/buckets.hpp\"\
     \n\nint main() {\n  using namespace workspace;\n\n  int n, q;\n  scanf(\"%d%d\"\
@@ -77,7 +86,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/staticrmq.test.cpp
   requiredBy: []
-  timestamp: '2021-05-07 00:15:35+09:00'
+  timestamp: '2021-05-22 02:27:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/staticrmq.test.cpp

@@ -54,10 +54,19 @@ data:
     \     __unpack(__b->__data, __b->__begin, __b->__end);\n\n      auto __tmp = __pack(__b->__begin,\
     \ __last);\n      __oper(__tmp);\n      __unpack(__tmp, __b->__begin, __last);\n\
     \n      __b->__data = __pack(__b->__begin, __b->__end);\n    }\n  }\n\n  /**\n\
-    \   * @brief Operate on a subsegment.\n   *\n   * @param __i\n   * @param __j\n\
-    \   * @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
-    \ __i, difference_type __j, _Operator __oper) {\n    operator()(std::next(__begin,\
-    \ __i), std::next(__begin, __j), __oper);\n  }\n};\n\n}  // namespace workspace\n"
+    \   * @brief Operate on a point.\n   *\n   * @param __pos\n   * @param __oper\n\
+    \   */\n  template <class _Operator>\n  void operator()(_Iterator __pos, _Operator\
+    \ __oper) {\n    auto __index = std::distance(__begin, __pos);\n    auto __b =\
+    \ std::next(__buckets.begin(), __index / __unit);\n\n    __unpack(__b->__data,\
+    \ __b->__begin, __b->__end);\n    __oper(*__pos);\n    __b->__data = __pack(__b->__begin,\
+    \ __b->__end);\n  }\n\n  /**\n   * @brief Operate on a subsegment.\n   *\n   *\
+    \ @param __i\n   * @param __j\n   * @param __oper\n   */\n  template <class _Operator>\n\
+    \  void operator()(difference_type __i, difference_type __j, _Operator __oper)\
+    \ {\n    operator()(std::next(__begin, __i), std::next(__begin, __j), __oper);\n\
+    \  }\n\n  /**\n   * @brief Operate on a point.\n   *\n   * @param __pos\n   *\
+    \ @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
+    \ __i, _Operator __oper) {\n    operator()(std::next(__begin, __i), __oper);\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file buckets.hpp\n * @brief Buckets\n */\n\n#include\
     \ <cmath>\n#include <vector>\n\nnamespace workspace {\n\n/**\n * @brief Buckets\
     \ on a sequence.\n */\ntemplate <class _Iterator, class _Pack, class _Unpack>\
@@ -93,15 +102,24 @@ data:
     \     __unpack(__b->__data, __b->__begin, __b->__end);\n\n      auto __tmp = __pack(__b->__begin,\
     \ __last);\n      __oper(__tmp);\n      __unpack(__tmp, __b->__begin, __last);\n\
     \n      __b->__data = __pack(__b->__begin, __b->__end);\n    }\n  }\n\n  /**\n\
-    \   * @brief Operate on a subsegment.\n   *\n   * @param __i\n   * @param __j\n\
-    \   * @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
-    \ __i, difference_type __j, _Operator __oper) {\n    operator()(std::next(__begin,\
-    \ __i), std::next(__begin, __j), __oper);\n  }\n};\n\n}  // namespace workspace\n"
+    \   * @brief Operate on a point.\n   *\n   * @param __pos\n   * @param __oper\n\
+    \   */\n  template <class _Operator>\n  void operator()(_Iterator __pos, _Operator\
+    \ __oper) {\n    auto __index = std::distance(__begin, __pos);\n    auto __b =\
+    \ std::next(__buckets.begin(), __index / __unit);\n\n    __unpack(__b->__data,\
+    \ __b->__begin, __b->__end);\n    __oper(*__pos);\n    __b->__data = __pack(__b->__begin,\
+    \ __b->__end);\n  }\n\n  /**\n   * @brief Operate on a subsegment.\n   *\n   *\
+    \ @param __i\n   * @param __j\n   * @param __oper\n   */\n  template <class _Operator>\n\
+    \  void operator()(difference_type __i, difference_type __j, _Operator __oper)\
+    \ {\n    operator()(std::next(__begin, __i), std::next(__begin, __j), __oper);\n\
+    \  }\n\n  /**\n   * @brief Operate on a point.\n   *\n   * @param __pos\n   *\
+    \ @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
+    \ __i, _Operator __oper) {\n    operator()(std::next(__begin, __i), __oper);\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/data_structure/buckets.hpp
   requiredBy: []
-  timestamp: '2021-05-07 00:15:35+09:00'
+  timestamp: '2021-05-22 02:27:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_chmin_chmax_add_range_sum.test.cpp

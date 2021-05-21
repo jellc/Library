@@ -52,38 +52,46 @@ data:
     \     __unpack(__b->__data, __b->__begin, __b->__end);\n\n      auto __tmp = __pack(__b->__begin,\
     \ __last);\n      __oper(__tmp);\n      __unpack(__tmp, __b->__begin, __last);\n\
     \n      __b->__data = __pack(__b->__begin, __b->__end);\n    }\n  }\n\n  /**\n\
-    \   * @brief Operate on a subsegment.\n   *\n   * @param __i\n   * @param __j\n\
-    \   * @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
-    \ __i, difference_type __j, _Operator __oper) {\n    operator()(std::next(__begin,\
-    \ __i), std::next(__begin, __j), __oper);\n  }\n};\n\n}  // namespace workspace\n\
-    #line 9 \"test/library-checker/range_chmin_chmax_add_range_sum.test.cpp\"\n\n\
-    int main() {\n  using namespace workspace;\n  using i64 = int64_t;\n\n  int n,\
-    \ q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<i64> a(n);\n  for (auto&& x :\
-    \ a) {\n    scanf(\"%lld\", &x);\n  }\n\n  struct data {\n    i64 min, max, add,\
-    \ sum, num;\n    std::map<i64, i64> map;\n  };\n\n  constexpr auto inf = 1'000'000'000'000;\n\
-    \n  buckets b(\n      begin(a), end(a),\n      [](auto l, auto r) {\n        data\
-    \ d;\n        d.add = 0;\n        d.sum = 0;\n        d.min = inf;\n        d.max\
-    \ = -inf;\n        d.num = 0;\n        while (l != r) {\n          d.sum += *l;\n\
-    \          d.map[*l] += 1;\n          d.num += 1;\n          ++l;\n        }\n\
-    \        return d;\n      },\n      [](const auto& d, auto l, auto r) {\n    \
-    \    while (l != r) {\n          *l = std::min(d.min, std::max(d.max, *l)) + d.add;\n\
-    \          ++l;\n        }\n      });\n\n  for (int t, l, r; q--;) {\n    scanf(\"\
-    %d%d%d\", &t, &l, &r);\n    if (t == 3) {\n      i64 sum = 0;\n      b(l, r, [&](const\
-    \ auto& x) { sum += x.sum; });\n      printf(\"%lld\\n\", sum);\n      continue;\n\
-    \    }\n\n    i64 a;\n    scanf(\"%lld\", &a);\n    switch (t) {\n      case 0:\n\
-    \        b(l, r, [&](auto& d) {\n          auto c = a - d.add;\n          if (d.min\
-    \ < c) return;\n          d.min = c;\n          if (d.max > c) d.max = c;\n  \
-    \        while (d.map.rbegin()->first > c) {\n            auto [v, k] = *prev(d.map.end());\n\
-    \            d.map.erase(prev(d.map.end()));\n            d.map[c] += k;\n   \
-    \         d.sum += (c - v) * k;\n          }\n        });\n        break;\n\n\
-    \      case 1:\n        b(l, r, [&](auto& d) {\n          auto c = a - d.add;\n\
-    \          if (d.max > c) return;\n          d.max = c;\n          if (d.min <\
-    \ c) d.min = c;\n          while (d.map.begin()->first < c) {\n            auto\
-    \ [v, k] = *d.map.begin();\n            d.map.erase(d.map.begin());\n        \
-    \    d.map[c] += k;\n            d.sum += (c - v) * k;\n          }\n        });\n\
-    \        break;\n\n      case 2:\n        b(l, r, [&](auto& x) {\n          x.sum\
-    \ += x.num * a;\n          x.add += a;\n        });\n        break;\n    }\n \
-    \ }\n}\n"
+    \   * @brief Operate on a point.\n   *\n   * @param __pos\n   * @param __oper\n\
+    \   */\n  template <class _Operator>\n  void operator()(_Iterator __pos, _Operator\
+    \ __oper) {\n    auto __index = std::distance(__begin, __pos);\n    auto __b =\
+    \ std::next(__buckets.begin(), __index / __unit);\n\n    __unpack(__b->__data,\
+    \ __b->__begin, __b->__end);\n    __oper(*__pos);\n    __b->__data = __pack(__b->__begin,\
+    \ __b->__end);\n  }\n\n  /**\n   * @brief Operate on a subsegment.\n   *\n   *\
+    \ @param __i\n   * @param __j\n   * @param __oper\n   */\n  template <class _Operator>\n\
+    \  void operator()(difference_type __i, difference_type __j, _Operator __oper)\
+    \ {\n    operator()(std::next(__begin, __i), std::next(__begin, __j), __oper);\n\
+    \  }\n\n  /**\n   * @brief Operate on a point.\n   *\n   * @param __pos\n   *\
+    \ @param __oper\n   */\n  template <class _Operator>\n  void operator()(difference_type\
+    \ __i, _Operator __oper) {\n    operator()(std::next(__begin, __i), __oper);\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 9 \"test/library-checker/range_chmin_chmax_add_range_sum.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n  using i64 = int64_t;\n\n  int\
+    \ n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<i64> a(n);\n  for (auto&& x\
+    \ : a) {\n    scanf(\"%lld\", &x);\n  }\n\n  struct data {\n    i64 min, max,\
+    \ add, sum, num;\n    std::map<i64, i64> map;\n  };\n\n  constexpr auto inf =\
+    \ 1'000'000'000'000;\n\n  buckets b(\n      begin(a), end(a),\n      [](auto l,\
+    \ auto r) {\n        data d;\n        d.add = 0;\n        d.sum = 0;\n       \
+    \ d.min = inf;\n        d.max = -inf;\n        d.num = 0;\n        while (l !=\
+    \ r) {\n          d.sum += *l;\n          d.map[*l] += 1;\n          d.num +=\
+    \ 1;\n          ++l;\n        }\n        return d;\n      },\n      [](const auto&\
+    \ d, auto l, auto r) {\n        while (l != r) {\n          *l = std::min(d.min,\
+    \ std::max(d.max, *l)) + d.add;\n          ++l;\n        }\n      });\n\n  for\
+    \ (int t, l, r; q--;) {\n    scanf(\"%d%d%d\", &t, &l, &r);\n    if (t == 3) {\n\
+    \      i64 sum = 0;\n      b(l, r, [&](const auto& x) { sum += x.sum; });\n  \
+    \    printf(\"%lld\\n\", sum);\n      continue;\n    }\n\n    i64 a;\n    scanf(\"\
+    %lld\", &a);\n    switch (t) {\n      case 0:\n        b(l, r, [&](auto& d) {\n\
+    \          auto c = a - d.add;\n          if (d.min < c) return;\n          d.min\
+    \ = c;\n          if (d.max > c) d.max = c;\n          while (d.map.rbegin()->first\
+    \ > c) {\n            auto [v, k] = *prev(d.map.end());\n            d.map.erase(prev(d.map.end()));\n\
+    \            d.map[c] += k;\n            d.sum += (c - v) * k;\n          }\n\
+    \        });\n        break;\n\n      case 1:\n        b(l, r, [&](auto& d) {\n\
+    \          auto c = a - d.add;\n          if (d.max > c) return;\n          d.max\
+    \ = c;\n          if (d.min < c) d.min = c;\n          while (d.map.begin()->first\
+    \ < c) {\n            auto [v, k] = *d.map.begin();\n            d.map.erase(d.map.begin());\n\
+    \            d.map[c] += k;\n            d.sum += (c - v) * k;\n          }\n\
+    \        });\n        break;\n\n      case 2:\n        b(l, r, [&](auto& x) {\n\
+    \          x.sum += x.num * a;\n          x.add += a;\n        });\n        break;\n\
+    \    }\n  }\n}\n"
   code: "#define PROBLEM \\\n  \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
     \n\n#include <algorithm>\n#include <cstdio>\n#include <map>\n\n#include \"src/data_structure/buckets.hpp\"\
     \n\nint main() {\n  using namespace workspace;\n  using i64 = int64_t;\n\n  int\
@@ -118,7 +126,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-05-07 00:15:35+09:00'
+  timestamp: '2021-05-22 02:27:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
