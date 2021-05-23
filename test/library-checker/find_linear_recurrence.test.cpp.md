@@ -47,35 +47,36 @@ data:
   bundledCode: "#line 1 \"test/library-checker/find_linear_recurrence.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/find_linear_recurrence\"\n\n\
     #line 2 \"src/algebra/berlekamp_massey.hpp\"\n\n/**\n * @file berlekamp_massey.hpp\n\
-    \ * @brief Berlekamp-Massey Algorithm\n */\n\n#line 2 \"src/algebra/polynomial.hpp\"\
-    \n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n */\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <vector>\n\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n\
-    \ * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
-    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
-    \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
-    src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
-    #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
-    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
-    \ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate\
-    \ <> struct make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <>\
-    \ struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate <>\
-    \ struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate <>\
-    \ struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\ntemplate\
-    \ <> struct is_signed<__uint128_t> : std::false_type {};\ntemplate <> struct is_signed<__int128_t>\
-    \ : std::true_type {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type\
-    \ {};\ntemplate <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\
-    \n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class Tp, class...\
-    \ Args> struct variadic_front { using type = Tp; };\n\ntemplate <class... Args>\
-    \ struct variadic_back;\n\ntemplate <class Tp> struct variadic_back<Tp> { using\
-    \ type = Tp; };\n\ntemplate <class Tp, class... Args> struct variadic_back<Tp,\
-    \ Args...> {\n  using type = typename variadic_back<Args...>::type;\n};\n\ntemplate\
-    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
-    \ std::enable_if<trait<type>::value>::type;\n\n/**\n * @brief Return type of subscripting\
-    \ ( @c [] ) access.\n */\ntemplate <class _Tp>\nusing subscripted_type =\n   \
-    \ typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\ntemplate <class\
-    \ Container>\nusing element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
-    \ntemplate <class _Tp, class = std::nullptr_t>\nstruct has_begin : std::false_type\
-    \ {};\n\ntemplate <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
+    \ * @brief Berlekamp-Massey Algorithm\n */\n\n#include <numeric>\n\n#line 2 \"\
+    src/algebra/polynomial.hpp\"\n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n\
+    \ */\n\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#line 2\
+    \ \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n * @brief Number Theoretic\
+    \ Transform\n * @date 2021-02-20\n *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\
+    \n\n/**\n * @file ext_gcd.hpp\n * @brief Extended Euclidean Algorithm\n */\n\n\
+    #include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
+    \ * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
+    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
+    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
+    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
+    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
+    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
+    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
+    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
+    template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
+    \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
+    \ = typename variadic_back<Args...>::type;\n};\n\ntemplate <class type, template\
+    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
+    \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
+    \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
+    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
+    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
     \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
     \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
     \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
@@ -416,20 +417,21 @@ data:
     \ = 0; __i != __d; ++__i)\n    __c /= __i + 1, __f[__i] *= __c, __e[__i] = __c;\n\
     \  (__f *= __e.inv(__d)).resize(__d);\n  __c = 1;\n  for (std::size_t __i = 0;\
     \ __i != __d; __c *= ++__i) __f[__i] *= __c;\n  return __f;\n}\n\n}  // namespace\
-    \ workspace\n#line 9 \"src/algebra/berlekamp_massey.hpp\"\n\nnamespace workspace\
+    \ workspace\n#line 11 \"src/algebra/berlekamp_massey.hpp\"\n\nnamespace workspace\
     \ {\n\ntemplate <class _Iterator>\nauto Berlekamp_Massey(_Iterator __first, _Iterator\
     \ __last) noexcept {\n  using value_type = typename std::iterator_traits<_Iterator>::value_type;\n\
-    \  using size_type = typename polynomial<value_type>::size_type;\n\n  polynomial<value_type>\
-    \ __c{1}, __b{1};\n\n  for (size_type __z = 2; __first != __last; ++__z) {\n \
-    \   value_type __d{0};\n    auto __s = ++__first;\n    auto __i = __c.end();\n\
-    \    while (__i != __c.begin()) __d += *--__i * *--__s;\n\n    if (__d == value_type(0))\
-    \ continue;\n\n    if (__c.size() < __z) {\n      auto __tmp = __c / __d;\n  \
-    \    __c <<= __z - __c.size();\n      __c -= __b *= __d;\n      __b = std::move(__tmp);\n\
-    \      __z = __b.size();\n    } else\n      for (size_type __i = 0; __i != __b.size();\
-    \ ++__i)\n        __c[__i + __c.size() - __z] -= __b[__i] * __d;\n  }\n\n  return\
-    \ __c;\n}\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\n\n\
-    /**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10 \"\
-    src/modular/modint.hpp\"\n#include <iostream>\n#line 12 \"src/modular/modint.hpp\"\
+    \n  std::vector<value_type> __a(__first, __last);\n  polynomial<value_type> __c{1},\
+    \ __b{1};\n\n  typename decltype(__c)::size_type __z = 1;\n\n  for (auto __s =\
+    \ __a.begin(); __s != __a.end(); ++__s) {\n    ++__z;\n\n    auto __d = std::inner_product(__c.begin(),\
+    \ __c.end(), __s + 1 - __c.size(),\n                                  value_type(0));\n\
+    \    if (__d == value_type(0)) continue;\n\n    if (__c.size() < __z) {\n    \
+    \  auto __tmp = __c;\n      __c <<= __z - __c.size();\n      __c -= __b *= __d;\n\
+    \      __b = std::move(__tmp);\n      __b /= __d;\n      __z = __b.size();\n \
+    \   } else {\n      for (auto __i = __c.end() - __z, __j = __b.begin(); __j !=\
+    \ __b.end();\n           ++__i, ++__j)\n        *__i -= *__j * __d;\n    }\n \
+    \ }\n\n  return __c;\n}\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\
+    \n\n/**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10\
+    \ \"src/modular/modint.hpp\"\n#include <iostream>\n#line 12 \"src/modular/modint.hpp\"\
     \n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n\
     \ * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
     \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
@@ -685,7 +687,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2021-05-23 14:19:05+09:00'
+  timestamp: '2021-05-23 15:24:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/find_linear_recurrence.test.cpp
