@@ -31,6 +31,9 @@ data:
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -144,6 +147,7 @@ data:
   - test/library-checker/sqrt_mod.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/number_theory/pow_mod.hpp

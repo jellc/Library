@@ -45,6 +45,17 @@ data:
     - icon: ':warning:'
       path: dev/fraction.hpp
       title: dev/fraction.hpp
+  - name: src/algebra
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/berlekamp_massey.hpp
+      title: Berlekamp-Massey Algorithm
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/ntt.hpp
+      title: Number Theoretic Transform
+    - icon: ':heavy_check_mark:'
+      path: src/algebra/polynomial.hpp
+      title: Polynomial
   - name: src/algebra/convolution
     pages:
     - icon: ':heavy_check_mark:'
@@ -79,14 +90,6 @@ data:
     - icon: ':warning:'
       path: src/algebra/linear/xor_elimination.hpp
       title: XOR Elimination
-  - name: src/algebra
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: src/algebra/ntt.hpp
-      title: Number Theoretic Transform
-    - icon: ':heavy_check_mark:'
-      path: src/algebra/polynomial.hpp
-      title: Polynomial
   - name: src/algebra/system
     pages:
     - icon: ':heavy_check_mark:'
@@ -457,6 +460,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/convolution_mod.test.cpp
       title: test/library-checker/convolution_mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/find_linear_recurrence.test.cpp
+      title: test/library-checker/find_linear_recurrence.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp

@@ -12,12 +12,18 @@ data:
     title: SFINAE
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':heavy_check_mark:'
     path: src/algebra/polynomial.hpp
     title: Polynomial
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -211,10 +217,12 @@ data:
   path: src/algebra/ntt.hpp
   requiredBy:
   - src/algebra/polynomial.hpp
+  - src/algebra/berlekamp_massey.hpp
   timestamp: '2021-05-16 02:25:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
 documentation_of: src/algebra/ntt.hpp
 layout: document
 redirect_from:

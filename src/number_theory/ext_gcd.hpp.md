@@ -6,6 +6,9 @@ data:
     title: SFINAE
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':heavy_check_mark:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
   - icon: ':heavy_check_mark:'
@@ -21,6 +24,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -106,11 +112,13 @@ data:
   requiredBy:
   - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
+  - src/algebra/berlekamp_massey.hpp
   - src/number_theory/order.hpp
   timestamp: '2021-05-10 01:25:19+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp
 layout: document

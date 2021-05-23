@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':heavy_check_mark:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
   - icon: ':heavy_check_mark:'
@@ -96,6 +99,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
@@ -239,6 +245,7 @@ data:
   - src/combinatorics/binomial.hpp
   - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
+  - src/algebra/berlekamp_massey.hpp
   - src/number_theory/ext_gcd.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/primitive_root.hpp
@@ -266,6 +273,7 @@ data:
   - test/library-checker/number_of_substrings.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/NTL_1_D.test.cpp

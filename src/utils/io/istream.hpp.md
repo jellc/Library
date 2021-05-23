@@ -28,6 +28,9 @@ data:
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -177,6 +180,7 @@ data:
   - test/library-checker/matrix_det.test.cpp
   - test/library-checker/cartesian_tree.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
