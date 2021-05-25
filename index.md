@@ -120,6 +120,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/coordinate_compression.hpp
       title: Coordinate Compression
+    - icon: ':warning:'
+      path: src/data_structure/cyclic.hpp
+      title: Cyclic Array
     - icon: ':heavy_check_mark:'
       path: src/data_structure/deque_aggregation.hpp
       title: src/data_structure/deque_aggregation.hpp
