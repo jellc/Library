@@ -73,7 +73,7 @@ data:
     - icon: ':warning:'
       path: src/algebra/convolution/number_theoretic_transform.hpp
       title: src/algebra/convolution/number_theoretic_transform.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
     - icon: ':heavy_check_mark:'
@@ -81,10 +81,10 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -129,6 +129,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/disjoint_sparse_table.hpp
       title: Disjoint Sparse Table
+    - icon: ':warning:'
+      path: src/data_structure/heap.hpp
+      title: Heap
+    - icon: ':warning:'
+      path: src/data_structure/map.hpp
+      title: Map
+    - icon: ':warning:'
+      path: src/data_structure/set.hpp
+      title: Set
   - name: src/data_structure/convex_hull_trick
     pages:
     - icon: ':heavy_check_mark:'
@@ -199,7 +208,7 @@ data:
     - icon: ':warning:'
       path: src/modular/inverse.hpp
       title: Inverse Table
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic
   - name: src/number_theory
@@ -213,13 +222,13 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
     - icon: ':heavy_check_mark:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
@@ -227,7 +236,7 @@ data:
       title: Euler's Totient Function
   - name: src/opt
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/opt/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -253,10 +262,10 @@ data:
     - icon: ':warning:'
       path: src/string/rle.hpp
       title: Run-length Encoding
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
     - icon: ':heavy_check_mark:'
@@ -305,7 +314,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
   - name: src/utils/grid
@@ -315,10 +324,10 @@ data:
       title: Motion
   - name: src/utils/io
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -348,7 +357,7 @@ data:
       title: Zip
   - name: src/utils/rand
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/rand/rng.hpp
       title: Random Number Generator
     - icon: ':warning:'
@@ -517,13 +526,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/staticrmq.test.cpp
       title: test/library-checker/staticrmq.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
@@ -535,7 +544,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage

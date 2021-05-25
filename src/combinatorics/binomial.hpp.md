@@ -4,16 +4,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/factorial.hpp
     title: Factorial
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -79,7 +79,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 11 \"src/number_theory/pow_mod.hpp\"\n\nnamespace workspace {\n\n/**\n *\
     \ @brief Compile time modular exponentiation.\n *\n * @param __x\n * @param __n\
     \ Exponent\n * @param __mod Modulus\n * @return\n */\ntemplate <class _Tp>\nconstexpr\
@@ -269,7 +279,7 @@ data:
   isVerificationFile: false
   path: src/combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2021-05-10 01:25:19+09:00'
+  timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp

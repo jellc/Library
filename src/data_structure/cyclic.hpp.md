@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -58,7 +58,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 11 \"src/data_structure/cyclic.hpp\"\n\nnamespace workspace {\n\n/**\n *\
     \ @brief Cyclic array.\n */\ntemplate <class _Tp> class cyclic : public std::vector<_Tp>\
     \ {\n public:\n  using container_type = std::vector<_Tp>;\n\n  using typename\
@@ -102,7 +112,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/cyclic.hpp
   requiredBy: []
-  timestamp: '2021-05-25 13:28:26+09:00'
+  timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/cyclic.hpp

@@ -4,13 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/cartesian_tree.hpp
     title: Cartesian Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -86,7 +86,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 15 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace _istream_impl\
     \ {\n\ntemplate <class _Tp, typename = std::nullptr_t> struct istream_helper {\n\
     \  istream_helper(std::istream &__is, _Tp &__x) {\n    if constexpr (has_begin<_Tp>::value)\n\
@@ -190,7 +200,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/cartesian_tree.test.cpp
   requiredBy: []
-  timestamp: '2021-05-16 13:58:55+09:00'
+  timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/cartesian_tree.test.cpp

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/compare.hpp
     title: Compare
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -65,7 +65,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n\
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 7 \"src/utils/compare.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Compare\
     \ 2 points by their value of `atan2`.\n *\n * @return\n */\ntemplate <class _Tp>\n\
     bool compare_arg(const _Tp& __p1, const _Tp& __p2) noexcept {\n  const auto& [__x1,\
@@ -93,7 +103,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/sort_points_by_argument.test.cpp
   requiredBy: []
-  timestamp: '2021-05-10 01:25:19+09:00'
+  timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/sort_points_by_argument.test.cpp

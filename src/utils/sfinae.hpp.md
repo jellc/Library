@@ -17,13 +17,22 @@ data:
   - icon: ':warning:'
     path: src/data_structure/cyclic.hpp
     title: Cyclic Array
+  - icon: ':warning:'
+    path: src/data_structure/heap.hpp
+    title: Heap
+  - icon: ':warning:'
+    path: src/data_structure/map.hpp
+    title: Map
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
+    path: src/data_structure/set.hpp
+    title: Set
+  - icon: ':warning:'
     path: src/modular/inverse.hpp
     title: Inverse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -35,22 +44,22 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
     path: src/number_theory/totient.hpp
     title: Euler's Totient Function
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
   - icon: ':heavy_check_mark:'
@@ -59,7 +68,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -126,21 +135,21 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/sqrt_mod.test.cpp
     title: test/library-checker/sqrt_mod.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: SFINAE
     links: []
@@ -189,7 +198,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n"
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include\
     \ <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
     \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
@@ -234,7 +253,17 @@ data:
     \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
     \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
     \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\n}  // namespace workspace\n"
+    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
+    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
+    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
+    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
+    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
+    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
+    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
+    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
+    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/sfinae.hpp
@@ -257,11 +286,14 @@ data:
   - src/number_theory/order.hpp
   - src/number_theory/pow_mod.hpp
   - src/data_structure/segment_tree/lazy.hpp
+  - src/data_structure/heap.hpp
+  - src/data_structure/map.hpp
   - src/data_structure/cyclic.hpp
+  - src/data_structure/set.hpp
   - src/modular/inverse.hpp
   - src/modular/modint.hpp
-  timestamp: '2021-05-10 01:25:19+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2021-05-25 17:32:10+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/suffix_array.test.cpp
   - test/library-checker/sort_points_by_argument.test.cpp
