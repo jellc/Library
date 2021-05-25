@@ -132,4 +132,32 @@ template <typename _Tp> struct multiplicable {
       _Tp>;
 };
 
+template <class> struct first_arg { using type = void; };
+
+template <class _R, class _Tp, class... _Args>
+struct first_arg<_R(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _R, class _Tp, class... _Args>
+struct first_arg<_R (*)(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _G, class _R, class _Tp, class... _Args>
+struct first_arg<_R (_G::*)(_Tp, _Args...)> {
+  using type = _Tp;
+};
+
+template <class _G, class _R, class _Tp, class... _Args>
+struct first_arg<_R (_G::*)(_Tp, _Args...) const> {
+  using type = _Tp;
+};
+
+template <class _Tp, class = void> struct parse_compare : first_arg<_Tp> {};
+
+template <class _Tp>
+struct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>
+    : first_arg<decltype(&_Tp::operator())> {};
+
 }  // namespace workspace
