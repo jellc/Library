@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/min_cost_flow.hpp
     title: Minimum Cost Flow
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
   _extendedRequiredBy: []
