@@ -21,9 +21,7 @@ class reference_list : public std::vector<std::reference_wrapper<_Tp>> {
 
   template <class... _Args>
   reference_list(_Tp &__x, _Args &&...__args) noexcept
-      : reference_list(private_ctor{}, __x, std::forward<_Args>(__args)...) {
-    std::reverse(container_type::begin(), container_type::end());
-  }
+      : container_type{__x, __args...} {}
 
   class iterator : public container_type::iterator {
     using base_iterator = typename container_type::iterator;
@@ -81,17 +79,6 @@ class reference_list : public std::vector<std::reference_wrapper<_Tp>> {
 
   using value_type = typename iterator::value_type;
   using reference = typename iterator::reference;
-
- private:
-  struct private_ctor {};
-
-  reference_list(private_ctor) noexcept {}
-
-  template <class... _Args>
-  reference_list(private_ctor __t, _Tp &__x, _Args &&...__args) noexcept
-      : reference_list(__t, std::forward<_Args>(__args)...) {
-    container_type::emplace_back(__x);
-  }
 };
 
 }  // namespace workspace
