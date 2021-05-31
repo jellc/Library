@@ -24,7 +24,8 @@ data:
     \ const noexcept {\n    return std::rbegin(__cont);\n  }\n\n  constexpr decltype(auto)\
     \ end() noexcept { return std::rend(__cont); }\n  constexpr decltype(auto) end()\
     \ const noexcept { return std::rend(__cont); }\n\n  constexpr decltype(auto) size()\
-    \ const noexcept { return std::size(__cont); }\n};\n\n}  // namespace _reversed_impl\n\
+    \ const noexcept {\n    return\n#if __cplusplus < 201703L\n        __cont.size();\n\
+    #else\n        std::size(__cont);\n#endif\n  }\n};\n\n}  // namespace _reversed_impl\n\
     \ntemplate <class _Container>\nconstexpr decltype(auto) reversed(_Container &&__cont)\
     \ noexcept {\n  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};\n\
     }\n\ntemplate <class _Tp>\nconstexpr decltype(auto) reversed(\n    std::initializer_list<_Tp>\
@@ -39,8 +40,9 @@ data:
     \ }\n  constexpr decltype(auto) begin() const noexcept {\n    return std::rbegin(__cont);\n\
     \  }\n\n  constexpr decltype(auto) end() noexcept { return std::rend(__cont);\
     \ }\n  constexpr decltype(auto) end() const noexcept { return std::rend(__cont);\
-    \ }\n\n  constexpr decltype(auto) size() const noexcept { return std::size(__cont);\
-    \ }\n};\n\n}  // namespace _reversed_impl\n\ntemplate <class _Container>\nconstexpr\
+    \ }\n\n  constexpr decltype(auto) size() const noexcept {\n    return\n#if __cplusplus\
+    \ < 201703L\n        __cont.size();\n#else\n        std::size(__cont);\n#endif\n\
+    \  }\n};\n\n}  // namespace _reversed_impl\n\ntemplate <class _Container>\nconstexpr\
     \ decltype(auto) reversed(_Container &&__cont) noexcept {\n  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};\n\
     }\n\ntemplate <class _Tp>\nconstexpr decltype(auto) reversed(\n    std::initializer_list<_Tp>\
     \ &&__cont) noexcept {\n  return _reversed_impl::reversed<std::initializer_list<_Tp>>{\n\
@@ -52,7 +54,7 @@ data:
   requiredBy:
   - src/utils/py-like/range.hpp
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-04-03 14:10:18+09:00'
+  timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/reversed.hpp

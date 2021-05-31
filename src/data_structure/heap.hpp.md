@@ -13,9 +13,11 @@ data:
     document_title: Heap
     links: []
   bundledCode: "#line 2 \"src/data_structure/heap.hpp\"\n\n/**\n * @file heap.hpp\n\
-    \ * @brief Heap\n */\n\n#include <queue>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\
-    \n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    \ * @brief Heap\n */\n\n#include <queue>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
+    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
+    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
     \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
@@ -69,7 +71,7 @@ data:
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 11 \"src/data_structure/heap.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
+    #line 12 \"src/data_structure/heap.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
     \ Wrapper class for std::priority_queue.\n */\ntemplate <class _Tp, class _Compare\
     \ = std::less<_Tp>>\nclass heap : public std::priority_queue<_Tp, std::vector<_Tp>,\
     \ _Compare> {\n public:\n  using container_type = std::priority_queue<_Tp, std::vector<_Tp>,\
@@ -77,27 +79,27 @@ data:
     \ &__c) noexcept : container_type(__c) {}\n};\n\ntemplate <class _Compare>\nheap(const\
     \ _Compare &)\n    -> heap<std::decay_t<typename parse_compare<_Compare>::type>,\
     \ _Compare>;\n\ntemplate <class _Tp = void, class _Compare = std::less<_Tp>>\n\
-    decltype(auto) make_heap(const _Compare &__c = _Compare{}) {\n  if constexpr (std::is_void<_Tp>::value)\n\
-    \    return heap(__c);\n  else\n    return heap<_Tp, _Compare>(__c);\n}\n\n} \
-    \ // namespace workspace\n"
+    decltype(auto) make_heap(const _Compare &__c = _Compare{}) {\n  if _CXX17_CONSTEXPR\
+    \ (std::is_void<_Tp>::value)\n    return heap(__c);\n  else\n    return heap<_Tp,\
+    \ _Compare>(__c);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file heap.hpp\n * @brief Heap\n */\n\n#include <queue>\n\
-    \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Wrapper class for std::priority_queue.\n */\ntemplate <class _Tp, class _Compare\
-    \ = std::less<_Tp>>\nclass heap : public std::priority_queue<_Tp, std::vector<_Tp>,\
-    \ _Compare> {\n public:\n  using container_type = std::priority_queue<_Tp, std::vector<_Tp>,\
-    \ _Compare>;\n  using container_type::container_type;\n\n  heap(const _Compare\
-    \ &__c) noexcept : container_type(__c) {}\n};\n\ntemplate <class _Compare>\nheap(const\
-    \ _Compare &)\n    -> heap<std::decay_t<typename parse_compare<_Compare>::type>,\
+    \n#include \"lib/cxx17\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief Wrapper class for std::priority_queue.\n */\ntemplate <class\
+    \ _Tp, class _Compare = std::less<_Tp>>\nclass heap : public std::priority_queue<_Tp,\
+    \ std::vector<_Tp>, _Compare> {\n public:\n  using container_type = std::priority_queue<_Tp,\
+    \ std::vector<_Tp>, _Compare>;\n  using container_type::container_type;\n\n  heap(const\
+    \ _Compare &__c) noexcept : container_type(__c) {}\n};\n\ntemplate <class _Compare>\n\
+    heap(const _Compare &)\n    -> heap<std::decay_t<typename parse_compare<_Compare>::type>,\
     \ _Compare>;\n\ntemplate <class _Tp = void, class _Compare = std::less<_Tp>>\n\
-    decltype(auto) make_heap(const _Compare &__c = _Compare{}) {\n  if constexpr (std::is_void<_Tp>::value)\n\
-    \    return heap(__c);\n  else\n    return heap<_Tp, _Compare>(__c);\n}\n\n} \
-    \ // namespace workspace\n"
+    decltype(auto) make_heap(const _Compare &__c = _Compare{}) {\n  if _CXX17_CONSTEXPR\
+    \ (std::is_void<_Tp>::value)\n    return heap(__c);\n  else\n    return heap<_Tp,\
+    \ _Compare>(__c);\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/data_structure/heap.hpp
   requiredBy: []
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/heap.hpp

@@ -76,17 +76,18 @@ data:
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 7 \"src/utils/compare.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief Compare\
-    \ 2 points by their value of `atan2`.\n *\n * @return\n */\ntemplate <class _Tp>\n\
-    bool compare_arg(const _Tp& __p1, const _Tp& __p2) noexcept {\n  const auto& [__x1,\
-    \ __y1] = __p1;\n  const auto& [__x2, __y2] = __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n\
-    \  using mul_type = typename multiplicable<value_type>::type;\n\n  if (__y1 ==\
-    \ value_type(0))\n    return value_type(0) <= __x1 &&\n           (value_type(0)\
-    \ < __y2 ||\n            (__y2 == value_type(0) && __x2 < value_type(0)));\n\n\
-    \  return value_type(0) < __y1\n             ? value_type(0) <= __y2 &&\n    \
-    \               mul_type(__y1) * __x2 < mul_type(__x1) * __y2\n             :\
-    \ value_type(0) <= __y2 ||\n                   mul_type(__y1) * __x2 < mul_type(__x1)\
-    \ * __y2;\n}\n\n}  // namespace workspace\n#line 7 \"test/library-checker/sort_points_by_argument.test.cpp\"\
+    #line 7 \"src/utils/compare.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief Compare 2 points by their value of `atan2`.\n *\n * @return\n\
+    \ */\ntemplate <class _Tp>\nbool compare_arg(const _Tp& __p1, const _Tp& __p2)\
+    \ noexcept {\n  const auto& [__x1, __y1] = __p1;\n  const auto& [__x2, __y2] =\
+    \ __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n  using mul_type\
+    \ = typename multiplicable<value_type>::type;\n\n  if (__y1 == value_type(0))\n\
+    \    return value_type(0) <= __x1 &&\n           (value_type(0) < __y2 ||\n  \
+    \          (__y2 == value_type(0) && __x2 < value_type(0)));\n\n  return value_type(0)\
+    \ < __y1\n             ? value_type(0) <= __y2 &&\n                   mul_type(__y1)\
+    \ * __x2 < mul_type(__x1) * __y2\n             : value_type(0) <= __y2 ||\n  \
+    \                 mul_type(__y1) * __x2 < mul_type(__x1) * __y2;\n}\n\n}  // namespace\
+    \ workspace\n\n#endif\n#line 7 \"test/library-checker/sort_points_by_argument.test.cpp\"\
     \n\nint main() {\n  struct point {\n    int x, y;\n  };\n\n  int n;\n  point pos[1\
     \ << 18];\n\n  scanf(\"%d\", &n);\n  for (int i = 0; i != n; ++i) scanf(\"%d%d\"\
     , &pos[i].x, &pos[i].y);\n\n  std::sort(pos, pos + n, workspace::compare_arg<point>);\n\
@@ -103,7 +104,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/sort_points_by_argument.test.cpp
   requiredBy: []
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/sort_points_by_argument.test.cpp

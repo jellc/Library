@@ -16,9 +16,11 @@ data:
     document_title: Set
     links: []
   bundledCode: "#line 2 \"src/data_structure/set.hpp\"\n\n/**\n * @file set.hpp\n\
-    \ * @brief Set\n */\n\n#include <set>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n\
-    /**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    \ * @brief Set\n */\n\n#include <set>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
+    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
+    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
     \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
@@ -72,7 +74,7 @@ data:
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 11 \"src/data_structure/set.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
+    #line 12 \"src/data_structure/set.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
     \ Wrapper class for std::set.\n */\ntemplate <class _Key, class _Compare>\nclass\
     \ set : public std::set<_Key, _Compare> {\n public:\n  using container_type =\
     \ std::set<_Key, _Compare>;\n  using container_type::container_type;\n\n  set(const\
@@ -86,32 +88,32 @@ data:
     \  }\n};\n\ntemplate <class _Compare>\nset(const _Compare &)\n    -> set<std::decay_t<typename\
     \ parse_compare<_Compare>::type>, _Compare>;\n\ntemplate <class _Key = void, class\
     \ _Compare = std::less<_Key>>\ndecltype(auto) make_set(const _Compare &__c = _Compare{})\
-    \ {\n  if constexpr (std::is_void<_Key>::value)\n    return set(__c);\n  else\n\
-    \    return set<_Key, _Compare>(__c);\n}\n\n}  // namespace workspace\n"
+    \ {\n  if _CXX17_CONSTEXPR (std::is_void<_Key>::value)\n    return set(__c);\n\
+    \  else\n    return set<_Key, _Compare>(__c);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file set.hpp\n * @brief Set\n */\n\n#include <set>\n\
-    \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Wrapper class for std::set.\n */\ntemplate <class _Key, class _Compare>\nclass\
-    \ set : public std::set<_Key, _Compare> {\n public:\n  using container_type =\
-    \ std::set<_Key, _Compare>;\n  using container_type::container_type;\n\n  set(const\
-    \ _Compare &__c) noexcept : container_type(__c) {}\n\n  decltype(auto) front()\
-    \ noexcept { return *container_type::begin(); }\n  decltype(auto) front() const\
-    \ noexcept { return *container_type::begin(); }\n\n  decltype(auto) back() noexcept\
-    \ { return *std::prev(container_type::end()); }\n  decltype(auto) back() const\
-    \ noexcept {\n    return *std::prev(container_type::end());\n  }\n\n  decltype(auto)\
+    \n#include \"lib/cxx17\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief Wrapper class for std::set.\n */\ntemplate <class _Key,\
+    \ class _Compare>\nclass set : public std::set<_Key, _Compare> {\n public:\n \
+    \ using container_type = std::set<_Key, _Compare>;\n  using container_type::container_type;\n\
+    \n  set(const _Compare &__c) noexcept : container_type(__c) {}\n\n  decltype(auto)\
+    \ front() noexcept { return *container_type::begin(); }\n  decltype(auto) front()\
+    \ const noexcept { return *container_type::begin(); }\n\n  decltype(auto) back()\
+    \ noexcept { return *std::prev(container_type::end()); }\n  decltype(auto) back()\
+    \ const noexcept {\n    return *std::prev(container_type::end());\n  }\n\n  decltype(auto)\
     \ erase_front() noexcept {\n    return container_type::erase(container_type::begin());\n\
     \  }\n  decltype(auto) erase_back() noexcept {\n    return container_type::erase(std::prev(container_type::end()));\n\
     \  }\n};\n\ntemplate <class _Compare>\nset(const _Compare &)\n    -> set<std::decay_t<typename\
     \ parse_compare<_Compare>::type>, _Compare>;\n\ntemplate <class _Key = void, class\
     \ _Compare = std::less<_Key>>\ndecltype(auto) make_set(const _Compare &__c = _Compare{})\
-    \ {\n  if constexpr (std::is_void<_Key>::value)\n    return set(__c);\n  else\n\
-    \    return set<_Key, _Compare>(__c);\n}\n\n}  // namespace workspace\n"
+    \ {\n  if _CXX17_CONSTEXPR (std::is_void<_Key>::value)\n    return set(__c);\n\
+    \  else\n    return set<_Key, _Compare>(__c);\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/data_structure/set.hpp
   requiredBy:
   - src/data_structure/map.hpp
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/set.hpp

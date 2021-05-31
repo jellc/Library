@@ -32,7 +32,9 @@ data:
     links: []
   bundledCode: "#line 2 \"src/algebra/polynomial.hpp\"\n\n/**\n * @file polynomial.hpp\n\
     \ * @brief Polynomial\n */\n\n#include <algorithm>\n#include <cassert>\n#include\
-    \ <vector>\n\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n * @brief\
+    \ <vector>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n * @brief\
     \ Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\
     \n\n/**\n * @file ext_gcd.hpp\n * @brief Extended Euclidean Algorithm\n */\n\n\
     #include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n\
@@ -169,19 +171,22 @@ data:
     \ __;\n  while (__first != __last) *--__last *= __.__ip2[__h];\n}  // namespace\
     \ ntt_impl\n\ntemplate <class _A> constexpr void intt(_A &a) noexcept {\n  intt(std::begin(a),\
     \ std::end(a));\n}\n\n}  // namespace ntt_impl\n\nusing ntt_impl::intt;\nusing\
-    \ ntt_impl::ntt;\n\n}  // namespace workspace\n#line 14 \"src/algebra/polynomial.hpp\"\
+    \ ntt_impl::ntt;\n\n}  // namespace workspace\n#line 15 \"src/algebra/polynomial.hpp\"\
     \n\nnamespace workspace {\n\n/**\n * @brief Polynomial.\n *\n * @tparam _Tp Ring\
     \ structure\n * @tparam _Conv_threshold Threshold for convolution method\n */\n\
     template <class _Tp, std::size_t _Conv_threshold = 64>\nclass polynomial : public\
     \ std::vector<_Tp> {\n  using vec = std::vector<_Tp>;\n  using poly = polynomial;\n\
-    \n public:\n  using vec::vec;\n  using size_type = typename vec::size_type;\n\n\
-    \ protected:\n  void _erase_leading_zeros() noexcept {\n    auto __i = vec::_M_impl._M_finish;\n\
+    \n  template <class _Os> friend _Os& operator<<(_Os& __os, const poly& __x) {\n\
+    \    bool __head = true;\n    for (const auto& __a : __x) {\n      if (!__head)\
+    \ __os << ' ';\n      __head = false;\n      __os << __a;\n    }\n    return __os;\n\
+    \  }\n\n public:\n  using vec::vec;\n  using size_type = typename vec::size_type;\n\
+    \n protected:\n  void _erase_leading_zeros() noexcept {\n    auto __i = vec::_M_impl._M_finish;\n\
     \    while (__i != vec::_M_impl._M_start && *(__i - 1) == _Tp(0)) --__i;\n   \
     \ vec::_M_erase_at_end(__i);\n  }\n\n  template <class _Iter> void _dft(_Iter\
-    \ __first, _Iter __last) const noexcept {\n    if constexpr (has_mod<_Tp>::value)\n\
+    \ __first, _Iter __last) const noexcept {\n    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)\n\
     \      ntt(__first, __last);\n    else {\n      // fft(__first, __last);\n   \
     \   assert(0);  // Not implemented!\n    }\n  }\n\n  template <class _Iter>\n\
-    \  void _idft(_Iter __first, _Iter __last) const noexcept {\n    if constexpr\
+    \  void _idft(_Iter __first, _Iter __last) const noexcept {\n    if _CXX17_CONSTEXPR\
     \ (has_mod<_Tp>::value)\n      intt(__first, __last);\n    else {\n      // ifft(__first,\
     \ __last);\n      assert(0);  // Not implemented!\n    }\n  }\n\n  void _conv_naive(const\
     \ poly& __x) noexcept {\n    if (vec::_M_impl._M_start == vec::_M_impl._M_finish)\
@@ -191,7 +196,7 @@ data:
     \ {\n      auto __j = __i, __k = __x._M_impl._M_start;\n      *__i *= *__k++;\n\
     \n      while (__j != vec::_M_impl._M_start && __k != __x._M_impl._M_finish)\n\
     \        *__i += *--__j * *__k++;\n    }\n  }\n\n  void _conv_dft(poly&& __x)\
-    \ noexcept {\n    if constexpr (has_mod<_Tp>::value)\n      _conv_ntt(std::move(__x));\n\
+    \ noexcept {\n    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)\n      _conv_ntt(std::move(__x));\n\
     \    else {\n      // _conv_fft(std::move(__x));\n      assert(0);  // Not implemented!\n\
     \    }\n  }\n\n  void _conv_fft(poly&& __x) noexcept;\n\n  void _conv_ntt(poly&&\
     \ __x) noexcept {\n    size_type __n = vec::_M_impl._M_finish - vec::_M_impl._M_start,\n\
@@ -411,30 +416,33 @@ data:
     \ __i != __d; __c *= ++__i) __f[__i] *= __c;\n  return __f;\n}\n\n}  // namespace\
     \ workspace\n"
   code: "#pragma once\n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n */\n\
-    \n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#include \"ntt.hpp\"\
-    \n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Polynomial.\n *\n * @tparam _Tp Ring structure\n * @tparam _Conv_threshold Threshold\
-    \ for convolution method\n */\ntemplate <class _Tp, std::size_t _Conv_threshold\
-    \ = 64>\nclass polynomial : public std::vector<_Tp> {\n  using vec = std::vector<_Tp>;\n\
-    \  using poly = polynomial;\n\n public:\n  using vec::vec;\n  using size_type\
-    \ = typename vec::size_type;\n\n protected:\n  void _erase_leading_zeros() noexcept\
-    \ {\n    auto __i = vec::_M_impl._M_finish;\n    while (__i != vec::_M_impl._M_start\
-    \ && *(__i - 1) == _Tp(0)) --__i;\n    vec::_M_erase_at_end(__i);\n  }\n\n  template\
-    \ <class _Iter> void _dft(_Iter __first, _Iter __last) const noexcept {\n    if\
-    \ constexpr (has_mod<_Tp>::value)\n      ntt(__first, __last);\n    else {\n \
-    \     // fft(__first, __last);\n      assert(0);  // Not implemented!\n    }\n\
-    \  }\n\n  template <class _Iter>\n  void _idft(_Iter __first, _Iter __last) const\
-    \ noexcept {\n    if constexpr (has_mod<_Tp>::value)\n      intt(__first, __last);\n\
-    \    else {\n      // ifft(__first, __last);\n      assert(0);  // Not implemented!\n\
-    \    }\n  }\n\n  void _conv_naive(const poly& __x) noexcept {\n    if (vec::_M_impl._M_start\
-    \ == vec::_M_impl._M_finish) return;\n\n    if (__x._M_impl._M_start == __x._M_impl._M_finish)\
-    \ {\n      vec::_M_erase_at_end(vec::_M_impl._M_start);\n      return;\n    }\n\
-    \n    vec::_M_default_append(__x._M_impl._M_finish - __x._M_impl._M_start - 1);\n\
-    \n    for (auto __i = vec::_M_impl._M_finish; __i-- != vec::_M_impl._M_start;)\
+    \n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#include \"lib/cxx17\"\
+    \n#include \"ntt.hpp\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief Polynomial.\n *\n * @tparam _Tp Ring structure\n * @tparam\
+    \ _Conv_threshold Threshold for convolution method\n */\ntemplate <class _Tp,\
+    \ std::size_t _Conv_threshold = 64>\nclass polynomial : public std::vector<_Tp>\
+    \ {\n  using vec = std::vector<_Tp>;\n  using poly = polynomial;\n\n  template\
+    \ <class _Os> friend _Os& operator<<(_Os& __os, const poly& __x) {\n    bool __head\
+    \ = true;\n    for (const auto& __a : __x) {\n      if (!__head) __os << ' ';\n\
+    \      __head = false;\n      __os << __a;\n    }\n    return __os;\n  }\n\n public:\n\
+    \  using vec::vec;\n  using size_type = typename vec::size_type;\n\n protected:\n\
+    \  void _erase_leading_zeros() noexcept {\n    auto __i = vec::_M_impl._M_finish;\n\
+    \    while (__i != vec::_M_impl._M_start && *(__i - 1) == _Tp(0)) --__i;\n   \
+    \ vec::_M_erase_at_end(__i);\n  }\n\n  template <class _Iter> void _dft(_Iter\
+    \ __first, _Iter __last) const noexcept {\n    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)\n\
+    \      ntt(__first, __last);\n    else {\n      // fft(__first, __last);\n   \
+    \   assert(0);  // Not implemented!\n    }\n  }\n\n  template <class _Iter>\n\
+    \  void _idft(_Iter __first, _Iter __last) const noexcept {\n    if _CXX17_CONSTEXPR\
+    \ (has_mod<_Tp>::value)\n      intt(__first, __last);\n    else {\n      // ifft(__first,\
+    \ __last);\n      assert(0);  // Not implemented!\n    }\n  }\n\n  void _conv_naive(const\
+    \ poly& __x) noexcept {\n    if (vec::_M_impl._M_start == vec::_M_impl._M_finish)\
+    \ return;\n\n    if (__x._M_impl._M_start == __x._M_impl._M_finish) {\n      vec::_M_erase_at_end(vec::_M_impl._M_start);\n\
+    \      return;\n    }\n\n    vec::_M_default_append(__x._M_impl._M_finish - __x._M_impl._M_start\
+    \ - 1);\n\n    for (auto __i = vec::_M_impl._M_finish; __i-- != vec::_M_impl._M_start;)\
     \ {\n      auto __j = __i, __k = __x._M_impl._M_start;\n      *__i *= *__k++;\n\
     \n      while (__j != vec::_M_impl._M_start && __k != __x._M_impl._M_finish)\n\
     \        *__i += *--__j * *__k++;\n    }\n  }\n\n  void _conv_dft(poly&& __x)\
-    \ noexcept {\n    if constexpr (has_mod<_Tp>::value)\n      _conv_ntt(std::move(__x));\n\
+    \ noexcept {\n    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)\n      _conv_ntt(std::move(__x));\n\
     \    else {\n      // _conv_fft(std::move(__x));\n      assert(0);  // Not implemented!\n\
     \    }\n  }\n\n  void _conv_fft(poly&& __x) noexcept;\n\n  void _conv_ntt(poly&&\
     \ __x) noexcept {\n    size_type __n = vec::_M_impl._M_finish - vec::_M_impl._M_start,\n\
@@ -662,7 +670,7 @@ data:
   path: src/algebra/polynomial.hpp
   requiredBy:
   - src/algebra/berlekamp_massey.hpp
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
