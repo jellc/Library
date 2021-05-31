@@ -7,14 +7,14 @@
 
 #include <tuple>
 
+#include "lib/cxx17"
+
 namespace workspace {
 
 template <class _Os> struct is_ostream {
   template <typename... _Args>
   static std::true_type __test(std::basic_ostream<_Args...> *);
-
   static std::false_type __test(void *);
-
   constexpr static bool value = decltype(__test(std::declval<_Os *>()))::value;
 };
 
@@ -32,7 +32,7 @@ using ostream_ref =
 template <class _Os, class _Tp, size_t _Nm>
 typename std::enable_if<bool(sizeof(_Tp) > 2), ostream_ref<_Os>>::type
 operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {
-  if constexpr (_Nm) {
+  if _CXX17_CONSTEXPR (_Nm) {
     __os << *__a;
     for (auto __i = __a + 1, __e = __a + _Nm; __i != __e; ++__i)
       __os << ' ' << *__i;
@@ -49,7 +49,7 @@ operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {
  */
 template <class _Os, class _Tp, size_t _Nm>
 ostream_ref<_Os> operator<<(_Os &__os, const std::array<_Tp, _Nm> &__a) {
-  if constexpr (_Nm) {
+  if _CXX17_CONSTEXPR (_Nm) {
     __os << __a[0];
     for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];
   }
@@ -79,8 +79,8 @@ template <class _Os, class _Tp, size_t _Nm = 0>
 typename std::enable_if<bool(std::tuple_size<_Tp>::value + 1),
                         ostream_ref<_Os>>::type
 operator<<(_Os &__os, const _Tp &__t) {
-  if constexpr (_Nm != std::tuple_size<_Tp>::value) {
-    if constexpr (_Nm) __os << ' ';
+  if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tp>::value) {
+    if _CXX17_CONSTEXPR (_Nm) __os << ' ';
     __os << std::get<_Nm>(__t);
     operator<<<_Os, _Tp, _Nm + 1>(__os, __t);
   }

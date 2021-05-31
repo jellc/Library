@@ -7,6 +7,7 @@
 
 #include <queue>
 
+#include "lib/cxx17"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
@@ -29,7 +30,7 @@ heap(const _Compare &)
 
 template <class _Tp = void, class _Compare = std::less<_Tp>>
 decltype(auto) make_heap(const _Compare &__c = _Compare{}) {
-  if constexpr (std::is_void<_Tp>::value)
+  if _CXX17_CONSTEXPR (std::is_void<_Tp>::value)
     return heap(__c);
   else
     return heap<_Tp, _Compare>(__c);

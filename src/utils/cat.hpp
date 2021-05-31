@@ -7,6 +7,8 @@
 
 #include <iterator>
 
+#include "lib/cxx17"
+
 namespace workspace {
 
 /**
@@ -20,10 +22,9 @@ template <class _C1, class _C2>
 constexpr decltype(auto) cat(_C1 &&__c1, _C2 &&__c2) noexcept {
   auto __c = std::forward<_C1>(__c1);
 
-  if constexpr (std::is_rvalue_reference<decltype(__c2)>::value)
-    __c.insert(std::end(__c), std::move_iterator(std::begin(__c2)),
-               std::move_iterator(std::end(__c2)));
-
+  if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__c2)>::value)
+    __c.insert(std::end(__c), std::make_move_iterator(std::begin(__c2)),
+               std::make_move_iterator(std::end(__c2)));
   else
     __c.insert(std::end(__c), std::cbegin(__c2), std::cend(__c2));
 

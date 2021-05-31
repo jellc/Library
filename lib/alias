@@ -96,6 +96,8 @@ constexpr _Tp max(std::initializer_list<_Tp> __x, _Compare __comp) noexcept {
   return *std::max_element(__x.begin(), __x.end(), __comp);
 }
 
+#ifdef _GLIBCXX_BIT
+
 template <typename _Tp> constexpr _Tp __bsf(_Tp __x) noexcept {
   return std::__countr_zero(__x);
 }
@@ -103,5 +105,7 @@ template <typename _Tp> constexpr _Tp __bsf(_Tp __x) noexcept {
 template <typename _Tp> constexpr _Tp __bsr(_Tp __x) noexcept {
   return std::__bit_width(__x) - 1;
 }
+
+#endif
 
 }  // namespace workspace

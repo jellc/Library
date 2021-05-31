@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "fixed_point.hpp"
+#include "lib/cxx17"
 
 namespace workspace {
 
@@ -16,10 +17,10 @@ namespace _cached_impl {
 
 // Convert keys to tuple.
 template <class... _Args> struct get_tuple {
-  using type = decltype(
-      std::tuple_cat(std::declval<std::tuple<std::conditional_t<
-                         std::is_convertible<std::decay_t<_Args>, _Args>::value,
-                         std::decay_t<_Args>, _Args>>>()...));
+  using type = decltype(std::tuple_cat(
+      std::declval<std::tuple<std::conditional_t<
+          std::is_convertible<std::decay_t<_Args>, _Args>::value,
+          std::decay_t<_Args>, _Args>>>()...));
 };
 
 // Associative array.
@@ -61,10 +62,10 @@ template <class _F> class _recursive {
    */
   template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
     typename cache::key_type __key{__args...};
+    auto __i = __cptr->lower_bound(__key);
 
-    if constexpr (cache::value) {
-      if (auto __i = __cptr->lower_bound(__key);
-          __i != __cptr->end() && __i->first == __key)
+    if _CXX17_CONSTEXPR (cache::value) {
+      if (__i != __cptr->end() && __i->first == __key)
         return __i->second;
 
       else
@@ -74,8 +75,7 @@ template <class _F> class _recursive {
             ->second;
     }
 
-    else if (auto __i = __cptr->lower_bound(__key);
-             __i == __cptr->end() || *__i != __key)
+    else if (__i == __cptr->end() || *__i != __key)
       __cptr->emplace_hint(__i, std::move(__key)),
           __fn(*this, std::forward<_Args>(__args)...);
   }
@@ -118,10 +118,10 @@ template <class _F> class _non_recursive {
    */
   template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
     typename cache::key_type __key{__args...};
+    auto __i = __cptr->lower_bound(__key);
 
-    if constexpr (cache::value) {
-      if (auto __i = __cptr->lower_bound(__key);
-          __i != __cptr->end() && __i->first == __key)
+    if _CXX17_CONSTEXPR (cache::value) {
+      if (__i != __cptr->end() && __i->first == __key)
         return __i->second;
 
       else
@@ -131,8 +131,7 @@ template <class _F> class _non_recursive {
             ->second;
     }
 
-    else if (auto __i = __cptr->lower_bound(__key);
-             __i == __cptr->end() || *__i != __key)
+    else if (__i == __cptr->end() || *__i != __key)
       __cptr->emplace_hint(__i, std::move(__key)),
           __fn(std::forward<_Args>(__args)...);
   }
@@ -160,7 +159,6 @@ template <class _F> class cached : public _cached_impl::_cached<_F> {
 
   /**
    * @brief Construct a new cached object
-   *
    * @param __x Function
    */
   cached(_F __x) noexcept : _cached_impl::_cached<_F>(__x) {}

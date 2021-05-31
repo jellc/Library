@@ -26,7 +26,14 @@ template <class _Container> class reversed {
   constexpr decltype(auto) end() noexcept { return std::rend(__cont); }
   constexpr decltype(auto) end() const noexcept { return std::rend(__cont); }
 
-  constexpr decltype(auto) size() const noexcept { return std::size(__cont); }
+  constexpr decltype(auto) size() const noexcept {
+    return
+#if __cplusplus < 201703L
+        __cont.size();
+#else
+        std::size(__cont);
+#endif
+  }
 };
 
 }  // namespace _reversed_impl

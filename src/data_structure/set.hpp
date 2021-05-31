@@ -7,6 +7,7 @@
 
 #include <set>
 
+#include "lib/cxx17"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
@@ -44,7 +45,7 @@ set(const _Compare &)
 
 template <class _Key = void, class _Compare = std::less<_Key>>
 decltype(auto) make_set(const _Compare &__c = _Compare{}) {
-  if constexpr (std::is_void<_Key>::value)
+  if _CXX17_CONSTEXPR (std::is_void<_Key>::value)
     return set(__c);
   else
     return set<_Key, _Compare>(__c);

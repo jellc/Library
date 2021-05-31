@@ -11,15 +11,16 @@
 #include <iostream>
 #include <tuple>
 
+#include "lib/cxx17"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
 
 namespace _istream_impl {
 
-template <class _Tp, typename = std::nullptr_t> struct istream_helper {
+template <class _Tp, typename = void> struct istream_helper {
   istream_helper(std::istream &__is, _Tp &__x) {
-    if constexpr (has_begin<_Tp>::value)
+    if _CXX17_CONSTEXPR (has_begin<_Tp>::value)
       for (auto &&__e : __x)
         istream_helper<std::decay_t<decltype(__e)>>(__is, __e);
     else
@@ -28,17 +29,15 @@ template <class _Tp, typename = std::nullptr_t> struct istream_helper {
 };
 
 template <class _Tp>
-struct istream_helper<
-    _Tp,
-    decltype(std::declval<std::decay_t<decltype(
-                 std::declval<std::istream &>() >> std::declval<_Tp &>())>>(),
-             nullptr)> {
+struct istream_helper<_Tp,
+                      std::__void_t<decltype(std::declval<std::istream &>() >>
+                                             std::declval<_Tp &>())>> {
   istream_helper(std::istream &__is, _Tp &__x) { __is >> __x; }
 };
 
 #ifdef __SIZEOF_INT128__
 
-template <> struct istream_helper<__uint128_t, std::nullptr_t> {
+template <> struct istream_helper<__uint128_t, void> {
   istream_helper(std::istream &__is, __uint128_t &__x) {
     std::string __s;
     __is >> __s;
@@ -56,7 +55,7 @@ template <> struct istream_helper<__uint128_t, std::nullptr_t> {
   }
 };
 
-template <> struct istream_helper<__int128_t, std::nullptr_t> {
+template <> struct istream_helper<__int128_t, void> {
   istream_helper(std::istream &__is, __int128_t &__x) {
     std::string __s;
     __is >> __s;
@@ -76,26 +75,25 @@ template <> struct istream_helper<__int128_t, std::nullptr_t> {
 
 #endif  // INT128
 
-template <class T1, class T2> struct istream_helper<std::pair<T1, T2>> {
-  istream_helper(std::istream &__is, std::pair<T1, T2> &__x) {
-    istream_helper<T1>(__is, __x.first), istream_helper<T2>(__is, __x.second);
+template <class _T1, class _T2> struct istream_helper<std::pair<_T1, _T2>> {
+  istream_helper(std::istream &__is, std::pair<_T1, _T2> &__x) {
+    istream_helper<_T1>(__is, __x.first), istream_helper<_T2>(__is, __x.second);
   }
 };
 
-template <class... Tps> struct istream_helper<std::tuple<Tps...>> {
-  istream_helper(std::istream &__is, std::tuple<Tps...> &__x) {
+template <class... _Tp> struct istream_helper<std::tuple<_Tp...>> {
+  istream_helper(std::istream &__is, std::tuple<_Tp...> &__x) {
     iterate(__is, __x);
   }
 
  private:
-  template <class _Tp, size_t N = 0>
-  void iterate(std::istream &__is, _Tp &__x) {
-    if constexpr (N == std::tuple_size<_Tp>::value)
-      return;
-    else
-      istream_helper<typename std::tuple_element<N, _Tp>::type>(
+  template <class _Tuple, size_t N = 0>
+  void iterate(std::istream &__is, _Tuple &__x) {
+    if _CXX17_CONSTEXPR (N != std::tuple_size<_Tuple>::value) {
+      istream_helper<typename std::tuple_element<N, _Tuple>::type>(
           __is, std::get<N>(__x)),
-          iterate<_Tp, N + 1>(__is, __x);
+          iterate<_Tuple, N + 1>(__is, __x);
+    }
   }
 };
 

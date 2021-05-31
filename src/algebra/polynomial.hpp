@@ -9,6 +9,7 @@
 #include <cassert>
 #include <vector>
 
+#include "lib/cxx17"
 #include "ntt.hpp"
 #include "src/utils/sfinae.hpp"
 
@@ -25,6 +26,16 @@ class polynomial : public std::vector<_Tp> {
   using vec = std::vector<_Tp>;
   using poly = polynomial;
 
+  template <class _Os> friend _Os& operator<<(_Os& __os, const poly& __x) {
+    bool __head = true;
+    for (const auto& __a : __x) {
+      if (!__head) __os << ' ';
+      __head = false;
+      __os << __a;
+    }
+    return __os;
+  }
+
  public:
   using vec::vec;
   using size_type = typename vec::size_type;
@@ -37,7 +48,7 @@ class polynomial : public std::vector<_Tp> {
   }
 
   template <class _Iter> void _dft(_Iter __first, _Iter __last) const noexcept {
-    if constexpr (has_mod<_Tp>::value)
+    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
       ntt(__first, __last);
     else {
       // fft(__first, __last);
@@ -47,7 +58,7 @@ class polynomial : public std::vector<_Tp> {
 
   template <class _Iter>
   void _idft(_Iter __first, _Iter __last) const noexcept {
-    if constexpr (has_mod<_Tp>::value)
+    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
       intt(__first, __last);
     else {
       // ifft(__first, __last);
@@ -75,7 +86,7 @@ class polynomial : public std::vector<_Tp> {
   }
 
   void _conv_dft(poly&& __x) noexcept {
-    if constexpr (has_mod<_Tp>::value)
+    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
       _conv_ntt(std::move(__x));
     else {
       // _conv_fft(std::move(__x));

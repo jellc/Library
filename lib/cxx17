@@ -1,0 +1,9 @@
+#pragma once
+
+#ifndef _CXX17_CONSTEXPR
+#if __cplusplus >= 201703L
+#define _CXX17_CONSTEXPR constexpr
+#else
+#define _CXX17_CONSTEXPR
+#endif
+#endif

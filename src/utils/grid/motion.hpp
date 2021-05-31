@@ -7,109 +7,95 @@
 
 #include <algorithm>
 
+#include "lib/cxx17"
+
 namespace workspace {
 
 /**
  * @brief Transpose.
- *
  * @param __grid
  */
 template <class _Grid,
           typename = decltype(std::declval<std::decay_t<_Grid>>()[0].resize(0))>
 constexpr decltype(auto) transpose(_Grid &&__grid) noexcept {
+#if __cplusplus < 201703L
+  auto __h = __grid.size(), __w = __grid[0].size();
+#else
   auto __h = std::size(__grid), __w = std::size(__grid[0]);
-
+#endif
   std::decay_t<_Grid> __t(__w);
   for (auto &&__r : __t) __r.resize(__h);
-
   for (size_t __i = 0; __i != __h; ++__i)
     for (size_t __j = 0; __j != __w; ++__j)
-      if constexpr (std::is_rvalue_reference<decltype(__grid)>::value)
+      if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__grid)>::value)
         __t[__j][__i] = std::move(__grid[__i][__j]);
       else
         __t[__j][__i] = __grid[__i][__j];
-
   return __t;
 }
 
 /**
  * @brief Transpose.
- *
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(const _Tp (&__grid)[_Rows][_Cols]) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
-
   for (size_t __i = 0; __i != _Rows; ++__i)
     for (size_t __j = 0; __j != _Cols; ++__j) __t[__j][__i] = __grid[__i][__j];
-
   return __t;
 }
 
 /**
  * @brief Transpose.
- *
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(_Tp(&&__grid)[_Rows][_Cols]) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
-
   for (size_t __i = 0; __i != _Rows; ++__i)
     for (size_t __j = 0; __j != _Cols; ++__j)
       __t[__j][__i] = std::move(__grid[__i][__j]);
-
   return __t;
 }
 
 /**
  * @brief Transpose.
- *
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(
     const std::array<std::array<_Tp, _Cols>, _Rows> &__grid) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
-
   for (size_t __i = 0; __i != _Rows; ++__i)
     for (size_t __j = 0; __j != _Cols; ++__j) __t[__j][__i] = __grid[__i][__j];
-
   return __t;
 }
 
 /**
  * @brief Transpose.
- *
  * @param __grid
  */
 template <class _Tp, size_t _Rows, size_t _Cols>
 constexpr decltype(auto) transpose(
     std::array<std::array<_Tp, _Cols>, _Rows> &&__grid) noexcept {
   std::array<std::array<_Tp, _Rows>, _Cols> __t;
-
   for (size_t __i = 0; __i != _Rows; ++__i)
     for (size_t __j = 0; __j != _Cols; ++__j)
       __t[__j][__i] = std::move(__grid[__i][__j]);
-
   return __t;
 }
 
 /**
  * @brief Roll the grid counter-clockwise.
- *
  * @param __grid
- * @return
  */
 template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) noexcept {
-  if constexpr (std::is_rvalue_reference<decltype(__grid)>::value) {
+  if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__grid)>::value) {
     auto __t = transpose(std::move(__grid));
     std::reverse(std::begin(__t), std::end(__t));
     return __t;
-  }
-
-  else {
+  } else {
     auto __t = transpose(__grid);
     std::reverse(std::begin(__t), std::end(__t));
     return __t;
@@ -118,17 +104,13 @@ template <class _Grid> decltype(auto) roll_ccw(_Grid &&__grid) noexcept {
 
 /**
  * @brief Roll the grid clockwise.
- *
  * @param __grid
- * @return
  */
 template <class _Grid> decltype(auto) roll_cw(_Grid &&__grid) noexcept {
-  if constexpr (std::is_rvalue_reference<decltype(__grid)>::value) {
+  if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__grid)>::value) {
     std::reverse(std::begin(__grid), std::end(__grid));
     return transpose(std::move(__grid));
-  }
-
-  else {
+  } else {
     auto __t = transpose(__grid);
     for (auto &&__r : __t) std::reverse(std::begin(__r), std::end(__r));
     return __t;

@@ -5,6 +5,8 @@
 
 #include "sfinae.hpp"
 
+#if __cplusplus >= 201703L
+
 namespace workspace {
 
 /**
@@ -33,3 +35,5 @@ bool compare_arg(const _Tp& __p1, const _Tp& __p2) noexcept {
 }
 
 }  // namespace workspace
+
+#endif

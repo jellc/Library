@@ -69,7 +69,7 @@ map(const _Compare &)
 
 template <class _Key = void, class _Value, class _Compare = std::less<_Key>>
 decltype(auto) make_map(const _Value &__x, const _Compare &__c = _Compare{}) {
-  if constexpr (std::is_void<_Key>::value)
+  if _CXX17_CONSTEXPR (std::is_void<_Key>::value)
     return map(__x, __c);
   else
     return map<_Key, _Value, _Compare>(__x, __c);
@@ -77,7 +77,7 @@ decltype(auto) make_map(const _Value &__x, const _Compare &__c = _Compare{}) {
 
 template <class _Key, class _Value, class _Compare = std::less<_Key>>
 decltype(auto) make_map(const _Compare &__c = _Compare{}) {
-  if constexpr (std::is_void<_Value>::value)
+  if _CXX17_CONSTEXPR (std::is_void<_Value>::value)
     return make_set(__c);
   else
     return map(_Value{}, __c);
