@@ -62,32 +62,32 @@ data:
     \ _Function>\nstd::enable_if_t<has_binary_minus<_Iterator>::value, _Iterator>\
     \ golden_section(\n    _Iterator __first, _Iterator __last, _Function&& __f) {\n\
     \  if (__last - __first < 2) return __first;\n\n  decltype(__last - __first) __a{1},\
-    \ __b{2};\n  while (__a + __b <= __last - __first) __b ^= __a ^= __b ^= __a +=\
-    \ __b;\n\n  auto __f1 = __f(__last - __b), __f2 = __f(__last - __a);\n\n  while\
-    \ (__a != 1) {\n    __a ^= __b ^= __a ^= __b -= __a;\n\n    if (__f2 < __f1)\n\
-    \      __f1 = __f2, __f2 = __f(__last - __a);\n\n    else if ((__last -= __b)\
-    \ - __first < __b)\n      __a ^= __b ^= __a ^= __b -= __a, __f2 = __f(__last -\
-    \ __a);\n\n    else\n      __f2 = __f1, __f1 = __f(__last - __b);\n  }\n\n  return\
-    \ __f1 < __f2 ? __last - __b : __last - __a;\n}\n\n}  // namespace workspace\n"
+    \ __b{2};\n  while (__a + __b <= __last - __first) std::swap(__a += __b, __b);\n\
+    \n  auto __f1 = __f(__last - __b), __f2 = __f(__last - __a);\n\n  while (__a !=\
+    \ 1) {\n    std::swap(__a, __b -= __a);\n\n    if (__f2 < __f1)\n      __f1 =\
+    \ __f2, __f2 = __f(__last - __a);\n\n    else if ((__last -= __b) - __first <\
+    \ __b)\n      std::swap(__a, __b -= __a), __f2 = __f(__last - __a);\n\n    else\n\
+    \      __f2 = __f1, __f1 = __f(__last - __b);\n  }\n\n  return __f1 < __f2 ? __last\
+    \ - __b : __last - __a;\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file golden_section.hpp\n * @brief Golden Section\n\
     \ */\n\n#include <type_traits>\n\n#include \"src/algebra/system/operation.hpp\"\
     \n\nnamespace workspace {\n\n/**\n * @brief Golden section search.\n */\ntemplate\
     \ <class _Iterator, class _Function>\nstd::enable_if_t<has_binary_minus<_Iterator>::value,\
     \ _Iterator> golden_section(\n    _Iterator __first, _Iterator __last, _Function&&\
     \ __f) {\n  if (__last - __first < 2) return __first;\n\n  decltype(__last - __first)\
-    \ __a{1}, __b{2};\n  while (__a + __b <= __last - __first) __b ^= __a ^= __b ^=\
-    \ __a += __b;\n\n  auto __f1 = __f(__last - __b), __f2 = __f(__last - __a);\n\n\
-    \  while (__a != 1) {\n    __a ^= __b ^= __a ^= __b -= __a;\n\n    if (__f2 <\
-    \ __f1)\n      __f1 = __f2, __f2 = __f(__last - __a);\n\n    else if ((__last\
-    \ -= __b) - __first < __b)\n      __a ^= __b ^= __a ^= __b -= __a, __f2 = __f(__last\
-    \ - __a);\n\n    else\n      __f2 = __f1, __f1 = __f(__last - __b);\n  }\n\n \
-    \ return __f1 < __f2 ? __last - __b : __last - __a;\n}\n\n}  // namespace workspace\n"
+    \ __a{1}, __b{2};\n  while (__a + __b <= __last - __first) std::swap(__a += __b,\
+    \ __b);\n\n  auto __f1 = __f(__last - __b), __f2 = __f(__last - __a);\n\n  while\
+    \ (__a != 1) {\n    std::swap(__a, __b -= __a);\n\n    if (__f2 < __f1)\n    \
+    \  __f1 = __f2, __f2 = __f(__last - __a);\n\n    else if ((__last -= __b) - __first\
+    \ < __b)\n      std::swap(__a, __b -= __a), __f2 = __f(__last - __a);\n\n    else\n\
+    \      __f2 = __f1, __f1 = __f(__last - __b);\n  }\n\n  return __f1 < __f2 ? __last\
+    \ - __b : __last - __a;\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/algebra/system/operation.hpp
   isVerificationFile: false
   path: src/opt/golden_section.hpp
   requiredBy: []
-  timestamp: '2021-05-11 02:07:08+09:00'
+  timestamp: '2021-05-31 20:26:53+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/opt/golden_section.hpp
