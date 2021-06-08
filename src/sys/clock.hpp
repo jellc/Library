@@ -1,7 +1,7 @@
 #pragma once
 
-/*
- * @fn clock.hpp
+/**
+ * @file clock.hpp
  * @brief Clock
  */
 
@@ -16,11 +16,10 @@ namespace internal {
 const auto start_time{system_clock::now()};
 }  // namespace internal
 
-/*
- * @fn elapsed
- * @return elapsed time of the program
+/**
+ * @return Elapsed time of the program.
  */
-int64_t elapsed() {
+decltype(auto) elapsed() noexcept {
   const auto end_time{system_clock::now()};
   return duration_cast<milliseconds>(end_time - internal::start_time).count();
 }
