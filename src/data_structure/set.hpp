@@ -15,7 +15,7 @@ namespace workspace {
 /**
  * @brief Wrapper class for std::set.
  */
-template <class _Key, class _Compare>
+template <class _Key, class _Compare = std::less<_Key>>
 class set : public std::set<_Key, _Compare> {
  public:
   using container_type = std::set<_Key, _Compare>;
