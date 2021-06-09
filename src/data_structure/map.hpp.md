@@ -76,9 +76,9 @@ data:
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 12 \"src/data_structure/set.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Wrapper class for std::set.\n */\ntemplate <class _Key, class _Compare>\nclass\
-    \ set : public std::set<_Key, _Compare> {\n public:\n  using container_type =\
-    \ std::set<_Key, _Compare>;\n  using container_type::container_type;\n\n  set(const\
+    \ Wrapper class for std::set.\n */\ntemplate <class _Key, class _Compare = std::less<_Key>>\n\
+    class set : public std::set<_Key, _Compare> {\n public:\n  using container_type\
+    \ = std::set<_Key, _Compare>;\n  using container_type::container_type;\n\n  set(const\
     \ _Compare &__c) noexcept : container_type(__c) {}\n\n  decltype(auto) front()\
     \ noexcept { return *container_type::begin(); }\n  decltype(auto) front() const\
     \ noexcept { return *container_type::begin(); }\n\n  decltype(auto) back() noexcept\
@@ -158,7 +158,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/map.hpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-10 01:08:18+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/map.hpp
