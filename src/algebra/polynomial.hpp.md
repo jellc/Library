@@ -673,8 +673,8 @@ data:
   timestamp: '2021-05-31 22:43:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
 documentation_of: src/algebra/polynomial.hpp
 layout: document
 redirect_from:

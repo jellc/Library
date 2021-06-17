@@ -311,37 +311,35 @@ data:
     #ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
     \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\
     \n\nnamespace workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp,\
-    \ typename = void> struct istream_helper {\n  istream_helper(std::istream &__is,\
-    \ _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp>::value)\n      for (auto\
-    \ &&__e : __x)\n        istream_helper<std::decay_t<decltype(__e)>>(__is, __e);\n\
-    \    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported type.\"\
-    );\n  }\n};\n\ntemplate <class _Tp>\nstruct istream_helper<_Tp,\n            \
-    \          std::__void_t<decltype(std::declval<std::istream &>() >>\n        \
-    \                                     std::declval<_Tp &>())>> {\n  istream_helper(std::istream\
-    \ &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate\
-    \ <> struct istream_helper<__uint128_t, void> {\n  istream_helper(std::istream\
-    \ &__is, __uint128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool\
-    \ __neg = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
-    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
-    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
-    \  }\n};\n\ntemplate <> struct istream_helper<__int128_t, void> {\n  istream_helper(std::istream\
-    \ &__is, __int128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool\
-    \ __neg = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
-    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
-    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
-    \  }\n};\n\n#endif  // INT128\n\ntemplate <class _T1, class _T2> struct istream_helper<std::pair<_T1,\
-    \ _T2>> {\n  istream_helper(std::istream &__is, std::pair<_T1, _T2> &__x) {\n\
-    \    istream_helper<_T1>(__is, __x.first), istream_helper<_T2>(__is, __x.second);\n\
-    \  }\n};\n\ntemplate <class... _Tp> struct istream_helper<std::tuple<_Tp...>>\
-    \ {\n  istream_helper(std::istream &__is, std::tuple<_Tp...> &__x) {\n    iterate(__is,\
-    \ __x);\n  }\n\n private:\n  template <class _Tuple, size_t N = 0>\n  void iterate(std::istream\
-    \ &__is, _Tuple &__x) {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<_Tuple>::value)\
-    \ {\n      istream_helper<typename std::tuple_element<N, _Tuple>::type>(\n   \
-    \       __is, std::get<N>(__x)),\n          iterate<_Tuple, N + 1>(__is, __x);\n\
+    \ typename = void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n\
+    \    if _CXX17_CONSTEXPR (has_begin<_Tp &>::value)\n      for (auto &&__e : __x)\
+    \ helper<std::decay_t<decltype(__e)>>(__is, __e);\n    else\n      static_assert(has_begin<_Tp>::value,\
+    \ \"istream unsupported type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp,\
+    \ std::__void_t<decltype(std::declval<std::istream &>() >>\n                 \
+    \                         std::declval<_Tp &>())>> {\n  helper(std::istream &__is,\
+    \ _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct\
+    \ helper<__uint128_t, void> {\n  helper(std::istream &__is, __uint128_t &__x)\
+    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ == '-') __neg = true, __s.erase(__s.begin());\n    __x = 0;\n    for (char __d\
+    \ : __s) {\n      __x *= 10;\n      __d -= '0';\n      if (__neg)\n        __x\
+    \ -= __d;\n      else\n        __x += __d;\n    }\n  }\n};\n\ntemplate <> struct\
+    \ helper<__int128_t, void> {\n  helper(std::istream &__is, __int128_t &__x) {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ == '-') __neg = true, __s.erase(__s.begin());\n    __x = 0;\n    for (char __d\
+    \ : __s) {\n      __x *= 10;\n      __d -= '0';\n      if (__neg)\n        __x\
+    \ -= __d;\n      else\n        __x += __d;\n    }\n  }\n};\n\n#endif  // INT128\n\
+    \ntemplate <class _T1, class _T2> struct helper<std::pair<_T1, _T2>> {\n  helper(std::istream\
+    \ &__is, std::pair<_T1, _T2> &__x) {\n    helper<_T1>(__is, __x.first), helper<_T2>(__is,\
+    \ __x.second);\n  }\n};\n\ntemplate <class... _Tp> struct helper<std::tuple<_Tp...>>\
+    \ {\n  helper(std::istream &__is, std::tuple<_Tp...> &__x) { iterate(__is, __x);\
+    \ }\n\n private:\n  template <class _Tuple, size_t _Nm = 0>\n  void iterate(std::istream\
+    \ &__is, _Tuple &__x) {\n    if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tuple>::value)\
+    \ {\n      helper<typename std::tuple_element<_Nm, _Tuple>::type>(\n         \
+    \ __is, std::get<_Nm>(__x)),\n          iterate<_Tuple, _Nm + 1>(__is, __x);\n\
     \    }\n  }\n};\n\n}  // namespace _istream_impl\n\n/**\n * @brief A wrapper class\
     \ for std::istream.\n */\nclass istream : public std::istream {\n public:\n  /**\n\
     \   * @brief Wrapped operator.\n   */\n  template <typename _Tp> istream &operator>>(_Tp\
-    \ &__x) {\n    _istream_impl::istream_helper<_Tp>(*this, __x);\n    if (std::istream::fail())\
+    \ &__x) {\n    _istream_impl::helper<_Tp>(*this, __x);\n    if (std::istream::fail())\
     \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
     033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(_Tp).name(),\
     \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
@@ -415,7 +413,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-17 15:39:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_xor_convolution.test.cpp
