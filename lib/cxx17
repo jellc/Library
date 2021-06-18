@@ -7,3 +7,29 @@
 #define _CXX17_CONSTEXPR
 #endif
 #endif
+
+#if __cplusplus < 201703L
+
+namespace std {
+
+/**
+ *  @brief  Return the size of a container.
+ *  @param  __cont  Container.
+ */
+template <typename _Container>
+constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))
+    -> decltype(__cont.size()) {
+  return __cont.size();
+}
+
+/**
+ *  @brief  Return the size of an array.
+ */
+template <typename _Tp, size_t _Nm>
+constexpr size_t size(const _Tp (&)[_Nm]) noexcept {
+  return _Nm;
+}
+
+}  // namespace std
+
+#endif
