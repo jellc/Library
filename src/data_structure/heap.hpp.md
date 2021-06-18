@@ -15,9 +15,15 @@ data:
   bundledCode: "#line 2 \"src/data_structure/heap.hpp\"\n\n/**\n * @file heap.hpp\n\
     \ * @brief Heap\n */\n\n#include <queue>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
     #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX17_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
-    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
-    #include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std\
+    \ {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\
+    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
     \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
@@ -99,7 +105,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/heap.hpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/heap.hpp

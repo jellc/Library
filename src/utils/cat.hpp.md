@@ -12,11 +12,17 @@ data:
   bundledCode: "#line 2 \"src/utils/cat.hpp\"\n\n/**\n * @file cat.hpp\n * @brief\
     \ Cat\n */\n\n#include <iterator>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
     #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX17_CONSTEXPR\n#endif\n#endif\n#line 11 \"src/utils/cat.hpp\"\n\nnamespace\
-    \ workspace {\n\n/**\n * @brief Concatenate two sequences.\n *\n * @param __c1\n\
-    \ * @param __c2\n * @return Concatenated sequence.\n */\ntemplate <class _C1,\
-    \ class _C2>\nconstexpr decltype(auto) cat(_C1 &&__c1, _C2 &&__c2) noexcept {\n\
-    \  auto __c = std::forward<_C1>(__c1);\n\n  if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__c2)>::value)\n\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std\
+    \ {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 11 \"src/utils/cat.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Concatenate two sequences.\n *\n *\
+    \ @param __c1\n * @param __c2\n * @return Concatenated sequence.\n */\ntemplate\
+    \ <class _C1, class _C2>\nconstexpr decltype(auto) cat(_C1 &&__c1, _C2 &&__c2)\
+    \ noexcept {\n  auto __c = std::forward<_C1>(__c1);\n\n  if _CXX17_CONSTEXPR (std::is_rvalue_reference<decltype(__c2)>::value)\n\
     \    __c.insert(std::end(__c), std::make_move_iterator(std::begin(__c2)),\n  \
     \             std::make_move_iterator(std::end(__c2)));\n  else\n    __c.insert(std::end(__c),\
     \ std::cbegin(__c2), std::cend(__c2));\n\n  return __c;\n}\n\n/**\n * @return\
@@ -42,7 +48,7 @@ data:
   isVerificationFile: false
   path: src/utils/cat.hpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cat.hpp

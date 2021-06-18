@@ -12,7 +12,13 @@ data:
   bundledCode: "#line 2 \"src/utils/grid/motion.hpp\"\n\n/**\n * @file motion.hpp\n\
     \ * @brief Motion\n */\n\n#include <algorithm>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef\
     \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
-    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n#line 11 \"src/utils/grid/motion.hpp\"\
+    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
+    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
+    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 11 \"src/utils/grid/motion.hpp\"\
     \n\nnamespace workspace {\n\n/**\n * @brief Transpose.\n * @param __grid\n */\n\
     template <class _Grid,\n          typename = decltype(std::declval<std::decay_t<_Grid>>()[0].resize(0))>\n\
     constexpr decltype(auto) transpose(_Grid &&__grid) noexcept {\n#if __cplusplus\
@@ -100,7 +106,7 @@ data:
   isVerificationFile: false
   path: src/utils/grid/motion.hpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/grid/motion.hpp

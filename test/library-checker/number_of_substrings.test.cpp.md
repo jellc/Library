@@ -162,14 +162,20 @@ data:
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
     \n#endif\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
     \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
-    #endif\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >= 201703L\n\
-    \nnamespace workspace {\n\nnamespace internal {\n\ntemplate <class> struct zipped_iterator;\n\
-    \ntemplate <class...> struct zipped_iterator_tuple;\n\ntemplate <class... Args>\
-    \ class zipped {\n  using ref_tuple = std::tuple<Args...>;\n  ref_tuple args;\n\
-    \n  template <size_t N = 0> constexpr decltype(auto) begin_cat() const noexcept\
-    \ {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value) {\n    \
-    \  return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n        \
-    \                    begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
+    #endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief\
+    \  Return the size of a container.\n *  @param  __cont  Container.\n */\ntemplate\
+    \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
+    \ std\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >=\
+    \ 201703L\n\nnamespace workspace {\n\nnamespace internal {\n\ntemplate <class>\
+    \ struct zipped_iterator;\n\ntemplate <class...> struct zipped_iterator_tuple;\n\
+    \ntemplate <class... Args> class zipped {\n  using ref_tuple = std::tuple<Args...>;\n\
+    \  ref_tuple args;\n\n  template <size_t N = 0> constexpr decltype(auto) begin_cat()\
+    \ const noexcept {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value)\
+    \ {\n      return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n\
+    \                            begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
     \  }\n\n  template <size_t N = 0> constexpr decltype(auto) end_cat() const noexcept\
     \ {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value) {\n    \
     \  return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n          \
@@ -260,7 +266,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp

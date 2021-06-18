@@ -46,9 +46,15 @@ data:
     \n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n */\n\n#include <algorithm>\n\
     #include <cassert>\n#include <vector>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
     #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX17_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n *\
-    \ @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n\
-    \ *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std\
+    \ {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\
+    \n\n/**\n * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
+    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
     \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
     src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
     #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
@@ -677,7 +683,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/convolution_mod.test.cpp
   requiredBy: []
-  timestamp: '2021-06-17 15:39:47+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/convolution_mod.test.cpp

@@ -48,15 +48,21 @@ data:
   bundledCode: "#line 2 \"src/utils/io/ostream.hpp\"\n\n/**\n * @file ostream.hpp\n\
     \ * @brief Output Stream\n */\n\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n\
     #ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
-    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template\
-    \ <typename... _Args>\n  static std::true_type __test(std::basic_ostream<_Args...>\
-    \ *);\n  static std::false_type __test(void *);\n  constexpr static bool value\
-    \ = decltype(__test(std::declval<_Os *>()))::value;\n};\n\ntemplate <class _Os>\n\
-    using ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\
-    \n/**\n * @brief Stream insertion operator for C-style array.\n *\n * @param __os\
-    \ Output stream\n * @param __a Array\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp)\
+    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus\
+    \ < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n\
+    \ *  @param  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr\
+    \ auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n    ->\
+    \ decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return\
+    \ the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t\
+    \ size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\
+    \n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate\
+    \ <class _Os> struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
+    \ __test(std::basic_ostream<_Args...> *);\n  static std::false_type __test(void\
+    \ *);\n  constexpr static bool value = decltype(__test(std::declval<_Os *>()))::value;\n\
+    };\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value,\
+    \ _Os &>::type;\n\n/**\n * @brief Stream insertion operator for C-style array.\n\
+    \ *\n * @param __os Output stream\n * @param __a Array\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp)\
     \ > 2), ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Tp (&__a)[_Nm])\
     \ {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << *__a;\n    for (auto __i = __a\
     \ + 1, __e = __a + _Nm; __i != __e; ++__i)\n      __os << ' ' << *__i;\n  }\n\
@@ -146,7 +152,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/ostream.hpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/ITP1_6_D.test.cpp

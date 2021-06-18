@@ -19,19 +19,26 @@ data:
     \ * @brief Map\n */\n\n#include <map>\n\n#line 2 \"src/data_structure/set.hpp\"\
     \n\n/**\n * @file set.hpp\n * @brief Set\n */\n\n#include <set>\n\n#line 2 \"\
     lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
-    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus\
+    \ < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n\
+    \ *  @param  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr\
+    \ auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n    ->\
+    \ decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return\
+    \ the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t\
+    \ size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\
+    \n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief\
+    \ SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
+    \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
+    \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
+    \ type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type\
+    \ = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
+    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
+    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
+    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
+    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
+    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
+    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
     \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
     template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
     \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
@@ -158,7 +165,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/map.hpp
   requiredBy: []
-  timestamp: '2021-06-10 01:08:18+09:00'
+  timestamp: '2021-06-18 17:34:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/map.hpp
