@@ -5,9 +5,6 @@
  * @brief Cached
  */
 
-#include <map>
-#include <memory>
-
 #include "fixed_point.hpp"
 #include "lib/cxx17"
 
@@ -16,7 +13,7 @@ namespace workspace {
 namespace _cached_impl {
 
 // Convert keys to tuple.
-template <class... _Args> struct get_tuple {
+template <class... _Args> struct as_tuple {
   using type = decltype(std::tuple_cat(
       std::declval<std::tuple<std::conditional_t<
           std::is_convertible<std::decay_t<_Args>, _Args>::value,
@@ -28,8 +25,8 @@ template <class _Value, class... _Keys>
 struct assoc
     : std::integral_constant<int, !std::is_void<_Value>::value>,
       std::conditional_t<std::is_void<_Value>::value,
-                         std::set<typename get_tuple<_Keys...>::type>,
-                         std::map<typename get_tuple<_Keys...>::type, _Value>> {
+                         std::set<typename as_tuple<_Keys...>::type>,
+                         std::map<typename as_tuple<_Keys...>::type, _Value>> {
 };
 
 // Non-resursive lambda type.
@@ -52,37 +49,42 @@ template <class _F> class _recursive {
   struct _cache<_R (_G::*)(_H, _Args...) const> : assoc<_R, _Args...> {};
 
  public:
-  using cache = _cache<decltype(&_F::template operator()<_recursive<_F> &>)>;
+  using cache_type =
+      _cache<decltype(&_F::template operator()<_recursive<_F> &>)>;
 
-  _recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}
+  _recursive(_F &&__x) noexcept : __fn(__x) {}
 
-  /**
-   * @brief Apply `*this` to 1st argument of the lambda.
-   * @param __args Rest of arguments.
-   */
+  // Function call.
   template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
-    typename cache::key_type __key{__args...};
-    auto __i = __cptr->lower_bound(__key);
-
-    if _CXX17_CONSTEXPR (cache::value) {
-      if (__i != __cptr->end() && __i->first == __key)
-        return __i->second;
-
-      else
-        return __cptr
-            ->emplace_hint(__i, std::move(__key),
-                           __fn(*this, std::forward<_Args>(__args)...))
-            ->second;
-    }
-
-    else if (__i == __cptr->end() || *__i != __key)
-      __cptr->emplace_hint(__i, std::move(__key)),
-          __fn(*this, std::forward<_Args>(__args)...);
+    return _wrapper{__fn, __c}(std::forward<_Args>(__args)...);
   }
 
  private:
   _F __fn;
-  std::shared_ptr<cache> __cptr;
+  cache_type __c;
+
+  struct _wrapper {
+    _F &__fn;
+    cache_type &__c;
+
+    template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
+      typename cache_type::key_type __key{__args...};
+      auto __i = __c.lower_bound(__key);
+
+      if _CXX17_CONSTEXPR (cache_type::value) {
+        if (__i != __c.end() && __i->first == __key) return __i->second;
+
+        return __c
+            .emplace_hint(__i, std::move(__key),
+                          __fn(*this, std::forward<_Args>(__args)...))
+            ->second;
+      }
+
+      else if (__i == __c.end() || *__i != __key)
+        __c.emplace_hint(__i, std::move(__key)),
+            __fn(*this, std::forward<_Args>(__args)...);
+    }
+  };
 };
 
 // Non-recursive ver.
@@ -109,36 +111,32 @@ template <class _F> class _non_recursive {
   struct _cache<_R (_G::*)(_Args...) const> : assoc<_R, _Args...> {};
 
  public:
-  using cache = _cache<typename _get_func<_F>::type>;
+  using cache_type = _cache<typename _get_func<_F>::type>;
 
-  _non_recursive(_F __x) noexcept : __fn(__x), __cptr(new cache) {}
+  _non_recursive(_F &&__x) noexcept : __fn(__x) {}
 
-  /**
-   * @param __args
-   */
+  // Function call.
   template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
-    typename cache::key_type __key{__args...};
-    auto __i = __cptr->lower_bound(__key);
+    typename cache_type::key_type __key{__args...};
+    auto __i = __c.lower_bound(__key);
 
-    if _CXX17_CONSTEXPR (cache::value) {
-      if (__i != __cptr->end() && __i->first == __key)
-        return __i->second;
+    if _CXX17_CONSTEXPR (cache_type::value) {
+      if (__i != __c.end() && __i->first == __key) return __i->second;
 
-      else
-        return __cptr
-            ->emplace_hint(__i, std::move(__key),
-                           __fn(std::forward<_Args>(__args)...))
-            ->second;
+      return __c
+          .emplace_hint(__i, std::move(__key),
+                        __fn(std::forward<_Args>(__args)...))
+          ->second;
     }
 
-    else if (__i == __cptr->end() || *__i != __key)
-      __cptr->emplace_hint(__i, std::move(__key)),
+    else if (__i == __c.end() || *__i != __key)
+      __c.emplace_hint(__i, std::move(__key)),
           __fn(std::forward<_Args>(__args)...);
   }
 
  private:
   _F __fn;
-  std::shared_ptr<cache> __cptr;
+  cache_type __c;
 };
 
 template <class _F>
@@ -152,16 +150,11 @@ using _cached = std::conditional_t<is_recursive<_F>::value, _recursive<_F>,
  */
 template <class _F> class cached : public _cached_impl::_cached<_F> {
  public:
-  /**
-   * @brief Construct a new cached object
-   */
+  // Construct a new cached object.
   cached() noexcept : _cached_impl::_cached<_F>(_F{}) {}
 
-  /**
-   * @brief Construct a new cached object
-   * @param __x Function
-   */
-  cached(_F __x) noexcept : _cached_impl::_cached<_F>(__x) {}
+  // Construct a new cached object.
+  cached(_F __x) noexcept : _cached_impl::_cached<_F>(std::move(__x)) {}
 };
 
 }  // namespace workspace
