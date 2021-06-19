@@ -324,6 +324,9 @@ data:
       title: Motion
   - name: src/utils/io
     pages:
+    - icon: ':warning:'
+      path: src/utils/io/input.hpp
+      title: Input
     - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream

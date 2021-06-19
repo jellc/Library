@@ -2,50 +2,21 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: src/utils/io/istream.hpp
+    title: Input Stream
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: src/utils/io/input.hpp
-    title: Input
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/2450.test.cpp
-    title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/ITP1_6_D.test.cpp
-    title: test/aizu-online-judge/ITP1_6_D.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/ITP1_7_D.test.cpp
-    title: test/aizu-online-judge/ITP1_7_D.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/bitwise_and_convolution.test.cpp
-    title: test/library-checker/bitwise_and_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/bitwise_xor_convolution.test.cpp
-    title: test/library-checker/bitwise_xor_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/cartesian_tree.test.cpp
-    title: test/library-checker/cartesian_tree.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/convolution_mod.test.cpp
-    title: test/library-checker/convolution_mod.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/find_linear_recurrence.test.cpp
-    title: test/library-checker/find_linear_recurrence.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/matrix_det.test.cpp
-    title: test/library-checker/matrix_det.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/system_of_linear_equations.test.cpp
-    title: test/library-checker/system_of_linear_equations.test.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Input Stream
+    document_title: Input
     links: []
-  bundledCode: "#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n\
+  bundledCode: "#line 2 \"src/utils/io/input.hpp\"\n\n/**\n * @file input.hpp\n *\
+    \ @brief Input\n */\n\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n\
     \ * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#include <cassert>\n#include\
     \ <iostream>\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
     #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
@@ -146,68 +117,62 @@ data:
     \                 << abi::__cxa_demangle(typeid(_Tp).name(), 0, 0, 0)\n      \
     \            << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n   \
     \ }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream &>(std::cin);\n\
+    \n}  // namespace workspace\n#line 9 \"src/utils/io/input.hpp\"\n\nnamespace workspace\
+    \ {\n\nnamespace _input_impl {\n\ntemplate <class _Tp, bool _Is_class = false>\
+    \ class input {\n  _Tp __value;\n\n  template <class _Arg, class... _Args> struct\
+    \ is_same : std::false_type {};\n  template <class _Arg> struct is_same<_Arg,\
+    \ _Arg> : std::true_type {};\n\n public:\n  operator _Tp &() noexcept { return\
+    \ __value; }\n  operator const _Tp &() const noexcept { return __value; }\n\n\
+    \  template <class... _Args>\n  input(_Args &&...__args) noexcept : __value(std::forward<_Args>(__args)...)\
+    \ {\n    if _CXX17_CONSTEXPR (!is_same<decltype(*this), _Args...>::value &&\n\
+    \                         !is_same<_Tp, _Args...>::value)\n      cin >> __value;\n\
+    \  }\n\n  input &operator=(const _Tp &__x) noexcept { return __value = __x, *this;\
+    \ }\n};\n\ntemplate <class _Tp> class input<_Tp, true> : public _Tp {\n  template\
+    \ <class _Arg, class... _Args> struct is_same : std::false_type {};\n  template\
+    \ <class _Arg> struct is_same<_Arg, _Arg> : std::true_type {};\n\n public:\n \
+    \ operator _Tp &() noexcept { return *this; }\n  operator const _Tp &() const\
+    \ noexcept { return *this; }\n\n  template <class... _Args>\n  input(_Args &&...__args)\
+    \ noexcept : _Tp(std::forward<_Args>(__args)...) {\n    if _CXX17_CONSTEXPR (!is_same<decltype(*this),\
+    \ _Args...>::value &&\n                         !is_same<_Tp, _Args...>::value)\n\
+    \      cin >> *this;\n  }\n\n  input &operator=(const _Tp &__x) noexcept {\n \
+    \   _Tp::operator=(__x);\n    return *this;\n  }\n};\n\n}  // namespace _input_impl\n\
+    \ntemplate <class _Tp>\nusing input = _input_impl::input<_Tp, std::is_class<_Tp>::value>;\n\
     \n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n\
-    #include <cxxabi.h>\n\n#include <cassert>\n#include <iostream>\n#include <tuple>\n\
-    \n#include \"lib/cxx17\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace workspace\
-    \ {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename = void> struct\
-    \ helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
-    \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
-    \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
-    \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
-    \ &>() >>\n                                          std::declval<_Tp &>())>>\
-    \ {\n  helper(std::istream &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\
-    \ntemplate <> struct helper<__uint128_t, void> {\n  helper(std::istream &__is,\
-    \ __uint128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool __neg\
-    \ = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
-    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
-    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
-    \  }\n};\n\ntemplate <> struct helper<__int128_t, void> {\n  helper(std::istream\
-    \ &__is, __int128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool\
-    \ __neg = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
-    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
-    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
-    \  }\n};\n\n#endif  // INT128\n\ntemplate <class _T1, class _T2> struct helper<std::pair<_T1,\
-    \ _T2>> {\n  helper(std::istream &__is, std::pair<_T1, _T2> &__x) {\n    helper<_T1>(__is,\
-    \ __x.first), helper<_T2>(__is, __x.second);\n  }\n};\n\ntemplate <class... _Tp>\
-    \ struct helper<std::tuple<_Tp...>> {\n  helper(std::istream &__is, std::tuple<_Tp...>\
-    \ &__x) { iterate(__is, __x); }\n\n private:\n  template <class _Tuple, size_t\
-    \ _Nm = 0>\n  void iterate(std::istream &__is, _Tuple &__x) {\n    if _CXX17_CONSTEXPR\
-    \ (_Nm != std::tuple_size<_Tuple>::value) {\n      helper<typename std::tuple_element<_Nm,\
-    \ _Tuple>::type>(\n          __is, std::get<_Nm>(__x)),\n          iterate<_Tuple,\
-    \ _Nm + 1>(__is, __x);\n    }\n  }\n};\n\n}  // namespace _istream_impl\n\n/**\n\
-    \ * @brief A wrapper class for std::istream.\n */\nclass istream : public std::istream\
-    \ {\n public:\n  /**\n   * @brief Wrapped operator.\n   */\n  template <typename\
-    \ _Tp> istream &operator>>(_Tp &__x) {\n    _istream_impl::helper<_Tp>(*this,\
-    \ __x);\n    if (std::istream::fail()) {\n      static auto once = atexit([] {\n\
-    \        std::cerr << \"\\n\\033[43m\\033[30mwarning: failed to read \\'\"\n \
-    \                 << abi::__cxa_demangle(typeid(_Tp).name(), 0, 0, 0)\n      \
-    \            << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n   \
-    \ }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream &>(std::cin);\n\
-    \n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file input.hpp\n * @brief Input\n */\n\n#include\
+    \ \"istream.hpp\"\n\nnamespace workspace {\n\nnamespace _input_impl {\n\ntemplate\
+    \ <class _Tp, bool _Is_class = false> class input {\n  _Tp __value;\n\n  template\
+    \ <class _Arg, class... _Args> struct is_same : std::false_type {};\n  template\
+    \ <class _Arg> struct is_same<_Arg, _Arg> : std::true_type {};\n\n public:\n \
+    \ operator _Tp &() noexcept { return __value; }\n  operator const _Tp &() const\
+    \ noexcept { return __value; }\n\n  template <class... _Args>\n  input(_Args &&...__args)\
+    \ noexcept : __value(std::forward<_Args>(__args)...) {\n    if _CXX17_CONSTEXPR\
+    \ (!is_same<decltype(*this), _Args...>::value &&\n                         !is_same<_Tp,\
+    \ _Args...>::value)\n      cin >> __value;\n  }\n\n  input &operator=(const _Tp\
+    \ &__x) noexcept { return __value = __x, *this; }\n};\n\ntemplate <class _Tp>\
+    \ class input<_Tp, true> : public _Tp {\n  template <class _Arg, class... _Args>\
+    \ struct is_same : std::false_type {};\n  template <class _Arg> struct is_same<_Arg,\
+    \ _Arg> : std::true_type {};\n\n public:\n  operator _Tp &() noexcept { return\
+    \ *this; }\n  operator const _Tp &() const noexcept { return *this; }\n\n  template\
+    \ <class... _Args>\n  input(_Args &&...__args) noexcept : _Tp(std::forward<_Args>(__args)...)\
+    \ {\n    if _CXX17_CONSTEXPR (!is_same<decltype(*this), _Args...>::value &&\n\
+    \                         !is_same<_Tp, _Args...>::value)\n      cin >> *this;\n\
+    \  }\n\n  input &operator=(const _Tp &__x) noexcept {\n    _Tp::operator=(__x);\n\
+    \    return *this;\n  }\n};\n\n}  // namespace _input_impl\n\ntemplate <class\
+    \ _Tp>\nusing input = _input_impl::input<_Tp, std::is_class<_Tp>::value>;\n\n\
+    }  // namespace workspace\n"
   dependsOn:
+  - src/utils/io/istream.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: false
-  path: src/utils/io/istream.hpp
-  requiredBy:
-  - src/utils/io/input.hpp
-  timestamp: '2021-06-18 17:34:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/aizu-online-judge/ITP1_6_D.test.cpp
-  - test/aizu-online-judge/2450.test.cpp
-  - test/aizu-online-judge/ITP1_7_D.test.cpp
-  - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
-  - test/library-checker/system_of_linear_equations.test.cpp
-  - test/library-checker/cartesian_tree.test.cpp
-  - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/matrix_det.test.cpp
-  - test/library-checker/bitwise_xor_convolution.test.cpp
-documentation_of: src/utils/io/istream.hpp
+  path: src/utils/io/input.hpp
+  requiredBy: []
+  timestamp: '2021-06-20 01:15:55+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/utils/io/input.hpp
 layout: document
 redirect_from:
-- /library/src/utils/io/istream.hpp
-- /library/src/utils/io/istream.hpp.html
-title: Input Stream
+- /library/src/utils/io/input.hpp
+- /library/src/utils/io/input.hpp.html
+title: Input
 ---

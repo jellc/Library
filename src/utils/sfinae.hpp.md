@@ -68,6 +68,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
+  - icon: ':warning:'
+    path: src/utils/io/input.hpp
+    title: Input
   - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
@@ -284,6 +287,7 @@ data:
   - src/number_theory/order.hpp
   - src/number_theory/totient.hpp
   - src/utils/io/istream.hpp
+  - src/utils/io/input.hpp
   - src/utils/hash.hpp
   - src/utils/round_div.hpp
   - src/utils/compare.hpp
