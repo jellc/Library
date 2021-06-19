@@ -313,25 +313,24 @@ data:
     \ direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\n \
     \ // Direct constructor\n  template <class _Tp>\n  constexpr modint(_Tp __n, direct_ctor_t)\
     \ noexcept : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\
-    \n  template <class _Tp, typename = std::enable_if_t<is_integral_ext<_Tp>::value>>\n\
-    \  constexpr modint(_Tp __n) noexcept\n      : value((__n %= mod) < 0 ? __n +=\
-    \ mod : __n) {}\n\n  constexpr modint(bool __n) noexcept : value(__n) {}\n\n \
-    \ constexpr operator value_type() const noexcept { return value; }\n\n  // unary\
-    \ operators {{\n  constexpr modint operator++(int) noexcept {\n    modint __t{*this};\n\
-    \    operator++();\n    return __t;\n  }\n\n  constexpr modint operator--(int)\
-    \ noexcept {\n    modint __t{*this};\n    operator--();\n    return __t;\n  }\n\
-    \n  constexpr modint &operator++() noexcept {\n    if (++value == mod) value =\
-    \ 0;\n    return *this;\n  }\n\n  constexpr modint &operator--() noexcept {\n\
-    \    if (!value)\n      value = mod - 1;\n    else\n      --value;\n    return\
-    \ *this;\n  }\n\n  constexpr modint operator+() const noexcept { return *this;\
-    \ }\n\n  constexpr modint operator-() const noexcept {\n    return {value ? mod\
-    \ - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary operators\n\n  // operator+=\
-    \ {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept {\n    if ((value\
-    \ += __x.value) >= mod) value -= mod;\n    return *this;\n  }\n\n  template <class\
-    \ _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator+=(\n\
-    \      _Tp const &__x) noexcept {\n    if (((value += __x) %= mod) < 0) value\
-    \ += mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+ {{\n\
-    \n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \n  template <class _Tp> constexpr modint(_Tp __n) noexcept : value(__n) {\n \
+    \   if ((value %= mod) < 0) value += mod;\n  }\n\n  constexpr modint(bool __n)\
+    \ noexcept : value(__n) {}\n\n  constexpr operator value_type() const noexcept\
+    \ { return value; }\n\n  // unary operators {{\n  constexpr modint operator++(int)\
+    \ noexcept {\n    modint __t{*this};\n    operator++();\n    return __t;\n  }\n\
+    \n  constexpr modint operator--(int) noexcept {\n    modint __t{*this};\n    operator--();\n\
+    \    return __t;\n  }\n\n  constexpr modint &operator++() noexcept {\n    if (++value\
+    \ == mod) value = 0;\n    return *this;\n  }\n\n  constexpr modint &operator--()\
+    \ noexcept {\n    if (!value)\n      value = mod - 1;\n    else\n      --value;\n\
+    \    return *this;\n  }\n\n  constexpr modint operator+() const noexcept { return\
+    \ *this; }\n\n  constexpr modint operator-() const noexcept {\n    return {value\
+    \ ? mod - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary operators\n\n  //\
+    \ operator+= {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept\
+    \ {\n    if ((value += __x.value) >= mod) value -= mod;\n    return *this;\n \
+    \ }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> &operator+=(\n      _Tp const &__x) noexcept {\n    if (((value += __x)\
+    \ %= mod) < 0) value += mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n\
+    \  // operator+ {{\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> operator+(\n      _Tp const &__x) const noexcept {\n    return modint{*this}\
     \ += __x;\n  }\n\n  constexpr modint operator+(modint __x) const noexcept { return\
     \ __x += *this; }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
@@ -486,7 +485,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/matrix_det.test.cpp
   requiredBy: []
-  timestamp: '2021-06-18 17:34:10+09:00'
+  timestamp: '2021-06-20 02:26:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/matrix_det.test.cpp
