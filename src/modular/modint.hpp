@@ -320,11 +320,6 @@ template <auto _Mod, unsigned _Storage> struct modint {
     return {sqrt_mod(__x.value, mod), direct_ctor_tag};
   }
 
-  template <class _Os>
-  friend _Os &operator<<(_Os &__os, const modint &__x) noexcept {
-    return __os << __x.value;
-  }
-
   friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept {
     std::string __s;
     __is >> __s;
