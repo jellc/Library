@@ -226,13 +226,13 @@ data:
   isVerificationFile: false
   path: src/algebra/ntt.hpp
   requiredBy:
-  - src/algebra/berlekamp_massey.hpp
   - src/algebra/polynomial.hpp
+  - src/algebra/berlekamp_massey.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
 documentation_of: src/algebra/ntt.hpp
 layout: document
 redirect_from:

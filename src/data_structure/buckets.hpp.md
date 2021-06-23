@@ -123,8 +123,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/3170.test.cpp
-  - test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
   - test/library-checker/staticrmq.test.cpp
+  - test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
 documentation_of: src/data_structure/buckets.hpp
 layout: document
 redirect_from:

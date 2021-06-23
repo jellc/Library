@@ -241,15 +241,13 @@ data:
     \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
     \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
     \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
-    \  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os &__os, const modint\
-    \ &__x) noexcept {\n    return __os << __x.value;\n  }\n\n  friend std::istream\
-    \ &operator>>(std::istream &__is, modint &__x) noexcept {\n    std::string __s;\n\
-    \    __is >> __s;\n    bool __neg = false;\n    if (__s.front() == '-') {\n  \
-    \    __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x = 0;\n    for\
-    \ (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg) __x = -__x;\n\
-    \    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\ntypename\
-    \ modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod > 0\
-    \ ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
+    \  }\n\n  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept\
+    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x\
+    \ = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg)\
+    \ __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\n\
+    typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod\
+    \ > 0 ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
@@ -357,15 +355,13 @@ data:
     \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
     \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
     \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
-    \  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os &__os, const modint\
-    \ &__x) noexcept {\n    return __os << __x.value;\n  }\n\n  friend std::istream\
-    \ &operator>>(std::istream &__is, modint &__x) noexcept {\n    std::string __s;\n\
-    \    __is >> __s;\n    bool __neg = false;\n    if (__s.front() == '-') {\n  \
-    \    __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x = 0;\n    for\
-    \ (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg) __x = -__x;\n\
-    \    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\ntypename\
-    \ modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod > 0\
-    \ ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
+    \  }\n\n  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept\
+    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x\
+    \ = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg)\
+    \ __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\n\
+    typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod\
+    \ > 0 ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
@@ -380,20 +376,20 @@ data:
   requiredBy:
   - src/combinatorics/binomial.hpp
   - src/modular/inverse.hpp
-  timestamp: '2021-06-20 02:26:58+09:00'
+  timestamp: '2021-06-23 13:54:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
-  - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/subset_convolution.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
-  - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/matrix_det.test.cpp
-  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/matrix_det.test.cpp
 documentation_of: src/modular/modint.hpp
 layout: document
 redirect_from:
