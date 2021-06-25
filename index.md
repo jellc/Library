@@ -92,7 +92,7 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
     - icon: ':heavy_check_mark:'
@@ -108,7 +108,7 @@ data:
       title: Factorial
   - name: src/data_structure
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/Mo.hpp
       title: Mo's Algorithm
     - icon: ':heavy_check_mark:'
@@ -117,7 +117,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/cartesian_tree.hpp
       title: Cartesian Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/compression.hpp
       title: Compression
     - icon: ':warning:'
@@ -148,7 +148,7 @@ data:
       title: src/data_structure/convex_hull_trick/monotone.hpp
   - name: src/data_structure/segment_tree
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
     - icon: ':heavy_check_mark:'
@@ -508,7 +508,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
       title: test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/range_kth_smallest.test.cpp
       title: test/library-checker/range_kth_smallest.test.cpp
     - icon: ':heavy_check_mark:'
@@ -523,7 +523,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/sqrt_mod.test.cpp
       title: test/library-checker/sqrt_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
     - icon: ':heavy_check_mark:'
