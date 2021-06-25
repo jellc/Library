@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   - icon: ':heavy_check_mark:'
@@ -24,12 +24,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
@@ -65,7 +65,7 @@ data:
   - src/data_structure/segment_tree/basic.hpp
   - src/data_structure/segment_tree/lazy.hpp
   timestamp: '2020-11-26 16:42:40+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp

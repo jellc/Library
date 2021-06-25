@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
   _extendedRequiredBy: []
@@ -15,12 +15,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Segment Tree
     links: []
@@ -247,7 +247,7 @@ data:
   path: src/data_structure/segment_tree/basic.hpp
   requiredBy: []
   timestamp: '2020-12-23 18:52:56+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aizu-online-judge/DSL_2_A.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp

@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/range_kth_smallest.test.cpp
     title: test/library-checker/range_kth_smallest.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/static_range_inversions_query.test.cpp
     title: test/library-checker/static_range_inversions_query.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Mo's Algorithm
     links: []
@@ -89,7 +89,7 @@ data:
   path: src/data_structure/Mo.hpp
   requiredBy: []
   timestamp: '2021-03-26 17:16:39+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/library-checker/range_kth_smallest.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp

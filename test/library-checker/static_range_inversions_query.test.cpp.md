@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: src/data_structure/Mo.hpp
     title: Mo's Algorithm
-  - icon: ':heavy_check_mark:'
-    path: src/data_structure/coordinate_compression.hpp
-    title: Coordinate Compression
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
+    path: src/data_structure/compression.hpp
+    title: Compression
+  - icon: ':question:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
@@ -59,22 +59,36 @@ data:
     \    const size_t id = *iter++, l = lft[id], r = rgt[id];\n    while (lpos > l)\
     \ push_front(--lpos);\n    while (rpos < r) push_back(rpos++);\n    while (lpos\
     \ < l) pop_front(lpos++);\n    while (rpos > r) pop_back(--rpos);\n    return\
-    \ id;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/data_structure/coordinate_compression.hpp\"\
-    \n\n/*\n * @file coordinate_compression.hpp\n * @brief Coordinate Compression\n\
-    \ */\n\n#include <algorithm>\n#line 10 \"src/data_structure/coordinate_compression.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class Type, class Result = size_t>\nstruct\
-    \ coordinate_compression : std::vector<Type> {\n  using std::vector<Type>::vector;\n\
-    \  using std::vector<Type>::begin;\n  using std::vector<Type>::end;\n\n  using\
-    \ result_type = Result;\n\n  void make() {\n    std::sort(begin(), end());\n \
-    \   std::vector<Type>::erase(std::unique(begin(), end()), end());\n  }\n\n  result_type\
-    \ compress(const Type &value) const {\n    return std::lower_bound(begin(), end(),\
-    \ value) - begin();\n  }\n\n  template <class Iter>\n  std::vector<result_type>\
-    \ compress(Iter first, Iter last) const {\n    static_assert(std::is_convertible<\n\
-    \                  typename std::decay<decltype(*std::declval<Iter>())>::type,\n\
-    \                  Type>::value);\n    std::vector<result_type> res;\n    for\
-    \ (Iter iter = first; iter != last; ++iter)\n      res.emplace_back(compress(*iter));\n\
-    \    return res;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\
-    \n\n/**\n * @file basic.hpp\n * @brief Segment Tree\n */\n\n#line 10 \"src/data_structure/segment_tree/basic.hpp\"\
+    \ id;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/data_structure/compression.hpp\"\
+    \n\n/**\n * @file compression.hpp\n * @brief Compression\n */\n\n#include <algorithm>\n\
+    #line 11 \"src/data_structure/compression.hpp\"\n\nnamespace workspace {\n\ntemplate\
+    \ <class _Tp> class compression {\n  std::vector<_Tp> __vec;\n\n  decltype(auto)\
+    \ begin() { return __vec.begin(); }\n\n  decltype(auto) end() { return __vec.end();\
+    \ }\n\n public:\n  using size_type = typename std::vector<_Tp>::size_type;\n\n\
+    \  /**\n   * @brief Construct a new compression object.\n   */\n  compression()\
+    \ = default;\n\n  /**\n   * @brief Construct a new compression object.\n   *\n\
+    \   * @param __first\n   * @param __last\n   */\n  template <class _IIter>\n \
+    \ compression(_IIter __first, _IIter __last) noexcept : __vec(__first, __last)\
+    \ {\n    make();\n  }\n\n  decltype(auto) begin() const noexcept { return __vec.begin();\
+    \ }\n\n  decltype(auto) end() const noexcept { return __vec.end(); }\n\n  decltype(auto)\
+    \ operator[](size_type __i) const noexcept {\n    assert(__i < size());\n    return\
+    \ __vec[__i];\n  }\n\n  size_type size() const noexcept { return __vec.size();\
+    \ }\n\n  template <class... _Args> decltype(auto) emplace(_Args&&... __args) noexcept\
+    \ {\n    return __vec.emplace_back(std::forward<_Args>(__args)...);\n  }\n\n \
+    \ template <class... _Args> void insert(_Args&&... __args) noexcept {\n    __vec.insert(end(),\
+    \ std::forward<_Args>(__args)...);\n  }\n\n  /**\n   * @brief Sort and make unique.\n\
+    \   * @return Number of different values.\n   */\n  size_type make() noexcept\
+    \ {\n    std::sort(begin(), end());\n\n    __vec.erase(std::unique(begin(), end(),\n\
+    \                            [](const _Tp& __l, const _Tp& __r) {\n          \
+    \                    return !(__l < __r) && !(__r < __l);\n                  \
+    \          }),\n                end());\n\n    return size();\n  }\n\n  size_type\
+    \ lower_bound(const _Tp& __x) const noexcept {\n    return std::lower_bound(begin(),\
+    \ end(), __x) - begin();\n  }\n\n  size_type upper_bound(const _Tp& __x) const\
+    \ noexcept {\n    return std::upper_bound(begin(), end(), __x) - begin();\n  }\n\
+    };\n\ntemplate <class _IIter>\ncompression(_IIter, _IIter)\n    -> compression<typename\
+    \ std::iterator_traits<_IIter>::value_type>;\n\n}  // namespace workspace\n#line\
+    \ 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/**\n * @file basic.hpp\n\
+    \ * @brief Segment Tree\n */\n\n#line 10 \"src/data_structure/segment_tree/basic.hpp\"\
     \n\n#line 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
     \ workspace {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type\
     \ = T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
@@ -188,27 +202,27 @@ data:
     \ ((left + 1) << step) ^ size_ext))\n          return right_partition_subtree(left,\
     \ mono, step, pred);\n        mono = tmp;\n        ++left;\n      }\n    }\n \
     \   return size_orig;\n  }\n};\n\n}  // namespace workspace\n#line 8 \"test/library-checker/static_range_inversions_query.test.cpp\"\
-    \n\nint main() {\n  using i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n\
-    \  std::vector<size_t> a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<int>\
-    \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
-    \  std::vector<int> cnt(ccmp.size());\n  workspace::segment_tree<int> seg(n);\n\
-    \  i64 invs = 0;\n  auto addl = [&](int i) -> auto {\n    i = a[i];\n    invs\
-    \ += seg.fold(0, i);\n    seg[i]++;\n  };\n  auto addr = [&](int i) -> auto {\n\
-    \    i = a[i];\n    invs += seg.fold(i + 1, n);\n    seg[i]++;\n  };\n  auto dell\
-    \ = [&](int i) -> auto {\n    i = a[i];\n    invs -= seg.fold(0, i);\n    seg[i]--;\n\
-    \  };\n  auto delr = [&](int i) -> auto {\n    i = a[i];\n    invs -= seg.fold(i\
-    \ + 1, n);\n    seg[i]--;\n  };\n  workspace::Mo mo(addl, dell, addr, delr);\n\
-    \  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n\
-    \    mo.add_query(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for\
-    \ (int i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n\
+    \n\nint main() {\n  using i64 = long long;\n  int n, q;\n  scanf(\"%d%d\", &n,\
+    \ &q);\n  std::vector<size_t> a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n\
+    \  workspace::compression ccmp(begin(a), end(a));\n  ccmp.make();\n  for (auto\
+    \ &&x : a) {\n    x = ccmp.lower_bound(x);\n  }\n  std::vector<int> cnt(ccmp.size());\n\
+    \  workspace::segment_tree<int> seg(n);\n  i64 invs = 0;\n  auto addl = [&](int\
+    \ i) -> auto {\n    i = a[i];\n    invs += seg.fold(0, i);\n    seg[i]++;\n  };\n\
+    \  auto addr = [&](int i) -> auto {\n    i = a[i];\n    invs += seg.fold(i + 1,\
+    \ n);\n    seg[i]++;\n  };\n  auto dell = [&](int i) -> auto {\n    i = a[i];\n\
+    \    invs -= seg.fold(0, i);\n    seg[i]--;\n  };\n  auto delr = [&](int i) ->\
+    \ auto {\n    i = a[i];\n    invs -= seg.fold(i + 1, n);\n    seg[i]--;\n  };\n\
+    \  workspace::Mo mo(addl, dell, addr, delr);\n  for (int i = 0; i < q; i++) {\n\
+    \    int l, r;\n    scanf(\"%d%d\", &l, &r);\n    mo.insert(l, r);\n  }\n  mo.make();\n\
+    \  std::vector<i64> ans(q);\n  for (auto &&e : mo) {\n    ans[e.index] = invs;\n\
     \  }\n  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n\n#include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/coordinate_compression.hpp\"\
+    \n\n#include <cstdio>\n\n#include \"src/data_structure/Mo.hpp\"\n#include \"src/data_structure/compression.hpp\"\
     \n#include \"src/data_structure/segment_tree/basic.hpp\"\n\nint main() {\n  using\
-    \ i64 = int64_t;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
-    \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::coordinate_compression<int>\
-    \ ccmp(a.begin(), a.end());\n  ccmp.make();\n  a = ccmp.compress(a.begin(), a.end());\n\
-    \  std::vector<int> cnt(ccmp.size());\n  workspace::segment_tree<int> seg(n);\n\
+    \ i64 = long long;\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  std::vector<size_t>\
+    \ a(n);\n  for (auto &e : a) scanf(\"%d\", &e);\n  workspace::compression ccmp(begin(a),\
+    \ end(a));\n  ccmp.make();\n  for (auto &&x : a) {\n    x = ccmp.lower_bound(x);\n\
+    \  }\n  std::vector<int> cnt(ccmp.size());\n  workspace::segment_tree<int> seg(n);\n\
     \  i64 invs = 0;\n  auto addl = [&](int i) -> auto {\n    i = a[i];\n    invs\
     \ += seg.fold(0, i);\n    seg[i]++;\n  };\n  auto addr = [&](int i) -> auto {\n\
     \    i = a[i];\n    invs += seg.fold(i + 1, n);\n    seg[i]++;\n  };\n  auto dell\
@@ -216,19 +230,19 @@ data:
     \  };\n  auto delr = [&](int i) -> auto {\n    i = a[i];\n    invs -= seg.fold(i\
     \ + 1, n);\n    seg[i]--;\n  };\n  workspace::Mo mo(addl, dell, addr, delr);\n\
     \  for (int i = 0; i < q; i++) {\n    int l, r;\n    scanf(\"%d%d\", &l, &r);\n\
-    \    mo.add_query(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for\
-    \ (int i = 0; i < q; i++) {\n    int id = mo.process();\n    ans[id] = invs;\n\
-    \  }\n  for (i64 x : ans) printf(\"%lld\\n\", x);\n}\n"
+    \    mo.insert(l, r);\n  }\n  mo.make();\n  std::vector<i64> ans(q);\n  for (auto\
+    \ &&e : mo) {\n    ans[e.index] = invs;\n  }\n  for (i64 x : ans) printf(\"%lld\\\
+    n\", x);\n}\n"
   dependsOn:
   - src/data_structure/Mo.hpp
-  - src/data_structure/coordinate_compression.hpp
+  - src/data_structure/compression.hpp
   - src/data_structure/segment_tree/basic.hpp
   - src/algebra/system/monoid.hpp
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2021-03-26 17:22:13+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-06-25 19:18:38+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp
 layout: document
