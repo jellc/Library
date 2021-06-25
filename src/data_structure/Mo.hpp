@@ -8,7 +8,6 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
-#include <numeric>
 #include <vector>
 
 namespace workspace {
@@ -16,21 +15,33 @@ namespace workspace {
 /**
  * @brief Mo's Alorithm. Process queries about contiguous subarrays.
  *
- * @tparam Push_back
- * @tparam Pop_back
- * @tparam Push_front Use `Push_back` as default
- * @tparam Pop_front Use `Pop_back` as default
+ * @tparam _Push_back
+ * @tparam _Pop_back
+ * @tparam _Push_front Use `_Push_back` as default
+ * @tparam _Pop_front Use `_Pop_back` as default
  */
-template <class Push_back, class Pop_back, class Push_front = Push_back,
-          class Pop_front = Pop_back>
+template <class _Push_back, class _Pop_back, class _Push_front = _Push_back,
+          class _Pop_front = _Pop_back>
 class Mo {
-  Push_front push_front;
-  Pop_front pop_front;
-  Push_back push_back;
-  Pop_back pop_back;
-  std::vector<size_t> lft, rgt, ord;
-  std::vector<size_t>::iterator iter;
-  size_t lpos, rpos;
+ public:
+  using size_type = std::size_t;
+
+  struct query {
+    size_type index;
+    size_type left, right;
+  };
+
+  using value_type = query;
+  using reference = query&;
+  using container_type = std::vector<query>;
+
+ protected:
+  _Push_front push_front;
+  _Pop_front pop_front;
+  _Push_back push_back;
+  _Pop_back pop_back;
+
+  container_type queries;
 
  public:
   /**
@@ -39,7 +50,7 @@ class Mo {
    * @param push_back
    * @param pop_back
    */
-  Mo(Push_back push_back, Pop_back pop_back)
+  Mo(_Push_back push_back, _Pop_back pop_back) noexcept
       : Mo(push_back, pop_back, push_back, pop_back) {}
 
   /**
@@ -50,19 +61,17 @@ class Mo {
    * @param push_back
    * @param pop_back
    */
-  Mo(Push_front push_front, Pop_front pop_front, Push_back push_back,
-     Pop_back pop_back)
+  Mo(_Push_front push_front, _Pop_front pop_front, _Push_back push_back,
+     _Pop_back pop_back) noexcept
       : push_front(push_front),
         pop_front(pop_front),
         push_back(push_back),
-        pop_back(pop_back),
-        lpos(),
-        rpos() {}
+        pop_back(pop_back) {}
 
   /**
    * @return Number of queries.
    */
-  size_t size() const { return lft.size(); }
+  size_type size() const noexcept { return queries.size(); }
 
   /**
    * @brief Add a query for the interval [l, r).
@@ -71,41 +80,93 @@ class Mo {
    * @param __r Right end, exclusive
    * @return Index of the query.
    */
-  size_t add_query(size_t __l, size_t __r) {
+  reference insert(size_type __l, size_type __r) noexcept {
     assert(__l <= __r);
-    lft.emplace_back(__l), rgt.emplace_back(__r);
-    return lft.size() - 1;
+    queries.push_back({queries.size(), __l, __r});
+    return queries.back();
   }
 
   /**
    * @brief Sort all queries.
    */
-  void make() {
+  void make() noexcept {
     assert(size());
-    ord.resize(size());
-    std::iota(ord.begin(), ord.end(), 0);
-    const size_t width =
-        ceil(*max_element(rgt.begin(), rgt.end()) / sqrt(size()));
-    std::sort(ord.begin(), ord.end(), [&](size_t x, size_t y) {
-      if (lft[x] / width != lft[y] / width) return lft[x] < lft[y];
-      return rgt[x] < rgt[y];
+    size_type __n = 0;
+    for (const auto& __q : queries) __n = std::max(__n, __q.right);
+    size_type __width = ceil(__n / sqrt(size()));
+    std::sort(queries.begin(), queries.end(), [&](auto __x, auto __y) {
+      if (__x.left / __width != __y.left / __width) return __x.left < __y.left;
+      return __x.right < __y.right;
     });
-    iter = ord.begin();
   }
 
-  /**
-   * @brief Process the next query.
-   * @return Index of the query.
-   */
-  size_t process() {
-    if (iter == ord.end()) return ord.size();
-    const size_t id = *iter++, l = lft[id], r = rgt[id];
-    while (lpos > l) push_front(--lpos);
-    while (rpos < r) push_back(rpos++);
-    while (lpos < l) pop_front(lpos++);
-    while (rpos > r) pop_back(--rpos);
-    return id;
-  }
+  class iterator : public container_type::iterator {
+    using base = typename container_type::iterator;
+    Mo* __mo;
+
+    void fit(size_type __l1, size_type __r1, size_type __l2,
+             size_type __r2) const noexcept {
+      while (__l1 > __l2) __mo->push_front(--__l1);
+      while (__r1 < __r2) __mo->push_back(__r1++);
+      while (__l1 < __l2) __mo->pop_front(__l1++);
+      while (__r1 > __r2) __mo->pop_back(--__r1);
+    }
+
+    void fit_from_empty(size_type __l, size_type __r) const noexcept {
+      while (__l < __r) __mo->push_back(__l++);
+    }
+
+    void fit_to_empty(size_type __l, size_type __r) const noexcept {
+      while (__l < __r) __mo->push_back(--__r);
+    }
+
+    bool at_end() const noexcept { return __mo->queries.end() == *this; }
+
+   public:
+    iterator() = default;
+
+    iterator(Mo* __mo, base __i) noexcept : base(__i), __mo(__mo) {
+      if (__i != __mo->queries.end()) fit_from_empty(__i->left, __i->right);
+    }
+
+    iterator& operator++() noexcept {
+      auto __l = (*this)->left, __r = (*this)->right;
+      base::operator++();
+      if (at_end())
+        fit_to_empty(__l, __r);
+      else
+        fit(__l, __r, (*this)->left, (*this)->right);
+      return *this;
+    }
+
+    iterator& operator--() noexcept {
+      if (at_end()) {
+        base::operator--();
+        fit_from_empty((*this)->left, (*this)->right);
+      } else {
+        size_type __l = (*this)->left, __r = (*this)->right;
+        base::operator--();
+        fit(__l, __r, (*this)->left, (*this)->right);
+      }
+      return *this;
+    }
+
+    iterator operator++(int) noexcept {
+      auto __tmp = *this;
+      operator++();
+      return __tmp;
+    }
+
+    iterator operator--(int) noexcept {
+      auto __tmp = *this;
+      operator--();
+      return __tmp;
+    }
+  };
+
+  iterator begin() noexcept { return {this, queries.begin()}; }
+
+  iterator end() noexcept { return {this, queries.end()}; }
 };
 
 }  // namespace workspace
