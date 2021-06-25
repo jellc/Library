@@ -3,18 +3,20 @@
 #include <cstdio>
 
 #include "src/data_structure/Mo.hpp"
-#include "src/data_structure/coordinate_compression.hpp"
+#include "src/data_structure/compression.hpp"
 #include "src/data_structure/segment_tree/basic.hpp"
 
 int main() {
-  using i64 = int64_t;
+  using i64 = long long;
   int n, q;
   scanf("%d%d", &n, &q);
   std::vector<size_t> a(n);
   for (auto &e : a) scanf("%d", &e);
-  workspace::coordinate_compression<int> ccmp(a.begin(), a.end());
+  workspace::compression ccmp(begin(a), end(a));
   ccmp.make();
-  a = ccmp.compress(a.begin(), a.end());
+  for (auto &&x : a) {
+    x = ccmp.lower_bound(x);
+  }
   std::vector<int> cnt(ccmp.size());
   workspace::segment_tree<int> seg(n);
   i64 invs = 0;
@@ -42,13 +44,12 @@ int main() {
   for (int i = 0; i < q; i++) {
     int l, r;
     scanf("%d%d", &l, &r);
-    mo.add_query(l, r);
+    mo.insert(l, r);
   }
   mo.make();
   std::vector<i64> ans(q);
-  for (int i = 0; i < q; i++) {
-    int id = mo.process();
-    ans[id] = invs;
+  for (auto &&e : mo) {
+    ans[e.index] = invs;
   }
   for (i64 x : ans) printf("%lld\n", x);
 }

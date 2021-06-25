@@ -3,16 +3,18 @@
 #include <cstdio>
 
 #include "src/data_structure/Mo.hpp"
-#include "src/data_structure/coordinate_compression.hpp"
+#include "src/data_structure/compression.hpp"
 
 int main() {
   int n, q;
   scanf("%d%d", &n, &q);
   std::vector<size_t> a(n);
   for (auto &e : a) scanf("%d", &e);
-  workspace::coordinate_compression<size_t> ccmp(a.begin(), a.end());
+  workspace::compression ccmp(a.begin(), a.end());
   ccmp.make();
-  a = ccmp.compress(a.begin(), a.end());
+  for (auto &&x : a) {
+    x = ccmp.lower_bound(x);
+  }
   int bsize = std::sqrt(ccmp.size()) + 1;
   std::vector<int> cnt(ccmp.size()), bcnt(bsize);
   auto add = [&](int i) {
@@ -29,18 +31,17 @@ int main() {
   std::vector<int> k(q), ans(q);
   for (int l, r, i = 0; i < q; i++) {
     scanf("%d%d%d", &l, &r, &k[i]);
-    mo.add_query(l, r);
+    mo.insert(l, r);
   }
   mo.make();
-  for (int t = 0; t < q; t++) {
-    int qid = mo.process();
-    for (int i = 0, j = 0, nk = k[qid]; i < bsize; i++, j += bsize) {
+  for (auto &&q : mo) {
+    for (int i = 0, j = 0, nk = k[q.index]; i < bsize; i++, j += bsize) {
       if (bcnt[i] > nk) {
         int h;
         for (h = j; nk >= cnt[h]; h++) {
           nk -= cnt[h];
         }
-        ans[qid] = ccmp[h];
+        ans[q.index] = ccmp[h];
         break;
       } else {
         nk -= bcnt[i];
