@@ -88,25 +88,29 @@ data:
     \ iterator &operator-=(difference_type __x) noexcept {\n      current -= __x;\n\
     \      return *this;\n    }\n    constexpr iterator operator-(difference_type\
     \ __x) const noexcept {\n      return iterator(*this) -= __x;\n    }\n\n    constexpr\
-    \ reference operator*() const noexcept { return current; }\n  };\n\n  constexpr\
-    \ range(_Index __first, _Index __last) noexcept\n      : __first(__first), __last(__last)\
-    \ {}\n  constexpr range(_Index __last) noexcept : __first(), __last(__last) {}\n\
-    \n  constexpr iterator begin() const noexcept { return iterator{__first}; }\n\
-    \  constexpr iterator end() const noexcept { return iterator{__last}; }\n\n  constexpr\
-    \ reverse_iterator<iterator> rbegin() const noexcept {\n    return reverse_iterator<iterator>(end());\n\
-    \  }\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
-    \ reverse_iterator<iterator>(begin());\n  }\n\n  constexpr size_t size() const\
-    \ noexcept {\n    return std::distance(__first, __last);\n  }\n};\n\ntemplate\
-    \ <class... _Args>\nconstexpr decltype(auto) rrange(_Args &&...__args) noexcept\
-    \ {\n  return reversed(range(std::forward<_Args>(__args)...));\n}\n\ntemplate\
-    \ <class _Container>\nconstexpr decltype(auto) iterate(_Container &&__cont) noexcept\
-    \ {\n  return range(std::begin(__cont), std::end(__cont));\n}\n\ntemplate <class\
-    \ _Container>\nconstexpr decltype(auto) riterate(_Container &&__cont) noexcept\
-    \ {\n  return range(std::rbegin(__cont), std::rend(__cont));\n}\n\n}  // namespace\
-    \ workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\n\n/**\n * @file\
-    \ zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include <tuple>\n#include\
-    \ <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n/*\n * @file category.hpp\n\
-    \ * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
+    \ reference operator*() const noexcept { return current; }\n  };\n\n  template\
+    \ <class _Tp1, class _Tp2>\n  constexpr range(const _Tp1 &__first, const _Tp2\
+    \ &__last) noexcept\n      : __first(__first), __last(__last) {}\n\n  template\
+    \ <class _Tp>\n  constexpr range(const _Tp &__last) noexcept : __first(), __last(__last)\
+    \ {}\n\n  constexpr iterator begin() const noexcept { return iterator{__first};\
+    \ }\n  constexpr iterator end() const noexcept { return iterator{__last}; }\n\n\
+    \  constexpr reverse_iterator<iterator> rbegin() const noexcept {\n    return\
+    \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
+    \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
+    \ }\n\n  constexpr size_t size() const noexcept {\n    return std::distance(__first,\
+    \ __last);\n  }\n};\n\ntemplate <class _Tp1, class _Tp2>\nrange(const _Tp1 &,\
+    \ const _Tp2 &)\n    -> range<std::decay_t<decltype(++std::declval<_Tp1 &>())>>;\n\
+    \ntemplate <class _Tp>\nrange(const _Tp &) -> range<std::decay_t<decltype(++std::declval<_Tp\
+    \ &>())>>;\n\ntemplate <class... _Args>\nconstexpr decltype(auto) rrange(_Args\
+    \ &&...__args) noexcept {\n  return reversed(range(std::forward<_Args>(__args)...));\n\
+    }\n\ntemplate <class _Container>\nconstexpr decltype(auto) iterate(_Container\
+    \ &&__cont) noexcept {\n  return range(std::begin(__cont), std::end(__cont));\n\
+    }\n\ntemplate <class _Container>\nconstexpr decltype(auto) riterate(_Container\
+    \ &&__cont) noexcept {\n  return range(std::rbegin(__cont), std::rend(__cont));\n\
+    }\n\n}  // namespace workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\
+    \n\n/**\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include\
+    \ <tuple>\n#include <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n\
+    /*\n * @file category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
     \n\nnamespace workspace {\n\n/*\n * @tparam Tuple Tuple of iterator types\n */\n\
     template <class Tuple, size_t N = std::tuple_size<Tuple>::value - 1>\nstruct common_iterator_category\
     \ {\n  using type = typename std::common_type<\n      typename common_iterator_category<Tuple,\
@@ -234,7 +238,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-06-18 17:34:10+09:00'
+  timestamp: '2021-06-26 17:09:38+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp

@@ -262,7 +262,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2021-06-25 19:18:38+09:00'
+  timestamp: '2021-06-26 00:26:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/static_range_inversions_query.test.cpp

@@ -398,14 +398,14 @@ data:
   timestamp: '2021-04-05 00:56:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/1615.test.cpp
   - test/aizu-online-judge/GRL_6_A.test.cpp
-  - test/aizu-online-judge/GRL_6_B.test.cpp
-  - test/aizu-online-judge/2815.test.cpp
   - test/aizu-online-judge/1615.2.test.cpp
-  - test/library-checker/min_cost_b_flow.test.cpp
-  - test/library-checker/bipartitematching.test.cpp
+  - test/aizu-online-judge/GRL_6_B.test.cpp
+  - test/aizu-online-judge/1615.test.cpp
+  - test/aizu-online-judge/2815.test.cpp
   - test/library-checker/assignment.test.cpp
+  - test/library-checker/bipartitematching.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
 documentation_of: src/graph/directed/flow/base.hpp
 layout: document
 redirect_from:
