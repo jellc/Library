@@ -94,9 +94,12 @@ template <class _Index> class range {
     constexpr reference operator*() const noexcept { return current; }
   };
 
-  constexpr range(_Index __first, _Index __last) noexcept
+  template <class _Tp1, class _Tp2>
+  constexpr range(const _Tp1 &__first, const _Tp2 &__last) noexcept
       : __first(__first), __last(__last) {}
-  constexpr range(_Index __last) noexcept : __first(), __last(__last) {}
+
+  template <class _Tp>
+  constexpr range(const _Tp &__last) noexcept : __first(), __last(__last) {}
 
   constexpr iterator begin() const noexcept { return iterator{__first}; }
   constexpr iterator end() const noexcept { return iterator{__last}; }
@@ -112,6 +115,13 @@ template <class _Index> class range {
     return std::distance(__first, __last);
   }
 };
+
+template <class _Tp1, class _Tp2>
+range(const _Tp1 &, const _Tp2 &)
+    -> range<std::decay_t<decltype(++std::declval<_Tp1 &>())>>;
+
+template <class _Tp>
+range(const _Tp &) -> range<std::decay_t<decltype(++std::declval<_Tp &>())>>;
 
 template <class... _Args>
 constexpr decltype(auto) rrange(_Args &&...__args) noexcept {
