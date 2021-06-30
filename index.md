@@ -151,6 +151,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/basic.hpp
       title: Segment Tree
+    - icon: ':warning:'
+      path: src/data_structure/segment_tree/dual.hpp
+      title: Dual Segment Tree
     - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree

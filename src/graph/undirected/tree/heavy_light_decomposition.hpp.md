@@ -133,8 +133,8 @@ data:
   timestamp: '2020-11-16 23:30:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/2450.test.cpp
   - test/library-checker/lowest_common_ancestor.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/graph/undirected/tree/heavy_light_decomposition.hpp
 layout: document
 redirect_from:

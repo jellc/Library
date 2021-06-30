@@ -119,8 +119,8 @@ data:
   timestamp: '2021-05-07 14:31:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/2450.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/algebra/system/operation.hpp
 layout: document
 redirect_from:
