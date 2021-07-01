@@ -46,9 +46,9 @@ template <auto _Mod, unsigned _Storage> struct modint {
  public:
   constexpr modint() noexcept = default;
 
-  template <class _Tp> constexpr modint(_Tp __n) noexcept : value(__n) {
-    if ((value %= mod) < 0) value += mod;
-  }
+  template <class _Tp>
+  constexpr modint(_Tp __n) noexcept
+      : value((__n %= mod) < 0 ? __n + mod : __n) {}
 
   constexpr modint(bool __n) noexcept : value(__n) {}
 
@@ -97,8 +97,12 @@ template <auto _Mod, unsigned _Storage> struct modint {
 
   template <class _Tp>
   constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator+=(
-      _Tp const &__x) noexcept {
-    if (((value += __x) %= mod) < 0) value += mod;
+      _Tp __x) noexcept {
+    __x %= mod, value += __x;
+    if (value < 0)
+      value += mod;
+    else if (value >= mod)
+      value -= mod;
     return *this;
   }
 
@@ -132,7 +136,11 @@ template <auto _Mod, unsigned _Storage> struct modint {
   template <class _Tp>
   constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator-=(
       _Tp __x) noexcept {
-    if (((value -= __x) %= mod) < 0) value += mod;
+    __x %= mod, value -= __x;
+    if (value < 0)
+      value += mod;
+    else if (value >= mod)
+      value -= mod;
     return *this;
   }
 
