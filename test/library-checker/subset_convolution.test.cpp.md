@@ -196,12 +196,12 @@ data:
     \ direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\n \
     \ // Direct constructor\n  template <class _Tp>\n  constexpr modint(_Tp __n, direct_ctor_t)\
     \ noexcept : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\
-    \n  template <class _Tp> constexpr modint(_Tp __n) noexcept : value(__n) {\n \
-    \   if ((value %= mod) < 0) value += mod;\n  }\n\n  constexpr modint(bool __n)\
-    \ noexcept : value(__n) {}\n\n  constexpr operator value_type() const noexcept\
-    \ { return value; }\n\n  // unary operators {{\n  constexpr modint operator++(int)\
-    \ noexcept {\n    modint __t{*this};\n    operator++();\n    return __t;\n  }\n\
-    \n  constexpr modint operator--(int) noexcept {\n    modint __t{*this};\n    operator--();\n\
+    \n  template <class _Tp>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
+    \ %= mod) < 0 ? __n + mod : __n) {}\n\n  constexpr modint(bool __n) noexcept :\
+    \ value(__n) {}\n\n  constexpr operator value_type() const noexcept { return value;\
+    \ }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept {\n\
+    \    modint __t{*this};\n    operator++();\n    return __t;\n  }\n\n  constexpr\
+    \ modint operator--(int) noexcept {\n    modint __t{*this};\n    operator--();\n\
     \    return __t;\n  }\n\n  constexpr modint &operator++() noexcept {\n    if (++value\
     \ == mod) value = 0;\n    return *this;\n  }\n\n  constexpr modint &operator--()\
     \ noexcept {\n    if (!value)\n      value = mod - 1;\n    else\n      --value;\n\
@@ -211,9 +211,10 @@ data:
     \ operator+= {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept\
     \ {\n    if ((value += __x.value) >= mod) value -= mod;\n    return *this;\n \
     \ }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
-    \ modint> &operator+=(\n      _Tp const &__x) noexcept {\n    if (((value += __x)\
-    \ %= mod) < 0) value += mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n\
-    \  // operator+ {{\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ modint> &operator+=(\n      _Tp __x) noexcept {\n    __x %= mod, value += __x;\n\
+    \    if (value < 0)\n      value += mod;\n    else if (value >= mod)\n      value\
+    \ -= mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+ {{\n\
+    \n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> operator+(\n      _Tp const &__x) const noexcept {\n    return modint{*this}\
     \ += __x;\n  }\n\n  constexpr modint operator+(modint __x) const noexcept { return\
     \ __x += *this; }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
@@ -222,12 +223,13 @@ data:
     \ &operator-=(const modint &__x) noexcept {\n    if ((value -= __x.value) < 0)\
     \ value += mod;\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr\
     \ std::enable_if_t<is_integral_ext<_Tp>::value, modint> &operator-=(\n      _Tp\
-    \ __x) noexcept {\n    if (((value -= __x) %= mod) < 0) value += mod;\n    return\
-    \ *this;\n  }\n\n  // }} operator-=\n\n  // operator- {{\n\n  template <class\
-    \ _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> operator-(\n\
-    \      _Tp const &__x) const noexcept {\n    return modint{*this} -= __x;\n  }\n\
-    \n  constexpr modint operator-(const modint &__x) const noexcept {\n    return\
-    \ modint{*this} -= __x;\n  }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ __x) noexcept {\n    __x %= mod, value -= __x;\n    if (value < 0)\n      value\
+    \ += mod;\n    else if (value >= mod)\n      value -= mod;\n    return *this;\n\
+    \  }\n\n  // }} operator-=\n\n  // operator- {{\n\n  template <class _Tp>\n  constexpr\
+    \ std::enable_if_t<is_integral_ext<_Tp>::value, modint> operator-(\n      _Tp\
+    \ const &__x) const noexcept {\n    return modint{*this} -= __x;\n  }\n\n  constexpr\
+    \ modint operator-(const modint &__x) const noexcept {\n    return modint{*this}\
+    \ -= __x;\n  }\n\n  template <class _Tp>\n  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint>\n  operator-(_Tp __x, const modint &__y) noexcept {\n    if (((__x -=\
     \ __y.value) %= mod) < 0) __x += mod;\n    return {__x, direct_ctor_tag};\n  }\n\
     \n  // }} operator-\n\n  // operator*= {{\n\n  constexpr modint &operator*=(const\
@@ -317,7 +319,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-06-23 13:54:46+09:00'
+  timestamp: '2021-07-02 00:02:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp
