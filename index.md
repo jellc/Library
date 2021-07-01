@@ -136,6 +136,9 @@ data:
       path: src/data_structure/map.hpp
       title: Map
     - icon: ':warning:'
+      path: src/data_structure/ndvec.hpp
+      title: Nd-vector
+    - icon: ':warning:'
       path: src/data_structure/set.hpp
       title: Set
   - name: src/data_structure/convex_hull_trick
