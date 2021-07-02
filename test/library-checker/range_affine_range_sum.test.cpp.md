@@ -400,13 +400,13 @@ data:
     \ {};\n    if ((__x %= mod) < 0) __x += mod;\n    return {_div(__x, __y.value),\
     \ direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr modint inv() const\
     \ noexcept { return _div(1, value); }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
-    \ modint> pow(\n      _Tp __e) const noexcept {\n    modint __r{1, direct_ctor_tag};\n\
+    \ modint> pow(\n      _Tp __e) const noexcept {\n    modint __r{mod != 1, direct_ctor_tag};\n\
     \n    for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,\n        \
     \                      direct_ctor_tag};\n         __e; __e >>= 1, __b *= __b)\n\
     \      if (__e & 1) __r *= __b;\n\n    return __r;\n  }\n\n  template <class _Tp>\n\
     \  constexpr friend std::enable_if_t<is_integral_ext<_Tp>::value, modint> pow(\n\
     \      modint __b, _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n\
-    \      __b.value = _div(1, __b.value);\n    }\n\n    modint __r{1, direct_ctor_tag};\n\
+    \      __b.value = _div(1, __b.value);\n    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\
     \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
     \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
     \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
@@ -458,7 +458,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-07-02 00:02:33+09:00'
+  timestamp: '2021-07-03 00:09:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
