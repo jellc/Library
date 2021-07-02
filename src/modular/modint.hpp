@@ -294,7 +294,7 @@ template <auto _Mod, unsigned _Storage> struct modint {
   template <class _Tp>
   constexpr std::enable_if_t<is_integral_ext<_Tp>::value, modint> pow(
       _Tp __e) const noexcept {
-    modint __r{1, direct_ctor_tag};
+    modint __r{mod != 1, direct_ctor_tag};
 
     for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,
                               direct_ctor_tag};
@@ -312,7 +312,7 @@ template <auto _Mod, unsigned _Storage> struct modint {
       __b.value = _div(1, __b.value);
     }
 
-    modint __r{1, direct_ctor_tag};
+    modint __r{mod != 1, direct_ctor_tag};
 
     for (; __e; __e >>= 1, __b *= __b)
       if (__e & 1) __r *= __b;
