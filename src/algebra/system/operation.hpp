@@ -46,9 +46,8 @@ struct has_binary_plus<_Tp1, _Tp2, require_binary_plus<_Tp1, _Tp2>>
 // Binary `-`
 template <class _Tp1, class _Tp2 = _Tp1>
 using require_binary_minus =
-    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>() -
-                                                  std::declval<const _Tp2 &>()),
-                                         _Tp1>::value>;
+    std::__void_t<decltype(std::declval<const _Tp1 &>() -
+                           std::declval<const _Tp2 &>())>;
 
 template <class _Tp1, class _Tp2 = _Tp1, class = void>
 struct has_binary_minus : std::false_type {};
@@ -98,5 +97,18 @@ struct has_binary_modulus : std::false_type {};
 template <class _Tp1, class _Tp2>
 struct has_binary_modulus<_Tp1, _Tp2, require_binary_modulus<_Tp1, _Tp2>>
     : std::true_type {};
+
+template <class _Tp1, class _Tp2 = _Tp1, class = void, class = void,
+          class = void, class = void>
+struct has_arithmetic : std::false_type {};
+
+template <class _Tp1, class _Tp2>
+struct has_arithmetic<_Tp1, _Tp2, require_binary_plus<_Tp1, _Tp2>,
+                      require_binary_minus<_Tp1, _Tp2>,
+                      require_binary_multiplies<_Tp1, _Tp2>,
+                      require_binary_divides<_Tp1, _Tp2>> : std::true_type {};
+
+template <class _Tp1, class _Tp2 = _Tp1>
+using require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;
 
 }  // namespace workspace
