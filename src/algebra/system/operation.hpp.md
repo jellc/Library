@@ -38,16 +38,15 @@ data:
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_plus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_plus<_Tp1, _Tp2,\
     \ require_binary_plus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `-`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
-    \ _Tp1 &>() -\n                                                  std::declval<const\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::__void_t<decltype(std::declval<const\
+    \ _Tp1 &>() -\n                           std::declval<const _Tp2 &>())>;\n\n\
+    template <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1,\
+    \ _Tp2, require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary\
+    \ `*`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() *\n                                                  std::declval<const\
     \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
-    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus : std::false_type\
-    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1, _Tp2,\
-    \ require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `*`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies =\n\
-    \    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>()\
-    \ *\n                                                  std::declval<const _Tp2\
-    \ &>()),\n                                         _Tp1>::value>;\n\ntemplate\
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_multiplies\
     \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_multiplies<_Tp1,\
     \ _Tp2, require_binary_multiplies<_Tp1, _Tp2>>\n    : std::true_type {};\n\n//\
@@ -64,8 +63,15 @@ data:
     \                                         _Tp1>::value>;\n\ntemplate <class _Tp1,\
     \ class _Tp2 = _Tp1, class = void>\nstruct has_binary_modulus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_modulus<_Tp1, _Tp2,\
-    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n}  // namespace\
-    \ workspace\n"
+    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2 = _Tp1, class = void, class = void,\n          class = void,\
+    \ class = void>\nstruct has_arithmetic : std::false_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2>\nstruct has_arithmetic<_Tp1, _Tp2, require_binary_plus<_Tp1,\
+    \ _Tp2>,\n                      require_binary_minus<_Tp1, _Tp2>,\n          \
+    \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
+    \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
+    \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
+    }  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n\
     \ */\n\n#include <type_traits>\n\nnamespace workspace {\n\n// Unary `+`\ntemplate\
     \ <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const\
@@ -82,16 +88,15 @@ data:
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_plus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_plus<_Tp1, _Tp2,\
     \ require_binary_plus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `-`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
-    \ _Tp1 &>() -\n                                                  std::declval<const\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::__void_t<decltype(std::declval<const\
+    \ _Tp1 &>() -\n                           std::declval<const _Tp2 &>())>;\n\n\
+    template <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1,\
+    \ _Tp2, require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary\
+    \ `*`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() *\n                                                  std::declval<const\
     \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
-    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus : std::false_type\
-    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1, _Tp2,\
-    \ require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `*`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies =\n\
-    \    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>()\
-    \ *\n                                                  std::declval<const _Tp2\
-    \ &>()),\n                                         _Tp1>::value>;\n\ntemplate\
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_multiplies\
     \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_multiplies<_Tp1,\
     \ _Tp2, require_binary_multiplies<_Tp1, _Tp2>>\n    : std::true_type {};\n\n//\
@@ -108,15 +113,22 @@ data:
     \                                         _Tp1>::value>;\n\ntemplate <class _Tp1,\
     \ class _Tp2 = _Tp1, class = void>\nstruct has_binary_modulus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_modulus<_Tp1, _Tp2,\
-    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n}  // namespace\
-    \ workspace\n"
+    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2 = _Tp1, class = void, class = void,\n          class = void,\
+    \ class = void>\nstruct has_arithmetic : std::false_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2>\nstruct has_arithmetic<_Tp1, _Tp2, require_binary_plus<_Tp1,\
+    \ _Tp2>,\n                      require_binary_minus<_Tp1, _Tp2>,\n          \
+    \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
+    \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
+    \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
+    }  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
   requiredBy:
   - src/opt/golden_section.hpp
   - src/data_structure/segment_tree/lazy.hpp
-  timestamp: '2021-05-07 14:31:52+09:00'
+  timestamp: '2021-07-05 01:35:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

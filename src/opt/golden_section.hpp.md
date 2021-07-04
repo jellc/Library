@@ -30,16 +30,15 @@ data:
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_plus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_plus<_Tp1, _Tp2,\
     \ require_binary_plus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `-`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
-    \ _Tp1 &>() -\n                                                  std::declval<const\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::__void_t<decltype(std::declval<const\
+    \ _Tp1 &>() -\n                           std::declval<const _Tp2 &>())>;\n\n\
+    template <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1,\
+    \ _Tp2, require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary\
+    \ `*`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() *\n                                                  std::declval<const\
     \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
-    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus : std::false_type\
-    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1, _Tp2,\
-    \ require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `*`\n\
-    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies =\n\
-    \    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>()\
-    \ *\n                                                  std::declval<const _Tp2\
-    \ &>()),\n                                         _Tp1>::value>;\n\ntemplate\
     \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_multiplies\
     \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_multiplies<_Tp1,\
     \ _Tp2, require_binary_multiplies<_Tp1, _Tp2>>\n    : std::true_type {};\n\n//\
@@ -56,10 +55,17 @@ data:
     \                                         _Tp1>::value>;\n\ntemplate <class _Tp1,\
     \ class _Tp2 = _Tp1, class = void>\nstruct has_binary_modulus : std::false_type\
     \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_modulus<_Tp1, _Tp2,\
-    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n}  // namespace\
-    \ workspace\n#line 11 \"src/opt/golden_section.hpp\"\n\nnamespace workspace {\n\
-    \n/**\n * @brief Golden section search.\n */\ntemplate <class _Iterator, class\
-    \ _Function>\nstd::enable_if_t<has_binary_minus<_Iterator>::value, _Iterator>\
+    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2 = _Tp1, class = void, class = void,\n          class = void,\
+    \ class = void>\nstruct has_arithmetic : std::false_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2>\nstruct has_arithmetic<_Tp1, _Tp2, require_binary_plus<_Tp1,\
+    \ _Tp2>,\n                      require_binary_minus<_Tp1, _Tp2>,\n          \
+    \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
+    \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
+    \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
+    }  // namespace workspace\n#line 11 \"src/opt/golden_section.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @brief Golden section search.\n */\ntemplate <class _Iterator,\
+    \ class _Function>\nstd::enable_if_t<has_binary_minus<_Iterator>::value, _Iterator>\
     \ golden_section(\n    _Iterator __first, _Iterator __last, _Function&& __f) {\n\
     \  if (__last - __first < 2) return __first;\n\n  decltype(__last - __first) __a{1},\
     \ __b{2};\n  while (__a + __b <= __last - __first) std::swap(__a += __b, __b);\n\
@@ -87,7 +93,7 @@ data:
   isVerificationFile: false
   path: src/opt/golden_section.hpp
   requiredBy: []
-  timestamp: '2021-05-31 20:26:53+09:00'
+  timestamp: '2021-07-05 01:35:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/opt/golden_section.hpp
