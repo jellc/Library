@@ -16,26 +16,28 @@ data:
     \ Cached\n */\n\n#line 2 \"src/utils/fixed_point.hpp\"\n\n/**\n * @file fixed_point.hpp\n\
     \ * @brief Fixed Point Combinator\n */\n\n#include <map>\n\nnamespace workspace\
     \ {\n\n/**\n * @brief Fixed Point Combinator.\n */\ntemplate <class _F> class\
-    \ fixed_point {\n public:\n  // Construct a new fixed-point object.\n  fixed_point(_F\
-    \ __x) noexcept : __fn(__x) {}\n\n  // Function call.\n  template <class... _Args>\
-    \ decltype(auto) operator()(_Args... __args) {\n    return _wrapper{__fn}(std::forward<_Args>(__args)...);\n\
-    \  }\n\n private:\n  _F __fn;\n\n  struct _wrapper {\n    _F &__ref;\n\n    template\
-    \ <class... _Args> decltype(auto) operator()(_Args... __args) {\n      return\
-    \ __ref(*this, std::forward<_Args>(__args)...);\n    }\n  };\n};\n\n}  // namespace\
-    \ workspace\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus\
-    \ >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
-    #endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief\
-    \  Return the size of a container.\n *  @param  __cont  Container.\n */\ntemplate\
-    \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
-    \ std\n\n#endif\n#line 10 \"src/utils/cached.hpp\"\n\nnamespace workspace {\n\n\
-    namespace _cached_impl {\n\n// Convert keys to tuple.\ntemplate <class... _Args>\
-    \ struct as_tuple {\n  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<std::conditional_t<\n\
-    \          std::is_convertible<std::decay_t<_Args>, _Args>::value,\n         \
-    \ std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative array.\ntemplate\
-    \ <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
+    \ fixed_point {\n  struct _wrapper {\n    _F &__ref;\n\n    template <class...\
+    \ _Args>\n    decltype(auto) operator()(_Args &&...__args) noexcept(\n       \
+    \ noexcept(__ref(*this, std::forward<_Args>(__args)...))) {\n      return __ref(*this,\
+    \ std::forward<_Args>(__args)...);\n    }\n  };\n\n  _F __fn;\n\n public:\n  //\
+    \ Construct a new fixed-point object.\n  fixed_point(_F __x) noexcept : __fn(__x)\
+    \ {}\n\n  // Function call.\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
+    \ &&...__args) noexcept(noexcept(_wrapper{\n      __fn}(std::forward<_Args>(__args)...)))\
+    \ {\n    return _wrapper{__fn}(std::forward<_Args>(__args)...);\n  }\n};\n\n}\
+    \  // namespace workspace\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std\
+    \ {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 10 \"src/utils/cached.hpp\"\
+    \n\nnamespace workspace {\n\nnamespace _cached_impl {\n\n// Convert keys to tuple.\n\
+    template <class... _Args> struct as_tuple {\n  using type = decltype(std::tuple_cat(\n\
+    \      std::declval<std::tuple<std::conditional_t<\n          std::is_convertible<std::decay_t<_Args>,\
+    \ _Args>::value,\n          std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative\
+    \ array.\ntemplate <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
     \ !std::is_void<_Value>::value>,\n      std::conditional_t<std::is_void<_Value>::value,\n\
     \                         std::set<typename as_tuple<_Keys...>::type>,\n     \
     \                    std::map<typename as_tuple<_Keys...>::type, _Value>> {\n\
@@ -150,7 +152,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-06-19 22:40:47+09:00'
+  timestamp: '2021-07-06 17:30:05+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp
