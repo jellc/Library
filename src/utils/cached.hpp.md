@@ -49,45 +49,56 @@ data:
     \ class _R, class _H, class... _Args>\n  struct _cache<_R (_G::*)(_H, _Args...)>\
     \ : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class _H, class...\
     \ _Args>\n  struct _cache<_R (_G::*)(_H, _Args...) const> : assoc<_R, _Args...>\
-    \ {};\n\n public:\n  using cache_type =\n      _cache<decltype(&_F::template operator()<_recursive<_F>\
-    \ &>)>;\n\n  _recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  // Function call.\n\
-    \  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {\n\
-    \    return _wrapper{__fn, __c}(std::forward<_Args>(__args)...);\n  }\n\n private:\n\
+    \ {};\n\n  template <class _G, class _R, class _H, class... _Args>\n  struct _cache<_R\
+    \ (_G::*)(_H, _Args...) noexcept> : assoc<_R, _Args...> {};\n\n  template <class\
+    \ _G, class _R, class _H, class... _Args>\n  struct _cache<_R (_G::*)(_H, _Args...)\
+    \ const noexcept> : assoc<_R, _Args...> {\n  };\n\n public:\n  using cache_type\
+    \ =\n      _cache<decltype(&_F::template operator()<_recursive<_F> &>)>;\n\n private:\n\
     \  _F __fn;\n  cache_type __c;\n\n  struct _wrapper {\n    _F &__fn;\n    cache_type\
-    \ &__c;\n\n    template <class... _Args> decltype(auto) operator()(_Args &&...__args)\
+    \ &__c;\n\n    template <class... _Args>\n    decltype(auto) operator()(_Args\
+    \ &&...__args) noexcept(\n        noexcept(__fn(*this, std::forward<_Args>(__args)...)))\
     \ {\n      typename cache_type::key_type __key{__args...};\n      auto __i = __c.lower_bound(__key);\n\
     \n      if _CXX17_CONSTEXPR (cache_type::value) {\n        if (__i != __c.end()\
     \ && __i->first == __key) return __i->second;\n\n        return __c\n        \
     \    .emplace_hint(__i, std::move(__key),\n                          __fn(*this,\
     \ std::forward<_Args>(__args)...))\n            ->second;\n      }\n\n      else\
     \ if (__i == __c.end() || *__i != __key)\n        __c.emplace_hint(__i, std::move(__key)),\n\
-    \            __fn(*this, std::forward<_Args>(__args)...);\n    }\n  };\n};\n\n\
-    // Non-recursive ver.\ntemplate <class _F> class _non_recursive {\n  template\
-    \ <class _T, class = void> struct _get_func { using type = _T; };\n\n  template\
-    \ <class _T>\n  struct _get_func<_T, std::__void_t<decltype(&_T::operator())>>\
-    \ {\n    using type = decltype(&_T::operator());\n  };\n\n  template <class...>\
-    \ struct _cache;\n\n  template <class _R, class... _Args>\n  struct _cache<_R(_Args...)>\
-    \ : assoc<_R, _Args...> {};\n\n  template <class _R, class... _Args>\n  struct\
-    \ _cache<_R (*)(_Args...)> : assoc<_R, _Args...> {};\n\n  template <class _G,\
-    \ class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)> : assoc<_R,\
-    \ _Args...> {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R\
-    \ (_G::*)(_Args...) const> : assoc<_R, _Args...> {};\n\n public:\n  using cache_type\
-    \ = _cache<typename _get_func<_F>::type>;\n\n  _non_recursive(_F &&__x) noexcept\
-    \ : __fn(__x) {}\n\n  // Function call.\n  template <class... _Args> decltype(auto)\
-    \ operator()(_Args &&...__args) {\n    typename cache_type::key_type __key{__args...};\n\
-    \    auto __i = __c.lower_bound(__key);\n\n    if _CXX17_CONSTEXPR (cache_type::value)\
-    \ {\n      if (__i != __c.end() && __i->first == __key) return __i->second;\n\n\
-    \      return __c\n          .emplace_hint(__i, std::move(__key),\n          \
-    \              __fn(std::forward<_Args>(__args)...))\n          ->second;\n  \
-    \  }\n\n    else if (__i == __c.end() || *__i != __key)\n      __c.emplace_hint(__i,\
-    \ std::move(__key)),\n          __fn(std::forward<_Args>(__args)...);\n  }\n\n\
-    \ private:\n  _F __fn;\n  cache_type __c;\n};\n\ntemplate <class _F>\nusing _cached\
-    \ = std::conditional_t<is_recursive<_F>::value, _recursive<_F>,\n            \
-    \                       _non_recursive<_F>>;\n\n}  // namespace _cached_impl\n\
-    \n/**\n * @brief Cached caller of function\n */\ntemplate <class _F> class cached\
-    \ : public _cached_impl::_cached<_F> {\n public:\n  // Construct a new cached\
-    \ object.\n  cached() noexcept : _cached_impl::_cached<_F>(_F{}) {}\n\n  // Construct\
-    \ a new cached object.\n  cached(_F __x) noexcept : _cached_impl::_cached<_F>(std::move(__x))\
+    \            __fn(*this, std::forward<_Args>(__args)...);\n    }\n  };\n\n public:\n\
+    \  _recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  // Function call.\n  template\
+    \ <class... _Args>\n  decltype(auto) operator()(_Args &&...__args) noexcept(noexcept(_wrapper{\n\
+    \      __fn, __c}(std::forward<_Args>(__args)...))) {\n    return _wrapper{__fn,\
+    \ __c}(std::forward<_Args>(__args)...);\n  }\n};\n\n// Non-recursive ver.\ntemplate\
+    \ <class _F> class _non_recursive {\n  template <class _T, class = void> struct\
+    \ _get_func { using type = _T; };\n\n  template <class _T>\n  struct _get_func<_T,\
+    \ std::__void_t<decltype(&_T::operator())>> {\n    using type = decltype(&_T::operator());\n\
+    \  };\n\n  template <class...> struct _cache;\n\n  template <class _R, class...\
+    \ _Args>\n  struct _cache<_R(_Args...)> : assoc<_R, _Args...> {};\n\n  template\
+    \ <class _R, class... _Args>\n  struct _cache<_R (*)(_Args...)> : assoc<_R, _Args...>\
+    \ {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)>\
+    \ : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class... _Args>\n\
+    \  struct _cache<_R (_G::*)(_Args...) const> : assoc<_R, _Args...> {};\n\n  template\
+    \ <class _R, class... _Args>\n  struct _cache<_R(_Args...) noexcept> : assoc<_R,\
+    \ _Args...> {};\n\n  template <class _R, class... _Args>\n  struct _cache<_R (*)(_Args...)\
+    \ noexcept> : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class...\
+    \ _Args>\n  struct _cache<_R (_G::*)(_Args...) noexcept> : assoc<_R, _Args...>\
+    \ {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)\
+    \ const noexcept> : assoc<_R, _Args...> {};\n\n public:\n  using cache_type =\
+    \ _cache<typename _get_func<_F>::type>;\n\n private:\n  _F __fn;\n  cache_type\
+    \ __c;\n\n public:\n  _non_recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  //\
+    \ Function call.\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
+    \ &&...__args) noexcept(\n      noexcept(__fn(std::forward<_Args>(__args)...)))\
+    \ {\n    typename cache_type::key_type __key{__args...};\n    auto __i = __c.lower_bound(__key);\n\
+    \n    if _CXX17_CONSTEXPR (cache_type::value) {\n      if (__i != __c.end() &&\
+    \ __i->first == __key) return __i->second;\n\n      return __c\n          .emplace_hint(__i,\
+    \ std::move(__key),\n                        __fn(std::forward<_Args>(__args)...))\n\
+    \          ->second;\n    }\n\n    else if (__i == __c.end() || *__i != __key)\n\
+    \      __c.emplace_hint(__i, std::move(__key)),\n          __fn(std::forward<_Args>(__args)...);\n\
+    \  }\n};\n\ntemplate <class _F>\nusing _cached = std::conditional_t<is_recursive<_F>::value,\
+    \ _recursive<_F>,\n                                   _non_recursive<_F>>;\n\n\
+    }  // namespace _cached_impl\n\n/**\n * @brief Cached caller of function\n */\n\
+    template <class _F> class cached : public _cached_impl::_cached<_F> {\n public:\n\
+    \  // Construct a new cached object.\n  cached() noexcept : _cached_impl::_cached<_F>(_F{})\
+    \ {}\n\n  // Construct a new cached object.\n  cached(_F __x) noexcept : _cached_impl::_cached<_F>(std::move(__x))\
     \ {}\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file cached.hpp\n * @brief Cached\n */\n\n#include\
     \ \"fixed_point.hpp\"\n#include \"lib/cxx17\"\n\nnamespace workspace {\n\nnamespace\
@@ -107,52 +118,63 @@ data:
     \ class _R, class _H, class... _Args>\n  struct _cache<_R (_G::*)(_H, _Args...)>\
     \ : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class _H, class...\
     \ _Args>\n  struct _cache<_R (_G::*)(_H, _Args...) const> : assoc<_R, _Args...>\
-    \ {};\n\n public:\n  using cache_type =\n      _cache<decltype(&_F::template operator()<_recursive<_F>\
-    \ &>)>;\n\n  _recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  // Function call.\n\
-    \  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {\n\
-    \    return _wrapper{__fn, __c}(std::forward<_Args>(__args)...);\n  }\n\n private:\n\
+    \ {};\n\n  template <class _G, class _R, class _H, class... _Args>\n  struct _cache<_R\
+    \ (_G::*)(_H, _Args...) noexcept> : assoc<_R, _Args...> {};\n\n  template <class\
+    \ _G, class _R, class _H, class... _Args>\n  struct _cache<_R (_G::*)(_H, _Args...)\
+    \ const noexcept> : assoc<_R, _Args...> {\n  };\n\n public:\n  using cache_type\
+    \ =\n      _cache<decltype(&_F::template operator()<_recursive<_F> &>)>;\n\n private:\n\
     \  _F __fn;\n  cache_type __c;\n\n  struct _wrapper {\n    _F &__fn;\n    cache_type\
-    \ &__c;\n\n    template <class... _Args> decltype(auto) operator()(_Args &&...__args)\
+    \ &__c;\n\n    template <class... _Args>\n    decltype(auto) operator()(_Args\
+    \ &&...__args) noexcept(\n        noexcept(__fn(*this, std::forward<_Args>(__args)...)))\
     \ {\n      typename cache_type::key_type __key{__args...};\n      auto __i = __c.lower_bound(__key);\n\
     \n      if _CXX17_CONSTEXPR (cache_type::value) {\n        if (__i != __c.end()\
     \ && __i->first == __key) return __i->second;\n\n        return __c\n        \
     \    .emplace_hint(__i, std::move(__key),\n                          __fn(*this,\
     \ std::forward<_Args>(__args)...))\n            ->second;\n      }\n\n      else\
     \ if (__i == __c.end() || *__i != __key)\n        __c.emplace_hint(__i, std::move(__key)),\n\
-    \            __fn(*this, std::forward<_Args>(__args)...);\n    }\n  };\n};\n\n\
-    // Non-recursive ver.\ntemplate <class _F> class _non_recursive {\n  template\
-    \ <class _T, class = void> struct _get_func { using type = _T; };\n\n  template\
-    \ <class _T>\n  struct _get_func<_T, std::__void_t<decltype(&_T::operator())>>\
-    \ {\n    using type = decltype(&_T::operator());\n  };\n\n  template <class...>\
-    \ struct _cache;\n\n  template <class _R, class... _Args>\n  struct _cache<_R(_Args...)>\
-    \ : assoc<_R, _Args...> {};\n\n  template <class _R, class... _Args>\n  struct\
-    \ _cache<_R (*)(_Args...)> : assoc<_R, _Args...> {};\n\n  template <class _G,\
-    \ class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)> : assoc<_R,\
-    \ _Args...> {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R\
-    \ (_G::*)(_Args...) const> : assoc<_R, _Args...> {};\n\n public:\n  using cache_type\
-    \ = _cache<typename _get_func<_F>::type>;\n\n  _non_recursive(_F &&__x) noexcept\
-    \ : __fn(__x) {}\n\n  // Function call.\n  template <class... _Args> decltype(auto)\
-    \ operator()(_Args &&...__args) {\n    typename cache_type::key_type __key{__args...};\n\
-    \    auto __i = __c.lower_bound(__key);\n\n    if _CXX17_CONSTEXPR (cache_type::value)\
-    \ {\n      if (__i != __c.end() && __i->first == __key) return __i->second;\n\n\
-    \      return __c\n          .emplace_hint(__i, std::move(__key),\n          \
-    \              __fn(std::forward<_Args>(__args)...))\n          ->second;\n  \
-    \  }\n\n    else if (__i == __c.end() || *__i != __key)\n      __c.emplace_hint(__i,\
-    \ std::move(__key)),\n          __fn(std::forward<_Args>(__args)...);\n  }\n\n\
-    \ private:\n  _F __fn;\n  cache_type __c;\n};\n\ntemplate <class _F>\nusing _cached\
-    \ = std::conditional_t<is_recursive<_F>::value, _recursive<_F>,\n            \
-    \                       _non_recursive<_F>>;\n\n}  // namespace _cached_impl\n\
-    \n/**\n * @brief Cached caller of function\n */\ntemplate <class _F> class cached\
-    \ : public _cached_impl::_cached<_F> {\n public:\n  // Construct a new cached\
-    \ object.\n  cached() noexcept : _cached_impl::_cached<_F>(_F{}) {}\n\n  // Construct\
-    \ a new cached object.\n  cached(_F __x) noexcept : _cached_impl::_cached<_F>(std::move(__x))\
+    \            __fn(*this, std::forward<_Args>(__args)...);\n    }\n  };\n\n public:\n\
+    \  _recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  // Function call.\n  template\
+    \ <class... _Args>\n  decltype(auto) operator()(_Args &&...__args) noexcept(noexcept(_wrapper{\n\
+    \      __fn, __c}(std::forward<_Args>(__args)...))) {\n    return _wrapper{__fn,\
+    \ __c}(std::forward<_Args>(__args)...);\n  }\n};\n\n// Non-recursive ver.\ntemplate\
+    \ <class _F> class _non_recursive {\n  template <class _T, class = void> struct\
+    \ _get_func { using type = _T; };\n\n  template <class _T>\n  struct _get_func<_T,\
+    \ std::__void_t<decltype(&_T::operator())>> {\n    using type = decltype(&_T::operator());\n\
+    \  };\n\n  template <class...> struct _cache;\n\n  template <class _R, class...\
+    \ _Args>\n  struct _cache<_R(_Args...)> : assoc<_R, _Args...> {};\n\n  template\
+    \ <class _R, class... _Args>\n  struct _cache<_R (*)(_Args...)> : assoc<_R, _Args...>\
+    \ {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)>\
+    \ : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class... _Args>\n\
+    \  struct _cache<_R (_G::*)(_Args...) const> : assoc<_R, _Args...> {};\n\n  template\
+    \ <class _R, class... _Args>\n  struct _cache<_R(_Args...) noexcept> : assoc<_R,\
+    \ _Args...> {};\n\n  template <class _R, class... _Args>\n  struct _cache<_R (*)(_Args...)\
+    \ noexcept> : assoc<_R, _Args...> {};\n\n  template <class _G, class _R, class...\
+    \ _Args>\n  struct _cache<_R (_G::*)(_Args...) noexcept> : assoc<_R, _Args...>\
+    \ {};\n\n  template <class _G, class _R, class... _Args>\n  struct _cache<_R (_G::*)(_Args...)\
+    \ const noexcept> : assoc<_R, _Args...> {};\n\n public:\n  using cache_type =\
+    \ _cache<typename _get_func<_F>::type>;\n\n private:\n  _F __fn;\n  cache_type\
+    \ __c;\n\n public:\n  _non_recursive(_F &&__x) noexcept : __fn(__x) {}\n\n  //\
+    \ Function call.\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
+    \ &&...__args) noexcept(\n      noexcept(__fn(std::forward<_Args>(__args)...)))\
+    \ {\n    typename cache_type::key_type __key{__args...};\n    auto __i = __c.lower_bound(__key);\n\
+    \n    if _CXX17_CONSTEXPR (cache_type::value) {\n      if (__i != __c.end() &&\
+    \ __i->first == __key) return __i->second;\n\n      return __c\n          .emplace_hint(__i,\
+    \ std::move(__key),\n                        __fn(std::forward<_Args>(__args)...))\n\
+    \          ->second;\n    }\n\n    else if (__i == __c.end() || *__i != __key)\n\
+    \      __c.emplace_hint(__i, std::move(__key)),\n          __fn(std::forward<_Args>(__args)...);\n\
+    \  }\n};\n\ntemplate <class _F>\nusing _cached = std::conditional_t<is_recursive<_F>::value,\
+    \ _recursive<_F>,\n                                   _non_recursive<_F>>;\n\n\
+    }  // namespace _cached_impl\n\n/**\n * @brief Cached caller of function\n */\n\
+    template <class _F> class cached : public _cached_impl::_cached<_F> {\n public:\n\
+    \  // Construct a new cached object.\n  cached() noexcept : _cached_impl::_cached<_F>(_F{})\
+    \ {}\n\n  // Construct a new cached object.\n  cached(_F __x) noexcept : _cached_impl::_cached<_F>(std::move(__x))\
     \ {}\n};\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/fixed_point.hpp
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-07-06 17:30:05+09:00'
+  timestamp: '2021-07-06 18:05:02+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp
