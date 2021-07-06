@@ -48,16 +48,16 @@ template <class _F> class _recursive {
   template <class _G, class _R, class _H, class... _Args>
   struct _cache<_R (_G::*)(_H, _Args...) const> : assoc<_R, _Args...> {};
 
+  template <class _G, class _R, class _H, class... _Args>
+  struct _cache<_R (_G::*)(_H, _Args...) noexcept> : assoc<_R, _Args...> {};
+
+  template <class _G, class _R, class _H, class... _Args>
+  struct _cache<_R (_G::*)(_H, _Args...) const noexcept> : assoc<_R, _Args...> {
+  };
+
  public:
   using cache_type =
       _cache<decltype(&_F::template operator()<_recursive<_F> &>)>;
-
-  _recursive(_F &&__x) noexcept : __fn(__x) {}
-
-  // Function call.
-  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
-    return _wrapper{__fn, __c}(std::forward<_Args>(__args)...);
-  }
 
  private:
   _F __fn;
@@ -67,7 +67,9 @@ template <class _F> class _recursive {
     _F &__fn;
     cache_type &__c;
 
-    template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
+    template <class... _Args>
+    decltype(auto) operator()(_Args &&...__args) noexcept(
+        noexcept(__fn(*this, std::forward<_Args>(__args)...))) {
       typename cache_type::key_type __key{__args...};
       auto __i = __c.lower_bound(__key);
 
@@ -85,6 +87,16 @@ template <class _F> class _recursive {
             __fn(*this, std::forward<_Args>(__args)...);
     }
   };
+
+ public:
+  _recursive(_F &&__x) noexcept : __fn(__x) {}
+
+  // Function call.
+  template <class... _Args>
+  decltype(auto) operator()(_Args &&...__args) noexcept(noexcept(_wrapper{
+      __fn, __c}(std::forward<_Args>(__args)...))) {
+    return _wrapper{__fn, __c}(std::forward<_Args>(__args)...);
+  }
 };
 
 // Non-recursive ver.
@@ -110,13 +122,32 @@ template <class _F> class _non_recursive {
   template <class _G, class _R, class... _Args>
   struct _cache<_R (_G::*)(_Args...) const> : assoc<_R, _Args...> {};
 
+  template <class _R, class... _Args>
+  struct _cache<_R(_Args...) noexcept> : assoc<_R, _Args...> {};
+
+  template <class _R, class... _Args>
+  struct _cache<_R (*)(_Args...) noexcept> : assoc<_R, _Args...> {};
+
+  template <class _G, class _R, class... _Args>
+  struct _cache<_R (_G::*)(_Args...) noexcept> : assoc<_R, _Args...> {};
+
+  template <class _G, class _R, class... _Args>
+  struct _cache<_R (_G::*)(_Args...) const noexcept> : assoc<_R, _Args...> {};
+
  public:
   using cache_type = _cache<typename _get_func<_F>::type>;
 
+ private:
+  _F __fn;
+  cache_type __c;
+
+ public:
   _non_recursive(_F &&__x) noexcept : __fn(__x) {}
 
   // Function call.
-  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
+  template <class... _Args>
+  decltype(auto) operator()(_Args &&...__args) noexcept(
+      noexcept(__fn(std::forward<_Args>(__args)...))) {
     typename cache_type::key_type __key{__args...};
     auto __i = __c.lower_bound(__key);
 
@@ -133,10 +164,6 @@ template <class _F> class _non_recursive {
       __c.emplace_hint(__i, std::move(__key)),
           __fn(std::forward<_Args>(__args)...);
   }
-
- private:
-  _F __fn;
-  cache_type __c;
 };
 
 template <class _F>
