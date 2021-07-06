@@ -40,11 +40,6 @@ data:
     - icon: ':warning:'
       path: deprecated/local/dump.hpp
       title: deprecated/local/dump.hpp
-  - name: dev
-    pages:
-    - icon: ':warning:'
-      path: dev/fraction.hpp
-      title: dev/fraction.hpp
   - name: src/algebra
     pages:
     - icon: ':heavy_check_mark:'
