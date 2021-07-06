@@ -18,7 +18,7 @@ template <class _F> class fixed_point {
   fixed_point(_F __x) noexcept : __fn(__x) {}
 
   // Function call.
-  template <class... _Args> decltype(auto) operator()(_Args... __args) {
+  template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
     return _wrapper{__fn}(std::forward<_Args>(__args)...);
   }
 
@@ -28,7 +28,7 @@ template <class _F> class fixed_point {
   struct _wrapper {
     _F &__ref;
 
-    template <class... _Args> decltype(auto) operator()(_Args... __args) {
+    template <class... _Args> decltype(auto) operator()(_Args &&...__args) {
       return __ref(*this, std::forward<_Args>(__args)...);
     }
   };
