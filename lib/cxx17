@@ -8,6 +8,14 @@
 #endif
 #endif
 
+#ifndef _CXX17_STATIC_ASSERT
+#if __cplusplus >= 201703L
+#define _CXX17_STATIC_ASSERT static_assert
+#else
+#define _CXX17_STATIC_ASSERT assert
+#endif
+#endif
+
 #if __cplusplus < 201703L
 
 namespace std {
