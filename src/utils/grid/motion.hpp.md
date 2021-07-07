@@ -12,7 +12,9 @@ data:
   bundledCode: "#line 2 \"src/utils/grid/motion.hpp\"\n\n/**\n * @file motion.hpp\n\
     \ * @brief Motion\n */\n\n#include <algorithm>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef\
     \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
-    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
+    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
     \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
     \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
@@ -106,7 +108,7 @@ data:
   isVerificationFile: false
   path: src/utils/grid/motion.hpp
   requiredBy: []
-  timestamp: '2021-06-18 17:34:10+09:00'
+  timestamp: '2021-07-07 20:04:02+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/grid/motion.hpp

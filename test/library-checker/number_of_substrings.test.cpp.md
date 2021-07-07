@@ -162,6 +162,8 @@ data:
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
     \n#endif\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
     \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
     #endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief\
     \  Return the size of a container.\n *  @param  __cont  Container.\n */\ntemplate\
     \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
@@ -266,7 +268,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2021-06-18 17:34:10+09:00'
+  timestamp: '2021-07-07 20:04:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp
