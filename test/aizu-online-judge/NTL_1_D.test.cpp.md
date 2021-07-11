@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/totient.hpp
     title: Euler's Totient Function
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

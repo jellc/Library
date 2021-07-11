@@ -1,0 +1,157 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':x:'
+    path: src/algebra/system/operation.hpp
+    title: Operation Traits
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: hpp
+  _verificationStatusIcon: ':warning:'
+  attributes:
+    document_title: Rational
+    links: []
+  bundledCode: "#line 2 \"src/algebra/rational.hpp\"\n\n/**\n * @file rational.hpp\n\
+    \ * @brief Rational\n */\n\n#include <cassert>\n\n#line 2 \"src/algebra/system/operation.hpp\"\
+    \n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
+    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
+    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
+    \ : std::true_type {};\n\n// Binary `+`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\n\
+    using require_binary_plus =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const\
+    \ _Tp1 &>() +\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_plus : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_plus<_Tp1, _Tp2,\
+    \ require_binary_plus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `-`\n\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_minus =\n    std::__void_t<decltype(std::declval<const\
+    \ _Tp1 &>() -\n                           std::declval<const _Tp2 &>())>;\n\n\
+    template <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_minus\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_minus<_Tp1,\
+    \ _Tp2, require_binary_minus<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary\
+    \ `*`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_multiplies\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() *\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_multiplies\
+    \ : std::false_type {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_multiplies<_Tp1,\
+    \ _Tp2, require_binary_multiplies<_Tp1, _Tp2>>\n    : std::true_type {};\n\n//\
+    \ Binary `/`\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_divides\
+    \ =\n    std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1\
+    \ &>() /\n                                                  std::declval<const\
+    \ _Tp2 &>()),\n                                         _Tp1>::value>;\n\ntemplate\
+    \ <class _Tp1, class _Tp2 = _Tp1, class = void>\nstruct has_binary_divides : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_divides<_Tp1, _Tp2,\
+    \ require_binary_divides<_Tp1, _Tp2>>\n    : std::true_type {};\n\n// Binary `%`\n\
+    template <class _Tp1, class _Tp2 = _Tp1>\nusing require_binary_modulus =\n   \
+    \ std::enable_if_t<std::is_convertible<decltype(std::declval<const _Tp1 &>() %\n\
+    \                                                  std::declval<const _Tp2 &>()),\n\
+    \                                         _Tp1>::value>;\n\ntemplate <class _Tp1,\
+    \ class _Tp2 = _Tp1, class = void>\nstruct has_binary_modulus : std::false_type\
+    \ {};\n\ntemplate <class _Tp1, class _Tp2>\nstruct has_binary_modulus<_Tp1, _Tp2,\
+    \ require_binary_modulus<_Tp1, _Tp2>>\n    : std::true_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2 = _Tp1, class = void, class = void,\n          class = void,\
+    \ class = void>\nstruct has_arithmetic : std::false_type {};\n\ntemplate <class\
+    \ _Tp1, class _Tp2>\nstruct has_arithmetic<_Tp1, _Tp2, require_binary_plus<_Tp1,\
+    \ _Tp2>,\n                      require_binary_minus<_Tp1, _Tp2>,\n          \
+    \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
+    \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
+    \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
+    // Binary `<`\ntemplate <class _Tp, class = void> struct is_comparable : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct is_comparable<_Tp, std::__void_t<decltype(std::declval<const\
+    \ _Tp &>() <\n                                                 std::declval<const\
+    \ _Tp &>())>>\n    : std::true_type {};\n\ntemplate <class _Tp, bool _Default\
+    \ = false> struct try_less : std::less<_Tp> {\n  constexpr bool operator()(const\
+    \ _Tp &__x, const _Tp &__y) noexcept {\n    if _CXX17_CONSTEXPR (is_comparable<_Tp>::value)\n\
+    \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 11 \"src/algebra/rational.hpp\"\n\
+    \nnamespace workspace {\n\n/**\n * @brief Rational\n * @tparam _Tp Ring structure\n\
+    \ */\ntemplate <class _Tp> struct rational {\n  _Tp __num{0}, __den{1};\n\n  constexpr\
+    \ rational() noexcept = default;\n\n  constexpr rational(const _Tp &__x) noexcept\
+    \ : __num(__x) {}\n\n  constexpr rational(const _Tp &__x, const _Tp &__y) noexcept\n\
+    \      : __num(try_less<_Tp>{}(__y, _Tp(0)) ? -__x : __x),\n        __den(try_less<_Tp>{}(__y,\
+    \ _Tp(0)) ? -__y : __y) {}\n\n  constexpr operator bool() const noexcept { return\
+    \ __num != _Tp(0); }\n\n  constexpr rational operator+() const noexcept { return\
+    \ *this; }\n\n  constexpr rational operator-() const noexcept { return {-__num,\
+    \ __den}; }\n\n  constexpr rational operator+(const rational &__x) const noexcept\
+    \ {\n    return {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n\
+    \  }\n\n  constexpr rational operator-(const rational &__x) const noexcept {\n\
+    \    return {__num * __x.__den - __x.__num * __den, __den * __x.__den};\n  }\n\
+    \n  constexpr rational operator*(const rational &__x) noexcept {\n    return {__num\
+    \ * __x.__num, __den * __x.__den};\n  }\n\n  constexpr rational operator/(const\
+    \ rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n    return {__num\
+    \ * __x.__den, __den * __x.__num};\n  }\n\n  constexpr rational &operator+=(const\
+    \ rational &__x) noexcept {\n    (__num *= __x.__den) += __den * __x.__num, __den\
+    \ *= __x.__den;\n    return *this;\n  }\n\n  constexpr rational &operator-=(const\
+    \ rational &__x) noexcept {\n    (__num *= __x.__den) -= __den * __x.__num, __den\
+    \ *= __x.__den;\n    return *this;\n  }\n\n  constexpr rational &operator*=(const\
+    \ rational &__x) noexcept {\n    __num *= __x.__num, __den *= __x.__den;\n   \
+    \ return *this;\n  }\n\n  constexpr rational &operator/=(const rational &__x)\
+    \ noexcept {\n    assert(__x.__num != _Tp(0));\n    __num *= __x.__den, __den\
+    \ *= __x.__num;\n    return *this;\n  }\n\n  constexpr bool operator==(const rational\
+    \ &__x) const noexcept {\n    return __num == __x.__num && __den == __x.den;\n\
+    \  }\n\n  constexpr bool operator!=(const rational &__x) const noexcept {\n  \
+    \  return __num != __x.__num || __den != __x.den;\n  }\n\n  constexpr bool operator<(const\
+    \ rational &__x) const noexcept {\n    return __num * __x.__den < __den * __x.__num;\n\
+    \  }\n\n  constexpr bool operator>(const rational &__x) const noexcept {\n   \
+    \ return __num * __x.__den > __den * __x.__num;\n  }\n\n  constexpr bool operator<=(const\
+    \ rational &__x) const noexcept {\n    return __num * __x.__den <= __den * __x.__num;\n\
+    \  }\n\n  constexpr bool operator>=(const rational &__x) const noexcept {\n  \
+    \  return __num * __x.__den >= __den * __x.__num;\n  }\n};\n\n}  // namespace\
+    \ workspace\n"
+  code: "#pragma once\n\n/**\n * @file rational.hpp\n * @brief Rational\n */\n\n#include\
+    \ <cassert>\n\n#include \"system/operation.hpp\"\n\nnamespace workspace {\n\n\
+    /**\n * @brief Rational\n * @tparam _Tp Ring structure\n */\ntemplate <class _Tp>\
+    \ struct rational {\n  _Tp __num{0}, __den{1};\n\n  constexpr rational() noexcept\
+    \ = default;\n\n  constexpr rational(const _Tp &__x) noexcept : __num(__x) {}\n\
+    \n  constexpr rational(const _Tp &__x, const _Tp &__y) noexcept\n      : __num(try_less<_Tp>{}(__y,\
+    \ _Tp(0)) ? -__x : __x),\n        __den(try_less<_Tp>{}(__y, _Tp(0)) ? -__y :\
+    \ __y) {}\n\n  constexpr operator bool() const noexcept { return __num != _Tp(0);\
+    \ }\n\n  constexpr rational operator+() const noexcept { return *this; }\n\n \
+    \ constexpr rational operator-() const noexcept { return {-__num, __den}; }\n\n\
+    \  constexpr rational operator+(const rational &__x) const noexcept {\n    return\
+    \ {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n  }\n\n  constexpr\
+    \ rational operator-(const rational &__x) const noexcept {\n    return {__num\
+    \ * __x.__den - __x.__num * __den, __den * __x.__den};\n  }\n\n  constexpr rational\
+    \ operator*(const rational &__x) noexcept {\n    return {__num * __x.__num, __den\
+    \ * __x.__den};\n  }\n\n  constexpr rational operator/(const rational &__x) noexcept\
+    \ {\n    assert(__x.__num != _Tp(0));\n    return {__num * __x.__den, __den *\
+    \ __x.__num};\n  }\n\n  constexpr rational &operator+=(const rational &__x) noexcept\
+    \ {\n    (__num *= __x.__den) += __den * __x.__num, __den *= __x.__den;\n    return\
+    \ *this;\n  }\n\n  constexpr rational &operator-=(const rational &__x) noexcept\
+    \ {\n    (__num *= __x.__den) -= __den * __x.__num, __den *= __x.__den;\n    return\
+    \ *this;\n  }\n\n  constexpr rational &operator*=(const rational &__x) noexcept\
+    \ {\n    __num *= __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n \
+    \ constexpr rational &operator/=(const rational &__x) noexcept {\n    assert(__x.__num\
+    \ != _Tp(0));\n    __num *= __x.__den, __den *= __x.__num;\n    return *this;\n\
+    \  }\n\n  constexpr bool operator==(const rational &__x) const noexcept {\n  \
+    \  return __num == __x.__num && __den == __x.den;\n  }\n\n  constexpr bool operator!=(const\
+    \ rational &__x) const noexcept {\n    return __num != __x.__num || __den != __x.den;\n\
+    \  }\n\n  constexpr bool operator<(const rational &__x) const noexcept {\n   \
+    \ return __num * __x.__den < __den * __x.__num;\n  }\n\n  constexpr bool operator>(const\
+    \ rational &__x) const noexcept {\n    return __num * __x.__den > __den * __x.__num;\n\
+    \  }\n\n  constexpr bool operator<=(const rational &__x) const noexcept {\n  \
+    \  return __num * __x.__den <= __den * __x.__num;\n  }\n\n  constexpr bool operator>=(const\
+    \ rational &__x) const noexcept {\n    return __num * __x.__den >= __den * __x.__num;\n\
+    \  }\n};\n\n}  // namespace workspace\n"
+  dependsOn:
+  - src/algebra/system/operation.hpp
+  isVerificationFile: false
+  path: src/algebra/rational.hpp
+  requiredBy: []
+  timestamp: '2021-07-11 22:10:35+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/algebra/rational.hpp
+layout: document
+redirect_from:
+- /library/src/algebra/rational.hpp
+- /library/src/algebra/rational.hpp.html
+title: Rational
+---

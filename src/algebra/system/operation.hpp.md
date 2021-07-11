@@ -2,22 +2,25 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
+    path: src/algebra/rational.hpp
+    title: Rational
+  - icon: ':x:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
     path: src/opt/golden_section.hpp
     title: Golden Section
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Operation Traits
     links: []
@@ -71,7 +74,14 @@ data:
     \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
     \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
     \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
-    }  // namespace workspace\n"
+    // Binary `<`\ntemplate <class _Tp, class = void> struct is_comparable : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct is_comparable<_Tp, std::__void_t<decltype(std::declval<const\
+    \ _Tp &>() <\n                                                 std::declval<const\
+    \ _Tp &>())>>\n    : std::true_type {};\n\ntemplate <class _Tp, bool _Default\
+    \ = false> struct try_less : std::less<_Tp> {\n  constexpr bool operator()(const\
+    \ _Tp &__x, const _Tp &__y) noexcept {\n    if _CXX17_CONSTEXPR (is_comparable<_Tp>::value)\n\
+    \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n\
     \ */\n\n#include <type_traits>\n\nnamespace workspace {\n\n// Unary `+`\ntemplate\
     \ <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const\
@@ -121,15 +131,23 @@ data:
     \            require_binary_multiplies<_Tp1, _Tp2>,\n                      require_binary_divides<_Tp1,\
     \ _Tp2>> : std::true_type {};\n\ntemplate <class _Tp1, class _Tp2 = _Tp1>\nusing\
     \ require_arithmetic = std::enable_if_t<has_arithmetic<_Tp1, _Tp2>::value>;\n\n\
-    }  // namespace workspace\n"
+    // Binary `<`\ntemplate <class _Tp, class = void> struct is_comparable : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct is_comparable<_Tp, std::__void_t<decltype(std::declval<const\
+    \ _Tp &>() <\n                                                 std::declval<const\
+    \ _Tp &>())>>\n    : std::true_type {};\n\ntemplate <class _Tp, bool _Default\
+    \ = false> struct try_less : std::less<_Tp> {\n  constexpr bool operator()(const\
+    \ _Tp &__x, const _Tp &__y) noexcept {\n    if _CXX17_CONSTEXPR (is_comparable<_Tp>::value)\n\
+    \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
   requiredBy:
   - src/opt/golden_section.hpp
   - src/data_structure/segment_tree/lazy.hpp
-  timestamp: '2021-07-05 01:35:36+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  - src/algebra/rational.hpp
+  timestamp: '2021-07-11 22:06:06+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp
