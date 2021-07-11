@@ -46,7 +46,8 @@ template <auto _Mod, unsigned _Storage> struct modint {
  public:
   constexpr modint() noexcept = default;
 
-  template <class _Tp>
+  template <class _Tp, class = std::enable_if_t<
+                           std::is_convertible<_Tp, value_type>::value>>
   constexpr modint(_Tp __n) noexcept
       : value((__n %= mod) < 0 ? __n + mod : __n) {}
 
