@@ -207,6 +207,14 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/graph/undirected/two_edge_connected_components.hpp
       title: src/graph/undirected/two_edge_connected_components.hpp
+  - name: src/misc
+    pages:
+    - icon: ':warning:'
+      path: src/misc/inversion.hpp
+      title: Inversion
+    - icon: ':warning:'
+      path: src/misc/majority_vote.hpp
+      title: Boyer-Moore Majority Vote Algorithm
   - name: src/modular
     pages:
     - icon: ':warning:'
