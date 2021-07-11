@@ -7,6 +7,8 @@
 
 #include <type_traits>
 
+#include "lib/cxx17"
+
 namespace workspace {
 
 // Unary `+`
