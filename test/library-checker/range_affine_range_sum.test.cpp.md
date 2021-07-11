@@ -1,35 +1,35 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/operation.hpp
     title: Operation Traits
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
@@ -54,11 +54,22 @@ data:
     \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
     \ E &rhs) const;\n};\n}\n#line 2 \"src/algebra/system/operation.hpp\"\n\n/**\n\
     \ * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
-    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
-    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
-    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
-    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
-    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
+    #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
+    #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
+    \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
+    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
+    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
+    \ std\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\nnamespace workspace\
+    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
+    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
+    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
+    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
+    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -333,21 +344,22 @@ data:
     \ direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\n \
     \ // Direct constructor\n  template <class _Tp>\n  constexpr modint(_Tp __n, direct_ctor_t)\
     \ noexcept : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\
-    \n  template <class _Tp>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
-    \ %= mod) < 0 ? __n + mod : __n) {}\n\n  constexpr modint(bool __n) noexcept :\
-    \ value(__n) {}\n\n  constexpr operator value_type() const noexcept { return value;\
-    \ }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept {\n\
-    \    modint __t{*this};\n    operator++();\n    return __t;\n  }\n\n  constexpr\
-    \ modint operator--(int) noexcept {\n    modint __t{*this};\n    operator--();\n\
-    \    return __t;\n  }\n\n  constexpr modint &operator++() noexcept {\n    if (++value\
-    \ == mod) value = 0;\n    return *this;\n  }\n\n  constexpr modint &operator--()\
-    \ noexcept {\n    if (!value)\n      value = mod - 1;\n    else\n      --value;\n\
-    \    return *this;\n  }\n\n  constexpr modint operator+() const noexcept { return\
-    \ *this; }\n\n  constexpr modint operator-() const noexcept {\n    return {value\
-    \ ? mod - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary operators\n\n  //\
-    \ operator+= {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept\
-    \ {\n    if ((value += __x.value) >= mod) value -= mod;\n    return *this;\n \
-    \ }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \n  template <class _Tp, class = std::enable_if_t<\n                         \
+    \  std::is_convertible<_Tp, value_type>::value>>\n  constexpr modint(_Tp __n)\
+    \ noexcept\n      : value((__n %= mod) < 0 ? __n + mod : __n) {}\n\n  constexpr\
+    \ modint(bool __n) noexcept : value(__n) {}\n\n  constexpr operator value_type()\
+    \ const noexcept { return value; }\n\n  // unary operators {{\n  constexpr modint\
+    \ operator++(int) noexcept {\n    modint __t{*this};\n    operator++();\n    return\
+    \ __t;\n  }\n\n  constexpr modint operator--(int) noexcept {\n    modint __t{*this};\n\
+    \    operator--();\n    return __t;\n  }\n\n  constexpr modint &operator++() noexcept\
+    \ {\n    if (++value == mod) value = 0;\n    return *this;\n  }\n\n  constexpr\
+    \ modint &operator--() noexcept {\n    if (!value)\n      value = mod - 1;\n \
+    \   else\n      --value;\n    return *this;\n  }\n\n  constexpr modint operator+()\
+    \ const noexcept { return *this; }\n\n  constexpr modint operator-() const noexcept\
+    \ {\n    return {value ? mod - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary\
+    \ operators\n\n  // operator+= {{\n\n  constexpr modint &operator+=(const modint\
+    \ &__x) noexcept {\n    if ((value += __x.value) >= mod) value -= mod;\n    return\
+    \ *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator+=(\n      _Tp __x) noexcept {\n    __x %= mod, value += __x;\n\
     \    if (value < 0)\n      value += mod;\n    else if (value >= mod)\n      value\
     \ -= mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+ {{\n\
@@ -471,8 +483,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-07-11 22:06:06+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-07-11 22:15:29+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp
 layout: document

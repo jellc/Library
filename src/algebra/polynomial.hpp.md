@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:

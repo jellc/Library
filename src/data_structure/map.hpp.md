@@ -4,7 +4,7 @@ data:
   - icon: ':warning:'
     path: src/data_structure/set.hpp
     title: Set
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

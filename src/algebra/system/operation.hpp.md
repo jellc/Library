@@ -5,32 +5,42 @@ data:
   - icon: ':warning:'
     path: src/algebra/rational.hpp
     title: Rational
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
     path: src/opt/golden_section.hpp
     title: Golden Section
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Operation Traits
     links: []
   bundledCode: "#line 2 \"src/algebra/system/operation.hpp\"\n\n/**\n * @file operation.hpp\n\
-    \ * @brief Operation Traits\n */\n\n#include <type_traits>\n\nnamespace workspace\
-    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
-    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
-    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
-    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
-    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ * @brief Operation Traits\n */\n\n#include <type_traits>\n\n#line 2 \"lib/cxx17\"\
+    \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
+    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
+    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
+    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\
+    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
+    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -83,11 +93,12 @@ data:
     \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
     \  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n\
-    \ */\n\n#include <type_traits>\n\nnamespace workspace {\n\n// Unary `+`\ntemplate\
-    \ <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const\
-    \ _Tp &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
-    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
-    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ */\n\n#include <type_traits>\n\n#include \"lib/cxx17\"\n\nnamespace workspace\
+    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
+    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
+    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
+    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
+    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -146,8 +157,8 @@ data:
   - src/opt/golden_section.hpp
   - src/data_structure/segment_tree/lazy.hpp
   - src/algebra/rational.hpp
-  timestamp: '2021-07-11 22:06:06+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-07-11 22:13:46+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp

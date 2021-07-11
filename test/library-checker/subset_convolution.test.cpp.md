@@ -4,16 +4,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/algebra/convolution/subset.hpp
     title: Subset Convolution
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -196,21 +196,22 @@ data:
     \ direct_ctor_t {};\n  constexpr static direct_ctor_t direct_ctor_tag{};\n\n \
     \ // Direct constructor\n  template <class _Tp>\n  constexpr modint(_Tp __n, direct_ctor_t)\
     \ noexcept : value(__n) {}\n\n public:\n  constexpr modint() noexcept = default;\n\
-    \n  template <class _Tp>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
-    \ %= mod) < 0 ? __n + mod : __n) {}\n\n  constexpr modint(bool __n) noexcept :\
-    \ value(__n) {}\n\n  constexpr operator value_type() const noexcept { return value;\
-    \ }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept {\n\
-    \    modint __t{*this};\n    operator++();\n    return __t;\n  }\n\n  constexpr\
-    \ modint operator--(int) noexcept {\n    modint __t{*this};\n    operator--();\n\
-    \    return __t;\n  }\n\n  constexpr modint &operator++() noexcept {\n    if (++value\
-    \ == mod) value = 0;\n    return *this;\n  }\n\n  constexpr modint &operator--()\
-    \ noexcept {\n    if (!value)\n      value = mod - 1;\n    else\n      --value;\n\
-    \    return *this;\n  }\n\n  constexpr modint operator+() const noexcept { return\
-    \ *this; }\n\n  constexpr modint operator-() const noexcept {\n    return {value\
-    \ ? mod - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary operators\n\n  //\
-    \ operator+= {{\n\n  constexpr modint &operator+=(const modint &__x) noexcept\
-    \ {\n    if ((value += __x.value) >= mod) value -= mod;\n    return *this;\n \
-    \ }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \n  template <class _Tp, class = std::enable_if_t<\n                         \
+    \  std::is_convertible<_Tp, value_type>::value>>\n  constexpr modint(_Tp __n)\
+    \ noexcept\n      : value((__n %= mod) < 0 ? __n + mod : __n) {}\n\n  constexpr\
+    \ modint(bool __n) noexcept : value(__n) {}\n\n  constexpr operator value_type()\
+    \ const noexcept { return value; }\n\n  // unary operators {{\n  constexpr modint\
+    \ operator++(int) noexcept {\n    modint __t{*this};\n    operator++();\n    return\
+    \ __t;\n  }\n\n  constexpr modint operator--(int) noexcept {\n    modint __t{*this};\n\
+    \    operator--();\n    return __t;\n  }\n\n  constexpr modint &operator++() noexcept\
+    \ {\n    if (++value == mod) value = 0;\n    return *this;\n  }\n\n  constexpr\
+    \ modint &operator--() noexcept {\n    if (!value)\n      value = mod - 1;\n \
+    \   else\n      --value;\n    return *this;\n  }\n\n  constexpr modint operator+()\
+    \ const noexcept { return *this; }\n\n  constexpr modint operator-() const noexcept\
+    \ {\n    return {value ? mod - value : 0, direct_ctor_tag};\n  }\n\n  // }} unary\
+    \ operators\n\n  // operator+= {{\n\n  constexpr modint &operator+=(const modint\
+    \ &__x) noexcept {\n    if ((value += __x.value) >= mod) value -= mod;\n    return\
+    \ *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator+=(\n      _Tp __x) noexcept {\n    __x %= mod, value += __x;\n\
     \    if (value < 0)\n      value += mod;\n    else if (value >= mod)\n      value\
     \ -= mod;\n    return *this;\n  }\n\n  // }} operator+=\n\n  // operator+ {{\n\
@@ -319,7 +320,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-07-03 00:09:38+09:00'
+  timestamp: '2021-07-11 22:15:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp
