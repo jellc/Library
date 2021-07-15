@@ -81,20 +81,37 @@ data:
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n *\
     \ @param __a Integer\n * @param __b Integer\n * @return Pair of integers (x, y)\
-    \ s.t. ax + by = g = gcd(a, b), 0 <= x <\n * |b/g|, -|a/g| < y <= 0. Return (0,\
-    \ 0) if (a, b) = (0, 0).\n */\ntemplate <typename _T1, typename _T2> constexpr\
-    \ auto ext_gcd(_T1 __a, _T2 __b) {\n  static_assert(is_integral_ext<_T1>::value);\n\
-    \  static_assert(is_integral_ext<_T2>::value);\n\n  using result_type = typename\
+    \ s.t. ax + by = g = gcd(a, b) and (b = 0 or 0\n * <= x < |b/g|) and (a = 0 or\
+    \ -|a/g| < y <= 0). Return (0, 0) if (a, b) = (0,\n * 0).\n */\ntemplate <typename\
+    \ _T1, typename _T2>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n\n  using value_type = typename\
     \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
-    \n  result_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  // Euclidean algorithm\n\
-    \  while (b) {\n    result_type t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n \
-    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  // Normalize\n\
-    \  if (a < 0) p = -p, q = -q;\n  if (p < 0) p += __b / a, q -= __a / a;\n\n  return\
-    \ std::make_pair(p, q);\n}\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\
-    \n\n/**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\
-    \n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
-    #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
-    #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q, a = -a;\n\n\
+    \  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n      p += __b,\
+    \ q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return result_type{p,\
+    \ q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @param __c Integer\n\
+    \ * @return Pair of integers (x, y) s.t. ax + by = c and (b = 0 or 0 <= x <\n\
+    \ * |b/g|). Return (0, 0) if there is no solution.\n */\ntemplate <typename _T1,\
+    \ typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b, _T3 __c)\
+    \ noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
+    \  static_assert(is_integral_ext<_T3>::value);\n\n  using value_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2, _T3>::type>::type;\n\
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\n\
+    \  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
+    \ {\n    auto t = p / __b;\n    p -= __b * t;\n    q += __a * t;\n\n    if (p\
+    \ < 0) {\n      if (__b > 0)\n        p += __b, q -= __a;\n      else\n      \
+    \  p -= __b, q += __a;\n    }\n  }\n\n  return result_type{p, q};\n}\n\n}  //\
+    \ namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/**\n * @file ostream.hpp\n\
+    \ * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\n\n#line\
+    \ 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\
+    \n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
     \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
     #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
     \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
@@ -166,7 +183,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/NTL_1_E.test.cpp
   requiredBy: []
-  timestamp: '2021-07-07 20:04:02+09:00'
+  timestamp: '2021-07-16 03:07:50+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/NTL_1_E.test.cpp

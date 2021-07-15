@@ -76,27 +76,44 @@ data:
     \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
     #line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n *\
     \ @param __a Integer\n * @param __b Integer\n * @return Pair of integers (x, y)\
-    \ s.t. ax + by = g = gcd(a, b), 0 <= x <\n * |b/g|, -|a/g| < y <= 0. Return (0,\
-    \ 0) if (a, b) = (0, 0).\n */\ntemplate <typename _T1, typename _T2> constexpr\
-    \ auto ext_gcd(_T1 __a, _T2 __b) {\n  static_assert(is_integral_ext<_T1>::value);\n\
-    \  static_assert(is_integral_ext<_T2>::value);\n\n  using result_type = typename\
+    \ s.t. ax + by = g = gcd(a, b) and (b = 0 or 0\n * <= x < |b/g|) and (a = 0 or\
+    \ -|a/g| < y <= 0). Return (0, 0) if (a, b) = (0,\n * 0).\n */\ntemplate <typename\
+    \ _T1, typename _T2>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n\n  using value_type = typename\
     \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
-    \n  result_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  // Euclidean algorithm\n\
-    \  while (b) {\n    result_type t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n \
-    \   s ^= q ^= s ^= q -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  // Normalize\n\
-    \  if (a < 0) p = -p, q = -q;\n  if (p < 0) p += __b / a, q -= __a / a;\n\n  return\
-    \ std::make_pair(p, q);\n}\n\n}  // namespace workspace\n#line 12 \"src/number_theory/order.hpp\"\
-    \n\nnamespace workspace {\n\n/**\n * @brief\n *\n * @param __x Integer\n * @param\
-    \ __mod Modulus\n * @return The order of @p __x modulo @p __mod.\n */\ntemplate\
-    \ <class Tp>\nconstexpr typename std::enable_if<(is_integral_ext<Tp>::value),\
-    \ Tp>::type order(\n    Tp __x, const Tp __mod) noexcept {\n  assert(__mod > 0);\n\
-    \  using int_type = typename multiplicable_int<Tp>::type;\n\n  __x %= __mod;\n\
-    \  if (__x < 0) __x += __mod;\n  std::unordered_map<Tp, Tp> __ls;\n  int_type\
-    \ __p;\n  Tp __i;\n  for (__i = 1, __p = __x; __i * __i < __mod; ++__i, (__p *=\
-    \ __x) %= __mod)\n    __ls.emplace(__p, __i);\n\n  for (int_type __q{1}, __v{1},\
-    \ __j{0};;\n       __v = ext_gcd((__q *= __p) %= __mod, __mod).first, __j += __i,\n\
-    \       __ls[1] = 0)\n    if (auto __f = __ls.find(__v < 0 ? __v += __mod : __v);\
-    \ __f != __ls.end())\n      return __j + __f->second;\n};\n\n}  // namespace workspace\n"
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q, a = -a;\n\n\
+    \  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n      p += __b,\
+    \ q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return result_type{p,\
+    \ q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @param __c Integer\n\
+    \ * @return Pair of integers (x, y) s.t. ax + by = c and (b = 0 or 0 <= x <\n\
+    \ * |b/g|). Return (0, 0) if there is no solution.\n */\ntemplate <typename _T1,\
+    \ typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b, _T3 __c)\
+    \ noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
+    \  static_assert(is_integral_ext<_T3>::value);\n\n  using value_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2, _T3>::type>::type;\n\
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\n\
+    \  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
+    \ {\n    auto t = p / __b;\n    p -= __b * t;\n    q += __a * t;\n\n    if (p\
+    \ < 0) {\n      if (__b > 0)\n        p += __b, q -= __a;\n      else\n      \
+    \  p -= __b, q += __a;\n    }\n  }\n\n  return result_type{p, q};\n}\n\n}  //\
+    \ namespace workspace\n#line 12 \"src/number_theory/order.hpp\"\n\nnamespace workspace\
+    \ {\n\n/**\n * @brief\n *\n * @param __x Integer\n * @param __mod Modulus\n *\
+    \ @return The order of @p __x modulo @p __mod.\n */\ntemplate <class Tp>\nconstexpr\
+    \ typename std::enable_if<(is_integral_ext<Tp>::value), Tp>::type order(\n   \
+    \ Tp __x, const Tp __mod) noexcept {\n  assert(__mod > 0);\n  using int_type =\
+    \ typename multiplicable_int<Tp>::type;\n\n  __x %= __mod;\n  if (__x < 0) __x\
+    \ += __mod;\n  std::unordered_map<Tp, Tp> __ls;\n  int_type __p;\n  Tp __i;\n\
+    \  for (__i = 1, __p = __x; __i * __i < __mod; ++__i, (__p *= __x) %= __mod)\n\
+    \    __ls.emplace(__p, __i);\n\n  for (int_type __q{1}, __v{1}, __j{0};;\n   \
+    \    __v = ext_gcd((__q *= __p) %= __mod, __mod).first, __j += __i,\n       __ls[1]\
+    \ = 0)\n    if (auto __f = __ls.find(__v < 0 ? __v += __mod : __v); __f != __ls.end())\n\
+    \      return __j + __f->second;\n};\n\n}  // namespace workspace\n"
   code: "/**\n * @file order.hpp\n * @brief Order\n * @date 2021-01-15\n *\n *\n */\n\
     \n#include <unordered_map>\n\n#include \"ext_gcd.hpp\"\n\nnamespace workspace\
     \ {\n\n/**\n * @brief\n *\n * @param __x Integer\n * @param __mod Modulus\n *\
@@ -116,7 +133,7 @@ data:
   isVerificationFile: false
   path: src/number_theory/order.hpp
   requiredBy: []
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2021-07-16 03:07:50+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/number_theory/order.hpp
