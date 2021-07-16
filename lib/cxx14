@@ -1,0 +1,9 @@
+#pragma once
+
+#ifndef _CXX14_CONSTEXPR
+#if __cplusplus >= 201402L
+#define _CXX14_CONSTEXPR constexpr
+#else
+#define _CXX14_CONSTEXPR
+#endif
+#endif
