@@ -54,7 +54,7 @@ template <class _Tp> class input<_Tp, true> : public _Tp {
 
 }  // namespace _input_impl
 
-template <class _Tp>
-using input = _input_impl::input<_Tp, std::is_class<_Tp>::value>;
+template <class _Tp = int_least64_t>
+class input : public _input_impl::input<_Tp, std::is_class<_Tp>::value> {};
 
 }  // namespace workspace
