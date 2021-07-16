@@ -13,7 +13,9 @@ data:
     document_title: Rational
     links: []
   bundledCode: "#line 2 \"src/algebra/rational.hpp\"\n\n/**\n * @file rational.hpp\n\
-    \ * @brief Rational\n */\n\n#include <cassert>\n\n#line 2 \"src/algebra/system/operation.hpp\"\
+    \ * @brief Rational\n */\n\n#include <cassert>\n\n#line 2 \"lib/cxx14\"\n\n#ifndef\
+    \ _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n\
+    #else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 2 \"src/algebra/system/operation.hpp\"\
     \n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
     \n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
     #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
@@ -81,82 +83,85 @@ data:
     \ = false> struct try_less : std::less<_Tp> {\n  constexpr bool operator()(const\
     \ _Tp &__x, const _Tp &__y) noexcept {\n    if _CXX17_CONSTEXPR (is_comparable<_Tp>::value)\n\
     \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
-    \  }\n};\n\n}  // namespace workspace\n#line 11 \"src/algebra/rational.hpp\"\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 12 \"src/algebra/rational.hpp\"\n\
     \nnamespace workspace {\n\n/**\n * @brief Rational\n * @tparam _Tp Ring structure\n\
-    \ */\ntemplate <class _Tp> struct rational {\n  _Tp __num{0}, __den{1};\n\n  constexpr\
-    \ rational() noexcept = default;\n\n  constexpr rational(const _Tp &__x) noexcept\
-    \ : __num(__x) {}\n\n  constexpr rational(const _Tp &__x, const _Tp &__y) noexcept\n\
-    \      : __num(try_less<_Tp>{}(__y, _Tp(0)) ? -__x : __x),\n        __den(try_less<_Tp>{}(__y,\
-    \ _Tp(0)) ? -__y : __y) {}\n\n  constexpr operator bool() const noexcept { return\
-    \ __num != _Tp(0); }\n\n  constexpr rational operator+() const noexcept { return\
-    \ *this; }\n\n  constexpr rational operator-() const noexcept { return {-__num,\
-    \ __den}; }\n\n  constexpr rational operator+(const rational &__x) const noexcept\
-    \ {\n    return {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n\
-    \  }\n\n  constexpr rational operator-(const rational &__x) const noexcept {\n\
+    \ */\ntemplate <class _Tp> struct rational {\n  _Tp __num{0}, __den{1};\n\n  _CXX14_CONSTEXPR\
+    \ rational() noexcept = default;\n\n  _CXX14_CONSTEXPR rational(const _Tp &__x)\
+    \ noexcept : __num(__x) {}\n\n  _CXX14_CONSTEXPR rational(const _Tp &__x, const\
+    \ _Tp &__y) noexcept\n      : __num(try_less<_Tp>{}(__y, _Tp(0)) ? -__x : __x),\n\
+    \        __den(try_less<_Tp>{}(__y, _Tp(0)) ? -__y : __y) {}\n\n  _CXX14_CONSTEXPR\
+    \ operator bool() const noexcept { return __num != _Tp(0); }\n\n  _CXX14_CONSTEXPR\
+    \ rational operator+() const noexcept { return *this; }\n\n  _CXX14_CONSTEXPR\
+    \ rational operator-() const noexcept {\n    return {-__num, __den};\n  }\n\n\
+    \  _CXX14_CONSTEXPR rational operator+(const rational &__x) const noexcept {\n\
+    \    return {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n  }\n\
+    \n  _CXX14_CONSTEXPR rational operator-(const rational &__x) const noexcept {\n\
     \    return {__num * __x.__den - __x.__num * __den, __den * __x.__den};\n  }\n\
-    \n  constexpr rational operator*(const rational &__x) noexcept {\n    return {__num\
-    \ * __x.__num, __den * __x.__den};\n  }\n\n  constexpr rational operator/(const\
-    \ rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n    return {__num\
-    \ * __x.__den, __den * __x.__num};\n  }\n\n  constexpr rational &operator+=(const\
-    \ rational &__x) noexcept {\n    (__num *= __x.__den) += __den * __x.__num, __den\
-    \ *= __x.__den;\n    return *this;\n  }\n\n  constexpr rational &operator-=(const\
-    \ rational &__x) noexcept {\n    (__num *= __x.__den) -= __den * __x.__num, __den\
-    \ *= __x.__den;\n    return *this;\n  }\n\n  constexpr rational &operator*=(const\
-    \ rational &__x) noexcept {\n    __num *= __x.__num, __den *= __x.__den;\n   \
-    \ return *this;\n  }\n\n  constexpr rational &operator/=(const rational &__x)\
-    \ noexcept {\n    assert(__x.__num != _Tp(0));\n    __num *= __x.__den, __den\
-    \ *= __x.__num;\n    return *this;\n  }\n\n  constexpr bool operator==(const rational\
-    \ &__x) const noexcept {\n    return __num == __x.__num && __den == __x.den;\n\
-    \  }\n\n  constexpr bool operator!=(const rational &__x) const noexcept {\n  \
-    \  return __num != __x.__num || __den != __x.den;\n  }\n\n  constexpr bool operator<(const\
-    \ rational &__x) const noexcept {\n    return __num * __x.__den < __den * __x.__num;\n\
-    \  }\n\n  constexpr bool operator>(const rational &__x) const noexcept {\n   \
-    \ return __num * __x.__den > __den * __x.__num;\n  }\n\n  constexpr bool operator<=(const\
-    \ rational &__x) const noexcept {\n    return __num * __x.__den <= __den * __x.__num;\n\
-    \  }\n\n  constexpr bool operator>=(const rational &__x) const noexcept {\n  \
-    \  return __num * __x.__den >= __den * __x.__num;\n  }\n};\n\n}  // namespace\
-    \ workspace\n"
+    \n  _CXX14_CONSTEXPR rational operator*(const rational &__x) noexcept {\n    return\
+    \ {__num * __x.__num, __den * __x.__den};\n  }\n\n  _CXX14_CONSTEXPR rational\
+    \ operator/(const rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n\
+    \    return {__num * __x.__den, __den * __x.__num};\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator+=(const rational &__x) noexcept {\n    (__num *= __x.__den)\
+    \ += __den * __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator-=(const rational &__x) noexcept {\n    (__num *= __x.__den)\
+    \ -= __den * __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator*=(const rational &__x) noexcept {\n    __num *= __x.__num,\
+    \ __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR rational &operator/=(const\
+    \ rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n    __num *= __x.__den,\
+    \ __den *= __x.__num;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR bool operator==(const\
+    \ rational &__x) const noexcept {\n    return __num == __x.__num && __den == __x.den;\n\
+    \  }\n\n  _CXX14_CONSTEXPR bool operator!=(const rational &__x) const noexcept\
+    \ {\n    return __num != __x.__num || __den != __x.den;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ bool operator<(const rational &__x) const noexcept {\n    return __num * __x.__den\
+    \ < __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator>(const rational\
+    \ &__x) const noexcept {\n    return __num * __x.__den > __den * __x.__num;\n\
+    \  }\n\n  _CXX14_CONSTEXPR bool operator<=(const rational &__x) const noexcept\
+    \ {\n    return __num * __x.__den <= __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ bool operator>=(const rational &__x) const noexcept {\n    return __num * __x.__den\
+    \ >= __den * __x.__num;\n  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file rational.hpp\n * @brief Rational\n */\n\n#include\
-    \ <cassert>\n\n#include \"system/operation.hpp\"\n\nnamespace workspace {\n\n\
-    /**\n * @brief Rational\n * @tparam _Tp Ring structure\n */\ntemplate <class _Tp>\
-    \ struct rational {\n  _Tp __num{0}, __den{1};\n\n  constexpr rational() noexcept\
-    \ = default;\n\n  constexpr rational(const _Tp &__x) noexcept : __num(__x) {}\n\
-    \n  constexpr rational(const _Tp &__x, const _Tp &__y) noexcept\n      : __num(try_less<_Tp>{}(__y,\
-    \ _Tp(0)) ? -__x : __x),\n        __den(try_less<_Tp>{}(__y, _Tp(0)) ? -__y :\
-    \ __y) {}\n\n  constexpr operator bool() const noexcept { return __num != _Tp(0);\
-    \ }\n\n  constexpr rational operator+() const noexcept { return *this; }\n\n \
-    \ constexpr rational operator-() const noexcept { return {-__num, __den}; }\n\n\
-    \  constexpr rational operator+(const rational &__x) const noexcept {\n    return\
-    \ {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n  }\n\n  constexpr\
-    \ rational operator-(const rational &__x) const noexcept {\n    return {__num\
-    \ * __x.__den - __x.__num * __den, __den * __x.__den};\n  }\n\n  constexpr rational\
-    \ operator*(const rational &__x) noexcept {\n    return {__num * __x.__num, __den\
-    \ * __x.__den};\n  }\n\n  constexpr rational operator/(const rational &__x) noexcept\
-    \ {\n    assert(__x.__num != _Tp(0));\n    return {__num * __x.__den, __den *\
-    \ __x.__num};\n  }\n\n  constexpr rational &operator+=(const rational &__x) noexcept\
-    \ {\n    (__num *= __x.__den) += __den * __x.__num, __den *= __x.__den;\n    return\
-    \ *this;\n  }\n\n  constexpr rational &operator-=(const rational &__x) noexcept\
-    \ {\n    (__num *= __x.__den) -= __den * __x.__num, __den *= __x.__den;\n    return\
-    \ *this;\n  }\n\n  constexpr rational &operator*=(const rational &__x) noexcept\
-    \ {\n    __num *= __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n \
-    \ constexpr rational &operator/=(const rational &__x) noexcept {\n    assert(__x.__num\
-    \ != _Tp(0));\n    __num *= __x.__den, __den *= __x.__num;\n    return *this;\n\
-    \  }\n\n  constexpr bool operator==(const rational &__x) const noexcept {\n  \
-    \  return __num == __x.__num && __den == __x.den;\n  }\n\n  constexpr bool operator!=(const\
-    \ rational &__x) const noexcept {\n    return __num != __x.__num || __den != __x.den;\n\
-    \  }\n\n  constexpr bool operator<(const rational &__x) const noexcept {\n   \
-    \ return __num * __x.__den < __den * __x.__num;\n  }\n\n  constexpr bool operator>(const\
-    \ rational &__x) const noexcept {\n    return __num * __x.__den > __den * __x.__num;\n\
-    \  }\n\n  constexpr bool operator<=(const rational &__x) const noexcept {\n  \
-    \  return __num * __x.__den <= __den * __x.__num;\n  }\n\n  constexpr bool operator>=(const\
-    \ rational &__x) const noexcept {\n    return __num * __x.__den >= __den * __x.__num;\n\
-    \  }\n};\n\n}  // namespace workspace\n"
+    \ <cassert>\n\n#include \"lib/cxx14\"\n#include \"system/operation.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @brief Rational\n * @tparam _Tp Ring structure\n */\n\
+    template <class _Tp> struct rational {\n  _Tp __num{0}, __den{1};\n\n  _CXX14_CONSTEXPR\
+    \ rational() noexcept = default;\n\n  _CXX14_CONSTEXPR rational(const _Tp &__x)\
+    \ noexcept : __num(__x) {}\n\n  _CXX14_CONSTEXPR rational(const _Tp &__x, const\
+    \ _Tp &__y) noexcept\n      : __num(try_less<_Tp>{}(__y, _Tp(0)) ? -__x : __x),\n\
+    \        __den(try_less<_Tp>{}(__y, _Tp(0)) ? -__y : __y) {}\n\n  _CXX14_CONSTEXPR\
+    \ operator bool() const noexcept { return __num != _Tp(0); }\n\n  _CXX14_CONSTEXPR\
+    \ rational operator+() const noexcept { return *this; }\n\n  _CXX14_CONSTEXPR\
+    \ rational operator-() const noexcept {\n    return {-__num, __den};\n  }\n\n\
+    \  _CXX14_CONSTEXPR rational operator+(const rational &__x) const noexcept {\n\
+    \    return {__num * __x.__den + __x.__num * __den, __den * __x.__den};\n  }\n\
+    \n  _CXX14_CONSTEXPR rational operator-(const rational &__x) const noexcept {\n\
+    \    return {__num * __x.__den - __x.__num * __den, __den * __x.__den};\n  }\n\
+    \n  _CXX14_CONSTEXPR rational operator*(const rational &__x) noexcept {\n    return\
+    \ {__num * __x.__num, __den * __x.__den};\n  }\n\n  _CXX14_CONSTEXPR rational\
+    \ operator/(const rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n\
+    \    return {__num * __x.__den, __den * __x.__num};\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator+=(const rational &__x) noexcept {\n    (__num *= __x.__den)\
+    \ += __den * __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator-=(const rational &__x) noexcept {\n    (__num *= __x.__den)\
+    \ -= __den * __x.__num, __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ rational &operator*=(const rational &__x) noexcept {\n    __num *= __x.__num,\
+    \ __den *= __x.__den;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR rational &operator/=(const\
+    \ rational &__x) noexcept {\n    assert(__x.__num != _Tp(0));\n    __num *= __x.__den,\
+    \ __den *= __x.__num;\n    return *this;\n  }\n\n  _CXX14_CONSTEXPR bool operator==(const\
+    \ rational &__x) const noexcept {\n    return __num == __x.__num && __den == __x.den;\n\
+    \  }\n\n  _CXX14_CONSTEXPR bool operator!=(const rational &__x) const noexcept\
+    \ {\n    return __num != __x.__num || __den != __x.den;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ bool operator<(const rational &__x) const noexcept {\n    return __num * __x.__den\
+    \ < __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator>(const rational\
+    \ &__x) const noexcept {\n    return __num * __x.__den > __den * __x.__num;\n\
+    \  }\n\n  _CXX14_CONSTEXPR bool operator<=(const rational &__x) const noexcept\
+    \ {\n    return __num * __x.__den <= __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR\
+    \ bool operator>=(const rational &__x) const noexcept {\n    return __num * __x.__den\
+    \ >= __den * __x.__num;\n  }\n};\n\n}  // namespace workspace\n"
   dependsOn:
   - src/algebra/system/operation.hpp
   isVerificationFile: false
   path: src/algebra/rational.hpp
   requiredBy: []
-  timestamp: '2021-07-11 22:13:46+09:00'
+  timestamp: '2021-07-17 01:12:56+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/rational.hpp
