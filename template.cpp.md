@@ -15,15 +15,16 @@ data:
     , line 401, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/direct: line\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/opt: line\
     \ -1: no such header\n"
-  code: "// #undef _GLIBCXX_DEBUG\n// #define NDEBUG\n#include <bits/extc++.h>\n\n\
-    #include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/direct\"\n#include\
-    \ \"lib/opt\"\n#include \"lib/sys\"\n#include \"lib/utils\"\n\nsigned main() {\n\
-    \  using namespace workspace;\n\n  io_setup(15);\n\n  /* given\n    case_info.read();\
-    \  //*/\n\n  /* unspecified\n    case_info.total = -1;  //*/\n\n  return case_info.iterate();\n\
-    }\n\nnamespace workspace {\n\nvoid main() {\n  // start here!\n}\n\n}  // namespace\
-    \ workspace\n"
+  code: "#if defined(ONLINE_JUDGE)\n#pragma GCC optimize(\"Ofast, unroll-loops\")\n\
+    #pragma GCC target(\"sse, sse2, sse3, ssse3, sse4, popcnt, mmx, avx, avx2\")\n\
+    #endif\n\n// #undef _GLIBCXX_DEBUG\n#include <bits/extc++.h>\n\n#include \"lib/alias\"\
+    \n#include \"lib/cxx20\"\n#include \"lib/opt\"\n#include \"lib/sys\"\n#include\
+    \ \"lib/utils\"\n\nsigned main() {\n  using namespace workspace;\n\n  io_setup(15);\n\
+    \n  /* given\n    case_info.read();  //*/\n\n  /* unspecified\n    case_info.total\
+    \ = -1;  //*/\n\n  return case_info.iterate();\n}\n\nnamespace workspace {\n\n\
+    void main() {\n  // start here!\n}\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: template.cpp
