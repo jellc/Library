@@ -15,7 +15,7 @@ data:
     , line 401, in update\n    self.update(self._resolve(pathlib.Path(included), included_from=path))\n\
     \  File \"/opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
-    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/opt: line\
+    )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/direct: line\
     \ -1: no such header\n"
   code: "// #undef _GLIBCXX_DEBUG\n// #define NDEBUG\n#include <bits/extc++.h>\n\n\
     #include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/direct\"\n#include\
