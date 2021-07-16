@@ -13,9 +13,6 @@ data:
       path: deprecated/Skew_heap.hpp
       title: deprecated/Skew_heap.hpp
     - icon: ':warning:'
-      path: deprecated/SplayTree.cpp
-      title: deprecated/SplayTree.cpp
-    - icon: ':warning:'
       path: deprecated/math_utility.cpp
       title: deprecated/math_utility.cpp
   - name: deprecated/constexpr
