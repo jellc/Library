@@ -243,6 +243,9 @@ data:
       path: src/opt/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
+      path: src/opt/bisection.hpp
+      title: Bisection
+    - icon: ':warning:'
       path: src/opt/exponential_search.hpp
       title: Exponential Search
     - icon: ':warning:'
