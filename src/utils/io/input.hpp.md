@@ -138,8 +138,9 @@ data:
     \ _Args...>::value &&\n                         !is_same<_Tp, _Args...>::value)\n\
     \      cin >> *this;\n  }\n\n  input &operator=(const _Tp &__x) noexcept {\n \
     \   _Tp::operator=(__x);\n    return *this;\n  }\n};\n\n}  // namespace _input_impl\n\
-    \ntemplate <class _Tp = int_least64_t>\nclass input : public _input_impl::input<_Tp,\
-    \ std::is_class<_Tp>::value> {};\n\n}  // namespace workspace\n"
+    \n// Standard input.\ntemplate <class _Tp = int_least64_t>\nclass input : public\
+    \ _input_impl::input<_Tp, std::is_class<_Tp>::value> {\n public:\n  using _input_impl::input<_Tp,\
+    \ std::is_class<_Tp>::value>::input;\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file input.hpp\n * @brief Input\n */\n\n#include\
     \ \"istream.hpp\"\n\nnamespace workspace {\n\nnamespace _input_impl {\n\ntemplate\
     \ <class _Tp, bool _Is_class = false> class input {\n  _Tp __value;\n\n  template\
@@ -159,16 +160,17 @@ data:
     \ {\n    if _CXX17_CONSTEXPR (!is_same<decltype(*this), _Args...>::value &&\n\
     \                         !is_same<_Tp, _Args...>::value)\n      cin >> *this;\n\
     \  }\n\n  input &operator=(const _Tp &__x) noexcept {\n    _Tp::operator=(__x);\n\
-    \    return *this;\n  }\n};\n\n}  // namespace _input_impl\n\ntemplate <class\
-    \ _Tp = int_least64_t>\nclass input : public _input_impl::input<_Tp, std::is_class<_Tp>::value>\
-    \ {};\n\n}  // namespace workspace\n"
+    \    return *this;\n  }\n};\n\n}  // namespace _input_impl\n\n// Standard input.\n\
+    template <class _Tp = int_least64_t>\nclass input : public _input_impl::input<_Tp,\
+    \ std::is_class<_Tp>::value> {\n public:\n  using _input_impl::input<_Tp, std::is_class<_Tp>::value>::input;\n\
+    };\n\n}  // namespace workspace\n"
   dependsOn:
   - src/utils/io/istream.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: false
   path: src/utils/io/input.hpp
   requiredBy: []
-  timestamp: '2021-07-17 02:02:16+09:00'
+  timestamp: '2021-07-17 03:20:08+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/io/input.hpp
