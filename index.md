@@ -18,12 +18,6 @@ data:
     - icon: ':warning:'
       path: deprecated/math_utility.cpp
       title: deprecated/math_utility.cpp
-    - icon: ':warning:'
-      path: deprecated/read.hpp
-      title: deprecated/read.hpp
-    - icon: ':warning:'
-      path: deprecated/trie.hpp
-      title: deprecated/trie.hpp
   - name: deprecated/constexpr
     pages:
     - icon: ':warning:'
