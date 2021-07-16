@@ -1,10 +1,13 @@
+#if defined(ONLINE_JUDGE)
+#pragma GCC optimize("Ofast, unroll-loops")
+#pragma GCC target("sse, sse2, sse3, ssse3, sse4, popcnt, mmx, avx, avx2")
+#endif
+
 // #undef _GLIBCXX_DEBUG
-// #define NDEBUG
 #include <bits/extc++.h>
 
 #include "lib/alias"
 #include "lib/cxx20"
-#include "lib/direct"
 #include "lib/opt"
 #include "lib/sys"
 #include "lib/utils"
