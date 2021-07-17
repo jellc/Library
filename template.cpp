@@ -1,6 +1,6 @@
 #if defined(ONLINE_JUDGE)
-#pragma GCC optimize("Ofast, unroll-loops")
-#pragma GCC target("sse, sse2, sse3, ssse3, sse4, popcnt, mmx, avx, avx2")
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,mmx,avx,avx2")
 #endif
 
 // #undef _GLIBCXX_DEBUG
