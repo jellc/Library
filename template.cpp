@@ -1,4 +1,4 @@
-#if defined(ONLINE_JUDGE)
+#if defined(ONLINE_JUDGE)  // && 0
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,mmx,avx,avx2")
 #endif
