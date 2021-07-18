@@ -17,8 +17,8 @@ data:
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
     )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: lib/sys: line\
     \ -1: no such header\n"
-  code: "#if defined(ONLINE_JUDGE)\n#pragma GCC optimize(\"Ofast,unroll-loops\")\n\
-    #pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,mmx,avx,avx2\")\n#endif\n\
+  code: "#if defined(ONLINE_JUDGE)  // && 0\n#pragma GCC optimize(\"Ofast,unroll-loops\"\
+    )\n#pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,mmx,avx,avx2\")\n#endif\n\
     \n// #undef _GLIBCXX_DEBUG\n#include <bits/extc++.h>\n\n/**\n#include \"lib/all\"\
     \n/*/\n#include \"lib/alias\"\n#include \"lib/cxx20\"\n#include \"lib/sys\"\n\
     #include \"lib/utils\"\n//*/\n\nsigned main() {\n  using namespace workspace;\n\
