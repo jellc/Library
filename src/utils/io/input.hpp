@@ -5,6 +5,7 @@
  * @brief Input
  */
 
+#include "../sfinae.hpp"
 #include "istream.hpp"
 
 namespace workspace {
@@ -60,5 +61,9 @@ class input : public _input_impl::input<_Tp, std::is_class<_Tp>::value> {
  public:
   using _input_impl::input<_Tp, std::is_class<_Tp>::value>::input;
 };
+
+// Integrality.
+template <class _Tp>
+struct is_integral_ext<input<_Tp>> : is_integral_ext<_Tp> {};
 
 }  // namespace workspace
