@@ -2,6 +2,7 @@
 
 #include <cstdio>
 
+#include "src/algebra/modint.hpp"
 #include "src/combinatorics/binomial.hpp"
 
 int main() {

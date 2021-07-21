@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "src/algebra/convolution/subset.hpp"
-#include "src/modular/modint.hpp"
+#include "src/algebra/modint.hpp"
 
 int main() {
   using mint = workspace::modint<998244353>;

@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/system_of_linear_equations"
 
 #include "src/algebra/linear/lu.hpp"
-#include "src/modular/modint.hpp"
+#include "src/algebra/modint.hpp"
 #include "src/utils/io/istream.hpp"
 #include "src/utils/io/ostream.hpp"
 

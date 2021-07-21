@@ -3,8 +3,8 @@
 #include <cstdio>
 #include <vector>
 
+#include "src/algebra/modint.hpp"
 #include "src/data_structure/segment_tree/lazy.hpp"
-#include "src/modular/modint.hpp"
 
 int main() {
   using namespace workspace;

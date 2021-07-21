@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "src/algebra/convolution/bitxor.hpp"
-#include "src/modular/modint.hpp"
+#include "src/algebra/modint.hpp"
 #include "src/utils/io/istream.hpp"
 #include "src/utils/io/ostream.hpp"
 

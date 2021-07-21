@@ -5,7 +5,8 @@
  * @brief Binomial Coefficient
  */
 
-#include "../modular/modint.hpp"
+#include <cassert>
+
 #include "factorial.hpp"
 
 namespace workspace {
@@ -35,21 +36,24 @@ constexpr _binom_table table;
 /**
  * @brief Binomial coefficient for integer args. Be careful with overflow.
  */
-template <class _Tp> constexpr _Tp binomial(int32_t __x, int32_t __y) {
+template <class _Tp, class _X, class _Y>
+constexpr _Tp binomial(_X __x, _Y __y) {
   if constexpr (is_integral_ext<_Tp>::value)
     return _binom_impl::table(__x, __y);
 
   if (__y < 0 || __x < __y) return 0;
 
-  return factorial<_Tp>(__x) * factorial_inverse<_Tp>(__y) *
-         factorial_inverse<_Tp>(__x - __y);
+  return factorial<_Tp>(__x) * inverse_factorial<_Tp>(__y) *
+         inverse_factorial<_Tp>(__x - __y);
 }
 
 /**
  * @brief Catalan number.
  */
-template <class _Tp> constexpr _Tp catalan(int32_t __x) {
-  return binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);
+template <class _Tp, class _X> constexpr _Tp catalan(_X __x) {
+  return __x < 0
+             ? _Tp(0)
+             : binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);
 }
 
 }  // namespace workspace

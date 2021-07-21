@@ -250,6 +250,10 @@ template <auto _Mod, unsigned _Storage> struct modint {
   }
 
  public:
+  static void reserve(unsigned __n) noexcept {
+    if (storage < __n) storage = __n;
+  }
+
   // operator/= {{
 
   constexpr modint &operator/=(const modint &__x) noexcept {
@@ -357,7 +361,10 @@ template <auto _Mod, unsigned _Storage = 0,
           typename = std::enable_if_t<(_Mod > 0)>>
 using modint = _modint_impl::modint<_Mod, _Storage>;
 
-template <unsigned _Id = 0>
-using modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;
+template <unsigned _Id = 0, unsigned _Storage = 0>
+using runtime_modint = _modint_impl::modint<-(signed)_Id, 0>;
+
+template <unsigned _Id = 0, unsigned _Storage = 0>
+using runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id, 0>;
 
 }  // namespace workspace

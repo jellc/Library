@@ -2,8 +2,8 @@
 
 #include <cstdio>
 
+#include "src/algebra/modint.hpp"
 #include "src/data_structure/deque_aggregation.hpp"
-#include "src/modular/modint.hpp"
 
 int main() {
   using mint = workspace::modint<998244353>;
