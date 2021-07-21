@@ -14,9 +14,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
-  - icon: ':warning:'
-    path: src/modular/inverse.hpp
-    title: Inverse Table
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
@@ -380,7 +377,6 @@ data:
   isVerificationFile: false
   path: src/modular/modint.hpp
   requiredBy:
-  - src/modular/inverse.hpp
   - src/combinatorics/binomial.hpp
   timestamp: '2021-07-11 22:15:29+09:00'
   verificationStatus: LIBRARY_ALL_AC

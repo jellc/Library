@@ -208,9 +208,6 @@ data:
       title: Boyer-Moore Majority Vote Algorithm
   - name: src/modular
     pages:
-    - icon: ':warning:'
-      path: src/modular/inverse.hpp
-      title: Inverse Table
     - icon: ':heavy_check_mark:'
       path: src/modular/modint.hpp
       title: Modular Arithmetic

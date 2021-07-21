@@ -11,9 +11,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
-  - icon: ':warning:'
-    path: src/modular/inverse.hpp
-    title: Inverse Table
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
@@ -166,7 +163,6 @@ data:
   isVerificationFile: false
   path: src/number_theory/sqrt_mod.hpp
   requiredBy:
-  - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/combinatorics/binomial.hpp
   timestamp: '2021-05-25 17:32:10+09:00'

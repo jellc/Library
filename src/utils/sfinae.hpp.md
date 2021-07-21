@@ -29,9 +29,6 @@ data:
   - icon: ':warning:'
     path: src/data_structure/set.hpp
     title: Set
-  - icon: ':warning:'
-    path: src/modular/inverse.hpp
-    title: Inverse Table
   - icon: ':heavy_check_mark:'
     path: src/modular/modint.hpp
     title: Modular Arithmetic
@@ -271,7 +268,6 @@ data:
   isVerificationFile: false
   path: src/utils/sfinae.hpp
   requiredBy:
-  - src/modular/inverse.hpp
   - src/modular/modint.hpp
   - src/utils/io/istream.hpp
   - src/utils/io/input.hpp
