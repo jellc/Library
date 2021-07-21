@@ -37,6 +37,9 @@ data:
       path: src/algebra/berlekamp_massey.hpp
       title: Berlekamp-Massey Algorithm
     - icon: ':heavy_check_mark:'
+      path: src/algebra/modint.hpp
+      title: Modular Arithmetic
+    - icon: ':heavy_check_mark:'
       path: src/algebra/ntt.hpp
       title: Number Theoretic Transform
     - icon: ':heavy_check_mark:'
@@ -206,11 +209,6 @@ data:
     - icon: ':warning:'
       path: src/misc/majority_vote.hpp
       title: Boyer-Moore Majority Vote Algorithm
-  - name: src/modular
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: src/modular/modint.hpp
-      title: Modular Arithmetic
   - name: src/number_theory
     pages:
     - icon: ':heavy_check_mark:'

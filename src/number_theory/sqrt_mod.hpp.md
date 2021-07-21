@@ -9,10 +9,7 @@ data:
     title: SFINAE
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: src/combinatorics/binomial.hpp
-    title: Binomial Coefficient
-  - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
+    path: src/algebra/modint.hpp
     title: Modular Arithmetic
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -163,8 +160,7 @@ data:
   isVerificationFile: false
   path: src/number_theory/sqrt_mod.hpp
   requiredBy:
-  - src/modular/modint.hpp
-  - src/combinatorics/binomial.hpp
+  - src/algebra/modint.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

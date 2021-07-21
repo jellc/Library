@@ -5,14 +5,14 @@ data:
     path: src/algebra/berlekamp_massey.hpp
     title: Berlekamp-Massey Algorithm
   - icon: ':heavy_check_mark:'
+    path: src/algebra/modint.hpp
+    title: Modular Arithmetic
+  - icon: ':heavy_check_mark:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
   - icon: ':heavy_check_mark:'
     path: src/algebra/polynomial.hpp
     title: Polynomial
-  - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
-    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
@@ -469,9 +469,9 @@ data:
     \      __b = std::move(__tmp);\n      __b /= __d;\n      __z = __b.size();\n \
     \   } else {\n      for (auto __i = __c.end() - __z, __j = __b.begin(); __j !=\
     \ __b.end();\n           ++__i, ++__j)\n        *__i -= *__j * __d;\n    }\n \
-    \ }\n\n  return __c;\n}\n\n}  // namespace workspace\n#line 2 \"src/modular/modint.hpp\"\
+    \ }\n\n  return __c;\n}\n\n}  // namespace workspace\n#line 2 \"src/algebra/modint.hpp\"\
     \n\n/**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10\
-    \ \"src/modular/modint.hpp\"\n#include <iostream>\n#line 12 \"src/modular/modint.hpp\"\
+    \ \"src/algebra/modint.hpp\"\n#include <iostream>\n#line 12 \"src/algebra/modint.hpp\"\
     \n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n\
     \ * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
     \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
@@ -499,7 +499,7 @@ data:
     \ {\n    auto __bsf = __z;\n\n    for (auto __e = __r; __e != 1; --__bsf) (__e\
     \ *= __e) %= __mod;\n\n    while (++__shift != __bsf) (__b *= __b) %= __mod;\n\
     \n    (__a *= __b) %= __mod;\n  }\n\n  return __a;\n};\n\n}  // namespace workspace\n\
-    #line 15 \"src/modular/modint.hpp\"\n\nnamespace workspace {\n\nnamespace _modint_impl\
+    #line 15 \"src/algebra/modint.hpp\"\n\nnamespace workspace {\n\nnamespace _modint_impl\
     \ {\n\ntemplate <auto _Mod, unsigned _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
     \ std::conditional<\n      0 < _Mod, std::add_const_t<decltype(_Mod)>, decltype(_Mod)>::type>;\n\
@@ -575,9 +575,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -611,13 +612,15 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file\
-    \ istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#line 13\
-    \ \"src/utils/io/istream.hpp\"\n\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace\
-    \ workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename =\
-    \ void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
-    \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
+    #line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n * @brief Input\
+    \ Stream\n */\n\n#include <cxxabi.h>\n\n#line 13 \"src/utils/io/istream.hpp\"\n\
+    \n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace\
+    \ _istream_impl {\n\ntemplate <class _Tp, typename = void> struct helper {\n \
+    \ helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp\
+    \ &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
     \ &>() >>\n                                          std::declval<_Tp &>())>>\
@@ -703,7 +706,7 @@ data:
     \ : a) x = -x;\n  std::reverse(a.begin(), a.end());\n  std::cout << a.size() <<\
     \ \"\\n\";\n  std::cout << a << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/find_linear_recurrence\"\
-    \n\n#include \"src/algebra/berlekamp_massey.hpp\"\n#include \"src/modular/modint.hpp\"\
+    \n\n#include \"src/algebra/berlekamp_massey.hpp\"\n#include \"src/algebra/modint.hpp\"\
     \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
     \n\nint main() {\n  using namespace workspace;\n  using mint = modint<998244353>;\n\
     \n  int n;\n  cin >> n;\n  polynomial<mint> a(n);\n  cin >> a;\n  auto b = a;\n\
@@ -717,7 +720,7 @@ data:
   - src/number_theory/ext_gcd.hpp
   - src/utils/sfinae.hpp
   - src/number_theory/primitive_root.hpp
-  - src/modular/modint.hpp
+  - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/pow_mod.hpp
   - src/utils/io/istream.hpp
@@ -725,7 +728,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2021-07-16 03:07:50+09:00'
+  timestamp: '2021-07-22 00:37:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/find_linear_recurrence.test.cpp

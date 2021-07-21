@@ -11,7 +11,7 @@ data:
     path: src/algebra/convolution/zeta.hpp
     title: Fast Zeta Transform
   - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
+    path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
@@ -126,7 +126,7 @@ data:
     \ {\n\ntemplate <class A> A bitand_conv(A f, A g) {\n  std::reverse(std::begin(f),\
     \ std::end(f));\n  std::reverse(std::begin(g), std::end(g));\n  f = bitor_conv(f,\
     \ g);\n  std::reverse(std::begin(f), std::end(f));\n  return f;\n}\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
+    \ workspace\n#line 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
     \ *\n * @brief Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\
     #include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file\
     \ sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
@@ -210,7 +210,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/modular/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -287,9 +287,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -323,56 +324,58 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file\
-    \ istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#line 12\
-    \ \"src/utils/io/istream.hpp\"\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n\
-    #ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
-    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp,\
-    \ typename = void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n\
-    \    if _CXX17_CONSTEXPR (has_begin<_Tp &>::value)\n      for (auto &&__e : __x)\
-    \ helper<std::decay_t<decltype(__e)>>(__is, __e);\n    else\n      static_assert(has_begin<_Tp>::value,\
-    \ \"istream unsupported type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp,\
-    \ std::__void_t<decltype(std::declval<std::istream &>() >>\n                 \
-    \                         std::declval<_Tp &>())>> {\n  helper(std::istream &__is,\
-    \ _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct\
-    \ helper<__uint128_t, void> {\n  helper(std::istream &__is, __uint128_t &__x)\
-    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
-    \ == '-') __neg = true, __s.erase(__s.begin());\n    __x = 0;\n    for (char __d\
-    \ : __s) {\n      __x *= 10;\n      __d -= '0';\n      if (__neg)\n        __x\
-    \ -= __d;\n      else\n        __x += __d;\n    }\n  }\n};\n\ntemplate <> struct\
-    \ helper<__int128_t, void> {\n  helper(std::istream &__is, __int128_t &__x) {\n\
-    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
-    \ == '-') __neg = true, __s.erase(__s.begin());\n    __x = 0;\n    for (char __d\
-    \ : __s) {\n      __x *= 10;\n      __d -= '0';\n      if (__neg)\n        __x\
-    \ -= __d;\n      else\n        __x += __d;\n    }\n  }\n};\n\n#endif  // INT128\n\
-    \ntemplate <class _T1, class _T2> struct helper<std::pair<_T1, _T2>> {\n  helper(std::istream\
-    \ &__is, std::pair<_T1, _T2> &__x) {\n    helper<_T1>(__is, __x.first), helper<_T2>(__is,\
-    \ __x.second);\n  }\n};\n\ntemplate <class... _Tp> struct helper<std::tuple<_Tp...>>\
-    \ {\n  helper(std::istream &__is, std::tuple<_Tp...> &__x) { iterate(__is, __x);\
-    \ }\n\n private:\n  template <class _Tuple, size_t _Nm = 0>\n  void iterate(std::istream\
-    \ &__is, _Tuple &__x) {\n    if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tuple>::value)\
-    \ {\n      helper<typename std::tuple_element<_Nm, _Tuple>::type>(\n         \
-    \ __is, std::get<_Nm>(__x)),\n          iterate<_Tuple, _Nm + 1>(__is, __x);\n\
-    \    }\n  }\n};\n\n}  // namespace _istream_impl\n\n/**\n * @brief A wrapper class\
-    \ for std::istream.\n */\nclass istream : public std::istream {\n public:\n  /**\n\
-    \   * @brief Wrapped operator.\n   */\n  template <typename _Tp> istream &operator>>(_Tp\
-    \ &__x) {\n    _istream_impl::helper<_Tp>(*this, __x);\n    if (std::istream::fail())\
-    \ {\n      static auto once = atexit([] {\n        std::cerr << \"\\n\\033[43m\\\
-    033[30mwarning: failed to read \\'\"\n                  << abi::__cxa_demangle(typeid(_Tp).name(),\
-    \ 0, 0, 0)\n                  << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n\
-    \    }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream\
-    \ &>(std::cin);\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\
-    \n\n/**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
+    #line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n * @brief Input\
+    \ Stream\n */\n\n#include <cxxabi.h>\n\n#line 12 \"src/utils/io/istream.hpp\"\n\
+    #include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
+    #endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief\
+    \  Return the size of a container.\n *  @param  __cont  Container.\n */\ntemplate\
+    \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
+    \ std\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace\
+    \ {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename = void> struct\
+    \ helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
+    \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
+    \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
+    \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
+    \ &>() >>\n                                          std::declval<_Tp &>())>>\
+    \ {\n  helper(std::istream &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\
+    \ntemplate <> struct helper<__uint128_t, void> {\n  helper(std::istream &__is,\
+    \ __uint128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool __neg\
+    \ = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
+    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
+    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
+    \  }\n};\n\ntemplate <> struct helper<__int128_t, void> {\n  helper(std::istream\
+    \ &__is, __int128_t &__x) {\n    std::string __s;\n    __is >> __s;\n    bool\
+    \ __neg = false;\n    if (__s.front() == '-') __neg = true, __s.erase(__s.begin());\n\
+    \    __x = 0;\n    for (char __d : __s) {\n      __x *= 10;\n      __d -= '0';\n\
+    \      if (__neg)\n        __x -= __d;\n      else\n        __x += __d;\n    }\n\
+    \  }\n};\n\n#endif  // INT128\n\ntemplate <class _T1, class _T2> struct helper<std::pair<_T1,\
+    \ _T2>> {\n  helper(std::istream &__is, std::pair<_T1, _T2> &__x) {\n    helper<_T1>(__is,\
+    \ __x.first), helper<_T2>(__is, __x.second);\n  }\n};\n\ntemplate <class... _Tp>\
+    \ struct helper<std::tuple<_Tp...>> {\n  helper(std::istream &__is, std::tuple<_Tp...>\
+    \ &__x) { iterate(__is, __x); }\n\n private:\n  template <class _Tuple, size_t\
+    \ _Nm = 0>\n  void iterate(std::istream &__is, _Tuple &__x) {\n    if _CXX17_CONSTEXPR\
+    \ (_Nm != std::tuple_size<_Tuple>::value) {\n      helper<typename std::tuple_element<_Nm,\
+    \ _Tuple>::type>(\n          __is, std::get<_Nm>(__x)),\n          iterate<_Tuple,\
+    \ _Nm + 1>(__is, __x);\n    }\n  }\n};\n\n}  // namespace _istream_impl\n\n/**\n\
+    \ * @brief A wrapper class for std::istream.\n */\nclass istream : public std::istream\
+    \ {\n public:\n  /**\n   * @brief Wrapped operator.\n   */\n  template <typename\
+    \ _Tp> istream &operator>>(_Tp &__x) {\n    _istream_impl::helper<_Tp>(*this,\
+    \ __x);\n    if (std::istream::fail()) {\n      static auto once = atexit([] {\n\
+    \        std::cerr << \"\\n\\033[43m\\033[30mwarning: failed to read \\'\"\n \
+    \                 << abi::__cxa_demangle(typeid(_Tp).name(), 0, 0, 0)\n      \
+    \            << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n   \
+    \ }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream &>(std::cin);\n\
+    \n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n/**\n * @file\
+    \ ostream.hpp\n * @brief Output Stream\n */\n\n#line 9 \"src/utils/io/ostream.hpp\"\
     \n\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate\
     \ <class _Os> struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
     \ __test(std::basic_ostream<_Args...> *);\n  static std::false_type __test(void\
@@ -423,7 +426,7 @@ data:
     \  size_t n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >>\
     \ a >> b;\n  std::cout << bitand_conv(a, b) << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
-    \n\n#include \"src/algebra/convolution/bitand.hpp\"\n#include \"src/modular/modint.hpp\"\
+    \n\n#include \"src/algebra/convolution/bitand.hpp\"\n#include \"src/algebra/modint.hpp\"\
     \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
     \n\nint main() {\n  using namespace workspace;\n  using mint = modint<998244353>;\n\
     \  size_t n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  cin >>\
@@ -432,7 +435,7 @@ data:
   - src/algebra/convolution/bitand.hpp
   - src/algebra/convolution/bitor.hpp
   - src/algebra/convolution/zeta.hpp
-  - src/modular/modint.hpp
+  - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/pow_mod.hpp
   - src/utils/sfinae.hpp
@@ -441,7 +444,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-07-11 22:15:29+09:00'
+  timestamp: '2021-07-22 00:37:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/bitwise_and_convolution.test.cpp

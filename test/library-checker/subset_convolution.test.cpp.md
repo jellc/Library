@@ -5,7 +5,7 @@ data:
     path: src/algebra/convolution/subset.hpp
     title: Subset Convolution
   - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
+    path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
@@ -101,8 +101,8 @@ data:
     \  for (size_t s = 0; s != len; ++s)\n      if (~s >> k & 1)\n        for (size_t\
     \ i = n; ~i; --i) {\n          ff[i][s ^ 1 << k] -= ff[i][s];\n          if (i)\
     \ ff[i][s] = ff[i - 1][s];\n        }\n\n  return ff[n];\n}\n\n}  // namespace\
-    \ workspace\n#line 2 \"src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
-    \ *\n * @brief Modular Arithmetic\n */\n\n#line 12 \"src/modular/modint.hpp\"\n\
+    \ workspace\n#line 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
+    \ *\n * @brief Modular Arithmetic\n */\n\n#line 12 \"src/algebra/modint.hpp\"\n\
     \n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n *\
     \ @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
     \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
@@ -185,7 +185,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/modular/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -262,9 +262,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -298,29 +299,31 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n#line 6 \"test/library-checker/subset_convolution.test.cpp\"\
-    \n\nint main() {\n  using mint = workspace::modint<998244353>;\n  using std::cin;\n\
-    \  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto\
-    \ &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a = workspace::subset_conv(a,\
-    \ b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
+    #line 6 \"test/library-checker/subset_convolution.test.cpp\"\n\nint main() {\n\
+    \  using mint = workspace::modint<998244353>;\n  using std::cin;\n  int n;\n \
+    \ cin >> n;\n  std::vector<mint> a(1 << n), b(1 << n);\n  for (auto &x : a) cin\
+    \ >> x;\n  for (auto &x : b) cin >> x;\n  a = workspace::subset_conv(a, b);\n\
+    \  for (auto x : a) printf(\"%d \", x);\n  puts(\"\");\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\
     #include <iostream>\n\n#include \"src/algebra/convolution/subset.hpp\"\n#include\
-    \ \"src/modular/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
+    \ \"src/algebra/modint.hpp\"\n\nint main() {\n  using mint = workspace::modint<998244353>;\n\
     \  using std::cin;\n  int n;\n  cin >> n;\n  std::vector<mint> a(1 << n), b(1\
     \ << n);\n  for (auto &x : a) cin >> x;\n  for (auto &x : b) cin >> x;\n  a =\
     \ workspace::subset_conv(a, b);\n  for (auto x : a) printf(\"%d \", x);\n  puts(\"\
     \");\n}\n"
   dependsOn:
   - src/algebra/convolution/subset.hpp
-  - src/modular/modint.hpp
+  - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/pow_mod.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: true
   path: test/library-checker/subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2021-07-11 22:15:29+09:00'
+  timestamp: '2021-07-22 00:37:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/subset_convolution.test.cpp

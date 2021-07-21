@@ -10,10 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: src/combinatorics/binomial.hpp
-    title: Binomial Coefficient
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/DPL_5_D.test.cpp
@@ -54,7 +51,7 @@ data:
   attributes:
     document_title: Modular Arithmetic
     links: []
-  bundledCode: "#line 2 \"src/modular/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n\
+  bundledCode: "#line 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n\
     \ * @brief Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\
     #include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file\
     \ sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
@@ -138,7 +135,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/modular/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -215,9 +212,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -251,8 +249,9 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n"
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file modint.hpp\n *\n * @brief Modular Arithmetic\n\
     \ */\n\n#include <cassert>\n#include <iostream>\n#include <vector>\n\n#include\
     \ \"src/number_theory/sqrt_mod.hpp\"\n#include \"src/utils/sfinae.hpp\"\n\nnamespace\
@@ -332,9 +331,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -368,17 +368,17 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n"
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n"
   dependsOn:
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/pow_mod.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: false
-  path: src/modular/modint.hpp
-  requiredBy:
-  - src/combinatorics/binomial.hpp
-  timestamp: '2021-07-11 22:15:29+09:00'
+  path: src/algebra/modint.hpp
+  requiredBy: []
+  timestamp: '2021-07-22 00:37:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/subset_convolution.test.cpp
@@ -392,10 +392,10 @@ data:
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
-documentation_of: src/modular/modint.hpp
+documentation_of: src/algebra/modint.hpp
 layout: document
 redirect_from:
-- /library/src/modular/modint.hpp
-- /library/src/modular/modint.hpp.html
+- /library/src/algebra/modint.hpp
+- /library/src/algebra/modint.hpp.html
 title: Modular Arithmetic
 ---

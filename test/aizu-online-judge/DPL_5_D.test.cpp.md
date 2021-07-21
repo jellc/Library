@@ -2,14 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: src/algebra/modint.hpp
+    title: Modular Arithmetic
+  - icon: ':heavy_check_mark:'
     path: src/combinatorics/binomial.hpp
     title: Binomial Coefficient
   - icon: ':heavy_check_mark:'
     path: src/combinatorics/factorial.hpp
     title: Factorial
-  - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
-    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
@@ -31,26 +31,24 @@ data:
     - https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D
   bundledCode: "#line 1 \"test/aizu-online-judge/DPL_5_D.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D\"\n\n#include <cstdio>\n\
-    \n#line 2 \"src/combinatorics/binomial.hpp\"\n\n/**\n * @file binomial.hpp\n *\
-    \ @brief Binomial Coefficient\n */\n\n#line 2 \"src/modular/modint.hpp\"\n\n/**\n\
-    \ * @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#include <cassert>\n\
-    #include <iostream>\n#include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\
-    \n\n/**\n * @file sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line\
-    \ 2 \"src/number_theory/pow_mod.hpp\"\n\n/**\n * @file mod_pow.hpp\n * @brief\
-    \ Modular Exponentiation\n */\n\n#line 9 \"src/number_theory/pow_mod.hpp\"\n\n\
-    #line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n\
-    \ */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef\
-    \ __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n\
-    #else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if\
-    \ __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using type\
-    \ = __int128_t; };\ntemplate <> struct make_signed<__int128_t> { using type =\
-    \ __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t> { using type\
-    \ = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t> { using type\
-    \ = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t> : std::false_type\
-    \ {};\ntemplate <> struct is_signed<__int128_t> : std::true_type {};\n\ntemplate\
-    \ <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate <> struct\
-    \ is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace std\n\
-    \nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
+    \n#line 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n * @brief\
+    \ Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n#include\
+    \ <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n\
+    \ * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
+    \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
+    \ 9 \"src/number_theory/pow_mod.hpp\"\n\n#line 2 \"src/utils/sfinae.hpp\"\n\n\
+    /**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
+    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
+    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
+    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
+    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
+    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
+    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
+    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
+    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
+    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
+    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
     \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
     template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
     \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
@@ -117,7 +115,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/modular/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -194,9 +192,10 @@ data:
     \ (__y < 0) __neg ^= 1;\n    }\n\n    if (__neg)\n      __v = 0 < __v ? mod -\
     \ __v : -__v;\n    else if (__v < 0)\n      __v += mod;\n\n    return __r == mul_type(1)\
     \ ? static_cast<value_type>(__v)\n                              : static_cast<value_type>(__r\
-    \ * __v % mod);\n  }\n\n public:\n  // operator/= {{\n\n  constexpr modint &operator/=(const\
-    \ modint &__x) noexcept {\n    if (value) value = _div(value, __x.value);\n  \
-    \  return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
+    \ * __v % mod);\n  }\n\n public:\n  static void reserve(unsigned __n) noexcept\
+    \ {\n    if (storage < __n) storage = __n;\n  }\n\n  // operator/= {{\n\n  constexpr\
+    \ modint &operator/=(const modint &__x) noexcept {\n    if (value) value = _div(value,\
+    \ __x.value);\n    return *this;\n  }\n\n  template <class _Tp>\n  constexpr std::enable_if_t<is_integral_ext<_Tp>::value,\
     \ modint> &operator/=(\n      _Tp __x) noexcept {\n    if (value) value = _div(value,\
     \ __x %= mod);\n    return *this;\n  }\n\n  // }} operator/=\n\n  // operator/\
     \ {{\n\n  constexpr modint operator/(const modint &__x) const noexcept {\n   \
@@ -230,51 +229,57 @@ data:
     \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
     \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
     \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0>\nusing modint_runtime = _modint_impl::modint<-(signed)_Id, 0>;\n\n\
-    }  // namespace workspace\n#line 2 \"src/combinatorics/factorial.hpp\"\n\n/**\n\
-    \ * @file factorial.hpp\n * @brief Factorial\n * @date 2021-01-15\n *\n *\n */\n\
-    \n#line 12 \"src/combinatorics/factorial.hpp\"\n\nnamespace workspace {\n\ntemplate\
-    \ <class _Tp> _Tp factorial(int32_t __x) noexcept {\n  if (__x < 0) return 0;\n\
-    \n  static std::vector<_Tp> __t{1};\n  static int32_t __i = (__t.reserve(0x1000000),\
-    \ 0);\n\n  while (__i < __x) {\n    ++__i;\n    __t.emplace_back(__t.back() *\
-    \ _Tp(__i));\n  }\n\n  return __t[__x];\n}\n\ntemplate <class _Tp> _Tp factorial_inverse(int32_t\
-    \ __x) noexcept {\n  if (__x < 0) return 0;\n\n  static std::vector<_Tp> __t{1};\n\
-    \  static int32_t __i = (__t.reserve(0x1000000), 0);\n\n  while (__i < __x) {\n\
-    \    ++__i;\n    __t.emplace_back(__t.back() / _Tp(__i));\n  }\n\n  return __t[__x];\n\
-    }\n\n}  // namespace workspace\n#line 10 \"src/combinatorics/binomial.hpp\"\n\n\
-    namespace workspace {\n\nnamespace _binom_impl {\n\nstruct _binom_table {\n  constexpr\
-    \ static int size = 132;\n  __uint128_t __b[size][size]{1};\n\n  constexpr _binom_table()\
-    \ noexcept {\n    for (int __i = 1; __i != size; ++__i)\n      for (int __j =\
-    \ 0; __j != __i; ++__j)\n        __b[__i][__j] += __b[__i - 1][__j],\n       \
-    \     __b[__i][__j + 1] += __b[__i - 1][__j];\n  }\n\n  constexpr auto operator()(int\
-    \ __x, int __y) const noexcept {\n    return __x < 0 || __x < __y ? 0 : (assert(__x\
-    \ < size), __b[__x][__y]);\n  }\n};\n\nconstexpr _binom_table table;\n\n}  //\
-    \ namespace _binom_impl\n\n/**\n * @brief Binomial coefficient for integer args.\
-    \ Be careful with overflow.\n */\ntemplate <class _Tp> constexpr _Tp binomial(int32_t\
-    \ __x, int32_t __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n    return\
-    \ _binom_impl::table(__x, __y);\n\n  if (__y < 0 || __x < __y) return 0;\n\n \
-    \ return factorial<_Tp>(__x) * factorial_inverse<_Tp>(__y) *\n         factorial_inverse<_Tp>(__x\
-    \ - __y);\n}\n\n/**\n * @brief Catalan number.\n */\ntemplate <class _Tp> constexpr\
-    \ _Tp catalan(int32_t __x) {\n  return binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x\
-    \ << 1, __x + 1);\n}\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/DPL_5_D.test.cpp\"\
+    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
+    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
+    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
+    #line 2 \"src/combinatorics/binomial.hpp\"\n\n/**\n * @file binomial.hpp\n * @brief\
+    \ Binomial Coefficient\n */\n\n#line 9 \"src/combinatorics/binomial.hpp\"\n\n\
+    #line 2 \"src/combinatorics/factorial.hpp\"\n\n/**\n * @file factorial.hpp\n *\
+    \ @brief Factorial\n */\n\n#line 9 \"src/combinatorics/factorial.hpp\"\n\nnamespace\
+    \ workspace {\n\n// Factorial\ntemplate <class _Tp, class _X> _Tp factorial(_X\
+    \ __x) noexcept {\n  if (__x < 0) return 0;\n  static std::vector<_Tp> __t{1};\n\
+    \  static size_t __i = (__t.reserve(0x1000000), 0);\n  while (__i < size_t(__x))\
+    \ __t.emplace_back(__t.back() * _Tp(++__i));\n  return __t[__x];\n}\n\n// Inverse\
+    \ of factorial\ntemplate <class _Tp, class _X> _Tp inverse_factorial(_X __x) noexcept\
+    \ {\n  if (__x < 0) return 0;\n  static std::vector<_Tp> __t{1};\n  static size_t\
+    \ __i = (__t.reserve(0x1000000), 0);\n  while (__i < size_t(__x)) __t.emplace_back(__t.back()\
+    \ / _Tp(++__i));\n  return __t[__x];\n}\n\n}  // namespace workspace\n#line 11\
+    \ \"src/combinatorics/binomial.hpp\"\n\nnamespace workspace {\n\nnamespace _binom_impl\
+    \ {\n\nstruct _binom_table {\n  constexpr static int size = 132;\n  __uint128_t\
+    \ __b[size][size]{1};\n\n  constexpr _binom_table() noexcept {\n    for (int __i\
+    \ = 1; __i != size; ++__i)\n      for (int __j = 0; __j != __i; ++__j)\n     \
+    \   __b[__i][__j] += __b[__i - 1][__j],\n            __b[__i][__j + 1] += __b[__i\
+    \ - 1][__j];\n  }\n\n  constexpr auto operator()(int __x, int __y) const noexcept\
+    \ {\n    return __x < 0 || __x < __y ? 0 : (assert(__x < size), __b[__x][__y]);\n\
+    \  }\n};\n\nconstexpr _binom_table table;\n\n}  // namespace _binom_impl\n\n/**\n\
+    \ * @brief Binomial coefficient for integer args. Be careful with overflow.\n\
+    \ */\ntemplate <class _Tp, class _X, class _Y>\nconstexpr _Tp binomial(_X __x,\
+    \ _Y __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n    return _binom_impl::table(__x,\
+    \ __y);\n\n  if (__y < 0 || __x < __y) return 0;\n\n  return factorial<_Tp>(__x)\
+    \ * inverse_factorial<_Tp>(__y) *\n         inverse_factorial<_Tp>(__x - __y);\n\
+    }\n\n/**\n * @brief Catalan number.\n */\ntemplate <class _Tp, class _X> constexpr\
+    \ _Tp catalan(_X __x) {\n  return __x < 0\n             ? _Tp(0)\n           \
+    \  : binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);\n}\n\n}\
+    \  // namespace workspace\n#line 7 \"test/aizu-online-judge/DPL_5_D.test.cpp\"\
     \n\nint main() {\n  using namespace workspace;\n  int n, k;\n  scanf(\"%d%d\"\
     , &n, &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>(n + k - 1, n));\n\
     }\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_D\"\n\n\
-    #include <cstdio>\n\n#include \"src/combinatorics/binomial.hpp\"\n\nint main()\
-    \ {\n  using namespace workspace;\n  int n, k;\n  scanf(\"%d%d\", &n, &k);\n \
-    \ printf(\"%d\\n\", binomial<modint<1000000007>>(n + k - 1, n));\n}\n"
+    #include <cstdio>\n\n#include \"src/algebra/modint.hpp\"\n#include \"src/combinatorics/binomial.hpp\"\
+    \n\nint main() {\n  using namespace workspace;\n  int n, k;\n  scanf(\"%d%d\"\
+    , &n, &k);\n  printf(\"%d\\n\", binomial<modint<1000000007>>(n + k - 1, n));\n\
+    }\n"
   dependsOn:
-  - src/combinatorics/binomial.hpp
-  - src/modular/modint.hpp
+  - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/pow_mod.hpp
   - src/utils/sfinae.hpp
+  - src/combinatorics/binomial.hpp
   - src/combinatorics/factorial.hpp
   isVerificationFile: true
   path: test/aizu-online-judge/DPL_5_D.test.cpp
   requiredBy: []
-  timestamp: '2021-07-11 22:15:29+09:00'
+  timestamp: '2021-07-22 00:37:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/DPL_5_D.test.cpp

@@ -6,14 +6,14 @@ data:
     path: src/algebra/berlekamp_massey.hpp
     title: Berlekamp-Massey Algorithm
   - icon: ':heavy_check_mark:'
+    path: src/algebra/modint.hpp
+    title: Modular Arithmetic
+  - icon: ':heavy_check_mark:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
   - icon: ':heavy_check_mark:'
     path: src/algebra/polynomial.hpp
     title: Polynomial
-  - icon: ':heavy_check_mark:'
-    path: src/combinatorics/binomial.hpp
-    title: Binomial Coefficient
   - icon: ':warning:'
     path: src/data_structure/cyclic.hpp
     title: Cyclic Array
@@ -29,9 +29,6 @@ data:
   - icon: ':warning:'
     path: src/data_structure/set.hpp
     title: Set
-  - icon: ':heavy_check_mark:'
-    path: src/modular/modint.hpp
-    title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
@@ -268,13 +265,11 @@ data:
   isVerificationFile: false
   path: src/utils/sfinae.hpp
   requiredBy:
-  - src/modular/modint.hpp
   - src/utils/io/istream.hpp
   - src/utils/io/input.hpp
   - src/utils/compare.hpp
   - src/utils/hash.hpp
   - src/utils/round_div.hpp
-  - src/combinatorics/binomial.hpp
   - src/data_structure/set.hpp
   - src/data_structure/segment_tree/lazy.hpp
   - src/data_structure/cyclic.hpp
@@ -283,6 +278,7 @@ data:
   - src/algebra/berlekamp_massey.hpp
   - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
+  - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   - src/number_theory/totient.hpp
   - src/number_theory/least_factor.hpp
