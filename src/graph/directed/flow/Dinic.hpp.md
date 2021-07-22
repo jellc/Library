@@ -195,78 +195,90 @@ data:
     \    for (const auto &adj : __g)\n      for (const auto &e : adj) __os << e <<\
     \ \"\\n\";\n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 11 \"\
     src/graph/directed/flow/Dinic.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Compute the maximum flow.\n *\n * @tparam _Cap Capacity type\n */\ntemplate\
-    \ <class _Cap> class Dinic : public flow_graph<_Cap> {\n  using base = flow_graph<_Cap>;\n\
+    \ Compute the maximum flow.\n * @tparam _Cap Capacity type\n */\ntemplate <class\
+    \ _Cap> class Dinic : public flow_graph<_Cap> {\n  using base = flow_graph<_Cap>;\n\
     \n public:\n  using size_type = typename base::size_type;\n\n protected:\n  constexpr\
-    \ static size_type nil = -1;\n\n  std::vector<size_type> level;\n  std::vector<typename\
-    \ base::container_type::value_type::iterator> iter;\n\n  _Cap dfs(size_type __src,\
-    \ size_type __dst, _Cap __bound) {\n    if (__src == __dst) return __bound;\n\n\
-    \    _Cap __flow(0);\n\n    for (auto &__e{iter[__dst]}; __e != base::graph[__dst].end();\
-    \ ++__e)\n      if (static_cast<_Cap>(0) < __e->flow && level[__e->dst] < level[__dst])\n\
-    \        if (_Cap achv = dfs(__src, __e->dst, std::min(__bound, __e->flow));\n\
-    \            static_cast<_Cap>(0) < achv) {\n          __e->push(-achv);\n   \
-    \       __flow += achv, __bound -= achv;\n          if (__bound == static_cast<_Cap>(0))\
-    \ break;\n        }\n\n    return __flow;\n  }\n\n public:\n  /**\n   * @brief\
-    \ Construct a new Dinic object.\n   *\n   * @param __n Number of nodes\n   */\n\
-    \  Dinic(size_type __n = 0)\n      : base::flow_graph(__n), level(__n, nil), iter(__n)\
-    \ {}\n\n  /**\n   * @brief Add some nodes to the graph.\n   *\n   * @param __n\
-    \ Number of nodes added\n   * @return List of indices of the nodes.\n   */\n \
-    \ std::vector<size_type> add_nodes(size_type __n) override {\n    auto __nds =\
-    \ base::add_nodes(__n);\n    level.resize(base::size(), nil);\n    iter.resize(base::size());\n\
-    \    return __nds;\n  }\n\n  /**\n   * @brief Run Dinic's algorithm.\n   *\n \
-    \  * @param __src Source\n   * @param __dst Destination\n   * @return Maximum\
-    \ flow.\n   */\n  _Cap run(size_type __src, size_type __dst) {\n    assert(__src\
-    \ < base::size());\n    assert(__dst < base::size());\n    assert(__src != __dst);\n\
-    \n    _Cap __flow = 0, __bound = std::numeric_limits<_Cap>::max();\n\n    for\
-    \ (std::vector<size_type> __q(base::size());;\n         std::fill(level.begin(),\
-    \ level.end(), nil)) {\n      level[__q.front() = __src] = 0;\n\n      for (auto\
-    \ __ql{__q.begin()}, __qr{std::next(__ql)};\n           level[__dst] == nil &&\
-    \ __ql != __qr; ++__ql)\n        for (const auto &__e : base::graph[*__ql])\n\
-    \          if (static_cast<_Cap>(0) < __e.cap && level[__e.dst] == nil)\n    \
-    \        level[ *__qr++ = __e.dst] = level[*__ql] + 1;\n\n      if (level[__dst]\
-    \ == nil) break;\n\n      for (size_type __x{}; __x != base::size(); ++__x)\n\
-    \        iter[__x] = base::graph[__x].begin();\n\n      __flow += dfs(__src, __dst,\
-    \ __bound);\n    }\n\n    return __flow;\n  }\n};\n\n}  // namespace workspace\n"
+    \ static size_type nil = -1;\n\n  std::vector<size_type> __level;\n  std::vector<typename\
+    \ base::container_type::value_type::iterator> __iter;\n\n  _Cap dfs(size_type\
+    \ __src, size_type __dst, _Cap __limit) noexcept {\n    if (__src == __dst) return\
+    \ __limit;\n\n    _Cap __flow(0);\n\n    for (auto &__e{__iter[__dst]}; __e !=\
+    \ base::graph[__dst].end(); ++__e)\n      if (static_cast<_Cap>(0) < __e->flow\
+    \ &&\n          __level[__e->dst] < __level[__dst])\n        if (_Cap achv = dfs(__src,\
+    \ __e->dst, std::min(__limit, __e->flow));\n            static_cast<_Cap>(0) <\
+    \ achv) {\n          __e->push(-achv);\n          __flow += achv, __limit -= achv;\n\
+    \          if (__limit == static_cast<_Cap>(0)) break;\n        }\n\n    return\
+    \ __flow;\n  }\n\n public:\n  // Construct a new Dinic object.\n  Dinic() noexcept\
+    \ {}\n\n  /**\n   * @brief Construct a new Dinic object.\n   * @param __n Number\
+    \ of nodes\n   */\n  Dinic(size_type __n) noexcept\n      : base::flow_graph(__n),\
+    \ __level(__n, nil), __iter(__n) {}\n\n  /**\n   * @brief Add some nodes to the\
+    \ graph.\n   * @param __n Number of nodes added\n   * @return List of indices\
+    \ of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type __n) override\
+    \ {\n    auto __nds = base::add_nodes(__n);\n    __level.resize(base::size(),\
+    \ nil), __iter.resize(base::size());\n    return __nds;\n  }\n\n  /**\n   * @brief\
+    \ Run Dinic's algorithm.\n   * @param __src Source\n   * @param __dst Destination\n\
+    \   * @return Maximum flow.\n   */\n  _Cap run(size_type __src, size_type __dst)\
+    \ noexcept {\n    return run(__src, __dst, std::numeric_limits<_Cap>::max());\n\
+    \  }\n\n  /**\n   * @brief Run Dinic's algorithm.\n   * @param __src Source\n\
+    \   * @param __dst Destination\n   * @param __limit Flow limit\n   * @return Maximum\
+    \ flow.\n   */\n  _Cap run(size_type __src, size_type __dst, _Cap __limit) noexcept\
+    \ {\n    assert(__src < base::size()), assert(__dst < base::size()),\n       \
+    \ assert(__src != __dst);\n\n    if (!(static_cast<_Cap>(0) < __limit)) return\
+    \ 0;\n    _Cap __flow = 0;\n\n    for (std::vector<size_type> __q(base::size());;\n\
+    \         std::fill(__level.begin(), __level.end(), nil)) {\n      __level[__q.front()\
+    \ = __src] = 0;\n\n      for (auto __ql{__q.begin()}, __qr{std::next(__ql)};\n\
+    \           __level[__dst] == nil && __ql != __qr; ++__ql)\n        for (const\
+    \ auto &__e : base::graph[*__ql])\n          if (static_cast<_Cap>(0) < __e.cap\
+    \ && __level[__e.dst] == nil)\n            __level[ *__qr++ = __e.dst] = __level[*__ql]\
+    \ + 1;\n\n      if (__level[__dst] == nil) break;\n\n      for (size_type __x{};\
+    \ __x != base::size(); ++__x)\n        __iter[__x] = base::graph[__x].begin();\n\
+    \n      __flow += dfs(__src, __dst, __limit);\n    }\n\n    return __flow;\n \
+    \ }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file Dinic.hpp\n * @brief Dinic's Algorithm\n */\n\
     \n#include <limits>\n\n#include \"base.hpp\"\n\nnamespace workspace {\n\n/**\n\
-    \ * @brief Compute the maximum flow.\n *\n * @tparam _Cap Capacity type\n */\n\
-    template <class _Cap> class Dinic : public flow_graph<_Cap> {\n  using base =\
-    \ flow_graph<_Cap>;\n\n public:\n  using size_type = typename base::size_type;\n\
-    \n protected:\n  constexpr static size_type nil = -1;\n\n  std::vector<size_type>\
-    \ level;\n  std::vector<typename base::container_type::value_type::iterator> iter;\n\
-    \n  _Cap dfs(size_type __src, size_type __dst, _Cap __bound) {\n    if (__src\
-    \ == __dst) return __bound;\n\n    _Cap __flow(0);\n\n    for (auto &__e{iter[__dst]};\
-    \ __e != base::graph[__dst].end(); ++__e)\n      if (static_cast<_Cap>(0) < __e->flow\
-    \ && level[__e->dst] < level[__dst])\n        if (_Cap achv = dfs(__src, __e->dst,\
-    \ std::min(__bound, __e->flow));\n            static_cast<_Cap>(0) < achv) {\n\
-    \          __e->push(-achv);\n          __flow += achv, __bound -= achv;\n   \
-    \       if (__bound == static_cast<_Cap>(0)) break;\n        }\n\n    return __flow;\n\
-    \  }\n\n public:\n  /**\n   * @brief Construct a new Dinic object.\n   *\n   *\
-    \ @param __n Number of nodes\n   */\n  Dinic(size_type __n = 0)\n      : base::flow_graph(__n),\
-    \ level(__n, nil), iter(__n) {}\n\n  /**\n   * @brief Add some nodes to the graph.\n\
-    \   *\n   * @param __n Number of nodes added\n   * @return List of indices of\
-    \ the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type __n) override\
-    \ {\n    auto __nds = base::add_nodes(__n);\n    level.resize(base::size(), nil);\n\
-    \    iter.resize(base::size());\n    return __nds;\n  }\n\n  /**\n   * @brief\
-    \ Run Dinic's algorithm.\n   *\n   * @param __src Source\n   * @param __dst Destination\n\
+    \ * @brief Compute the maximum flow.\n * @tparam _Cap Capacity type\n */\ntemplate\
+    \ <class _Cap> class Dinic : public flow_graph<_Cap> {\n  using base = flow_graph<_Cap>;\n\
+    \n public:\n  using size_type = typename base::size_type;\n\n protected:\n  constexpr\
+    \ static size_type nil = -1;\n\n  std::vector<size_type> __level;\n  std::vector<typename\
+    \ base::container_type::value_type::iterator> __iter;\n\n  _Cap dfs(size_type\
+    \ __src, size_type __dst, _Cap __limit) noexcept {\n    if (__src == __dst) return\
+    \ __limit;\n\n    _Cap __flow(0);\n\n    for (auto &__e{__iter[__dst]}; __e !=\
+    \ base::graph[__dst].end(); ++__e)\n      if (static_cast<_Cap>(0) < __e->flow\
+    \ &&\n          __level[__e->dst] < __level[__dst])\n        if (_Cap achv = dfs(__src,\
+    \ __e->dst, std::min(__limit, __e->flow));\n            static_cast<_Cap>(0) <\
+    \ achv) {\n          __e->push(-achv);\n          __flow += achv, __limit -= achv;\n\
+    \          if (__limit == static_cast<_Cap>(0)) break;\n        }\n\n    return\
+    \ __flow;\n  }\n\n public:\n  // Construct a new Dinic object.\n  Dinic() noexcept\
+    \ {}\n\n  /**\n   * @brief Construct a new Dinic object.\n   * @param __n Number\
+    \ of nodes\n   */\n  Dinic(size_type __n) noexcept\n      : base::flow_graph(__n),\
+    \ __level(__n, nil), __iter(__n) {}\n\n  /**\n   * @brief Add some nodes to the\
+    \ graph.\n   * @param __n Number of nodes added\n   * @return List of indices\
+    \ of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type __n) override\
+    \ {\n    auto __nds = base::add_nodes(__n);\n    __level.resize(base::size(),\
+    \ nil), __iter.resize(base::size());\n    return __nds;\n  }\n\n  /**\n   * @brief\
+    \ Run Dinic's algorithm.\n   * @param __src Source\n   * @param __dst Destination\n\
     \   * @return Maximum flow.\n   */\n  _Cap run(size_type __src, size_type __dst)\
-    \ {\n    assert(__src < base::size());\n    assert(__dst < base::size());\n  \
-    \  assert(__src != __dst);\n\n    _Cap __flow = 0, __bound = std::numeric_limits<_Cap>::max();\n\
-    \n    for (std::vector<size_type> __q(base::size());;\n         std::fill(level.begin(),\
-    \ level.end(), nil)) {\n      level[__q.front() = __src] = 0;\n\n      for (auto\
-    \ __ql{__q.begin()}, __qr{std::next(__ql)};\n           level[__dst] == nil &&\
-    \ __ql != __qr; ++__ql)\n        for (const auto &__e : base::graph[*__ql])\n\
-    \          if (static_cast<_Cap>(0) < __e.cap && level[__e.dst] == nil)\n    \
-    \        level[ *__qr++ = __e.dst] = level[*__ql] + 1;\n\n      if (level[__dst]\
-    \ == nil) break;\n\n      for (size_type __x{}; __x != base::size(); ++__x)\n\
-    \        iter[__x] = base::graph[__x].begin();\n\n      __flow += dfs(__src, __dst,\
-    \ __bound);\n    }\n\n    return __flow;\n  }\n};\n\n}  // namespace workspace\n"
+    \ noexcept {\n    return run(__src, __dst, std::numeric_limits<_Cap>::max());\n\
+    \  }\n\n  /**\n   * @brief Run Dinic's algorithm.\n   * @param __src Source\n\
+    \   * @param __dst Destination\n   * @param __limit Flow limit\n   * @return Maximum\
+    \ flow.\n   */\n  _Cap run(size_type __src, size_type __dst, _Cap __limit) noexcept\
+    \ {\n    assert(__src < base::size()), assert(__dst < base::size()),\n       \
+    \ assert(__src != __dst);\n\n    if (!(static_cast<_Cap>(0) < __limit)) return\
+    \ 0;\n    _Cap __flow = 0;\n\n    for (std::vector<size_type> __q(base::size());;\n\
+    \         std::fill(__level.begin(), __level.end(), nil)) {\n      __level[__q.front()\
+    \ = __src] = 0;\n\n      for (auto __ql{__q.begin()}, __qr{std::next(__ql)};\n\
+    \           __level[__dst] == nil && __ql != __qr; ++__ql)\n        for (const\
+    \ auto &__e : base::graph[*__ql])\n          if (static_cast<_Cap>(0) < __e.cap\
+    \ && __level[__e.dst] == nil)\n            __level[ *__qr++ = __e.dst] = __level[*__ql]\
+    \ + 1;\n\n      if (__level[__dst] == nil) break;\n\n      for (size_type __x{};\
+    \ __x != base::size(); ++__x)\n        __iter[__x] = base::graph[__x].begin();\n\
+    \n      __flow += dfs(__src, __dst, __limit);\n    }\n\n    return __flow;\n \
+    \ }\n};\n\n}  // namespace workspace\n"
   dependsOn:
   - src/graph/directed/flow/base.hpp
   isVerificationFile: false
   path: src/graph/directed/flow/Dinic.hpp
   requiredBy: []
-  timestamp: '2021-04-05 00:56:51+09:00'
+  timestamp: '2021-07-22 14:01:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
