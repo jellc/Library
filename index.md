@@ -98,6 +98,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/combinatorics/factorial.hpp
       title: Factorial
+    - icon: ':heavy_check_mark:'
+      path: src/combinatorics/two_sat.hpp
+      title: 2-SAT
   - name: src/data_structure
     pages:
     - icon: ':heavy_check_mark:'
@@ -542,6 +545,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/two_edge_connected_components.test.cpp
       title: test/library-checker/two_edge_connected_components.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/two_sat.test.cpp
+      title: test/library-checker/two_sat.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
