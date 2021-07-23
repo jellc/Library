@@ -36,7 +36,7 @@ constexpr _binom_table table;
 /**
  * @brief Binomial coefficient for integer args. Be careful with overflow.
  */
-template <class _Tp, class _X, class _Y>
+template <class _Tp, class _X = int_fast64_t, class _Y = int_fast64_t>
 constexpr _Tp binomial(_X __x, _Y __y) {
   if constexpr (is_integral_ext<_Tp>::value)
     return _binom_impl::table(__x, __y);
@@ -50,7 +50,7 @@ constexpr _Tp binomial(_X __x, _Y __y) {
 /**
  * @brief Catalan number.
  */
-template <class _Tp, class _X> constexpr _Tp catalan(_X __x) {
+template <class _Tp, class _X = int_fast64_t> constexpr _Tp catalan(_X __x) {
   return __x < 0
              ? _Tp(0)
              : binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);
