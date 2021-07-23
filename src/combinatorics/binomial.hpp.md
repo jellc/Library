@@ -35,14 +35,14 @@ data:
     \ {\n    return __x < 0 || __x < __y ? 0 : (assert(__x < size), __b[__x][__y]);\n\
     \  }\n};\n\nconstexpr _binom_table table;\n\n}  // namespace _binom_impl\n\n/**\n\
     \ * @brief Binomial coefficient for integer args. Be careful with overflow.\n\
-    \ */\ntemplate <class _Tp, class _X, class _Y>\nconstexpr _Tp binomial(_X __x,\
-    \ _Y __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n    return _binom_impl::table(__x,\
-    \ __y);\n\n  if (__y < 0 || __x < __y) return 0;\n\n  return factorial<_Tp>(__x)\
-    \ * inverse_factorial<_Tp>(__y) *\n         inverse_factorial<_Tp>(__x - __y);\n\
-    }\n\n/**\n * @brief Catalan number.\n */\ntemplate <class _Tp, class _X> constexpr\
-    \ _Tp catalan(_X __x) {\n  return __x < 0\n             ? _Tp(0)\n           \
-    \  : binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);\n}\n\n}\
-    \  // namespace workspace\n"
+    \ */\ntemplate <class _Tp, class _X = int_fast64_t, class _Y = int_fast64_t>\n\
+    constexpr _Tp binomial(_X __x, _Y __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n\
+    \    return _binom_impl::table(__x, __y);\n\n  if (__y < 0 || __x < __y) return\
+    \ 0;\n\n  return factorial<_Tp>(__x) * inverse_factorial<_Tp>(__y) *\n       \
+    \  inverse_factorial<_Tp>(__x - __y);\n}\n\n/**\n * @brief Catalan number.\n */\n\
+    template <class _Tp, class _X = int_fast64_t> constexpr _Tp catalan(_X __x) {\n\
+    \  return __x < 0\n             ? _Tp(0)\n             : binomial<_Tp>(__x <<\
+    \ 1, __x) - binomial<_Tp>(__x << 1, __x + 1);\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file binomial.hpp\n * @brief Binomial Coefficient\n\
     \ */\n\n#include <cassert>\n\n#include \"factorial.hpp\"\n\nnamespace workspace\
     \ {\n\nnamespace _binom_impl {\n\nstruct _binom_table {\n  constexpr static int\
@@ -53,20 +53,20 @@ data:
     \ __x, int __y) const noexcept {\n    return __x < 0 || __x < __y ? 0 : (assert(__x\
     \ < size), __b[__x][__y]);\n  }\n};\n\nconstexpr _binom_table table;\n\n}  //\
     \ namespace _binom_impl\n\n/**\n * @brief Binomial coefficient for integer args.\
-    \ Be careful with overflow.\n */\ntemplate <class _Tp, class _X, class _Y>\nconstexpr\
-    \ _Tp binomial(_X __x, _Y __y) {\n  if constexpr (is_integral_ext<_Tp>::value)\n\
-    \    return _binom_impl::table(__x, __y);\n\n  if (__y < 0 || __x < __y) return\
-    \ 0;\n\n  return factorial<_Tp>(__x) * inverse_factorial<_Tp>(__y) *\n       \
-    \  inverse_factorial<_Tp>(__x - __y);\n}\n\n/**\n * @brief Catalan number.\n */\n\
-    template <class _Tp, class _X> constexpr _Tp catalan(_X __x) {\n  return __x <\
-    \ 0\n             ? _Tp(0)\n             : binomial<_Tp>(__x << 1, __x) - binomial<_Tp>(__x\
-    \ << 1, __x + 1);\n}\n\n}  // namespace workspace\n"
+    \ Be careful with overflow.\n */\ntemplate <class _Tp, class _X = int_fast64_t,\
+    \ class _Y = int_fast64_t>\nconstexpr _Tp binomial(_X __x, _Y __y) {\n  if constexpr\
+    \ (is_integral_ext<_Tp>::value)\n    return _binom_impl::table(__x, __y);\n\n\
+    \  if (__y < 0 || __x < __y) return 0;\n\n  return factorial<_Tp>(__x) * inverse_factorial<_Tp>(__y)\
+    \ *\n         inverse_factorial<_Tp>(__x - __y);\n}\n\n/**\n * @brief Catalan\
+    \ number.\n */\ntemplate <class _Tp, class _X = int_fast64_t> constexpr _Tp catalan(_X\
+    \ __x) {\n  return __x < 0\n             ? _Tp(0)\n             : binomial<_Tp>(__x\
+    \ << 1, __x) - binomial<_Tp>(__x << 1, __x + 1);\n}\n\n}  // namespace workspace\n"
   dependsOn:
   - src/combinatorics/factorial.hpp
   isVerificationFile: false
   path: src/combinatorics/binomial.hpp
   requiredBy: []
-  timestamp: '2021-07-22 00:37:02+09:00'
+  timestamp: '2021-07-23 21:10:19+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/DPL_5_D.test.cpp
