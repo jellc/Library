@@ -46,8 +46,8 @@ template <class _Tp> class dual_segment_tree {
     assert(__r <= __len);
     __r += size_ext();
     for (auto __l = size_ext(); __l != __r; __l >>= 1, __r >>= 1)
-      if ((__l & 1) != (__r & 1))
-        if (!__pred(__data[--__r])) return left_partition_subtree(__r, __pred);
+      if ((__l ^ __r) & 1 && !__pred(__data[--__r]))
+        return left_partition_subtree(__r, __pred);
     return 0;
   }
 
@@ -57,8 +57,8 @@ template <class _Tp> class dual_segment_tree {
     assert(__l <= __len);
     __l += size_ext();
     for (auto __r = __data.size(); __l != __r; ++__l >>= 1, __r >>= 1)
-      if ((__l & 1) != (__r & 1))
-        if (!__pred(__data[__l])) return right_partition_subtree(__l, __pred);
+      if ((__l ^ __r) & 1 && !__pred(__data[__l]))
+        return right_partition_subtree(__l, __pred);
     return __len;
   }
 
