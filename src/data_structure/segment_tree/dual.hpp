@@ -54,13 +54,11 @@ template <class _Tp> class dual_segment_tree {
   template <class _Predicate>
   size_type right_partition(size_type __l, _Predicate &&__pred) noexcept(
       noexcept(__pred(std::declval<_Tp &>()))) {
-    assert(__l < __len);
+    assert(__l <= __len);
     __l += size_ext();
-    for (auto __r = __data.size(); __l != __r; __l >>= 1, __r >>= 1)
-      if ((__l & 1) != (__r & 1)) {
-        if (!__pred(__data[__l])) return left_partition_subtree(__l, __pred);
-        ++__l;
-      }
+    for (auto __r = __data.size(); __l != __r; ++__l >>= 1, __r >>= 1)
+      if ((__l & 1) != (__r & 1))
+        if (!__pred(__data[__l])) return right_partition_subtree(__l, __pred);
     return __len;
   }
 
