@@ -85,24 +85,25 @@ data:
     \ {\n    if _CXX17_CONSTEXPR (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n\
     \    operator<<<_Os, _Tp, _Nm + 1>(__os, __t);\n  }\n  return __os;\n}\n\ntemplate\
     \ <class _Os, class _Container,\n          typename = decltype(std::begin(std::declval<_Container>()))>\n\
-    typename std::enable_if<\n    !std::is_same<std::decay_t<_Container>, std::string>::value\
-    \ &&\n        !std::is_same<std::decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
-    operator<<(_Os &__os, const _Container &__cont) {\n  bool __h = true;\n  for (auto\
-    \ &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;\n  return __os;\n\
-    }\n\n#ifdef __SIZEOF_INT128__\n\n/**\n * @brief Stream insertion operator for\
-    \ __int128_t.\n *\n * @param __os Output Stream\n * @param __x 128-bit integer\n\
-    \ * @return Reference to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os\
-    \ &__os, __int128_t __x) {\n  if (!__x) return __os << '0';\n  if (__x < 0) __os\
-    \ << '-';\n  char __s[40], *__p = __s;\n  while (__x) {\n    auto __d = __x %\
-    \ 10;\n    *__p++ = '0' + (__x < 0 ? -__d : __d);\n    __x /= 10;\n  }\n  *__p\
-    \ = 0;\n  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n\
-    \  return __os << __s;\n}\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n\
-    \ *\n * @param __os Output Stream\n * @param __x 128-bit unsigned integer\n *\
-    \ @return Reference to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os\
-    \ &__os, __uint128_t __x) {\n  if (!__x) return __os << '0';\n  char __s[40],\
-    \ *__p = __s;\n  while (__x) *__p++ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n\
-    \  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n \
-    \ return __os << __s;\n}\n\n#endif\n\n}  // namespace workspace\n"
+    typename std::enable_if<\n    !std::is_convertible<std::decay_t<_Container>, std::string>::value\
+    \ &&\n        !std::is_convertible<std::decay_t<_Container>, char *>::value,\n\
+    \    ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Container &__cont)\
+    \ {\n  bool __h = true;\n  for (auto &&__e : __cont) __h ? __h = 0 : (__os <<\
+    \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
+    \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
+    \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
+    template <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __int128_t __x) {\n\
+    \  if (!__x) return __os << '0';\n  if (__x < 0) __os << '-';\n  char __s[40],\
+    \ *__p = __s;\n  while (__x) {\n    auto __d = __x % 10;\n    *__p++ = '0' + (__x\
+    \ < 0 ? -__d : __d);\n    __x /= 10;\n  }\n  *__p = 0;\n  for (char *__t = __s;\
+    \ __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\
+    \n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param __os\
+    \ Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
+    \ to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __uint128_t\
+    \ __x) {\n  if (!__x) return __os << '0';\n  char __s[40], *__p = __s;\n  while\
+    \ (__x) *__p++ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s;\
+    \ __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\
+    \n#endif\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\
     \n#include <tuple>\n\n#include \"lib/cxx17\"\n\nnamespace workspace {\n\ntemplate\
     \ <class _Os> struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
@@ -132,29 +133,30 @@ data:
     \ {\n    if _CXX17_CONSTEXPR (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n\
     \    operator<<<_Os, _Tp, _Nm + 1>(__os, __t);\n  }\n  return __os;\n}\n\ntemplate\
     \ <class _Os, class _Container,\n          typename = decltype(std::begin(std::declval<_Container>()))>\n\
-    typename std::enable_if<\n    !std::is_same<std::decay_t<_Container>, std::string>::value\
-    \ &&\n        !std::is_same<std::decay_t<_Container>, char *>::value,\n    ostream_ref<_Os>>::type\n\
-    operator<<(_Os &__os, const _Container &__cont) {\n  bool __h = true;\n  for (auto\
-    \ &&__e : __cont) __h ? __h = 0 : (__os << ' ', 0), __os << __e;\n  return __os;\n\
-    }\n\n#ifdef __SIZEOF_INT128__\n\n/**\n * @brief Stream insertion operator for\
-    \ __int128_t.\n *\n * @param __os Output Stream\n * @param __x 128-bit integer\n\
-    \ * @return Reference to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os\
-    \ &__os, __int128_t __x) {\n  if (!__x) return __os << '0';\n  if (__x < 0) __os\
-    \ << '-';\n  char __s[40], *__p = __s;\n  while (__x) {\n    auto __d = __x %\
-    \ 10;\n    *__p++ = '0' + (__x < 0 ? -__d : __d);\n    __x /= 10;\n  }\n  *__p\
-    \ = 0;\n  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n\
-    \  return __os << __s;\n}\n\n/**\n * @brief Stream insertion operator for __uint128_t.\n\
-    \ *\n * @param __os Output Stream\n * @param __x 128-bit unsigned integer\n *\
-    \ @return Reference to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os\
-    \ &__os, __uint128_t __x) {\n  if (!__x) return __os << '0';\n  char __s[40],\
-    \ *__p = __s;\n  while (__x) *__p++ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n\
-    \  for (char *__t = __s; __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n \
-    \ return __os << __s;\n}\n\n#endif\n\n}  // namespace workspace\n"
+    typename std::enable_if<\n    !std::is_convertible<std::decay_t<_Container>, std::string>::value\
+    \ &&\n        !std::is_convertible<std::decay_t<_Container>, char *>::value,\n\
+    \    ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Container &__cont)\
+    \ {\n  bool __h = true;\n  for (auto &&__e : __cont) __h ? __h = 0 : (__os <<\
+    \ ' ', 0), __os << __e;\n  return __os;\n}\n\n#ifdef __SIZEOF_INT128__\n\n/**\n\
+    \ * @brief Stream insertion operator for __int128_t.\n *\n * @param __os Output\
+    \ Stream\n * @param __x 128-bit integer\n * @return Reference to __os.\n */\n\
+    template <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __int128_t __x) {\n\
+    \  if (!__x) return __os << '0';\n  if (__x < 0) __os << '-';\n  char __s[40],\
+    \ *__p = __s;\n  while (__x) {\n    auto __d = __x % 10;\n    *__p++ = '0' + (__x\
+    \ < 0 ? -__d : __d);\n    __x /= 10;\n  }\n  *__p = 0;\n  for (char *__t = __s;\
+    \ __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\
+    \n/**\n * @brief Stream insertion operator for __uint128_t.\n *\n * @param __os\
+    \ Output Stream\n * @param __x 128-bit unsigned integer\n * @return Reference\
+    \ to __os.\n */\ntemplate <class _Os> ostream_ref<_Os> operator<<(_Os &__os, __uint128_t\
+    \ __x) {\n  if (!__x) return __os << '0';\n  char __s[40], *__p = __s;\n  while\
+    \ (__x) *__p++ = '0' + __x % 10, __x /= 10;\n  *__p = 0;\n  for (char *__t = __s;\
+    \ __t < --__p; ++__t) *__t ^= *__p ^= *__t ^= *__p;\n  return __os << __s;\n}\n\
+    \n#endif\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/io/ostream.hpp
   requiredBy: []
-  timestamp: '2021-07-07 20:04:02+09:00'
+  timestamp: '2021-07-25 20:09:18+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/system_of_linear_equations.test.cpp
