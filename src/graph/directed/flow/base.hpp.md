@@ -5,14 +5,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/Dinic.hpp
     title: Dinic's Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/directed/flow/min_cost_flow.hpp
     title: Minimum Cost Flow
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/1615.2.test.cpp
     title: test/aizu-online-judge/1615.2.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/1615.test.cpp
     title: test/aizu-online-judge/1615.test.cpp
   - icon: ':heavy_check_mark:'
@@ -33,9 +33,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/min_cost_b_flow.test.cpp
     title: test/library-checker/min_cost_b_flow.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Flow Graph
     links: []
@@ -394,7 +394,7 @@ data:
   - src/graph/directed/flow/min_cost_flow.hpp
   - src/graph/directed/flow/Dinic.hpp
   timestamp: '2021-07-25 20:04:24+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/assignment.test.cpp
   - test/library-checker/min_cost_b_flow.test.cpp

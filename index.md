@@ -177,10 +177,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/Dinic.hpp
       title: Dinic's Algorithm
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/base.hpp
       title: Flow Graph
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/min_cost_flow.hpp
       title: Minimum Cost Flow
   - name: src/graph/directed
@@ -405,7 +405,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.2.test.cpp
       title: test/aizu-online-judge/1615.2.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.test.cpp
       title: test/aizu-online-judge/1615.test.cpp
     - icon: ':heavy_check_mark:'
