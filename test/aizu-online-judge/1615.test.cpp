@@ -27,7 +27,7 @@ int main() {
       for (auto v : p) h.add_edge(v, t, l, l, 0);
       for (u = l; u - l < max - min && !h.run(); ++u)
         for (auto &&v : p)
-          for (auto &&e : h[v]) ++e.cap;
+          for (auto &&e : h[v]) ++e.capacity;
       if (u - l < max - min) min = l, max = u;
     }
     printf("%d %d\n", min, max);
