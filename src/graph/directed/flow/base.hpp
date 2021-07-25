@@ -25,22 +25,20 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
   class unweighted_edge {
    public:
-    size_type src;  // Source
-    size_type dst;  // Destination
-    _Cap cap;       // Capacity
-    _Cap flow = 0;  // Flow
+    size_type tail;  // Source
+    size_type head;  // Destination
+    _Cap capacity;   // Capacity
+    _Cap flow;       // Flow
 
     unweighted_edge(size_type __s, size_type __d, const _Cap &__u = 1)
-        : src(__s), dst(__d), cap(__u) {
-      assert(!(cap < static_cast<_Cap>(0)));
+        : tail(__s), head(__d), capacity(__u), flow(0) {
+      assert(!(capacity < static_cast<_Cap>(0)));
     }
 
-    /**
-     * @brief Source, Destination, Capacity, Flow
-     */
+    // tail, head, capacity, flow
     template <class _Os>
     friend _Os &operator<<(_Os &__os, const unweighted_edge &__e) {
-      return __os << __e.src << ' ' << __e.dst << ' ' << __e.cap << ' '
+      return __os << __e.tail << ' ' << __e.head << ' ' << __e.capacity << ' '
                   << __e.flow;
     }
 
@@ -49,9 +47,9 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
     unweighted_edge(size_type __s, size_type __d, const _Cap &__u,
                     const _Cap &__f)
-        : src(__s), dst(__d), cap(__u), flow(__f) {}
+        : tail(__s), head(__d), capacity(__u), flow(__f) {}
 
-    unweighted_edge make_rev() const { return {dst, src, flow, cap}; }
+    unweighted_edge make_rev() const { return {head, tail, flow, capacity}; }
   };
 
   class weighted_edge : public unweighted_edge {
@@ -65,9 +63,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
                   const _Cost &__c = 0)
         : unweighted_edge(__s, __d, __u), cost(__c) {}
 
-    /**
-     * @brief Source, Destination, Capacity, Flow, _Cost
-     */
+    // tail, head, capacity, flow, cost
     template <class _Os>
     friend _Os &operator<<(_Os &__os, const weighted_edge &__e) {
       return __os << static_cast<unweighted_edge>(__e) << ' ' << __e.cost;
@@ -101,10 +97,10 @@ template <class _Cap, class _Cost = void> class flow_graph {
     edge_impl(edge &&__e) : edge(__e) {}
 
     void push(_Cap __f) {
-      edge::cap -= __f;
+      edge::capacity -= __f;
       edge::flow += __f;
       if (rev) {
-        rev->cap += __f;
+        rev->capacity += __f;
         rev->flow -= __f;
       }
     }
@@ -244,10 +240,9 @@ template <class _Cap, class _Cost = void> class flow_graph {
      * @return Reference to this object.
      */
     adjacency &operator=(adjacency &&__x) {
-      std::swap(first, __x.first);
-      last = __x.last;
-      __s = __x.__s;
-      __t = __x.__t;
+      delete[] first;
+      first = __x.first, __x.first = nullptr;
+      last = __x.last, __s = __x.__s, __t = __x.__t;
       return *this;
     }
 
@@ -270,7 +265,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
     using iterator = edge_impl *;
 
-    iterator _push(edge_impl &&__e) {
+    iterator push(edge_impl &&__e) {
       if (__t == last) {
         size_type __n(last - first);
         iterator loc = new edge_impl[__n << 1 | 1];
@@ -294,9 +289,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
     iterator end() const { return __t; }
   };
 
-  /**
-   * @brief The only member variable.
-   */
+  // Only member variable.
   container_type graph;
 
  public:
@@ -445,11 +438,11 @@ template <class _Cap, class _Cost = void> class flow_graph {
                           edge &>::type
   add_edge(_Args &&...__args) {
     edge_impl __e = edge(std::forward<_Args>(__args)...);
-    assert(__e.src < size());
-    assert(__e.dst < size());
-    edge_impl *__p = graph[__e.src]._push(std::move(__e));
+    assert(__e.tail < size());
+    assert(__e.head < size());
+    edge_impl *__p = graph[__e.tail].push(std::move(__e));
     // Careful with a self loop.
-    if (__e.src != __e.dst) __p->rev = graph[__e.dst]._push(__p->make_rev());
+    if (__e.tail != __e.head) __p->rev = graph[__e.head].push(__p->make_rev());
     return *__p;
   }
 
@@ -472,15 +465,15 @@ template <class _Cap, class _Cost = void> class flow_graph {
    */
   template <class... _Args> edge &add_undirected_edge(_Args &&...__args) {
     edge_impl __e = edge(std::forward<_Args>(__args)...);
-    assert(__e.src < size());
-    assert(__e.dst < size());
-    (__e.flow += __e.flow) += __e.cap;
-    edge_impl *__p = graph[__e.src]._push(std::move(__e));
+    assert(__e.tail < size());
+    assert(__e.head < size());
+    (__e.flow += __e.flow) += __e.capacity;
+    edge_impl *__p = graph[__e.tail].push(std::move(__e));
     // Careful with a self loop.
-    if (__e.src != __e.dst) {
+    if (__e.tail != __e.head) {
       edge_impl __r = __p->make_rev();
       __r.aux = false;
-      __p->rev = graph[__e.dst]._push(std::move(__r));
+      __p->rev = graph[__e.head].push(std::move(__r));
     }
     return *__p;
   }

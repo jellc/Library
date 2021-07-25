@@ -8,13 +8,13 @@
 int main() {
   using namespace workspace;
 
-  int n;
-  scanf("%d", &n);
+  size_t n;
+  scanf("%zu", &n);
   min_cost_flow<int, int64_t> mcf(n * 2);
-  for (int i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++) {
     mcf.supply(i);
     mcf.demand(i + n);
-    for (int j = 0; j < n; j++) {
+    for (size_t j = 0; j < n; j++) {
       int a;
       scanf("%d", &a);
       mcf.add_edge(i, j + n, 1, a);
@@ -22,9 +22,9 @@ int main() {
   }
   assert(mcf.run());
   printf("%lld\n", mcf.cost());
-  for (int i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++) {
     for (auto &e : mcf[i]) {
-      if (!e.cap) printf("%d ", e.dst - n);
+      if (!e.capacity) printf("%zu ", e.head - n);
     }
   }
   puts("");

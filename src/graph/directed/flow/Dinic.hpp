@@ -34,8 +34,8 @@ template <class _Cap> class Dinic : public flow_graph<_Cap> {
 
     for (auto &__e{__iter[__dst]}; __e != base::graph[__dst].end(); ++__e)
       if (static_cast<_Cap>(0) < __e->flow &&
-          __level[__e->dst] < __level[__dst])
-        if (_Cap achv = dfs(__src, __e->dst, std::min(__limit, __e->flow));
+          __level[__e->head] < __level[__dst])
+        if (_Cap achv = dfs(__src, __e->head, std::min(__limit, __e->flow));
             static_cast<_Cap>(0) < achv) {
           __e->push(-achv);
           __flow += achv, __limit -= achv;
@@ -98,8 +98,8 @@ template <class _Cap> class Dinic : public flow_graph<_Cap> {
       for (auto __ql{__q.begin()}, __qr{std::next(__ql)};
            __level[__dst] == nil && __ql != __qr; ++__ql)
         for (const auto &__e : base::graph[*__ql])
-          if (static_cast<_Cap>(0) < __e.cap && __level[__e.dst] == nil)
-            __level[ *__qr++ = __e.dst] = __level[*__ql] + 1;
+          if (static_cast<_Cap>(0) < __e.capacity && __level[__e.head] == nil)
+            __level[ *__qr++ = __e.head] = __level[*__ql] + 1;
 
       if (__level[__dst] == nil) break;
 

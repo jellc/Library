@@ -133,7 +133,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
 
     _Cap delta = 0;
     for (auto &&__adj : base::graph)
-      for (auto &&__e : __adj) delta = std::max(delta, __e.cap);
+      for (auto &&__e : __adj) delta = std::max(delta, __e.capacity);
     if (delta == static_cast<_Cap>(0))
       return std::all_of(b.begin(), b.end(),
                          [](_Cap __x) { return __x == static_cast<_Cap>(0); });
@@ -145,10 +145,10 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
 
       for (auto &&__adj : base::graph)
         for (auto &&__e : __adj)
-          if (delta < __e.cap && __e.cost < p[__e.dst] - p[__e.src]) {
-            b[__e.src] -= __e.cap;
-            b[__e.dst] += __e.cap;
-            __e.push(__e.cap);
+          if (delta < __e.capacity && __e.cost < p[__e.head] - p[__e.tail]) {
+            b[__e.tail] -= __e.capacity;
+            b[__e.head] += __e.capacity;
+            __e.push(__e.capacity);
           }
 
       sources.clear();
@@ -200,14 +200,14 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
         auto __f = -b[__t];
         auto __s = __t;
         while (parent[__s])
-          __f = std::min(__f, parent[__s]->cap), __s = parent[__s]->src;
+          __f = std::min(__f, parent[__s]->capacity), __s = parent[__s]->tail;
         if (delta < b[__s]) {
           __f = std::min(__f, b[__s]);
           b[__s] -= __f;
           b[__t] += __f;
-          for (auto *__p = parent[__t]; __p; __p = parent[__p->src]) {
+          for (auto *__p = parent[__t]; __p; __p = parent[__p->tail]) {
             __p->push(__f);
-            parent[__p->dst] = nullptr;
+            parent[__p->head] = nullptr;
           }
         }
       }
@@ -241,9 +241,10 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
       __ld = __d;
       if (b[__v] < -delta && ++reachable == sinks.size()) break;
       for (auto &__e : base::graph[__v])
-        if (delta < __e.cap && (__d = __nx[__v] + __e.cost) < __nx[__e.dst]) {
-          __q.emplace(__e.dst, (__nx[__e.dst] = __d) - p[__e.dst]);
-          parent[__e.dst] = &__e;
+        if (delta < __e.capacity &&
+            (__d = __nx[__v] + __e.cost) < __nx[__e.head]) {
+          __q.emplace(__e.head, (__nx[__e.head] = __d) - p[__e.head]);
+          parent[__e.head] = &__e;
         }
     }
 
@@ -252,51 +253,6 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
 
     return reachable;
   }
-
-};  // namespace workspace
-
-/**
- * @brief Capacity Scaling Algorithm.
- *
- * @tparam _Cap Capacity type
- * @tparam _Gain Gain type
- */
-template <class _Cap, class _Gain = _Cap>
-class max_gain_flow : public min_cost_flow<_Cap, _Gain> {
-  using base = min_cost_flow<_Cap, _Gain>;
-  using base::cost;
-
- public:
-  using base::min_cost_flow;
-  using edge = typename base::edge;
-
-  /**
-   * @brief Add a directed edge to the graph. The default capacity is 1.
-   *
-   * @return Reference to the edge.
-   */
-  template <class... _Args> decltype(auto) add_edge(_Args &&...__args) {
-    return add_edge(std::tuple<_Args...>{std::forward<_Args>(__args)...});
-  }
-
-  /**
-   * @brief Add a directed edge to the graph. The default capacity is 1.
-   *
-   * @return Reference to the edge.
-   */
-  template <class _Tp>
-  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value >= 0),
-                          const edge &>::type
-  add_edge(_Tp __t) {
-    std::get<std::tuple_size<decltype(__t)>::value - 1>(__t) *=
-        -1;  // Flip the sign of cost.
-    return base::add_edge(std::move(__t));
-  }
-
-  /**
-   * @return _Gain of current flow.
-   */
-  _Gain gain() const { return -cost(); }
 };
 
 }  // namespace workspace
