@@ -249,9 +249,9 @@ data:
   timestamp: '2020-12-23 18:52:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/point_add_range_sum.test.cpp
-  - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/static_range_inversions_query.test.cpp
+  - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/point_add_range_sum.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
 documentation_of: src/data_structure/segment_tree/basic.hpp
 layout: document

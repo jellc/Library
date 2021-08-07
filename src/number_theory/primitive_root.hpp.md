@@ -19,6 +19,9 @@ data:
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/division_of_polynomials.test.cpp
+    title: test/library-checker/division_of_polynomials.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/find_linear_recurrence.test.cpp
     title: test/library-checker/find_linear_recurrence.test.cpp
   _isVerificationFailed: false
@@ -126,12 +129,13 @@ data:
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
   requiredBy:
+  - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
   - src/algebra/ntt.hpp
-  - src/algebra/polynomial.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/convolution_mod.test.cpp
 documentation_of: src/number_theory/primitive_root.hpp
