@@ -16,18 +16,19 @@ typename std::iterator_traits<_Iterator>::value_type sum(
 
   if (__first == __last) return value_type{};
 
-  std::vector<value_type> __v(__first, __last);
+  auto __b = new value_type[std::distance(__first, __last)],
+       __e = std::copy(__first, __last, __b);
 
-  for (auto __b = __v.begin(), __e = __v.end(); __e - __b != 1;)
-    for (std::move_iterator<typename decltype(__v)::iterator> __t(__e),
-         __s(__e = __v.begin());
-         __s != __t; ++__s, ++__e)
+  while (__b + 1 != __e)
+    for (auto __t = __e, __s = __e = __b; __s != __t; ++__s, ++__e)
       if (__t - __s == 1)
-        *__e = *__s;
+        *__e = std::move(*__s);
       else
         *__e = __op(*__s, *(__s + 1)), ++__s;
 
-  return __v.front();
+  value_type __tmp = std::move(*__b);
+  delete[] __b;
+  return __tmp;
 }
 
 }  // namespace workspace
