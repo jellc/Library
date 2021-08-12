@@ -46,8 +46,14 @@ data:
       path: src/algebra/polynomial.hpp
       title: Polynomial
     - icon: ':warning:'
+      path: src/algebra/prod.hpp
+      title: src/algebra/prod.hpp
+    - icon: ':warning:'
       path: src/algebra/rational.hpp
       title: Rational
+    - icon: ':warning:'
+      path: src/algebra/sum.hpp
+      title: src/algebra/sum.hpp
   - name: src/algebra/convolution
     pages:
     - icon: ':heavy_check_mark:'
