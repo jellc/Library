@@ -38,6 +38,8 @@ constexpr size_t size(const _Tp (&)[_Nm]) noexcept {
   return _Nm;
 }
 
+struct monostate {};
+
 }  // namespace std
 
 #endif
