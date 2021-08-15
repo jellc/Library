@@ -34,12 +34,13 @@ data:
     \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
     \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
     \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 10 \"src/utils/cached.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace _cached_impl {\n\n// Convert keys to tuple.\n\
-    template <class... _Args> struct as_tuple {\n  using type = decltype(std::tuple_cat(\n\
-    \      std::declval<std::tuple<std::conditional_t<\n          std::is_convertible<std::decay_t<_Args>,\
-    \ _Args>::value,\n          std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative\
-    \ array.\ntemplate <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#endif\n\
+    #line 10 \"src/utils/cached.hpp\"\n\nnamespace workspace {\n\nnamespace _cached_impl\
+    \ {\n\n// Convert keys to tuple.\ntemplate <class... _Args> struct as_tuple {\n\
+    \  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<std::conditional_t<\n\
+    \          std::is_convertible<std::decay_t<_Args>, _Args>::value,\n         \
+    \ std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative array.\ntemplate\
+    \ <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
     \ !std::is_void<_Value>::value>,\n      std::conditional_t<std::is_void<_Value>::value,\n\
     \                         std::set<typename as_tuple<_Keys...>::type>,\n     \
     \                    std::map<typename as_tuple<_Keys...>::type, _Value>> {\n\
@@ -176,7 +177,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-07-07 20:04:02+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp

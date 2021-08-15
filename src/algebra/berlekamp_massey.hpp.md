@@ -40,34 +40,34 @@ data:
     constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
-    \ std\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n *\
-    \ @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n */\n\n#line\
-    \ 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n * @brief\
-    \ Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
-    \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
-    template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
-    \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
-    \ = typename variadic_back<Args...>::type;\n};\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
-    \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n\
+    \ * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
+    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
+    \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
+    src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
+    #include <cstdint>\n#include <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
+    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
+    \ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate\
+    \ <> struct make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <>\
+    \ struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate <>\
+    \ struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate <>\
+    \ struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\ntemplate\
+    \ <> struct is_signed<__uint128_t> : std::false_type {};\ntemplate <> struct is_signed<__int128_t>\
+    \ : std::true_type {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\
+    \n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class Tp, class...\
+    \ Args> struct variadic_front { using type = Tp; };\n\ntemplate <class... Args>\
+    \ struct variadic_back;\n\ntemplate <class Tp> struct variadic_back<Tp> { using\
+    \ type = Tp; };\n\ntemplate <class Tp, class... Args> struct variadic_back<Tp,\
+    \ Args...> {\n  using type = typename variadic_back<Args...>::type;\n};\n\ntemplate\
+    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
+    \ std::enable_if<trait<type>::value>::type;\n\n/**\n * @brief Return type of subscripting\
+    \ ( @c [] ) access.\n */\ntemplate <class _Tp>\nusing subscripted_type =\n   \
+    \ typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\ntemplate <class\
+    \ Container>\nusing element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class _Tp, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
     \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
     \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
     \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
@@ -474,7 +474,7 @@ data:
   isVerificationFile: false
   path: src/algebra/berlekamp_massey.hpp
   requiredBy: []
-  timestamp: '2021-07-16 03:07:50+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/find_linear_recurrence.test.cpp

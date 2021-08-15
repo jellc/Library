@@ -35,12 +35,13 @@ data:
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\
-    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
-    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
-    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
-    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
-    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
+    \n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\nnamespace workspace\
+    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
+    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
+    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
+    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
+    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -157,7 +158,7 @@ data:
   - src/algebra/rational.hpp
   - src/opt/golden_section.hpp
   - src/data_structure/segment_tree/lazy.hpp
-  timestamp: '2021-07-11 22:13:46+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

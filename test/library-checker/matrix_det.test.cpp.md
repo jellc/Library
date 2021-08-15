@@ -430,10 +430,10 @@ data:
     \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
-    \ std\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace\
-    \ {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename = void> struct\
-    \ helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\
+    \nnamespace workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename\
+    \ = void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
     \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
@@ -490,7 +490,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/matrix_det.test.cpp
   requiredBy: []
-  timestamp: '2021-07-22 00:37:02+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/matrix_det.test.cpp

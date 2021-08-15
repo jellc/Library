@@ -20,9 +20,10 @@ data:
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 11 \"src/utils/grid/motion.hpp\"\
-    \n\nnamespace workspace {\n\n/**\n * @brief Transpose.\n * @param __grid\n */\n\
-    template <class _Grid,\n          typename = decltype(std::declval<std::decay_t<_Grid>>()[0].resize(0))>\n\
+    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
+    \n#endif\n#line 11 \"src/utils/grid/motion.hpp\"\n\nnamespace workspace {\n\n\
+    /**\n * @brief Transpose.\n * @param __grid\n */\ntemplate <class _Grid,\n   \
+    \       typename = decltype(std::declval<std::decay_t<_Grid>>()[0].resize(0))>\n\
     constexpr decltype(auto) transpose(_Grid &&__grid) noexcept {\n#if __cplusplus\
     \ < 201703L\n  auto __h = __grid.size(), __w = __grid[0].size();\n#else\n  auto\
     \ __h = std::size(__grid), __w = std::size(__grid[0]);\n#endif\n  std::decay_t<_Grid>\
@@ -108,7 +109,7 @@ data:
   isVerificationFile: false
   path: src/utils/grid/motion.hpp
   requiredBy: []
-  timestamp: '2021-07-07 20:04:02+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/grid/motion.hpp

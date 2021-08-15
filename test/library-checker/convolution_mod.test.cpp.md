@@ -255,35 +255,36 @@ data:
     constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n}  // namespace\
-    \ std\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n *\
-    \ @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n */\n\n#line\
-    \ 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n * @brief\
-    \ Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 11 \"src/number_theory/ext_gcd.hpp\"\
-    \n\nnamespace workspace {\n\n/**\n * @param __a Integer\n * @param __b Integer\n\
-    \ * @return Pair of integers (x, y) s.t. ax + by = g = gcd(a, b) and (b = 0 or\
-    \ 0\n * <= x < |b/g|) and (a = 0 or -|a/g| < y <= 0). Return (0, 0) if (a, b)\
-    \ = (0,\n * 0).\n */\ntemplate <typename _T1, typename _T2>\nconstexpr auto ext_gcd(_T1\
-    \ __a, _T2 __b) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
-    \n  using value_type = typename std::make_signed<\n      typename std::common_type<_T1,\
-    \ _T2>::type>::type;\n  using result_type = std::pair<value_type, value_type>;\n\
-    \n  value_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0))\
-    \ {\n    auto t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q\
-    \ -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q,\
-    \ a = -a;\n\n  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n   \
-    \   p += __b, q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return\
-    \ result_type{p, q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n\
-    \ * @param __c Integer\n * @return Pair of integers (x, y) s.t. ax + by = c and\
-    \ (b = 0 or 0 <= x <\n * |b/g|). Return (0, 0) if there is no solution.\n */\n\
-    template <typename _T1, typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1\
-    \ __a, _T2 __b, _T3 __c) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
-    \  static_assert(is_integral_ext<_T2>::value);\n  static_assert(is_integral_ext<_T3>::value);\n\
-    \n  using value_type = typename std::make_signed<\n      typename std::common_type<_T1,\
-    \ _T2, _T3>::type>::type;\n  using result_type = std::pair<value_type, value_type>;\n\
-    \n  value_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0))\
-    \ {\n    auto t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q\
-    \ -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\
-    \n  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n\
+    \ * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
+    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
+    \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 11 \"\
+    src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param __a\
+    \ Integer\n * @param __b Integer\n * @return Pair of integers (x, y) s.t. ax +\
+    \ by = g = gcd(a, b) and (b = 0 or 0\n * <= x < |b/g|) and (a = 0 or -|a/g| <\
+    \ y <= 0). Return (0, 0) if (a, b) = (0,\n * 0).\n */\ntemplate <typename _T1,\
+    \ typename _T2>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n\n  using value_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q, a = -a;\n\n\
+    \  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n      p += __b,\
+    \ q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return result_type{p,\
+    \ q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @param __c Integer\n\
+    \ * @return Pair of integers (x, y) s.t. ax + by = c and (b = 0 or 0 <= x <\n\
+    \ * |b/g|). Return (0, 0) if there is no solution.\n */\ntemplate <typename _T1,\
+    \ typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b, _T3 __c)\
+    \ noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
+    \  static_assert(is_integral_ext<_T3>::value);\n\n  using value_type = typename\
+    \ std::make_signed<\n      typename std::common_type<_T1, _T2, _T3>::type>::type;\n\
+    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
+    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
+    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
+    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\n\
+    \  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
     \ {\n    auto t = p / __b;\n    p -= __b * t;\n    q += __a * t;\n\n    if (p\
     \ < 0) {\n      if (__b > 0)\n        p += __b, q -= __a;\n      else\n      \
     \  p -= __b, q += __a;\n    }\n  }\n\n  return result_type{p, q};\n}\n\n}  //\
@@ -706,7 +707,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/convolution_mod.test.cpp
   requiredBy: []
-  timestamp: '2021-07-25 20:09:18+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/convolution_mod.test.cpp

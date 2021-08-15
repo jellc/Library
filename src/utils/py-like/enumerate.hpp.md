@@ -128,14 +128,15 @@ data:
     \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
     \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
     \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\n}  // namespace std\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\
-    \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\nnamespace internal\
-    \ {\n\ntemplate <class> struct zipped_iterator;\n\ntemplate <class...> struct\
-    \ zipped_iterator_tuple;\n\ntemplate <class... Args> class zipped {\n  using ref_tuple\
-    \ = std::tuple<Args...>;\n  ref_tuple args;\n\n  template <size_t N = 0> constexpr\
-    \ decltype(auto) begin_cat() const noexcept {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value)\
-    \ {\n      return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n\
-    \                            begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#endif\n\
+    #line 15 \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace\
+    \ workspace {\n\nnamespace internal {\n\ntemplate <class> struct zipped_iterator;\n\
+    \ntemplate <class...> struct zipped_iterator_tuple;\n\ntemplate <class... Args>\
+    \ class zipped {\n  using ref_tuple = std::tuple<Args...>;\n  ref_tuple args;\n\
+    \n  template <size_t N = 0> constexpr decltype(auto) begin_cat() const noexcept\
+    \ {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value) {\n    \
+    \  return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n        \
+    \                    begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
     \  }\n\n  template <size_t N = 0> constexpr decltype(auto) end_cat() const noexcept\
     \ {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value) {\n    \
     \  return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n          \
@@ -240,7 +241,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-07-07 20:04:02+09:00'
+  timestamp: '2021-08-15 17:23:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
