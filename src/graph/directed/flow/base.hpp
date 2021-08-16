@@ -87,12 +87,6 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
     edge_impl() = default;
 
-    edge_impl(const edge_impl &__e) = default;
-    edge_impl &operator=(const edge_impl &__e) = default;
-
-    edge_impl(edge_impl &&__e) = default;
-    edge_impl &operator=(edge_impl &&__e) = default;
-
     edge_impl(const edge &__e) : edge(__e) {}
     edge_impl(edge &&__e) : edge(__e) {}
 
