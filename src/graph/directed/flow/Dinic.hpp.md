@@ -48,110 +48,108 @@ data:
     \ -cost};\n    }\n  };\n\n  using edge = std::conditional_t<std::is_void<_Cost>::value,\
     \ unweighted_edge,\n                                  weighted_edge>;\n\n protected:\n\
     \  struct edge_impl : edge {\n    bool aux = false;\n    edge_impl *rev = nullptr;\n\
-    \n    edge_impl() = default;\n\n    edge_impl(const edge_impl &__e) = default;\n\
-    \    edge_impl &operator=(const edge_impl &__e) = default;\n\n    edge_impl(edge_impl\
-    \ &&__e) = default;\n    edge_impl &operator=(edge_impl &&__e) = default;\n\n\
-    \    edge_impl(const edge &__e) : edge(__e) {}\n    edge_impl(edge &&__e) : edge(__e)\
-    \ {}\n\n    void push(_Cap __f) {\n      edge::capacity -= __f;\n      edge::flow\
-    \ += __f;\n      if (rev) {\n        rev->capacity += __f;\n        rev->flow\
-    \ -= __f;\n      }\n    }\n\n    edge_impl make_rev() {\n      edge_impl __e =\
-    \ edge::make_rev();\n      __e.aux = true;\n      __e.rev = this;\n      return\
-    \ __e;\n    }\n  };\n\n public:\n  class adjacency {\n   public:\n    using value_type\
-    \ = edge;\n    using reference = edge &;\n    using const_reference = edge const\
-    \ &;\n    using pointer = edge *;\n    using const_pointer = const edge *;\n\n\
-    \    class iterator {\n      edge_impl *__p;\n\n     public:\n      iterator(edge_impl\
-    \ *__p = nullptr) : __p(__p) {}\n\n      bool operator!=(const iterator &__x)\
-    \ const { return __p != __x.__p; }\n\n      bool operator==(const iterator &__x)\
-    \ const { return __p == __x.__p; }\n\n      iterator &operator++() {\n       \
-    \ do ++__p;\n        while (__p->rev && __p->aux);\n        return *this;\n  \
-    \    }\n\n      iterator operator++(int) {\n        auto __cp = *this;\n     \
-    \   do ++__p;\n        while (__p->rev && __p->aux);\n        return __cp;\n \
-    \     }\n\n      iterator &operator--() {\n        do --__p;\n        while (__p->aux);\n\
-    \        return *this;\n      }\n\n      iterator operator--(int) {\n        auto\
-    \ __cp = *this;\n        do --__p;\n        while (__p->aux);\n        return\
-    \ __cp;\n      }\n\n      pointer operator->() const { return __p; }\n\n     \
-    \ reference operator*() const { return *__p; }\n    };\n\n    class const_iterator\
-    \ {\n      const edge_impl *__p;\n\n     public:\n      const_iterator(const edge_impl\
-    \ *__p = nullptr) : __p(__p) {}\n\n      bool operator!=(const const_iterator\
-    \ &__x) const {\n        return __p != __x.__p;\n      }\n\n      bool operator==(const\
-    \ const_iterator &__x) const {\n        return __p == __x.__p;\n      }\n\n  \
-    \    const_iterator &operator++() {\n        do ++__p;\n        while (__p->rev\
-    \ && __p->aux);\n        return *this;\n      }\n\n      const_iterator operator++(int)\
+    \n    edge_impl() = default;\n\n    edge_impl(const edge &__e) : edge(__e) {}\n\
+    \    edge_impl(edge &&__e) : edge(__e) {}\n\n    void push(_Cap __f) {\n     \
+    \ edge::capacity -= __f;\n      edge::flow += __f;\n      if (rev) {\n       \
+    \ rev->capacity += __f;\n        rev->flow -= __f;\n      }\n    }\n\n    edge_impl\
+    \ make_rev() {\n      edge_impl __e = edge::make_rev();\n      __e.aux = true;\n\
+    \      __e.rev = this;\n      return __e;\n    }\n  };\n\n public:\n  class adjacency\
+    \ {\n   public:\n    using value_type = edge;\n    using reference = edge &;\n\
+    \    using const_reference = edge const &;\n    using pointer = edge *;\n    using\
+    \ const_pointer = const edge *;\n\n    class iterator {\n      edge_impl *__p;\n\
+    \n     public:\n      iterator(edge_impl *__p = nullptr) : __p(__p) {}\n\n   \
+    \   bool operator!=(const iterator &__x) const { return __p != __x.__p; }\n\n\
+    \      bool operator==(const iterator &__x) const { return __p == __x.__p; }\n\
+    \n      iterator &operator++() {\n        do ++__p;\n        while (__p->rev &&\
+    \ __p->aux);\n        return *this;\n      }\n\n      iterator operator++(int)\
     \ {\n        auto __cp = *this;\n        do ++__p;\n        while (__p->rev &&\
-    \ __p->aux);\n        return __cp;\n      }\n\n      const_iterator &operator--()\
-    \ {\n        do --__p;\n        while (__p->aux);\n        return *this;\n   \
-    \   }\n\n      const_iterator operator--(int) {\n        auto __cp = *this;\n\
-    \        do --__p;\n        while (__p->aux);\n        return __cp;\n      }\n\
-    \n      const_pointer operator->() const { return __p; }\n\n      const_reference\
-    \ operator*() const { return *__p; }\n    };\n\n    adjacency()\n        : first(new\
-    \ edge_impl[2]), last(first + 1), __s(first), __t(first) {}\n\n    ~adjacency()\
-    \ { delete[] first; }\n\n    const_reference operator[](size_type __i) const {\n\
-    \      assert(__i < size());\n      return *(first + __i);\n    }\n\n    size_type\
-    \ size() const { return __t - first; }\n\n    auto begin() { return iterator{__s};\
-    \ }\n    auto begin() const { return const_iterator{__s}; }\n\n    auto end()\
-    \ { return iterator{__t}; }\n    auto end() const { return const_iterator{__t};\
-    \ }\n\n    /**\n     * @brief Construct a new adjacency object\n     *\n     *\
-    \ @param __x Rvalue reference to another object\n     */\n    adjacency(adjacency\
-    \ &&__x) : first(nullptr) { operator=(std::move(__x)); }\n\n    /**\n     * @brief\
-    \ Assignment operator.\n     *\n     * @param __x Rvalue reference to another\
-    \ object\n     * @return Reference to this object.\n     */\n    adjacency &operator=(adjacency\
-    \ &&__x) {\n      delete[] first;\n      first = __x.first, __x.first = nullptr;\n\
-    \      last = __x.last, __s = __x.__s, __t = __x.__t;\n      return *this;\n \
-    \   }\n\n   protected:\n    edge_impl *first, *last, *__s, *__t;\n  };\n\n  using\
-    \ value_type = adjacency;\n  using reference = adjacency &;\n  using const_reference\
-    \ = adjacency const &;\n\n protected:\n  class adjacency_impl : public adjacency\
-    \ {\n   public:\n    using base = adjacency;\n    using base::__s;\n    using\
-    \ base::__t;\n    using base::first;\n    using base::last;\n\n    using iterator\
-    \ = edge_impl *;\n\n    iterator push(edge_impl &&__e) {\n      if (__t == last)\
-    \ {\n        size_type __n(last - first);\n        iterator loc = new edge_impl[__n\
-    \ << 1 | 1];\n        __s += loc - first;\n        __t = loc;\n        for (iterator\
-    \ __p{first}; __p != last; ++__p, ++__t) {\n          *__t = *__p;\n         \
-    \ if (__p->rev) __p->rev->rev = __t;\n        }\n        delete[] first;\n   \
-    \     first = loc;\n        last = __t + __n;\n      }\n      *__t = std::move(__e);\n\
-    \      if (__s->aux) ++__s;\n      return __t++;\n    }\n\n    iterator begin()\
-    \ const { return first; }\n\n    iterator end() const { return __t; }\n  };\n\n\
-    \  // Only member variable.\n  container_type graph;\n\n public:\n  /**\n   *\
-    \ @brief Construct a new flow graph object\n   *\n   * @param __n Number of vertices\n\
-    \   */\n  flow_graph(size_type __n = 0) : graph(__n) {}\n\n  /**\n   * @brief\
-    \ Construct a new flow graph object\n   *\n   * @param __x Const reference to\
-    \ another object\n   */\n  flow_graph(const flow_graph &__x) : graph(__x.size())\
-    \ {\n    for (auto &&__adj : __x)\n      for (auto &&__e : __adj) add_edge(__e);\n\
-    \  }\n\n  /**\n   * @brief Construct a new flow graph object\n   *\n   * @param\
-    \ __x Rvalue reference to another object\n   */\n  flow_graph(flow_graph &&__x)\
-    \ : graph(std::move(__x.graph)) {}\n\n  /**\n   * @brief Assignment operator.\n\
-    \   *\n   * @param __x Const reference to another object\n   * @return Reference\
-    \ to this object.\n   */\n  flow_graph &operator=(const flow_graph &__x) {\n \
-    \   return operator=(std::move(flow_graph{__x}));\n  }\n\n  /**\n   * @brief Assignment\
-    \ operator.\n   *\n   * @param __x Rvalue reference to another object\n   * @return\
-    \ Reference to this object.\n   */\n  flow_graph &operator=(flow_graph &&__x)\
-    \ {\n    graph = std::move(__x.graph);\n    return *this;\n  }\n\n  /**\n   *\
-    \ @return Whether the graph is empty.\n   */\n  bool empty() const { return graph.empty();\
-    \ }\n\n  /**\n   * @return Number of nodes.\n   */\n  size_type size() const {\
-    \ return graph.size(); }\n\n  /**\n   * @param node Node\n   * @return Referece\
-    \ to the adjacency list of the node.\n   */\n  reference operator[](size_type\
-    \ node) {\n    assert(node < size());\n    return graph[node];\n  }\n\n  /**\n\
-    \   * @param node Node\n   * @return Const referece to the adjacency list of the\
-    \ node.\n   */\n  const_reference operator[](size_type node) const {\n    assert(node\
-    \ < size());\n    return graph[node];\n  }\n\n  class iterator : public container_type::iterator\
-    \ {\n    using base = typename container_type::iterator;\n\n   public:\n    using\
-    \ reference = adjacency &;\n    using pointer = adjacency *;\n\n    iterator(const\
-    \ base &__i) : base(__i) {}\n\n    pointer operator->() const { return base::operator->();\
-    \ }\n\n    reference operator*() const { return base::operator*(); }\n  };\n\n\
-    \  class const_iterator : public container_type::const_iterator {\n    using base\
-    \ = typename container_type::const_iterator;\n\n   public:\n    using const_reference\
-    \ = const adjacency &;\n    using const_pointer = const adjacency *;\n\n    const_iterator(const\
-    \ base &__i) : base(__i) {}\n\n    const_pointer operator->() const { return base::operator->();\
-    \ }\n\n    const_reference operator*() const { return base::operator*(); }\n \
-    \ };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin() const\
-    \ { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
-    \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  /**\n   *\
-    \ @brief Add a node to the graph.\n   *\n   * @return Index of the node.\n   */\n\
-    \  size_type add_node() { return add_nodes(1).front(); }\n\n  /**\n   * @brief\
-    \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
-    \   * @return List of indices of the nodes.\n   */\n  virtual std::vector<size_type>\
-    \ add_nodes(size_type __n) {\n    std::vector<size_type> __nds(__n);\n    std::iota(__nds.begin(),\
-    \ __nds.end(), graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity())\
-    \ {\n      flow_graph __x(__n);\n      for (auto &&adj : graph)\n        for (auto\
+    \ __p->aux);\n        return __cp;\n      }\n\n      iterator &operator--() {\n\
+    \        do --__p;\n        while (__p->aux);\n        return *this;\n      }\n\
+    \n      iterator operator--(int) {\n        auto __cp = *this;\n        do --__p;\n\
+    \        while (__p->aux);\n        return __cp;\n      }\n\n      pointer operator->()\
+    \ const { return __p; }\n\n      reference operator*() const { return *__p; }\n\
+    \    };\n\n    class const_iterator {\n      const edge_impl *__p;\n\n     public:\n\
+    \      const_iterator(const edge_impl *__p = nullptr) : __p(__p) {}\n\n      bool\
+    \ operator!=(const const_iterator &__x) const {\n        return __p != __x.__p;\n\
+    \      }\n\n      bool operator==(const const_iterator &__x) const {\n       \
+    \ return __p == __x.__p;\n      }\n\n      const_iterator &operator++() {\n  \
+    \      do ++__p;\n        while (__p->rev && __p->aux);\n        return *this;\n\
+    \      }\n\n      const_iterator operator++(int) {\n        auto __cp = *this;\n\
+    \        do ++__p;\n        while (__p->rev && __p->aux);\n        return __cp;\n\
+    \      }\n\n      const_iterator &operator--() {\n        do --__p;\n        while\
+    \ (__p->aux);\n        return *this;\n      }\n\n      const_iterator operator--(int)\
+    \ {\n        auto __cp = *this;\n        do --__p;\n        while (__p->aux);\n\
+    \        return __cp;\n      }\n\n      const_pointer operator->() const { return\
+    \ __p; }\n\n      const_reference operator*() const { return *__p; }\n    };\n\
+    \n    adjacency()\n        : first(new edge_impl[2]), last(first + 1), __s(first),\
+    \ __t(first) {}\n\n    ~adjacency() { delete[] first; }\n\n    const_reference\
+    \ operator[](size_type __i) const {\n      assert(__i < size());\n      return\
+    \ *(first + __i);\n    }\n\n    size_type size() const { return __t - first; }\n\
+    \n    auto begin() { return iterator{__s}; }\n    auto begin() const { return\
+    \ const_iterator{__s}; }\n\n    auto end() { return iterator{__t}; }\n    auto\
+    \ end() const { return const_iterator{__t}; }\n\n    /**\n     * @brief Construct\
+    \ a new adjacency object\n     *\n     * @param __x Rvalue reference to another\
+    \ object\n     */\n    adjacency(adjacency &&__x) : first(nullptr) { operator=(std::move(__x));\
+    \ }\n\n    /**\n     * @brief Assignment operator.\n     *\n     * @param __x\
+    \ Rvalue reference to another object\n     * @return Reference to this object.\n\
+    \     */\n    adjacency &operator=(adjacency &&__x) {\n      delete[] first;\n\
+    \      first = __x.first, __x.first = nullptr;\n      last = __x.last, __s = __x.__s,\
+    \ __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl *first,\
+    \ *last, *__s, *__t;\n  };\n\n  using value_type = adjacency;\n  using reference\
+    \ = adjacency &;\n  using const_reference = adjacency const &;\n\n protected:\n\
+    \  class adjacency_impl : public adjacency {\n   public:\n    using base = adjacency;\n\
+    \    using base::__s;\n    using base::__t;\n    using base::first;\n    using\
+    \ base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(edge_impl\
+    \ &&__e) {\n      if (__t == last) {\n        size_type __n(last - first);\n \
+    \       iterator loc = new edge_impl[__n << 1 | 1];\n        __s += loc - first;\n\
+    \        __t = loc;\n        for (iterator __p{first}; __p != last; ++__p, ++__t)\
+    \ {\n          *__t = *__p;\n          if (__p->rev) __p->rev->rev = __t;\n  \
+    \      }\n        delete[] first;\n        first = loc;\n        last = __t +\
+    \ __n;\n      }\n      *__t = std::move(__e);\n      if (__s->aux) ++__s;\n  \
+    \    return __t++;\n    }\n\n    iterator begin() const { return first; }\n\n\
+    \    iterator end() const { return __t; }\n  };\n\n  // Only member variable.\n\
+    \  container_type graph;\n\n public:\n  /**\n   * @brief Construct a new flow\
+    \ graph object\n   *\n   * @param __n Number of vertices\n   */\n  flow_graph(size_type\
+    \ __n = 0) : graph(__n) {}\n\n  /**\n   * @brief Construct a new flow graph object\n\
+    \   *\n   * @param __x Const reference to another object\n   */\n  flow_graph(const\
+    \ flow_graph &__x) : graph(__x.size()) {\n    for (auto &&__adj : __x)\n     \
+    \ for (auto &&__e : __adj) add_edge(__e);\n  }\n\n  /**\n   * @brief Construct\
+    \ a new flow graph object\n   *\n   * @param __x Rvalue reference to another object\n\
+    \   */\n  flow_graph(flow_graph &&__x) : graph(std::move(__x.graph)) {}\n\n  /**\n\
+    \   * @brief Assignment operator.\n   *\n   * @param __x Const reference to another\
+    \ object\n   * @return Reference to this object.\n   */\n  flow_graph &operator=(const\
+    \ flow_graph &__x) {\n    return operator=(std::move(flow_graph{__x}));\n  }\n\
+    \n  /**\n   * @brief Assignment operator.\n   *\n   * @param __x Rvalue reference\
+    \ to another object\n   * @return Reference to this object.\n   */\n  flow_graph\
+    \ &operator=(flow_graph &&__x) {\n    graph = std::move(__x.graph);\n    return\
+    \ *this;\n  }\n\n  /**\n   * @return Whether the graph is empty.\n   */\n  bool\
+    \ empty() const { return graph.empty(); }\n\n  /**\n   * @return Number of nodes.\n\
+    \   */\n  size_type size() const { return graph.size(); }\n\n  /**\n   * @param\
+    \ node Node\n   * @return Referece to the adjacency list of the node.\n   */\n\
+    \  reference operator[](size_type node) {\n    assert(node < size());\n    return\
+    \ graph[node];\n  }\n\n  /**\n   * @param node Node\n   * @return Const referece\
+    \ to the adjacency list of the node.\n   */\n  const_reference operator[](size_type\
+    \ node) const {\n    assert(node < size());\n    return graph[node];\n  }\n\n\
+    \  class iterator : public container_type::iterator {\n    using base = typename\
+    \ container_type::iterator;\n\n   public:\n    using reference = adjacency &;\n\
+    \    using pointer = adjacency *;\n\n    iterator(const base &__i) : base(__i)\
+    \ {}\n\n    pointer operator->() const { return base::operator->(); }\n\n    reference\
+    \ operator*() const { return base::operator*(); }\n  };\n\n  class const_iterator\
+    \ : public container_type::const_iterator {\n    using base = typename container_type::const_iterator;\n\
+    \n   public:\n    using const_reference = const adjacency &;\n    using const_pointer\
+    \ = const adjacency *;\n\n    const_iterator(const base &__i) : base(__i) {}\n\
+    \n    const_pointer operator->() const { return base::operator->(); }\n\n    const_reference\
+    \ operator*() const { return base::operator*(); }\n  };\n\n  auto begin() { return\
+    \ iterator{graph.begin()}; }\n  auto begin() const { return const_iterator{graph.begin()};\
+    \ }\n\n  auto end() { return iterator{graph.end()}; }\n  auto end() const { return\
+    \ const_iterator{graph.end()}; }\n\n  /**\n   * @brief Add a node to the graph.\n\
+    \   *\n   * @return Index of the node.\n   */\n  size_type add_node() { return\
+    \ add_nodes(1).front(); }\n\n  /**\n   * @brief Add some nodes to the graph.\n\
+    \   *\n   * @param __n Number of nodes added\n   * @return List of indices of\
+    \ the nodes.\n   */\n  virtual std::vector<size_type> add_nodes(size_type __n)\
+    \ {\n    std::vector<size_type> __nds(__n);\n    std::iota(__nds.begin(), __nds.end(),\
+    \ graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity()) {\n\
+    \      flow_graph __x(__n);\n      for (auto &&adj : graph)\n        for (auto\
     \ &&__e : adj)\n          if (!__e.aux) __x.add_edge(__e);\n      graph = std::move(__x.graph);\n\
     \    } else\n      graph.resize(__n);\n    return __nds;\n  }\n\n  /**\n   * @brief\
     \ Add a directed edge to the graph.\n   *\n   * @return Reference to the edge.\n\
@@ -277,7 +275,7 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/Dinic.hpp
   requiredBy: []
-  timestamp: '2021-07-25 20:04:24+09:00'
+  timestamp: '2021-08-17 00:13:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
