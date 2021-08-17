@@ -16,6 +16,8 @@
 #endif
 #endif
 
+#include <iterator>
+
 #if __cplusplus < 201703L
 
 namespace std {
@@ -41,5 +43,9 @@ constexpr size_t size(const _Tp (&)[_Nm]) noexcept {
 struct monostate {};
 
 }  // namespace std
+
+#else
+
+#include <variant>
 
 #endif
