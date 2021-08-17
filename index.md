@@ -178,6 +178,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/data_structure/union_find/unbalanced.hpp
       title: Unbalanced Union-Find
+  - name: src/geometry
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/geometry/point.hpp
+      title: Point
   - name: src/graph/directed/flow
     pages:
     - icon: ':heavy_check_mark:'
@@ -306,7 +311,7 @@ data:
     - icon: ':warning:'
       path: src/utils/chval.hpp
       title: Change Less/Greater
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/utils/compare.hpp
       title: Compare
     - icon: ':warning:'

@@ -56,7 +56,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
     path: src/utils/compare.hpp
     title: Compare
   - icon: ':heavy_check_mark:'
@@ -129,9 +129,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/sort_points_by_argument.test.cpp
-    title: test/library-checker/sort_points_by_argument.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/sqrt_mod.test.cpp
     title: test/library-checker/sqrt_mod.test.cpp
@@ -294,7 +291,6 @@ data:
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/sort_points_by_argument.test.cpp
   - test/library-checker/sqrt_mod.test.cpp
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/matrix_det.test.cpp

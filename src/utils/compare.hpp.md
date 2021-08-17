@@ -5,13 +5,10 @@ data:
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/sort_points_by_argument.test.cpp
-    title: test/library-checker/sort_points_by_argument.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Compare
     links: []
@@ -102,9 +99,8 @@ data:
   path: src/utils/compare.hpp
   requiredBy: []
   timestamp: '2021-05-31 22:43:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/sort_points_by_argument.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: src/utils/compare.hpp
 layout: document
 redirect_from:

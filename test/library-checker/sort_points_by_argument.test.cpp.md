@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: src/utils/compare.hpp
-    title: Compare
-  - icon: ':heavy_check_mark:'
-    path: src/utils/sfinae.hpp
-    title: SFINAE
+    path: src/geometry/point.hpp
+    title: Point
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -19,92 +16,83 @@ data:
     - https://judge.yosupo.jp/problem/sort_points_by_argument
   bundledCode: "#line 1 \"test/library-checker/sort_points_by_argument.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/sort_points_by_argument\"\n\n\
-    #include <algorithm>\n#include <cstdio>\n\n#line 1 \"src/utils/compare.hpp\"\n\
-    /**\n * @file compare.hpp\n * @brief Compare\n */\n\n#line 2 \"src/utils/sfinae.hpp\"\
-    \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
-    \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
-    \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
-    template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
-    \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
-    \ = typename variadic_back<Args...>::type;\n};\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
-    \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
-    \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
-    \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
-    \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
-    \ <typename _Tp, typename = void> struct multiplicable_uint {\n  using type =\
-    \ uint_least32_t;\n};\ntemplate <typename _Tp>\nstruct multiplicable_uint<\n \
-    \   _Tp,\n    typename std::enable_if<(2 < sizeof(_Tp)) &&\n                 \
-    \           (!__INT128_DEFINED__ || sizeof(_Tp) <= 4)>::type> {\n  using type\
-    \ = uint_least64_t;\n};\n\n#if __INT128_DEFINED__\n\ntemplate <typename _Tp>\n\
-    struct multiplicable_uint<_Tp,\n                          typename std::enable_if<(4\
-    \ < sizeof(_Tp))>::type> {\n  using type = __uint128_t;\n};\n\n#endif\n\ntemplate\
-    \ <typename _Tp> struct multiplicable_int {\n  using type =\n      typename std::make_signed<typename\
-    \ multiplicable_uint<_Tp>::type>::type;\n};\n\ntemplate <typename _Tp> struct\
-    \ multiplicable {\n  using type = std::conditional_t<\n      is_integral_ext<_Tp>::value,\n\
-    \      std::conditional_t<std::is_signed<_Tp>::value,\n                      \
-    \   typename multiplicable_int<_Tp>::type,\n                         typename\
-    \ multiplicable_uint<_Tp>::type>,\n      _Tp>;\n};\n\ntemplate <class> struct\
-    \ first_arg { using type = void; };\n\ntemplate <class _R, class _Tp, class...\
-    \ _Args>\nstruct first_arg<_R(_Tp, _Args...)> {\n  using type = _Tp;\n};\n\ntemplate\
-    \ <class _R, class _Tp, class... _Args>\nstruct first_arg<_R (*)(_Tp, _Args...)>\
-    \ {\n  using type = _Tp;\n};\n\ntemplate <class _G, class _R, class _Tp, class...\
-    \ _Args>\nstruct first_arg<_R (_G::*)(_Tp, _Args...)> {\n  using type = _Tp;\n\
-    };\n\ntemplate <class _G, class _R, class _Tp, class... _Args>\nstruct first_arg<_R\
-    \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
-    \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
-    \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 7 \"src/utils/compare.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace workspace\
-    \ {\n\n/**\n * @brief Compare 2 points by their value of `atan2`.\n *\n * @return\n\
-    \ */\ntemplate <class _Tp>\nbool compare_arg(const _Tp& __p1, const _Tp& __p2)\
-    \ noexcept {\n  const auto& [__x1, __y1] = __p1;\n  const auto& [__x2, __y2] =\
-    \ __p2;\n\n  using value_type = std::decay_t<decltype(__x1)>;\n  using mul_type\
-    \ = typename multiplicable<value_type>::type;\n\n  if (__y1 == value_type(0))\n\
-    \    return value_type(0) <= __x1 &&\n           (value_type(0) < __y2 ||\n  \
-    \          (__y2 == value_type(0) && __x2 < value_type(0)));\n\n  return value_type(0)\
-    \ < __y1\n             ? value_type(0) <= __y2 &&\n                   mul_type(__y1)\
-    \ * __x2 < mul_type(__x1) * __y2\n             : value_type(0) <= __y2 ||\n  \
-    \                 mul_type(__y1) * __x2 < mul_type(__x1) * __y2;\n}\n\n}  // namespace\
-    \ workspace\n\n#endif\n#line 7 \"test/library-checker/sort_points_by_argument.test.cpp\"\
-    \n\nint main() {\n  struct point {\n    int x, y;\n  };\n\n  int n;\n  point pos[1\
-    \ << 18];\n\n  scanf(\"%d\", &n);\n  for (int i = 0; i != n; ++i) scanf(\"%d%d\"\
-    , &pos[i].x, &pos[i].y);\n\n  std::sort(pos, pos + n, workspace::compare_arg<point>);\n\
-    \n  for (int i = 0; i != n; ++i) printf(\"%d %d\\n\", pos[i].x, pos[i].y);\n}\n"
+    #include <algorithm>\n#include <iostream>\n\n#line 2 \"src/geometry/point.hpp\"\
+    \n\n/**\n * @file point.hpp\n * @brief Point\n */\n\n#include <tuple>\n\nnamespace\
+    \ workspace {\n\n// Point class as position vector.\ntemplate <class _Scalar,\
+    \ std::size_t _Dimension = 2>\nstruct point : std::array<_Scalar, _Dimension>\
+    \ {\n  using container_type = std::array<_Scalar, _Dimension>;\n\n  using typename\
+    \ container_type::size_type;\n  using typename container_type::value_type;\n\n\
+    \ protected:\n  using container_type::_M_elems;\n\n public:\n  // Itself.\n  constexpr\
+    \ point operator+() const noexcept { return *this; }\n\n  // Vector negation.\n\
+    \  constexpr point operator-() const noexcept {\n    point __p;\n    for (size_type\
+    \ __i = 0; __i != _Dimension; ++__i) __p[__i] = -_M_elems[__i];\n    return __p;\n\
+    \  }\n\n  // Vector sum.\n  constexpr point &operator+=(const point &__p) noexcept\
+    \ {\n    for (size_type __i = 0; __i != _Dimension; ++__i) _M_elems[__i] += __p[__i];\n\
+    \    return *this;\n  }\n\n  // Vector sum.\n  constexpr point operator+(const\
+    \ point &__p) const noexcept {\n    return point(*this) += __p;\n  }\n\n  // Vector\
+    \ difference.\n  constexpr point &operator-=(const point &__p) noexcept {\n  \
+    \  for (size_type __i = 0; __i != _Dimension; ++__i) _M_elems[__i] -= __p[__i];\n\
+    \    return *this;\n  }\n\n  // Vector difference.\n  constexpr point operator-(const\
+    \ point &__p) const noexcept {\n    return point(*this) -= __p;\n  }\n\n  // Scalar\
+    \ multiplication.\n  constexpr point &operator*=(value_type __c) noexcept {\n\
+    \    for (size_type __i = 0; __i != _Dimension; ++__i) _M_elems[__i] *= __c;\n\
+    \    return *this;\n  }\n\n  // Scalar multiplication.\n  constexpr point operator*(value_type\
+    \ __c) const noexcept {\n    return point(*this) *= __c;\n  }\n\n  // Scalar division.\n\
+    \  constexpr point &operator/=(value_type __c) noexcept {\n    for (size_type\
+    \ __i = 0; __i != _Dimension; ++__i) _M_elems[__i] /= __c;\n    return *this;\n\
+    \  }\n\n  // Scalar division.\n  constexpr point operator/(value_type __c) const\
+    \ noexcept {\n    return point(*this) /= __c;\n  }\n\n  // Dot product.\n  constexpr\
+    \ value_type dot(const point &__p) const noexcept {\n    value_type __ret = 0;\n\
+    \    for (size_type __i = 0; __i != _Dimension; ++__i)\n      __ret += _M_elems[__i]\
+    \ * __p[__i];\n    return __ret;\n  }\n\n  // Euclidian norm.\n  constexpr value_type\
+    \ norm() const noexcept {\n    value_type __ret = 0;\n    for (size_type __i =\
+    \ 0; __i != _Dimension; ++__i)\n      __ret += _M_elems[__i] * _M_elems[__i];\n\
+    \    return sqrt(__ret);\n  }\n\n  // Euclidian distance.\n  constexpr value_type\
+    \ distance(const point &__p) const noexcept {\n    return operator-(__p).norm();\n\
+    \  }\n\n  constexpr auto arg() const noexcept {\n    return atan2(_M_elems[1],\
+    \ _M_elems[0]);\n  }\n\n  // Cross product.\n  constexpr auto cross(const point\
+    \ &__p) const noexcept {\n    if constexpr (_Dimension == 2)\n      return _M_elems[0]\
+    \ * __p[1] - _M_elems[1] * __p[0];\n    else if constexpr (_Dimension == 3)\n\
+    \      return point{_M_elems[1] * __p[2] - _M_elems[2] * __p[1],\n           \
+    \        _M_elems[2] * __p[0] - _M_elems[0] * __p[2],\n                   _M_elems[0]\
+    \ * __p[1] - _M_elems[1] * __p[0]};\n  }\n\n  /**\n   * @brief Counter-clockwise.\n\
+    \   * @param __p\n   * @param __q\n   * @return Whether __p is in the counter-clockwise\
+    \ direction of __q around\n   this.\n   */\n  constexpr bool ccw(const point &__p,\
+    \ const point &__q) const noexcept {\n    return value_type(0) < operator-(__p).cross(operator-(__q));\n\
+    \  }\n};\n\n#if __cpp_deduction_guides >= 201606\ntemplate <typename _Tp, typename...\
+    \ _Up>\npoint(_Tp, _Up...)\n    -> point<std::enable_if_t<(std::is_same_v<_Tp,\
+    \ _Up> && ...), _Tp>,\n             1 + sizeof...(_Up)>;\n#endif\n\n// Compare\
+    \ by value of `atan2`.\ntemplate <class _Scalar> struct less_arg {\n  using value_type\
+    \ = point<_Scalar, 2>;\n  using first_argument_type = value_type;\n  using second_argument_type\
+    \ = value_type;\n  using result_type = bool;\n\n  value_type origin;\n\n  less_arg()\
+    \ noexcept : origin() {}\n  less_arg(const value_type &__o) noexcept : origin(__o)\
+    \ {}\n\n  constexpr bool operator()(const value_type &__p,\n                 \
+    \           const value_type &__q) const noexcept {\n    if (__p[1] == origin[1])\n\
+    \      return origin[0] <= __p[0] &&\n             (origin[1] < __q[1] ||\n  \
+    \            (__q[1] == origin[1] && __q[0] < origin[0]));\n\n    return origin[1]\
+    \ < __p[1] ? origin[1] <= __q[1] && origin.ccw(__p, __q)\n                   \
+    \           : origin[1] <= __q[1] || origin.ccw(__p, __q);\n  }\n};\n\n}  // namespace\
+    \ workspace\n\nnamespace std {\n\ntemplate <class _Scalar, size_t _Dimension>\n\
+    struct tuple_size<workspace::point<_Scalar, _Dimension>>\n    : tuple_size<array<_Scalar,\
+    \ _Dimension>> {};\n\ntemplate <size_t _Nm, class _Scalar, size_t _Dimension>\n\
+    struct tuple_element<_Nm, workspace::point<_Scalar, _Dimension>>\n    : tuple_element<_Nm,\
+    \ array<_Scalar, _Dimension>> {};\n\n}  // namespace std\n#line 7 \"test/library-checker/sort_points_by_argument.test.cpp\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  int n;\n  std::cin >> n;\n\
+    \  std::vector<point<long long>> pos(n);\n  for (auto &[x, y] : pos) std::cin\
+    \ >> x >> y;\n\n  std::sort(pos.begin(), pos.end(), less_arg<long long>());\n\
+    \  for (auto &[x, y] : pos) std::cout << x << \" \" << y << \"\\n\";\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sort_points_by_argument\"\
-    \n\n#include <algorithm>\n#include <cstdio>\n\n#include \"src/utils/compare.hpp\"\
-    \n\nint main() {\n  struct point {\n    int x, y;\n  };\n\n  int n;\n  point pos[1\
-    \ << 18];\n\n  scanf(\"%d\", &n);\n  for (int i = 0; i != n; ++i) scanf(\"%d%d\"\
-    , &pos[i].x, &pos[i].y);\n\n  std::sort(pos, pos + n, workspace::compare_arg<point>);\n\
-    \n  for (int i = 0; i != n; ++i) printf(\"%d %d\\n\", pos[i].x, pos[i].y);\n}\n"
+    \n\n#include <algorithm>\n#include <iostream>\n\n#include \"src/geometry/point.hpp\"\
+    \n\nint main() {\n  using namespace workspace;\n\n  int n;\n  std::cin >> n;\n\
+    \  std::vector<point<long long>> pos(n);\n  for (auto &[x, y] : pos) std::cin\
+    \ >> x >> y;\n\n  std::sort(pos.begin(), pos.end(), less_arg<long long>());\n\
+    \  for (auto &[x, y] : pos) std::cout << x << \" \" << y << \"\\n\";\n}\n"
   dependsOn:
-  - src/utils/compare.hpp
-  - src/utils/sfinae.hpp
+  - src/geometry/point.hpp
   isVerificationFile: true
   path: test/library-checker/sort_points_by_argument.test.cpp
   requiredBy: []
-  timestamp: '2021-05-31 22:43:54+09:00'
+  timestamp: '2021-08-17 17:46:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/sort_points_by_argument.test.cpp
