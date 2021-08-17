@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include "src/geometry/point.hpp"
+#include "src/geometry/compare.hpp"
 
 int main() {
   using namespace workspace;

@@ -129,30 +129,6 @@ point(_Tp, _Up...)
              1 + sizeof...(_Up)>;
 #endif
 
-// Compare by value of `atan2`.
-template <class _Scalar> struct less_arg {
-  using value_type = point<_Scalar, 2>;
-  using first_argument_type = value_type;
-  using second_argument_type = value_type;
-  using result_type = bool;
-
-  value_type origin;
-
-  less_arg() noexcept : origin() {}
-  less_arg(const value_type &__o) noexcept : origin(__o) {}
-
-  constexpr bool operator()(const value_type &__p,
-                            const value_type &__q) const noexcept {
-    if (__p[1] == origin[1])
-      return origin[0] <= __p[0] &&
-             (origin[1] < __q[1] ||
-              (__q[1] == origin[1] && __q[0] < origin[0]));
-
-    return origin[1] < __p[1] ? origin[1] <= __q[1] && origin.ccw(__p, __q)
-                              : origin[1] <= __q[1] || origin.ccw(__p, __q);
-  }
-};
-
 }  // namespace workspace
 
 namespace std {
