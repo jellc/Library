@@ -56,9 +56,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
-  - icon: ':warning:'
-    path: src/utils/compare.hpp
-    title: Compare
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
@@ -286,7 +283,6 @@ data:
   - src/utils/io/istream.hpp
   - src/utils/io/input.hpp
   - src/utils/hash.hpp
-  - src/utils/compare.hpp
   - src/utils/round_div.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC

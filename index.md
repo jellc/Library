@@ -312,9 +312,6 @@ data:
       path: src/utils/chval.hpp
       title: Change Less/Greater
     - icon: ':warning:'
-      path: src/utils/compare.hpp
-      title: Compare
-    - icon: ':warning:'
       path: src/utils/fixed_point.hpp
       title: Fixed Point Combinator
     - icon: ':heavy_check_mark:'
