@@ -37,36 +37,37 @@ data:
     \ _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\
     \n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
     \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
-    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
-    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\
-    \nnamespace workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template\
-    \ <typename... _Args>\n  static std::true_type __test(std::basic_ostream<_Args...>\
-    \ *);\n  static std::false_type __test(void *);\n  constexpr static bool value\
-    \ = decltype(__test(std::declval<_Os *>()))::value;\n};\n\ntemplate <class _Os>\n\
-    using ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\
-    \n/**\n * @brief Stream insertion operator for C-style array.\n *\n * @param __os\
-    \ Output stream\n * @param __a Array\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp)\
-    \ > 2), ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Tp (&__a)[_Nm])\
-    \ {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << *__a;\n    for (auto __i = __a\
-    \ + 1, __e = __a + _Nm; __i != __e; ++__i)\n      __os << ' ' << *__i;\n  }\n\
-    \  return __os;\n}\n\n/**\n * @brief Stream insertion operator for std::array.\n\
-    \ *\n * @param __os Output stream\n * @param __a Array\n * @return Reference to\
-    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os\
-    \ &__os, const std::array<_Tp, _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n \
-    \   __os << __a[0];\n    for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' <<\
-    \ __a[__i];\n  }\n  return __os;\n}\n\n/**\n * @brief Stream insertion operator\
-    \ for std::pair.\n *\n * @param __os Output stream\n * @param __p Pair\n * @return\
-    \ Reference to __os.\n */\ntemplate <class _Os, class _T1, class _T2>\nostream_ref<_Os>\
-    \ operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {\n  return __os << __p.first\
-    \ << ' ' << __p.second;\n}\n\n/**\n * @brief Stream insertion operator for std::tuple.\n\
-    \ *\n * @param __os Output stream\n * @param __t Tuple\n * @return Reference to\
-    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
+    #include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *\
+    \  @brief  Return the size of a container.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template <typename...\
+    \ _Args>\n  static std::true_type __test(std::basic_ostream<_Args...> *);\n  static\
+    \ std::false_type __test(void *);\n  constexpr static bool value = decltype(__test(std::declval<_Os\
+    \ *>()))::value;\n};\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename\
+    \ std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\n/**\n * @brief Stream\
+    \ insertion operator for C-style array.\n *\n * @param __os Output stream\n *\
+    \ @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os, class\
+    \ _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp) > 2), ostream_ref<_Os>>::type\n\
+    operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {\n  if _CXX17_CONSTEXPR (_Nm) {\n\
+    \    __os << *__a;\n    for (auto __i = __a + 1, __e = __a + _Nm; __i != __e;\
+    \ ++__i)\n      __os << ' ' << *__i;\n  }\n  return __os;\n}\n\n/**\n * @brief\
+    \ Stream insertion operator for std::array.\n *\n * @param __os Output stream\n\
+    \ * @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os,\
+    \ class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os &__os, const std::array<_Tp,\
+    \ _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << __a[0];\n    for (size_t\
+    \ __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];\n  }\n  return __os;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n * @param __os\
+    \ Output stream\n * @param __p Pair\n * @return Reference to __os.\n */\ntemplate\
+    \ <class _Os, class _T1, class _T2>\nostream_ref<_Os> operator<<(_Os &__os, const\
+    \ std::pair<_T1, _T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
+    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
+    \ <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
     \ + 1),\n                        ostream_ref<_Os>>::type\noperator<<(_Os &__os,\
     \ const _Tp &__t) {\n  if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tp>::value)\
     \ {\n    if _CXX17_CONSTEXPR (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n\
@@ -103,7 +104,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm.test.cpp

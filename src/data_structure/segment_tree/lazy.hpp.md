@@ -47,14 +47,15 @@ data:
     #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
     #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
     \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
-    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
-    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\
-    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    #include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *\
+    \  @brief  Return the size of a container.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\
+    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
@@ -110,8 +111,8 @@ data:
     \ _Tp &__x, const _Tp &__y) noexcept {\n    if _CXX17_CONSTEXPR (is_comparable<_Tp>::value)\n\
     \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
     \  }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n\
-    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n\
-    #line 11 \"src/utils/sfinae.hpp\"\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
+    \ * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#line 11 \"\
+    src/utils/sfinae.hpp\"\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
     #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
     \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
@@ -426,7 +427,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

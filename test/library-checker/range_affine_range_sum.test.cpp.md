@@ -260,14 +260,15 @@ data:
     #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
     #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
     \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
-    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
-    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\
-    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    #line 20 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n\
+    \ *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\
+    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
@@ -487,7 +488,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/range_affine_range_sum.test.cpp

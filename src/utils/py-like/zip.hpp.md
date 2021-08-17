@@ -52,13 +52,14 @@ data:
     \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
     #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
     \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
-    #endif\n#endif\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief\
-    \  Return the size of a container.\n *  @param  __cont  Container.\n */\ntemplate\
-    \ <typename _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\
+    #endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace\
+    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
+    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
+    \n#else\n\n#include <variant>\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\
     \n\n#if __cplusplus >= 201703L\n\nnamespace workspace {\n\nnamespace internal\
     \ {\n\ntemplate <class> struct zipped_iterator;\n\ntemplate <class...> struct\
     \ zipped_iterator_tuple;\n\ntemplate <class... Args> class zipped {\n  using ref_tuple\
@@ -227,7 +228,7 @@ data:
   path: src/utils/py-like/zip.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/number_of_substrings.test.cpp

@@ -14,17 +14,18 @@ data:
     \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
     #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
     #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#endif\n#line 11 \"src/data_structure/ndvec.hpp\"\n\nnamespace workspace {\n\
-    \ntemplate <class _Tp, size_t _Dim>\nclass ndvec : public std::vector<ndvec<_Tp,\
-    \ _Dim - 1>> {\n public:\n  static constexpr auto dimension = _Dim;\n  using container_type\
-    \ = std::vector<ndvec<_Tp, _Dim - 1>>;\n  using size_type = typename container_type::size_type;\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#include <iterator>\n\n\
+    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
+    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 11\
+    \ \"src/data_structure/ndvec.hpp\"\n\nnamespace workspace {\n\ntemplate <class\
+    \ _Tp, size_t _Dim>\nclass ndvec : public std::vector<ndvec<_Tp, _Dim - 1>> {\n\
+    \ public:\n  static constexpr auto dimension = _Dim;\n  using container_type =\
+    \ std::vector<ndvec<_Tp, _Dim - 1>>;\n  using size_type = typename container_type::size_type;\n\
     \n  ndvec() = default;\n\n  template <class _Size, size_t _Nm>\n  ndvec(const\
     \ _Size (&__size)[_Nm], const _Tp& __x = {}) noexcept\n      : container_type(__size[_Nm\
     \ - _Dim], {__size, __x}) {}\n\n  template <size_type _Nm = 0> size_type size()\
@@ -64,7 +65,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/ndvec.hpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/ndvec.hpp

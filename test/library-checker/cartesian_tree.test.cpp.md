@@ -45,15 +45,16 @@ data:
     \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
     \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
     #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief\
-    \ SFINAE\n */\n\n#include <cstdint>\n#include <iterator>\n#include <type_traits>\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#include <iterator>\n\n\
+    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
+    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 2\
+    \ \"src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\
+    \n#include <cstdint>\n#line 10 \"src/utils/sfinae.hpp\"\n#include <type_traits>\n\
     \n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__\
     \ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n#endif\n\nnamespace std {\n\
     \n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t> { using\
@@ -211,7 +212,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/cartesian_tree.test.cpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/cartesian_tree.test.cpp

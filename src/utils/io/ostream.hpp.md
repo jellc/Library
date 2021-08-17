@@ -53,15 +53,16 @@ data:
     #ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
     \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
     #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate\
-    \ <class _Os> struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#include <iterator>\n\n\
+    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
+    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
+    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 11\
+    \ \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate <class _Os>\
+    \ struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
     \ __test(std::basic_ostream<_Args...> *);\n  static std::false_type __test(void\
     \ *);\n  constexpr static bool value = decltype(__test(std::declval<_Os *>()))::value;\n\
     };\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value,\
@@ -159,7 +160,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/ostream.hpp
   requiredBy: []
-  timestamp: '2021-08-15 17:23:37+09:00'
+  timestamp: '2021-08-17 17:53:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/min_cost_b_flow.test.cpp
