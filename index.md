@@ -181,6 +181,9 @@ data:
   - name: src/geometry
     pages:
     - icon: ':heavy_check_mark:'
+      path: src/geometry/compare.hpp
+      title: Compare Argument
+    - icon: ':heavy_check_mark:'
       path: src/geometry/point.hpp
       title: Point
   - name: src/graph/directed/flow

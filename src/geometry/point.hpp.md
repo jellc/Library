@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/geometry/compare.hpp
+    title: Compare Argument
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/sort_points_by_argument.test.cpp
@@ -57,17 +60,7 @@ data:
     \ const point &__q) const noexcept {\n    return value_type(0) < operator-(__p).cross(operator-(__q));\n\
     \  }\n};\n\n#if __cpp_deduction_guides >= 201606\ntemplate <typename _Tp, typename...\
     \ _Up>\npoint(_Tp, _Up...)\n    -> point<std::enable_if_t<(std::is_same_v<_Tp,\
-    \ _Up> && ...), _Tp>,\n             1 + sizeof...(_Up)>;\n#endif\n\n// Compare\
-    \ by value of `atan2`.\ntemplate <class _Scalar> struct less_arg {\n  using value_type\
-    \ = point<_Scalar, 2>;\n  using first_argument_type = value_type;\n  using second_argument_type\
-    \ = value_type;\n  using result_type = bool;\n\n  value_type origin;\n\n  less_arg()\
-    \ noexcept : origin() {}\n  less_arg(const value_type &__o) noexcept : origin(__o)\
-    \ {}\n\n  constexpr bool operator()(const value_type &__p,\n                 \
-    \           const value_type &__q) const noexcept {\n    if (__p[1] == origin[1])\n\
-    \      return origin[0] <= __p[0] &&\n             (origin[1] < __q[1] ||\n  \
-    \            (__q[1] == origin[1] && __q[0] < origin[0]));\n\n    return origin[1]\
-    \ < __p[1] ? origin[1] <= __q[1] && origin.ccw(__p, __q)\n                   \
-    \           : origin[1] <= __q[1] || origin.ccw(__p, __q);\n  }\n};\n\n}  // namespace\
+    \ _Up> && ...), _Tp>,\n             1 + sizeof...(_Up)>;\n#endif\n\n}  // namespace\
     \ workspace\n\nnamespace std {\n\ntemplate <class _Scalar, size_t _Dimension>\n\
     struct tuple_size<workspace::point<_Scalar, _Dimension>>\n    : tuple_size<array<_Scalar,\
     \ _Dimension>> {};\n\ntemplate <size_t _Nm, class _Scalar, size_t _Dimension>\n\
@@ -118,27 +111,18 @@ data:
     \ {\n    return value_type(0) < operator-(__p).cross(operator-(__q));\n  }\n};\n\
     \n#if __cpp_deduction_guides >= 201606\ntemplate <typename _Tp, typename... _Up>\n\
     point(_Tp, _Up...)\n    -> point<std::enable_if_t<(std::is_same_v<_Tp, _Up> &&\
-    \ ...), _Tp>,\n             1 + sizeof...(_Up)>;\n#endif\n\n// Compare by value\
-    \ of `atan2`.\ntemplate <class _Scalar> struct less_arg {\n  using value_type\
-    \ = point<_Scalar, 2>;\n  using first_argument_type = value_type;\n  using second_argument_type\
-    \ = value_type;\n  using result_type = bool;\n\n  value_type origin;\n\n  less_arg()\
-    \ noexcept : origin() {}\n  less_arg(const value_type &__o) noexcept : origin(__o)\
-    \ {}\n\n  constexpr bool operator()(const value_type &__p,\n                 \
-    \           const value_type &__q) const noexcept {\n    if (__p[1] == origin[1])\n\
-    \      return origin[0] <= __p[0] &&\n             (origin[1] < __q[1] ||\n  \
-    \            (__q[1] == origin[1] && __q[0] < origin[0]));\n\n    return origin[1]\
-    \ < __p[1] ? origin[1] <= __q[1] && origin.ccw(__p, __q)\n                   \
-    \           : origin[1] <= __q[1] || origin.ccw(__p, __q);\n  }\n};\n\n}  // namespace\
-    \ workspace\n\nnamespace std {\n\ntemplate <class _Scalar, size_t _Dimension>\n\
-    struct tuple_size<workspace::point<_Scalar, _Dimension>>\n    : tuple_size<array<_Scalar,\
-    \ _Dimension>> {};\n\ntemplate <size_t _Nm, class _Scalar, size_t _Dimension>\n\
-    struct tuple_element<_Nm, workspace::point<_Scalar, _Dimension>>\n    : tuple_element<_Nm,\
-    \ array<_Scalar, _Dimension>> {};\n\n}  // namespace std\n"
+    \ ...), _Tp>,\n             1 + sizeof...(_Up)>;\n#endif\n\n}  // namespace workspace\n\
+    \nnamespace std {\n\ntemplate <class _Scalar, size_t _Dimension>\nstruct tuple_size<workspace::point<_Scalar,\
+    \ _Dimension>>\n    : tuple_size<array<_Scalar, _Dimension>> {};\n\ntemplate <size_t\
+    \ _Nm, class _Scalar, size_t _Dimension>\nstruct tuple_element<_Nm, workspace::point<_Scalar,\
+    \ _Dimension>>\n    : tuple_element<_Nm, array<_Scalar, _Dimension>> {};\n\n}\
+    \  // namespace std\n"
   dependsOn: []
   isVerificationFile: false
   path: src/geometry/point.hpp
-  requiredBy: []
-  timestamp: '2021-08-17 17:46:36+09:00'
+  requiredBy:
+  - src/geometry/compare.hpp
+  timestamp: '2021-08-17 20:06:23+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/sort_points_by_argument.test.cpp
