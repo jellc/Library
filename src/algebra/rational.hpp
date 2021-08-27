@@ -106,8 +106,7 @@ template <class _Tp> class rational {
   }
 
   _CXX14_CONSTEXPR
-  std::enable_if_t<std::__is_swappable<_Tp>::value> swap(
-      rational &__x) noexcept {
+  std::enable_if_t<std::is_swappable<_Tp>::value> swap(rational &__x) noexcept {
     std::swap(__num, __x.__num), std::swap(__den, __x.__den);
   }
 

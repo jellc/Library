@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cxx14"
+
 #ifndef _CXX17_CONSTEXPR
 #if __cplusplus >= 201703L
 #define _CXX17_CONSTEXPR constexpr
