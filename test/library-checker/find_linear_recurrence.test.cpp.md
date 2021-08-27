@@ -50,20 +50,22 @@ data:
     \ * @brief Berlekamp-Massey Algorithm\n */\n\n#include <numeric>\n\n#line 2 \"\
     src/algebra/polynomial.hpp\"\n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n\
     \ */\n\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#line 2\
-    \ \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define\
-    \ _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\
-    \n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
-    \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
-    #include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *\
-    \  @brief  Return the size of a container.\n *  @param  __cont  Container.\n */\n\
-    template <typename _Container>\nconstexpr auto size(const _Container& __cont)\
-    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
-    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
-    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file\
-    \ ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n\
-    \ */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
+    \ \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus\
+    \ >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n\
+    #endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
+    #endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace\
+    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
+    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
+    \n#else\n\n#include <variant>\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n\
+    \ * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
+    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
     \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 2 \"\
     src/utils/sfinae.hpp\"\n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n\
     #include <cstdint>\n#line 10 \"src/utils/sfinae.hpp\"\n#include <type_traits>\n\
@@ -731,7 +733,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2021-08-23 17:01:55+09:00'
+  timestamp: '2021-08-27 14:11:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/find_linear_recurrence.test.cpp

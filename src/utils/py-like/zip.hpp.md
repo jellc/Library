@@ -48,13 +48,15 @@ data:
     \ noexcept {\n    base_std::operator++();\n    deref.reset();\n    return *this;\n\
     \  }\n  constexpr reverse_iterator operator--(int) noexcept {\n    base_std::operator++();\n\
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
-    \n#endif\n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
-    \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
-    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
-    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
-    #endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace\
-    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
-    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \n#endif\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n\
+    #if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT\
+    \ assert\n#endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\
+    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
+    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
@@ -228,7 +230,7 @@ data:
   path: src/utils/py-like/zip.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-08-17 17:53:53+09:00'
+  timestamp: '2021-08-27 14:11:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/number_of_substrings.test.cpp

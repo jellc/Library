@@ -154,41 +154,43 @@ data:
     \n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\
     \n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\
     \n#line 11 \"src/utils/io/istream.hpp\"\n#include <iostream>\n#include <tuple>\n\
-    \n#line 2 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
-    #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
-    #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
-    \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
-    #include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *\
-    \  @brief  Return the size of a container.\n *  @param  __cont  Container.\n */\n\
-    template <typename _Container>\nconstexpr auto size(const _Container& __cont)\
-    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
-    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
-    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n/**\n * @file\
-    \ sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#line 10 \"src/utils/sfinae.hpp\"\
-    \n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
-    #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
-    #endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate <> struct make_signed<__uint128_t>\
-    \ { using type = __int128_t; };\ntemplate <> struct make_signed<__int128_t> {\
-    \ using type = __int128_t; };\n\ntemplate <> struct make_unsigned<__uint128_t>\
-    \ { using type = __uint128_t; };\ntemplate <> struct make_unsigned<__int128_t>\
-    \ { using type = __uint128_t; };\n\ntemplate <> struct is_signed<__uint128_t>\
-    \ : std::false_type {};\ntemplate <> struct is_signed<__int128_t> : std::true_type\
-    \ {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type {};\ntemplate\
-    \ <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\n}  // namespace\
-    \ std\n\nnamespace workspace {\n\ntemplate <class Tp, class... Args> struct variadic_front\
-    \ { using type = Tp; };\n\ntemplate <class... Args> struct variadic_back;\n\n\
-    template <class Tp> struct variadic_back<Tp> { using type = Tp; };\n\ntemplate\
-    \ <class Tp, class... Args> struct variadic_back<Tp, Args...> {\n  using type\
-    \ = typename variadic_back<Args...>::type;\n};\n\ntemplate <class type, template\
-    \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
-    \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
-    \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
+    \n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n\
+    #if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT\
+    \ assert\n#endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\
+    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
+    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
+    \n#else\n\n#include <variant>\n\n#endif\n#line 2 \"src/utils/sfinae.hpp\"\n\n\
+    /**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#line 10\
+    \ \"src/utils/sfinae.hpp\"\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\
+    \n#ifdef __SIZEOF_INT128__\n#define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__\
+    \ 0\n#endif\n\n#endif\n\nnamespace std {\n\n#if __INT128_DEFINED__\n\ntemplate\
+    \ <> struct make_signed<__uint128_t> { using type = __int128_t; };\ntemplate <>\
+    \ struct make_signed<__int128_t> { using type = __int128_t; };\n\ntemplate <>\
+    \ struct make_unsigned<__uint128_t> { using type = __uint128_t; };\ntemplate <>\
+    \ struct make_unsigned<__int128_t> { using type = __uint128_t; };\n\ntemplate\
+    \ <> struct is_signed<__uint128_t> : std::false_type {};\ntemplate <> struct is_signed<__int128_t>\
+    \ : std::true_type {};\n\ntemplate <> struct is_unsigned<__uint128_t> : std::true_type\
+    \ {};\ntemplate <> struct is_unsigned<__int128_t> : std::false_type {};\n\n#endif\n\
+    \n}  // namespace std\n\nnamespace workspace {\n\ntemplate <class Tp, class...\
+    \ Args> struct variadic_front { using type = Tp; };\n\ntemplate <class... Args>\
+    \ struct variadic_back;\n\ntemplate <class Tp> struct variadic_back<Tp> { using\
+    \ type = Tp; };\n\ntemplate <class Tp, class... Args> struct variadic_back<Tp,\
+    \ Args...> {\n  using type = typename variadic_back<Args...>::type;\n};\n\ntemplate\
+    \ <class type, template <class> class trait>\nusing enable_if_trait_type = typename\
+    \ std::enable_if<trait<type>::value>::type;\n\n/**\n * @brief Return type of subscripting\
+    \ ( @c [] ) access.\n */\ntemplate <class _Tp>\nusing subscripted_type =\n   \
+    \ typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\ntemplate <class\
+    \ Container>\nusing element_type = typename std::decay<decltype(\n    *std::begin(std::declval<Container&>()))>::type;\n\
+    \ntemplate <class _Tp, class = std::nullptr_t>\nstruct has_begin : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
     \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
     \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
     \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
@@ -321,7 +323,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/ITP1_7_D.test.cpp
   requiredBy: []
-  timestamp: '2021-08-17 17:53:53+09:00'
+  timestamp: '2021-08-27 14:11:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/ITP1_7_D.test.cpp

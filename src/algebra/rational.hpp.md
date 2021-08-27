@@ -13,25 +13,28 @@ data:
     document_title: Rational
     links: []
   bundledCode: "#line 2 \"src/algebra/rational.hpp\"\n\n/**\n * @file rational.hpp\n\
-    \ * @brief Rational\n */\n\n#include <cassert>\n\n#line 2 \"lib/cxx17\"\n\n#ifndef\
-    \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
-    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#include <iterator>\n\n\
-    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
-    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 2\
-    \ \"src/algebra/system/operation.hpp\"\n\n/**\n * @file operation.hpp\n * @brief\
-    \ Operation Traits\n */\n\n#include <type_traits>\n\n#line 11 \"src/algebra/system/operation.hpp\"\
-    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
-    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
-    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
-    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
-    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ * @brief Rational\n */\n\n#include <cassert>\n\n#line 2 \"lib/cxx17\"\n\n#line\
+    \ 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define\
+    \ _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n\
+    #line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
+    #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
+    #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
+    \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
+    #include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *\
+    \  @brief  Return the size of a container.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 2 \"src/algebra/system/operation.hpp\"\n\
+    \n/**\n * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
+    \n#line 11 \"src/algebra/system/operation.hpp\"\n\nnamespace workspace {\n\n//\
+    \ Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
+    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
+    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
+    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
+    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -123,8 +126,8 @@ data:
     \ > __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator<=(const rational\
     \ &__x) const noexcept {\n    return !operator>(__x);\n  }\n\n  _CXX14_CONSTEXPR\
     \ bool operator>=(const rational &__x) const noexcept {\n    return !operator<(__x);\n\
-    \  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::__is_swappable<_Tp>::value>\
-    \ swap(\n      rational &__x) noexcept {\n    std::swap(__num, __x.__num), std::swap(__den,\
+    \  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::is_swappable<_Tp>::value>\
+    \ swap(rational &__x) noexcept {\n    std::swap(__num, __x.__num), std::swap(__den,\
     \ __x.__den);\n  }\n\n  template <size_t _Nm> friend constexpr auto &get(rational\
     \ &__x) noexcept {\n    static_assert(_Nm < 2);\n    if _CXX17_CONSTEXPR (_Nm)\
     \ return __x.__den;\n    return __x.__num;\n  }\n\n  template <size_t _Nm>\n \
@@ -178,8 +181,8 @@ data:
     \                     : __num * __x.__den > __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR\
     \ bool operator<=(const rational &__x) const noexcept {\n    return !operator>(__x);\n\
     \  }\n\n  _CXX14_CONSTEXPR bool operator>=(const rational &__x) const noexcept\
-    \ {\n    return !operator<(__x);\n  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::__is_swappable<_Tp>::value>\
-    \ swap(\n      rational &__x) noexcept {\n    std::swap(__num, __x.__num), std::swap(__den,\
+    \ {\n    return !operator<(__x);\n  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::is_swappable<_Tp>::value>\
+    \ swap(rational &__x) noexcept {\n    std::swap(__num, __x.__num), std::swap(__den,\
     \ __x.__den);\n  }\n\n  template <size_t _Nm> friend constexpr auto &get(rational\
     \ &__x) noexcept {\n    static_assert(_Nm < 2);\n    if _CXX17_CONSTEXPR (_Nm)\
     \ return __x.__den;\n    return __x.__num;\n  }\n\n  template <size_t _Nm>\n \
@@ -197,7 +200,7 @@ data:
   isVerificationFile: false
   path: src/algebra/rational.hpp
   requiredBy: []
-  timestamp: '2021-08-27 14:07:51+09:00'
+  timestamp: '2021-08-27 14:11:15+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/rational.hpp
