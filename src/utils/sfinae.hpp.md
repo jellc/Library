@@ -115,6 +115,9 @@ data:
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
   - icon: ':heavy_check_mark:'
@@ -302,6 +305,7 @@ data:
   - test/library-checker/cartesian_tree.test.cpp
   - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp

@@ -34,6 +34,9 @@ data:
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -154,6 +157,7 @@ data:
   - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/number_theory/pow_mod.hpp

@@ -24,6 +24,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/find_linear_recurrence.test.cpp
     title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -138,6 +141,7 @@ data:
   - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
 documentation_of: src/number_theory/primitive_root.hpp
 layout: document
 redirect_from:

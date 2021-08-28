@@ -509,6 +509,9 @@ data:
       path: test/library-checker/min_cost_b_flow.test.cpp
       title: test/library-checker/min_cost_b_flow.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/multipoint_evaluation.test.cpp
+      title: test/library-checker/multipoint_evaluation.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/number_of_substrings.test.cpp
       title: test/library-checker/number_of_substrings.test.cpp
     - icon: ':heavy_check_mark:'

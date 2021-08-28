@@ -40,6 +40,9 @@ data:
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
   _isVerificationFailed: false
@@ -210,6 +213,7 @@ data:
   - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/cartesian_tree.test.cpp
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
