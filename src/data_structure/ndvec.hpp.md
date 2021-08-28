@@ -34,16 +34,20 @@ data:
     \ __x}) {}\n\n  template <size_type _Nm = 0> size_type size() const noexcept {\n\
     \    _CXX17_STATIC_ASSERT(_Nm < dimension);\n    if _CXX17_CONSTEXPR (_Nm) {\n\
     \      return container_type::operator[](0).template size<_Nm - 1>();\n    }\n\
-    \    return container_type::size();\n  }\n};\n\ntemplate <class _Tp> class ndvec<_Tp,\
-    \ 1> : public std::vector<_Tp> {\n public:\n  static constexpr auto dimension\
-    \ = 1;\n  using container_type = std::vector<_Tp>;\n  using size_type = typename\
-    \ container_type::size_type;\n\n  ndvec() = default;\n\n  template <class _Size,\
-    \ size_t _Nm>\n  ndvec(const _Size (&__size)[_Nm], const _Tp& __x = {}) noexcept\n\
-    \      : container_type(__size[_Nm - 1], __x) {}\n\n  template <size_type _Nm\
-    \ = 0> size_type size() const noexcept {\n    _CXX17_STATIC_ASSERT(!_Nm);\n  \
-    \  return container_type::size();\n  }\n};\n\n#if __cplusplus >= 201703L\n\ntemplate\
-    \ <class _Tp, class _Size, size_t _Dim>\nndvec(const _Size (&)[_Dim], const _Tp&)\
-    \ -> ndvec<_Tp, _Dim>;\n\n#endif\n\n}  // namespace workspace\n"
+    \    return container_type::size();\n  }\n\n  void fill(const _Tp& __x) noexcept\
+    \ {\n    for (auto __i = container_type::begin(); __i != container_type::end();\n\
+    \         ++__i)\n      __i->fill(__x);\n  }\n};\n\ntemplate <class _Tp> class\
+    \ ndvec<_Tp, 1> : public std::vector<_Tp> {\n public:\n  static constexpr auto\
+    \ dimension = 1;\n  using container_type = std::vector<_Tp>;\n  using size_type\
+    \ = typename container_type::size_type;\n\n  ndvec() = default;\n\n  template\
+    \ <class _Size, size_t _Nm>\n  ndvec(const _Size (&__size)[_Nm], const _Tp& __x\
+    \ = {}) noexcept\n      : container_type(__size[_Nm - 1], __x) {}\n\n  template\
+    \ <size_type _Nm = 0> size_type size() const noexcept {\n    _CXX17_STATIC_ASSERT(!_Nm);\n\
+    \    return container_type::size();\n  }\n\n  void fill(const _Tp& __x) noexcept\
+    \ {\n    for (auto __i = container_type::begin(); __i != container_type::end();\n\
+    \         ++__i)\n      *__i = __x;\n  }\n};\n\n#if __cpp_deduction_guides >=\
+    \ 201606L\n\ntemplate <class _Tp, class _Size, size_t _Dim>\nndvec(const _Size\
+    \ (&)[_Dim], const _Tp&) -> ndvec<_Tp, _Dim>;\n\n#endif\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file ndvec.hpp\n * @brief Nd-vector\n */\n\n#include\
     \ <vector>\n\n#include \"lib/cxx17\"\n\nnamespace workspace {\n\ntemplate <class\
     \ _Tp, size_t _Dim>\nclass ndvec : public std::vector<ndvec<_Tp, _Dim - 1>> {\n\
@@ -54,21 +58,25 @@ data:
     \ - _Dim], {__size, __x}) {}\n\n  template <size_type _Nm = 0> size_type size()\
     \ const noexcept {\n    _CXX17_STATIC_ASSERT(_Nm < dimension);\n    if _CXX17_CONSTEXPR\
     \ (_Nm) {\n      return container_type::operator[](0).template size<_Nm - 1>();\n\
-    \    }\n    return container_type::size();\n  }\n};\n\ntemplate <class _Tp> class\
+    \    }\n    return container_type::size();\n  }\n\n  void fill(const _Tp& __x)\
+    \ noexcept {\n    for (auto __i = container_type::begin(); __i != container_type::end();\n\
+    \         ++__i)\n      __i->fill(__x);\n  }\n};\n\ntemplate <class _Tp> class\
     \ ndvec<_Tp, 1> : public std::vector<_Tp> {\n public:\n  static constexpr auto\
     \ dimension = 1;\n  using container_type = std::vector<_Tp>;\n  using size_type\
     \ = typename container_type::size_type;\n\n  ndvec() = default;\n\n  template\
     \ <class _Size, size_t _Nm>\n  ndvec(const _Size (&__size)[_Nm], const _Tp& __x\
     \ = {}) noexcept\n      : container_type(__size[_Nm - 1], __x) {}\n\n  template\
     \ <size_type _Nm = 0> size_type size() const noexcept {\n    _CXX17_STATIC_ASSERT(!_Nm);\n\
-    \    return container_type::size();\n  }\n};\n\n#if __cplusplus >= 201703L\n\n\
-    template <class _Tp, class _Size, size_t _Dim>\nndvec(const _Size (&)[_Dim], const\
-    \ _Tp&) -> ndvec<_Tp, _Dim>;\n\n#endif\n\n}  // namespace workspace\n"
+    \    return container_type::size();\n  }\n\n  void fill(const _Tp& __x) noexcept\
+    \ {\n    for (auto __i = container_type::begin(); __i != container_type::end();\n\
+    \         ++__i)\n      *__i = __x;\n  }\n};\n\n#if __cpp_deduction_guides >=\
+    \ 201606L\n\ntemplate <class _Tp, class _Size, size_t _Dim>\nndvec(const _Size\
+    \ (&)[_Dim], const _Tp&) -> ndvec<_Tp, _Dim>;\n\n#endif\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/data_structure/ndvec.hpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
+  timestamp: '2021-08-29 00:12:28+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/ndvec.hpp
