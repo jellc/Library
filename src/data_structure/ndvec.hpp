@@ -31,6 +31,12 @@ class ndvec : public std::vector<ndvec<_Tp, _Dim - 1>> {
     }
     return container_type::size();
   }
+
+  void fill(const _Tp& __x) noexcept {
+    for (auto __i = container_type::begin(); __i != container_type::end();
+         ++__i)
+      __i->fill(__x);
+  }
 };
 
 template <class _Tp> class ndvec<_Tp, 1> : public std::vector<_Tp> {
@@ -49,9 +55,15 @@ template <class _Tp> class ndvec<_Tp, 1> : public std::vector<_Tp> {
     _CXX17_STATIC_ASSERT(!_Nm);
     return container_type::size();
   }
+
+  void fill(const _Tp& __x) noexcept {
+    for (auto __i = container_type::begin(); __i != container_type::end();
+         ++__i)
+      *__i = __x;
+  }
 };
 
-#if __cplusplus >= 201703L
+#if __cpp_deduction_guides >= 201606L
 
 template <class _Tp, class _Size, size_t _Dim>
 ndvec(const _Size (&)[_Dim], const _Tp&) -> ndvec<_Tp, _Dim>;
