@@ -332,6 +332,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
+    - icon: ':warning:'
+      path: src/utils/subsets.hpp
+      title: Subsets
   - name: src/utils/grid
     pages:
     - icon: ':warning:'
