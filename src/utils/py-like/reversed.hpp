@@ -5,49 +5,53 @@
  * @brief Reversed
  */
 
-#include <initializer_list>
-#include <iterator>
+#include <vector>
+
+#include "lib/cxx17"
 
 namespace workspace {
 
-namespace _reversed_impl {
-
+// Reversed container.
 template <class _Container> class reversed {
-  _Container __cont;
+  _Container __c;
 
  public:
-  constexpr reversed(_Container &&__cont) noexcept : __cont(__cont) {}
+  template <class _Tp>
+  constexpr reversed(_Tp &&__x) noexcept : __c(std::forward<_Container>(__x)) {}
 
-  constexpr decltype(auto) begin() noexcept { return std::rbegin(__cont); }
-  constexpr decltype(auto) begin() const noexcept {
-    return std::rbegin(__cont);
-  }
+  template <class _Tp>
+  constexpr reversed(std::initializer_list<_Tp> __x) noexcept : __c(__x) {}
 
-  constexpr decltype(auto) end() noexcept { return std::rend(__cont); }
-  constexpr decltype(auto) end() const noexcept { return std::rend(__cont); }
+  constexpr decltype(auto) begin() noexcept { return std::rbegin(__c); }
+  constexpr decltype(auto) begin() const noexcept { return std::rbegin(__c); }
 
-  constexpr decltype(auto) size() const noexcept {
-    return
-#if __cplusplus < 201703L
-        __cont.size();
-#else
-        std::size(__cont);
-#endif
-  }
+  constexpr decltype(auto) end() noexcept { return std::rend(__c); }
+  constexpr decltype(auto) end() const noexcept { return std::rend(__c); }
+
+  constexpr bool empty() const noexcept { return std::empty(__c); }
+
+  constexpr decltype(auto) size() const noexcept { return std::size(__c); }
+
+  using iterator = decltype(std::rbegin(__c));
+  using const_iterator = decltype(std::crbegin(__c));
+
+  using size_type = decltype(std::size(__c));
+  using difference_type =
+      typename std::iterator_traits<iterator>::difference_type;
+  using value_type = typename std::iterator_traits<iterator>::value_type;
+
+  using reference = typename std::iterator_traits<iterator>::reference;
+  using const_reference =
+      typename std::iterator_traits<const_iterator>::reference;
 };
 
-}  // namespace _reversed_impl
+#if __cpp_deduction_guides >= 201606L
 
-template <class _Container>
-constexpr decltype(auto) reversed(_Container &&__cont) noexcept {
-  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};
-}
+template <class _Tp> reversed(_Tp &&) -> reversed<_Tp>;
 
 template <class _Tp>
-constexpr decltype(auto) reversed(
-    std::initializer_list<_Tp> &&__cont) noexcept {
-  return _reversed_impl::reversed<std::initializer_list<_Tp>>{
-      std::forward<std::initializer_list<_Tp>>(__cont)};
-}
+reversed(std::initializer_list<_Tp>) -> reversed<std::vector<_Tp>>;
+
+#endif
 
 }  // namespace workspace
