@@ -254,14 +254,14 @@ data:
     \ const &...args) noexcept {\n  return internal::zipped<const std::initializer_list<Args>...>(args...);\n\
     }\n\n}  // namespace workspace\n\n#endif\n#line 7 \"test/library-checker/number_of_substrings.test.cpp\"\
     \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  workspace::suffix_array\
-    \ sa(s);\n  long long ans = 0;\n  for (auto &&[x, y] : zip(sa, sa.lcp_array()))\
+    \ sa(s);\n  long long ans = 0;\n  for (auto &&[x, y] : workspace::zip(sa, sa.lcp_array()))\
     \ {\n    ans += s.size() - x - y;\n  }\n  printf(\"%lld\\n\", ans);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n\
     \n#include <iostream>\n\n#include \"src/string/suffix_array.hpp\"\n#include \"\
     src/utils/py-like/zip.hpp\"\n\nint main() {\n  std::string s;\n  std::cin >> s;\n\
     \  workspace::suffix_array sa(s);\n  long long ans = 0;\n  for (auto &&[x, y]\
-    \ : zip(sa, sa.lcp_array())) {\n    ans += s.size() - x - y;\n  }\n  printf(\"\
-    %lld\\n\", ans);\n}\n"
+    \ : workspace::zip(sa, sa.lcp_array())) {\n    ans += s.size() - x - y;\n  }\n\
+    \  printf(\"%lld\\n\", ans);\n}\n"
   dependsOn:
   - src/string/suffix_array.hpp
   - src/utils/sfinae.hpp
@@ -271,7 +271,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
+  timestamp: '2021-08-31 17:41:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp

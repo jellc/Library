@@ -44,60 +44,78 @@ data:
     \  }\n  constexpr reverse_iterator operator--(int) noexcept {\n    base_std::operator++();\n\
     \    deref.reset();\n    return *this;\n  }\n};\n\n}  // namespace workspace\n\
     \n#endif\n#line 2 \"src/utils/py-like/reversed.hpp\"\n\n/**\n * @file reversed.hpp\n\
-    \ * @brief Reversed\n */\n\n#include <initializer_list>\n#line 10 \"src/utils/py-like/reversed.hpp\"\
-    \n\nnamespace workspace {\n\nnamespace _reversed_impl {\n\ntemplate <class _Container>\
-    \ class reversed {\n  _Container __cont;\n\n public:\n  constexpr reversed(_Container\
-    \ &&__cont) noexcept : __cont(__cont) {}\n\n  constexpr decltype(auto) begin()\
-    \ noexcept { return std::rbegin(__cont); }\n  constexpr decltype(auto) begin()\
-    \ const noexcept {\n    return std::rbegin(__cont);\n  }\n\n  constexpr decltype(auto)\
-    \ end() noexcept { return std::rend(__cont); }\n  constexpr decltype(auto) end()\
-    \ const noexcept { return std::rend(__cont); }\n\n  constexpr decltype(auto) size()\
-    \ const noexcept {\n    return\n#if __cplusplus < 201703L\n        __cont.size();\n\
-    #else\n        std::size(__cont);\n#endif\n  }\n};\n\n}  // namespace _reversed_impl\n\
-    \ntemplate <class _Container>\nconstexpr decltype(auto) reversed(_Container &&__cont)\
-    \ noexcept {\n  return _reversed_impl::reversed<_Container>{std::forward<_Container>(__cont)};\n\
-    }\n\ntemplate <class _Tp>\nconstexpr decltype(auto) reversed(\n    std::initializer_list<_Tp>\
-    \ &&__cont) noexcept {\n  return _reversed_impl::reversed<std::initializer_list<_Tp>>{\n\
-    \      std::forward<std::initializer_list<_Tp>>(__cont)};\n}\n\n}  // namespace\
-    \ workspace\n#line 12 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\
-    \nnamespace workspace {\n\ntemplate <class _Index> class range {\n  _Index __first,\
-    \ __last;\n\n public:\n  class iterator {\n    _Index current;\n\n   public:\n\
-    \    using difference_type = std::ptrdiff_t;\n    using value_type = _Index;\n\
-    \    using reference = typename std::add_const<_Index>::type &;\n    using pointer\
-    \ = iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\
-    \n    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i)\
-    \ {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept {\n\
-    \      return current == __x.current;\n    }\n    constexpr bool operator!=(const\
-    \ iterator &__x) const noexcept {\n      return current != __x.current;\n    }\n\
-    \n    constexpr bool operator<(const iterator &__x) const noexcept {\n      return\
-    \ current < __x.current;\n    }\n    constexpr bool operator<=(const iterator\
-    \ &__x) const noexcept {\n      return current <= __x.current;\n    }\n\n    constexpr\
-    \ bool operator>(const iterator &__x) const noexcept {\n      return current >\
-    \ __x.current;\n    }\n    constexpr bool operator>=(const iterator &__x) const\
-    \ noexcept {\n      return current >= __x.current;\n    }\n\n    constexpr iterator\
-    \ &operator++() noexcept {\n      ++current;\n      return *this;\n    }\n   \
-    \ constexpr iterator &operator++(int) noexcept {\n      auto __tmp = *this;\n\
-    \      ++current;\n      return __tmp;\n    }\n\n    constexpr iterator &operator--()\
-    \ noexcept {\n      --current;\n      return *this;\n    }\n    constexpr iterator\
-    \ &operator--(int) noexcept {\n      auto __tmp = *this;\n      --current;\n \
-    \     return __tmp;\n    }\n\n    constexpr difference_type operator-(const iterator\
-    \ &__x) const noexcept {\n      return current - __x.current;\n    }\n\n    constexpr\
-    \ iterator &operator+=(difference_type __x) noexcept {\n      current += __x;\n\
-    \      return *this;\n    }\n    constexpr iterator operator+(difference_type\
-    \ __x) const noexcept {\n      return iterator(*this) += __x;\n    }\n\n    constexpr\
-    \ iterator &operator-=(difference_type __x) noexcept {\n      current -= __x;\n\
-    \      return *this;\n    }\n    constexpr iterator operator-(difference_type\
-    \ __x) const noexcept {\n      return iterator(*this) -= __x;\n    }\n\n    constexpr\
-    \ reference operator*() const noexcept { return current; }\n  };\n\n  template\
-    \ <class _Tp1, class _Tp2>\n  constexpr range(const _Tp1 &__first, const _Tp2\
-    \ &__last) noexcept\n      : __first(__first), __last(__last) {}\n\n  template\
-    \ <class _Tp>\n  constexpr range(const _Tp &__last) noexcept : __first(), __last(__last)\
-    \ {}\n\n  constexpr iterator begin() const noexcept { return iterator{__first};\
-    \ }\n  constexpr iterator end() const noexcept { return iterator{__last}; }\n\n\
-    \  constexpr reverse_iterator<iterator> rbegin() const noexcept {\n    return\
-    \ reverse_iterator<iterator>(end());\n  }\n  constexpr reverse_iterator<iterator>\
-    \ rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n \
-    \ }\n\n  constexpr size_t size() const noexcept {\n    return std::distance(__first,\
+    \ * @brief Reversed\n */\n\n#include <vector>\n\n#line 2 \"lib/cxx17\"\n\n#line\
+    \ 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define\
+    \ _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n\
+    #line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n\
+    #define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n\
+    #endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT\
+    \ static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n\
+    #line 22 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n\
+    \ *  @brief  Return the size of a container.\n *  @param  __cont  Container.\n\
+    \ */\ntemplate <typename _Container>\nconstexpr auto size(const _Container& __cont)\
+    \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
+    \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
+    \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 11 \"src/utils/py-like/reversed.hpp\"\n\n\
+    namespace workspace {\n\n// Reversed container.\ntemplate <class _Container> class\
+    \ reversed {\n  _Container __c;\n\n public:\n  template <class _Tp>\n  constexpr\
+    \ reversed(_Tp &&__x) noexcept : __c(std::forward<_Container>(__x)) {}\n\n  template\
+    \ <class _Tp>\n  constexpr reversed(std::initializer_list<_Tp> __x) noexcept :\
+    \ __c(__x) {}\n\n  constexpr decltype(auto) begin() noexcept { return std::rbegin(__c);\
+    \ }\n  constexpr decltype(auto) begin() const noexcept { return std::rbegin(__c);\
+    \ }\n\n  constexpr decltype(auto) end() noexcept { return std::rend(__c); }\n\
+    \  constexpr decltype(auto) end() const noexcept { return std::rend(__c); }\n\n\
+    \  constexpr bool empty() const noexcept { return std::empty(__c); }\n\n  constexpr\
+    \ decltype(auto) size() const noexcept { return std::size(__c); }\n\n  using iterator\
+    \ = decltype(std::rbegin(__c));\n  using const_iterator = decltype(std::crbegin(__c));\n\
+    \n  using size_type = decltype(std::size(__c));\n  using difference_type =\n \
+    \     typename std::iterator_traits<iterator>::difference_type;\n  using value_type\
+    \ = typename std::iterator_traits<iterator>::value_type;\n\n  using reference\
+    \ = typename std::iterator_traits<iterator>::reference;\n  using const_reference\
+    \ =\n      typename std::iterator_traits<const_iterator>::reference;\n};\n\n#if\
+    \ __cpp_deduction_guides >= 201606L\n\ntemplate <class _Tp> reversed(_Tp &&) ->\
+    \ reversed<_Tp>;\n\ntemplate <class _Tp>\nreversed(std::initializer_list<_Tp>)\
+    \ -> reversed<std::vector<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n#line\
+    \ 12 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Index> class range {\n  _Index __first, __last;\n\
+    \n public:\n  class iterator {\n    _Index current;\n\n   public:\n    using difference_type\
+    \ = std::ptrdiff_t;\n    using value_type = _Index;\n    using reference = typename\
+    \ std::add_const<_Index>::type &;\n    using pointer = iterator;\n    using iterator_category\
+    \ = std::random_access_iterator_tag;\n\n    constexpr iterator(const _Index &__i\
+    \ = _Index()) noexcept : current(__i) {}\n\n    constexpr bool operator==(const\
+    \ iterator &__x) const noexcept {\n      return current == __x.current;\n    }\n\
+    \    constexpr bool operator!=(const iterator &__x) const noexcept {\n      return\
+    \ current != __x.current;\n    }\n\n    constexpr bool operator<(const iterator\
+    \ &__x) const noexcept {\n      return current < __x.current;\n    }\n    constexpr\
+    \ bool operator<=(const iterator &__x) const noexcept {\n      return current\
+    \ <= __x.current;\n    }\n\n    constexpr bool operator>(const iterator &__x)\
+    \ const noexcept {\n      return current > __x.current;\n    }\n    constexpr\
+    \ bool operator>=(const iterator &__x) const noexcept {\n      return current\
+    \ >= __x.current;\n    }\n\n    constexpr iterator &operator++() noexcept {\n\
+    \      ++current;\n      return *this;\n    }\n    constexpr iterator &operator++(int)\
+    \ noexcept {\n      auto __tmp = *this;\n      ++current;\n      return __tmp;\n\
+    \    }\n\n    constexpr iterator &operator--() noexcept {\n      --current;\n\
+    \      return *this;\n    }\n    constexpr iterator &operator--(int) noexcept\
+    \ {\n      auto __tmp = *this;\n      --current;\n      return __tmp;\n    }\n\
+    \n    constexpr difference_type operator-(const iterator &__x) const noexcept\
+    \ {\n      return current - __x.current;\n    }\n\n    constexpr iterator &operator+=(difference_type\
+    \ __x) noexcept {\n      current += __x;\n      return *this;\n    }\n    constexpr\
+    \ iterator operator+(difference_type __x) const noexcept {\n      return iterator(*this)\
+    \ += __x;\n    }\n\n    constexpr iterator &operator-=(difference_type __x) noexcept\
+    \ {\n      current -= __x;\n      return *this;\n    }\n    constexpr iterator\
+    \ operator-(difference_type __x) const noexcept {\n      return iterator(*this)\
+    \ -= __x;\n    }\n\n    constexpr reference operator*() const noexcept { return\
+    \ current; }\n  };\n\n  template <class _Tp1, class _Tp2>\n  constexpr range(const\
+    \ _Tp1 &__first, const _Tp2 &__last) noexcept\n      : __first(__first), __last(__last)\
+    \ {}\n\n  template <class _Tp>\n  constexpr range(const _Tp &__last) noexcept\
+    \ : __first(), __last(__last) {}\n\n  constexpr iterator begin() const noexcept\
+    \ { return iterator{__first}; }\n  constexpr iterator end() const noexcept { return\
+    \ iterator{__last}; }\n\n  constexpr reverse_iterator<iterator> rbegin() const\
+    \ noexcept {\n    return reverse_iterator<iterator>(end());\n  }\n  constexpr\
+    \ reverse_iterator<iterator> rend() const noexcept {\n    return reverse_iterator<iterator>(begin());\n\
+    \  }\n\n  constexpr size_t size() const noexcept {\n    return std::distance(__first,\
     \ __last);\n  }\n};\n\ntemplate <class _Tp1, class _Tp2>\nrange(const _Tp1 &,\
     \ const _Tp2 &)\n    -> range<std::decay_t<decltype(++std::declval<_Tp1 &>())>>;\n\
     \ntemplate <class _Tp>\nrange(const _Tp &) -> range<std::decay_t<decltype(++std::declval<_Tp\
@@ -109,29 +127,16 @@ data:
     \ &&__cont) noexcept {\n  return range(std::rbegin(__cont), std::rend(__cont));\n\
     }\n\n}  // namespace workspace\n\n#endif\n#line 2 \"src/utils/py-like/zip.hpp\"\
     \n\n/**\n * @file zip.hpp\n * @brief Zip\n */\n\n#include <cstddef>\n#include\
-    \ <tuple>\n#include <vector>\n\n#line 2 \"src/utils/iterator/category.hpp\"\n\n\
-    /*\n * @file category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"src/utils/iterator/category.hpp\"\
-    \n\nnamespace workspace {\n\n/*\n * @tparam Tuple Tuple of iterator types\n */\n\
-    template <class Tuple, size_t N = std::tuple_size<Tuple>::value - 1>\nstruct common_iterator_category\
-    \ {\n  using type = typename std::common_type<\n      typename common_iterator_category<Tuple,\
-    \ N - 1>::type,\n      typename std::iterator_traits<typename std::tuple_element<\n\
-    \          N, Tuple>::type>::iterator_category>::type;\n};\n\ntemplate <class\
-    \ Tuple> struct common_iterator_category<Tuple, 0> {\n  using type = typename\
-    \ std::iterator_traits<\n      typename std::tuple_element<0, Tuple>::type>::iterator_category;\n\
-    };\n\n}  // namespace workspace\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\
-    \n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR\
-    \ constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\
-    \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
-    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\
-    \n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the\
-    \ size of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename\
-    \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 15\
+    \ <tuple>\n#line 11 \"src/utils/py-like/zip.hpp\"\n\n#line 2 \"src/utils/iterator/category.hpp\"\
+    \n\n/*\n * @file category.hpp\n * @brief Iterator Category\n */\n\n#line 10 \"\
+    src/utils/iterator/category.hpp\"\n\nnamespace workspace {\n\n/*\n * @tparam Tuple\
+    \ Tuple of iterator types\n */\ntemplate <class Tuple, size_t N = std::tuple_size<Tuple>::value\
+    \ - 1>\nstruct common_iterator_category {\n  using type = typename std::common_type<\n\
+    \      typename common_iterator_category<Tuple, N - 1>::type,\n      typename\
+    \ std::iterator_traits<typename std::tuple_element<\n          N, Tuple>::type>::iterator_category>::type;\n\
+    };\n\ntemplate <class Tuple> struct common_iterator_category<Tuple, 0> {\n  using\
+    \ type = typename std::iterator_traits<\n      typename std::tuple_element<0,\
+    \ Tuple>::type>::iterator_category;\n};\n\n}  // namespace workspace\n#line 15\
     \ \"src/utils/py-like/zip.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace workspace\
     \ {\n\nnamespace internal {\n\ntemplate <class> struct zipped_iterator;\n\ntemplate\
     \ <class...> struct zipped_iterator_tuple;\n\ntemplate <class... Args> class zipped\
@@ -243,7 +248,7 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/enumerate.hpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
+  timestamp: '2021-08-31 17:40:56+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/enumerate.hpp
