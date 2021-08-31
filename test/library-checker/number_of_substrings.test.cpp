@@ -10,7 +10,7 @@ int main() {
   std::cin >> s;
   workspace::suffix_array sa(s);
   long long ans = 0;
-  for (auto &&[x, y] : zip(sa, sa.lcp_array())) {
+  for (auto &&[x, y] : workspace::zip(sa, sa.lcp_array())) {
     ans += s.size() - x - y;
   }
   printf("%lld\n", ans);
