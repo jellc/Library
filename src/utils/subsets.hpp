@@ -16,25 +16,35 @@ template <class _Int, bool = std::is_integral<_Int>::value> class iterator {
   bool __stop;
 
  public:
+  using difference_type = std::ptrdiff_t;
   using value_type = _Int;
-  using difference_type = size_t;
-  using iterator_category = std::forward_iterator_tag;
-  using reference = value_type;
   using pointer = void;
+  using reference = value_type;
+  using iterator_category = std::bidirectional_iterator_tag;
 
   constexpr iterator() = default;
   constexpr iterator(_Int __x, bool __y) noexcept
-      : __a(__x), __b(__x), __stop(__y) {}
+      : __a(0), __b(__x), __stop(__y) {}
 
   constexpr iterator &operator++() noexcept {
     assert(!__stop);
-    __stop = (--__a &= __b) == __b;
+    __stop = !(++(__a |= ~__b) &= __b);
     return *this;
   }
   constexpr iterator operator++(int) noexcept {
-    assert(!__stop);
-    iterator __tmp = *this;
+    auto __tmp = *this;
     operator++();
+    return __tmp;
+  }
+
+  constexpr iterator &operator--() noexcept {
+    assert(__a || __stop);
+    --__a &= __b, __stop = false;
+    return *this;
+  }
+  constexpr iterator operator--(int) noexcept {
+    auto __tmp = *this;
+    operator--();
     return __tmp;
   }
 
@@ -53,28 +63,38 @@ template <class _Int, bool = std::is_integral<_Int>::value> class iterator {
 
 template <class _Container>
 class iterator<_Container, false> : public iterator<int> {
-  using base_type = iterator<int>;
+  using _Base = iterator<int>;
 
   decltype(std::begin(std::declval<_Container>())) __p;
 
  public:
+  using difference_type = std::ptrdiff_t;
   using value_type = _Container;
-  using difference_type = size_t;
-  using iterator_category = std::forward_iterator_tag;
-  using reference = value_type;
   using pointer = void;
+  using reference = value_type;
+  using iterator_category = std::bidirectional_iterator_tag;
 
   iterator() = default;
   iterator(const _Container &__c, bool __stop) noexcept
-      : base_type((1 << __c.size()) - 1, __stop), __p(__c.begin()) {}
+      : _Base((1 << __c.size()) - 1, __stop), __p(__c.begin()) {}
 
   iterator &operator++() noexcept {
-    base_type::operator++();
+    _Base::operator++();
     return *this;
   }
   iterator operator++(int) noexcept {
     auto __tmp = *this;
-    base_type::operator++();
+    _Base::operator++();
+    return __tmp;
+  }
+
+  iterator &operator--() noexcept {
+    _Base::operator--();
+    return *this;
+  }
+  iterator operator--(int) noexcept {
+    auto __tmp = *this;
+    _Base::operator--();
     return __tmp;
   }
 
@@ -82,8 +102,7 @@ class iterator<_Container, false> : public iterator<int> {
     static std::vector<std::decay_t<decltype(*__p)>> __v;
     __v.clear();
 
-    auto __n = base_type::operator*();
-
+    auto __n = _Base::operator*();
     for (auto __i = __p; __n; __n >>= 1, ++__i)
       if (__n & 1) __v.emplace_back(*__i);
 
@@ -92,7 +111,7 @@ class iterator<_Container, false> : public iterator<int> {
   }
 
   bool operator==(const iterator &__x) const noexcept {
-    return __p == __x.__p && base_type::operator==(__x);
+    return __p == __x.__p && _Base::operator==(__x);
   }
   bool operator!=(const iterator &__x) const noexcept {
     return !operator==(__x);
@@ -106,23 +125,49 @@ template <class _Container> class subsets {
 
  public:
   using value_type = std::decay_t<_Container>;
+  using reference = value_type;
+
+  using difference_type = std::ptrdiff_t;
+  using size_type = std::size_t;
+
   using iterator = _subsets_impl::iterator<value_type>;
   using const_iterator = iterator;
-  using size_type = size_t;
 
-  template <class _Tp> constexpr subsets(_Tp &&__x) noexcept : __c(__x) {}
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = reverse_iterator;
+
+  template <class _Tp>
+  constexpr subsets(_Tp &&__x) noexcept : __c(std::forward<_Tp>(__x)) {}
+
   template <class _Tp>
   constexpr subsets(std::initializer_list<_Tp> __x) noexcept : __c(__x) {}
 
   constexpr iterator begin() const noexcept { return {__c, false}; }
-  constexpr iterator end() const noexcept { return {__c, true}; }
+  constexpr const_iterator cbegin() const noexcept { return begin(); }
 
+  constexpr iterator end() const noexcept { return {__c, true}; }
+  constexpr const_iterator cend() const noexcept { return end(); }
+
+  constexpr reverse_iterator rbegin() const noexcept {
+    return reverse_iterator{end()};
+  }
+  constexpr const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+
+  constexpr reverse_iterator rend() const noexcept {
+    return reverse_iterator{begin()};
+  }
+  constexpr const_reverse_iterator crend() const noexcept { return rend(); }
+
+  constexpr bool empty() const noexcept { return false; }
+
+#if __cplusplus >= 201703L
   constexpr size_type size() const noexcept {
     if constexpr (std::is_convertible<_Container, size_type>::value)
       return 1 << __builtin_popcount(__c);
     else
       return 1 << __c.size();
   }
+#endif
 };
 
 #if __cpp_deduction_guides >= 201606L
