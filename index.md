@@ -18,6 +18,9 @@ data:
     - icon: ':warning:'
       path: deprecated/math_utility.cpp
       title: deprecated/math_utility.cpp
+    - icon: ':warning:'
+      path: deprecated/number_theoretic_transform.hpp
+      title: deprecated/number_theoretic_transform.hpp
   - name: deprecated/constexpr
     pages:
     - icon: ':warning:'
@@ -68,9 +71,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
-    - icon: ':warning:'
-      path: src/algebra/convolution/number_theoretic_transform.hpp
-      title: src/algebra/convolution/number_theoretic_transform.hpp
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
