@@ -8,9 +8,9 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"src/algebra/convolution/fast_Fourier_transform.hpp\"\n\n\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <complex>\n#include <iostream>\n\
-    #include <vector>\n\nnamespace fast_Fourier_transform\n{\n    using real_t = double;\n\
+  bundledCode: "#line 1 \"deprecated/fast_Fourier_transform.hpp\"\n\n\n\n#include\
+    \ <algorithm>\n#include <cassert>\n#include <complex>\n#include <iostream>\n#include\
+    \ <vector>\n\nnamespace fast_Fourier_transform\n{\n    using real_t = double;\n\
     \n    class cmplx_t\n    {\n        real_t re, im;\n        friend constexpr cmplx_t\
     \ conj(cmplx_t x) { return x.im = -x.im, x; }\n        friend std::istream &operator>>(std::istream\
     \ &s, cmplx_t &x) { return s >> x.re >> x.im; }\n        friend std::ostream &operator<<(std::ostream\
@@ -224,15 +224,15 @@ data:
     \     return h;\n    }\n} // namespace fast_Fourier_transform\n\n#endif // fast_Fourier_transform_hpp\n"
   dependsOn: []
   isVerificationFile: false
-  path: src/algebra/convolution/fast_Fourier_transform.hpp
+  path: deprecated/fast_Fourier_transform.hpp
   requiredBy: []
-  timestamp: '2020-11-26 16:42:40+09:00'
+  timestamp: '2021-09-03 02:24:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: src/algebra/convolution/fast_Fourier_transform.hpp
+documentation_of: deprecated/fast_Fourier_transform.hpp
 layout: document
 redirect_from:
-- /library/src/algebra/convolution/fast_Fourier_transform.hpp
-- /library/src/algebra/convolution/fast_Fourier_transform.hpp.html
-title: src/algebra/convolution/fast_Fourier_transform.hpp
+- /library/deprecated/fast_Fourier_transform.hpp
+- /library/deprecated/fast_Fourier_transform.hpp.html
+title: deprecated/fast_Fourier_transform.hpp
 ---

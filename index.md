@@ -13,6 +13,9 @@ data:
       path: deprecated/Skew_heap.hpp
       title: deprecated/Skew_heap.hpp
     - icon: ':warning:'
+      path: deprecated/fast_Fourier_transform.hpp
+      title: deprecated/fast_Fourier_transform.hpp
+    - icon: ':warning:'
       path: deprecated/math_utility.cpp
       title: deprecated/math_utility.cpp
   - name: deprecated/constexpr
@@ -65,9 +68,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
-    - icon: ':warning:'
-      path: src/algebra/convolution/fast_Fourier_transform.hpp
-      title: src/algebra/convolution/fast_Fourier_transform.hpp
     - icon: ':warning:'
       path: src/algebra/convolution/number_theoretic_transform.hpp
       title: src/algebra/convolution/number_theoretic_transform.hpp
