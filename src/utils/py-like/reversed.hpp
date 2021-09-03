@@ -50,7 +50,7 @@ template <class _Container> class reversed {
 template <class _Tp> reversed(_Tp &&) -> reversed<_Tp>;
 
 template <class _Tp>
-reversed(std::initializer_list<_Tp>) -> reversed<std::vector<_Tp>>;
+reversed(std::initializer_list<_Tp>) -> reversed<std::initializer_list<_Tp>>;
 
 #endif
 
