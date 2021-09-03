@@ -70,8 +70,8 @@ data:
     \ =\n      typename std::iterator_traits<const_iterator>::reference;\n};\n\n#if\
     \ __cpp_deduction_guides >= 201606L\n\ntemplate <class _Tp> reversed(_Tp &&) ->\
     \ reversed<_Tp>;\n\ntemplate <class _Tp>\nreversed(std::initializer_list<_Tp>)\
-    \ -> reversed<std::vector<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n#line\
-    \ 12 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace\
+    \ -> reversed<std::initializer_list<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n\
+    #line 12 \"src/utils/py-like/range.hpp\"\n\n#if __cplusplus >= 201703L\n\nnamespace\
     \ workspace {\n\ntemplate <class _Index> class range {\n  _Index __first, __last;\n\
     \n public:\n  class iterator {\n    _Index current;\n\n   public:\n    using difference_type\
     \ = std::ptrdiff_t;\n    using value_type = _Index;\n    using reference = typename\
@@ -176,7 +176,7 @@ data:
   path: src/utils/py-like/range.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
-  timestamp: '2021-08-31 17:40:56+09:00'
+  timestamp: '2021-09-03 13:40:23+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/range.hpp

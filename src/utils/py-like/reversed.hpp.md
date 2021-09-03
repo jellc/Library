@@ -49,7 +49,7 @@ data:
     \ =\n      typename std::iterator_traits<const_iterator>::reference;\n};\n\n#if\
     \ __cpp_deduction_guides >= 201606L\n\ntemplate <class _Tp> reversed(_Tp &&) ->\
     \ reversed<_Tp>;\n\ntemplate <class _Tp>\nreversed(std::initializer_list<_Tp>)\
-    \ -> reversed<std::vector<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n"
+    \ -> reversed<std::initializer_list<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file reversed.hpp\n * @brief Reversed\n */\n\n#include\
     \ <vector>\n\n#include \"lib/cxx17\"\n\nnamespace workspace {\n\n// Reversed container.\n\
     template <class _Container> class reversed {\n  _Container __c;\n\n public:\n\
@@ -69,14 +69,14 @@ data:
     \ const_reference =\n      typename std::iterator_traits<const_iterator>::reference;\n\
     };\n\n#if __cpp_deduction_guides >= 201606L\n\ntemplate <class _Tp> reversed(_Tp\
     \ &&) -> reversed<_Tp>;\n\ntemplate <class _Tp>\nreversed(std::initializer_list<_Tp>)\
-    \ -> reversed<std::vector<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n"
+    \ -> reversed<std::initializer_list<_Tp>>;\n\n#endif\n\n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/utils/py-like/reversed.hpp
   requiredBy:
   - src/utils/py-like/enumerate.hpp
   - src/utils/py-like/range.hpp
-  timestamp: '2021-08-31 17:40:56+09:00'
+  timestamp: '2021-09-03 13:40:23+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/reversed.hpp
