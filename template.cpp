@@ -6,14 +6,10 @@
 // #undef _GLIBCXX_DEBUG
 #include <bits/extc++.h>
 
-/**
-#include "lib/all"
-/*/
 #include "lib/alias"
 #include "lib/cxx20"
 #include "lib/sys"
 #include "lib/utils"
-//*/
 
 signed main() {
   using namespace workspace;
