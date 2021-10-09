@@ -352,6 +352,9 @@ data:
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
+      path: src/utils/io/print.hpp
+      title: Print
+    - icon: ':warning:'
       path: src/utils/io/setup.hpp
       title: I/O Setup
   - name: src/utils/iterator

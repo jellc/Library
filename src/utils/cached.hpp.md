@@ -14,18 +14,17 @@ data:
     links: []
   bundledCode: "#line 2 \"src/utils/cached.hpp\"\n\n/**\n * @file cached.hpp\n * @brief\
     \ Cached\n */\n\n#line 2 \"src/utils/fixed_point.hpp\"\n\n/**\n * @file fixed_point.hpp\n\
-    \ * @brief Fixed Point Combinator\n */\n\n#include <map>\n\nnamespace workspace\
-    \ {\n\n/**\n * @brief Fixed Point Combinator.\n */\ntemplate <class _F> class\
-    \ fixed_point {\n  struct _wrapper {\n    _F &__ref;\n\n    template <class...\
-    \ _Args>\n    decltype(auto) operator()(_Args &&...__args) noexcept(\n       \
-    \ noexcept(__ref(*this, std::forward<_Args>(__args)...))) {\n      return __ref(*this,\
-    \ std::forward<_Args>(__args)...);\n    }\n  };\n\n  _F __fn;\n\n public:\n  //\
-    \ Construct a new fixed-point object.\n  fixed_point(_F __x) noexcept : __fn(__x)\
-    \ {}\n\n  // Function call.\n  template <class... _Args>\n  decltype(auto) operator()(_Args\
-    \ &&...__args) noexcept(noexcept(_wrapper{\n      __fn}(std::forward<_Args>(__args)...)))\
-    \ {\n    return _wrapper{__fn}(std::forward<_Args>(__args)...);\n  }\n};\n\n}\
-    \  // namespace workspace\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n\
-    #ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR\
+    \ * @brief Fixed Point Combinator\n */\n\n#include <utility>\n\nnamespace workspace\
+    \ {\n\n// Fixed Point Combinator.\ntemplate <class _F> class fixed_point {\n \
+    \ struct _wrapper {\n    _F &__ref;\n\n    template <class... _Args>\n    decltype(auto)\
+    \ operator()(_Args &&...__args) noexcept(\n        noexcept(__ref(*this, std::forward<_Args>(__args)...)))\
+    \ {\n      return __ref(*this, std::forward<_Args>(__args)...);\n    }\n  };\n\
+    \n  _F __fn;\n\n public:\n  // Construct a new fixed-point object.\n  fixed_point(_F\
+    \ __x) noexcept : __fn(__x) {}\n\n  // Function call.\n  template <class... _Args>\n\
+    \  decltype(auto) operator()(_Args &&...__args) noexcept(noexcept(_wrapper{\n\
+    \      __fn}(std::forward<_Args>(__args)...))) {\n    return _wrapper{__fn}(std::forward<_Args>(__args)...);\n\
+    \  }\n};\n\n}  // namespace workspace\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\
+    \n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR\
     \ constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\
     \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
     \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
@@ -180,7 +179,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
+  timestamp: '2021-10-09 10:50:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp

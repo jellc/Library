@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: src/utils/io/print.hpp
+    title: Print
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/ITP1_6_D.test.cpp
@@ -165,24 +168,25 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/utils/io/ostream.hpp
-  requiredBy: []
+  requiredBy:
+  - src/utils/io/print.hpp
   timestamp: '2021-08-27 14:11:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/zalgorithm.test.cpp
-  - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/min_cost_b_flow.test.cpp
-  - test/library-checker/suffix_array.test.cpp
-  - test/library-checker/system_of_linear_equations.test.cpp
-  - test/library-checker/bitwise_xor_convolution.test.cpp
-  - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/suffix_array.test.cpp
   - test/library-checker/cartesian_tree.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
+  - test/library-checker/zalgorithm.test.cpp
+  - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
-  - test/aizu-online-judge/ITP1_7_D.test.cpp
 documentation_of: src/utils/io/ostream.hpp
 layout: document
 redirect_from:

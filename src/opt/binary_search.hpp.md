@@ -139,8 +139,8 @@ data:
   isVerificationFile: false
   path: src/opt/binary_search.hpp
   requiredBy:
-  - src/opt/exponential_search.hpp
   - src/string/rolling_hash.hpp
+  - src/opt/exponential_search.hpp
   timestamp: '2020-12-08 15:39:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
