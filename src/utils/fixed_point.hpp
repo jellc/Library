@@ -5,13 +5,11 @@
  * @brief Fixed Point Combinator
  */
 
-#include <map>
+#include <utility>
 
 namespace workspace {
 
-/**
- * @brief Fixed Point Combinator.
- */
+// Fixed Point Combinator.
 template <class _F> class fixed_point {
   struct _wrapper {
     _F &__ref;
