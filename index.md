@@ -201,6 +201,12 @@ data:
       path: src/graph/edge.h
       title: Edge
     - icon: ':heavy_check_mark:'
+      path: src/graph/forest.h
+      title: Forest
+    - icon: ':heavy_check_mark:'
+      path: src/graph/graph.h
+      title: Graph
+    - icon: ':heavy_check_mark:'
       path: src/graph/queue.h
       title: Queue
     - icon: ':heavy_check_mark:'
@@ -467,6 +473,21 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/DSL_3_D.test.cpp
       title: test/aizu-online-judge/DSL_3_D.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_1_A.test.cpp
+      title: test/aizu-online-judge/GRL_1_A.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_2_A.test.cpp
+      title: test/aizu-online-judge/GRL_2_A.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_3_C.test.cpp
+      title: test/aizu-online-judge/GRL_3_C.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_4_A.test.cpp
+      title: test/aizu-online-judge/GRL_4_A.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/GRL_5_A.test.cpp
+      title: test/aizu-online-judge/GRL_5_A.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/GRL_6_A.test.cpp
       title: test/aizu-online-judge/GRL_6_A.test.cpp

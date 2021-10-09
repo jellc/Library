@@ -2,53 +2,31 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: src/graph/base.h
+    title: Base
+  - icon: ':heavy_check_mark:'
+    path: src/graph/digraph.h
+    title: Digraph
+  - icon: ':heavy_check_mark:'
     path: src/graph/edge.h
     title: Edge
   - icon: ':heavy_check_mark:'
     path: src/graph/queue.h
     title: Queue
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: src/graph/digraph.h
-    title: Digraph
-  - icon: ':heavy_check_mark:'
-    path: src/graph/forest.h
-    title: Forest
-  - icon: ':heavy_check_mark:'
-    path: src/graph/graph.h
-    title: Graph
-  - icon: ':heavy_check_mark:'
-    path: src/graph/scc.h
-    title: Strongly Connected Component
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_1_A.test.cpp
-    title: test/aizu-online-judge/GRL_1_A.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_2_A.test.cpp
-    title: test/aizu-online-judge/GRL_2_A.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_3_C.test.cpp
-    title: test/aizu-online-judge/GRL_3_C.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_4_A.test.cpp
-    title: test/aizu-online-judge/GRL_4_A.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/aizu-online-judge/GRL_5_A.test.cpp
-    title: test/aizu-online-judge/GRL_5_A.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/scc.test.cpp
-    title: test/library-checker/scc.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/shortest_path.test.cpp
-    title: test/library-checker/shortest_path.test.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
-  _pathExtension: h
+  _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Base
-    links: []
-  bundledCode: "#line 2 \"src/graph/base.h\"\n\n/**\n * @file base.h\n * @brief Base\n\
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_A
+    links:
+    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_A
+  bundledCode: "#line 1 \"test/aizu-online-judge/GRL_4_A.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_A\"\n\n#include <iostream>\n\
+    \n#line 2 \"src/graph/digraph.h\"\n\n/**\n * @file digraph.h\n * @brief Digraph\n\
+    \ */\n\n#line 2 \"src/graph/base.h\"\n\n/**\n * @file base.h\n * @brief Base\n\
     \ */\n\n#include <algorithm>\n#include <cassert>\n#include <list>\n#include <numeric>\n\
     #include <vector>\n\n#line 2 \"src/graph/edge.h\"\n\n/**\n * @file edge.h\n *\
     \ @brief Edge\n */\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef\
@@ -223,132 +201,51 @@ data:
     \                               [&](auto &&__e) {\n                          \
     \        return __dist[__e.head].value < __e.weight;\n                       \
     \         }),\n                 __tree.end());\n\n    return __tree;\n  }\n};\n\
-    \n}  // namespace workspace\n"
-  code: "#pragma once\n\n/**\n * @file base.h\n * @brief Base\n */\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <list>\n#include <numeric>\n#include <vector>\n\n\
-    #include \"edge.h\"\n#include \"queue.h\"\n\nnamespace workspace {\n\ntemplate\
-    \ <class _Attr = _graph_impl::null,\n          class _List = std::vector<edge<_Attr>>>\n\
-    class graph_base : public std::vector<_List> {\n public:\n  using container_type\
-    \ = std::vector<_List>;\n  using typename container_type::size_type;\n\n  using\
-    \ container_type::size;\n  using container_type::operator[];\n\n  using node_type\
-    \ = size_type;\n  using edge_type = typename _List::value_type;\n  using weight_type\
-    \ = typename edge_type::value_type;\n\n  graph_base(size_type __n = 0) : container_type(__n)\
-    \ {}\n\n  /**\n   * @brief Add some nodes to the graph.\n   * @param __n Number\
-    \ of nodes added\n   * @return List of indices of the nodes.\n   */\n  auto add_nodes(size_type\
-    \ __n) noexcept {\n    std::vector<node_type> __ret(__n);\n    std::iota(__ret.begin(),\
-    \ __ret.end(), size());\n    container_type::resize(__n + size());\n    return\
-    \ __ret;\n  }\n\n  node_type add_node() noexcept { return add_nodes(1).front();\
-    \ }\n\n  template <class... _Args>\n  decltype(auto) add_edge(node_type __u, node_type\
-    \ __v,\n                          _Args &&...__args) noexcept {\n    assert(__u\
-    \ < size()), assert(__v < size());\n    return operator[](__u).emplace_back(__u,\
-    \ __v,\n                                        std::forward<_Args>(__args)...)\n\
-    \n#if __cplusplus <= 201402L\n               ,\n               operator[](__u).back()\n\
-    #endif\n        ;\n  }\n\n  decltype(auto) add_edge(const edge_type &__e) noexcept\
-    \ {\n    assert(__e.tail < size()), assert(__e.head < size());\n    return operator[](__e.tail).emplace_back(__e)\n\
-    #if __cplusplus <= 201402L\n               ,\n               operator[](__e.tail).back()\n\
-    #endif\n        ;\n  }\n\n  /**\n   * @brief Single-source DFS.\n   * @return\
-    \ Edges of DFS-tree in the search order.\n   */\n  decltype(auto) dfs(node_type\
-    \ __r) const noexcept {\n    node_type __a[]{__r};\n    return dfs(__a, __a +\
-    \ 1);\n  }\n\n  /**\n   * @brief Multi-source DFS.\n   * @return Edges of DFS-tree\
-    \ in the search order.\n   */\n  template <class _Iterator>\n  decltype(auto)\
-    \ dfs(_Iterator __first, _Iterator __last) const noexcept {\n    return search<std::stack<edge_type,\
-    \ std::vector<edge_type>>>(__first,\n                                        \
-    \                         __last);\n  }\n\n  /**\n   * @brief Single-source DFS\
-    \ in the complement graph.\n   * @return Edges of DFS-tree in the search order.\n\
-    \   */\n  decltype(auto) compl_dfs(node_type __r) const noexcept {\n    node_type\
-    \ __a[]{__r};\n    return compl_dfs(__a, __a + 1);\n  }\n\n  /**\n   * @brief\
-    \ Multi-source DFS in the complement graph.\n   * @return Edges of DFS-tree in\
-    \ the search order.\n   */\n  template <class _Iterator>\n  decltype(auto) compl_dfs(_Iterator\
-    \ __first, _Iterator __last) const noexcept {\n    return compl_search<std::stack<edge_type,\
-    \ std::vector<edge_type>>>(__first,\n                                        \
-    \                               __last);\n  }\n\n  /**\n   * @brief Single-source\
-    \ BFS.\n   * @return Edges of BFS-tree in the search order.\n   */\n  decltype(auto)\
-    \ bfs(node_type __r) const noexcept {\n    node_type __a[]{__r};\n    return bfs(__a,\
-    \ __a + 1);\n  }\n\n  /**\n   * @brief Multi-source BFS.\n   * @return Edges of\
-    \ BFS-tree in the search order.\n   */\n  template <class _Iterator>\n  decltype(auto)\
-    \ bfs(_Iterator __first, _Iterator __last) const noexcept {\n    return search<std::queue<edge_type>>(__first,\
-    \ __last);\n  }\n\n  /**\n   * @brief Single-source BFS in the complement graph.\n\
-    \   * @return Edges of BFS-tree in the search order.\n   */\n  decltype(auto)\
-    \ compl_bfs(node_type __r) const noexcept {\n    node_type __a[]{__r};\n    return\
-    \ compl_bfs(__a, __a + 1);\n  }\n\n  /**\n   * @brief Multi-source BFS in the\
-    \ complement graph.\n   * @return Edges of BFS-tree in the search order.\n   */\n\
-    \  template <class _Iterator>\n  decltype(auto) compl_bfs(_Iterator __first, _Iterator\
-    \ __last) const noexcept {\n    return compl_search<std::queue<edge_type>>(__first,\
-    \ __last);\n  }\n\n  /**\n   * @brief Single-source Dijkstra's algorithm.\n  \
-    \ * @return Edges of shortest path tree in the search order.\n   */\n  decltype(auto)\
-    \ dijkstra(node_type __r) const noexcept {\n    node_type __a[]{__r};\n    return\
-    \ dijkstra(__a, __a + 1);\n  }\n\n  /**\n   * @brief Multi-source Dijkstra's algorithm.\n\
-    \   * @return Edges of shortest path tree in the search order.\n   */\n  template\
-    \ <class _Iterator>\n  decltype(auto) dijkstra(_Iterator __first, _Iterator __last)\
-    \ const noexcept {\n    return distance_from<std::priority_queue<edge_type, std::vector<edge_type>,\n\
-    \                                             std::greater<edge_type>>>(__first,\n\
-    \                                                                       __last);\n\
-    \  }\n\n  /**\n   * @brief Single-source Bellman-Ford algorithm.\n   * @return\
-    \ Edges of shortest path tree in the search order.\n   */\n  decltype(auto) bellman_ford()\
-    \ const noexcept {\n    std::vector<node_type> __a(size());\n    return bellman_ford(__a.begin(),\
-    \ __a.end());\n  }\n\n  /**\n   * @brief Multi-source Bellman-Ford algorithm.\n\
-    \   * @return Edges of shortest path tree in the search order.\n   */\n  decltype(auto)\
-    \ bellman_ford(node_type __r) const noexcept {\n    node_type __a[]{__r};\n  \
-    \  return bellman_ford(__a, __a + 1);\n  }\n\n  template <class _Iterator>\n \
-    \ decltype(auto) bellman_ford(_Iterator __first,\n                           \
-    \   _Iterator __last) const noexcept {\n    return distance_from<std::queue<edge_type>>(__first,\
-    \ __last);\n  }\n\n  decltype(auto) warshall_floyd(node_type __r) const noexcept;\n\
-    \n protected:\n  /**\n   * @brief Search from given vertex set.\n   * @tparam\
-    \ _Container Queue.\n   */\n  template <class _Container, class _Iterator>\n \
-    \ auto search(_Iterator __first, _Iterator __last) const noexcept {\n    static\
-    \ std::vector<int_fast8_t> __visited;\n    __visited.resize(size());\n\n    std::vector<edge_type>\
-    \ __tree;\n    static _graph_impl::stl_queue<_Container> __queue;\n\n    for (auto\
-    \ __s = __first; __s != __last; __visited[*__s++] = true)\n      for (auto &&__e\
-    \ : operator[](*__s)) __queue.emplace(__e);\n\n    while (!__queue.empty()) {\n\
-    \      auto &&__p = __queue.pop();\n\n      if (__visited[__p.head]) continue;\n\
-    \      __visited[__p.head] = true;\n\n      for (auto &&__e : operator[](__p.head))\
-    \ __queue.emplace(__e);\n      __tree.emplace_back(std::move(__p));\n    }\n\n\
-    \    while (__first != __last) __visited[*__first++] = false;\n    for (auto &&__e\
-    \ : __tree) __visited[__e.head] = false;\n\n    return __tree;\n  }\n\n  template\
-    \ <class _Container, class _Iterator>\n  auto compl_search(_Iterator __first,\
-    \ _Iterator __last) const noexcept;\n\n  /**\n   * @brief Get distance from given\
-    \ vertex set.\n   * @tparam _Container Queue.\n   */\n  template <class _Container,\
-    \ class _Iterator>\n  auto distance_from(_Iterator __first, _Iterator __last)\
-    \ const noexcept {\n    struct dist_type {\n      bool nil = true;\n      weight_type\
-    \ value;\n\n      bool update(const weight_type &__x) noexcept {\n        return\
-    \ nil || __x < value ? nil = false, value = __x, true : false;\n      }\n    };\n\
-    \n    static _graph_impl::stl_queue<_Container> __queue;\n\n    static std::vector<dist_type>\
-    \ __dist;\n    __dist.resize(size());\n\n    std::vector<edge_type> __tree;\n\n\
-    \    for (; __first != __last; ++__first) __queue.emplace(*__first, *__first);\n\
-    \n    while (!__queue.empty()) {\n      auto &&__p = __queue.pop();\n\n      if\
-    \ (__dist[__p.head].update(__p.weight)) {\n        for (auto __e : operator[](__p.head))\n\
-    \          __e.weight = __p.weight + __e.weight, __queue.emplace(std::move(__e));\n\
-    \n        if (__p.tail != __p.head) __tree.emplace_back(std::move(__p));\n   \
-    \   }\n    }\n\n    for (auto &&__e : __tree)\n      __dist[__e.head].nil = __dist[__e.tail].nil\
-    \ = true;\n\n    __tree.erase(std::remove_if(__tree.begin(), __tree.end(),\n \
-    \                               [&](auto &&__e) {\n                          \
-    \        return __dist[__e.head].value < __e.weight;\n                       \
-    \         }),\n                 __tree.end());\n\n    return __tree;\n  }\n};\n\
-    \n}  // namespace workspace\n"
+    \n}  // namespace workspace\n#line 9 \"src/graph/digraph.h\"\n\nnamespace workspace\
+    \ {\n\ntemplate <class _Attr = _graph_impl::null,\n          class _List = std::vector<edge<_Attr>>>\n\
+    class digraph : public graph_base<_Attr, _List> {\n public:\n  using base_type\
+    \ = graph_base<_Attr, _List>;\n\n  using typename base_type::edge_type;\n  using\
+    \ typename base_type::node_type;\n  using typename base_type::size_type;\n\n \
+    \ using base_type::size;\n  using base_type::operator[];\n\n  digraph(size_type\
+    \ __n = 0) : base_type(__n) {}\n\n  auto scc() const noexcept;\n};\n\ntemplate\
+    \ <class _Weight, class _Attr = _graph_impl::null,\n          class _List = std::vector<weighted_edge<_Weight,\
+    \ _Attr>>>\nusing weighted_digraph = digraph<_Attr, _List>;\n\n}  // namespace\
+    \ workspace\n#line 6 \"test/aizu-online-judge/GRL_4_A.test.cpp\"\n\nint main()\
+    \ {\n  size_t n, m, u, v;\n  std::cin >> n >> m;\n\n  struct tag {\n    bool valid{};\n\
+    \  };\n  workspace::digraph<tag> g(n);\n\n  while (m--) {\n    std::cin >> u >>\
+    \ v;\n    g.add_edge(u, v, true);\n  }\n\n  u = g.add_node();\n  for (v = 0; v\
+    \ < n; ++v) g.add_edge(u, v, true);\n\n  std::vector<decltype(g)::edge_type> parent(n);\n\
+    \  std::vector path{u};\n\n  for (auto &&e : g.dfs(u)) {\n    while (path.back()\
+    \ != e.tail) {\n      parent[path.back()].valid = false;\n      path.pop_back();\n\
+    \    }\n\n    path.emplace_back(e.head);\n    parent[e.head] = e;\n\n    for (auto\
+    \ &&f : g[e.head])\n      if (parent[f.head].valid) {\n        std::cout << \"\
+    1\\n\";\n        return 0;\n      }\n  }\n\n  std::cout << \"0\\n\";\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_A\"\n\n\
+    #include <iostream>\n\n#include \"src/graph/digraph.h\"\n\nint main() {\n  size_t\
+    \ n, m, u, v;\n  std::cin >> n >> m;\n\n  struct tag {\n    bool valid{};\n  };\n\
+    \  workspace::digraph<tag> g(n);\n\n  while (m--) {\n    std::cin >> u >> v;\n\
+    \    g.add_edge(u, v, true);\n  }\n\n  u = g.add_node();\n  for (v = 0; v < n;\
+    \ ++v) g.add_edge(u, v, true);\n\n  std::vector<decltype(g)::edge_type> parent(n);\n\
+    \  std::vector path{u};\n\n  for (auto &&e : g.dfs(u)) {\n    while (path.back()\
+    \ != e.tail) {\n      parent[path.back()].valid = false;\n      path.pop_back();\n\
+    \    }\n\n    path.emplace_back(e.head);\n    parent[e.head] = e;\n\n    for (auto\
+    \ &&f : g[e.head])\n      if (parent[f.head].valid) {\n        std::cout << \"\
+    1\\n\";\n        return 0;\n      }\n  }\n\n  std::cout << \"0\\n\";\n}\n"
   dependsOn:
+  - src/graph/digraph.h
+  - src/graph/base.h
   - src/graph/edge.h
   - src/graph/queue.h
-  isVerificationFile: false
-  path: src/graph/base.h
-  requiredBy:
-  - src/graph/digraph.h
-  - src/graph/forest.h
-  - src/graph/scc.h
-  - src/graph/graph.h
-  timestamp: '2021-10-09 10:54:50+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/scc.test.cpp
-  - test/library-checker/shortest_path.test.cpp
-  - test/aizu-online-judge/GRL_2_A.test.cpp
-  - test/aizu-online-judge/GRL_4_A.test.cpp
-  - test/aizu-online-judge/GRL_5_A.test.cpp
-  - test/aizu-online-judge/GRL_1_A.test.cpp
-  - test/aizu-online-judge/GRL_3_C.test.cpp
-documentation_of: src/graph/base.h
+  isVerificationFile: true
+  path: test/aizu-online-judge/GRL_4_A.test.cpp
+  requiredBy: []
+  timestamp: '2021-10-09 11:09:54+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: test/aizu-online-judge/GRL_4_A.test.cpp
 layout: document
 redirect_from:
-- /library/src/graph/base.h
-- /library/src/graph/base.h.html
-title: Base
+- /verify/test/aizu-online-judge/GRL_4_A.test.cpp
+- /verify/test/aizu-online-judge/GRL_4_A.test.cpp.html
+title: test/aizu-online-judge/GRL_4_A.test.cpp
 ---

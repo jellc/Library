@@ -9,9 +9,30 @@ data:
     path: src/graph/digraph.h
     title: Digraph
   - icon: ':heavy_check_mark:'
+    path: src/graph/forest.h
+    title: Forest
+  - icon: ':heavy_check_mark:'
+    path: src/graph/graph.h
+    title: Graph
+  - icon: ':heavy_check_mark:'
     path: src/graph/scc.h
     title: Strongly Connected Component
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_1_A.test.cpp
+    title: test/aizu-online-judge/GRL_1_A.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_2_A.test.cpp
+    title: test/aizu-online-judge/GRL_2_A.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_3_C.test.cpp
+    title: test/aizu-online-judge/GRL_3_C.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_4_A.test.cpp
+    title: test/aizu-online-judge/GRL_4_A.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_5_A.test.cpp
+    title: test/aizu-online-judge/GRL_5_A.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/scc.test.cpp
     title: test/library-checker/scc.test.cpp
@@ -46,13 +67,20 @@ data:
   path: src/graph/queue.h
   requiredBy:
   - src/graph/digraph.h
+  - src/graph/forest.h
   - src/graph/scc.h
   - src/graph/base.h
+  - src/graph/graph.h
   timestamp: '2021-10-09 10:54:50+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/scc.test.cpp
   - test/library-checker/shortest_path.test.cpp
+  - test/aizu-online-judge/GRL_2_A.test.cpp
+  - test/aizu-online-judge/GRL_4_A.test.cpp
+  - test/aizu-online-judge/GRL_5_A.test.cpp
+  - test/aizu-online-judge/GRL_1_A.test.cpp
+  - test/aizu-online-judge/GRL_3_C.test.cpp
 documentation_of: src/graph/queue.h
 layout: document
 redirect_from:

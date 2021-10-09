@@ -16,6 +16,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/GRL_3_C.test.cpp
+    title: test/aizu-online-judge/GRL_3_C.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/scc.test.cpp
     title: test/library-checker/scc.test.cpp
   _isVerificationFailed: false
@@ -260,6 +263,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/scc.test.cpp
+  - test/aizu-online-judge/GRL_3_C.test.cpp
 documentation_of: src/graph/scc.h
 layout: document
 redirect_from:
