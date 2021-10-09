@@ -1,26 +1,25 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/scc"
 
+#include "src/graph/scc.h"
+
 #include <cstdio>
 
-#include "src/graph/directed/strongly_connected_components.hpp"
-
 int main() {
-  int n, m;
-  scanf("%d%d", &n, &m);
-  workspace::strongly_connected_components scc(n);
-  for (int a, b; m--;) {
-    scanf("%d%d", &a, &b);
-    scc.add_edge(a, b);
+  size_t n, m, s, t;
+  scanf("%zu%zu", &n, &m);
+
+  workspace::digraph g(n);
+  while (m--) {
+    scanf("%zu%zu", &s, &t);
+    g.add_edge(s, t);
   }
-  scc.make();
-  printf("%d\n", scc.count());
-  std::vector<std::vector<size_t>> comps(scc.count());
-  for (int i = 0; i < n; i++) {
-    comps[scc[i]].emplace_back(i);
-  }
-  for (auto &comp : comps) {
-    printf("%d", size(comp));
-    for (int v : comp) printf(" %d", v);
+
+  auto scc = g.scc();
+  printf("%zu\n", scc.size());
+
+  for (auto &&c : scc) {
+    printf("%zu", c.size());
+    for (auto v : c) printf(" %zu", v);
     puts("");
   }
 }
