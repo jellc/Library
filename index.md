@@ -560,6 +560,9 @@ data:
       path: test/library-checker/segment_add_get_min.test.cpp
       title: test/library-checker/segment_add_get_min.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/shortest_path.test.cpp
+      title: test/library-checker/shortest_path.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/sort_points_by_argument.test.cpp
       title: test/library-checker/sort_points_by_argument.test.cpp
     - icon: ':heavy_check_mark:'

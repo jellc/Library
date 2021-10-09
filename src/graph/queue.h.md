@@ -15,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/scc.test.cpp
     title: test/library-checker/scc.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/shortest_path.test.cpp
+    title: test/library-checker/shortest_path.test.cpp
   _isVerificationFailed: false
   _pathExtension: h
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -49,6 +52,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/scc.test.cpp
+  - test/library-checker/shortest_path.test.cpp
 documentation_of: src/graph/queue.h
 layout: document
 redirect_from:
