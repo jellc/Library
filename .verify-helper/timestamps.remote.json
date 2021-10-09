@@ -42,6 +42,7 @@
 "test/library-checker/range_kth_smallest.test.cpp": "2021-06-26 00:26:47 +0900",
 "test/library-checker/scc.test.cpp": "2021-10-09 10:54:50 +0900",
 "test/library-checker/segment_add_get_min.test.cpp": "2021-01-25 22:14:35 +0900",
+"test/library-checker/shortest_path.test.cpp": "2021-10-09 11:00:05 +0900",
 "test/library-checker/sort_points_by_argument.test.cpp": "2021-08-17 20:06:23 +0900",
 "test/library-checker/sqrt_mod.test.cpp": "2021-05-25 17:32:10 +0900",
 "test/library-checker/static_range_inversions_query.test.cpp": "2021-06-26 00:26:47 +0900",
