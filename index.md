@@ -21,6 +21,9 @@ data:
     - icon: ':warning:'
       path: deprecated/number_theoretic_transform.hpp
       title: deprecated/number_theoretic_transform.hpp
+    - icon: ':warning:'
+      path: deprecated/scc.hpp
+      title: Strongly Connected Component Algorithm
   - name: deprecated/constexpr
     pages:
     - icon: ':warning:'
@@ -186,6 +189,23 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/geometry/point.hpp
       title: Point
+  - name: src/graph
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: src/graph/base.h
+      title: Base
+    - icon: ':heavy_check_mark:'
+      path: src/graph/digraph.h
+      title: Digraph
+    - icon: ':heavy_check_mark:'
+      path: src/graph/edge.h
+      title: Edge
+    - icon: ':heavy_check_mark:'
+      path: src/graph/queue.h
+      title: Queue
+    - icon: ':heavy_check_mark:'
+      path: src/graph/scc.h
+      title: Strongly Connected Component
   - name: src/graph/directed/flow
     pages:
     - icon: ':heavy_check_mark:'
@@ -197,11 +217,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/graph/directed/flow/min_cost_flow.hpp
       title: Minimum Cost Flow
-  - name: src/graph/directed
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: src/graph/directed/strongly_connected_components.hpp
-      title: Strongly Connected Components
   - name: src/graph/undirected/tree
     pages:
     - icon: ':warning:'
