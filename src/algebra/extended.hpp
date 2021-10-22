@@ -10,6 +10,10 @@
 
 namespace workspace {
 
+template <class _Tp> constexpr auto sign_of(const _Tp &__x) noexcept {
+  return __x != _Tp(0) ? (__x > _Tp(0) ? +1 : -1) : 0;
+}
+
 // Extended numeric type.
 template <class _Tp> class extended {
   bool infinite{};
@@ -18,22 +22,20 @@ template <class _Tp> class extended {
 
   template <class _Os>
   friend _Os &operator<<(_Os &__os, const extended &__x) noexcept {
-    return __os << __x.value;
+    return __x.infinite ? __os << (__x.sign > 0 ? '+' : '-') << "infinity"
+                        : __os << __x.value;
   }
 
   template <class _Is>
   friend _Is &operator>>(_Is &__is, extended &__x) noexcept {
-    _Tp __v;
-    __is >> __v, __x = extended(__v);
+    __x.infinite = false;
+    __is >> __x.value;
+    __x.sign = sign_of(__x.value);
     return __is;
   }
 
   constexpr extended(bool __x, int_least8_t __y, const _Tp &__z) noexcept
       : infinite(__x), sign(__y), value(__z) {}
-
-  constexpr auto sign_of(const _Tp &__x) const noexcept {
-    return __x != _Tp(0) ? (__x > _Tp(0) ? +1 : -1) : 0;
-  }
 
  public:
   constexpr static extended infinity{true, +1, 0};
