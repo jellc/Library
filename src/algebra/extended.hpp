@@ -5,6 +5,9 @@
  * @brief Extended Numeric Type
  */
 
+#include <cstdint>
+#include <type_traits>
+
 namespace workspace {
 
 // Extended numeric type.
@@ -39,6 +42,13 @@ template <class _Tp> class extended {
 
   constexpr extended(const _Tp &__x) noexcept
       : sign(sign_of(__x)), value(__x) {}
+
+  constexpr std::enable_if_t<std::is_swappable<_Tp>::value> swap(
+      extended &__x) noexcept {
+    std::swap(infinite, __x.infinite);
+    std::swap(sign, __x.sign);
+    std::swap(value, __x.value);
+  }
 
   // constexpr operator _Tp &() noexcept { return value; }
 
