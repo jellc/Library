@@ -45,6 +45,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/berlekamp_massey.hpp
       title: Berlekamp-Massey Algorithm
+    - icon: ':warning:'
+      path: src/algebra/extended.hpp
+      title: Extended Numeric Type
     - icon: ':heavy_check_mark:'
       path: src/algebra/modint.hpp
       title: Modular Arithmetic
