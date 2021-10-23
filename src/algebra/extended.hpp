@@ -65,17 +65,12 @@ template <class _Tp> class extended {
   }
 
   constexpr extended &operator+=(const extended &__x) noexcept {
-    if (!infinite) {
-      if (__x.infinite)
-        infinite = true, sign = __x.sign, value = 0;
-      else
-        value += __x.value;
-    }
-    return *this;
+    if (__x.infinite) return *this = __x;
+    return operator+=(__x.value);
   }
 
   constexpr extended &operator+=(const _Tp &__x) noexcept {
-    if (!infinite) value += __x;
+    if (!infinite) sign = sign_of(value += __x);
     return *this;
   }
 
