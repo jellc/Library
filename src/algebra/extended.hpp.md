@@ -32,10 +32,9 @@ data:
     \ const noexcept { return sign; }\n\n  constexpr extended operator+() const noexcept\
     \ { return *this; }\n\n  constexpr extended operator-() const noexcept {\n   \
     \ return extended(infinite, -sign, -value);\n  }\n\n  constexpr extended &operator+=(const\
-    \ extended &__x) noexcept {\n    if (!infinite) {\n      if (__x.infinite)\n \
-    \       infinite = true, sign = __x.sign, value = 0;\n      else\n        value\
-    \ += __x.value;\n    }\n    return *this;\n  }\n\n  constexpr extended &operator+=(const\
-    \ _Tp &__x) noexcept {\n    if (!infinite) value += __x;\n    return *this;\n\
+    \ extended &__x) noexcept {\n    if (__x.infinite) return *this = __x;\n    return\
+    \ operator+=(__x.value);\n  }\n\n  constexpr extended &operator+=(const _Tp &__x)\
+    \ noexcept {\n    if (!infinite) sign = sign_of(value += __x);\n    return *this;\n\
     \  }\n\n  constexpr extended &operator-=(const extended &__x) noexcept {\n   \
     \ return operator+=(-__x);\n  }\n\n  constexpr extended &operator-=(const _Tp\
     \ &__x) noexcept {\n    return operator+=(-__x);\n  }\n\n  constexpr extended\
@@ -125,11 +124,10 @@ data:
     \ sign; }\n\n  constexpr extended operator+() const noexcept { return *this; }\n\
     \n  constexpr extended operator-() const noexcept {\n    return extended(infinite,\
     \ -sign, -value);\n  }\n\n  constexpr extended &operator+=(const extended &__x)\
-    \ noexcept {\n    if (!infinite) {\n      if (__x.infinite)\n        infinite\
-    \ = true, sign = __x.sign, value = 0;\n      else\n        value += __x.value;\n\
-    \    }\n    return *this;\n  }\n\n  constexpr extended &operator+=(const _Tp &__x)\
-    \ noexcept {\n    if (!infinite) value += __x;\n    return *this;\n  }\n\n  constexpr\
-    \ extended &operator-=(const extended &__x) noexcept {\n    return operator+=(-__x);\n\
+    \ noexcept {\n    if (__x.infinite) return *this = __x;\n    return operator+=(__x.value);\n\
+    \  }\n\n  constexpr extended &operator+=(const _Tp &__x) noexcept {\n    if (!infinite)\
+    \ sign = sign_of(value += __x);\n    return *this;\n  }\n\n  constexpr extended\
+    \ &operator-=(const extended &__x) noexcept {\n    return operator+=(-__x);\n\
     \  }\n\n  constexpr extended &operator-=(const _Tp &__x) noexcept {\n    return\
     \ operator+=(-__x);\n  }\n\n  constexpr extended &operator*=(const extended &__x)\
     \ noexcept {\n    if (sign *= __x.sign)\n      infinite = infinite || __x.infinite,\
@@ -198,7 +196,7 @@ data:
   isVerificationFile: false
   path: src/algebra/extended.hpp
   requiredBy: []
-  timestamp: '2021-10-22 11:45:26+09:00'
+  timestamp: '2021-10-23 12:28:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/extended.hpp
