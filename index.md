@@ -54,6 +54,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/ntt.hpp
       title: Number Theoretic Transform
+    - icon: ':warning:'
+      path: src/algebra/pair.hpp
+      title: Pair Operations
     - icon: ':heavy_check_mark:'
       path: src/algebra/polynomial.hpp
       title: Polynomial
