@@ -49,58 +49,66 @@ data:
     \ = true, value = 0;\n    return *this;\n  }\n\n  constexpr extended &operator/=(const\
     \ _Tp &__x) noexcept {\n    auto __s = sign_of(__x);\n    if (__s)\n      sign\
     \ *= __s, value /= __x;\n    else\n      infinite = true, value = 0;\n    return\
+    \ *this;\n  }\n\n  constexpr extended &operator%=(const extended &__x) noexcept\
+    \ {\n    if (!__x.infinite) value %= __x.value;\n    return *this;\n  }\n\n  constexpr\
+    \ extended &operator%=(const _Tp &__x) noexcept {\n    value %= __x;\n    return\
     \ *this;\n  }\n\n  constexpr extended operator+(const extended &__x) const noexcept\
     \ {\n    return extended(*this) += __x;\n  }\n\n  constexpr extended operator-(const\
     \ extended &__x) const noexcept {\n    return extended(*this) -= __x;\n  }\n\n\
     \  constexpr extended operator*(const extended &__x) const noexcept {\n    return\
     \ extended(*this) *= __x;\n  }\n\n  constexpr extended operator/(const extended\
     \ &__x) const noexcept {\n    return extended(*this) /= __x;\n  }\n\n  constexpr\
-    \ extended operator+(const _Tp &__x) const noexcept {\n    return extended(*this)\
-    \ += __x;\n  }\n\n  constexpr extended operator-(const _Tp &__x) const noexcept\
-    \ {\n    return extended(*this) -= __x;\n  }\n\n  constexpr extended operator*(const\
-    \ _Tp &__x) const noexcept {\n    return extended(*this) *= __x;\n  }\n\n  constexpr\
-    \ extended operator/(const _Tp &__x) const noexcept {\n    return extended(*this)\
-    \ /= __x;\n  }\n\n  constexpr friend extended operator+(const _Tp &__x,\n    \
+    \ extended operator%(const extended &__x) const noexcept {\n    return extended(*this)\
+    \ %= __x;\n  }\n\n  constexpr extended operator+(const _Tp &__x) const noexcept\
+    \ {\n    return extended(*this) += __x;\n  }\n\n  constexpr extended operator-(const\
+    \ _Tp &__x) const noexcept {\n    return extended(*this) -= __x;\n  }\n\n  constexpr\
+    \ extended operator*(const _Tp &__x) const noexcept {\n    return extended(*this)\
+    \ *= __x;\n  }\n\n  constexpr extended operator/(const _Tp &__x) const noexcept\
+    \ {\n    return extended(*this) /= __x;\n  }\n\n  constexpr extended operator%(const\
+    \ _Tp &__x) const noexcept {\n    return extended(*this) %= __x;\n  }\n\n  constexpr\
+    \ friend extended operator+(const _Tp &__x,\n                                \
+    \      const extended &__y) noexcept {\n    return extended(__x) += __y;\n  }\n\
+    \n  constexpr friend extended operator-(const _Tp &__x,\n                    \
+    \                  const extended &__y) noexcept {\n    return extended(__x) -=\
+    \ __y;\n  }\n\n  constexpr friend extended operator*(const _Tp &__x,\n       \
+    \                               const extended &__y) noexcept {\n    return extended(__x)\
+    \ *= __y;\n  }\n\n  constexpr friend extended operator/(const _Tp &__x,\n    \
     \                                  const extended &__y) noexcept {\n    return\
-    \ extended(__x) += __y;\n  }\n\n  constexpr friend extended operator-(const _Tp\
+    \ extended(__x) /= __y;\n  }\n\n  constexpr friend extended operator%(const _Tp\
     \ &__x,\n                                      const extended &__y) noexcept {\n\
-    \    return extended(__x) -= __y;\n  }\n\n  constexpr friend extended operator*(const\
-    \ _Tp &__x,\n                                      const extended &__y) noexcept\
-    \ {\n    return extended(__x) *= __y;\n  }\n\n  constexpr friend extended operator/(const\
-    \ _Tp &__x,\n                                      const extended &__y) noexcept\
-    \ {\n    return extended(__x) /= __y;\n  }\n\n  constexpr bool operator==(const\
-    \ extended &__x) const noexcept {\n    return infinite == __x.infinite && sign\
-    \ == __x.sign && value == __x.value;\n  }\n\n  constexpr bool operator==(const\
-    \ _Tp &__x) const noexcept {\n    return !infinite && value == __x;\n  }\n\n \
-    \ constexpr friend bool operator==(const _Tp &__x,\n                         \
-    \          const extended &__y) noexcept {\n    return __y.operator==(__x);\n\
-    \  }\n\n  constexpr bool operator!=(const extended &__x) const noexcept {\n  \
-    \  return !operator==(__x);\n  }\n\n  constexpr bool operator!=(const _Tp &__x)\
-    \ const noexcept {\n    return !operator==(__x);\n  }\n\n  constexpr friend bool\
-    \ operator!=(const _Tp &__x,\n                                   const extended\
-    \ &__y) noexcept {\n    return __y.operator!=(__x);\n  }\n\n  constexpr bool operator<(const\
+    \    return extended(__x) %= __y;\n  }\n\n  constexpr bool operator==(const extended\
+    \ &__x) const noexcept {\n    return infinite == __x.infinite && sign == __x.sign\
+    \ && value == __x.value;\n  }\n\n  constexpr bool operator==(const _Tp &__x) const\
+    \ noexcept {\n    return !infinite && value == __x;\n  }\n\n  constexpr friend\
+    \ bool operator==(const _Tp &__x,\n                                   const extended\
+    \ &__y) noexcept {\n    return __y.operator==(__x);\n  }\n\n  constexpr bool operator!=(const\
+    \ extended &__x) const noexcept {\n    return !operator==(__x);\n  }\n\n  constexpr\
+    \ bool operator!=(const _Tp &__x) const noexcept {\n    return !operator==(__x);\n\
+    \  }\n\n  constexpr friend bool operator!=(const _Tp &__x,\n                 \
+    \                  const extended &__y) noexcept {\n    return __y.operator!=(__x);\n\
+    \  }\n\n  constexpr bool operator<(const extended &__x) const noexcept {\n   \
+    \ auto __l = sign * infinite, __r = __x.sign * __x.infinite;\n    return __l !=\
+    \ __r ? __l < __r : value < __x.value;\n  }\n\n  constexpr bool operator<=(const\
     \ extended &__x) const noexcept {\n    auto __l = sign * infinite, __r = __x.sign\
-    \ * __x.infinite;\n    return __l != __r ? __l < __r : value < __x.value;\n  }\n\
-    \n  constexpr bool operator<=(const extended &__x) const noexcept {\n    auto\
-    \ __l = sign * infinite, __r = __x.sign * __x.infinite;\n    return __l != __r\
-    \ ? __l < __r : value <= __x.value;\n  }\n\n  constexpr bool operator<(const _Tp\
-    \ &__x) const noexcept {\n    return infinite ? sign < 0 : value < __x;\n  }\n\
-    \n  constexpr bool operator<=(const _Tp &__x) const noexcept {\n    return infinite\
-    \ ? sign < 0 : value <= __x;\n  }\n\n  constexpr bool operator>(const extended\
-    \ &__x) const noexcept {\n    return __x.operator<(*this);\n  }\n\n  constexpr\
-    \ bool operator>=(const extended &__x) const noexcept {\n    return __x.operator<=(*this);\n\
-    \  }\n\n  constexpr bool operator>(const _Tp &__x) const noexcept {\n    return\
-    \ infinite ? sign > 0 : value > __x;\n  }\n\n  constexpr bool operator>=(const\
-    \ _Tp &__x) const noexcept {\n    return infinite ? sign > 0 : value >= __x;\n\
-    \  }\n\n  constexpr friend bool operator<(const _Tp &__x,\n                  \
-    \                const extended &__y) noexcept {\n    return __y.operator>(__x);\n\
-    \  }\n\n  constexpr friend bool operator>(const _Tp &__x,\n                  \
-    \                const extended &__y) noexcept {\n    return __y.operator<(__x);\n\
-    \  }\n\n  constexpr friend bool operator<=(const _Tp &__x,\n                 \
-    \                  const extended &__y) noexcept {\n    return __y.operator>=(__x);\n\
-    \  }\n\n  constexpr friend bool operator>=(const _Tp &__x,\n                 \
-    \                  const extended &__y) noexcept {\n    return __y.operator<=(__x);\n\
-    \  }\n};\n\n}  // namespace workspace\n"
+    \ * __x.infinite;\n    return __l != __r ? __l < __r : value <= __x.value;\n \
+    \ }\n\n  constexpr bool operator<(const _Tp &__x) const noexcept {\n    return\
+    \ infinite ? sign < 0 : value < __x;\n  }\n\n  constexpr bool operator<=(const\
+    \ _Tp &__x) const noexcept {\n    return infinite ? sign < 0 : value <= __x;\n\
+    \  }\n\n  constexpr bool operator>(const extended &__x) const noexcept {\n   \
+    \ return __x.operator<(*this);\n  }\n\n  constexpr bool operator>=(const extended\
+    \ &__x) const noexcept {\n    return __x.operator<=(*this);\n  }\n\n  constexpr\
+    \ bool operator>(const _Tp &__x) const noexcept {\n    return infinite ? sign\
+    \ > 0 : value > __x;\n  }\n\n  constexpr bool operator>=(const _Tp &__x) const\
+    \ noexcept {\n    return infinite ? sign > 0 : value >= __x;\n  }\n\n  constexpr\
+    \ friend bool operator<(const _Tp &__x,\n                                  const\
+    \ extended &__y) noexcept {\n    return __y.operator>(__x);\n  }\n\n  constexpr\
+    \ friend bool operator>(const _Tp &__x,\n                                  const\
+    \ extended &__y) noexcept {\n    return __y.operator<(__x);\n  }\n\n  constexpr\
+    \ friend bool operator<=(const _Tp &__x,\n                                   const\
+    \ extended &__y) noexcept {\n    return __y.operator>=(__x);\n  }\n\n  constexpr\
+    \ friend bool operator>=(const _Tp &__x,\n                                   const\
+    \ extended &__y) noexcept {\n    return __y.operator<=(__x);\n  }\n};\n\n}  //\
+    \ namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file extended.hpp\n * @brief Extended Numeric Type\n\
     \ */\n\n#include <cstdint>\n#include <type_traits>\n\nnamespace workspace {\n\n\
     template <class _Tp> constexpr auto sign_of(const _Tp &__x) noexcept {\n  return\
@@ -140,18 +148,24 @@ data:
     \    else\n      infinite = true, value = 0;\n    return *this;\n  }\n\n  constexpr\
     \ extended &operator/=(const _Tp &__x) noexcept {\n    auto __s = sign_of(__x);\n\
     \    if (__s)\n      sign *= __s, value /= __x;\n    else\n      infinite = true,\
-    \ value = 0;\n    return *this;\n  }\n\n  constexpr extended operator+(const extended\
-    \ &__x) const noexcept {\n    return extended(*this) += __x;\n  }\n\n  constexpr\
-    \ extended operator-(const extended &__x) const noexcept {\n    return extended(*this)\
-    \ -= __x;\n  }\n\n  constexpr extended operator*(const extended &__x) const noexcept\
+    \ value = 0;\n    return *this;\n  }\n\n  constexpr extended &operator%=(const\
+    \ extended &__x) noexcept {\n    if (!__x.infinite) value %= __x.value;\n    return\
+    \ *this;\n  }\n\n  constexpr extended &operator%=(const _Tp &__x) noexcept {\n\
+    \    value %= __x;\n    return *this;\n  }\n\n  constexpr extended operator+(const\
+    \ extended &__x) const noexcept {\n    return extended(*this) += __x;\n  }\n\n\
+    \  constexpr extended operator-(const extended &__x) const noexcept {\n    return\
+    \ extended(*this) -= __x;\n  }\n\n  constexpr extended operator*(const extended\
+    \ &__x) const noexcept {\n    return extended(*this) *= __x;\n  }\n\n  constexpr\
+    \ extended operator/(const extended &__x) const noexcept {\n    return extended(*this)\
+    \ /= __x;\n  }\n\n  constexpr extended operator%(const extended &__x) const noexcept\
+    \ {\n    return extended(*this) %= __x;\n  }\n\n  constexpr extended operator+(const\
+    \ _Tp &__x) const noexcept {\n    return extended(*this) += __x;\n  }\n\n  constexpr\
+    \ extended operator-(const _Tp &__x) const noexcept {\n    return extended(*this)\
+    \ -= __x;\n  }\n\n  constexpr extended operator*(const _Tp &__x) const noexcept\
     \ {\n    return extended(*this) *= __x;\n  }\n\n  constexpr extended operator/(const\
-    \ extended &__x) const noexcept {\n    return extended(*this) /= __x;\n  }\n\n\
-    \  constexpr extended operator+(const _Tp &__x) const noexcept {\n    return extended(*this)\
-    \ += __x;\n  }\n\n  constexpr extended operator-(const _Tp &__x) const noexcept\
-    \ {\n    return extended(*this) -= __x;\n  }\n\n  constexpr extended operator*(const\
-    \ _Tp &__x) const noexcept {\n    return extended(*this) *= __x;\n  }\n\n  constexpr\
-    \ extended operator/(const _Tp &__x) const noexcept {\n    return extended(*this)\
-    \ /= __x;\n  }\n\n  constexpr friend extended operator+(const _Tp &__x,\n    \
+    \ _Tp &__x) const noexcept {\n    return extended(*this) /= __x;\n  }\n\n  constexpr\
+    \ extended operator%(const _Tp &__x) const noexcept {\n    return extended(*this)\
+    \ %= __x;\n  }\n\n  constexpr friend extended operator+(const _Tp &__x,\n    \
     \                                  const extended &__y) noexcept {\n    return\
     \ extended(__x) += __y;\n  }\n\n  constexpr friend extended operator-(const _Tp\
     \ &__x,\n                                      const extended &__y) noexcept {\n\
@@ -159,7 +173,9 @@ data:
     \ _Tp &__x,\n                                      const extended &__y) noexcept\
     \ {\n    return extended(__x) *= __y;\n  }\n\n  constexpr friend extended operator/(const\
     \ _Tp &__x,\n                                      const extended &__y) noexcept\
-    \ {\n    return extended(__x) /= __y;\n  }\n\n  constexpr bool operator==(const\
+    \ {\n    return extended(__x) /= __y;\n  }\n\n  constexpr friend extended operator%(const\
+    \ _Tp &__x,\n                                      const extended &__y) noexcept\
+    \ {\n    return extended(__x) %= __y;\n  }\n\n  constexpr bool operator==(const\
     \ extended &__x) const noexcept {\n    return infinite == __x.infinite && sign\
     \ == __x.sign && value == __x.value;\n  }\n\n  constexpr bool operator==(const\
     \ _Tp &__x) const noexcept {\n    return !infinite && value == __x;\n  }\n\n \
@@ -196,7 +212,7 @@ data:
   isVerificationFile: false
   path: src/algebra/extended.hpp
   requiredBy: []
-  timestamp: '2021-10-23 12:28:11+09:00'
+  timestamp: '2021-10-26 14:14:24+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/extended.hpp
