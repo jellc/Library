@@ -117,6 +117,16 @@ template <class _Tp> class extended {
     return *this;
   }
 
+  constexpr extended &operator%=(const extended &__x) noexcept {
+    if (!__x.infinite) value %= __x.value;
+    return *this;
+  }
+
+  constexpr extended &operator%=(const _Tp &__x) noexcept {
+    value %= __x;
+    return *this;
+  }
+
   constexpr extended operator+(const extended &__x) const noexcept {
     return extended(*this) += __x;
   }
@@ -133,6 +143,10 @@ template <class _Tp> class extended {
     return extended(*this) /= __x;
   }
 
+  constexpr extended operator%(const extended &__x) const noexcept {
+    return extended(*this) %= __x;
+  }
+
   constexpr extended operator+(const _Tp &__x) const noexcept {
     return extended(*this) += __x;
   }
@@ -147,6 +161,10 @@ template <class _Tp> class extended {
 
   constexpr extended operator/(const _Tp &__x) const noexcept {
     return extended(*this) /= __x;
+  }
+
+  constexpr extended operator%(const _Tp &__x) const noexcept {
+    return extended(*this) %= __x;
   }
 
   constexpr friend extended operator+(const _Tp &__x,
@@ -167,6 +185,11 @@ template <class _Tp> class extended {
   constexpr friend extended operator/(const _Tp &__x,
                                       const extended &__y) noexcept {
     return extended(__x) /= __y;
+  }
+
+  constexpr friend extended operator%(const _Tp &__x,
+                                      const extended &__y) noexcept {
+    return extended(__x) %= __y;
   }
 
   constexpr bool operator==(const extended &__x) const noexcept {
