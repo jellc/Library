@@ -161,8 +161,8 @@ data:
   path: src/number_theory/ext_gcd.hpp
   requiredBy:
   - src/number_theory/order.hpp
-  - src/algebra/polynomial.hpp
   - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
   timestamp: '2021-07-16 03:07:50+09:00'
   verificationStatus: LIBRARY_ALL_AC

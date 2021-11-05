@@ -269,8 +269,8 @@ data:
   timestamp: '2021-04-15 16:09:50+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/matrix_det.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/matrix_det.test.cpp
 documentation_of: src/algebra/linear/lu.hpp
 layout: document
 redirect_from:

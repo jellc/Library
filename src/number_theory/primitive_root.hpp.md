@@ -132,8 +132,8 @@ data:
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
   requiredBy:
-  - src/algebra/polynomial.hpp
   - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
