@@ -52,8 +52,6 @@ template <class _Tp> class extended {
     std::swap(value, __x.value);
   }
 
-  // constexpr operator _Tp &() noexcept { return value; }
-
   constexpr operator _Tp const &() const noexcept { return value; }
 
   constexpr operator bool() const noexcept { return sign; }
@@ -69,7 +67,9 @@ template <class _Tp> class extended {
     return operator+=(__x.value);
   }
 
-  constexpr extended &operator+=(const _Tp &__x) noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended &>
+  operator+=(const _U &__x) noexcept {
     if (!infinite) sign = sign_of(value += __x);
     return *this;
   }
@@ -78,7 +78,9 @@ template <class _Tp> class extended {
     return operator+=(-__x);
   }
 
-  constexpr extended &operator-=(const _Tp &__x) noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended &>
+  operator-=(const _U &__x) noexcept {
     return operator+=(-__x);
   }
 
@@ -90,7 +92,9 @@ template <class _Tp> class extended {
     return *this;
   }
 
-  constexpr extended &operator*=(const _Tp &__x) noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended &>
+  operator*=(const _U &__x) noexcept {
     if (sign *= sign_of(__x))
       value *= __x;
     else
@@ -102,28 +106,32 @@ template <class _Tp> class extended {
     if (__x.infinite)
       infinite = false, sign = 0, value = 0;
     else if (__x.sign)
-      sign *= __x.sign, value /= __x.value;
+      (value /= __x.value) ? sign *= __x.sign : sign = 0;
     else
       infinite = true, value = 0;
     return *this;
   }
 
-  constexpr extended &operator/=(const _Tp &__x) noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended &>
+  operator/=(const _U &__x) noexcept {
     auto __s = sign_of(__x);
     if (__s)
-      sign *= __s, value /= __x;
+      (value /= __x) ? sign *= __s : sign = 0;
     else
       infinite = true, value = 0;
     return *this;
   }
 
   constexpr extended &operator%=(const extended &__x) noexcept {
-    if (!__x.infinite) value %= __x.value;
+    if (!__x.infinite) sign = sign_of(value %= __x);
     return *this;
   }
 
-  constexpr extended &operator%=(const _Tp &__x) noexcept {
-    value %= __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended &>
+  operator%=(const _U &__x) noexcept {
+    sign = sign_of(value %= __x);
     return *this;
   }
 
@@ -147,48 +155,68 @@ template <class _Tp> class extended {
     return extended(*this) %= __x;
   }
 
-  constexpr extended operator+(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended>
+  operator+(const _U &__x) const noexcept {
     return extended(*this) += __x;
   }
 
-  constexpr extended operator-(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended>
+  operator-(const _U &__x) const noexcept {
     return extended(*this) -= __x;
   }
 
-  constexpr extended operator*(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended>
+  operator*(const _U &__x) const noexcept {
     return extended(*this) *= __x;
   }
 
-  constexpr extended operator/(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended>
+  operator/(const _U &__x) const noexcept {
     return extended(*this) /= __x;
   }
 
-  constexpr extended operator%(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, extended>
+  operator%(const _U &__x) const noexcept {
     return extended(*this) %= __x;
   }
 
-  constexpr friend extended operator+(const _Tp &__x,
-                                      const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value,
+                                    extended>
+  operator+(const _U &__x, const extended &__y) noexcept {
     return extended(__x) += __y;
   }
 
-  constexpr friend extended operator-(const _Tp &__x,
-                                      const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value,
+                                    extended>
+  operator-(const _U &__x, const extended &__y) noexcept {
     return extended(__x) -= __y;
   }
 
-  constexpr friend extended operator*(const _Tp &__x,
-                                      const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value,
+                                    extended>
+  operator*(const _U &__x, const extended &__y) noexcept {
     return extended(__x) *= __y;
   }
 
-  constexpr friend extended operator/(const _Tp &__x,
-                                      const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value,
+                                    extended>
+  operator/(const _U &__x, const extended &__y) noexcept {
     return extended(__x) /= __y;
   }
 
-  constexpr friend extended operator%(const _Tp &__x,
-                                      const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value,
+                                    extended>
+  operator%(const _U &__x, const extended &__y) noexcept {
     return extended(__x) %= __y;
   }
 
@@ -196,12 +224,15 @@ template <class _Tp> class extended {
     return infinite == __x.infinite && sign == __x.sign && value == __x.value;
   }
 
-  constexpr bool operator==(const _Tp &__x) const noexcept {
-    return !infinite && value == __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator==(const _U &__x) const noexcept {
+    return !infinite && value == static_cast<_Tp>(__x);
   }
 
-  constexpr friend bool operator==(const _Tp &__x,
-                                   const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator==(const _U &__x, const extended &__y) noexcept {
     return __y.operator==(__x);
   }
 
@@ -209,12 +240,15 @@ template <class _Tp> class extended {
     return !operator==(__x);
   }
 
-  constexpr bool operator!=(const _Tp &__x) const noexcept {
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator!=(const _U &__x) const noexcept {
     return !operator==(__x);
   }
 
-  constexpr friend bool operator!=(const _Tp &__x,
-                                   const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator!=(const _U &__x, const extended &__y) noexcept {
     return __y.operator!=(__x);
   }
 
@@ -228,12 +262,16 @@ template <class _Tp> class extended {
     return __l != __r ? __l < __r : value <= __x.value;
   }
 
-  constexpr bool operator<(const _Tp &__x) const noexcept {
-    return infinite ? sign < 0 : value < __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator<(const _U &__x) const noexcept {
+    return infinite ? sign < 0 : value < static_cast<_Tp>(__x);
   }
 
-  constexpr bool operator<=(const _Tp &__x) const noexcept {
-    return infinite ? sign < 0 : value <= __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator<=(const _U &__x) const noexcept {
+    return infinite ? sign < 0 : value <= static_cast<_Tp>(__x);
   }
 
   constexpr bool operator>(const extended &__x) const noexcept {
@@ -244,31 +282,39 @@ template <class _Tp> class extended {
     return __x.operator<=(*this);
   }
 
-  constexpr bool operator>(const _Tp &__x) const noexcept {
-    return infinite ? sign > 0 : value > __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator>(const _U &__x) const noexcept {
+    return infinite ? sign > 0 : value > static_cast<_Tp>(__x);
   }
 
-  constexpr bool operator>=(const _Tp &__x) const noexcept {
-    return infinite ? sign > 0 : value >= __x;
+  template <class _U>
+  constexpr std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator>=(const _U &__x) const noexcept {
+    return infinite ? sign > 0 : value >= static_cast<_Tp>(__x);
   }
 
-  constexpr friend bool operator<(const _Tp &__x,
-                                  const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator<(const _U &__x, const extended &__y) noexcept {
     return __y.operator>(__x);
   }
 
-  constexpr friend bool operator>(const _Tp &__x,
-                                  const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator>(const _U &__x, const extended &__y) noexcept {
     return __y.operator<(__x);
   }
 
-  constexpr friend bool operator<=(const _Tp &__x,
-                                   const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator<=(const _U &__x, const extended &__y) noexcept {
     return __y.operator>=(__x);
   }
 
-  constexpr friend bool operator>=(const _Tp &__x,
-                                   const extended &__y) noexcept {
+  template <class _U>
+  constexpr friend std::enable_if_t<std::is_convertible<_U, _Tp>::value, bool>
+  operator>=(const _U &__x, const extended &__y) noexcept {
     return __y.operator<=(__x);
   }
 };
