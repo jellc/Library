@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "lib/cxx17"
+
 namespace workspace {
 
 template <class _Tp> constexpr auto sign_of(const _Tp &__x) noexcept {
@@ -26,8 +28,7 @@ template <class _Tp> class extended {
                         : __os << __x.value;
   }
 
-  template <class _Is>
-  friend _Is &operator>>(_Is &__is, extended &__x) noexcept {
+  friend std::istream &operator>>(std::istream &__is, extended &__x) noexcept {
     __x.infinite = false;
     __is >> __x.value;
     __x.sign = sign_of(__x.value);
@@ -52,9 +53,15 @@ template <class _Tp> class extended {
     std::swap(value, __x.value);
   }
 
-  constexpr operator _Tp const &() const noexcept { return value; }
+  template <class _U> constexpr operator _U const &() const noexcept {
+    if _CXX17_CONSTEXPR (std::is_same_v<_U, bool>) return sign;
+    return value;
+  }
 
-  constexpr operator bool() const noexcept { return sign; }
+  template <class _U> constexpr operator _U() const noexcept {
+    if _CXX17_CONSTEXPR (std::is_same_v<_U, bool>) return sign;
+    return value;
+  }
 
   constexpr extended operator+() const noexcept { return *this; }
 
