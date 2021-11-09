@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aizu-online-judge/2617.test.cpp
+    title: test/aizu-online-judge/2617.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Inversion
     links: []
@@ -31,8 +34,8 @@ data:
     \ __sum[__i];\n    for (++__e; __e < __sum.size(); __e += __e & -__e) ++__sum[__e];\n\
     \  }\n  std::reverse(__inv.begin(), __inv.end());\n  return __inv;\n}\n\ntemplate\
     \ <class _Iterator>\nauto inversion(_Iterator __first, _Iterator __last) noexcept\
-    \ {\n  size_t __res = 0;\n  for (auto __x : left_inversion(__first, __last)) __res\
-    \ += __x;\n  return __res;\n}\n\n}  // namespace workspace\n"
+    \ {\n  uint_least64_t __res = 0;\n  for (auto __x : left_inversion(__first, __last))\
+    \ __res += __x;\n  return __res;\n}\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file inversion.hpp\n * @brief Inversion\n */\n\n\
     #include <algorithm>\n#include <vector>\n\nnamespace workspace {\n\ntemplate <class\
     \ _Iterator>\nauto left_inversion(_Iterator __first, _Iterator __last) noexcept\
@@ -54,16 +57,17 @@ data:
     \    for (auto __i = __e; __i; __i &= __i - 1) __c += __sum[__i];\n    for (++__e;\
     \ __e < __sum.size(); __e += __e & -__e) ++__sum[__e];\n  }\n  std::reverse(__inv.begin(),\
     \ __inv.end());\n  return __inv;\n}\n\ntemplate <class _Iterator>\nauto inversion(_Iterator\
-    \ __first, _Iterator __last) noexcept {\n  size_t __res = 0;\n  for (auto __x\
-    \ : left_inversion(__first, __last)) __res += __x;\n  return __res;\n}\n\n}  //\
-    \ namespace workspace\n"
+    \ __first, _Iterator __last) noexcept {\n  uint_least64_t __res = 0;\n  for (auto\
+    \ __x : left_inversion(__first, __last)) __res += __x;\n  return __res;\n}\n\n\
+    }  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/misc/inversion.hpp
   requiredBy: []
-  timestamp: '2021-07-18 20:41:29+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2021-11-09 11:45:13+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aizu-online-judge/2617.test.cpp
 documentation_of: src/misc/inversion.hpp
 layout: document
 redirect_from:

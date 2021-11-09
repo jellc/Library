@@ -247,7 +247,7 @@ data:
       title: src/graph/undirected/two_edge_connected_components.hpp
   - name: src/misc
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/misc/inversion.hpp
       title: Inversion
     - icon: ':warning:'
@@ -455,6 +455,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aizu-online-judge/2617.test.cpp
+      title: test/aizu-online-judge/2617.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2815.test.cpp
       title: test/aizu-online-judge/2815.test.cpp
