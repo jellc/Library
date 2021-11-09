@@ -46,7 +46,7 @@ auto right_inversion(_Iterator __first, _Iterator __last) noexcept {
 
 template <class _Iterator>
 auto inversion(_Iterator __first, _Iterator __last) noexcept {
-  size_t __res = 0;
+  uint_least64_t __res = 0;
   for (auto __x : left_inversion(__first, __last)) __res += __x;
   return __res;
 }
