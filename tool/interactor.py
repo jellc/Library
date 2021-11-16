@@ -17,3 +17,9 @@ class interactor:
 
     def read(self):
         return self.proc.stdout.readline().decode('utf-8').strip()
+
+    def poll(self):
+        return self.proc.poll()
+
+    def wait(self):
+        return self.proc.wait()
