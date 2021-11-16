@@ -16,7 +16,9 @@ data:
     \    def __init__(self, exec):\n        self.proc = subprocess.Popen([exec], stdin=subprocess.PIPE,\
     \ stdout=subprocess.PIPE)\n\n    def __del__(self):\n        self.proc.terminate()\n\
     \n    def write(self, x):\n        self.proc.stdin.write((str(x) + '\\n').encode('utf-8'))\n\
-    \        self.proc.stdin.flush()\n\n    def read(self):\n        return self.proc.stdout.readline().decode('utf-8').strip()\n"
+    \        self.proc.stdin.flush()\n\n    def read(self):\n        return self.proc.stdout.readline().decode('utf-8').strip()\n\
+    \n    def poll(self):\n        return self.proc.poll()\n\n    def wait(self):\n\
+    \        return self.proc.wait()\n"
   dependsOn: []
   isVerificationFile: false
   path: tool/interactor.py
