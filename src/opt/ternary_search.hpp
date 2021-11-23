@@ -1,8 +1,8 @@
 #pragma once
 
-/*
- * @file trinary_search.hpp
- * @brief Trinary Search
+/**
+ * @file ternary_search.hpp
+ * @brief Ternary Search
  */
 
 #include <cassert>
@@ -10,8 +10,8 @@
 
 namespace workspace {
 
-/*
- * @brief Trinary search on discrete range.
+/**
+ * @brief Ternary search on discrete range.
  * @param first Left end, inclusive
  * @param last Right end, exclusive
  * @param comp Compare function
@@ -23,7 +23,7 @@ typename std::enable_if<
                                                       std::declval<Iter>())),
                         bool>::value,
     Iter>::type
-trinary_search(Iter first, Iter last, Comp comp) {
+ternary_search(Iter first, Iter last, Comp comp) {
   assert(first < last);
   typename std::make_signed<decltype(last - first)>::type dist(last - first);
   while (2 < dist) {
@@ -37,8 +37,8 @@ trinary_search(Iter first, Iter last, Comp comp) {
   return first;
 }
 
-/*
- * @brief Trinary search on discrete range.
+/**
+ * @brief Ternary search on discrete range.
  * @param first Left end, inclusive
  * @param last Right end, exclusive
  * @param func Function
@@ -49,14 +49,14 @@ typename std::enable_if<
     std::is_same<decltype(std::declval<Func>()(std::declval<Iter>()), nullptr),
                  std::nullptr_t>::value,
     Iter>::type
-trinary_search(Iter const &first, Iter const &last, Func func) {
-  return trinary_search(first, last, [&](Iter const &__i, Iter const &__j) {
+ternary_search(Iter const &first, Iter const &last, Func func) {
+  return ternary_search(first, last, [&](Iter const &__i, Iter const &__j) {
     return func(__i) < func(__j);
   });
 }
 
-/*
- * @brief Trinary search on the real number line.
+/**
+ * @brief Ternary search on the real number line.
  * @param first Left end
  * @param last Right end
  * @param eps Error tolerance
@@ -69,7 +69,7 @@ typename std::enable_if<
                                                       std::declval<Real>())),
                         bool>::value,
     Real>::type
-trinary_search(Real first, Real last, Real const &eps, Comp comp) {
+ternary_search(Real first, Real last, Real const &eps, Comp comp) {
   assert(first < last);
   while (eps < last - first) {
     Real left{(first * 2 + last) / 3}, right{(first + last * 2) / 3};
@@ -81,8 +81,8 @@ trinary_search(Real first, Real last, Real const &eps, Comp comp) {
   return first;
 }
 
-/*
- * @brief Trinary search on the real number line.
+/**
+ * @brief Ternary search on the real number line.
  * @param first Left end
  * @param last Right end
  * @param eps Error tolerance
@@ -94,9 +94,9 @@ typename std::enable_if<
     std::is_same<decltype(std::declval<Func>()(std::declval<Real>()), nullptr),
                  std::nullptr_t>::value,
     Real>::type
-trinary_search(Real const &first, Real const &last, Real const &eps,
+ternary_search(Real const &first, Real const &last, Real const &eps,
                Func func) {
-  return trinary_search(
+  return ternary_search(
       first, last, eps,
       [&](Real const &__i, Real const &__j) { return func(__i) < func(__j); });
 }
