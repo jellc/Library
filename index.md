@@ -291,8 +291,8 @@ data:
       path: src/opt/golden_section.hpp
       title: Golden Section
     - icon: ':warning:'
-      path: src/opt/trinary_search.hpp
-      title: Trinary Search
+      path: src/opt/ternary_search.hpp
+      title: Ternary Search
   - name: src/string
     pages:
     - icon: ':heavy_check_mark:'

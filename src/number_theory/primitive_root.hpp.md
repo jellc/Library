@@ -132,15 +132,15 @@ data:
   isVerificationFile: false
   path: src/number_theory/primitive_root.hpp
   requiredBy:
-  - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
+  - src/algebra/ntt.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
 documentation_of: src/number_theory/primitive_root.hpp
 layout: document
