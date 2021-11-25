@@ -170,18 +170,14 @@ data:
     \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
     \   * @return List of indices of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type\
     \ __n) {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
-    \ __nodes.end(), graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity())\
-    \ {\n      container_type __tmp(__n);\n      for (auto &&__adj : graph)\n    \
-    \    for (auto &&__e : __adj) {\n          edge_impl *__p = __tmp[__e.tail].push(std::move(__e));\n\
-    \          // Careful with a self loop.\n          if (__p->rev) __p->rev->rev\
-    \ = __p;\n        }\n      graph = std::move(__tmp);\n    } else\n      graph.resize(__n);\n\
-    \    return __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n\
-    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\n\
-    \  typename std::enable_if<std::is_constructible<edge, _Args...>::value,\n   \
-    \                       edge &>::type\n  add_edge(_Args &&...__args) {\n    edge_impl\
-    \ __e = edge(std::forward<_Args>(__args)...);\n    assert(__e.tail < size()),\
-    \ assert(__e.head < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n\
-    \    // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
+    \ __nodes.end(), graph.size());\n    graph.resize(graph.size() + __n);\n    return\
+    \ __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n   *\n\
+    \   * @return Reference to the edge.\n   */\n  template <class... _Args>\n  typename\
+    \ std::enable_if<std::is_constructible<edge, _Args...>::value,\n             \
+    \             edge &>::type\n  add_edge(_Args &&...__args) {\n    edge_impl __e\
+    \ = edge(std::forward<_Args>(__args)...);\n    assert(__e.tail < size()), assert(__e.head\
+    \ < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n   \
+    \ // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
     \ = graph[__p->head].push(__p->make_rev());\n    return *__p;\n  }\n\n  /**\n\
     \   * @brief Add a directed edge to the graph.\n   *\n   * @return Reference to\
     \ the edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
@@ -344,18 +340,14 @@ data:
     \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
     \   * @return List of indices of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type\
     \ __n) {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
-    \ __nodes.end(), graph.size());\n    __n += graph.size();\n    if (__n > graph.capacity())\
-    \ {\n      container_type __tmp(__n);\n      for (auto &&__adj : graph)\n    \
-    \    for (auto &&__e : __adj) {\n          edge_impl *__p = __tmp[__e.tail].push(std::move(__e));\n\
-    \          // Careful with a self loop.\n          if (__p->rev) __p->rev->rev\
-    \ = __p;\n        }\n      graph = std::move(__tmp);\n    } else\n      graph.resize(__n);\n\
-    \    return __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n\
-    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\n\
-    \  typename std::enable_if<std::is_constructible<edge, _Args...>::value,\n   \
-    \                       edge &>::type\n  add_edge(_Args &&...__args) {\n    edge_impl\
-    \ __e = edge(std::forward<_Args>(__args)...);\n    assert(__e.tail < size()),\
-    \ assert(__e.head < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n\
-    \    // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
+    \ __nodes.end(), graph.size());\n    graph.resize(graph.size() + __n);\n    return\
+    \ __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n   *\n\
+    \   * @return Reference to the edge.\n   */\n  template <class... _Args>\n  typename\
+    \ std::enable_if<std::is_constructible<edge, _Args...>::value,\n             \
+    \             edge &>::type\n  add_edge(_Args &&...__args) {\n    edge_impl __e\
+    \ = edge(std::forward<_Args>(__args)...);\n    assert(__e.tail < size()), assert(__e.head\
+    \ < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n   \
+    \ // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
     \ = graph[__p->head].push(__p->make_rev());\n    return *__p;\n  }\n\n  /**\n\
     \   * @brief Add a directed edge to the graph.\n   *\n   * @return Reference to\
     \ the edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
@@ -394,7 +386,7 @@ data:
   requiredBy:
   - src/graph/directed/flow/Dinic.hpp
   - src/graph/directed/flow/min_cost_flow.hpp
-  timestamp: '2021-11-25 16:21:20+09:00'
+  timestamp: '2021-11-25 21:10:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/min_cost_b_flow.test.cpp
