@@ -419,18 +419,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
   std::vector<size_type> add_nodes(size_type __n) {
     std::vector<size_type> __nodes(__n);
     std::iota(__nodes.begin(), __nodes.end(), graph.size());
-    __n += graph.size();
-    if (__n > graph.capacity()) {
-      container_type __tmp(__n);
-      for (auto &&__adj : graph)
-        for (auto &&__e : __adj) {
-          edge_impl *__p = __tmp[__e.tail].push(std::move(__e));
-          // Careful with a self loop.
-          if (__p->rev) __p->rev->rev = __p;
-        }
-      graph = std::move(__tmp);
-    } else
-      graph.resize(__n);
+    graph.resize(graph.size() + __n);
     return __nodes;
   }
 
