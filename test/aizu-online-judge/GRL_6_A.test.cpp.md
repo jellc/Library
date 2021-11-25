@@ -230,7 +230,11 @@ data:
     \ + 1;\n\n      if (__level[__dst] == nil) break;\n\n      for (size_type __x{};\
     \ __x != base::size(); ++__x)\n        __iter[__x] = base::graph[__x].begin();\n\
     \n      __flow += dfs(__src, __dst, __limit);\n    }\n\n    return __flow;\n \
-    \ }\n};\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/GRL_6_A.test.cpp\"\
+    \ }\n\n  // Minimum Cut.\n  // Call it after `run`.\n  auto min_cut() const noexcept\
+    \ {\n    std::vector<typename base::edge> __cut;\n\n    for (size_type __x{};\
+    \ __x != base::size(); ++__x)\n      if (~__level[__x])\n        for (const auto\
+    \ &__e : base::operator[](__x))\n          if (!~__level[__e.head]) __cut.emplace_back(__e);\n\
+    \n    return __cut;\n  }\n};\n\n}  // namespace workspace\n#line 6 \"test/aizu-online-judge/GRL_6_A.test.cpp\"\
     \n\nint main() {\n  int n, m;\n  scanf(\"%d%d\", &n, &m);\n  workspace::Dinic<int>\
     \ dinic(n);\n  while (m--) {\n    int u, v, c;\n    scanf(\"%d%d%d\", &u, &v,\
     \ &c);\n    dinic.add_edge(u, v, c);\n  }\n  printf(\"%d\\n\", dinic.run(0, n\
@@ -246,7 +250,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/GRL_6_A.test.cpp
   requiredBy: []
-  timestamp: '2021-08-17 00:13:44+09:00'
+  timestamp: '2021-11-25 14:18:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/GRL_6_A.test.cpp

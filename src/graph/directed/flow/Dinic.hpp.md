@@ -229,7 +229,11 @@ data:
     \ + 1;\n\n      if (__level[__dst] == nil) break;\n\n      for (size_type __x{};\
     \ __x != base::size(); ++__x)\n        __iter[__x] = base::graph[__x].begin();\n\
     \n      __flow += dfs(__src, __dst, __limit);\n    }\n\n    return __flow;\n \
-    \ }\n};\n\n}  // namespace workspace\n"
+    \ }\n\n  // Minimum Cut.\n  // Call it after `run`.\n  auto min_cut() const noexcept\
+    \ {\n    std::vector<typename base::edge> __cut;\n\n    for (size_type __x{};\
+    \ __x != base::size(); ++__x)\n      if (~__level[__x])\n        for (const auto\
+    \ &__e : base::operator[](__x))\n          if (!~__level[__e.head]) __cut.emplace_back(__e);\n\
+    \n    return __cut;\n  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file Dinic.hpp\n * @brief Dinic's Algorithm\n */\n\
     \n#include <limits>\n\n#include \"base.hpp\"\n\nnamespace workspace {\n\n/**\n\
     \ * @brief Compute the maximum flow.\n * @tparam _Cap Capacity type\n */\ntemplate\
@@ -269,13 +273,17 @@ data:
     \ + 1;\n\n      if (__level[__dst] == nil) break;\n\n      for (size_type __x{};\
     \ __x != base::size(); ++__x)\n        __iter[__x] = base::graph[__x].begin();\n\
     \n      __flow += dfs(__src, __dst, __limit);\n    }\n\n    return __flow;\n \
-    \ }\n};\n\n}  // namespace workspace\n"
+    \ }\n\n  // Minimum Cut.\n  // Call it after `run`.\n  auto min_cut() const noexcept\
+    \ {\n    std::vector<typename base::edge> __cut;\n\n    for (size_type __x{};\
+    \ __x != base::size(); ++__x)\n      if (~__level[__x])\n        for (const auto\
+    \ &__e : base::operator[](__x))\n          if (!~__level[__e.head]) __cut.emplace_back(__e);\n\
+    \n    return __cut;\n  }\n};\n\n}  // namespace workspace\n"
   dependsOn:
   - src/graph/directed/flow/base.hpp
   isVerificationFile: false
   path: src/graph/directed/flow/Dinic.hpp
   requiredBy: []
-  timestamp: '2021-08-17 00:13:44+09:00'
+  timestamp: '2021-11-25 14:18:43+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/bipartitematching.test.cpp
