@@ -99,9 +99,9 @@ data:
     \ __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl *first,\
     \ *last, *__s, *__t;\n  };\n\n  using value_type = adjacency;\n  using reference\
     \ = adjacency &;\n  using const_reference = adjacency const &;\n\n protected:\n\
-    \  class adjacency_impl : public adjacency {\n   public:\n    using base = adjacency;\n\
-    \    using base::__s;\n    using base::__t;\n    using base::first;\n    using\
-    \ base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
+    \  class adjacency_impl : public adjacency {\n   public:\n    using _Base = adjacency;\n\
+    \    using _Base::__s;\n    using _Base::__t;\n    using _Base::first;\n    using\
+    \ _Base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
     \ edge_impl &__e) {\n      realloc();\n      *__t = __e;\n      if (__s->aux)\
     \ ++__s;\n      return __t++;\n    }\n\n    iterator push(edge_impl &&__e) {\n\
     \      realloc();\n      *__t = std::move(__e);\n      if (__s->aux) ++__s;\n\
@@ -135,23 +135,23 @@ data:
     \   * @param node Node\n   * @return Const referece to the adjacency list of the\
     \ node.\n   */\n  const_reference operator[](size_type node) const {\n    assert(node\
     \ < size());\n    return graph[node];\n  }\n\n  class iterator : public container_type::iterator\
-    \ {\n    using base = typename container_type::iterator;\n\n   public:\n    using\
+    \ {\n    using _Base = typename container_type::iterator;\n\n   public:\n    using\
     \ reference = adjacency &;\n    using pointer = adjacency *;\n\n    iterator(const\
-    \ base &__i) : base(__i) {}\n\n    pointer operator->() const { return base::operator->();\
-    \ }\n\n    reference operator*() const { return base::operator*(); }\n  };\n\n\
-    \  class const_iterator : public container_type::const_iterator {\n    using base\
+    \ _Base &__i) : _Base(__i) {}\n\n    pointer operator->() const { return _Base::operator->();\
+    \ }\n\n    reference operator*() const { return _Base::operator*(); }\n  };\n\n\
+    \  class const_iterator : public container_type::const_iterator {\n    using _Base\
     \ = typename container_type::const_iterator;\n\n   public:\n    using const_reference\
     \ = const adjacency &;\n    using const_pointer = const adjacency *;\n\n    const_iterator(const\
-    \ base &__i) : base(__i) {}\n\n    const_pointer operator->() const { return base::operator->();\
-    \ }\n\n    const_reference operator*() const { return base::operator*(); }\n \
-    \ };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin() const\
-    \ { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
+    \ _Base &__i) : _Base(__i) {}\n\n    const_pointer operator->() const { return\
+    \ _Base::operator->(); }\n\n    const_reference operator*() const { return _Base::operator*();\
+    \ }\n  };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin()\
+    \ const { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
     \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  /**\n   *\
     \ @brief Add a node to the graph.\n   *\n   * @return Index of the node.\n   */\n\
     \  size_type add_node() { return add_nodes(1).front(); }\n\n  /**\n   * @brief\
     \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
     \   * @return List of indices of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type\
-    \ __n) {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
+    \ __n) noexcept {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
     \ __nodes.end(), graph.size());\n    graph.resize(graph.size() + __n);\n    return\
     \ __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n   *\n\
     \   * @return Reference to the edge.\n   */\n  template <class... _Args>\n  typename\
@@ -161,70 +161,46 @@ data:
     \ < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n   \
     \ // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
     \ = graph[__p->head].push(__p->make_rev());\n    return *__p;\n  }\n\n  /**\n\
-    \   * @brief Add a directed edge to the graph.\n   *\n   * @return Reference to\
-    \ the edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_edge(_Tp &&__t) {\n \
-    \   return _unpack_directed(std::forward<_Tp>(__t));\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph. Its cost must be non-negative.\n   *\n\
-    \   * @return Reference to the edge.\n   */\n  template <class... _Args> edge\
-    \ &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
+    \   * @brief Add an undirected edge to the graph. Its cost must be non-negative.\n\
+    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\
+    \ edge &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
     \    assert(__e.tail < size()), assert(__e.head < size());\n    __e.flow += __e.capacity;\n\
     \    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n    // Careful with\
     \ a self loop.\n    if (__p->tail != __p->head) {\n      edge_impl __r = __p->make_rev();\n\
     \      __r.aux = false;\n      __p->rev = graph[__p->head].push(std::move(__r));\n\
-    \    }\n    return *__p;\n  }\n\n  /**\n   * @brief Add an undirected edge to\
-    \ the graph. Its cost must be non-negative.\n   *\n   * @return Reference to the\
-    \ edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_undirected_edge(_Tp &&__t)\
-    \ {\n    return _unpack_undirected(std::forward<_Tp>(__t));\n  }\n\n protected:\n\
-    \  // internal\n  template <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto)\
-    \ _unpack_directed(_Tp &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_edge(std::forward<_Args>(__args)...);\n    else\n      return\
-    \ _unpack_directed<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n                   \
-    \                         std::forward<_Args>(__args)...,\n                  \
-    \                          std::get<_Nm>(__t));\n  }\n\n  // internal\n  template\
-    \ <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto) _unpack_undirected(_Tp\
-    \ &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_undirected_edge(std::forward<_Args>(__args)...);\n    else\n\
-    \      return _unpack_undirected<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n     \
-    \                                         std::forward<_Args>(__args)...,\n  \
-    \                                            std::get<_Nm>(__t));\n  }\n\n  template\
-    \ <class _Os>\n  friend _Os &operator<<(_Os &__os, flow_graph const &__g) {\n\
-    \    for (const auto &adj : __g)\n      for (const auto &e : adj) __os << e <<\
-    \ \"\\n\";\n    return __os;\n  }\n};\n\n}  // namespace workspace\n#line 2 \"\
-    lib/limits\"\n\n#include <limits>\n\nnamespace workspace {\n\ntemplate <class\
-    \ _Tp> struct numeric_limits : std::numeric_limits<_Tp> {};\n\n#ifdef __SIZEOF_INT128__\n\
-    \ntemplate <> struct numeric_limits<__uint128_t> {\n  constexpr static __uint128_t\
-    \ max() { return ~__uint128_t(0); }\n  constexpr static __uint128_t min() { return\
-    \ 0; }\n};\n\ntemplate <> struct numeric_limits<__int128_t> {\n  constexpr static\
-    \ __int128_t max() {\n    return numeric_limits<__uint128_t>::max() >> 1;\n  }\n\
-    \  constexpr static __int128_t min() { return -max() - 1; }\n};\n\n#endif\n\n\
-    }  // namespace workspace\n#line 13 \"src/graph/directed/flow/min_cost_flow.hpp\"\
+    \    }\n    return *__p;\n  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os\
+    \ &__os, flow_graph const &__g) {\n    for (const auto &__adj : __g)\n      for\
+    \ (const auto &__e : __adj) __os << __e << \"\\n\";\n    return __os;\n  }\n};\n\
+    \n}  // namespace workspace\n#line 2 \"lib/limits\"\n\n#include <limits>\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Tp> struct numeric_limits : std::numeric_limits<_Tp>\
+    \ {};\n\n#ifdef __SIZEOF_INT128__\n\ntemplate <> struct numeric_limits<__uint128_t>\
+    \ {\n  constexpr static __uint128_t max() { return ~__uint128_t(0); }\n  constexpr\
+    \ static __uint128_t min() { return 0; }\n};\n\ntemplate <> struct numeric_limits<__int128_t>\
+    \ {\n  constexpr static __int128_t max() {\n    return numeric_limits<__uint128_t>::max()\
+    \ >> 1;\n  }\n  constexpr static __int128_t min() { return -max() - 1; }\n};\n\
+    \n#endif\n\n}  // namespace workspace\n#line 13 \"src/graph/directed/flow/min_cost_flow.hpp\"\
     \n\nnamespace workspace {\n\n/**\n * @brief Capacity Scaling Algorithm.\n *\n\
     \ * @tparam _Cap Capacity type\n * @tparam _Cost Cost type\n */\ntemplate <class\
     \ _Cap, class _Cost = _Cap>\nclass min_cost_flow : public flow_graph<_Cap, _Cost>\
-    \ {\n  using base = flow_graph<_Cap, _Cost>;\n  using edge_impl = typename base::edge_impl;\n\
-    \n public:\n  using edge = typename base::edge;\n  using size_type = typename\
-    \ base::size_type;\n\n  /**\n   * @brief Construct a new min_cost_flow object\n\
-    \   *\n   * @param __n Number of vertices\n   */\n  min_cost_flow(size_type __n\
-    \ = 0) : base::flow_graph(__n), b(__n) {}\n\n  using base::add_edge;\n\n  /**\n\
-    \   * @brief Add a directed edge to the graph.\n   *\n   * @param __s Source\n\
-    \   * @param __d Destination\n   * @param __l Lower bound of flow\n   * @param\
-    \ __u Upper bound of flow\n   * @param __c _Cost\n   * @return Reference to the\
-    \ edge.\n   */\n  edge &add_edge(size_type __s, size_type __d, _Cap __l, _Cap\
-    \ __u, _Cost __c) {\n    assert(!(__u < __l));\n    b[__s] -= __l, b[__d] += __l;\n\
-    \    auto &__e = base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow = __l;\n\
-    \    return __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to the graph.\n\
-    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\
-    \ edge &add_undirected_edge(_Args &&...__args) {\n    auto &__e = static_cast<edge_impl\
-    \ &>(\n        base::add_undirected_edge(std::forward<_Args>(__args)...));\n \
-    \   assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
+    \ {\n  using _Base = flow_graph<_Cap, _Cost>;\n  using typename _Base::edge_impl;\n\
+    \n public:\n  using _Base::_Base;\n  using _Base::add_edge;\n  using typename\
+    \ _Base::edge;\n  using typename _Base::size_type;\n\n  /**\n   * @brief Add a\
+    \ directed edge to the graph.\n   *\n   * @param __s Source\n   * @param __d Destination\n\
+    \   * @param __l Lower bound of flow\n   * @param __u Upper bound of flow\n  \
+    \ * @param __c _Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
+    \ __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {\n    assert(!(__u < __l));\n\
+    \    b[__s] -= __l, b[__d] += __l;\n    auto &__e = _Base::add_edge(__s, __d,\
+    \ __u - __l, __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief\
+    \ Add an undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n\
+    \   */\n  template <class... _Args> edge &add_undirected_edge(_Args &&...__args)\
+    \ {\n    auto &__e = static_cast<edge_impl &>(\n        _Base::add_undirected_edge(std::forward<_Args>(__args)...));\n\
+    \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
     \ node\n   * @param __f Default: 1\n   */\n  void supply(size_type node, _Cap\
-    \ __f = 1) {\n    assert(node < base::size());\n    b.resize(base::size());\n\
+    \ __f = 1) {\n    assert(node < _Base::size());\n    b.resize(_Base::size());\n\
     \    b[node] += __f;\n  }\n\n  /**\n   * @brief Decrease the balance of a node.\n\
     \   *\n   * @param node\n   * @param __f Default: 1\n   */\n  void demand(size_type\
-    \ node, _Cap __f = 1) {\n    assert(node < base::size());\n    b.resize(base::size());\n\
+    \ node, _Cap __f = 1) {\n    assert(node < _Base::size());\n    b.resize(_Base::size());\n\
     \    b[node] -= __f;\n  }\n\n  /**\n   * @return Balance.\n   */\n  const auto\
     \ &balance() const { return b; }\n\n  /**\n   * @param node Node\n   * @return\
     \ Balance of the node.\n   */\n  _Cap balance(size_type node) const { return b[node];\
@@ -234,13 +210,13 @@ data:
     \ p[node]; }\n\n  /**\n   * @return _Cost of current flow.\n   */\n  _Cost cost()\
     \ const { return current; }\n\n  /**\n   * @brief Run Capacity Scaling Algorithm.\n\
     \   *\n   * @return Whether a balanced flow exists.\n   */\n  bool run() {\n \
-    \   b.resize(base::size());\n    p.resize(b.size());\n\n    _Cap delta = 0;\n\
-    \    for (auto &&__adj : base::graph)\n      for (auto &&__e : __adj) delta =\
+    \   b.resize(_Base::size());\n    p.resize(b.size());\n\n    _Cap delta = 0;\n\
+    \    for (auto &&__adj : _Base::graph)\n      for (auto &&__e : __adj) delta =\
     \ std::max(delta, __e.capacity);\n    if (delta == static_cast<_Cap>(0))\n   \
     \   return std::all_of(b.begin(), b.end(),\n                         [](_Cap __x)\
     \ { return __x == static_cast<_Cap>(0); });\n\n    parent.resize(b.size());\n\n\
     \    while (static_cast<_Cap>(0) < delta) {\n      delta /= 2;\n\n      for (auto\
-    \ &&__adj : base::graph)\n        for (auto &&__e : __adj)\n          if (delta\
+    \ &&__adj : _Base::graph)\n        for (auto &&__e : __adj)\n          if (delta\
     \ < __e.capacity && __e.cost < p[__e.head] - p[__e.tail]) {\n            b[__e.tail]\
     \ -= __e.capacity;\n            b[__e.head] += __e.capacity;\n            __e.push(__e.capacity);\n\
     \          }\n\n      sources.clear();\n      sinks.clear();\n      for (size_type\
@@ -252,7 +228,7 @@ data:
     \        sinks.erase(\n            std::remove_if(sinks.begin(), sinks.end(),\n\
     \                           [&](auto __v) { return !(b[__v] < -delta); }),\n \
     \           sinks.end());\n      }\n    }\n\n    current = 0;\n    for (auto &&__adj\
-    \ : base::graph)\n      for (auto &&__e : __adj)\n        if (!__e.aux) current\
+    \ : _Base::graph)\n      for (auto &&__e : __adj)\n        if (!__e.aux) current\
     \ += __e.cost * __e.flow;\n\n    return sources.empty() && sinks.empty();\n  }\n\
     \n protected:\n  // _Cost of flow.\n  _Cost current{};\n\n  // Balance\n  std::vector<_Cap>\
     \ b;\n\n  // The dual solution.\n  std::vector<_Cost> p;\n\n  std::vector<edge_impl\
@@ -274,8 +250,8 @@ data:
     \    }\n\n    while (!__q.empty()) {\n      auto [__v, __d] = __q.top();\n   \
     \   __q.pop();\n      if (__d + p[__v] != __nx[__v]) continue;\n      __ld = __d;\n\
     \      if (b[__v] < -delta && ++reachable == sinks.size()) break;\n      for (auto\
-    \ &__e : base::graph[__v])\n        if (delta < __e.capacity &&\n            (__d\
-    \ = __nx[__v] + __e.cost) < __nx[__e.head]) {\n          __q.emplace(__e.head,\
+    \ &__e : _Base::graph[__v])\n        if (delta < __e.capacity &&\n           \
+    \ (__d = __nx[__v] + __e.cost) < __nx[__e.head]) {\n          __q.emplace(__e.head,\
     \ (__nx[__e.head] = __d) - p[__e.head]);\n          parent[__e.head] = &__e;\n\
     \        }\n    }\n\n    for (size_type __v = 0; __v != p.size(); ++__v)\n   \
     \   p[__v] = std::min(__nx[__v], p[__v] += __ld);\n\n    return reachable;\n \
@@ -302,7 +278,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/assignment.test.cpp
   requiredBy: []
-  timestamp: '2021-11-25 21:10:55+09:00'
+  timestamp: '2021-11-25 21:45:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/assignment.test.cpp

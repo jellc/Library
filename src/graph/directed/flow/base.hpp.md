@@ -117,9 +117,9 @@ data:
     \ __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl *first,\
     \ *last, *__s, *__t;\n  };\n\n  using value_type = adjacency;\n  using reference\
     \ = adjacency &;\n  using const_reference = adjacency const &;\n\n protected:\n\
-    \  class adjacency_impl : public adjacency {\n   public:\n    using base = adjacency;\n\
-    \    using base::__s;\n    using base::__t;\n    using base::first;\n    using\
-    \ base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
+    \  class adjacency_impl : public adjacency {\n   public:\n    using _Base = adjacency;\n\
+    \    using _Base::__s;\n    using _Base::__t;\n    using _Base::first;\n    using\
+    \ _Base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
     \ edge_impl &__e) {\n      realloc();\n      *__t = __e;\n      if (__s->aux)\
     \ ++__s;\n      return __t++;\n    }\n\n    iterator push(edge_impl &&__e) {\n\
     \      realloc();\n      *__t = std::move(__e);\n      if (__s->aux) ++__s;\n\
@@ -153,23 +153,23 @@ data:
     \   * @param node Node\n   * @return Const referece to the adjacency list of the\
     \ node.\n   */\n  const_reference operator[](size_type node) const {\n    assert(node\
     \ < size());\n    return graph[node];\n  }\n\n  class iterator : public container_type::iterator\
-    \ {\n    using base = typename container_type::iterator;\n\n   public:\n    using\
+    \ {\n    using _Base = typename container_type::iterator;\n\n   public:\n    using\
     \ reference = adjacency &;\n    using pointer = adjacency *;\n\n    iterator(const\
-    \ base &__i) : base(__i) {}\n\n    pointer operator->() const { return base::operator->();\
-    \ }\n\n    reference operator*() const { return base::operator*(); }\n  };\n\n\
-    \  class const_iterator : public container_type::const_iterator {\n    using base\
+    \ _Base &__i) : _Base(__i) {}\n\n    pointer operator->() const { return _Base::operator->();\
+    \ }\n\n    reference operator*() const { return _Base::operator*(); }\n  };\n\n\
+    \  class const_iterator : public container_type::const_iterator {\n    using _Base\
     \ = typename container_type::const_iterator;\n\n   public:\n    using const_reference\
     \ = const adjacency &;\n    using const_pointer = const adjacency *;\n\n    const_iterator(const\
-    \ base &__i) : base(__i) {}\n\n    const_pointer operator->() const { return base::operator->();\
-    \ }\n\n    const_reference operator*() const { return base::operator*(); }\n \
-    \ };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin() const\
-    \ { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
+    \ _Base &__i) : _Base(__i) {}\n\n    const_pointer operator->() const { return\
+    \ _Base::operator->(); }\n\n    const_reference operator*() const { return _Base::operator*();\
+    \ }\n  };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin()\
+    \ const { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
     \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  /**\n   *\
     \ @brief Add a node to the graph.\n   *\n   * @return Index of the node.\n   */\n\
     \  size_type add_node() { return add_nodes(1).front(); }\n\n  /**\n   * @brief\
     \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
     \   * @return List of indices of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type\
-    \ __n) {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
+    \ __n) noexcept {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
     \ __nodes.end(), graph.size());\n    graph.resize(graph.size() + __n);\n    return\
     \ __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n   *\n\
     \   * @return Reference to the edge.\n   */\n  template <class... _Args>\n  typename\
@@ -179,37 +179,17 @@ data:
     \ < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n   \
     \ // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
     \ = graph[__p->head].push(__p->make_rev());\n    return *__p;\n  }\n\n  /**\n\
-    \   * @brief Add a directed edge to the graph.\n   *\n   * @return Reference to\
-    \ the edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_edge(_Tp &&__t) {\n \
-    \   return _unpack_directed(std::forward<_Tp>(__t));\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph. Its cost must be non-negative.\n   *\n\
-    \   * @return Reference to the edge.\n   */\n  template <class... _Args> edge\
-    \ &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
+    \   * @brief Add an undirected edge to the graph. Its cost must be non-negative.\n\
+    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\
+    \ edge &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
     \    assert(__e.tail < size()), assert(__e.head < size());\n    __e.flow += __e.capacity;\n\
     \    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n    // Careful with\
     \ a self loop.\n    if (__p->tail != __p->head) {\n      edge_impl __r = __p->make_rev();\n\
     \      __r.aux = false;\n      __p->rev = graph[__p->head].push(std::move(__r));\n\
-    \    }\n    return *__p;\n  }\n\n  /**\n   * @brief Add an undirected edge to\
-    \ the graph. Its cost must be non-negative.\n   *\n   * @return Reference to the\
-    \ edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_undirected_edge(_Tp &&__t)\
-    \ {\n    return _unpack_undirected(std::forward<_Tp>(__t));\n  }\n\n protected:\n\
-    \  // internal\n  template <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto)\
-    \ _unpack_directed(_Tp &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_edge(std::forward<_Args>(__args)...);\n    else\n      return\
-    \ _unpack_directed<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n                   \
-    \                         std::forward<_Args>(__args)...,\n                  \
-    \                          std::get<_Nm>(__t));\n  }\n\n  // internal\n  template\
-    \ <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto) _unpack_undirected(_Tp\
-    \ &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_undirected_edge(std::forward<_Args>(__args)...);\n    else\n\
-    \      return _unpack_undirected<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n     \
-    \                                         std::forward<_Args>(__args)...,\n  \
-    \                                            std::get<_Nm>(__t));\n  }\n\n  template\
-    \ <class _Os>\n  friend _Os &operator<<(_Os &__os, flow_graph const &__g) {\n\
-    \    for (const auto &adj : __g)\n      for (const auto &e : adj) __os << e <<\
-    \ \"\\n\";\n    return __os;\n  }\n};\n\n}  // namespace workspace\n"
+    \    }\n    return *__p;\n  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os\
+    \ &__os, flow_graph const &__g) {\n    for (const auto &__adj : __g)\n      for\
+    \ (const auto &__e : __adj) __os << __e << \"\\n\";\n    return __os;\n  }\n};\n\
+    \n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file base.hpp\n * @brief Flow Graph\n */\n\n#include\
     \ <cassert>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\nnamespace\
     \ workspace {\n\ntemplate <class _Cap, class _Cost = void> class flow_graph {\n\
@@ -287,9 +267,9 @@ data:
     \ __t = __x.__t;\n      return *this;\n    }\n\n   protected:\n    edge_impl *first,\
     \ *last, *__s, *__t;\n  };\n\n  using value_type = adjacency;\n  using reference\
     \ = adjacency &;\n  using const_reference = adjacency const &;\n\n protected:\n\
-    \  class adjacency_impl : public adjacency {\n   public:\n    using base = adjacency;\n\
-    \    using base::__s;\n    using base::__t;\n    using base::first;\n    using\
-    \ base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
+    \  class adjacency_impl : public adjacency {\n   public:\n    using _Base = adjacency;\n\
+    \    using _Base::__s;\n    using _Base::__t;\n    using _Base::first;\n    using\
+    \ _Base::last;\n\n    using iterator = edge_impl *;\n\n    iterator push(const\
     \ edge_impl &__e) {\n      realloc();\n      *__t = __e;\n      if (__s->aux)\
     \ ++__s;\n      return __t++;\n    }\n\n    iterator push(edge_impl &&__e) {\n\
     \      realloc();\n      *__t = std::move(__e);\n      if (__s->aux) ++__s;\n\
@@ -323,23 +303,23 @@ data:
     \   * @param node Node\n   * @return Const referece to the adjacency list of the\
     \ node.\n   */\n  const_reference operator[](size_type node) const {\n    assert(node\
     \ < size());\n    return graph[node];\n  }\n\n  class iterator : public container_type::iterator\
-    \ {\n    using base = typename container_type::iterator;\n\n   public:\n    using\
+    \ {\n    using _Base = typename container_type::iterator;\n\n   public:\n    using\
     \ reference = adjacency &;\n    using pointer = adjacency *;\n\n    iterator(const\
-    \ base &__i) : base(__i) {}\n\n    pointer operator->() const { return base::operator->();\
-    \ }\n\n    reference operator*() const { return base::operator*(); }\n  };\n\n\
-    \  class const_iterator : public container_type::const_iterator {\n    using base\
+    \ _Base &__i) : _Base(__i) {}\n\n    pointer operator->() const { return _Base::operator->();\
+    \ }\n\n    reference operator*() const { return _Base::operator*(); }\n  };\n\n\
+    \  class const_iterator : public container_type::const_iterator {\n    using _Base\
     \ = typename container_type::const_iterator;\n\n   public:\n    using const_reference\
     \ = const adjacency &;\n    using const_pointer = const adjacency *;\n\n    const_iterator(const\
-    \ base &__i) : base(__i) {}\n\n    const_pointer operator->() const { return base::operator->();\
-    \ }\n\n    const_reference operator*() const { return base::operator*(); }\n \
-    \ };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin() const\
-    \ { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
+    \ _Base &__i) : _Base(__i) {}\n\n    const_pointer operator->() const { return\
+    \ _Base::operator->(); }\n\n    const_reference operator*() const { return _Base::operator*();\
+    \ }\n  };\n\n  auto begin() { return iterator{graph.begin()}; }\n  auto begin()\
+    \ const { return const_iterator{graph.begin()}; }\n\n  auto end() { return iterator{graph.end()};\
     \ }\n  auto end() const { return const_iterator{graph.end()}; }\n\n  /**\n   *\
     \ @brief Add a node to the graph.\n   *\n   * @return Index of the node.\n   */\n\
     \  size_type add_node() { return add_nodes(1).front(); }\n\n  /**\n   * @brief\
     \ Add some nodes to the graph.\n   *\n   * @param __n Number of nodes added\n\
     \   * @return List of indices of the nodes.\n   */\n  std::vector<size_type> add_nodes(size_type\
-    \ __n) {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
+    \ __n) noexcept {\n    std::vector<size_type> __nodes(__n);\n    std::iota(__nodes.begin(),\
     \ __nodes.end(), graph.size());\n    graph.resize(graph.size() + __n);\n    return\
     \ __nodes;\n  }\n\n  /**\n   * @brief Add a directed edge to the graph.\n   *\n\
     \   * @return Reference to the edge.\n   */\n  template <class... _Args>\n  typename\
@@ -349,44 +329,24 @@ data:
     \ < size());\n    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n   \
     \ // Careful with a self loop.\n    if (__p->tail != __p->head)\n      __p->rev\
     \ = graph[__p->head].push(__p->make_rev());\n    return *__p;\n  }\n\n  /**\n\
-    \   * @brief Add a directed edge to the graph.\n   *\n   * @return Reference to\
-    \ the edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_edge(_Tp &&__t) {\n \
-    \   return _unpack_directed(std::forward<_Tp>(__t));\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph. Its cost must be non-negative.\n   *\n\
-    \   * @return Reference to the edge.\n   */\n  template <class... _Args> edge\
-    \ &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
+    \   * @brief Add an undirected edge to the graph. Its cost must be non-negative.\n\
+    \   *\n   * @return Reference to the edge.\n   */\n  template <class... _Args>\
+    \ edge &add_undirected_edge(_Args &&...__args) {\n    edge_impl __e = edge(std::forward<_Args>(__args)...);\n\
     \    assert(__e.tail < size()), assert(__e.head < size());\n    __e.flow += __e.capacity;\n\
     \    edge_impl *__p = graph[__e.tail].push(std::move(__e));\n    // Careful with\
     \ a self loop.\n    if (__p->tail != __p->head) {\n      edge_impl __r = __p->make_rev();\n\
     \      __r.aux = false;\n      __p->rev = graph[__p->head].push(std::move(__r));\n\
-    \    }\n    return *__p;\n  }\n\n  /**\n   * @brief Add an undirected edge to\
-    \ the graph. Its cost must be non-negative.\n   *\n   * @return Reference to the\
-    \ edge.\n   */\n  template <class _Tp>\n  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value\
-    \ >= 0),\n                          edge &>::type\n  add_undirected_edge(_Tp &&__t)\
-    \ {\n    return _unpack_undirected(std::forward<_Tp>(__t));\n  }\n\n protected:\n\
-    \  // internal\n  template <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto)\
-    \ _unpack_directed(_Tp &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_edge(std::forward<_Args>(__args)...);\n    else\n      return\
-    \ _unpack_directed<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n                   \
-    \                         std::forward<_Args>(__args)...,\n                  \
-    \                          std::get<_Nm>(__t));\n  }\n\n  // internal\n  template\
-    \ <class _Tp, size_t _Nm = 0, class... _Args>\n  decltype(auto) _unpack_undirected(_Tp\
-    \ &&__t, _Args &&...__args) {\n    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)\n\
-    \      return add_undirected_edge(std::forward<_Args>(__args)...);\n    else\n\
-    \      return _unpack_undirected<_Tp, _Nm + 1>(std::forward<_Tp>(__t),\n     \
-    \                                         std::forward<_Args>(__args)...,\n  \
-    \                                            std::get<_Nm>(__t));\n  }\n\n  template\
-    \ <class _Os>\n  friend _Os &operator<<(_Os &__os, flow_graph const &__g) {\n\
-    \    for (const auto &adj : __g)\n      for (const auto &e : adj) __os << e <<\
-    \ \"\\n\";\n    return __os;\n  }\n};\n\n}  // namespace workspace\n"
+    \    }\n    return *__p;\n  }\n\n  template <class _Os>\n  friend _Os &operator<<(_Os\
+    \ &__os, flow_graph const &__g) {\n    for (const auto &__adj : __g)\n      for\
+    \ (const auto &__e : __adj) __os << __e << \"\\n\";\n    return __os;\n  }\n};\n\
+    \n}  // namespace workspace\n"
   dependsOn: []
   isVerificationFile: false
   path: src/graph/directed/flow/base.hpp
   requiredBy:
   - src/graph/directed/flow/Dinic.hpp
   - src/graph/directed/flow/min_cost_flow.hpp
-  timestamp: '2021-11-25 21:10:55+09:00'
+  timestamp: '2021-11-25 21:45:58+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/min_cost_b_flow.test.cpp
