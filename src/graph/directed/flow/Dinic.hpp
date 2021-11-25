@@ -53,19 +53,7 @@ template <class _Cap> class Dinic : public flow_graph<_Cap> {
    * @brief Construct a new Dinic object.
    * @param __n Number of nodes
    */
-  Dinic(size_type __n) noexcept
-      : base::flow_graph(__n), __level(__n, nil), __iter(__n) {}
-
-  /**
-   * @brief Add some nodes to the graph.
-   * @param __n Number of nodes added
-   * @return List of indices of the nodes.
-   */
-  std::vector<size_type> add_nodes(size_type __n) override {
-    auto __nds = base::add_nodes(__n);
-    __level.resize(base::size(), nil), __iter.resize(base::size());
-    return __nds;
-  }
+  Dinic(size_type __n) noexcept : base::flow_graph(__n) {}
 
   /**
    * @brief Run Dinic's algorithm.
@@ -87,6 +75,9 @@ template <class _Cap> class Dinic : public flow_graph<_Cap> {
   _Cap run(size_type __src, size_type __dst, _Cap __limit) noexcept {
     assert(__src < base::size()), assert(__dst < base::size()),
         assert(__src != __dst);
+
+    __level.resize(base::size(), nil);
+    __iter.resize(base::size());
 
     if (!(static_cast<_Cap>(0) < __limit)) return 0;
     _Cap __flow = 0;

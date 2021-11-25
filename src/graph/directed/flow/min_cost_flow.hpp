@@ -35,11 +35,6 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    */
   min_cost_flow(size_type __n = 0) : base::flow_graph(__n), b(__n) {}
 
-  std::vector<size_type> add_nodes(size_type __n) override {
-    b.resize(b.size() + __n);
-    return base::add_nodes(__n);
-  }
-
   using base::add_edge;
 
   /**
@@ -54,8 +49,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    */
   edge &add_edge(size_type __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {
     assert(!(__u < __l));
-    b[__s] -= __l;
-    b[__d] += __l;
+    b[__s] -= __l, b[__d] += __l;
     auto &__e = base::add_edge(__s, __d, __u - __l, __c);
     __e.flow = __l;
     return __e;
@@ -81,7 +75,8 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @param __f Default: 1
    */
   void supply(size_type node, _Cap __f = 1) {
-    assert(node < b.size());
+    assert(node < base::size());
+    b.resize(base::size());
     b[node] += __f;
   }
 
@@ -92,7 +87,8 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @param __f Default: 1
    */
   void demand(size_type node, _Cap __f = 1) {
-    assert(node < b.size());
+    assert(node < base::size());
+    b.resize(base::size());
     b[node] -= __f;
   }
 
@@ -129,6 +125,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @return Whether a balanced flow exists.
    */
   bool run() {
+    b.resize(base::size());
     p.resize(b.size());
 
     _Cap delta = 0;

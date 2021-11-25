@@ -3,9 +3,6 @@
 /**
  * @file base.hpp
  * @brief Flow Graph
- * @date 2021-01-15
- *
- *
  */
 
 #include <cassert>
@@ -32,7 +29,8 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
     unweighted_edge(size_type __s, size_type __d, const _Cap &__u = 1)
         : tail(__s), head(__d), capacity(__u), flow(0) {
-      assert(!(capacity < static_cast<_Cap>(0)));
+      assert(!(capacity < static_cast<_Cap>(0))),
+          assert(!(flow < static_cast<_Cap>(0)));
     }
 
     // tail, head, capacity, flow
@@ -259,7 +257,25 @@ template <class _Cap, class _Cost = void> class flow_graph {
 
     using iterator = edge_impl *;
 
+    iterator push(const edge_impl &__e) {
+      realloc();
+      *__t = __e;
+      if (__s->aux) ++__s;
+      return __t++;
+    }
+
     iterator push(edge_impl &&__e) {
+      realloc();
+      *__t = std::move(__e);
+      if (__s->aux) ++__s;
+      return __t++;
+    }
+
+    iterator begin() const { return first; }
+
+    iterator end() const { return __t; }
+
+    void realloc() {
       if (__t == last) {
         size_type __n(last - first);
         iterator loc = new edge_impl[__n << 1 | 1];
@@ -273,14 +289,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
         first = loc;
         last = __t + __n;
       }
-      *__t = std::move(__e);
-      if (__s->aux) ++__s;
-      return __t++;
     }
-
-    iterator begin() const { return first; }
-
-    iterator end() const { return __t; }
   };
 
   // Only member variable.
@@ -407,19 +416,22 @@ template <class _Cap, class _Cost = void> class flow_graph {
    * @param __n Number of nodes added
    * @return List of indices of the nodes.
    */
-  virtual std::vector<size_type> add_nodes(size_type __n) {
-    std::vector<size_type> __nds(__n);
-    std::iota(__nds.begin(), __nds.end(), graph.size());
+  std::vector<size_type> add_nodes(size_type __n) {
+    std::vector<size_type> __nodes(__n);
+    std::iota(__nodes.begin(), __nodes.end(), graph.size());
     __n += graph.size();
     if (__n > graph.capacity()) {
-      flow_graph __x(__n);
-      for (auto &&adj : graph)
-        for (auto &&__e : adj)
-          if (!__e.aux) __x.add_edge(__e);
-      graph = std::move(__x.graph);
+      container_type __tmp(__n);
+      for (auto &&__adj : graph)
+        for (auto &&__e : __adj) {
+          edge_impl *__p = __tmp[__e.tail].push(std::move(__e));
+          // Careful with a self loop.
+          if (__p->rev) __p->rev->rev = __p;
+        }
+      graph = std::move(__tmp);
     } else
       graph.resize(__n);
-    return __nds;
+    return __nodes;
   }
 
   /**
@@ -432,11 +444,11 @@ template <class _Cap, class _Cost = void> class flow_graph {
                           edge &>::type
   add_edge(_Args &&...__args) {
     edge_impl __e = edge(std::forward<_Args>(__args)...);
-    assert(__e.tail < size());
-    assert(__e.head < size());
+    assert(__e.tail < size()), assert(__e.head < size());
     edge_impl *__p = graph[__e.tail].push(std::move(__e));
     // Careful with a self loop.
-    if (__e.tail != __e.head) __p->rev = graph[__e.head].push(__p->make_rev());
+    if (__p->tail != __p->head)
+      __p->rev = graph[__p->head].push(__p->make_rev());
     return *__p;
   }
 
@@ -459,15 +471,14 @@ template <class _Cap, class _Cost = void> class flow_graph {
    */
   template <class... _Args> edge &add_undirected_edge(_Args &&...__args) {
     edge_impl __e = edge(std::forward<_Args>(__args)...);
-    assert(__e.tail < size());
-    assert(__e.head < size());
-    (__e.flow += __e.flow) += __e.capacity;
+    assert(__e.tail < size()), assert(__e.head < size());
+    __e.flow += __e.capacity;
     edge_impl *__p = graph[__e.tail].push(std::move(__e));
     // Careful with a self loop.
-    if (__e.tail != __e.head) {
+    if (__p->tail != __p->head) {
       edge_impl __r = __p->make_rev();
       __r.aux = false;
-      __p->rev = graph[__e.head].push(std::move(__r));
+      __p->rev = graph[__p->head].push(std::move(__r));
     }
     return *__p;
   }
