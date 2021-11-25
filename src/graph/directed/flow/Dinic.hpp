@@ -111,6 +111,19 @@ template <class _Cap> class Dinic : public flow_graph<_Cap> {
 
     return __flow;
   }
+
+  // Minimum Cut.
+  // Call it after `run`.
+  auto min_cut() const noexcept {
+    std::vector<typename base::edge> __cut;
+
+    for (size_type __x{}; __x != base::size(); ++__x)
+      if (~__level[__x])
+        for (const auto &__e : base::operator[](__x))
+          if (!~__level[__e.head]) __cut.emplace_back(__e);
+
+    return __cut;
+  }
 };
 
 }  // namespace workspace
