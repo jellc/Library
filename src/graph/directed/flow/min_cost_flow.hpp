@@ -21,21 +21,14 @@ namespace workspace {
  */
 template <class _Cap, class _Cost = _Cap>
 class min_cost_flow : public flow_graph<_Cap, _Cost> {
-  using base = flow_graph<_Cap, _Cost>;
-  using edge_impl = typename base::edge_impl;
+  using _Base = flow_graph<_Cap, _Cost>;
+  using typename _Base::edge_impl;
 
  public:
-  using edge = typename base::edge;
-  using size_type = typename base::size_type;
-
-  /**
-   * @brief Construct a new min_cost_flow object
-   *
-   * @param __n Number of vertices
-   */
-  min_cost_flow(size_type __n = 0) : base::flow_graph(__n), b(__n) {}
-
-  using base::add_edge;
+  using _Base::_Base;
+  using _Base::add_edge;
+  using typename _Base::edge;
+  using typename _Base::size_type;
 
   /**
    * @brief Add a directed edge to the graph.
@@ -50,7 +43,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
   edge &add_edge(size_type __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {
     assert(!(__u < __l));
     b[__s] -= __l, b[__d] += __l;
-    auto &__e = base::add_edge(__s, __d, __u - __l, __c);
+    auto &__e = _Base::add_edge(__s, __d, __u - __l, __c);
     __e.flow = __l;
     return __e;
   }
@@ -62,7 +55,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    */
   template <class... _Args> edge &add_undirected_edge(_Args &&...__args) {
     auto &__e = static_cast<edge_impl &>(
-        base::add_undirected_edge(std::forward<_Args>(__args)...));
+        _Base::add_undirected_edge(std::forward<_Args>(__args)...));
     assert(!(__e.cost < 0));
     __e.rev->cost = __e.cost;
     return __e;
@@ -75,8 +68,8 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @param __f Default: 1
    */
   void supply(size_type node, _Cap __f = 1) {
-    assert(node < base::size());
-    b.resize(base::size());
+    assert(node < _Base::size());
+    b.resize(_Base::size());
     b[node] += __f;
   }
 
@@ -87,8 +80,8 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @param __f Default: 1
    */
   void demand(size_type node, _Cap __f = 1) {
-    assert(node < base::size());
-    b.resize(base::size());
+    assert(node < _Base::size());
+    b.resize(_Base::size());
     b[node] -= __f;
   }
 
@@ -125,11 +118,11 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    * @return Whether a balanced flow exists.
    */
   bool run() {
-    b.resize(base::size());
+    b.resize(_Base::size());
     p.resize(b.size());
 
     _Cap delta = 0;
-    for (auto &&__adj : base::graph)
+    for (auto &&__adj : _Base::graph)
       for (auto &&__e : __adj) delta = std::max(delta, __e.capacity);
     if (delta == static_cast<_Cap>(0))
       return std::all_of(b.begin(), b.end(),
@@ -140,7 +133,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
     while (static_cast<_Cap>(0) < delta) {
       delta /= 2;
 
-      for (auto &&__adj : base::graph)
+      for (auto &&__adj : _Base::graph)
         for (auto &&__e : __adj)
           if (delta < __e.capacity && __e.cost < p[__e.head] - p[__e.tail]) {
             b[__e.tail] -= __e.capacity;
@@ -170,7 +163,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
     }
 
     current = 0;
-    for (auto &&__adj : base::graph)
+    for (auto &&__adj : _Base::graph)
       for (auto &&__e : __adj)
         if (!__e.aux) current += __e.cost * __e.flow;
 
@@ -237,7 +230,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
       if (__d + p[__v] != __nx[__v]) continue;
       __ld = __d;
       if (b[__v] < -delta && ++reachable == sinks.size()) break;
-      for (auto &__e : base::graph[__v])
+      for (auto &__e : _Base::graph[__v])
         if (delta < __e.capacity &&
             (__d = __nx[__v] + __e.cost) < __nx[__e.head]) {
           __q.emplace(__e.head, (__nx[__e.head] = __d) - p[__e.head]);

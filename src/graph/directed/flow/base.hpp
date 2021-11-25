@@ -249,11 +249,11 @@ template <class _Cap, class _Cost = void> class flow_graph {
  protected:
   class adjacency_impl : public adjacency {
    public:
-    using base = adjacency;
-    using base::__s;
-    using base::__t;
-    using base::first;
-    using base::last;
+    using _Base = adjacency;
+    using _Base::__s;
+    using _Base::__t;
+    using _Base::first;
+    using _Base::last;
 
     using iterator = edge_impl *;
 
@@ -370,31 +370,31 @@ template <class _Cap, class _Cost = void> class flow_graph {
   }
 
   class iterator : public container_type::iterator {
-    using base = typename container_type::iterator;
+    using _Base = typename container_type::iterator;
 
    public:
     using reference = adjacency &;
     using pointer = adjacency *;
 
-    iterator(const base &__i) : base(__i) {}
+    iterator(const _Base &__i) : _Base(__i) {}
 
-    pointer operator->() const { return base::operator->(); }
+    pointer operator->() const { return _Base::operator->(); }
 
-    reference operator*() const { return base::operator*(); }
+    reference operator*() const { return _Base::operator*(); }
   };
 
   class const_iterator : public container_type::const_iterator {
-    using base = typename container_type::const_iterator;
+    using _Base = typename container_type::const_iterator;
 
    public:
     using const_reference = const adjacency &;
     using const_pointer = const adjacency *;
 
-    const_iterator(const base &__i) : base(__i) {}
+    const_iterator(const _Base &__i) : _Base(__i) {}
 
-    const_pointer operator->() const { return base::operator->(); }
+    const_pointer operator->() const { return _Base::operator->(); }
 
-    const_reference operator*() const { return base::operator*(); }
+    const_reference operator*() const { return _Base::operator*(); }
   };
 
   auto begin() { return iterator{graph.begin()}; }
@@ -416,7 +416,7 @@ template <class _Cap, class _Cost = void> class flow_graph {
    * @param __n Number of nodes added
    * @return List of indices of the nodes.
    */
-  std::vector<size_type> add_nodes(size_type __n) {
+  std::vector<size_type> add_nodes(size_type __n) noexcept {
     std::vector<size_type> __nodes(__n);
     std::iota(__nodes.begin(), __nodes.end(), graph.size());
     graph.resize(graph.size() + __n);
@@ -442,18 +442,6 @@ template <class _Cap, class _Cost = void> class flow_graph {
   }
 
   /**
-   * @brief Add a directed edge to the graph.
-   *
-   * @return Reference to the edge.
-   */
-  template <class _Tp>
-  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value >= 0),
-                          edge &>::type
-  add_edge(_Tp &&__t) {
-    return _unpack_directed(std::forward<_Tp>(__t));
-  }
-
-  /**
    * @brief Add an undirected edge to the graph. Its cost must be non-negative.
    *
    * @return Reference to the edge.
@@ -472,45 +460,10 @@ template <class _Cap, class _Cost = void> class flow_graph {
     return *__p;
   }
 
-  /**
-   * @brief Add an undirected edge to the graph. Its cost must be non-negative.
-   *
-   * @return Reference to the edge.
-   */
-  template <class _Tp>
-  typename std::enable_if<(std::tuple_size<std::decay_t<_Tp>>::value >= 0),
-                          edge &>::type
-  add_undirected_edge(_Tp &&__t) {
-    return _unpack_undirected(std::forward<_Tp>(__t));
-  }
-
- protected:
-  // internal
-  template <class _Tp, size_t _Nm = 0, class... _Args>
-  decltype(auto) _unpack_directed(_Tp &&__t, _Args &&...__args) {
-    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)
-      return add_edge(std::forward<_Args>(__args)...);
-    else
-      return _unpack_directed<_Tp, _Nm + 1>(std::forward<_Tp>(__t),
-                                            std::forward<_Args>(__args)...,
-                                            std::get<_Nm>(__t));
-  }
-
-  // internal
-  template <class _Tp, size_t _Nm = 0, class... _Args>
-  decltype(auto) _unpack_undirected(_Tp &&__t, _Args &&...__args) {
-    if constexpr (_Nm == std::tuple_size<std::decay_t<_Tp>>::value)
-      return add_undirected_edge(std::forward<_Args>(__args)...);
-    else
-      return _unpack_undirected<_Tp, _Nm + 1>(std::forward<_Tp>(__t),
-                                              std::forward<_Args>(__args)...,
-                                              std::get<_Nm>(__t));
-  }
-
   template <class _Os>
   friend _Os &operator<<(_Os &__os, flow_graph const &__g) {
-    for (const auto &adj : __g)
-      for (const auto &e : adj) __os << e << "\n";
+    for (const auto &__adj : __g)
+      for (const auto &__e : __adj) __os << __e << "\n";
     return __os;
   }
 };
