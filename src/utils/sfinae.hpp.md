@@ -23,7 +23,7 @@ data:
   - icon: ':warning:'
     path: src/data_structure/map.hpp
     title: Map
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
@@ -62,14 +62,14 @@ data:
   - icon: ':warning:'
     path: src/utils/io/input.hpp
     title: Input
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
     path: src/utils/round_div.hpp
     title: Round Integer Division
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
@@ -144,9 +144,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -288,7 +288,7 @@ data:
   - src/algebra/berlekamp_massey.hpp
   - src/algebra/ntt.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/zalgorithm_2.test.cpp

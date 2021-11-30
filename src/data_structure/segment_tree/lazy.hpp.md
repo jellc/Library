@@ -1,29 +1,29 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/operation.hpp
     title: Operation Traits
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Lazy Segment Tree
     links: []
@@ -423,7 +423,7 @@ data:
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
   timestamp: '2021-11-30 18:24:38+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp

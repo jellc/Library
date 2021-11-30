@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

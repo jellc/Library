@@ -99,10 +99,10 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/system/operation.hpp
       title: Operation Traits
   - name: src/combinatorics
@@ -167,10 +167,10 @@ data:
     - icon: ':warning:'
       path: src/data_structure/segment_tree/dual.hpp
       title: Dual Segment Tree
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -237,7 +237,7 @@ data:
     - icon: ':question:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy-Light Decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/graph/undirected/tree/lowest_common_ancestor.hpp
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp
   - name: src/graph/undirected
@@ -356,7 +356,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
     - icon: ':warning:'
@@ -372,7 +372,7 @@ data:
     - icon: ':warning:'
       path: src/utils/io/input.hpp
       title: Input
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
     - icon: ':heavy_check_mark:'
@@ -452,7 +452,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.test.cpp
       title: test/aizu-online-judge/1615.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -550,7 +550,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
     - icon: ':heavy_check_mark:'

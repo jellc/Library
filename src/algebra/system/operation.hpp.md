@@ -5,22 +5,22 @@ data:
   - icon: ':warning:'
     path: src/algebra/rational.hpp
     title: Rational
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
     path: src/opt/golden_section.hpp
     title: Golden Section
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Operation Traits
     links: []
@@ -171,7 +171,7 @@ data:
   - src/opt/golden_section.hpp
   - src/algebra/rational.hpp
   timestamp: '2021-11-30 17:55:32+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/aizu-online-judge/2450.test.cpp

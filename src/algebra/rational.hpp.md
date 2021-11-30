@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/system/operation.hpp
     title: Operation Traits
   _extendedRequiredBy: []
