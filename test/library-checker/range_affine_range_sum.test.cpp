@@ -32,7 +32,7 @@ int main() {
       printf("%d\n", seg.fold(l, r).v);
     } else {
       scanf("%d%d", &a, &b);
-      seg.update(l, r, {a, b});
+      seg.apply(l, r, {a, b});
     }
   }
 }

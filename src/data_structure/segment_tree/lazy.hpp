@@ -42,60 +42,47 @@ class lazy_segment_tree {
 
   void repair() {
     while (!wait.empty()) {
-      const size_t index = wait.pop() >> 1;
-      if (index && wait.push(index)) pull(index);
+      const size_t __i = wait.pop() >> 1;
+      if (__i && wait.push(__i)) pull(__i);
     }
   }
 
-  void apply(size_t node, const _End &endo) {
-    data[node] = data[node] * endo;
-    if (node < size_ext) lazy[node] = lazy[node] * endo;
+  void _apply(size_t node, const _End &__e) {
+    data[node] = data[node] * __e;
+    if (node < size_ext) lazy[node] = lazy[node] * __e;
   }
 
   void push(size_t node) {
-    apply(node << 1, lazy[node]);
-    apply(node << 1 | 1, lazy[node]);
+    _apply(node << 1, lazy[node]);
+    _apply(node << 1 | 1, lazy[node]);
     lazy[node] = _End{};
   }
 
   void pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
-  template <class Pred>
-  static constexpr decltype(std::declval<Pred>()(_Monoid{})) pass_args(
-      Pred pred, _Monoid const &_1, [[maybe_unused]] size_t _2) {
-    return pred(_1);
-  }
-
-  template <class Pred>
-  static constexpr decltype(std::declval<Pred>()(_Monoid{}, size_t{}))
-  pass_args(Pred pred, _Monoid const &_1, size_t _2) {
-    return pred(_1, _2);
-  }
-
-  template <class Pred>
+  template <class _Pred>
   size_t left_partition_subtree(size_t node, _Monoid mono, size_t step,
-                                Pred pred) {
+                                _Pred __pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
-      const _Monoid tmp = data[(node <<= 1) | 1] + mono;
-      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
-        mono = tmp;
+      const _Monoid __tmp = data[(node <<= 1) | 1] + mono;
+      if (__pred(__tmp))
+        mono = std::move(__tmp);
       else
         ++node;
     }
     return ++node -= size_ext;
   }
 
-  template <class Pred>
+  template <class _Pred>
   size_t right_partition_subtree(size_t node, _Monoid mono, size_t step,
-                                 Pred pred) {
+                                 _Pred __pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
-      const _Monoid tmp = mono + data[node <<= 1];
-      if (pass_args(pred, tmp, ((node | 1) << --step) ^ size_ext))
-        ++node, mono = tmp;
+      const _Monoid __tmp = mono + data[node <<= 1];
+      if (__pred(__tmp)) ++node, mono = std::move(__tmp);
     }
     return (node -= size_ext) < size_orig ? node : size_orig;
   }
@@ -160,16 +147,16 @@ class lazy_segment_tree {
   auto rbegin() { return std::make_reverse_iterator(end()); }
   auto rend() { return std::make_reverse_iterator(begin()); }
 
-  lazy_segment_tree(size_t n = 0)
-      : size_orig{n},
-        height(n > 1 ? 32 - __builtin_clz(n - 1) : 0),
+  lazy_segment_tree(size_t __n = 0)
+      : size_orig{__n},
+        height(__n > 1 ? 32 - __builtin_clz(__n - 1) : 0),
         size_ext{1u << height},
         data(size_ext << 1),
         lazy(size_ext),
         wait(size_ext << 1) {}
 
-  lazy_segment_tree(size_t n, const _Monoid &init) : lazy_segment_tree(n) {
-    std::fill(std::next(std::begin(data), size_ext), std::end(data), init);
+  lazy_segment_tree(size_t __n, const _Monoid &init) : lazy_segment_tree(__n) {
+    std::fill_n(std::next(std::begin(data), size_ext), __n, init);
     for (size_t i{size_ext}; --i;) pull(i);
   }
 
@@ -196,24 +183,22 @@ class lazy_segment_tree {
   size_t size() const { return size_orig; }
 
   /**
-   * @param index Index of the element
+   * @param __i Index of the element
    * @return Reference to the element.
    */
-  _Monoid &operator[](size_t index) {
-    assert(index < size_orig);
-    index |= size_ext;
-    wait.push(index);
-    for (size_t i = height; i; --i) push(index >> i);
-    return data[index];
+  _Monoid &operator[](size_t __i) {
+    assert(__i < size_orig);
+    __i |= size_ext;
+    wait.push(__i);
+    for (size_t i = height; i; --i) push(__i >> i);
+    return data[__i];
   }
 
-  void update(const _End &endo) { update(0, size_orig, endo); }
+  void apply(const _End &__e) { apply(0, size_orig, __e); }
 
-  void update(size_t index, const _End &endo) {
-    update(index, index + 1, endo);
-  }
+  void apply(size_t __i, const _End &__e) { apply(__i, __i + 1, __e); }
 
-  void update(size_t first, size_t last, const _End &endo) {
+  void apply(size_t first, size_t last, const _End &__e) {
     assert(last <= size_orig);
     repair();
     if (first >= last) return;
@@ -222,8 +207,8 @@ class lazy_segment_tree {
     for (size_t i = height; i; --i) push(first >> i), push(last >> i);
     ++last;
     for (size_t l = first, r = last; l != r; l >>= 1, r >>= 1) {
-      if (l & 1) apply(l++, endo);
-      if (r & 1) apply(--r, endo);
+      if (l & 1) _apply(l++, __e);
+      if (r & 1) _apply(--r, __e);
     }
     for (first >>= __builtin_ffs(first); first; first >>= 1) pull(first);
     for (last >>= __builtin_ffs(last); last; last >>= 1) pull(last);
@@ -263,26 +248,25 @@ class lazy_segment_tree {
 
   /**
    * @brief Binary search for the partition point.
-   * @param right Right fixed end of the interval, exclusive
-   * @param pred Predicate in the form of either 'bool(_Monoid)' or
-   * 'bool(_Monoid, size_t)'
+   * @param __r Right fixed end of the interval, exclusive
+   * @param __pred Predicate in the form of 'bool(_Monoid)'
    * @return Left end of the extremal interval satisfying the condition,
    * inclusive.
    */
-  template <class Pred> size_t left_partition(size_t right, Pred pred) {
-    assert(right <= size_orig);
+  template <class _Pred> size_t left_partition(size_t __r, _Pred __pred) {
+    assert(__r <= size_orig);
     repair();
-    right += size_ext - 1;
-    for (size_t i{height}; i; --i) push(right >> i);
-    ++right;
+    __r += size_ext - 1;
+    for (size_t i{height}; i; --i) push(__r >> i);
+    ++__r;
     _Monoid mono{};
-    for (size_t left{size_ext}, step{}; left != right;
-         left >>= 1, right >>= 1, ++step) {
-      if ((left & 1) != (right & 1)) {
-        const _Monoid tmp = data[--right] + mono;
-        if (!pass_args(pred, tmp, (right << step) ^ size_ext))
-          return left_partition_subtree(right, mono, step, pred);
-        mono = tmp;
+    for (size_t __l{size_ext}, step{}; __l != __r;
+         __l >>= 1, __r >>= 1, ++step) {
+      if ((__l & 1) != (__r & 1)) {
+        const _Monoid __tmp = data[--__r] + mono;
+        if (!__pred(__tmp))
+          return left_partition_subtree(__r, std::move(mono), step, __pred);
+        mono = std::move(__tmp);
       }
     }
     return 0;
@@ -290,26 +274,25 @@ class lazy_segment_tree {
 
   /**
    * @brief Binary search for the partition point.
-   * @param left Left fixed end of the interval, inclusive
-   * @param pred Predicate in the form of either 'bool(_Monoid)' or
-   * 'bool(_Monoid, size_t)'
+   * @param __l Left fixed end of the interval, inclusive
+   * @param __pred Predicate in the form of 'bool(_Monoid)'
    * @return Right end of the extremal interval satisfying the condition,
    * exclusive.
    */
-  template <class Pred> size_t right_partition(size_t left, Pred pred) {
-    assert(left <= size_orig);
+  template <class _Pred> size_t right_partition(size_t __l, _Pred __pred) {
+    assert(__l <= size_orig);
     repair();
-    left += size_ext;
-    for (size_t i{height}; i; --i) push(left >> i);
+    __l += size_ext;
+    for (size_t i{height}; i; --i) push(__l >> i);
     _Monoid mono{};
-    for (size_t right{size_ext << 1}, step{}; left != right;
-         left >>= 1, right >>= 1, ++step) {
-      if ((left & 1) != (right & 1)) {
-        const _Monoid tmp = mono + data[left];
-        if (!pass_args(pred, tmp, ((left + 1) << step) ^ size_ext))
-          return right_partition_subtree(left, mono, step, pred);
-        mono = tmp;
-        ++left;
+    for (size_t __r{size_ext << 1}, step{}; __l != __r;
+         __l >>= 1, __r >>= 1, ++step) {
+      if ((__l & 1) != (__r & 1)) {
+        const _Monoid __tmp = mono + data[__l];
+        if (!__pred(__tmp))
+          return right_partition_subtree(__l, std::move(mono), step, __pred);
+        mono = std::move(__tmp);
+        ++__l;
       }
     }
     return size_orig;

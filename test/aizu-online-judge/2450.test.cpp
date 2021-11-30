@@ -70,13 +70,13 @@ int main() {
     int tp, a, b, c;
     std::cin >> tp >> a >> b >> c;
     --a, --b;
-    auto [left, right] = hld.path_decomposition(a, b);
+    auto [left, right] = hld.split_path(a, b);
     if (tp == 1) {
       for (auto &&[l, r] : left) {
-        seg.update(l, r, c);
+        seg.apply(l, r, c);
       }
       for (auto &&[l, r] : right) {
-        seg.update(l, r, c);
+        seg.apply(l, r, c);
       }
     } else {
       mono lv;
