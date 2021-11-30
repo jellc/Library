@@ -23,7 +23,16 @@ data:
     \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
     \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
     \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \ {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container is empty.\n\
+    \ *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n[[nodiscard]]\
+    \ constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
     \n#include <variant>\n\n#endif\n#line 11 \"src/data_structure/ndvec.hpp\"\n\n\
     namespace workspace {\n\ntemplate <class _Tp, size_t _Dim>\nclass ndvec : public\
     \ std::vector<ndvec<_Tp, _Dim - 1>> {\n public:\n  static constexpr auto dimension\
@@ -76,7 +85,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/ndvec.hpp
   requiredBy: []
-  timestamp: '2021-08-29 00:12:28+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/ndvec.hpp

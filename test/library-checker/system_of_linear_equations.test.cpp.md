@@ -1,35 +1,35 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -437,14 +437,23 @@ data:
     \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 16\
-    \ \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace _istream_impl\
-    \ {\n\ntemplate <class _Tp, typename = void> struct helper {\n  helper(std::istream\
-    \ &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp &>::value)\n    \
-    \  for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is, __e);\n  \
-    \  else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported type.\"\
-    );\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace\
+    \ _istream_impl {\n\ntemplate <class _Tp, typename = void> struct helper {\n \
+    \ helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp\
+    \ &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
+    \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
+    \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
     \ &>() >>\n                                          std::declval<_Tp &>())>>\
     \ {\n  helper(std::istream &__is, _Tp &__x) { __is >> __x; }\n};\n\n#ifdef __SIZEOF_INT128__\n\
     \ntemplate <> struct helper<__uint128_t, void> {\n  helper(std::istream &__is,\
@@ -554,8 +563,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-11-30 17:55:32+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/system_of_linear_equations.test.cpp
 layout: document

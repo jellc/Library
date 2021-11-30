@@ -29,7 +29,16 @@ data:
     \ noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size()) {\n  return\
     \ __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n */\ntemplate\
     \ <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \ {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container is empty.\n\
+    \ *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n[[nodiscard]]\
+    \ constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
     \n#include <variant>\n\n#endif\n#line 11 \"src/utils/py-like/reversed.hpp\"\n\n\
     namespace workspace {\n\n// Reversed container.\ntemplate <class _Container> class\
     \ reversed {\n  _Container __c;\n\n public:\n  template <class _Tp>\n  constexpr\
@@ -76,7 +85,7 @@ data:
   requiredBy:
   - src/utils/py-like/enumerate.hpp
   - src/utils/py-like/range.hpp
-  timestamp: '2021-09-03 13:40:23+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/py-like/reversed.hpp

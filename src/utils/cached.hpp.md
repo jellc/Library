@@ -35,11 +35,20 @@ data:
     constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 10\
-    \ \"src/utils/cached.hpp\"\n\nnamespace workspace {\n\nnamespace _cached_impl\
-    \ {\n\n// Convert keys to tuple.\ntemplate <class... _Args> struct as_tuple {\n\
-    \  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<std::conditional_t<\n\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 10 \"src/utils/cached.hpp\"\n\nnamespace workspace {\n\nnamespace\
+    \ _cached_impl {\n\n// Convert keys to tuple.\ntemplate <class... _Args> struct\
+    \ as_tuple {\n  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<std::conditional_t<\n\
     \          std::is_convertible<std::decay_t<_Args>, _Args>::value,\n         \
     \ std::decay_t<_Args>, _Args>>>()...));\n};\n\n// Associative array.\ntemplate\
     \ <class _Value, class... _Keys>\nstruct assoc\n    : std::integral_constant<int,\
@@ -179,7 +188,7 @@ data:
   isVerificationFile: false
   path: src/utils/cached.hpp
   requiredBy: []
-  timestamp: '2021-10-09 10:50:26+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/cached.hpp

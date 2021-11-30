@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   _extendedVerifiedWith:
@@ -51,12 +51,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Tonelli-Shanks Algorithm
     links: []
@@ -168,21 +168,21 @@ data:
   requiredBy:
   - src/algebra/modint.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
-  - test/library-checker/bitwise_and_convolution.test.cpp
-  - test/library-checker/matrix_det.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
-  - test/library-checker/bitwise_xor_convolution.test.cpp
-  - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/sqrt_mod.test.cpp
   - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/subset_convolution.test.cpp
-  - test/library-checker/system_of_linear_equations.test.cpp
-  - test/library-checker/multipoint_evaluation.test.cpp
-  - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/sqrt_mod.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/system_of_linear_equations.test.cpp
+  - test/library-checker/matrix_det.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/number_theory/sqrt_mod.hpp
 layout: document

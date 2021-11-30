@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -160,17 +160,17 @@ data:
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
   requiredBy:
+  - src/number_theory/order.hpp
   - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
   - src/algebra/ntt.hpp
-  - src/number_theory/order.hpp
   timestamp: '2021-07-16 03:07:50+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp
 layout: document

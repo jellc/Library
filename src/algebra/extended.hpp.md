@@ -23,16 +23,25 @@ data:
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#else\n\n#include <variant>\n\n#endif\n#line 12 \"src/algebra/extended.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class _Tp> constexpr auto sign_of(const\
-    \ _Tp &__x) noexcept {\n  return __x != _Tp(0) ? (__x > _Tp(0) ? +1 : -1) : 0;\n\
-    }\n\n// Extended numeric type.\ntemplate <class _Tp> class extended {\n  bool\
-    \ infinite{};\n  int_least8_t sign{};  // in {0, +1, -1}\n  _Tp value{};     \
-    \     // is 0 if infinite\n\n  template <class _Os>\n  friend _Os &operator<<(_Os\
-    \ &__os, const extended &__x) noexcept {\n    return __x.infinite ? __os << (__x.sign\
-    \ > 0 ? '+' : '-') << \"infinity\"\n                        : __os << __x.value;\n\
-    \  }\n\n  friend std::istream &operator>>(std::istream &__is, extended &__x) noexcept\
+    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
+    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 12 \"src/algebra/extended.hpp\"\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Tp> constexpr auto sign_of(const _Tp &__x) noexcept\
+    \ {\n  return __x != _Tp(0) ? (__x > _Tp(0) ? +1 : -1) : 0;\n}\n\n// Extended\
+    \ numeric type.\ntemplate <class _Tp> class extended {\n  bool infinite{};\n \
+    \ int_least8_t sign{};  // in {0, +1, -1}\n  _Tp value{};          // is 0 if\
+    \ infinite\n\n  template <class _Os>\n  friend _Os &operator<<(_Os &__os, const\
+    \ extended &__x) noexcept {\n    return __x.infinite ? __os << (__x.sign > 0 ?\
+    \ '+' : '-') << \"infinity\"\n                        : __os << __x.value;\n \
+    \ }\n\n  friend std::istream &operator>>(std::istream &__is, extended &__x) noexcept\
     \ {\n    __x.infinite = false;\n    __is >> __x.value;\n    __x.sign = sign_of(__x.value);\n\
     \    return __is;\n  }\n\n  constexpr extended(bool __x, int_least8_t __y, const\
     \ _Tp &__z) noexcept\n      : infinite(__x), sign(__y), value(__z) {}\n\n public:\n\
@@ -273,7 +282,7 @@ data:
   isVerificationFile: false
   path: src/algebra/extended.hpp
   requiredBy: []
-  timestamp: '2021-11-06 23:55:56+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/extended.hpp

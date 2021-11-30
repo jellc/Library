@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -255,9 +255,9 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
 documentation_of: src/algebra/ntt.hpp
 layout: document
 redirect_from:

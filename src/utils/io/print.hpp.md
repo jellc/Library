@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
   _extendedRequiredBy: []
@@ -27,31 +27,40 @@ data:
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#else\n\n#include <variant>\n\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\
-    \n\nnamespace workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template\
-    \ <typename... _Args>\n  static std::true_type __test(std::basic_ostream<_Args...>\
-    \ *);\n  static std::false_type __test(void *);\n  constexpr static bool value\
-    \ = decltype(__test(std::declval<_Os *>()))::value;\n};\n\ntemplate <class _Os>\n\
-    using ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\
-    \n/**\n * @brief Stream insertion operator for C-style array.\n *\n * @param __os\
-    \ Output stream\n * @param __a Array\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp)\
-    \ > 2), ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Tp (&__a)[_Nm])\
-    \ {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << *__a;\n    for (auto __i = __a\
-    \ + 1, __e = __a + _Nm; __i != __e; ++__i)\n      __os << ' ' << *__i;\n  }\n\
-    \  return __os;\n}\n\n/**\n * @brief Stream insertion operator for std::array.\n\
-    \ *\n * @param __os Output stream\n * @param __a Array\n * @return Reference to\
-    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os\
-    \ &__os, const std::array<_Tp, _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n \
-    \   __os << __a[0];\n    for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' <<\
-    \ __a[__i];\n  }\n  return __os;\n}\n\n/**\n * @brief Stream insertion operator\
-    \ for std::pair.\n *\n * @param __os Output stream\n * @param __p Pair\n * @return\
-    \ Reference to __os.\n */\ntemplate <class _Os, class _T1, class _T2>\nostream_ref<_Os>\
-    \ operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {\n  return __os << __p.first\
-    \ << ' ' << __p.second;\n}\n\n/**\n * @brief Stream insertion operator for std::tuple.\n\
-    \ *\n * @param __os Output stream\n * @param __t Tuple\n * @return Reference to\
-    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
+    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
+    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template <typename...\
+    \ _Args>\n  static std::true_type __test(std::basic_ostream<_Args...> *);\n  static\
+    \ std::false_type __test(void *);\n  constexpr static bool value = decltype(__test(std::declval<_Os\
+    \ *>()))::value;\n};\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename\
+    \ std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\n/**\n * @brief Stream\
+    \ insertion operator for C-style array.\n *\n * @param __os Output stream\n *\
+    \ @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os, class\
+    \ _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp) > 2), ostream_ref<_Os>>::type\n\
+    operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {\n  if _CXX17_CONSTEXPR (_Nm) {\n\
+    \    __os << *__a;\n    for (auto __i = __a + 1, __e = __a + _Nm; __i != __e;\
+    \ ++__i)\n      __os << ' ' << *__i;\n  }\n  return __os;\n}\n\n/**\n * @brief\
+    \ Stream insertion operator for std::array.\n *\n * @param __os Output stream\n\
+    \ * @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os,\
+    \ class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os &__os, const std::array<_Tp,\
+    \ _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << __a[0];\n    for (size_t\
+    \ __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];\n  }\n  return __os;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n * @param __os\
+    \ Output stream\n * @param __p Pair\n * @return Reference to __os.\n */\ntemplate\
+    \ <class _Os, class _T1, class _T2>\nostream_ref<_Os> operator<<(_Os &__os, const\
+    \ std::pair<_T1, _T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
+    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
+    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
+    \ <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
     \ + 1),\n                        ostream_ref<_Os>>::type\noperator<<(_Os &__os,\
     \ const _Tp &__t) {\n  if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tp>::value)\
     \ {\n    if _CXX17_CONSTEXPR (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n\
@@ -94,7 +103,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/print.hpp
   requiredBy: []
-  timestamp: '2021-10-09 10:51:42+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/io/print.hpp

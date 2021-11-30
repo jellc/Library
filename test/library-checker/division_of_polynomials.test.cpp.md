@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -13,22 +13,22 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -258,10 +258,19 @@ data:
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\
-    \n#else\n\n#include <variant>\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n\
-    \ * @file ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n\
-    \ *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
+    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
+    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file\
+    \ ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n\
+    \ */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
     \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 11 \"\
     src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param __a\
     \ Integer\n * @param __b Integer\n * @return Pair of integers (x, y) s.t. ax +\
@@ -712,7 +721,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/division_of_polynomials.test.cpp
   requiredBy: []
-  timestamp: '2021-08-27 14:11:15+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/division_of_polynomials.test.cpp

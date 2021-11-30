@@ -41,11 +41,20 @@ data:
     constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
     \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
     \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\nstruct monostate\
-    \ {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\n#endif\n#line 9\
-    \ \"src/graph/edge.h\"\n\nnamespace workspace {\n\nnamespace _graph_impl {\n\n\
-    // Default edge attribute.\nstruct null {};\n\n}  // namespace _graph_impl\n\n\
-    template <class _Weight, class _Attr = _graph_impl::null>\nstruct weighted_edge\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 9 \"src/graph/edge.h\"\n\nnamespace workspace {\n\nnamespace _graph_impl\
+    \ {\n\n// Default edge attribute.\nstruct null {};\n\n}  // namespace _graph_impl\n\
+    \ntemplate <class _Weight, class _Attr = _graph_impl::null>\nstruct weighted_edge\
     \ : _Attr {\n  using attribute = _Attr;\n  using value_type = _Weight;\n  using\
     \ node_type = size_t;\n\n  node_type tail, head;\n  value_type weight{};\n\n \
     \ constexpr weighted_edge() = default;\n\n  template <class... _Args>\n  constexpr\
@@ -241,7 +250,7 @@ data:
   isVerificationFile: true
   path: test/aizu-online-judge/GRL_2_A.test.cpp
   requiredBy: []
-  timestamp: '2021-10-09 11:09:54+09:00'
+  timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aizu-online-judge/GRL_2_A.test.cpp
