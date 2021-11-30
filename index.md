@@ -234,10 +234,10 @@ data:
     - icon: ':warning:'
       path: src/graph/undirected/tree/centroid_decomposition.hpp
       title: src/graph/undirected/tree/centroid_decomposition.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy-Light Decomposition
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/graph/undirected/tree/lowest_common_ancestor.hpp
       title: src/graph/undirected/tree/lowest_common_ancestor.hpp
   - name: src/graph/undirected
@@ -550,7 +550,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
     - icon: ':heavy_check_mark:'

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/undirected/tree/heavy_light_decomposition.hpp
     title: Heavy-Light Decomposition
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/graph/undirected/tree/lowest_common_ancestor.hpp
     title: src/graph/undirected/tree/lowest_common_ancestor.hpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/lca
@@ -110,20 +110,20 @@ data:
     \ v).\n   */\n  auto split_path(size_t __v) const {\n    assert(made());\n   \
     \ auto [left, right] = split_path(root(), __v);\n    right.insert(right.begin(),\
     \ left.begin(), left.end());\n    return right;\n  }\n};\n#line 8 \"test/library-checker/lowest_common_ancestor.test.cpp\"\
-    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lowest_common_ancestor<>\
+    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lowest_common_ancestor\
     \ lca(n);\n  heavy_light_decomposition hld(n);\n  for (int i = 1, p; i < n; i++)\
     \ {\n    scanf(\"%d\", &p);\n    lca.add_edge(i, p);\n    hld.add_edge(i, p);\n\
     \  }\n  lca.make(0);\n  hld.make(0);\n  for (int u, v; q--;) {\n    scanf(\"%d%d\"\
-    , &u, &v);\n    auto [left, right] = hld.split_path(u, v);\n    auto x = lca.get(u,\
+    , &u, &v);\n    auto [left, right] = hld.split_path(u, v);\n    auto x = lca.query(u,\
     \ v);\n    auto y = hld.lca(u, v);\n    assert(x == y);\n    assert(x == hld.node(left.back().first));\n\
     \    printf(\"%d\\n\", x);\n  }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n\n#include \"src/graph/undirected/tree/lowest_common_ancestor.hpp\"\
     \n\n#include <cstdio>\n\n#include \"src/graph/undirected/tree/heavy_light_decomposition.hpp\"\
-    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lowest_common_ancestor<>\
+    \n\nint main() {\n  int n, q;\n  scanf(\"%d%d\", &n, &q);\n  lowest_common_ancestor\
     \ lca(n);\n  heavy_light_decomposition hld(n);\n  for (int i = 1, p; i < n; i++)\
     \ {\n    scanf(\"%d\", &p);\n    lca.add_edge(i, p);\n    hld.add_edge(i, p);\n\
     \  }\n  lca.make(0);\n  hld.make(0);\n  for (int u, v; q--;) {\n    scanf(\"%d%d\"\
-    , &u, &v);\n    auto [left, right] = hld.split_path(u, v);\n    auto x = lca.get(u,\
+    , &u, &v);\n    auto [left, right] = hld.split_path(u, v);\n    auto x = lca.query(u,\
     \ v);\n    auto y = hld.lca(u, v);\n    assert(x == y);\n    assert(x == hld.node(left.back().first));\n\
     \    printf(\"%d\\n\", x);\n  }\n}\n"
   dependsOn:
@@ -132,8 +132,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/lowest_common_ancestor.test.cpp
   requiredBy: []
-  timestamp: '2021-11-30 23:05:57+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-11-30 23:15:54+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/lowest_common_ancestor.test.cpp
 layout: document
