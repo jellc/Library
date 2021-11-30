@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/lu.hpp
     title: LU decomposition
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':question:'

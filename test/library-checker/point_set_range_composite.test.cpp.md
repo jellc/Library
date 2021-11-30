@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/system/monoid.hpp
     title: src/algebra/system/monoid.hpp
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/basic.hpp
     title: Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':question:'

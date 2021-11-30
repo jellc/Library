@@ -9,7 +9,7 @@ data:
     path: src/utils/io/input.hpp
     title: Input
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
@@ -42,7 +42,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
   _isVerificationFailed: true

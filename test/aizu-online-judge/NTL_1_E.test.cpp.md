@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
   - icon: ':question:'

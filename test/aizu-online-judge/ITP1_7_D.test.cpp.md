@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/linear/matrix.hpp
     title: Matrix
   - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/ostream.hpp
     title: Output Stream
   - icon: ':question:'

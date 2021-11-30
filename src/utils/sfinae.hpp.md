@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/algebra/berlekamp_massey.hpp
     title: Berlekamp-Massey Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -23,7 +23,7 @@ data:
   - icon: ':warning:'
     path: src/data_structure/map.hpp
     title: Map
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/data_structure/segment_tree/lazy.hpp
     title: Lazy Segment Tree
   - icon: ':warning:'
@@ -38,13 +38,13 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
@@ -69,7 +69,7 @@ data:
     path: src/utils/round_div.hpp
     title: Round Integer Division
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
@@ -138,7 +138,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
   - icon: ':heavy_check_mark:'

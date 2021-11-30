@@ -42,15 +42,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Output Stream
     links: []
@@ -180,7 +180,7 @@ data:
   requiredBy:
   - src/utils/io/print.hpp
   timestamp: '2021-11-30 17:55:32+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/cartesian_tree.test.cpp

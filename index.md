@@ -48,7 +48,7 @@ data:
     - icon: ':warning:'
       path: src/algebra/extended.hpp
       title: Extended Numeric Type
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/modint.hpp
       title: Modular Arithmetic
     - icon: ':heavy_check_mark:'
@@ -88,10 +88,10 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -99,10 +99,10 @@ data:
       title: XOR Elimination
   - name: src/algebra/system
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/system/monoid.hpp
       title: src/algebra/system/monoid.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/system/operation.hpp
       title: Operation Traits
   - name: src/combinatorics
@@ -167,10 +167,10 @@ data:
     - icon: ':warning:'
       path: src/data_structure/segment_tree/dual.hpp
       title: Dual Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/lazy.hpp
       title: Lazy Segment Tree
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/data_structure/segment_tree/waitings.hpp
       title: src/data_structure/segment_tree/waitings.hpp
   - name: src/data_structure/union_find
@@ -234,7 +234,7 @@ data:
     - icon: ':warning:'
       path: src/graph/undirected/tree/centroid_decomposition.hpp
       title: src/graph/undirected/tree/centroid_decomposition.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/graph/undirected/tree/heavy_light_decomposition.hpp
       title: Heavy-Light Decomposition
     - icon: ':heavy_check_mark:'
@@ -264,13 +264,13 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
     - icon: ':heavy_check_mark:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
@@ -313,7 +313,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/string/z_algorithm.hpp
       title: Z-Algorithm
   - name: src/sys
@@ -375,7 +375,7 @@ data:
     - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -452,7 +452,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aizu-online-judge/1615.test.cpp
       title: test/aizu-online-judge/1615.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aizu-online-judge/2450.test.cpp
       title: test/aizu-online-judge/2450.test.cpp
     - icon: ':heavy_check_mark:'
@@ -610,7 +610,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
@@ -622,7 +622,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/unionfind.test.cpp
       title: test/library-checker/unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'

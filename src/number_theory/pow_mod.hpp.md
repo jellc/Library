@@ -5,10 +5,10 @@ data:
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   _extendedVerifiedWith:
@@ -51,12 +51,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Modular Exponentiation
     links: []
@@ -144,7 +144,7 @@ data:
   - src/number_theory/sqrt_mod.hpp
   - src/algebra/modint.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/range_affine_range_sum.test.cpp
