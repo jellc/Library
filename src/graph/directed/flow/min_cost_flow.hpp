@@ -42,6 +42,7 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
    */
   edge &add_edge(size_type __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {
     assert(!(__u < __l));
+    b.resize(_Base::size());
     b[__s] -= __l, b[__d] += __l;
     auto &__e = _Base::add_edge(__s, __d, __u - __l, __c);
     __e.flow = __l;
