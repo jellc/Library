@@ -67,10 +67,10 @@ data:
   timestamp: '2020-11-26 16:42:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/point_set_range_composite.test.cpp
-  - test/library-checker/static_range_inversions_query.test.cpp
-  - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/point_add_range_sum.test.cpp
+  - test/library-checker/point_set_range_composite.test.cpp
+  - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/DSL_2_A.test.cpp
 documentation_of: src/algebra/system/monoid.hpp

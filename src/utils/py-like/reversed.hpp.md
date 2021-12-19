@@ -83,8 +83,8 @@ data:
   isVerificationFile: false
   path: src/utils/py-like/reversed.hpp
   requiredBy:
-  - src/utils/py-like/enumerate.hpp
   - src/utils/py-like/range.hpp
+  - src/utils/py-like/enumerate.hpp
   timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

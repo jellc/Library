@@ -200,11 +200,12 @@ data:
     \   * @param __l Lower bound of flow\n   * @param __u Upper bound of flow\n  \
     \ * @param __c _Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
     \ __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {\n    assert(!(__u < __l));\n\
-    \    b[__s] -= __l, b[__d] += __l;\n    auto &__e = _Base::add_edge(__s, __d,\
-    \ __u - __l, __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n\
-    \   */\n  template <class... _Args> edge &add_undirected_edge(_Args &&...__args)\
-    \ {\n    auto &__e = static_cast<edge_impl &>(\n        _Base::add_undirected_edge(std::forward<_Args>(__args)...));\n\
+    \    b.resize(_Base::size());\n    b[__s] -= __l, b[__d] += __l;\n    auto &__e\
+    \ = _Base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow = __l;\n    return\
+    \ __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to the graph.\n   *\n\
+    \   * @return Reference to the edge.\n   */\n  template <class... _Args> edge\
+    \ &add_undirected_edge(_Args &&...__args) {\n    auto &__e = static_cast<edge_impl\
+    \ &>(\n        _Base::add_undirected_edge(std::forward<_Args>(__args)...));\n\
     \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
     \ node\n   * @param __f Default: 1\n   */\n  void supply(size_type node, _Cap\
@@ -279,11 +280,12 @@ data:
     \   * @param __l Lower bound of flow\n   * @param __u Upper bound of flow\n  \
     \ * @param __c _Cost\n   * @return Reference to the edge.\n   */\n  edge &add_edge(size_type\
     \ __s, size_type __d, _Cap __l, _Cap __u, _Cost __c) {\n    assert(!(__u < __l));\n\
-    \    b[__s] -= __l, b[__d] += __l;\n    auto &__e = _Base::add_edge(__s, __d,\
-    \ __u - __l, __c);\n    __e.flow = __l;\n    return __e;\n  }\n\n  /**\n   * @brief\
-    \ Add an undirected edge to the graph.\n   *\n   * @return Reference to the edge.\n\
-    \   */\n  template <class... _Args> edge &add_undirected_edge(_Args &&...__args)\
-    \ {\n    auto &__e = static_cast<edge_impl &>(\n        _Base::add_undirected_edge(std::forward<_Args>(__args)...));\n\
+    \    b.resize(_Base::size());\n    b[__s] -= __l, b[__d] += __l;\n    auto &__e\
+    \ = _Base::add_edge(__s, __d, __u - __l, __c);\n    __e.flow = __l;\n    return\
+    \ __e;\n  }\n\n  /**\n   * @brief Add an undirected edge to the graph.\n   *\n\
+    \   * @return Reference to the edge.\n   */\n  template <class... _Args> edge\
+    \ &add_undirected_edge(_Args &&...__args) {\n    auto &__e = static_cast<edge_impl\
+    \ &>(\n        _Base::add_undirected_edge(std::forward<_Args>(__args)...));\n\
     \    assert(!(__e.cost < 0));\n    __e.rev->cost = __e.cost;\n    return __e;\n\
     \  }\n\n  /**\n   * @brief Increase the balance of a node.\n   *\n   * @param\
     \ node\n   * @param __f Default: 1\n   */\n  void supply(size_type node, _Cap\
@@ -351,14 +353,14 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
-  timestamp: '2021-11-25 21:45:58+09:00'
+  timestamp: '2021-12-19 14:32:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/assignment.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
+  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.2.test.cpp
   - test/aizu-online-judge/2815.test.cpp
-  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document

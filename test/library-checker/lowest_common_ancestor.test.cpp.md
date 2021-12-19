@@ -127,12 +127,12 @@ data:
     \ v);\n    auto y = hld.lca(u, v);\n    assert(x == y);\n    assert(x == hld.node(left.back().first));\n\
     \    printf(\"%d\\n\", x);\n  }\n}\n"
   dependsOn:
-  - src/graph/undirected/tree/heavy_light_decomposition.hpp
   - src/graph/undirected/tree/lowest_common_ancestor.hpp
+  - src/graph/undirected/tree/heavy_light_decomposition.hpp
   isVerificationFile: true
   path: test/library-checker/lowest_common_ancestor.test.cpp
   requiredBy: []
-  timestamp: '2020-11-16 23:30:10+09:00'
+  timestamp: '2021-11-30 23:15:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/lowest_common_ancestor.test.cpp

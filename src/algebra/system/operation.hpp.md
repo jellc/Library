@@ -167,9 +167,9 @@ data:
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
   requiredBy:
-  - src/data_structure/segment_tree/lazy.hpp
   - src/opt/golden_section.hpp
   - src/algebra/rational.hpp
+  - src/data_structure/segment_tree/lazy.hpp
   timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

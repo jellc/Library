@@ -66,21 +66,21 @@ data:
   isVerificationFile: false
   path: src/graph/queue.h
   requiredBy:
-  - src/graph/digraph.h
   - src/graph/base.h
-  - src/graph/scc.h
+  - src/graph/digraph.h
   - src/graph/forest.h
+  - src/graph/scc.h
   - src/graph/graph.h
   timestamp: '2021-10-09 10:54:50+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/scc.test.cpp
   - test/library-checker/shortest_path.test.cpp
-  - test/aizu-online-judge/GRL_2_A.test.cpp
-  - test/aizu-online-judge/GRL_4_A.test.cpp
-  - test/aizu-online-judge/GRL_5_A.test.cpp
-  - test/aizu-online-judge/GRL_3_C.test.cpp
   - test/aizu-online-judge/GRL_1_A.test.cpp
+  - test/aizu-online-judge/GRL_3_C.test.cpp
+  - test/aizu-online-judge/GRL_5_A.test.cpp
+  - test/aizu-online-judge/GRL_4_A.test.cpp
+  - test/aizu-online-judge/GRL_2_A.test.cpp
 documentation_of: src/graph/queue.h
 layout: document
 redirect_from:

@@ -133,8 +133,8 @@ data:
   timestamp: '2021-06-26 00:26:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/static_range_inversions_query.test.cpp
   - test/library-checker/range_kth_smallest.test.cpp
+  - test/library-checker/static_range_inversions_query.test.cpp
 documentation_of: src/data_structure/Mo.hpp
 layout: document
 redirect_from:
