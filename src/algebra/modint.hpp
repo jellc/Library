@@ -2,7 +2,6 @@
 
 /**
  * @file modint.hpp
- *
  * @brief Modular Arithmetic
  */
 
@@ -54,7 +53,8 @@ template <auto _Mod, unsigned _Storage> struct modint {
   template <class _Tp, class = std::enable_if_t<
                            std::is_convertible<_Tp, value_type>::value>>
   constexpr modint(_Tp __n) noexcept
-      : value((__n %= mod) < 0 ? value_type(__n + mod) : value_type(__n)) {}
+      : value((__n %= mod) < _Tp(0) ? static_cast<value_type>(__n) + mod
+                                    : static_cast<value_type>(__n)) {}
 
   constexpr modint(bool __n) noexcept : value(__n) {}
 
@@ -291,28 +291,32 @@ template <auto _Mod, unsigned _Storage> struct modint {
 
   constexpr modint inv() const noexcept { return _div(1, value); }
 
-  template <class _Tp> constexpr modint_if<_Tp> pow(_Tp __e) const noexcept {
+  template <class _Tp> constexpr modint pow(_Tp __e) const noexcept {
+    static_assert(not std::is_floating_point<_Tp>::value);
+
     modint __r{mod != 1, direct_ctor_tag};
 
-    for (modint __b{__e < 0 ? __e = -__e, _div(1, value) : value,
-                              direct_ctor_tag};
-         __e; __e >>= 1, __b *= __b)
-      if (__e & 1) __r *= __b;
+    for (modint __b{__e < _Tp(0) ? __e = -__e, _div(1, value) : value,
+                                   direct_ctor_tag};
+         __e; __e /= 2, __b *= __b)
+      if (__e % 2) __r *= __b;
 
     return __r;
   }
 
   template <class _Tp>
-  constexpr friend modint_if<_Tp> pow(modint __b, _Tp __e) noexcept {
-    if (__e < 0) {
+  constexpr friend modint pow(modint __b, _Tp __e) noexcept {
+    static_assert(not std::is_floating_point<_Tp>::value);
+
+    if (__e < _Tp(0)) {
       __e = -__e;
       __b.value = _div(1, __b.value);
     }
 
     modint __r{mod != 1, direct_ctor_tag};
 
-    for (; __e; __e >>= 1, __b *= __b)
-      if (__e & 1) __r *= __b;
+    for (; __e; __e /= 2, __b *= __b)
+      if (__e % 2) __r *= __b;
 
     return __r;
   }
@@ -349,14 +353,16 @@ unsigned modint<_Mod, _Storage>::storage = _Storage;
 
 }  // namespace _modint_impl
 
-template <auto _Mod, unsigned _Storage = 0,
+constexpr unsigned _modint_default_storage = 1 << 24;
+
+template <auto _Mod, unsigned _Storage = _modint_default_storage,
           typename = std::enable_if_t<(_Mod > 0)>>
 using modint = _modint_impl::modint<_Mod, _Storage>;
 
-template <unsigned _Id = 0, unsigned _Storage = 0>
-using runtime_modint = _modint_impl::modint<-(signed)_Id, 0>;
+template <unsigned _Id = 0, unsigned _Storage = _modint_default_storage>
+using runtime_modint = _modint_impl::modint<-(signed)_Id, _Storage>;
 
-template <unsigned _Id = 0, unsigned _Storage = 0>
-using runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id, 0>;
+template <unsigned _Id = 0, unsigned _Storage = _modint_default_storage>
+using runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id, _Storage>;
 
 }  // namespace workspace
