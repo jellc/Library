@@ -32,7 +32,7 @@ data:
   bundledCode: "#line 1 \"test/library-checker/point_set_range_composite.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n\n#include <cstdio>\n\n#line 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
-    \ *\n * @brief Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\
+    \ * @brief Modular Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n\
     #include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file\
     \ sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
     \n\n/**\n * @file mod_pow.hpp\n * @brief Modular Exponentiation\n */\n\n#line\
@@ -115,7 +115,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 14 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -131,7 +131,8 @@ data:
     \ public:\n  constexpr modint() noexcept = default;\n\n  template <class _Tp,\
     \ class = std::enable_if_t<\n                           std::is_convertible<_Tp,\
     \ value_type>::value>>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
-    \ %= mod) < 0 ? value_type(__n + mod) : value_type(__n)) {}\n\n  constexpr modint(bool\
+    \ %= mod) < _Tp(0) ? static_cast<value_type>(__n) + mod\n                    \
+    \                : static_cast<value_type>(__n)) {}\n\n  constexpr modint(bool\
     \ __n) noexcept : value(__n) {}\n\n  constexpr operator reference() noexcept {\
     \ return value; }\n\n  constexpr operator const_reference() const noexcept { return\
     \ value; }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept\
@@ -208,32 +209,34 @@ data:
     \ {\n    if (!__x) return {};\n    if ((__x %= mod) < 0) __x += mod;\n    return\
     \ {_div(__x, __y.value), direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr\
     \ modint inv() const noexcept { return _div(1, value); }\n\n  template <class\
-    \ _Tp> constexpr modint_if<_Tp> pow(_Tp __e) const noexcept {\n    modint __r{mod\
-    \ != 1, direct_ctor_tag};\n\n    for (modint __b{__e < 0 ? __e = -__e, _div(1,\
-    \ value) : value,\n                              direct_ctor_tag};\n         __e;\
-    \ __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n    return __r;\n\
-    \  }\n\n  template <class _Tp>\n  constexpr friend modint_if<_Tp> pow(modint __b,\
-    \ _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n      __b.value\
-    \ = _div(1, __b.value);\n    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\
-    \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
-    \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
-    \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
-    \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
-    \  }\n\n  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept\
-    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ _Tp> constexpr modint pow(_Tp __e) const noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (modint __b{__e < _Tp(0)\
+    \ ? __e = -__e, _div(1, value) : value,\n                                   direct_ctor_tag};\n\
+    \         __e; __e /= 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return\
+    \ __r;\n  }\n\n  template <class _Tp>\n  constexpr friend modint pow(modint __b,\
+    \ _Tp __e) noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    if (__e < _Tp(0)) {\n      __e = -__e;\n      __b.value = _div(1, __b.value);\n\
+    \    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (; __e; __e /=\
+    \ 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return __r;\n  }\n\n \
+    \ constexpr modint sqrt() const noexcept {\n    return {sqrt_mod(value, mod),\
+    \ direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const modint &__x)\
+    \ noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n  }\n\n\
+    \  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
     \ == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x\
     \ = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg)\
     \ __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\n\
     typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod\
     \ > 0 ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
-    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
-    \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
-    \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
-    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
-    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
-    #line 2 \"src/data_structure/segment_tree/basic.hpp\"\n\n/**\n * @file basic.hpp\n\
-    \ * @brief Segment Tree\n */\n\n#line 10 \"src/data_structure/segment_tree/basic.hpp\"\
+    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\nconstexpr\
+    \ unsigned _modint_default_storage = 1 << 24;\n\ntemplate <auto _Mod, unsigned\
+    \ _Storage = _modint_default_storage,\n          typename = std::enable_if_t<(_Mod\
+    \ > 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
+    \ _Id = 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint\
+    \ = _modint_impl::modint<-(signed)_Id, _Storage>;\n\ntemplate <unsigned _Id =\
+    \ 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id,\
+    \ _Storage>;\n\n}  // namespace workspace\n#line 2 \"src/data_structure/segment_tree/basic.hpp\"\
+    \n\n/**\n * @file basic.hpp\n * @brief Segment Tree\n */\n\n#line 10 \"src/data_structure/segment_tree/basic.hpp\"\
     \n\n#line 2 \"src/algebra/system/monoid.hpp\"\n#include <limits>\n\nnamespace\
     \ workspace {\ntemplate <class T, class E = T> struct min_monoid {\n  using value_type\
     \ = T;\n  static T min, max;\n  T value;\n  min_monoid() : value(max) {}\n  min_monoid(const\
@@ -375,7 +378,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-08-23 17:01:55+09:00'
+  timestamp: '2022-01-09 13:28:19+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/point_set_range_composite.test.cpp

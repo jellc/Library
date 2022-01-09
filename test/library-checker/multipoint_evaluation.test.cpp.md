@@ -43,7 +43,7 @@ data:
     - https://old.yosupo.jp/problem/multipoint_evaluation
   bundledCode: "#line 1 \"test/library-checker/multipoint_evaluation.test.cpp\"\n\
     #define PROBLEM \"https://old.yosupo.jp/problem/multipoint_evaluation\"\n\n#line\
-    \ 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n *\n * @brief Modular\
+    \ 2 \"src/algebra/modint.hpp\"\n\n/**\n * @file modint.hpp\n * @brief Modular\
     \ Arithmetic\n */\n\n#include <cassert>\n#include <iostream>\n#include <vector>\n\
     \n#line 2 \"src/number_theory/sqrt_mod.hpp\"\n\n/**\n * @file sqrt_mod.hpp\n *\
     \ @brief Tonelli-Shanks Algorithm\n */\n\n#line 2 \"src/number_theory/pow_mod.hpp\"\
@@ -127,7 +127,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 14 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -143,7 +143,8 @@ data:
     \ public:\n  constexpr modint() noexcept = default;\n\n  template <class _Tp,\
     \ class = std::enable_if_t<\n                           std::is_convertible<_Tp,\
     \ value_type>::value>>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
-    \ %= mod) < 0 ? value_type(__n + mod) : value_type(__n)) {}\n\n  constexpr modint(bool\
+    \ %= mod) < _Tp(0) ? static_cast<value_type>(__n) + mod\n                    \
+    \                : static_cast<value_type>(__n)) {}\n\n  constexpr modint(bool\
     \ __n) noexcept : value(__n) {}\n\n  constexpr operator reference() noexcept {\
     \ return value; }\n\n  constexpr operator const_reference() const noexcept { return\
     \ value; }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept\
@@ -220,83 +221,85 @@ data:
     \ {\n    if (!__x) return {};\n    if ((__x %= mod) < 0) __x += mod;\n    return\
     \ {_div(__x, __y.value), direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr\
     \ modint inv() const noexcept { return _div(1, value); }\n\n  template <class\
-    \ _Tp> constexpr modint_if<_Tp> pow(_Tp __e) const noexcept {\n    modint __r{mod\
-    \ != 1, direct_ctor_tag};\n\n    for (modint __b{__e < 0 ? __e = -__e, _div(1,\
-    \ value) : value,\n                              direct_ctor_tag};\n         __e;\
-    \ __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n    return __r;\n\
-    \  }\n\n  template <class _Tp>\n  constexpr friend modint_if<_Tp> pow(modint __b,\
-    \ _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n      __b.value\
-    \ = _div(1, __b.value);\n    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\
-    \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
-    \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
-    \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
-    \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
-    \  }\n\n  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept\
-    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ _Tp> constexpr modint pow(_Tp __e) const noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (modint __b{__e < _Tp(0)\
+    \ ? __e = -__e, _div(1, value) : value,\n                                   direct_ctor_tag};\n\
+    \         __e; __e /= 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return\
+    \ __r;\n  }\n\n  template <class _Tp>\n  constexpr friend modint pow(modint __b,\
+    \ _Tp __e) noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    if (__e < _Tp(0)) {\n      __e = -__e;\n      __b.value = _div(1, __b.value);\n\
+    \    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (; __e; __e /=\
+    \ 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return __r;\n  }\n\n \
+    \ constexpr modint sqrt() const noexcept {\n    return {sqrt_mod(value, mod),\
+    \ direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const modint &__x)\
+    \ noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n  }\n\n\
+    \  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
     \ == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x\
     \ = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg)\
     \ __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\n\
     typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod\
     \ > 0 ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
-    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
-    \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
-    \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
-    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
-    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
-    #line 2 \"src/algebra/polynomial.hpp\"\n\n/**\n * @file polynomial.hpp\n * @brief\
-    \ Polynomial\n */\n\n#include <algorithm>\n#line 11 \"src/algebra/polynomial.hpp\"\
-    \n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n\
-    #if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus\
-    \ >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT\
-    \ assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
-    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
-    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
-    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
-    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
-    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
-    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
-    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file\
-    \ ntt.hpp\n * @brief Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n\
-    \ */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\n\n/**\n * @file ext_gcd.hpp\n\
-    \ * @brief Extended Euclidean Algorithm\n */\n\n#include <tuple>\n\n#line 11 \"\
-    src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace {\n\n/**\n * @param __a\
-    \ Integer\n * @param __b Integer\n * @return Pair of integers (x, y) s.t. ax +\
-    \ by = g = gcd(a, b) and (b = 0 or 0\n * <= x < |b/g|) and (a = 0 or -|a/g| <\
-    \ y <= 0). Return (0, 0) if (a, b) = (0,\n * 0).\n */\ntemplate <typename _T1,\
-    \ typename _T2>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
-    \  static_assert(is_integral_ext<_T2>::value);\n\n  using value_type = typename\
-    \ std::make_signed<\n      typename std::common_type<_T1, _T2>::type>::type;\n\
-    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
-    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
-    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
-    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q, a = -a;\n\n\
-    \  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n      p += __b,\
-    \ q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return result_type{p,\
-    \ q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @param __c Integer\n\
-    \ * @return Pair of integers (x, y) s.t. ax + by = c and (b = 0 or 0 <= x <\n\
-    \ * |b/g|). Return (0, 0) if there is no solution.\n */\ntemplate <typename _T1,\
-    \ typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b, _T3 __c)\
-    \ noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
-    \  static_assert(is_integral_ext<_T3>::value);\n\n  using value_type = typename\
-    \ std::make_signed<\n      typename std::common_type<_T1, _T2, _T3>::type>::type;\n\
-    \  using result_type = std::pair<value_type, value_type>;\n\n  value_type a{__a},\
-    \ b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0)) {\n    auto t\
-    \ = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q -= t * s;\n \
-    \   b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\n\
-    \  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
+    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\nconstexpr\
+    \ unsigned _modint_default_storage = 1 << 24;\n\ntemplate <auto _Mod, unsigned\
+    \ _Storage = _modint_default_storage,\n          typename = std::enable_if_t<(_Mod\
+    \ > 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
+    \ _Id = 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint\
+    \ = _modint_impl::modint<-(signed)_Id, _Storage>;\n\ntemplate <unsigned _Id =\
+    \ 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id,\
+    \ _Storage>;\n\n}  // namespace workspace\n#line 2 \"src/algebra/polynomial.hpp\"\
+    \n\n/**\n * @file polynomial.hpp\n * @brief Polynomial\n */\n\n#include <algorithm>\n\
+    #line 11 \"src/algebra/polynomial.hpp\"\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"\
+    lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR\
+    \ constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\
+    \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
+    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\
+    \n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the\
+    \ size of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename\
+    \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 2 \"src/algebra/ntt.hpp\"\n\n/**\n * @file ntt.hpp\n * @brief\
+    \ Number Theoretic Transform\n * @date 2021-02-20\n *\n *\n */\n\n#line 2 \"src/number_theory/ext_gcd.hpp\"\
+    \n\n/**\n * @file ext_gcd.hpp\n * @brief Extended Euclidean Algorithm\n */\n\n\
+    #include <tuple>\n\n#line 11 \"src/number_theory/ext_gcd.hpp\"\n\nnamespace workspace\
+    \ {\n\n/**\n * @param __a Integer\n * @param __b Integer\n * @return Pair of integers\
+    \ (x, y) s.t. ax + by = g = gcd(a, b) and (b = 0 or 0\n * <= x < |b/g|) and (a\
+    \ = 0 or -|a/g| < y <= 0). Return (0, 0) if (a, b) = (0,\n * 0).\n */\ntemplate\
+    \ <typename _T1, typename _T2>\nconstexpr auto ext_gcd(_T1 __a, _T2 __b) noexcept\
+    \ {\n  static_assert(is_integral_ext<_T1>::value);\n  static_assert(is_integral_ext<_T2>::value);\n\
+    \n  using value_type = typename std::make_signed<\n      typename std::common_type<_T1,\
+    \ _T2>::type>::type;\n  using result_type = std::pair<value_type, value_type>;\n\
+    \n  value_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0))\
+    \ {\n    auto t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q\
+    \ -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (a < 0) p = -p, q = -q,\
+    \ a = -a;\n\n  if (p < 0) {\n    __a /= a, __b /= a;\n\n    if (__b > 0)\n   \
+    \   p += __b, q -= __a;\n    else\n      p -= __b, q += __a;\n  }\n\n  return\
+    \ result_type{p, q};\n}\n\n/**\n * @param __a Integer\n * @param __b Integer\n\
+    \ * @param __c Integer\n * @return Pair of integers (x, y) s.t. ax + by = c and\
+    \ (b = 0 or 0 <= x <\n * |b/g|). Return (0, 0) if there is no solution.\n */\n\
+    template <typename _T1, typename _T2, typename _T3>\nconstexpr auto ext_gcd(_T1\
+    \ __a, _T2 __b, _T3 __c) noexcept {\n  static_assert(is_integral_ext<_T1>::value);\n\
+    \  static_assert(is_integral_ext<_T2>::value);\n  static_assert(is_integral_ext<_T3>::value);\n\
+    \n  using value_type = typename std::make_signed<\n      typename std::common_type<_T1,\
+    \ _T2, _T3>::type>::type;\n  using result_type = std::pair<value_type, value_type>;\n\
+    \n  value_type a{__a}, b{__b}, p{1}, q{}, r{}, s{1};\n\n  while (b != value_type(0))\
+    \ {\n    auto t = a / b;\n    r ^= p ^= r ^= p -= t * r;\n    s ^= q ^= s ^= q\
+    \ -= t * s;\n    b ^= a ^= b ^= a -= t * b;\n  }\n\n  if (__c % a) return result_type{};\n\
+    \n  __a /= a, __b /= a, __c /= a;\n  p *= __c, q *= __c;\n\n  if (__b != value_type(0))\
     \ {\n    auto t = p / __b;\n    p -= __b * t;\n    q += __a * t;\n\n    if (p\
     \ < 0) {\n      if (__b > 0)\n        p += __b, q -= __a;\n      else\n      \
     \  p -= __b, q += __a;\n    }\n  }\n\n  return result_type{p, q};\n}\n\n}  //\
@@ -721,7 +724,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/multipoint_evaluation.test.cpp
   requiredBy: []
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-01-09 13:28:19+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/multipoint_evaluation.test.cpp

@@ -218,7 +218,7 @@ data:
     \n      for (size_type __r = 0; __r != __i; ++__r)\n        __y[__r] -= __x[__c]\
     \ * (*this)[__r][__c];\n    }\n\n    return std::make_pair(true, __x);\n  }\n\
     };\n\n}  // namespace workspace\n#line 2 \"src/algebra/modint.hpp\"\n\n/**\n *\
-    \ @file modint.hpp\n *\n * @brief Modular Arithmetic\n */\n\n#line 10 \"src/algebra/modint.hpp\"\
+    \ @file modint.hpp\n * @brief Modular Arithmetic\n */\n\n#line 9 \"src/algebra/modint.hpp\"\
     \n#include <iostream>\n#include <vector>\n\n#line 2 \"src/number_theory/sqrt_mod.hpp\"\
     \n\n/**\n * @file sqrt_mod.hpp\n * @brief Tonelli-Shanks Algorithm\n */\n\n#line\
     \ 2 \"src/number_theory/pow_mod.hpp\"\n\n/**\n * @file mod_pow.hpp\n * @brief\
@@ -302,7 +302,7 @@ data:
     \ (__r *= (__b *= __b) %= __mod) %= __mod) {\n    auto __bsf = __z;\n\n    for\
     \ (auto __e = __r; __e != 1; --__bsf) (__e *= __e) %= __mod;\n\n    while (++__shift\
     \ != __bsf) (__b *= __b) %= __mod;\n\n    (__a *= __b) %= __mod;\n  }\n\n  return\
-    \ __a;\n};\n\n}  // namespace workspace\n#line 15 \"src/algebra/modint.hpp\"\n\
+    \ __a;\n};\n\n}  // namespace workspace\n#line 14 \"src/algebra/modint.hpp\"\n\
     \nnamespace workspace {\n\nnamespace _modint_impl {\n\ntemplate <auto _Mod, unsigned\
     \ _Storage> struct modint {\n  static_assert(is_integral_ext<decltype(_Mod)>::value,\n\
     \                \"_Mod must be integral type.\");\n\n  using mod_type = std::make_signed_t<typename\
@@ -318,7 +318,8 @@ data:
     \ public:\n  constexpr modint() noexcept = default;\n\n  template <class _Tp,\
     \ class = std::enable_if_t<\n                           std::is_convertible<_Tp,\
     \ value_type>::value>>\n  constexpr modint(_Tp __n) noexcept\n      : value((__n\
-    \ %= mod) < 0 ? value_type(__n + mod) : value_type(__n)) {}\n\n  constexpr modint(bool\
+    \ %= mod) < _Tp(0) ? static_cast<value_type>(__n) + mod\n                    \
+    \                : static_cast<value_type>(__n)) {}\n\n  constexpr modint(bool\
     \ __n) noexcept : value(__n) {}\n\n  constexpr operator reference() noexcept {\
     \ return value; }\n\n  constexpr operator const_reference() const noexcept { return\
     \ value; }\n\n  // unary operators {{\n  constexpr modint operator++(int) noexcept\
@@ -395,59 +396,61 @@ data:
     \ {\n    if (!__x) return {};\n    if ((__x %= mod) < 0) __x += mod;\n    return\
     \ {_div(__x, __y.value), direct_ctor_tag};\n  }\n\n  // }} operator/\n\n  constexpr\
     \ modint inv() const noexcept { return _div(1, value); }\n\n  template <class\
-    \ _Tp> constexpr modint_if<_Tp> pow(_Tp __e) const noexcept {\n    modint __r{mod\
-    \ != 1, direct_ctor_tag};\n\n    for (modint __b{__e < 0 ? __e = -__e, _div(1,\
-    \ value) : value,\n                              direct_ctor_tag};\n         __e;\
-    \ __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n    return __r;\n\
-    \  }\n\n  template <class _Tp>\n  constexpr friend modint_if<_Tp> pow(modint __b,\
-    \ _Tp __e) noexcept {\n    if (__e < 0) {\n      __e = -__e;\n      __b.value\
-    \ = _div(1, __b.value);\n    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\
-    \n    for (; __e; __e >>= 1, __b *= __b)\n      if (__e & 1) __r *= __b;\n\n \
-    \   return __r;\n  }\n\n  constexpr modint sqrt() const noexcept {\n    return\
-    \ {sqrt_mod(value, mod), direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const\
-    \ modint &__x) noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n\
-    \  }\n\n  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept\
-    \ {\n    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
+    \ _Tp> constexpr modint pow(_Tp __e) const noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (modint __b{__e < _Tp(0)\
+    \ ? __e = -__e, _div(1, value) : value,\n                                   direct_ctor_tag};\n\
+    \         __e; __e /= 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return\
+    \ __r;\n  }\n\n  template <class _Tp>\n  constexpr friend modint pow(modint __b,\
+    \ _Tp __e) noexcept {\n    static_assert(not std::is_floating_point<_Tp>::value);\n\
+    \n    if (__e < _Tp(0)) {\n      __e = -__e;\n      __b.value = _div(1, __b.value);\n\
+    \    }\n\n    modint __r{mod != 1, direct_ctor_tag};\n\n    for (; __e; __e /=\
+    \ 2, __b *= __b)\n      if (__e % 2) __r *= __b;\n\n    return __r;\n  }\n\n \
+    \ constexpr modint sqrt() const noexcept {\n    return {sqrt_mod(value, mod),\
+    \ direct_ctor_tag};\n  }\n\n  friend constexpr modint sqrt(const modint &__x)\
+    \ noexcept {\n    return {sqrt_mod(__x.value, mod), direct_ctor_tag};\n  }\n\n\
+    \  friend std::istream &operator>>(std::istream &__is, modint &__x) noexcept {\n\
+    \    std::string __s;\n    __is >> __s;\n    bool __neg = false;\n    if (__s.front()\
     \ == '-') {\n      __neg = true;\n      __s.erase(__s.begin());\n    }\n    __x\
     \ = 0;\n    for (char __c : __s) __x = __x * 10 + (__c - '0');\n    if (__neg)\
     \ __x = -__x;\n    return __is;\n  }\n};\n\ntemplate <auto _Mod, unsigned _Storage>\n\
     typename modint<_Mod, _Storage>::mod_type modint<_Mod, _Storage>::mod =\n    _Mod\
     \ > 0 ? _Mod : 0;\n\ntemplate <auto _Mod, unsigned _Storage>\nunsigned modint<_Mod,\
-    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\ntemplate <auto\
-    \ _Mod, unsigned _Storage = 0,\n          typename = std::enable_if_t<(_Mod >\
-    \ 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
-    \ _Id = 0, unsigned _Storage = 0>\nusing runtime_modint = _modint_impl::modint<-(signed)_Id,\
-    \ 0>;\n\ntemplate <unsigned _Id = 0, unsigned _Storage = 0>\nusing runtime_modint64\
-    \ = _modint_impl::modint<-(int_least64_t)_Id, 0>;\n\n}  // namespace workspace\n\
-    #line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n * @brief Input\
-    \ Stream\n */\n\n#include <cxxabi.h>\n\n#line 12 \"src/utils/io/istream.hpp\"\n\
-    #include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef\
-    \ _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n\
-    #else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef\
-    \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
-    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\
-    \n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the\
-    \ size of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename\
-    \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
-    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
-    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
-    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
-    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
-    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
-    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
-    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
-    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
-    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
-    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
-    \n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace\
-    \ _istream_impl {\n\ntemplate <class _Tp, typename = void> struct helper {\n \
-    \ helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp\
-    \ &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
+    \ _Storage>::storage = _Storage;\n\n}  // namespace _modint_impl\n\nconstexpr\
+    \ unsigned _modint_default_storage = 1 << 24;\n\ntemplate <auto _Mod, unsigned\
+    \ _Storage = _modint_default_storage,\n          typename = std::enable_if_t<(_Mod\
+    \ > 0)>>\nusing modint = _modint_impl::modint<_Mod, _Storage>;\n\ntemplate <unsigned\
+    \ _Id = 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint\
+    \ = _modint_impl::modint<-(signed)_Id, _Storage>;\n\ntemplate <unsigned _Id =\
+    \ 0, unsigned _Storage = _modint_default_storage>\nusing runtime_modint64 = _modint_impl::modint<-(int_least64_t)_Id,\
+    \ _Storage>;\n\n}  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\
+    \n\n/**\n * @file istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\
+    \n#line 12 \"src/utils/io/istream.hpp\"\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\
+    \n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n\
+    #define _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n\
+    #endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
+    \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
+    #endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\nnamespace\
+    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
+    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
+    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace\
+    \ workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename =\
+    \ void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
+    \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
     \ &>() >>\n                                          std::declval<_Tp &>())>>\
@@ -503,7 +506,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/matrix_det.test.cpp
   requiredBy: []
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-01-09 13:28:19+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/matrix_det.test.cpp
