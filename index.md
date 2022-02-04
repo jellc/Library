@@ -270,6 +270,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
+    - icon: ':warning:'
+      path: src/number_theory/quotients.hpp
+      title: src/number_theory/quotients.hpp
     - icon: ':heavy_check_mark:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm

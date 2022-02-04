@@ -356,12 +356,12 @@ data:
   timestamp: '2021-12-19 14:32:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/assignment.test.cpp
-  - test/library-checker/min_cost_b_flow.test.cpp
-  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.2.test.cpp
   - test/aizu-online-judge/2815.test.cpp
+  - test/aizu-online-judge/GRL_6_B.test.cpp
   - test/aizu-online-judge/1615.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
+  - test/library-checker/assignment.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document
 redirect_from:

@@ -252,11 +252,11 @@ data:
   timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/scc.test.cpp
-  - test/library-checker/shortest_path.test.cpp
   - test/aizu-online-judge/GRL_1_A.test.cpp
   - test/aizu-online-judge/GRL_3_C.test.cpp
   - test/aizu-online-judge/GRL_4_A.test.cpp
+  - test/library-checker/shortest_path.test.cpp
+  - test/library-checker/scc.test.cpp
 documentation_of: src/graph/digraph.h
 layout: document
 redirect_from:

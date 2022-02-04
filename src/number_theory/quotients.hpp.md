@@ -1,22 +1,22 @@
 ---
 data:
   _extendedDependsOn:
+  - icon: ':warning:'
+    path: src/utils/round_div.hpp
+    title: Round Integer Division
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: src/number_theory/quotients.hpp
-    title: src/number_theory/quotients.hpp
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: Round Integer Division
     links: []
-  bundledCode: "#line 2 \"src/utils/round_div.hpp\"\n\n/*\n * @file round_div.hpp\n\
-    \ * @brief Round Integer Division\n */\n\n#include <cassert>\n\n#line 2 \"src/utils/sfinae.hpp\"\
+  bundledCode: "#line 2 \"src/number_theory/quotients.hpp\"\n\n#include <vector>\n\
+    \n#line 2 \"src/utils/round_div.hpp\"\n\n/*\n * @file round_div.hpp\n * @brief\
+    \ Round Integer Division\n */\n\n#include <cassert>\n\n#line 2 \"src/utils/sfinae.hpp\"\
     \n\n/**\n * @file sfinae.hpp\n * @brief SFINAE\n */\n\n#include <cstdint>\n#include\
     \ <iterator>\n#include <type_traits>\n\n#ifndef __INT128_DEFINED__\n\n#ifdef __SIZEOF_INT128__\n\
     #define __INT128_DEFINED__ 1\n#else\n#define __INT128_DEFINED__ 0\n#endif\n\n\
@@ -86,37 +86,30 @@ data:
     \ &&\n                                   is_integral_ext<T2>::value),\n      \
     \                            typename std::common_type<T1, T2>::type>::type\n\
     ceil_div(T1 x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return\
-    \ x < 0 ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
-  code: "#pragma once\n\n/*\n * @file round_div.hpp\n * @brief Round Integer Division\n\
-    \ */\n\n#include <cassert>\n\n#include \"sfinae.hpp\"\n\nnamespace workspace {\n\
-    \n/*\n * @fn floor_div\n * @brief floor of fraction.\n * @param x the numerator\n\
-    \ * @param y the denominator\n * @return maximum integer z s.t. z <= x / y\n *\
-    \ @note y must be nonzero.\n */\ntemplate <typename T1, typename T2>\nconstexpr\
-    \ typename std::enable_if<(is_integral_ext<T1>::value &&\n                   \
-    \                is_integral_ext<T2>::value),\n                              \
-    \    typename std::common_type<T1, T2>::type>::type\nfloor_div(T1 x, T2 y) {\n\
-    \  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0 ? (x - y + 1)\
-    \ / y : x / y;\n}\n\n/*\n * @fn ceil_div\n * @brief ceil of fraction.\n * @param\
-    \ x the numerator\n * @param y the denominator\n * @return minimum integer z s.t.\
-    \ z >= x / y\n * @note y must be nonzero.\n */\ntemplate <typename T1, typename\
-    \ T2>\nconstexpr typename std::enable_if<(is_integral_ext<T1>::value &&\n    \
-    \                               is_integral_ext<T2>::value),\n               \
-    \                   typename std::common_type<T1, T2>::type>::type\nceil_div(T1\
-    \ x, T2 y) {\n  assert(y != 0);\n  if (y < 0) x = -x, y = -y;\n  return x < 0\
-    \ ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n"
+    \ x < 0 ? x / y : (x + y - 1) / y;\n}\n\n}  // namespace workspace\n#line 6 \"\
+    src/number_theory/quotients.hpp\"\n\nnamespace workspace {\n\ntemplate <class\
+    \ _Tp> auto quotients(_Tp __n) {\n  assert(__n >= 0);\n  std::vector<std::pair<_Tp,\
+    \ _Tp>> res;\n  for (_Tp q = __n + 1; q;) {\n    _Tp k = __n / q + 1;\n    q =\
+    \ __n / k;\n    res.emplace_back(k, q);\n  }\n  return res;\n}\n\n}  // namespace\
+    \ workspace\n"
+  code: "#pragma once\n\n#include <vector>\n\n#include \"src/utils/round_div.hpp\"\
+    \n\nnamespace workspace {\n\ntemplate <class _Tp> auto quotients(_Tp __n) {\n\
+    \  assert(__n >= 0);\n  std::vector<std::pair<_Tp, _Tp>> res;\n  for (_Tp q =\
+    \ __n + 1; q;) {\n    _Tp k = __n / q + 1;\n    q = __n / k;\n    res.emplace_back(k,\
+    \ q);\n  }\n  return res;\n}\n\n}  // namespace workspace\n"
   dependsOn:
+  - src/utils/round_div.hpp
   - src/utils/sfinae.hpp
   isVerificationFile: false
-  path: src/utils/round_div.hpp
-  requiredBy:
-  - src/number_theory/quotients.hpp
-  timestamp: '2021-05-25 17:32:10+09:00'
+  path: src/number_theory/quotients.hpp
+  requiredBy: []
+  timestamp: '2022-02-04 16:47:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: src/utils/round_div.hpp
+documentation_of: src/number_theory/quotients.hpp
 layout: document
 redirect_from:
-- /library/src/utils/round_div.hpp
-- /library/src/utils/round_div.hpp.html
-title: Round Integer Division
+- /library/src/number_theory/quotients.hpp
+- /library/src/number_theory/quotients.hpp.html
+title: src/number_theory/quotients.hpp
 ---

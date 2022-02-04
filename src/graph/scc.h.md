@@ -271,8 +271,8 @@ data:
   timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/scc.test.cpp
   - test/aizu-online-judge/GRL_3_C.test.cpp
+  - test/library-checker/scc.test.cpp
 documentation_of: src/graph/scc.h
 layout: document
 redirect_from:
