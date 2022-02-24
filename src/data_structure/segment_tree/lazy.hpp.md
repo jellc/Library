@@ -203,17 +203,16 @@ data:
     \    _apply(node << 1 | 1, lazy[node]);\n    lazy[node] = _End{};\n  }\n\n  void\
     \ pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }\n\n\
     \  template <class _Pred>\n  size_t left_partition_subtree(size_t node, _Monoid\
-    \ mono, size_t step,\n                                _Pred __pred) {\n    assert(node);\n\
-    \    while (node < size_ext) {\n      push(node);\n      const _Monoid __tmp =\
-    \ data[(node <<= 1) | 1] + mono;\n      if (__pred(__tmp))\n        mono = std::move(__tmp);\n\
-    \      else\n        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n \
-    \ template <class _Pred>\n  size_t right_partition_subtree(size_t node, _Monoid\
-    \ mono, size_t step,\n                                 _Pred __pred) {\n    assert(node);\n\
-    \    while (node < size_ext) {\n      push(node);\n      const _Monoid __tmp =\
-    \ mono + data[node <<= 1];\n      if (__pred(__tmp)) ++node, mono = std::move(__tmp);\n\
-    \    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n  }\n\n\
-    \ public:\n  class iterator {\n    lazy_segment_tree *__p;\n    size_t __i;\n\n\
-    \   public:\n    using difference_type = typename std::make_signed<size_t>::type;\n\
+    \ mono, _Pred __pred) {\n    assert(node);\n    while (node < size_ext) {\n  \
+    \    push(node);\n      const _Monoid __tmp = data[(node <<= 1) | 1] + mono;\n\
+    \      if (__pred(__tmp))\n        mono = std::move(__tmp);\n      else\n    \
+    \    ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
+    \ _Pred>\n  size_t right_partition_subtree(size_t node, _Monoid mono, _Pred __pred)\
+    \ {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n   \
+    \   const _Monoid __tmp = mono + data[node <<= 1];\n      if (__pred(__tmp)) ++node,\
+    \ mono = std::move(__tmp);\n    }\n    return (node -= size_ext) < size_orig ?\
+    \ node : size_orig;\n  }\n\n public:\n  class iterator {\n    lazy_segment_tree\
+    \ *__p;\n    size_t __i;\n\n   public:\n    using difference_type = typename std::make_signed<size_t>::type;\n\
     \    using value_type = _Monoid;\n    using reference = _Monoid &;\n    using\
     \ pointer = iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\
     \n    /**\n     * @brief Construct a new iterator object\n     *\n     */\n  \
@@ -285,8 +284,8 @@ data:
     \ step{}; __l != __r;\n         __l >>= 1, __r >>= 1, ++step) {\n      if ((__l\
     \ & 1) != (__r & 1)) {\n        const _Monoid __tmp = data[--__r] + mono;\n  \
     \      if (!__pred(__tmp))\n          return left_partition_subtree(__r, std::move(mono),\
-    \ step, __pred);\n        mono = std::move(__tmp);\n      }\n    }\n    return\
-    \ 0;\n  }\n\n  /**\n   * @brief Binary search for the partition point.\n   * @param\
+    \ __pred);\n        mono = std::move(__tmp);\n      }\n    }\n    return 0;\n\
+    \  }\n\n  /**\n   * @brief Binary search for the partition point.\n   * @param\
     \ __l Left fixed end of the interval, inclusive\n   * @param __pred Predicate\
     \ in the form of 'bool(_Monoid)'\n   * @return Right end of the extremal interval\
     \ satisfying the condition,\n   * exclusive.\n   */\n  template <class _Pred>\
@@ -295,9 +294,9 @@ data:
     \ >> i);\n    _Monoid mono{};\n    for (size_t __r{size_ext << 1}, step{}; __l\
     \ != __r;\n         __l >>= 1, __r >>= 1, ++step) {\n      if ((__l & 1) != (__r\
     \ & 1)) {\n        const _Monoid __tmp = mono + data[__l];\n        if (!__pred(__tmp))\n\
-    \          return right_partition_subtree(__l, std::move(mono), step, __pred);\n\
-    \        mono = std::move(__tmp);\n        ++__l;\n      }\n    }\n    return\
-    \ size_orig;\n  }\n};\n\n}  // namespace workspace\n"
+    \          return right_partition_subtree(__l, std::move(mono), __pred);\n   \
+    \     mono = std::move(__tmp);\n        ++__l;\n      }\n    }\n    return size_orig;\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file lazy.hpp\n * @brief Lazy Segment Tree\n */\n\
     \n#include <cassert>\n#include <queue>\n#include <vector>\n\n#include \"src/algebra/system/monoid.hpp\"\
     \n#include \"src/algebra/system/operation.hpp\"\n#include \"src/utils/sfinae.hpp\"\
@@ -319,17 +318,16 @@ data:
     \    _apply(node << 1 | 1, lazy[node]);\n    lazy[node] = _End{};\n  }\n\n  void\
     \ pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }\n\n\
     \  template <class _Pred>\n  size_t left_partition_subtree(size_t node, _Monoid\
-    \ mono, size_t step,\n                                _Pred __pred) {\n    assert(node);\n\
-    \    while (node < size_ext) {\n      push(node);\n      const _Monoid __tmp =\
-    \ data[(node <<= 1) | 1] + mono;\n      if (__pred(__tmp))\n        mono = std::move(__tmp);\n\
-    \      else\n        ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n \
-    \ template <class _Pred>\n  size_t right_partition_subtree(size_t node, _Monoid\
-    \ mono, size_t step,\n                                 _Pred __pred) {\n    assert(node);\n\
-    \    while (node < size_ext) {\n      push(node);\n      const _Monoid __tmp =\
-    \ mono + data[node <<= 1];\n      if (__pred(__tmp)) ++node, mono = std::move(__tmp);\n\
-    \    }\n    return (node -= size_ext) < size_orig ? node : size_orig;\n  }\n\n\
-    \ public:\n  class iterator {\n    lazy_segment_tree *__p;\n    size_t __i;\n\n\
-    \   public:\n    using difference_type = typename std::make_signed<size_t>::type;\n\
+    \ mono, _Pred __pred) {\n    assert(node);\n    while (node < size_ext) {\n  \
+    \    push(node);\n      const _Monoid __tmp = data[(node <<= 1) | 1] + mono;\n\
+    \      if (__pred(__tmp))\n        mono = std::move(__tmp);\n      else\n    \
+    \    ++node;\n    }\n    return ++node -= size_ext;\n  }\n\n  template <class\
+    \ _Pred>\n  size_t right_partition_subtree(size_t node, _Monoid mono, _Pred __pred)\
+    \ {\n    assert(node);\n    while (node < size_ext) {\n      push(node);\n   \
+    \   const _Monoid __tmp = mono + data[node <<= 1];\n      if (__pred(__tmp)) ++node,\
+    \ mono = std::move(__tmp);\n    }\n    return (node -= size_ext) < size_orig ?\
+    \ node : size_orig;\n  }\n\n public:\n  class iterator {\n    lazy_segment_tree\
+    \ *__p;\n    size_t __i;\n\n   public:\n    using difference_type = typename std::make_signed<size_t>::type;\n\
     \    using value_type = _Monoid;\n    using reference = _Monoid &;\n    using\
     \ pointer = iterator;\n    using iterator_category = std::random_access_iterator_tag;\n\
     \n    /**\n     * @brief Construct a new iterator object\n     *\n     */\n  \
@@ -401,8 +399,8 @@ data:
     \ step{}; __l != __r;\n         __l >>= 1, __r >>= 1, ++step) {\n      if ((__l\
     \ & 1) != (__r & 1)) {\n        const _Monoid __tmp = data[--__r] + mono;\n  \
     \      if (!__pred(__tmp))\n          return left_partition_subtree(__r, std::move(mono),\
-    \ step, __pred);\n        mono = std::move(__tmp);\n      }\n    }\n    return\
-    \ 0;\n  }\n\n  /**\n   * @brief Binary search for the partition point.\n   * @param\
+    \ __pred);\n        mono = std::move(__tmp);\n      }\n    }\n    return 0;\n\
+    \  }\n\n  /**\n   * @brief Binary search for the partition point.\n   * @param\
     \ __l Left fixed end of the interval, inclusive\n   * @param __pred Predicate\
     \ in the form of 'bool(_Monoid)'\n   * @return Right end of the extremal interval\
     \ satisfying the condition,\n   * exclusive.\n   */\n  template <class _Pred>\
@@ -411,9 +409,9 @@ data:
     \ >> i);\n    _Monoid mono{};\n    for (size_t __r{size_ext << 1}, step{}; __l\
     \ != __r;\n         __l >>= 1, __r >>= 1, ++step) {\n      if ((__l & 1) != (__r\
     \ & 1)) {\n        const _Monoid __tmp = mono + data[__l];\n        if (!__pred(__tmp))\n\
-    \          return right_partition_subtree(__l, std::move(mono), step, __pred);\n\
-    \        mono = std::move(__tmp);\n        ++__l;\n      }\n    }\n    return\
-    \ size_orig;\n  }\n};\n\n}  // namespace workspace\n"
+    \          return right_partition_subtree(__l, std::move(mono), __pred);\n   \
+    \     mono = std::move(__tmp);\n        ++__l;\n      }\n    }\n    return size_orig;\n\
+    \  }\n};\n\n}  // namespace workspace\n"
   dependsOn:
   - src/algebra/system/monoid.hpp
   - src/algebra/system/operation.hpp
@@ -422,7 +420,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2021-11-30 18:24:38+09:00'
+  timestamp: '2022-02-24 21:46:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aizu-online-judge/2450.test.cpp
