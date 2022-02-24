@@ -61,8 +61,7 @@ class lazy_segment_tree {
   void pull(size_t node) { data[node] = data[node << 1] + data[node << 1 | 1]; }
 
   template <class _Pred>
-  size_t left_partition_subtree(size_t node, _Monoid mono, size_t step,
-                                _Pred __pred) {
+  size_t left_partition_subtree(size_t node, _Monoid mono, _Pred __pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
@@ -76,8 +75,7 @@ class lazy_segment_tree {
   }
 
   template <class _Pred>
-  size_t right_partition_subtree(size_t node, _Monoid mono, size_t step,
-                                 _Pred __pred) {
+  size_t right_partition_subtree(size_t node, _Monoid mono, _Pred __pred) {
     assert(node);
     while (node < size_ext) {
       push(node);
@@ -265,7 +263,7 @@ class lazy_segment_tree {
       if ((__l & 1) != (__r & 1)) {
         const _Monoid __tmp = data[--__r] + mono;
         if (!__pred(__tmp))
-          return left_partition_subtree(__r, std::move(mono), step, __pred);
+          return left_partition_subtree(__r, std::move(mono), __pred);
         mono = std::move(__tmp);
       }
     }
@@ -290,7 +288,7 @@ class lazy_segment_tree {
       if ((__l & 1) != (__r & 1)) {
         const _Monoid __tmp = mono + data[__l];
         if (!__pred(__tmp))
-          return right_partition_subtree(__l, std::move(mono), step, __pred);
+          return right_partition_subtree(__l, std::move(mono), __pred);
         mono = std::move(__tmp);
         ++__l;
       }
