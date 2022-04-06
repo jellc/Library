@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "polynomial.hpp"
-#include "system\operation.hpp"
+#include "system/operation.hpp"
 
 namespace workspace {
 

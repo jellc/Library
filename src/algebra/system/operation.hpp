@@ -5,6 +5,7 @@
  * @brief Operation Traits
  */
 
+#include <functional>
 #include <type_traits>
 
 #include "lib/cxx17"
