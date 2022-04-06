@@ -20,8 +20,8 @@ class ndvec : public std::vector<ndvec<_Tp, _Dim - 1>> {
 
   ndvec() = default;
 
-  template <class _Size, size_t _Nm>
-  ndvec(const _Size (&__size)[_Nm], const _Tp& __x = {}) noexcept
+  template <size_t _Nm>
+  ndvec(const size_t (&__size)[_Nm], const _Tp& __x = {}) noexcept
       : container_type(__size[_Nm - _Dim], {__size, __x}) {}
 
   template <size_type _Nm = 0> size_type size() const noexcept {
@@ -47,8 +47,8 @@ template <class _Tp> class ndvec<_Tp, 1> : public std::vector<_Tp> {
 
   ndvec() = default;
 
-  template <class _Size, size_t _Nm>
-  ndvec(const _Size (&__size)[_Nm], const _Tp& __x = {}) noexcept
+  template <size_t _Nm>
+  ndvec(const size_t (&__size)[_Nm], const _Tp& __x = {}) noexcept
       : container_type(__size[_Nm - 1], __x) {}
 
   template <size_type _Nm = 0> size_type size() const noexcept {
@@ -65,8 +65,8 @@ template <class _Tp> class ndvec<_Tp, 1> : public std::vector<_Tp> {
 
 #if __cpp_deduction_guides >= 201606L
 
-template <class _Tp, class _Size, size_t _Dim>
-ndvec(const _Size (&)[_Dim], const _Tp&) -> ndvec<_Tp, _Dim>;
+template <class _Tp, size_t _Dim>
+ndvec(const size_t (&)[_Dim], const _Tp&) -> ndvec<_Tp, _Dim>;
 
 #endif
 
