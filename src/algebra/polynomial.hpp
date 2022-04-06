@@ -9,8 +9,8 @@
 #include <cassert>
 #include <vector>
 
+#include "fft.hpp"
 #include "lib/cxx17"
-#include "ntt.hpp"
 #include "src/utils/sfinae.hpp"
 
 namespace workspace {
@@ -37,10 +37,17 @@ class polynomial : public std::vector<_Tp> {
   }
 
  public:
+  using typename vec::size_type;
+  using typename vec::value_type;
+  using vec::size;
   using vec::vec;
-  using size_type = typename vec::size_type;
+
+  using field = typename _fft_impl::field<_Tp>::type;
 
  protected:
+  constexpr static _fft_impl::coef<field> __coef{};
+  static std::vector<field> __work1, __work2;
+
   void _erase_leading_zeros() noexcept {
     auto __i = vec::_M_impl._M_finish;
     while (__i != vec::_M_impl._M_start && *(__i - 1) == _Tp(0)) --__i;
@@ -48,22 +55,12 @@ class polynomial : public std::vector<_Tp> {
   }
 
   template <class _Iter> void _dft(_Iter __first, _Iter __last) const noexcept {
-    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
-      ntt(__first, __last);
-    else {
-      // fft(__first, __last);
-      assert(0);  // Not implemented!
-    }
+    fft<false>(__first, __last);
   }
 
   template <class _Iter>
   void _idft(_Iter __first, _Iter __last) const noexcept {
-    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
-      intt(__first, __last);
-    else {
-      // ifft(__first, __last);
-      assert(0);  // Not implemented!
-    }
+    fft<true>(__first, __last);
   }
 
   void _conv_naive(const poly& __x) noexcept {
@@ -85,43 +82,66 @@ class polynomial : public std::vector<_Tp> {
     }
   }
 
-  void _conv_dft(poly&& __x) noexcept {
-    if _CXX17_CONSTEXPR (has_mod<_Tp>::value)
-      _conv_ntt(std::move(__x));
-    else {
-      // _conv_fft(std::move(__x));
-      assert(0);  // Not implemented!
-    }
-  }
-
-  void _conv_fft(poly&& __x) noexcept;
-
-  void _conv_ntt(poly&& __x) noexcept {
+  template <class _Poly> void _conv_dft(_Poly&& __x) noexcept {
     size_type __n = vec::_M_impl._M_finish - vec::_M_impl._M_start,
               __m = __x._M_impl._M_finish - __x._M_impl._M_start,
               __len = 1 << (32 - __builtin_clz(__n + __m - 1));
 
-    vec::_M_default_append(__len - __n);
-    __x._M_default_append(__len - __m);
+    if (__work1.size() < __len) __work1.resize(__len);
+    if (__work2.size() < __len) __work2.resize(__len);
 
-    ntt(vec::_M_impl._M_start, vec::_M_impl._M_finish);
-    ntt(__x._M_impl._M_start, __x._M_impl._M_finish);
+    vec::_M_default_append(__m - 1);
 
-    for (auto __i = vec::_M_impl._M_start, __j = __x._M_impl._M_start;
-         __i != vec::_M_impl._M_finish; ++__i, ++__j)
-      *__i *= std::move(*__j);
+    if _CXX17_CONSTEXPR (std::is_same<_Tp, field>::value) {
+      std::fill(std::move(vec::_M_impl._M_start, vec::_M_impl._M_finish,
+                          __work1.data()),
+                __work1.data() + __len, _Tp(0));
 
-    intt(vec::_M_impl._M_start, vec::_M_impl._M_finish);
+      std::fill(std::move(__x._M_impl._M_start, __x._M_impl._M_finish,
+                          __work2.data()),
+                __work2.data() + __len, _Tp(0));
 
-    vec::_M_erase_at_end(vec::_M_impl._M_start + __n + __m - 1);
+      fft(__work1.data(), __len);
+      fft(__work2.data(), __len);
+
+      for (size_type __i = 0; __i < __len; ++__i)
+        __work1[__i] *= std::move(__work2[__i]);
+
+      ifft(__work1.data(), __len);
+
+      std::move(__work1.data(), __work1.data() + __n + __m - 1,
+                vec::_M_impl._M_start);
+    }
+
+    else {
+      std::fill_n(__work1.data(), __len, _Tp(0));
+      std::fill_n(__work2.data(), __len, _Tp(0));
+
+      for (size_type __i = 0; __i < __n; ++__i)
+        __work1[__i].real(vec::_M_impl._M_start[__i]);
+
+      for (size_type __i = 0; __i < __m; ++__i)
+        __work1[__i].imag(__x._M_impl._M_start[__i]);
+
+      fft(__work1.data(), __len);
+
+      __work2[0].imag(__work1[0].real() * __work1[0].imag());
+
+      for (size_type __b = 1; __b != __len; __b <<= 1)
+        for (size_type __i = __b, __j = __b << 1; __j-- != __b; ++__i)
+          __work2[__i] = (__work1[__i] + conj(__work1[__j])) *
+                         (__work1[__i] - conj(__work1[__j])) / 4;
+
+      ifft(__work2.data(), __len);
+
+      for (size_type __i = 0; __i < __n + __m - 1; ++__i)
+        if _CXX17_CONSTEXPR (std::is_floating_point<_Tp>::value)
+          vec::_M_impl._M_start[__i] = __work2[__i].imag();
+        else
+          vec::_M_impl._M_start[__i] = roundl(__work2[__i].imag());
+    }
   }
 
-  /**
-   * @brief
-   *
-   * @param __x
-   * @return Degree of __x.
-   */
   size_type _divmod_naive(const poly& __x) {
     auto __xfin = __x._M_impl._M_finish;
     auto __xlen = __x.size();
@@ -175,14 +195,14 @@ class polynomial : public std::vector<_Tp> {
   /**
    * @return Degree of %polynomial. Return -1 if it equals zero.
    */
-  size_type deg() const noexcept { return vec::size() - 1; }
+  size_type deg() const noexcept { return size() - 1; }
 
   /**
    * @param __i Not exceeding the degree.
    * @return Coefficient of x^i.
    */
   typename vec::reference operator[](size_type __i) noexcept {
-    assert(__i < vec::size());
+    assert(__i < size());
     return *(vec::_M_impl._M_start + __i);
   }
 
@@ -191,7 +211,7 @@ class polynomial : public std::vector<_Tp> {
    * @return Coefficient of x^i.
    */
   typename vec::const_reference operator[](size_type __i) const noexcept {
-    assert(__i < vec::size());
+    assert(__i < size());
     return *(vec::_M_impl._M_start + __i);
   }
 
@@ -250,46 +270,6 @@ class polynomial : public std::vector<_Tp> {
   }
 
   /**
-   * @brief Conversion to bool.
-   *
-   * @return Whether the %polynomial is not zero.
-   */
-  operator bool() const noexcept {
-    auto __first = vec::_M_impl._M_start, __last = vec::_M_impl._M_finish;
-
-    while (__first != __last)
-      if (*__first++ != _Tp(0)) return true;
-
-    return false;
-  }
-
-  bool operator==(const poly& __x) const noexcept {
-    auto __first1 = vec::_M_impl._M_start, __last1 = vec::_M_impl._M_finish;
-
-    auto __first2 = __x._M_impl._M_start, __last2 = __x._M_impl._M_finish;
-
-    if (__last1 - __first1 < __last2 - __first2) {
-      while (__first1 != __last1)
-        if (*__first1++ != *__first2++) return false;
-
-      while (__first2 != __last2)
-        if (*__first2++ != _Tp(0)) return false;
-    }
-
-    else {
-      while (__first2 != __last2)
-        if (*__first1++ != *__first2++) return false;
-
-      while (__first1 != __last1)
-        if (*__first1++ != _Tp(0)) return false;
-    }
-
-    return true;
-  }
-
-  bool operator!=(const poly& __x) const noexcept { return !operator==(__x); }
-
-  /**
    * @brief Multiply by x^i.
    */
   poly& operator<<=(size_type __i) noexcept {
@@ -302,7 +282,7 @@ class polynomial : public std::vector<_Tp> {
    */
   poly& operator>>=(size_type __i) noexcept {
     vec::_M_erase_at_end(
-        std::move(vec::_M_impl._M_start + std::min(__i, vec::size()),
+        std::move(vec::_M_impl._M_start + std::min(__i, size()),
                   vec::_M_impl._M_finish, vec::_M_impl._M_start));
 
     return *this;
@@ -332,8 +312,7 @@ class polynomial : public std::vector<_Tp> {
   }
 
   poly& operator+=(const poly& __x) noexcept {
-    if (vec::size() < __x.size())
-      vec::_M_default_append(__x.size() - vec::size());
+    if (size() < __x.size()) vec::_M_default_append(__x.size() - size());
 
     for (auto __i = vec::_M_impl._M_start, __j = __x._M_impl._M_start;
          __j != __x._M_impl._M_finish; ++__i, ++__j)
@@ -355,8 +334,7 @@ class polynomial : public std::vector<_Tp> {
   }
 
   poly& operator-=(const poly& __x) noexcept {
-    if (vec::size() < __x.size())
-      vec::_M_default_append(__x.size() - vec::size());
+    if (size() < __x.size()) vec::_M_default_append(__x.size() - size());
 
     for (auto __i = vec::_M_impl._M_start, __j = __x._M_impl._M_start;
          __j != __x._M_impl._M_finish; ++__i, ++__j)
@@ -378,17 +356,22 @@ class polynomial : public std::vector<_Tp> {
   }
 
   poly& operator*=(const poly& __x) noexcept {
-    std::min(vec::size(), __x.size()) > _Conv_threshold
-        ? _conv_dft(poly(__x))
-        : _conv_naive(this == std::addressof(__x) ? poly(__x) : __x);
+    if (this == std::addressof(__x))  // with itself
+      return operator*=(poly(__x));
+
+    std::min(size(), __x.size()) > _Conv_threshold ? _conv_dft(__x)
+                                                   : _conv_naive(__x);
 
     return *this;
   }
 
   poly& operator*=(poly&& __x) noexcept {
-    std::min(vec::size(), __x.size()) > _Conv_threshold
+    if (this == std::addressof(__x))  // with itself
+      return operator*=(poly(__x));
+
+    std::min(size(), __x.size()) > _Conv_threshold
         ? _conv_dft(std::move(__x))
-        : _conv_naive(__x);
+        : _conv_naive(std::move(__x));
 
     return *this;
   }
@@ -413,20 +396,53 @@ class polynomial : public std::vector<_Tp> {
     return *this;
   }
 
-  poly rev() const noexcept { return rev(vec::size()); }
+  poly pow(size_type __e) const noexcept {
+    if (vec::empty()) return *this;
+
+    if (!__e) return {1};
+
+    if (size() == 1) {
+      _Tp __x = vec::front(), __y = 1;
+      for (auto __i = __e; __i; __i >>= 1, __x *= __x)
+        if (__i & 1) __y *= __x;
+      return {__y};
+    }
+
+    size_type __deg = (size() - 1) * __e;
+    assert(__deg > 0);
+
+    poly __p(1 << (32 - __builtin_clz(__deg)));
+    std::copy(vec::_M_impl._M_start, vec::_M_impl._M_finish,
+              __p._M_impl._M_start);
+
+    fft(__p._M_impl._M_start, __p._M_impl._M_finish);
+
+    for (auto&& __x : __p) {
+      _Tp __y = 1;
+      for (auto __i = __e; __i; __i >>= 1, __x *= __x)
+        if (__i & 1) __y *= __x;
+      __x = __y;
+    }
+
+    ifft(__p._M_impl._M_start, __p._M_impl._M_finish);
+
+    __p.resize(__deg + 1);
+    return __p;
+  }
+
+  poly rev() const noexcept { return rev(size()); }
 
   poly rev(size_type __n) const noexcept {
     poly __r(__n);
 
     auto __src = vec::_M_impl._M_start;
     auto __dst = __r._M_impl._M_finish;
-    for (size_type __i = std::min(__n, vec::size()); __i; --__i)
-      *--__dst = *__src++;
+    for (size_type __i = std::min(__n, size()); __i; --__i) *--__dst = *__src++;
 
     return __r;
   }
 
-  poly inv() const noexcept { return inv(vec::size()); }
+  poly inv() const noexcept { return inv(size()); }
 
   /**
    * @brief Multiplicative inverse modulo x^n.
@@ -452,9 +468,9 @@ class polynomial : public std::vector<_Tp> {
 
       _dft(__zp, __zp + (__i << 1));
 
-      std::fill(std::copy_n(vec::_M_impl._M_start,
-                            std::min(__i << 1, vec::size()), __xp),
-                __xp + (__i << 1), _Tp(0));
+      std::fill(
+          std::copy_n(vec::_M_impl._M_start, std::min(__i << 1, size()), __xp),
+          __xp + (__i << 1), _Tp(0));
 
       _dft(__xp, __xp + (__i << 1));
 
@@ -628,110 +644,57 @@ class polynomial : public std::vector<_Tp> {
 
     return __int;
   }
+
+  /**
+   * @brief
+   *
+   * @param __a
+   * @return f(x + a)
+   */
+  poly shift(const _Tp& __a) const noexcept {
+    size_type __n = size();
+    poly __s(*this), __e(__n);
+    _Tp __cs(1), __ce(1);
+
+    for (size_type __i{0}; __i != __n;
+         __cs *= _Tp(++__i), __ce *= __a / _Tp(__i))
+      __s[__i] *= __cs, __e[__n - 1 - __i] = __ce;
+
+    __s *= std::move(__e);
+    __ce = 1;
+
+    for (size_type __i{0}; __i != __n; __ce /= _Tp(++__i))
+      __e[__i] = __s[__n - 1 + __i] * __ce;
+
+    return __e;
+  }
 };
 
+template <class _Tp, size_t _C>
+std::vector<typename polynomial<_Tp, _C>::field> polynomial<_Tp, _C>::__work1;
+
+template <class _Tp, size_t _C>
+std::vector<typename polynomial<_Tp, _C>::field> polynomial<_Tp, _C>::__work2;
+
 /**
- * @brief Polynomial interpolation in O(n log(n)^2) time.
+ * @brief Generating function of the sum of k-th powers of the first n
+ * non-negative integers. O(d \\log d) time in modulo x^d.
  *
- * @param __first
- * @param __last
- * @return
+ * @return \\sum_{k=0}^{d-1} x^k \\sum_{i=0}^{n-1} i^k.
  */
-template <class _InputIter, typename = std::_RequireInputIter<_InputIter>>
-auto interpolate(_InputIter __first, _InputIter __last) {
-  size_t __n = std::distance(__first, __last);
+template <class _Tp> polynomial<_Tp> power_sum(_Tp __n, std::size_t __d) {
+  if (!__d) return {};
 
-  auto [__1, __2] =
-      typename std::iterator_traits<decltype(__first)>::value_type{};
-
-  using poly = polynomial<decltype(__1)>;
-
-  if (!__n) return poly{};
-
-  struct node {
-    poly __all, __lack;
-  };
-
-  auto __tree = new node[__n << 1];
-  auto __iter = __first;
-
-  for (size_t __i = 0; __i != __n; ++__i) {
-    auto&& [__a, __b] = *__iter++;
-    __tree[__i + __n].__all = {-__a, 1}, __tree[__i + __n].__lack = {1};
-  }
-
-  for (size_t __i = __n; --__i;)
-    __tree[__i].__all = __tree[__i << 1].__all * __tree[__i << 1 | 1].__all,
-    __tree[__i].__lack =
-        __tree[__i << 1].__all * std::move(__tree[__i << 1 | 1].__lack) +
-        __tree[__i << 1 | 1].__all * std::move(__tree[__i << 1].__lack);
-
-  for (size_t __i = 2; __i != __n << 1; __i += 2)
-    __tree[__i].__lack = __tree[__i >> 1].__lack % __tree[__i].__all,
-    __tree[__i | 1].__lack =
-        std::move(__tree[__i >> 1].__lack %= __tree[__i | 1].__all);
-
-  for (size_t __i = 0; __i != __n; ++__i) {
-    auto&& [__a, __b] = *__first++;
-    __tree[__i + __n].__lack[0] =
-        std::move(__b) / std::move(__tree[__i + __n].__lack[0]);
-  }
-
-  for (size_t __i = __n; --__i;)
-    __tree[__i].__lack = std::move(__tree[__i << 1].__all) *
-                             std::move(__tree[__i << 1 | 1].__lack) +
-                         std::move(__tree[__i << 1 | 1].__all) *
-                             std::move(__tree[__i << 1].__lack);
-
-  auto __result = std::move(__tree[1].__lack);
-
-  delete[] __tree;
-
-  return __result;
-}
-
-// /**
-//  * @brief \\prod_{i=0}^{n-1} (x+i) \\bmod x^d.
-//  */
-// template <class _Tp> auto rising_factorial(_Tp __n, std::size_t __d) {}
-
-// /**
-//  * @brief \\prod_{i=0}^{n-1} (x+i).
-//  */
-// template <class _Tp> auto rising_factorial(_Tp __n) {
-//   return rising_factorial(__n, __n);
-// }
-
-// /**
-//  * @brief \\prod_{i=0}^{n-1} (x-i) \\bmod x^d.
-//  */
-// template <class _Tp> auto falling_factorial(_Tp __n, std::size_t __d) {
-//   auto __f = rising_factorial(__n, __d);
-//   for (std::size_t __i = (__n & 1) ^ 1; __i < __d; __i += 2)
-//     __f[__i] = -__f[__i];
-//   return __f;
-// }
-
-// /**
-//  * @brief \\prod_{i=0}^{n-1} (x-i).
-//  */
-// template <class _Tp> auto falling_factorial(_Tp __n) {
-//   return falling_factorial(__n, __n);
-// }
-
-/**
- * @brief \\sum_{j=0}^{d-1} x^j \\sum_{i=0}^{n-1} i^j.
- */
-template <class _Tp> auto power_sums(_Tp __n, std::size_t __d) {
-  using return_type = polynomial<_Tp>;
-  if (!__d) return return_type{};
-  return_type __f(__d), __e(__d);
+  polynomial<_Tp> __f(__d), __e(__d);
   __f[0] = __n;
   for (std::size_t __i = 1; __i != __d; ++__i) __f[__i] = __f[__i - 1] * __n;
+
   _Tp __c{1};
   for (std::size_t __i = 0; __i != __d; ++__i)
     __c /= __i + 1, __f[__i] *= __c, __e[__i] = __c;
+
   (__f *= __e.inv(__d)).resize(__d);
+
   __c = 1;
   for (std::size_t __i = 0; __i != __d; __c *= ++__i) __f[__i] *= __c;
   return __f;
