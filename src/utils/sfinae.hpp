@@ -62,15 +62,29 @@ using subscripted_type =
     typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;
 
 template <class Container>
-using element_type = typename std::decay<decltype(
-    *std::begin(std::declval<Container&>()))>::type;
+using element_type = typename std::decay<decltype(*std::begin(
+    std::declval<Container&>()))>::type;
 
-template <class _Tp, class = std::nullptr_t>
-struct has_begin : std::false_type {};
+template <class _Tp, class = void> struct has_begin : std::false_type {};
 
 template <class _Tp>
-struct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()), nullptr)>
+struct has_begin<
+    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>
+    : std::true_type {
+  using type = decltype(std::begin(std::declval<const _Tp&>()));
+};
+
+template <class _Tp, class = void> struct has_size : std::false_type {};
+
+template <class _Tp>
+struct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>
     : std::true_type {};
+
+template <class _Tp, class = void> struct has_resize : std::false_type {};
+
+template <class _Tp>
+struct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(
+                           std::declval<size_t>()))>> : std::true_type {};
 
 template <class _Tp, class = void> struct has_mod : std::false_type {};
 
@@ -159,5 +173,17 @@ template <class _Tp, class = void> struct parse_compare : first_arg<_Tp> {};
 template <class _Tp>
 struct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>
     : first_arg<decltype(&_Tp::operator())> {};
+
+template <class _Container, class = void> struct get_dimension {
+  static constexpr size_t value = 0;
+};
+
+template <class _Container>
+struct get_dimension<_Container,
+                     std::enable_if_t<has_begin<_Container>::value>> {
+  static constexpr size_t value =
+      1 + get_dimension<typename std::iterator_traits<
+              typename has_begin<_Container>::type>::value_type>::value;
+};
 
 }  // namespace workspace
