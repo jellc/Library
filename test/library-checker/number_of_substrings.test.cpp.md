@@ -193,86 +193,82 @@ data:
     \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
     [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
     \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\n\n#if\
-    \ __cplusplus >= 201703L\n\nnamespace workspace {\n\nnamespace internal {\n\n\
-    template <class> struct zipped_iterator;\n\ntemplate <class...> struct zipped_iterator_tuple;\n\
-    \ntemplate <class... Args> class zipped {\n  using ref_tuple = std::tuple<Args...>;\n\
-    \  ref_tuple args;\n\n  template <size_t N = 0> constexpr decltype(auto) begin_cat()\
-    \ const noexcept {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value)\
-    \ {\n      return std::tuple_cat(std::tuple(std::begin(std::get<N>(args))),\n\
-    \                            begin_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
-    \  }\n\n  template <size_t N = 0> constexpr decltype(auto) end_cat() const noexcept\
-    \ {\n    if _CXX17_CONSTEXPR (N != std::tuple_size<ref_tuple>::value) {\n    \
-    \  return std::tuple_cat(std::tuple(std::end(std::get<N>(args))),\n          \
-    \                  end_cat<N + 1>());\n    } else\n      return std::tuple<>();\n\
-    \  }\n\n public:\n  constexpr zipped(Args &&...args) noexcept : args(args...)\
-    \ {}\n\n  class iterator {\n    using base_tuple = typename zipped_iterator_tuple<Args...>::type;\n\
-    \n   public:\n    using iterator_category =\n        typename common_iterator_category<base_tuple>::type;\n\
-    \    using difference_type = std::ptrdiff_t;\n    using value_type = zipped_iterator<base_tuple>;\n\
-    \    using reference = zipped_iterator<base_tuple> &;\n    using pointer = iterator;\n\
-    \n   protected:\n    value_type current;\n\n    template <size_t N = 0>\n    constexpr\
-    \ bool equal(const iterator &rhs) const noexcept {\n      if _CXX17_CONSTEXPR\
-    \ (N != std::tuple_size<base_tuple>::value) {\n        return std::get<N>(current)\
-    \ == std::get<N>(rhs.current) ||\n               equal<N + 1>(rhs);\n      } else\n\
-    \        return false;\n    }\n\n    template <size_t N = 0> constexpr void increment()\
-    \ noexcept {\n      if _CXX17_CONSTEXPR (N != std::tuple_size<base_tuple>::value)\
-    \ {\n        ++std::get<N>(current);\n        increment<N + 1>();\n      }\n \
-    \   }\n\n    template <size_t N = 0> constexpr void decrement() noexcept {\n \
-    \     if _CXX17_CONSTEXPR (N != std::tuple_size<base_tuple>::value) {\n      \
-    \  --std::get<N>(current);\n        decrement<N + 1>();\n      }\n    }\n\n  \
-    \  template <size_t N = 0>\n    constexpr void advance(difference_type __d) noexcept\
-    \ {\n      if _CXX17_CONSTEXPR (N != std::tuple_size<base_tuple>::value) {\n \
-    \       std::get<N>(current) += __d;\n        advance<N + 1>(__d);\n      }\n\
-    \    }\n\n   public:\n    constexpr iterator() noexcept = default;\n    constexpr\
-    \ iterator(base_tuple const &current) noexcept : current(current) {}\n\n    constexpr\
-    \ bool operator==(const iterator &rhs) const noexcept {\n      return equal(rhs);\n\
-    \    }\n    constexpr bool operator!=(const iterator &rhs) const noexcept {\n\
-    \      return !equal(rhs);\n    }\n\n    constexpr iterator &operator++() noexcept\
-    \ {\n      increment();\n      return *this;\n    }\n    constexpr iterator &operator--()\
-    \ noexcept {\n      decrement();\n      return *this;\n    }\n\n    constexpr\
-    \ bool operator<(const iterator &rhs) const noexcept {\n      return std::get<0>(current)\
-    \ < std::get<0>(rhs.current);\n    }\n\n    constexpr bool operator<=(const iterator\
-    \ &rhs) const noexcept {\n      return std::get<0>(current) <= std::get<0>(rhs.current);\n\
-    \    }\n\n    constexpr iterator &operator+=(difference_type __d) noexcept {\n\
-    \      advance(__d);\n      return *this;\n    }\n\n    constexpr iterator &operator-=(difference_type\
-    \ __d) noexcept {\n      advance(-__d);\n      return *this;\n    }\n\n    constexpr\
-    \ iterator operator+(difference_type __d) const noexcept {\n      return iterator{*this}\
-    \ += __d;\n    }\n\n    constexpr iterator operator-(difference_type __d) const\
-    \ noexcept {\n      return iterator{*this} -= __d;\n    }\n\n    constexpr difference_type\
-    \ operator-(const iterator &rhs) const noexcept {\n      return std::get<0>(current)\
-    \ - std::get<0>(rhs.current);\n    }\n\n    constexpr reference operator*() noexcept\
-    \ { return current; }\n  };\n\n  constexpr iterator begin() const noexcept { return\
-    \ iterator{begin_cat()}; }\n  constexpr iterator end() const noexcept { return\
-    \ iterator{end_cat()}; }\n\n  constexpr reverse_iterator<iterator> rbegin() const\
-    \ noexcept {\n    return reverse_iterator<iterator>{end()};\n  }\n  constexpr\
-    \ reverse_iterator<iterator> rend() const noexcept {\n    return reverse_iterator<iterator>{begin()};\n\
-    \  }\n};\n\ntemplate <class Tp, class... Args> struct zipped_iterator_tuple<Tp,\
-    \ Args...> {\n  using type = decltype(std::tuple_cat(\n      std::declval<std::tuple<decltype(std::begin(std::declval<Tp>()))>>(),\n\
-    \      std::declval<typename zipped_iterator_tuple<Args...>::type>()));\n};\n\n\
-    template <> struct zipped_iterator_tuple<> { using type = std::tuple<>; };\n\n\
-    template <class Iter_tuple> struct zipped_iterator : Iter_tuple {\n  constexpr\
-    \ zipped_iterator(Iter_tuple const &__t) noexcept\n      : Iter_tuple::tuple(__t)\
-    \ {}\n\n  constexpr zipped_iterator(zipped_iterator const &__t) = default;\n\n\
-    \  constexpr zipped_iterator &operator=(zipped_iterator const &__t) = default;\n\
-    \n  // Avoid move initialization.\n  constexpr zipped_iterator(zipped_iterator\
-    \ &&__t)\n      : zipped_iterator(static_cast<zipped_iterator const &>(__t)) {}\n\
-    \n  // Avoid move assignment.\n  zipped_iterator &operator=(zipped_iterator &&__t)\
-    \ {\n    return operator=(static_cast<zipped_iterator const &>(__t));\n  }\n\n\
-    \  template <size_t N>\n  friend constexpr decltype(auto) get(\n      zipped_iterator<Iter_tuple>\
-    \ const &__z) noexcept {\n    return *std::get<N>(__z);\n  }\n\n  template <size_t\
-    \ N>\n  friend constexpr decltype(auto) get(\n      zipped_iterator<Iter_tuple>\
-    \ &&__z) noexcept {\n    return *std::get<N>(__z);\n  }\n};\n\n}  // namespace\
-    \ internal\n\n}  // namespace workspace\n\nnamespace std {\n\ntemplate <size_t\
-    \ N, class Iter_tuple>\nstruct tuple_element<N, workspace::internal::zipped_iterator<Iter_tuple>>\
-    \ {\n  using type = typename remove_reference<typename iterator_traits<\n    \
-    \  typename tuple_element<N, Iter_tuple>::type>::reference>::type;\n};\n\ntemplate\
-    \ <class Iter_tuple>\nstruct tuple_size<workspace::internal::zipped_iterator<Iter_tuple>>\n\
-    \    : tuple_size<Iter_tuple> {};\n\n}  // namespace std\n\nnamespace workspace\
-    \ {\n\ntemplate <class... Args> constexpr decltype(auto) zip(Args &&...args) noexcept\
-    \ {\n  return internal::zipped<Args...>(std::forward<Args>(args)...);\n}\n\ntemplate\
-    \ <class... Args>\nconstexpr decltype(auto) zip(\n    std::initializer_list<Args>\
-    \ const &...args) noexcept {\n  return internal::zipped<const std::initializer_list<Args>...>(args...);\n\
-    }\n\n}  // namespace workspace\n\n#endif\n#line 7 \"test/library-checker/number_of_substrings.test.cpp\"\
+    \n#include <variant>\n\n#endif\n#line 15 \"src/utils/py-like/zip.hpp\"\n\nnamespace\
+    \ workspace {\n\ntemplate <class _Tuple> class zipped : protected _Tuple {\n public:\n\
+    \  zipped(const _Tuple &__x) : _Tuple(__x) {}\n\n  template <std::size_t _Nm>\
+    \ constexpr decltype(auto) get() const &noexcept {\n    return *std::get<_Nm>(*this);\n\
+    \  }\n\n  template <std::size_t _Nm> constexpr decltype(auto) get() &&noexcept\
+    \ {\n    auto __tmp = *std::get<_Nm>(*this);\n    return __tmp;\n  }\n};\n\ntemplate\
+    \ <class... _Containers> class zip {\n  std::tuple<_Containers...> __c;\n\n  template\
+    \ <std::size_t _Nm = 0>\n  constexpr decltype(auto) begin_cat() const noexcept\
+    \ {\n    if _CXX17_CONSTEXPR (_Nm != sizeof...(_Containers)) {\n      return std::tuple_cat(std::tuple(std::begin(std::get<_Nm>(__c))),\n\
+    \                            begin_cat<_Nm + 1>());\n    } else\n      return\
+    \ std::tuple<>();\n  }\n\n  template <std::size_t _Nm = 0>\n  constexpr decltype(auto)\
+    \ end_cat() const noexcept {\n    if _CXX17_CONSTEXPR (_Nm != sizeof...(_Containers))\
+    \ {\n      return std::tuple_cat(std::tuple(std::end(std::get<_Nm>(__c))),\n \
+    \                           end_cat<_Nm + 1>());\n    } else\n      return std::tuple<>();\n\
+    \  }\n\n  using _Iterator_tuple =\n      std::tuple<decltype(std::begin(std::declval<_Containers>()))...>;\n\
+    \n public:\n  using size_type = std::size_t;\n\n  class iterator : public zipped<_Iterator_tuple>\
+    \ {\n    using _Base = zipped<_Iterator_tuple>;\n\n   public:\n    using difference_type\
+    \ = std::ptrdiff_t;\n    using value_type = _Base;\n    using pointer = void;\n\
+    \    using reference = value_type &;\n    using iterator_category =\n        typename\
+    \ common_iterator_category<_Iterator_tuple>::type;\n\n   protected:\n    template\
+    \ <std::size_t _Nm = 0>\n    constexpr bool equal(const iterator &__x) const noexcept\
+    \ {\n      if _CXX17_CONSTEXPR (_Nm != sizeof...(_Containers)) {\n        return\
+    \ std::get<_Nm>(*this) == std::get<_Nm>(__x) ||\n               equal<_Nm + 1>(__x);\n\
+    \      } else\n        return false;\n    }\n\n    template <std::size_t _Nm =\
+    \ 0> constexpr void increment() noexcept {\n      if _CXX17_CONSTEXPR (_Nm !=\
+    \ sizeof...(_Containers))\n        ++std::get<_Nm>(*this), increment<_Nm + 1>();\n\
+    \    }\n\n    template <std::size_t _Nm = 0> constexpr void decrement() noexcept\
+    \ {\n      if _CXX17_CONSTEXPR (_Nm != sizeof...(_Containers))\n        --std::get<_Nm>(*this),\
+    \ decrement<_Nm + 1>();\n    }\n\n    template <std::size_t _Nm = 0>\n    constexpr\
+    \ void advance(difference_type __d) noexcept {\n      if _CXX17_CONSTEXPR (_Nm\
+    \ != sizeof...(_Containers))\n        std::get<_Nm>(*this) += __d, advance<_Nm\
+    \ + 1>(__d);\n    }\n\n   public:\n    iterator(const _Iterator_tuple &__x) :\
+    \ _Base(__x) {}\n\n    constexpr bool operator==(const iterator &__x) const noexcept\
+    \ {\n      return equal(__x);\n    }\n    constexpr bool operator!=(const iterator\
+    \ &__x) const noexcept {\n      return !equal(__x);\n    }\n\n    constexpr iterator\
+    \ &operator++() noexcept {\n      increment();\n      return *this;\n    }\n \
+    \   constexpr iterator operator++(int) noexcept {\n      auto __tmp = *this;\n\
+    \      increment();\n      return __tmp;\n    }\n\n    constexpr iterator &operator--()\
+    \ noexcept {\n      decrement();\n      return *this;\n    }\n    constexpr iterator\
+    \ operator--(int) noexcept {\n      auto __tmp = *this;\n      decrement();\n\
+    \      return __tmp;\n    }\n\n    constexpr bool operator<(const iterator &__x)\
+    \ const noexcept {\n      return std::get<0>(*this) < std::get<0>(__x);\n    }\n\
+    \    constexpr bool operator<=(const iterator &__x) const noexcept {\n      return\
+    \ std::get<0>(*this) <= std::get<0>(__x);\n    }\n    constexpr bool operator>(const\
+    \ iterator &__x) const noexcept {\n      return !operator<=(__x);\n    }\n   \
+    \ constexpr bool operator>=(const iterator &__x) const noexcept {\n      return\
+    \ !operator>(__x);\n    }\n\n    constexpr iterator &operator+=(difference_type\
+    \ __d) noexcept {\n      advance(__d);\n      return *this;\n    }\n    constexpr\
+    \ iterator &operator-=(difference_type __d) noexcept {\n      advance(-__d);\n\
+    \      return *this;\n    }\n    constexpr iterator operator+(difference_type\
+    \ __d) const noexcept {\n      return iterator{*this} += __d;\n    }\n    constexpr\
+    \ iterator operator-(difference_type __d) const noexcept {\n      return iterator{*this}\
+    \ -= __d;\n    }\n\n    constexpr difference_type operator-(const iterator &__x)\
+    \ const noexcept {\n      return std::get<0>(*this) - std::get<0>(__x);\n    }\n\
+    \n    constexpr reference operator*() noexcept { return {*this}; }\n  };\n\n \
+    \ using const_iterator = iterator;\n\n  template <class... _Args>\n  constexpr\
+    \ zip(_Args &&...__args) noexcept\n      : __c(std::forward<_Args>(__args)...)\
+    \ {}\n\n  template <class... _Args>\n  constexpr zip(std::initializer_list<_Args>...\
+    \ __args) noexcept\n      : __c(std::forward<_Args>(__args)...) {}\n\n  constexpr\
+    \ iterator begin() const noexcept { return {begin_cat()}; }\n\n  constexpr iterator\
+    \ end() const noexcept { return {end_cat()}; }\n\n  constexpr reverse_iterator<iterator>\
+    \ rbegin() const noexcept {\n    return reverse_iterator<iterator>{end()};\n \
+    \ }\n\n  constexpr reverse_iterator<iterator> rend() const noexcept {\n    return\
+    \ reverse_iterator<iterator>{begin()};\n  }\n\n#if __cplusplus >= 201703L\n  constexpr\
+    \ size_type size() const noexcept {\n    size_type __n = -1;\n    std::apply(\n\
+    \        [&__n](auto &&__x) {\n          if (__n < __x.size()) __n = __x.size();\n\
+    \        },\n        __c);\n    return __n;\n  }\n#endif\n};\n\n#if __cpp_deduction_guides\
+    \ >= 201606L\n\ntemplate <class... _Args> zip(_Args &&...) -> zip<_Args...>;\n\
+    \n// For gcc version < 10\n// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80438\n\
+    template <class _Tp, class... _Args>\nzip(_Tp &&, _Args &&...) -> zip<_Tp, _Args...>;\n\
+    \ntemplate <class... _Args>\nzip(std::initializer_list<_Args>...) -> zip<std::initializer_list<_Args>...>;\n\
+    \n#endif\n\n}  // namespace workspace\n\nnamespace std {\n\ntemplate <size_t _Nm,\
+    \ class _Tuple>\nstruct tuple_element<_Nm, workspace::zipped<_Tuple>> {\n  using\
+    \ type = remove_reference_t<\n      typename iterator_traits<tuple_element_t<_Nm,\
+    \ _Tuple>>::reference>;\n};\n\ntemplate <class _Tuple>\nstruct tuple_size<workspace::zipped<_Tuple>>\
+    \ : tuple_size<_Tuple> {};\n\n}  // namespace std\n#line 7 \"test/library-checker/number_of_substrings.test.cpp\"\
     \n\nint main() {\n  std::string s;\n  std::cin >> s;\n  workspace::suffix_array\
     \ sa(s);\n  long long ans = 0;\n  for (auto &&[x, y] : workspace::zip(sa, sa.lcp_array()))\
     \ {\n    ans += s.size() - x - y;\n  }\n  printf(\"%lld\\n\", ans);\n}\n"
@@ -291,7 +287,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2022-04-06 15:02:09+09:00'
+  timestamp: '2022-04-06 16:00:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/number_of_substrings.test.cpp

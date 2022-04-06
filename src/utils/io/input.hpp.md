@@ -143,9 +143,9 @@ data:
     \            << \"\\'.\\033[0m\\n\\n\";\n      });\n      assert(!once);\n   \
     \ }\n    return *this;\n  }\n};\n\ndecltype(auto) cin = static_cast<istream &>(std::cin);\n\
     \n}  // namespace workspace\n#line 10 \"src/utils/io/input.hpp\"\n\nnamespace\
-    \ workspace {\n\nnamespace _input_impl {\n\ntemplate <class _Tp, bool _Is_class\
-    \ = false> class input {\n  _Tp __value;\n\n  template <class... _Args> struct\
-    \ is_convertible : std::false_type {};\n  template <class _Arg>\n  struct is_convertible<_Arg>\
+    \ workspace {\n\ntemplate <class _Tp = int_least64_t, bool _Is_class = std::is_class<_Tp>::value>\n\
+    class input {\n  _Tp __value;\n\n  template <class... _Args> struct is_convertible\
+    \ : std::false_type {};\n  template <class _Arg>\n  struct is_convertible<_Arg>\
     \ : std::is_convertible<_Arg, _Tp> {};\n\n public:\n  operator _Tp &() noexcept\
     \ { return __value; }\n  operator const _Tp &() const noexcept { return __value;\
     \ }\n\n  template <class... _Args>\n  input(_Args &&...__args) noexcept : __value(std::forward<_Args>(__args)...)\
@@ -157,20 +157,17 @@ data:
     \ &() const noexcept { return *this; }\n\n  template <class... _Args>\n  input(_Args\
     \ &&...__args) noexcept : _Tp(std::forward<_Args>(__args)...) {\n    if _CXX17_CONSTEXPR\
     \ (not is_convertible<_Args...>::value) cin >> *this;\n  }\n\n  template <class\
-    \ _E>\n  input(std::initializer_list<_E> __l) noexcept : _Tp(__l) {}\n};\n\n}\
-    \  // namespace _input_impl\n\n// Standard input.\ntemplate <class _Tp = int_least64_t>\n\
-    class input : public _input_impl::input<_Tp, std::is_class<_Tp>::value> {\n public:\n\
-    \  using _input_impl::input<_Tp, std::is_class<_Tp>::value>::input;\n};\n\n//\
+    \ _E>\n  input(std::initializer_list<_E> __l) noexcept : _Tp(__l) {}\n};\n\n//\
     \ Integrality.\ntemplate <class _Tp>\nstruct is_integral_ext<input<_Tp>> : is_integral_ext<_Tp>\
     \ {};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file input.hpp\n * @brief Input\n */\n\n#include\
-    \ \"../sfinae.hpp\"\n#include \"istream.hpp\"\n\nnamespace workspace {\n\nnamespace\
-    \ _input_impl {\n\ntemplate <class _Tp, bool _Is_class = false> class input {\n\
-    \  _Tp __value;\n\n  template <class... _Args> struct is_convertible : std::false_type\
-    \ {};\n  template <class _Arg>\n  struct is_convertible<_Arg> : std::is_convertible<_Arg,\
-    \ _Tp> {};\n\n public:\n  operator _Tp &() noexcept { return __value; }\n  operator\
-    \ const _Tp &() const noexcept { return __value; }\n\n  template <class... _Args>\n\
-    \  input(_Args &&...__args) noexcept : __value(std::forward<_Args>(__args)...)\
+    \ \"../sfinae.hpp\"\n#include \"istream.hpp\"\n\nnamespace workspace {\n\ntemplate\
+    \ <class _Tp = int_least64_t, bool _Is_class = std::is_class<_Tp>::value>\nclass\
+    \ input {\n  _Tp __value;\n\n  template <class... _Args> struct is_convertible\
+    \ : std::false_type {};\n  template <class _Arg>\n  struct is_convertible<_Arg>\
+    \ : std::is_convertible<_Arg, _Tp> {};\n\n public:\n  operator _Tp &() noexcept\
+    \ { return __value; }\n  operator const _Tp &() const noexcept { return __value;\
+    \ }\n\n  template <class... _Args>\n  input(_Args &&...__args) noexcept : __value(std::forward<_Args>(__args)...)\
     \ {\n    if _CXX17_CONSTEXPR (not is_convertible<_Args...>::value) cin >> __value;\n\
     \  }\n};\n\ntemplate <class _Tp> class input<_Tp, true> : public _Tp {\n  template\
     \ <class... _Args> struct is_convertible : std::false_type {};\n  template <class\
@@ -179,10 +176,7 @@ data:
     \ &() const noexcept { return *this; }\n\n  template <class... _Args>\n  input(_Args\
     \ &&...__args) noexcept : _Tp(std::forward<_Args>(__args)...) {\n    if _CXX17_CONSTEXPR\
     \ (not is_convertible<_Args...>::value) cin >> *this;\n  }\n\n  template <class\
-    \ _E>\n  input(std::initializer_list<_E> __l) noexcept : _Tp(__l) {}\n};\n\n}\
-    \  // namespace _input_impl\n\n// Standard input.\ntemplate <class _Tp = int_least64_t>\n\
-    class input : public _input_impl::input<_Tp, std::is_class<_Tp>::value> {\n public:\n\
-    \  using _input_impl::input<_Tp, std::is_class<_Tp>::value>::input;\n};\n\n//\
+    \ _E>\n  input(std::initializer_list<_E> __l) noexcept : _Tp(__l) {}\n};\n\n//\
     \ Integrality.\ntemplate <class _Tp>\nstruct is_integral_ext<input<_Tp>> : is_integral_ext<_Tp>\
     \ {};\n\n}  // namespace workspace\n"
   dependsOn:
@@ -191,7 +185,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/input.hpp
   requiredBy: []
-  timestamp: '2022-04-06 15:02:09+09:00'
+  timestamp: '2022-04-06 16:00:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/io/input.hpp

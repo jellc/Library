@@ -5,9 +5,6 @@ data:
   - icon: ':warning:'
     path: src/utils/py-like/enumerate.hpp
     title: Enumerate
-  - icon: ':warning:'
-    path: src/utils/py-like/range.hpp
-    title: Range
   - icon: ':heavy_check_mark:'
     path: src/utils/py-like/zip.hpp
     title: Zip
@@ -62,7 +59,6 @@ data:
   requiredBy:
   - src/utils/py-like/zip.hpp
   - src/utils/py-like/enumerate.hpp
-  - src/utils/py-like/range.hpp
   timestamp: '2020-12-05 12:12:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
