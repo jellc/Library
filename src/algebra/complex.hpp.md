@@ -9,6 +9,9 @@ data:
     path: src/algebra/fft.hpp
     title: Fast Fourier Transform
   - icon: ':heavy_check_mark:'
+    path: src/algebra/fps.hpp
+    title: Formal Power Series
+  - icon: ':heavy_check_mark:'
     path: src/algebra/interpolation.hpp
     title: Polynomial Interpolation
   - icon: ':heavy_check_mark:'
@@ -22,8 +25,17 @@ data:
     path: test/library-checker/division_of_polynomials.test.cpp
     title: test/library-checker/division_of_polynomials.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/exp_of_formal_power_series.test.cpp
+    title: test/library-checker/exp_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/find_linear_recurrence.test.cpp
     title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/inv_of_formal_power_series.test.cpp
+    title: test/library-checker/inv_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/log_of_formal_power_series.test.cpp
+    title: test/library-checker/log_of_formal_power_series.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
@@ -33,6 +45,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/pow_of_formal_power_series.test.cpp
+    title: test/library-checker/pow_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/sqrt_of_formal_power_series.test.cpp
+    title: test/library-checker/sqrt_of_formal_power_series.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -113,14 +131,20 @@ data:
   - src/algebra/polynomial.hpp
   - src/algebra/fft.hpp
   - src/algebra/berlekamp_massey.hpp
+  - src/algebra/fps.hpp
   timestamp: '2022-04-06 14:50:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/library-checker/exp_of_formal_power_series.test.cpp
   - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/inv_of_formal_power_series.test.cpp
   - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/sqrt_of_formal_power_series.test.cpp
+  - test/library-checker/log_of_formal_power_series.test.cpp
+  - test/library-checker/pow_of_formal_power_series.test.cpp
   - test/library-checker/polynomial_interpolation.test.cpp
 documentation_of: src/algebra/complex.hpp
 layout: document

@@ -55,6 +55,9 @@ data:
       path: src/algebra/fft.hpp
       title: Fast Fourier Transform
     - icon: ':heavy_check_mark:'
+      path: src/algebra/fps.hpp
+      title: Formal Power Series
+    - icon: ':heavy_check_mark:'
       path: src/algebra/interpolation.hpp
       title: Polynomial Interpolation
     - icon: ':heavy_check_mark:'
@@ -557,11 +560,20 @@ data:
       path: test/library-checker/division_of_polynomials.test.cpp
       title: test/library-checker/division_of_polynomials.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/exp_of_formal_power_series.test.cpp
+      title: test/library-checker/exp_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/find_linear_recurrence.test.cpp
       title: test/library-checker/find_linear_recurrence.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/inv_of_formal_power_series.test.cpp
+      title: test/library-checker/inv_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/line_add_get_min.test.cpp
       title: test/library-checker/line_add_get_min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/log_of_formal_power_series.test.cpp
+      title: test/library-checker/log_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/lowest_common_ancestor.test.cpp
       title: test/library-checker/lowest_common_ancestor.test.cpp
@@ -590,6 +602,9 @@ data:
       path: test/library-checker/polynomial_taylor_shift.test.cpp
       title: test/library-checker/polynomial_taylor_shift.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/library-checker/pow_of_formal_power_series.test.cpp
+      title: test/library-checker/pow_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp
     - icon: ':heavy_check_mark:'
@@ -616,6 +631,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/sqrt_mod.test.cpp
       title: test/library-checker/sqrt_mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/library-checker/sqrt_of_formal_power_series.test.cpp
+      title: test/library-checker/sqrt_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/static_range_inversions_query.test.cpp
       title: test/library-checker/static_range_inversions_query.test.cpp
