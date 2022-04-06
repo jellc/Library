@@ -88,13 +88,15 @@ template <class _Tp> class rational {
   }
 
   _CXX14_CONSTEXPR bool operator<(const rational &__x) const noexcept {
-    return (__den > 0) ^ (__x.den > 0) ? __num * __x.__den > __den * __x.__num
-                                       : __num * __x.__den < __den * __x.__num;
+    return (__den > 0) ^ (__x.__den > 0)
+               ? __num * __x.__den > __den * __x.__num
+               : __num * __x.__den < __den * __x.__num;
   }
 
   _CXX14_CONSTEXPR bool operator>(const rational &__x) const noexcept {
-    return (__den > 0) ^ (__x.den > 0) ? __num * __x.__den < __den * __x.__num
-                                       : __num * __x.__den > __den * __x.__num;
+    return (__den > 0) ^ (__x.__den > 0)
+               ? __num * __x.__den < __den * __x.__num
+               : __num * __x.__den > __den * __x.__num;
   }
 
   _CXX14_CONSTEXPR bool operator<=(const rational &__x) const noexcept {
