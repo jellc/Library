@@ -13,13 +13,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: src/algebra/berlekamp_massey.hpp
     title: Berlekamp-Massey Algorithm
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/interpolation.hpp
+    title: Polynomial Interpolation
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
@@ -33,6 +36,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
@@ -795,6 +801,7 @@ data:
   isVerificationFile: false
   path: src/algebra/polynomial.hpp
   requiredBy:
+  - src/algebra/interpolation.hpp
   - src/algebra/berlekamp_massey.hpp
   timestamp: '2022-04-06 15:02:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
@@ -804,6 +811,7 @@ data:
   - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
 documentation_of: src/algebra/polynomial.hpp
 layout: document
 redirect_from:

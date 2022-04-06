@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -40,6 +40,9 @@ data:
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
@@ -48,15 +51,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Modular Arithmetic
     links: []
@@ -406,7 +409,7 @@ data:
   path: src/algebra/modint.hpp
   requiredBy: []
   timestamp: '2022-04-06 15:02:09+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/division_of_polynomials.test.cpp
@@ -421,6 +424,7 @@ data:
   - test/library-checker/point_set_range_composite.test.cpp
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/DPL_5_D.test.cpp
 documentation_of: src/algebra/modint.hpp
 layout: document

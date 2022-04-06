@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -43,14 +43,17 @@ data:
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Input Stream
     links: []
@@ -226,7 +229,7 @@ data:
   requiredBy:
   - src/utils/io/input.hpp
   timestamp: '2022-04-06 15:02:09+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp
@@ -238,6 +241,7 @@ data:
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/2450.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp

@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []
@@ -42,35 +42,36 @@ data:
     \ : base(base::min) {}\n  max_monoid operator+(const max_monoid &rhs) const {\n\
     \    return !(base::value < rhs.value) ? *this : rhs;\n  }\n  max_monoid operator*(const\
     \ E &rhs) const;\n};\n}\n#line 2 \"src/algebra/system/operation.hpp\"\n\n/**\n\
-    \ * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
-    \n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n\
-    #if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
-    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus\
-    \ >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT\
-    \ assert\n#endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\
-    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
-    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
-    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
-    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
-    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
-    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
-    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
-    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
-    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\
-    \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
-    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
-    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
-    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
-    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <functional>\n\
+    #include <type_traits>\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef\
+    \ _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n\
+    #else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef\
+    \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
+    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#include <iterator>\n\n\
+    #if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the size\
+    \ of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    constexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 12 \"src/algebra/system/operation.hpp\"\n\nnamespace workspace\
+    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
+    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
+    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
+    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
+    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -431,7 +432,7 @@ data:
   isVerificationFile: false
   path: src/data_structure/segment_tree/lazy.hpp
   requiredBy: []
-  timestamp: '2022-04-06 15:02:09+09:00'
+  timestamp: '2022-04-06 15:16:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp

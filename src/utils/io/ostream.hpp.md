@@ -40,20 +40,23 @@ data:
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm.test.cpp
     title: test/library-checker/zalgorithm.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Output Stream
     links: []
@@ -183,7 +186,7 @@ data:
   requiredBy:
   - src/utils/io/print.hpp
   timestamp: '2021-11-30 17:55:32+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/suffix_array.test.cpp
@@ -197,6 +200,7 @@ data:
   - test/library-checker/bitwise_xor_convolution.test.cpp
   - test/library-checker/zalgorithm.test.cpp
   - test/library-checker/min_cost_b_flow.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
   - test/aizu-online-judge/ITP1_7_D.test.cpp

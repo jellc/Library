@@ -4,7 +4,7 @@ data:
   - icon: ':warning:'
     path: src/utils/round_div.hpp
     title: Round Integer Division
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

@@ -2,6 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/interpolation.hpp
+    title: Polynomial Interpolation
   - icon: ':warning:'
     path: src/algebra/rational.hpp
     title: Rational
@@ -16,6 +19,9 @@ data:
     path: test/aizu-online-judge/2450.test.cpp
     title: test/aizu-online-judge/2450.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
   _isVerificationFailed: false
@@ -25,16 +31,16 @@ data:
     document_title: Operation Traits
     links: []
   bundledCode: "#line 2 \"src/algebra/system/operation.hpp\"\n\n/**\n * @file operation.hpp\n\
-    \ * @brief Operation Traits\n */\n\n#include <type_traits>\n\n#line 2 \"lib/cxx17\"\
-    \n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n\
-    #define _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n\
-    #endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
-    \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
-    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
-    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
-    #endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\nnamespace\
-    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
-    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ * @brief Operation Traits\n */\n\n#include <functional>\n#include <type_traits>\n\
+    \n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n\
+    #if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define\
+    \ _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus\
+    \ >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT\
+    \ assert\n#endif\n#endif\n\n#include <iterator>\n\n#if __cplusplus < 201703L\n\
+    \nnamespace std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param\
+    \  __cont  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
     \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
     \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
     \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
@@ -48,7 +54,7 @@ data:
     \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
     [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
     \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 11 \"src/algebra/system/operation.hpp\"\n\
+    \n#include <variant>\n\n#endif\n#line 12 \"src/algebra/system/operation.hpp\"\n\
     \nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
@@ -106,12 +112,12 @@ data:
     \      return std::less<_Tp>::operator()(__x, __y);\n    else\n      return _Default;\n\
     \  }\n};\n\n}  // namespace workspace\n"
   code: "#pragma once\n\n/**\n * @file operation.hpp\n * @brief Operation Traits\n\
-    \ */\n\n#include <type_traits>\n\n#include \"lib/cxx17\"\n\nnamespace workspace\
-    \ {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
-    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
-    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
-    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
-    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \ */\n\n#include <functional>\n#include <type_traits>\n\n#include \"lib/cxx17\"\
+    \n\nnamespace workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
+    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -168,12 +174,14 @@ data:
   path: src/algebra/system/operation.hpp
   requiredBy:
   - src/opt/golden_section.hpp
+  - src/algebra/interpolation.hpp
   - src/algebra/rational.hpp
   - src/data_structure/segment_tree/lazy.hpp
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-04-06 15:16:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/2450.test.cpp
 documentation_of: src/algebra/system/operation.hpp
 layout: document

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
@@ -11,6 +11,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/algebra/fft.hpp
     title: Fast Fourier Transform
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/interpolation.hpp
+    title: Polynomial Interpolation
   - icon: ':warning:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
@@ -36,6 +39,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
@@ -177,6 +183,7 @@ data:
   isVerificationFile: false
   path: src/number_theory/ext_gcd.hpp
   requiredBy:
+  - src/algebra/interpolation.hpp
   - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
   - src/algebra/fft.hpp
@@ -190,6 +197,7 @@ data:
   - test/library-checker/convolution_mod.test.cpp
   - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/multipoint_evaluation.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp
 layout: document

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/utils/hash.hpp
     title: src/utils/hash.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

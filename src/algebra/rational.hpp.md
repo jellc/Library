@@ -37,13 +37,13 @@ data:
     [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
     \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
     \n#include <variant>\n\n#endif\n#line 2 \"src/algebra/system/operation.hpp\"\n\
-    \n/**\n * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <type_traits>\n\
-    \n#line 11 \"src/algebra/system/operation.hpp\"\n\nnamespace workspace {\n\n//\
-    \ Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus = std::enable_if_t<\n\
-    \    std::is_convertible<decltype(+std::declval<const _Tp &>()), _Tp>::value>;\n\
-    \ntemplate <class _Tp, class = void> struct has_unary_plus : std::false_type {};\n\
-    \ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>> :\
-    \ std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
+    \n/**\n * @file operation.hpp\n * @brief Operation Traits\n */\n\n#include <functional>\n\
+    #include <type_traits>\n\n#line 12 \"src/algebra/system/operation.hpp\"\n\nnamespace\
+    \ workspace {\n\n// Unary `+`\ntemplate <class _Tp>\nusing require_unary_plus\
+    \ = std::enable_if_t<\n    std::is_convertible<decltype(+std::declval<const _Tp\
+    \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_plus\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_plus<_Tp, require_unary_plus<_Tp>>\
+    \ : std::true_type {};\n\n// Unary `-`\ntemplate <class _Tp>\nusing require_unary_minus\
     \ = std::enable_if_t<\n    std::is_convertible<decltype(-std::declval<const _Tp\
     \ &>()), _Tp>::value>;\n\ntemplate <class _Tp, class = void> struct has_unary_minus\
     \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_unary_minus<_Tp, require_unary_minus<_Tp>>\
@@ -209,7 +209,7 @@ data:
   isVerificationFile: false
   path: src/algebra/rational.hpp
   requiredBy: []
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-04-06 15:16:02+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/rational.hpp

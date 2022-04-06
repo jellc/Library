@@ -54,10 +54,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/fft.hpp
       title: Fast Fourier Transform
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/interpolation.hpp
       title: Polynomial Interpolation
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/modint.hpp
       title: Modular Arithmetic
     - icon: ':warning:'
@@ -89,7 +89,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
     - icon: ':heavy_check_mark:'
@@ -97,10 +97,10 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -273,7 +273,7 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
     - icon: ':heavy_check_mark:'
@@ -282,7 +282,7 @@ data:
     - icon: ':warning:'
       path: src/number_theory/quotients.hpp
       title: src/number_theory/quotients.hpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
@@ -290,7 +290,7 @@ data:
       title: Euler's Totient Function
   - name: src/opt
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/opt/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -319,10 +319,10 @@ data:
     - icon: ':warning:'
       path: src/string/rle.hpp
       title: Run-length Encoding
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
     - icon: ':heavy_check_mark:'
@@ -368,7 +368,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/sfinae.hpp
       title: SFINAE
     - icon: ':warning:'
@@ -384,10 +384,10 @@ data:
     - icon: ':warning:'
       path: src/utils/io/input.hpp
       title: Input
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'
@@ -420,7 +420,7 @@ data:
       title: Zip
   - name: src/utils/rand
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/utils/rand/rng.hpp
       title: Random Number Generator
     - icon: ':warning:'
@@ -583,7 +583,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/polynomial_interpolation.test.cpp
       title: test/library-checker/polynomial_interpolation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -613,7 +613,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/sort_points_by_argument.test.cpp
       title: test/library-checker/sort_points_by_argument.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/sqrt_mod.test.cpp
       title: test/library-checker/sqrt_mod.test.cpp
     - icon: ':heavy_check_mark:'
@@ -622,13 +622,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/staticrmq.test.cpp
       title: test/library-checker/staticrmq.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
@@ -643,7 +643,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage

@@ -8,7 +8,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/algebra/fft.hpp
     title: Fast Fourier Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
+    path: src/algebra/interpolation.hpp
+    title: Polynomial Interpolation
+  - icon: ':heavy_check_mark:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':warning:'
@@ -41,7 +44,7 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
   - icon: ':heavy_check_mark:'
@@ -50,16 +53,16 @@ data:
   - icon: ':warning:'
     path: src/number_theory/quotients.hpp
     title: src/number_theory/quotients.hpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
     path: src/number_theory/totient.hpp
     title: Euler's Totient Function
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
   - icon: ':heavy_check_mark:'
@@ -68,7 +71,7 @@ data:
   - icon: ':warning:'
     path: src/utils/io/input.hpp
     title: Input
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -130,6 +133,9 @@ data:
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/library-checker/polynomial_interpolation.test.cpp
+    title: test/library-checker/polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
@@ -138,24 +144,24 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/range_affine_range_sum.test.cpp
     title: test/library-checker/range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/sqrt_mod.test.cpp
     title: test/library-checker/sqrt_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/subset_convolution.test.cpp
     title: test/library-checker/subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/suffix_array.test.cpp
     title: test/library-checker/suffix_array.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: SFINAE
     links: []
@@ -300,6 +306,7 @@ data:
   - src/string/suffix_array.hpp
   - src/string/rolling_hash.hpp
   - src/algebra/modint.hpp
+  - src/algebra/interpolation.hpp
   - src/algebra/ntt.hpp
   - src/algebra/polynomial.hpp
   - src/algebra/fft.hpp
@@ -322,7 +329,7 @@ data:
   - src/number_theory/least_factor.hpp
   - src/number_theory/quotients.hpp
   timestamp: '2022-04-06 15:02:09+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
   - test/library-checker/division_of_polynomials.test.cpp
@@ -343,6 +350,7 @@ data:
   - test/library-checker/subset_convolution.test.cpp
   - test/library-checker/queue_operate_all_composite.test.cpp
   - test/library-checker/number_of_substrings.test.cpp
+  - test/library-checker/polynomial_interpolation.test.cpp
   - test/aizu-online-judge/ALDS1_14_C.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
   - test/aizu-online-judge/NTL_1_D.test.cpp
