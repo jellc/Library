@@ -127,11 +127,11 @@ data:
     \ return __num * __x.__den == __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool\
     \ operator!=(const rational &__x) const noexcept {\n    return __num * __x.__den\
     \ != __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator<(const rational\
-    \ &__x) const noexcept {\n    return (__den > 0) ^ (__x.den > 0) ? __num * __x.__den\
-    \ > __den * __x.__num\n                                       : __num * __x.__den\
+    \ &__x) const noexcept {\n    return (__den > 0) ^ (__x.__den > 0)\n         \
+    \      ? __num * __x.__den > __den * __x.__num\n               : __num * __x.__den\
     \ < __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator>(const rational\
-    \ &__x) const noexcept {\n    return (__den > 0) ^ (__x.den > 0) ? __num * __x.__den\
-    \ < __den * __x.__num\n                                       : __num * __x.__den\
+    \ &__x) const noexcept {\n    return (__den > 0) ^ (__x.__den > 0)\n         \
+    \      ? __num * __x.__den < __den * __x.__num\n               : __num * __x.__den\
     \ > __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator<=(const rational\
     \ &__x) const noexcept {\n    return !operator>(__x);\n  }\n\n  _CXX14_CONSTEXPR\
     \ bool operator>=(const rational &__x) const noexcept {\n    return !operator<(__x);\n\
@@ -182,15 +182,15 @@ data:
     \ const noexcept {\n    return __num * __x.__den == __den * __x.__num;\n  }\n\n\
     \  _CXX14_CONSTEXPR bool operator!=(const rational &__x) const noexcept {\n  \
     \  return __num * __x.__den != __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool\
-    \ operator<(const rational &__x) const noexcept {\n    return (__den > 0) ^ (__x.den\
-    \ > 0) ? __num * __x.__den > __den * __x.__num\n                             \
-    \          : __num * __x.__den < __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR\
-    \ bool operator>(const rational &__x) const noexcept {\n    return (__den > 0)\
-    \ ^ (__x.den > 0) ? __num * __x.__den < __den * __x.__num\n                  \
-    \                     : __num * __x.__den > __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR\
-    \ bool operator<=(const rational &__x) const noexcept {\n    return !operator>(__x);\n\
-    \  }\n\n  _CXX14_CONSTEXPR bool operator>=(const rational &__x) const noexcept\
-    \ {\n    return !operator<(__x);\n  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::is_swappable<_Tp>::value>\
+    \ operator<(const rational &__x) const noexcept {\n    return (__den > 0) ^ (__x.__den\
+    \ > 0)\n               ? __num * __x.__den > __den * __x.__num\n             \
+    \  : __num * __x.__den < __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator>(const\
+    \ rational &__x) const noexcept {\n    return (__den > 0) ^ (__x.__den > 0)\n\
+    \               ? __num * __x.__den < __den * __x.__num\n               : __num\
+    \ * __x.__den > __den * __x.__num;\n  }\n\n  _CXX14_CONSTEXPR bool operator<=(const\
+    \ rational &__x) const noexcept {\n    return !operator>(__x);\n  }\n\n  _CXX14_CONSTEXPR\
+    \ bool operator>=(const rational &__x) const noexcept {\n    return !operator<(__x);\n\
+    \  }\n\n  _CXX14_CONSTEXPR\n  std::enable_if_t<std::is_swappable<_Tp>::value>\
     \ swap(rational &__x) noexcept {\n    std::swap(__num, __x.__num), std::swap(__den,\
     \ __x.__den);\n  }\n\n  template <size_t _Nm> friend constexpr auto &get(rational\
     \ &__x) noexcept {\n    static_assert(_Nm < 2);\n    if _CXX17_CONSTEXPR (_Nm)\
@@ -209,7 +209,7 @@ data:
   isVerificationFile: false
   path: src/algebra/rational.hpp
   requiredBy: []
-  timestamp: '2022-04-06 15:16:02+09:00'
+  timestamp: '2022-04-06 15:29:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/algebra/rational.hpp
