@@ -10,9 +10,8 @@
 
 namespace workspace {
 
-namespace _input_impl {
-
-template <class _Tp, bool _Is_class = false> class input {
+template <class _Tp = int_least64_t, bool _Is_class = std::is_class<_Tp>::value>
+class input {
   _Tp __value;
 
   template <class... _Args> struct is_convertible : std::false_type {};
@@ -45,15 +44,6 @@ template <class _Tp> class input<_Tp, true> : public _Tp {
 
   template <class _E>
   input(std::initializer_list<_E> __l) noexcept : _Tp(__l) {}
-};
-
-}  // namespace _input_impl
-
-// Standard input.
-template <class _Tp = int_least64_t>
-class input : public _input_impl::input<_Tp, std::is_class<_Tp>::value> {
- public:
-  using _input_impl::input<_Tp, std::is_class<_Tp>::value>::input;
 };
 
 // Integrality.

@@ -5,12 +5,7 @@
  * @brief Range
  */
 
-#include <iterator>
-
-#include "../iterator/reverse.hpp"
 #include "reversed.hpp"
-
-#if __cplusplus >= 201703L
 
 namespace workspace {
 
@@ -19,64 +14,65 @@ template <class _Index> class range {
 
  public:
   class iterator {
-    _Index current;
+    _Index __i;
 
    public:
     using difference_type = std::ptrdiff_t;
     using value_type = _Index;
-    using reference = typename std::add_const<_Index>::type &;
-    using pointer = iterator;
+    using pointer = void;
+    using reference = value_type;
     using iterator_category = std::random_access_iterator_tag;
 
-    constexpr iterator(const _Index &__i = _Index()) noexcept : current(__i) {}
+    constexpr iterator() = default;
+    constexpr iterator(const _Index &__x) noexcept : __i(__x) {}
 
     constexpr bool operator==(const iterator &__x) const noexcept {
-      return current == __x.current;
+      return __i == __x.__i;
     }
     constexpr bool operator!=(const iterator &__x) const noexcept {
-      return current != __x.current;
+      return __i != __x.__i;
     }
 
     constexpr bool operator<(const iterator &__x) const noexcept {
-      return current < __x.current;
+      return __i < __x.__i;
     }
     constexpr bool operator<=(const iterator &__x) const noexcept {
-      return current <= __x.current;
+      return __i <= __x.__i;
     }
 
     constexpr bool operator>(const iterator &__x) const noexcept {
-      return current > __x.current;
+      return __i > __x.__i;
     }
     constexpr bool operator>=(const iterator &__x) const noexcept {
-      return current >= __x.current;
+      return __i >= __x.__i;
     }
 
     constexpr iterator &operator++() noexcept {
-      ++current;
+      ++__i;
       return *this;
     }
-    constexpr iterator &operator++(int) noexcept {
+    constexpr iterator operator++(int) noexcept {
       auto __tmp = *this;
-      ++current;
+      ++__i;
       return __tmp;
     }
 
     constexpr iterator &operator--() noexcept {
-      --current;
+      --__i;
       return *this;
     }
-    constexpr iterator &operator--(int) noexcept {
+    constexpr iterator operator--(int) noexcept {
       auto __tmp = *this;
-      --current;
+      --__i;
       return __tmp;
     }
 
     constexpr difference_type operator-(const iterator &__x) const noexcept {
-      return current - __x.current;
+      return __i - __x.__i;
     }
 
     constexpr iterator &operator+=(difference_type __x) noexcept {
-      current += __x;
+      __i += __x;
       return *this;
     }
     constexpr iterator operator+(difference_type __x) const noexcept {
@@ -84,15 +80,26 @@ template <class _Index> class range {
     }
 
     constexpr iterator &operator-=(difference_type __x) noexcept {
-      current -= __x;
+      __i -= __x;
       return *this;
     }
     constexpr iterator operator-(difference_type __x) const noexcept {
       return iterator(*this) -= __x;
     }
 
-    constexpr reference operator*() const noexcept { return current; }
+    constexpr reference operator*() const noexcept { return __i; }
   };
+
+  using value_type = _Index;
+  using reference = value_type;
+
+  using difference_type = std::ptrdiff_t;
+  using size_type = std::size_t;
+
+  using const_iterator = iterator;
+
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = reverse_iterator;
 
   template <class _Tp1, class _Tp2>
   constexpr range(const _Tp1 &__first, const _Tp2 &__last) noexcept
@@ -101,20 +108,26 @@ template <class _Index> class range {
   template <class _Tp>
   constexpr range(const _Tp &__last) noexcept : __first(), __last(__last) {}
 
-  constexpr iterator begin() const noexcept { return iterator{__first}; }
-  constexpr iterator end() const noexcept { return iterator{__last}; }
+  constexpr iterator begin() const noexcept { return {__first}; }
+  constexpr const_iterator cbegin() const noexcept { return begin(); }
 
-  constexpr reverse_iterator<iterator> rbegin() const noexcept {
-    return reverse_iterator<iterator>(end());
-  }
-  constexpr reverse_iterator<iterator> rend() const noexcept {
-    return reverse_iterator<iterator>(begin());
-  }
+  constexpr iterator end() const noexcept { return {__last}; }
+  constexpr const_iterator cend() const noexcept { return end(); }
 
-  constexpr size_t size() const noexcept {
-    return std::distance(__first, __last);
+  constexpr reverse_iterator rbegin() const noexcept {
+    return reverse_iterator{end()};
   }
+  constexpr const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+
+  constexpr reverse_iterator rend() const noexcept {
+    return reverse_iterator{begin()};
+  }
+  constexpr const_reverse_iterator crend() const noexcept { return rend(); }
+
+  constexpr size_type size() const noexcept { return __last - __first; }
 };
+
+#if __cpp_deduction_guides >= 201606L
 
 template <class _Tp1, class _Tp2>
 range(const _Tp1 &, const _Tp2 &)
@@ -128,16 +141,6 @@ constexpr decltype(auto) rrange(_Args &&...__args) noexcept {
   return reversed(range(std::forward<_Args>(__args)...));
 }
 
-template <class _Container>
-constexpr decltype(auto) iterate(_Container &&__cont) noexcept {
-  return range(std::begin(__cont), std::end(__cont));
-}
-
-template <class _Container>
-constexpr decltype(auto) riterate(_Container &&__cont) noexcept {
-  return range(std::rbegin(__cont), std::rend(__cont));
-}
+#endif
 
 }  // namespace workspace
-
-#endif
