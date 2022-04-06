@@ -2,34 +2,34 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/berlekamp_massey.hpp
     title: Berlekamp-Massey Algorithm
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/fft.hpp
     title: Fast Fourier Transform
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/polynomial.hpp
     title: Polynomial
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/convolution_mod.test.cpp
     title: test/library-checker/convolution_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/division_of_polynomials.test.cpp
     title: test/library-checker/division_of_polynomials.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/find_linear_recurrence.test.cpp
     title: test/library-checker/find_linear_recurrence.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/multipoint_evaluation.test.cpp
     title: test/library-checker/multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/library-checker/polynomial_taylor_shift.test.cpp
     title: test/library-checker/polynomial_taylor_shift.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Complex Number
     links: []
@@ -107,7 +107,7 @@ data:
   - src/algebra/fft.hpp
   - src/algebra/berlekamp_massey.hpp
   timestamp: '2022-04-06 14:50:38+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/find_linear_recurrence.test.cpp

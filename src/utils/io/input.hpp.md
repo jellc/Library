@@ -36,16 +36,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -71,36 +76,41 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file istream.hpp\n * @brief Input\
-    \ Stream\n */\n\n#include <cxxabi.h>\n\n#include <cassert>\n#include <iostream>\n\
-    #include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef\
-    \ _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n\
-    #else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef\
-    \ _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n\
-    #else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
-    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
-    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\
-    \n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the\
-    \ size of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename\
-    \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
-    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
-    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
-    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
-    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
-    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
-    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
-    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
-    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
-    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
-    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
-    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
-    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
-    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
-    \n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace workspace {\n\nnamespace\
-    \ _istream_impl {\n\ntemplate <class _Tp, typename = void> struct helper {\n \
-    \ helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR (has_begin<_Tp\
-    \ &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 2 \"src/utils/io/istream.hpp\"\n\n/**\n * @file\
+    \ istream.hpp\n * @brief Input Stream\n */\n\n#include <cxxabi.h>\n\n#include\
+    \ <cassert>\n#include <iostream>\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n\
+    #line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n\
+    #define _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n\
+    #endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >=\
+    \ 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
+    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
+    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
+    #endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\nnamespace\
+    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
+    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
+    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
+    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
+    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
+    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
+    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
+    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
+    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
+    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
+    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
+    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
+    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
+    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
+    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
+    \n#include <variant>\n\n#endif\n#line 16 \"src/utils/io/istream.hpp\"\n\nnamespace\
+    \ workspace {\n\nnamespace _istream_impl {\n\ntemplate <class _Tp, typename =\
+    \ void> struct helper {\n  helper(std::istream &__is, _Tp &__x) {\n    if _CXX17_CONSTEXPR\
+    \ (has_begin<_Tp &>::value)\n      for (auto &&__e : __x) helper<std::decay_t<decltype(__e)>>(__is,\
     \ __e);\n    else\n      static_assert(has_begin<_Tp>::value, \"istream unsupported\
     \ type.\");\n  }\n};\n\ntemplate <class _Tp>\nstruct helper<_Tp, std::__void_t<decltype(std::declval<std::istream\
     \ &>() >>\n                                          std::declval<_Tp &>())>>\
@@ -181,7 +191,7 @@ data:
   isVerificationFile: false
   path: src/utils/io/input.hpp
   requiredBy: []
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-04-06 15:02:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/utils/io/input.hpp

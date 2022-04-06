@@ -40,16 +40,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -75,29 +80,35 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 8 \"src/utils/hash.hpp\"\nnamespace workspace {\ntemplate <class T, class\
-    \ = void> struct hash : std::hash<T> {};\n#if __cplusplus >= 201703L\ntemplate\
-    \ <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n            enable_if_trait_type<Unique_bits_type,\n\
-    \                                 std::has_unique_object_representations>> {\n\
-    \  size_t operator()(uint64_t x) const {\n    static const uint64_t m = std::random_device{}();\n\
-    \    x ^= x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n\
-    \  }\n};\n#endif\ntemplate <class Key> size_t hash_combine(const size_t &seed,\
-    \ const Key &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9\
-    \ /* + (seed << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct\
-    \ hash<std::pair<T1, T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair)\
-    \ const {\n    return hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n\
-    };\ntemplate <class... T> class hash<std::tuple<T...>> {\n  template <class Tuple,\
-    \ size_t index = std::tuple_size<Tuple>::value - 1>\n  struct tuple_hash {\n \
-    \   static uint64_t apply(const Tuple &t) {\n      return hash_combine(tuple_hash<Tuple,\
-    \ index - 1>::apply(t),\n                          std::get<index>(t));\n    }\n\
-    \  };\n  template <class Tuple> struct tuple_hash<Tuple, size_t(-1)> {\n    static\
-    \ uint64_t apply(const Tuple &t) { return 0; }\n  };\n\n public:\n  uint64_t operator()(const\
-    \ std::tuple<T...> &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n\
-    \  }\n};\ntemplate <class hash_table> struct hash_table_wrapper : hash_table {\n\
-    \  using key_type = typename hash_table::key_type;\n  size_t count(const key_type\
-    \ &key) const {\n    return hash_table::find(key) != hash_table::end();\n  }\n\
-    \  template <class... Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 8 \"src/utils/hash.hpp\"\nnamespace workspace\
+    \ {\ntemplate <class T, class = void> struct hash : std::hash<T> {};\n#if __cplusplus\
+    \ >= 201703L\ntemplate <class Unique_bits_type>\nstruct hash<Unique_bits_type,\n\
+    \            enable_if_trait_type<Unique_bits_type,\n                        \
+    \         std::has_unique_object_representations>> {\n  size_t operator()(uint64_t\
+    \ x) const {\n    static const uint64_t m = std::random_device{}();\n    x ^=\
+    \ x >> 23;\n    x ^= m;\n    x ^= x >> 47;\n    return x - (x >> 32);\n  }\n};\n\
+    #endif\ntemplate <class Key> size_t hash_combine(const size_t &seed, const Key\
+    \ &key) {\n  return seed ^\n         (hash<Key>()(key) + 0x9e3779b9 /* + (seed\
+    \ << 6) + (seed >> 2) */);\n}\ntemplate <class T1, class T2> struct hash<std::pair<T1,\
+    \ T2>> {\n  size_t operator()(const std::pair<T1, T2> &pair) const {\n    return\
+    \ hash_combine(hash<T1>()(pair.first), pair.second);\n  }\n};\ntemplate <class...\
+    \ T> class hash<std::tuple<T...>> {\n  template <class Tuple, size_t index = std::tuple_size<Tuple>::value\
+    \ - 1>\n  struct tuple_hash {\n    static uint64_t apply(const Tuple &t) {\n \
+    \     return hash_combine(tuple_hash<Tuple, index - 1>::apply(t),\n          \
+    \                std::get<index>(t));\n    }\n  };\n  template <class Tuple> struct\
+    \ tuple_hash<Tuple, size_t(-1)> {\n    static uint64_t apply(const Tuple &t) {\
+    \ return 0; }\n  };\n\n public:\n  uint64_t operator()(const std::tuple<T...>\
+    \ &t) const {\n    return tuple_hash<std::tuple<T...>>::apply(t);\n  }\n};\ntemplate\
+    \ <class hash_table> struct hash_table_wrapper : hash_table {\n  using key_type\
+    \ = typename hash_table::key_type;\n  size_t count(const key_type &key) const\
+    \ {\n    return hash_table::find(key) != hash_table::end();\n  }\n  template <class...\
+    \ Args> auto emplace(Args &&... args) {\n    return hash_table::insert(typename\
     \ hash_table::value_type(args...));\n  }\n};\ntemplate <class Key, class Mapped\
     \ = __gnu_pbds::null_type>\nusing cc_hash_table =\n    hash_table_wrapper<__gnu_pbds::cc_hash_table<Key,\
     \ Mapped, hash<Key>>>;\ntemplate <class Key, class Mapped = __gnu_pbds::null_type>\n\
@@ -125,7 +136,7 @@ data:
   isVerificationFile: true
   path: test/library-checker/associative_array.test.cpp
   requiredBy: []
-  timestamp: '2021-05-25 17:32:10+09:00'
+  timestamp: '2022-04-06 15:02:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/associative_array.test.cpp

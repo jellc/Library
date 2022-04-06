@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/suffix_array.hpp
     title: Suffix Array
   - icon: ':question:'
@@ -12,9 +12,9 @@ data:
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/suffixarray
@@ -44,16 +44,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -79,101 +84,106 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 13 \"src/string/suffix_array.hpp\"\n\nnamespace workspace {\n\n/*\n * @class\
-    \ suffix_array\n * @brief construct SA and LCP array.\n * @tparam str_type the\
-    \ type of string\n */\ntemplate <class str_type> class suffix_array {\n  str_type\
-    \ str;\n  std::vector<size_t> sa, rank, lcp;\n\n  void construct_sa() {\n    std::iota(sa.begin(),\
-    \ sa.end(), 0);\n    std::sort(sa.begin(), sa.end(),\n              [&](size_t\
-    \ i, size_t j) { return str[i] < str[j]; });\n\n    for (size_t r{1}, c{}, *ptr{&sa.front()},\
-    \ *tmp{ptr}; c != size();\n         ++r, ptr = tmp)\n      while (c != size()\
-    \ && str[*ptr] == str[*tmp]) ++c, rank[*tmp++] = r;\n\n    for (size_t k{1}; k\
-    \ < size(); k <<= 1) {\n      auto comp = [&](size_t i, size_t j) -> bool {\n\
-    \        if (rank[i] != rank[j]) return rank[i] < rank[j];\n        return (i\
-    \ + k < size() ? rank[i + k] : 0) <\n               (j + k < size() ? rank[j +\
-    \ k] : 0);\n      };\n      std::sort(sa.begin(), sa.end(), comp);\n\n      std::vector<size_t>\
-    \ next_rank(size());\n      for (size_t r{1}, c{}, *ptr{&sa.front()}, *tmp{ptr};\
-    \ c != size();\n           ++r, ptr = tmp)\n        while (c != size() && !comp(*ptr,\
-    \ *tmp)) ++c, next_rank[*tmp++] = r;\n      rank.swap(next_rank);\n    }\n\n \
-    \   sa.emplace(sa.begin(), size());\n    rank.emplace_back(0);\n  }\n\n  void\
-    \ construct_lcp() {\n    for (size_t i{}, h{}; i != size(); ++i, h = h ? h - 1\
-    \ : 0) {\n      for (size_t j{sa[rank[i] - 1] + h}; i + h != size() && j != size();\n\
-    \           ++j, ++h)\n        if (str[i + h] != str[j]) break;\n      lcp[rank[i]\
-    \ - 1] = h;\n    }\n  }\n\n public:\n  static constexpr size_t npos = -1;\n  using\
-    \ char_type = element_type<str_type>;\n\n  std::vector<size_t>::const_iterator\
-    \ begin() const { return sa.begin() + 1; }\n\n  std::vector<size_t>::const_iterator\
-    \ end() const { return sa.end(); }\n\n  /*\n   * @fn operator[]\n   * @brief find\
-    \ the i-th suffix\n   * @param i the rank\n   * @return index of the suffix\n\
-    \   */\n  size_t operator[](size_t i) const { return sa[i + 1]; }\n\n  /*\n  \
-    \ * @fn size\n   * @return length of the string\n   */\n  size_t size() const\
-    \ { return std::size(str); }\n\n  template <class type = str_type, typename =\
-    \ typename type::value_type>\n  suffix_array(const str_type &_str)\n      : str(_str),\
-    \ sa(size()), rank(size()), lcp(size()) {\n    construct_sa();\n    construct_lcp();\n\
-    \  }\n\n  template <class type = str_type, std::enable_if_t<std::is_array<type>::value,\n\
-    \                                                    std::nullptr_t> = nullptr>\n\
-    \  suffix_array(const str_type &_str) : sa(size()), rank(size()), lcp(size())\
-    \ {\n    std::copy(std::begin(_str), std::end(_str), str);\n    construct_sa();\n\
-    \    construct_lcp();\n  }\n\n  /*\n   * @fn find\n   * @brief find (key) as a\
-    \ substring\n   * @param key\n   * @return index if found, npos if not found\n\
-    \   */\n  size_t find(const str_type &key) const {\n    using std::begin;\n  \
-    \  using std::end;\n\n    size_t lower{npos}, upper{size()};\n    while (upper\
-    \ - lower > 1) {\n      size_t mid = (lower + upper) >> 1;\n      bool less =\
-    \ false;\n      for (auto i{begin(str) + sa[mid]}, j{begin(key)}; j != end(key);\n\
-    \           ++i, ++j) {\n        if (i == end(str) || *i < *j) {\n          less\
-    \ = true;\n          break;\n        }\n        if (*i > *j) break;\n      }\n\
-    \      (less ? lower : upper) = mid;\n    }\n\n    if (upper == size()) return\
-    \ npos;\n    for (auto i{begin(str) + sa[upper]}, j{begin(key)}; j != end(key);\
-    \ ++i, ++j)\n      if (i == end(str) || *i != *j) return npos;\n    return sa[upper];\n\
-    \  }\n\n  /*\n   * @return lengths of LCP of each adjacent pairs in the suffix\n\
-    \   * array\n   */\n  const std::vector<size_t> &lcp_array() const { return lcp;\
-    \ }\n};\n\n}  // namespace workspace\n#line 2 \"src/utils/io/ostream.hpp\"\n\n\
-    /**\n * @file ostream.hpp\n * @brief Output Stream\n */\n\n#include <tuple>\n\n\
-    #line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\n\n#ifndef _CXX14_CONSTEXPR\n#if\
-    \ __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR constexpr\n#else\n#define _CXX14_CONSTEXPR\n\
-    #endif\n#endif\n#line 4 \"lib/cxx17\"\n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus\
-    \ >= 201703L\n#define _CXX17_CONSTEXPR constexpr\n#else\n#define _CXX17_CONSTEXPR\n\
-    #endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n#if __cplusplus >= 201703L\n#define\
-    \ _CXX17_STATIC_ASSERT static_assert\n#else\n#define _CXX17_STATIC_ASSERT assert\n\
-    #endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\n#if __cplusplus < 201703L\n\nnamespace\
-    \ std {\n\n/**\n *  @brief  Return the size of a container.\n *  @param  __cont\
-    \  Container.\n */\ntemplate <typename _Container>\nconstexpr auto size(const\
-    \ _Container& __cont) noexcept(noexcept(__cont.size()))\n    -> decltype(__cont.size())\
-    \ {\n  return __cont.size();\n}\n\n/**\n *  @brief  Return the size of an array.\n\
-    \ */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr size_t size(const _Tp (&)[_Nm])\
-    \ noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief  Return whether a container\
-    \ is empty.\n *  @param  __cont  Container.\n */\ntemplate <typename _Container>\n\
-    [[nodiscard]] constexpr auto empty(const _Container& __cont) noexcept(\n    noexcept(__cont.empty()))\
-    \ -> decltype(__cont.empty()) {\n  return __cont.empty();\n}\n\n/**\n *  @brief\
-    \  Return whether an array is empty (always false).\n */\ntemplate <typename _Tp,\
-    \ size_t _Nm>\n[[nodiscard]] constexpr bool empty(const _Tp (&)[_Nm]) noexcept\
-    \ {\n  return false;\n}\n\n/**\n *  @brief  Return whether an initializer_list\
-    \ is empty.\n *  @param  __il  Initializer list.\n */\ntemplate <typename _Tp>\n\
-    [[nodiscard]] constexpr bool empty(initializer_list<_Tp> __il) noexcept {\n  return\
-    \ __il.size() == 0;\n}\n\nstruct monostate {};\n\n}  // namespace std\n\n#else\n\
-    \n#include <variant>\n\n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace\
-    \ workspace {\n\ntemplate <class _Os> struct is_ostream {\n  template <typename...\
-    \ _Args>\n  static std::true_type __test(std::basic_ostream<_Args...> *);\n  static\
-    \ std::false_type __test(void *);\n  constexpr static bool value = decltype(__test(std::declval<_Os\
-    \ *>()))::value;\n};\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename\
-    \ std::enable_if<is_ostream<_Os>::value, _Os &>::type;\n\n/**\n * @brief Stream\
-    \ insertion operator for C-style array.\n *\n * @param __os Output stream\n *\
-    \ @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os, class\
-    \ _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp) > 2), ostream_ref<_Os>>::type\n\
-    operator<<(_Os &__os, const _Tp (&__a)[_Nm]) {\n  if _CXX17_CONSTEXPR (_Nm) {\n\
-    \    __os << *__a;\n    for (auto __i = __a + 1, __e = __a + _Nm; __i != __e;\
-    \ ++__i)\n      __os << ' ' << *__i;\n  }\n  return __os;\n}\n\n/**\n * @brief\
-    \ Stream insertion operator for std::array.\n *\n * @param __os Output stream\n\
-    \ * @param __a Array\n * @return Reference to __os.\n */\ntemplate <class _Os,\
-    \ class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os &__os, const std::array<_Tp,\
-    \ _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << __a[0];\n    for (size_t\
-    \ __i = 1; __i != _Nm; ++__i) __os << ' ' << __a[__i];\n  }\n  return __os;\n\
-    }\n\n/**\n * @brief Stream insertion operator for std::pair.\n *\n * @param __os\
-    \ Output stream\n * @param __p Pair\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _T1, class _T2>\nostream_ref<_Os> operator<<(_Os &__os, const\
-    \ std::pair<_T1, _T2> &__p) {\n  return __os << __p.first << ' ' << __p.second;\n\
-    }\n\n/**\n * @brief Stream insertion operator for std::tuple.\n *\n * @param __os\
-    \ Output stream\n * @param __t Tuple\n * @return Reference to __os.\n */\ntemplate\
-    \ <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 13 \"src/string/suffix_array.hpp\"\n\nnamespace\
+    \ workspace {\n\n/*\n * @class suffix_array\n * @brief construct SA and LCP array.\n\
+    \ * @tparam str_type the type of string\n */\ntemplate <class str_type> class\
+    \ suffix_array {\n  str_type str;\n  std::vector<size_t> sa, rank, lcp;\n\n  void\
+    \ construct_sa() {\n    std::iota(sa.begin(), sa.end(), 0);\n    std::sort(sa.begin(),\
+    \ sa.end(),\n              [&](size_t i, size_t j) { return str[i] < str[j]; });\n\
+    \n    for (size_t r{1}, c{}, *ptr{&sa.front()}, *tmp{ptr}; c != size();\n    \
+    \     ++r, ptr = tmp)\n      while (c != size() && str[*ptr] == str[*tmp]) ++c,\
+    \ rank[*tmp++] = r;\n\n    for (size_t k{1}; k < size(); k <<= 1) {\n      auto\
+    \ comp = [&](size_t i, size_t j) -> bool {\n        if (rank[i] != rank[j]) return\
+    \ rank[i] < rank[j];\n        return (i + k < size() ? rank[i + k] : 0) <\n  \
+    \             (j + k < size() ? rank[j + k] : 0);\n      };\n      std::sort(sa.begin(),\
+    \ sa.end(), comp);\n\n      std::vector<size_t> next_rank(size());\n      for\
+    \ (size_t r{1}, c{}, *ptr{&sa.front()}, *tmp{ptr}; c != size();\n           ++r,\
+    \ ptr = tmp)\n        while (c != size() && !comp(*ptr, *tmp)) ++c, next_rank[*tmp++]\
+    \ = r;\n      rank.swap(next_rank);\n    }\n\n    sa.emplace(sa.begin(), size());\n\
+    \    rank.emplace_back(0);\n  }\n\n  void construct_lcp() {\n    for (size_t i{},\
+    \ h{}; i != size(); ++i, h = h ? h - 1 : 0) {\n      for (size_t j{sa[rank[i]\
+    \ - 1] + h}; i + h != size() && j != size();\n           ++j, ++h)\n        if\
+    \ (str[i + h] != str[j]) break;\n      lcp[rank[i] - 1] = h;\n    }\n  }\n\n public:\n\
+    \  static constexpr size_t npos = -1;\n  using char_type = element_type<str_type>;\n\
+    \n  std::vector<size_t>::const_iterator begin() const { return sa.begin() + 1;\
+    \ }\n\n  std::vector<size_t>::const_iterator end() const { return sa.end(); }\n\
+    \n  /*\n   * @fn operator[]\n   * @brief find the i-th suffix\n   * @param i the\
+    \ rank\n   * @return index of the suffix\n   */\n  size_t operator[](size_t i)\
+    \ const { return sa[i + 1]; }\n\n  /*\n   * @fn size\n   * @return length of the\
+    \ string\n   */\n  size_t size() const { return std::size(str); }\n\n  template\
+    \ <class type = str_type, typename = typename type::value_type>\n  suffix_array(const\
+    \ str_type &_str)\n      : str(_str), sa(size()), rank(size()), lcp(size()) {\n\
+    \    construct_sa();\n    construct_lcp();\n  }\n\n  template <class type = str_type,\
+    \ std::enable_if_t<std::is_array<type>::value,\n                             \
+    \                       std::nullptr_t> = nullptr>\n  suffix_array(const str_type\
+    \ &_str) : sa(size()), rank(size()), lcp(size()) {\n    std::copy(std::begin(_str),\
+    \ std::end(_str), str);\n    construct_sa();\n    construct_lcp();\n  }\n\n  /*\n\
+    \   * @fn find\n   * @brief find (key) as a substring\n   * @param key\n   * @return\
+    \ index if found, npos if not found\n   */\n  size_t find(const str_type &key)\
+    \ const {\n    using std::begin;\n    using std::end;\n\n    size_t lower{npos},\
+    \ upper{size()};\n    while (upper - lower > 1) {\n      size_t mid = (lower +\
+    \ upper) >> 1;\n      bool less = false;\n      for (auto i{begin(str) + sa[mid]},\
+    \ j{begin(key)}; j != end(key);\n           ++i, ++j) {\n        if (i == end(str)\
+    \ || *i < *j) {\n          less = true;\n          break;\n        }\n       \
+    \ if (*i > *j) break;\n      }\n      (less ? lower : upper) = mid;\n    }\n\n\
+    \    if (upper == size()) return npos;\n    for (auto i{begin(str) + sa[upper]},\
+    \ j{begin(key)}; j != end(key); ++i, ++j)\n      if (i == end(str) || *i != *j)\
+    \ return npos;\n    return sa[upper];\n  }\n\n  /*\n   * @return lengths of LCP\
+    \ of each adjacent pairs in the suffix\n   * array\n   */\n  const std::vector<size_t>\
+    \ &lcp_array() const { return lcp; }\n};\n\n}  // namespace workspace\n#line 2\
+    \ \"src/utils/io/ostream.hpp\"\n\n/**\n * @file ostream.hpp\n * @brief Output\
+    \ Stream\n */\n\n#include <tuple>\n\n#line 2 \"lib/cxx17\"\n\n#line 2 \"lib/cxx14\"\
+    \n\n#ifndef _CXX14_CONSTEXPR\n#if __cplusplus >= 201402L\n#define _CXX14_CONSTEXPR\
+    \ constexpr\n#else\n#define _CXX14_CONSTEXPR\n#endif\n#endif\n#line 4 \"lib/cxx17\"\
+    \n\n#ifndef _CXX17_CONSTEXPR\n#if __cplusplus >= 201703L\n#define _CXX17_CONSTEXPR\
+    \ constexpr\n#else\n#define _CXX17_CONSTEXPR\n#endif\n#endif\n\n#ifndef _CXX17_STATIC_ASSERT\n\
+    #if __cplusplus >= 201703L\n#define _CXX17_STATIC_ASSERT static_assert\n#else\n\
+    #define _CXX17_STATIC_ASSERT assert\n#endif\n#endif\n\n#line 22 \"lib/cxx17\"\n\
+    \n#if __cplusplus < 201703L\n\nnamespace std {\n\n/**\n *  @brief  Return the\
+    \ size of a container.\n *  @param  __cont  Container.\n */\ntemplate <typename\
+    \ _Container>\nconstexpr auto size(const _Container& __cont) noexcept(noexcept(__cont.size()))\n\
+    \    -> decltype(__cont.size()) {\n  return __cont.size();\n}\n\n/**\n *  @brief\
+    \  Return the size of an array.\n */\ntemplate <typename _Tp, size_t _Nm>\nconstexpr\
+    \ size_t size(const _Tp (&)[_Nm]) noexcept {\n  return _Nm;\n}\n\n/**\n *  @brief\
+    \  Return whether a container is empty.\n *  @param  __cont  Container.\n */\n\
+    template <typename _Container>\n[[nodiscard]] constexpr auto empty(const _Container&\
+    \ __cont) noexcept(\n    noexcept(__cont.empty())) -> decltype(__cont.empty())\
+    \ {\n  return __cont.empty();\n}\n\n/**\n *  @brief  Return whether an array is\
+    \ empty (always false).\n */\ntemplate <typename _Tp, size_t _Nm>\n[[nodiscard]]\
+    \ constexpr bool empty(const _Tp (&)[_Nm]) noexcept {\n  return false;\n}\n\n\
+    /**\n *  @brief  Return whether an initializer_list is empty.\n *  @param  __il\
+    \  Initializer list.\n */\ntemplate <typename _Tp>\n[[nodiscard]] constexpr bool\
+    \ empty(initializer_list<_Tp> __il) noexcept {\n  return __il.size() == 0;\n}\n\
+    \nstruct monostate {};\n\n}  // namespace std\n\n#else\n\n#include <variant>\n\
+    \n#endif\n#line 11 \"src/utils/io/ostream.hpp\"\n\nnamespace workspace {\n\ntemplate\
+    \ <class _Os> struct is_ostream {\n  template <typename... _Args>\n  static std::true_type\
+    \ __test(std::basic_ostream<_Args...> *);\n  static std::false_type __test(void\
+    \ *);\n  constexpr static bool value = decltype(__test(std::declval<_Os *>()))::value;\n\
+    };\n\ntemplate <class _Os>\nusing ostream_ref =\n    typename std::enable_if<is_ostream<_Os>::value,\
+    \ _Os &>::type;\n\n/**\n * @brief Stream insertion operator for C-style array.\n\
+    \ *\n * @param __os Output stream\n * @param __a Array\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm>\ntypename std::enable_if<bool(sizeof(_Tp)\
+    \ > 2), ostream_ref<_Os>>::type\noperator<<(_Os &__os, const _Tp (&__a)[_Nm])\
+    \ {\n  if _CXX17_CONSTEXPR (_Nm) {\n    __os << *__a;\n    for (auto __i = __a\
+    \ + 1, __e = __a + _Nm; __i != __e; ++__i)\n      __os << ' ' << *__i;\n  }\n\
+    \  return __os;\n}\n\n/**\n * @brief Stream insertion operator for std::array.\n\
+    \ *\n * @param __os Output stream\n * @param __a Array\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm>\nostream_ref<_Os> operator<<(_Os\
+    \ &__os, const std::array<_Tp, _Nm> &__a) {\n  if _CXX17_CONSTEXPR (_Nm) {\n \
+    \   __os << __a[0];\n    for (size_t __i = 1; __i != _Nm; ++__i) __os << ' ' <<\
+    \ __a[__i];\n  }\n  return __os;\n}\n\n/**\n * @brief Stream insertion operator\
+    \ for std::pair.\n *\n * @param __os Output stream\n * @param __p Pair\n * @return\
+    \ Reference to __os.\n */\ntemplate <class _Os, class _T1, class _T2>\nostream_ref<_Os>\
+    \ operator<<(_Os &__os, const std::pair<_T1, _T2> &__p) {\n  return __os << __p.first\
+    \ << ' ' << __p.second;\n}\n\n/**\n * @brief Stream insertion operator for std::tuple.\n\
+    \ *\n * @param __os Output stream\n * @param __t Tuple\n * @return Reference to\
+    \ __os.\n */\ntemplate <class _Os, class _Tp, size_t _Nm = 0>\ntypename std::enable_if<bool(std::tuple_size<_Tp>::value\
     \ + 1),\n                        ostream_ref<_Os>>::type\noperator<<(_Os &__os,\
     \ const _Tp &__t) {\n  if _CXX17_CONSTEXPR (_Nm != std::tuple_size<_Tp>::value)\
     \ {\n    if _CXX17_CONSTEXPR (_Nm) __os << ' ';\n    __os << std::get<_Nm>(__t);\n\
@@ -211,8 +221,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2021-11-30 17:55:32+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2022-04-06 15:02:09+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/suffix_array.test.cpp
 layout: document

@@ -59,16 +59,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -94,16 +99,21 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 12 \"src/data_structure/set.hpp\"\n\nnamespace workspace {\n\n/**\n * @brief\
-    \ Wrapper class for std::set.\n */\ntemplate <class _Key, class _Compare = std::less<_Key>>\n\
-    class set : public std::set<_Key, _Compare> {\n public:\n  using container_type\
-    \ = std::set<_Key, _Compare>;\n  using container_type::container_type;\n\n  set(const\
-    \ _Compare &__c) noexcept : container_type(__c) {}\n\n  decltype(auto) front()\
-    \ noexcept { return *container_type::begin(); }\n  decltype(auto) front() const\
-    \ noexcept { return *container_type::begin(); }\n\n  decltype(auto) back() noexcept\
-    \ { return *std::prev(container_type::end()); }\n  decltype(auto) back() const\
-    \ noexcept {\n    return *std::prev(container_type::end());\n  }\n\n  decltype(auto)\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 12 \"src/data_structure/set.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @brief Wrapper class for std::set.\n */\ntemplate <class\
+    \ _Key, class _Compare = std::less<_Key>>\nclass set : public std::set<_Key, _Compare>\
+    \ {\n public:\n  using container_type = std::set<_Key, _Compare>;\n  using container_type::container_type;\n\
+    \n  set(const _Compare &__c) noexcept : container_type(__c) {}\n\n  decltype(auto)\
+    \ front() noexcept { return *container_type::begin(); }\n  decltype(auto) front()\
+    \ const noexcept { return *container_type::begin(); }\n\n  decltype(auto) back()\
+    \ noexcept { return *std::prev(container_type::end()); }\n  decltype(auto) back()\
+    \ const noexcept {\n    return *std::prev(container_type::end());\n  }\n\n  decltype(auto)\
     \ erase_front() noexcept {\n    return container_type::erase(container_type::begin());\n\
     \  }\n  decltype(auto) erase_back() noexcept {\n    return container_type::erase(std::prev(container_type::end()));\n\
     \  }\n};\n\ntemplate <class _Compare>\nset(const _Compare &)\n    -> set<std::decay_t<typename\
@@ -134,7 +144,7 @@ data:
   path: src/data_structure/set.hpp
   requiredBy:
   - src/data_structure/map.hpp
-  timestamp: '2021-11-30 17:55:32+09:00'
+  timestamp: '2022-04-06 15:02:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: src/data_structure/set.hpp

@@ -1,25 +1,25 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/complex.hpp
     title: Complex Number
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/fft.hpp
     title: Fast Fourier Transform
   - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/algebra/polynomial.hpp
     title: Polynomial
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
   - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
   - icon: ':question:'
@@ -36,9 +36,9 @@ data:
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://old.yosupo.jp/problem/multipoint_evaluation
@@ -71,16 +71,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -106,17 +111,22 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 11 \"src/number_theory/pow_mod.hpp\"\n\nnamespace workspace {\n\n/**\n *\
-    \ @brief Compile time modular exponentiation.\n *\n * @param __x\n * @param __n\
-    \ Exponent\n * @param __mod Modulus\n * @return\n */\ntemplate <class _Tp>\nconstexpr\
-    \ std::enable_if_t<(is_integral_ext<_Tp>::value), _Tp> pow_mod(\n    _Tp __x,\
-    \ _Tp __n, _Tp __mod) noexcept {\n  assert(__mod > 0);\n\n  using mul_type = typename\
-    \ multiplicable_uint<_Tp>::type;\n\n  if ((__x %= __mod) < 0) __x += __mod;\n\n\
-    \  mul_type __y{1};\n\n  while (__n) {\n    if (__n & 1) (__y *= __x) %= __mod;\n\
-    \    __x = (mul_type)__x * __x % __mod;\n    __n >>= 1;\n  }\n\n  return __y;\n\
-    };\n\n}  // namespace workspace\n#line 10 \"src/number_theory/sqrt_mod.hpp\"\n\
-    \nnamespace workspace {\n\n/**\n * @brief Compile time modular square root.\n\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 11 \"src/number_theory/pow_mod.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @brief Compile time modular exponentiation.\n *\n * @param\
+    \ __x\n * @param __n Exponent\n * @param __mod Modulus\n * @return\n */\ntemplate\
+    \ <class _Tp>\nconstexpr std::enable_if_t<(is_integral_ext<_Tp>::value), _Tp>\
+    \ pow_mod(\n    _Tp __x, _Tp __n, _Tp __mod) noexcept {\n  assert(__mod > 0);\n\
+    \n  using mul_type = typename multiplicable_uint<_Tp>::type;\n\n  if ((__x %=\
+    \ __mod) < 0) __x += __mod;\n\n  mul_type __y{1};\n\n  while (__n) {\n    if (__n\
+    \ & 1) (__y *= __x) %= __mod;\n    __x = (mul_type)__x * __x % __mod;\n    __n\
+    \ >>= 1;\n  }\n\n  return __y;\n};\n\n}  // namespace workspace\n#line 10 \"src/number_theory/sqrt_mod.hpp\"\
+    \n\nnamespace workspace {\n\n/**\n * @brief Compile time modular square root.\n\
     \ *\n * @param __x\n * @param __mod Modulus\n * @return One if it exists. Otherwise\
     \ -1.\n */\ntemplate <class _Tp>\nconstexpr std::enable_if_t<(is_integral_ext<_Tp>::value),\
     \ _Tp> sqrt_mod(\n    _Tp __x, _Tp __mod) noexcept {\n  assert(__mod > 0);\n\n\
@@ -804,8 +814,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/multipoint_evaluation.test.cpp
   requiredBy: []
-  timestamp: '2022-04-06 14:57:07+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2022-04-06 15:02:09+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/library-checker/multipoint_evaluation.test.cpp
 layout: document

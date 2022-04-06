@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/opt/binary_search.hpp
     title: Binary Search
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/string/rolling_hash.hpp
     title: Rolling Hash
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/rand/rng.hpp
     title: Random Number Generator
   - icon: ':question:'
@@ -15,9 +15,9 @@ data:
     title: SFINAE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/zalgorithm
@@ -113,16 +113,21 @@ data:
     \ <class> class trait>\nusing enable_if_trait_type = typename std::enable_if<trait<type>::value>::type;\n\
     \n/**\n * @brief Return type of subscripting ( @c [] ) access.\n */\ntemplate\
     \ <class _Tp>\nusing subscripted_type =\n    typename std::decay<decltype(std::declval<_Tp&>()[0])>::type;\n\
-    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(\n\
-    \    *std::begin(std::declval<Container&>()))>::type;\n\ntemplate <class _Tp,\
-    \ class = std::nullptr_t>\nstruct has_begin : std::false_type {};\n\ntemplate\
-    \ <class _Tp>\nstruct has_begin<_Tp, decltype(std::begin(std::declval<_Tp>()),\
-    \ nullptr)>\n    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct\
-    \ has_mod : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>>\
-    \ : std::true_type {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext\
-    \ : std::false_type {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp,\
-    \ typename std::enable_if<std::is_integral<_Tp>::value>::type>\n    : std::true_type\
-    \ {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
+    \ntemplate <class Container>\nusing element_type = typename std::decay<decltype(*std::begin(\n\
+    \    std::declval<Container&>()))>::type;\n\ntemplate <class _Tp, class = void>\
+    \ struct has_begin : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_begin<\n\
+    \    _Tp, std::__void_t<decltype(std::begin(std::declval<const _Tp&>()))>>\n \
+    \   : std::true_type {\n  using type = decltype(std::begin(std::declval<const\
+    \ _Tp&>()));\n};\n\ntemplate <class _Tp, class = void> struct has_size : std::false_type\
+    \ {};\n\ntemplate <class _Tp>\nstruct has_size<_Tp, std::__void_t<decltype(std::size(std::declval<_Tp>()))>>\n\
+    \    : std::true_type {};\n\ntemplate <class _Tp, class = void> struct has_resize\
+    \ : std::false_type {};\n\ntemplate <class _Tp>\nstruct has_resize<_Tp, std::__void_t<decltype(std::declval<_Tp>().resize(\n\
+    \                           std::declval<size_t>()))>> : std::true_type {};\n\n\
+    template <class _Tp, class = void> struct has_mod : std::false_type {};\n\ntemplate\
+    \ <class _Tp>\nstruct has_mod<_Tp, std::__void_t<decltype(_Tp::mod)>> : std::true_type\
+    \ {};\n\ntemplate <class _Tp, class = void> struct is_integral_ext : std::false_type\
+    \ {};\ntemplate <class _Tp>\nstruct is_integral_ext<\n    _Tp, typename std::enable_if<std::is_integral<_Tp>::value>::type>\n\
+    \    : std::true_type {};\n\n#if __INT128_DEFINED__\n\ntemplate <> struct is_integral_ext<__int128_t>\
     \ : std::true_type {};\ntemplate <> struct is_integral_ext<__uint128_t> : std::true_type\
     \ {};\n\n#endif\n\n#if __cplusplus >= 201402\n\ntemplate <class _Tp>\nconstexpr\
     \ static bool is_integral_ext_v = is_integral_ext<_Tp>::value;\n\n#endif\n\ntemplate\
@@ -148,36 +153,41 @@ data:
     \ (_G::*)(_Tp, _Args...) const> {\n  using type = _Tp;\n};\n\ntemplate <class\
     \ _Tp, class = void> struct parse_compare : first_arg<_Tp> {};\n\ntemplate <class\
     \ _Tp>\nstruct parse_compare<_Tp, std::__void_t<decltype(&_Tp::operator())>>\n\
-    \    : first_arg<decltype(&_Tp::operator())> {};\n\n}  // namespace workspace\n\
-    #line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace workspace {\n\n/**\n * @struct\
-    \ rolling_hashed\n * @brief hash data of a string.\n */\nstruct rolling_hashed\
-    \ {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\n  /**\n   *\
-    \ @brief modulus used for hashing.\n   */\n  constexpr static u64 mod = (1ull\
-    \ << 61) - 1;\n\n  const static u64 base;\n\n  /**\n   * @brief hash value.\n\
-    \   */\n  u64 value = 0;\n\n  /**\n   * @brief length of the string.\n   */\n\
-    \  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /**\n   * @brief construct\
-    \ hash data from one character.\n   * @param c a character\n   */\n  template\
-    \ <class char_type, typename std::enable_if<std::is_convertible<\n           \
-    \                      char_type, u64>::value>::type * = nullptr>\n  rolling_hashed(char_type\
-    \ c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64 value, size_t length)\
-    \ : value(value), length(length) {}\n\n  operator std::pair<u64, size_t>() const\
-    \ { return {value, length}; }\n\n  operator u64() const { return value; }\n\n\
-    \  /**\n   * @return whether or not (*this) and (rhs) are equal\n   * @param rhs\n\
-    \   */\n  bool operator==(const rolling_hashed &rhs) const {\n    return value\
-    \ == rhs.value && length == rhs.length;\n  }\n\n  /**\n   * @return whether or\
-    \ not (*this) and (rhs) are distinct\n   * @param rhs\n   */\n  bool operator!=(const\
-    \ rolling_hashed &rhs) const { return !operator==(rhs); }\n\n  /**\n   * @param\
-    \ rhs the right operand\n   * @return hash data of concatenated string\n   */\n\
-    \  rolling_hashed operator+(const rolling_hashed &rhs) const {\n    return {plus(value,\
-    \ mult(rhs.value, base_pow(length))),\n            length + rhs.length};\n  }\n\
-    \n  /**\n   * @param rhs appended to right end\n   * @return reference to updated\
-    \ hash data\n   */\n  rolling_hashed operator+=(const rolling_hashed &rhs) {\n\
-    \    return *this = operator+(rhs);\n  }\n\n  /**\n   * @param rhs the erased\
-    \ suffix\n   * @return hash data of erased string\n   */\n  rolling_hashed operator-(const\
-    \ rolling_hashed &rhs) const {\n    assert(!(length < rhs.length));\n    return\
-    \ {minus(value, mult(rhs.value, base_pow(length - rhs.length))),\n           \
-    \ length - rhs.length};\n  }\n\n  /**\n   * @param rhs erased from right end\n\
-    \   * @return reference to updated hash data\n   */\n  rolling_hashed operator-=(const\
+    \    : first_arg<decltype(&_Tp::operator())> {};\n\ntemplate <class _Container,\
+    \ class = void> struct get_dimension {\n  static constexpr size_t value = 0;\n\
+    };\n\ntemplate <class _Container>\nstruct get_dimension<_Container,\n        \
+    \             std::enable_if_t<has_begin<_Container>::value>> {\n  static constexpr\
+    \ size_t value =\n      1 + get_dimension<typename std::iterator_traits<\n   \
+    \           typename has_begin<_Container>::type>::value_type>::value;\n};\n\n\
+    }  // namespace workspace\n#line 15 \"src/string/rolling_hash.hpp\"\n\nnamespace\
+    \ workspace {\n\n/**\n * @struct rolling_hashed\n * @brief hash data of a string.\n\
+    \ */\nstruct rolling_hashed {\n  using u64 = uint_least64_t;\n  using u128 = __uint128_t;\n\
+    \n  /**\n   * @brief modulus used for hashing.\n   */\n  constexpr static u64\
+    \ mod = (1ull << 61) - 1;\n\n  const static u64 base;\n\n  /**\n   * @brief hash\
+    \ value.\n   */\n  u64 value = 0;\n\n  /**\n   * @brief length of the string.\n\
+    \   */\n  size_t length = 0;\n\n  rolling_hashed() = default;\n\n  /**\n   * @brief\
+    \ construct hash data from one character.\n   * @param c a character\n   */\n\
+    \  template <class char_type, typename std::enable_if<std::is_convertible<\n \
+    \                                char_type, u64>::value>::type * = nullptr>\n\
+    \  rolling_hashed(char_type c) : value(u64(c) + 1), length(1) {}\n\n  rolling_hashed(u64\
+    \ value, size_t length) : value(value), length(length) {}\n\n  operator std::pair<u64,\
+    \ size_t>() const { return {value, length}; }\n\n  operator u64() const { return\
+    \ value; }\n\n  /**\n   * @return whether or not (*this) and (rhs) are equal\n\
+    \   * @param rhs\n   */\n  bool operator==(const rolling_hashed &rhs) const {\n\
+    \    return value == rhs.value && length == rhs.length;\n  }\n\n  /**\n   * @return\
+    \ whether or not (*this) and (rhs) are distinct\n   * @param rhs\n   */\n  bool\
+    \ operator!=(const rolling_hashed &rhs) const { return !operator==(rhs); }\n\n\
+    \  /**\n   * @param rhs the right operand\n   * @return hash data of concatenated\
+    \ string\n   */\n  rolling_hashed operator+(const rolling_hashed &rhs) const {\n\
+    \    return {plus(value, mult(rhs.value, base_pow(length))),\n            length\
+    \ + rhs.length};\n  }\n\n  /**\n   * @param rhs appended to right end\n   * @return\
+    \ reference to updated hash data\n   */\n  rolling_hashed operator+=(const rolling_hashed\
+    \ &rhs) {\n    return *this = operator+(rhs);\n  }\n\n  /**\n   * @param rhs the\
+    \ erased suffix\n   * @return hash data of erased string\n   */\n  rolling_hashed\
+    \ operator-(const rolling_hashed &rhs) const {\n    assert(!(length < rhs.length));\n\
+    \    return {minus(value, mult(rhs.value, base_pow(length - rhs.length))),\n \
+    \           length - rhs.length};\n  }\n\n  /**\n   * @param rhs erased from right\
+    \ end\n   * @return reference to updated hash data\n   */\n  rolling_hashed operator-=(const\
     \ rolling_hashed &rhs) {\n    return *this = operator-(rhs);\n  }\n\n  /**\n \
     \  * @fn base_pow\n   * @param exp the exponent\n   * @return base ** pow\n  \
     \ */\n  static u64 base_pow(size_t exp) {\n    static std::vector<u64> pow{1};\n\
@@ -228,8 +238,8 @@ data:
   isVerificationFile: true
   path: test/library-checker/zalgorithm_2.test.cpp
   requiredBy: []
-  timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2022-04-06 15:02:09+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/library-checker/zalgorithm_2.test.cpp
 layout: document

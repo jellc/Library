@@ -42,16 +42,16 @@ data:
       title: deprecated/local/dump.hpp
   - name: src/algebra
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/berlekamp_massey.hpp
       title: Berlekamp-Massey Algorithm
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/complex.hpp
       title: Complex Number
     - icon: ':warning:'
       path: src/algebra/extended.hpp
       title: Extended Numeric Type
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/fft.hpp
       title: Fast Fourier Transform
     - icon: ':warning:'
@@ -66,7 +66,7 @@ data:
     - icon: ':warning:'
       path: src/algebra/pair.hpp
       title: Pair Operations
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/algebra/polynomial.hpp
       title: Polynomial
     - icon: ':warning:'
@@ -89,7 +89,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/algebra/convolution/bitxor.hpp
       title: Bitwise Xor Convolution
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: src/algebra/convolution/subset.hpp
       title: Subset Convolution
     - icon: ':heavy_check_mark:'
@@ -97,10 +97,10 @@ data:
       title: Fast Zeta Transform
   - name: src/algebra/linear
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/lu.hpp
       title: LU decomposition
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/linear/matrix.hpp
       title: Matrix
     - icon: ':warning:'
@@ -264,7 +264,7 @@ data:
       title: Boyer-Moore Majority Vote Algorithm
   - name: src/number_theory
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -276,7 +276,7 @@ data:
     - icon: ':question:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
     - icon: ':warning:'
@@ -290,7 +290,7 @@ data:
       title: Euler's Totient Function
   - name: src/opt
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/opt/binary_search.hpp
       title: Binary Search
     - icon: ':warning:'
@@ -319,10 +319,10 @@ data:
     - icon: ':warning:'
       path: src/string/rle.hpp
       title: Run-length Encoding
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/string/rolling_hash.hpp
       title: Rolling Hash
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/string/suffix_array.hpp
       title: Suffix Array
     - icon: ':heavy_check_mark:'
@@ -420,7 +420,7 @@ data:
       title: Zip
   - name: src/utils/rand
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/rand/rng.hpp
       title: Random Number Generator
     - icon: ':warning:'
@@ -550,13 +550,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/cartesian_tree.test.cpp
       title: test/library-checker/cartesian_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/convolution_mod.test.cpp
       title: test/library-checker/convolution_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/division_of_polynomials.test.cpp
       title: test/library-checker/division_of_polynomials.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/find_linear_recurrence.test.cpp
       title: test/library-checker/find_linear_recurrence.test.cpp
     - icon: ':heavy_check_mark:'
@@ -571,7 +571,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/min_cost_b_flow.test.cpp
       title: test/library-checker/min_cost_b_flow.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/multipoint_evaluation.test.cpp
       title: test/library-checker/multipoint_evaluation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -586,7 +586,7 @@ data:
     - icon: ':x:'
       path: test/library-checker/polynomial_interpolation.test.cpp
       title: test/library-checker/polynomial_interpolation.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/library-checker/polynomial_taylor_shift.test.cpp
       title: test/library-checker/polynomial_taylor_shift.test.cpp
     - icon: ':heavy_check_mark:'
@@ -613,7 +613,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/sort_points_by_argument.test.cpp
       title: test/library-checker/sort_points_by_argument.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/sqrt_mod.test.cpp
       title: test/library-checker/sqrt_mod.test.cpp
     - icon: ':heavy_check_mark:'
@@ -622,13 +622,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/staticrmq.test.cpp
       title: test/library-checker/staticrmq.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/subset_convolution.test.cpp
       title: test/library-checker/subset_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/suffix_array.test.cpp
       title: test/library-checker/suffix_array.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/system_of_linear_equations.test.cpp
       title: test/library-checker/system_of_linear_equations.test.cpp
     - icon: ':heavy_check_mark:'
@@ -643,7 +643,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/zalgorithm.test.cpp
       title: test/library-checker/zalgorithm.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/zalgorithm_2.test.cpp
       title: test/library-checker/zalgorithm_2.test.cpp
 layout: toppage
