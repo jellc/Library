@@ -11,7 +11,7 @@
 #include "lib/cxx17"
 #include "src/number_theory/ext_gcd.hpp"
 #include "src/number_theory/primitive_root.hpp"
-#include "src\utils\sfinae.hpp"
+#include "src/utils/sfinae.hpp"
 
 namespace workspace {
 
