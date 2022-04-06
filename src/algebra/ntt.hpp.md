@@ -4,35 +4,17 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':warning:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
   - icon: ':heavy_check_mark:'
     path: src/utils/sfinae.hpp
     title: SFINAE
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: src/algebra/berlekamp_massey.hpp
-    title: Berlekamp-Massey Algorithm
-  - icon: ':heavy_check_mark:'
-    path: src/algebra/polynomial.hpp
-    title: Polynomial
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/convolution_mod.test.cpp
-    title: test/library-checker/convolution_mod.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/division_of_polynomials.test.cpp
-    title: test/library-checker/division_of_polynomials.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/find_linear_recurrence.test.cpp
-    title: test/library-checker/find_linear_recurrence.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/library-checker/multipoint_evaluation.test.cpp
-    title: test/library-checker/multipoint_evaluation.test.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Number Theoretic Transform
     links:
@@ -248,16 +230,10 @@ data:
   - src/number_theory/primitive_root.hpp
   isVerificationFile: false
   path: src/algebra/ntt.hpp
-  requiredBy:
-  - src/algebra/polynomial.hpp
-  - src/algebra/berlekamp_massey.hpp
+  requiredBy: []
   timestamp: '2021-07-16 03:07:50+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
-  - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/multipoint_evaluation.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: src/algebra/ntt.hpp
 layout: document
 redirect_from:

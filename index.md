@@ -42,22 +42,31 @@ data:
       title: deprecated/local/dump.hpp
   - name: src/algebra
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/algebra/berlekamp_massey.hpp
       title: Berlekamp-Massey Algorithm
     - icon: ':warning:'
+      path: src/algebra/complex.hpp
+      title: Complex Number
+    - icon: ':warning:'
       path: src/algebra/extended.hpp
       title: Extended Numeric Type
+    - icon: ':warning:'
+      path: src/algebra/fft.hpp
+      title: Fast Fourier Transform
+    - icon: ':warning:'
+      path: src/algebra/interpolation.hpp
+      title: Polynomial Interpolation
     - icon: ':heavy_check_mark:'
       path: src/algebra/modint.hpp
       title: Modular Arithmetic
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/algebra/ntt.hpp
       title: Number Theoretic Transform
     - icon: ':warning:'
       path: src/algebra/pair.hpp
       title: Pair Operations
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/algebra/polynomial.hpp
       title: Polynomial
     - icon: ':warning:'
@@ -267,7 +276,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
     - icon: ':warning:'
@@ -541,13 +550,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/cartesian_tree.test.cpp
       title: test/library-checker/cartesian_tree.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/convolution_mod.test.cpp
       title: test/library-checker/convolution_mod.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/division_of_polynomials.test.cpp
       title: test/library-checker/division_of_polynomials.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/find_linear_recurrence.test.cpp
       title: test/library-checker/find_linear_recurrence.test.cpp
     - icon: ':heavy_check_mark:'
@@ -562,7 +571,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/min_cost_b_flow.test.cpp
       title: test/library-checker/min_cost_b_flow.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/library-checker/multipoint_evaluation.test.cpp
       title: test/library-checker/multipoint_evaluation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -574,6 +583,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/library-checker/point_set_range_composite.test.cpp
       title: test/library-checker/point_set_range_composite.test.cpp
+    - icon: ':x:'
+      path: test/library-checker/polynomial_interpolation.test.cpp
+      title: test/library-checker/polynomial_interpolation.test.cpp
+    - icon: ':x:'
+      path: test/library-checker/polynomial_taylor_shift.test.cpp
+      title: test/library-checker/polynomial_taylor_shift.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/library-checker/queue_operate_all_composite.test.cpp
       title: test/library-checker/queue_operate_all_composite.test.cpp

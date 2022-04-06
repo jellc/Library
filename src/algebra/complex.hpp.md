@@ -1,0 +1,91 @@
+---
+data:
+  _extendedDependsOn: []
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: hpp
+  _verificationStatusIcon: ':warning:'
+  attributes:
+    document_title: Complex Number
+    links: []
+  bundledCode: "#line 2 \"src/algebra/complex.hpp\"\n\n/**\n * @file complex.hpp\n\
+    \ * @brief Complex Number\n */\n\nnamespace workspace {\n\n// Complex number.\n\
+    template <class _Tp> class complex {\n  _Tp re, im;\n\n  friend constexpr complex\
+    \ conj(const complex &x) noexcept {\n    return {x.re, -x.im};\n  }\n\n  friend\
+    \ constexpr _Tp abs(const complex &x) noexcept {\n    return hypot(x.re, x.im);\n\
+    \  }\n\n  friend constexpr _Tp arg(const complex &x) noexcept {\n    return atan2(x.re,\
+    \ x.im);\n  }\n\n  template <class _Is>\n  friend constexpr _Is &operator>>(_Is\
+    \ &__is, complex &x) noexcept {\n    return __is >> x.re >> x.im;\n  }\n\n  template\
+    \ <class _Os>\n  friend constexpr _Os &operator<<(_Os &__os, const complex &x)\
+    \ noexcept {\n    return __os << x.re << ' ' << x.im;\n  }\n\n public:\n  constexpr\
+    \ complex() noexcept : re{}, im{} {}\n  constexpr complex(_Tp _re) noexcept :\
+    \ re{_re}, im{} {}\n  constexpr complex(_Tp _re, _Tp _im) noexcept : re{_re},\
+    \ im{_im} {}\n\n  constexpr _Tp real() const noexcept { return re; }\n  constexpr\
+    \ void real(_Tp _re) noexcept { re = _re; }\n\n  constexpr _Tp imag() const noexcept\
+    \ { return im; }\n  constexpr void imag(_Tp _im) noexcept { im = _im; }\n\n  constexpr\
+    \ complex operator+() const noexcept { return *this; }\n  constexpr complex operator-()\
+    \ const noexcept { return {-re, -im}; }\n\n  constexpr complex &operator+=(const\
+    \ complex &x) noexcept {\n    return re += x.re, im += x.im, *this;\n  }\n  constexpr\
+    \ complex &operator-=(const complex &x) noexcept {\n    return re -= x.re, im\
+    \ -= x.im, *this;\n  }\n  constexpr complex &operator*=(const complex &x) noexcept\
+    \ {\n    _Tp _re{re * x.re - im * x.im};\n    return im = im * x.re + x.im * re,\
+    \ re = _re, *this;\n  }\n  constexpr complex &operator*=(_Tp x) noexcept {\n \
+    \   return re *= x, im *= x, *this;\n  }\n  constexpr complex &operator/=(const\
+    \ complex &x) noexcept {\n    return (*this *= conj(x)) /= re * re + im * im;\n\
+    \  }\n  constexpr complex &operator/=(_Tp x) noexcept {\n    return re /= x, im\
+    \ /= x, *this;\n  }\n\n  constexpr complex operator+(const complex &x) const noexcept\
+    \ {\n    return {re + x.re, im + x.im};\n  }\n  constexpr complex operator-(const\
+    \ complex &x) const noexcept {\n    return {re - x.re, im - x.im};\n  }\n\n  constexpr\
+    \ complex operator*(const complex &x) const noexcept {\n    return complex(*this)\
+    \ *= x;\n  }\n\n  constexpr complex operator*(_Tp x) const noexcept { return {re\
+    \ * x, im * x}; }\n\n  constexpr complex operator/(const complex &x) const noexcept\
+    \ {\n    return complex(*this) /= x;\n  }\n\n  constexpr complex operator/(_Tp\
+    \ x) const noexcept { return {re / x, im / x}; }\n};\n\n}  // namespace workspace\n"
+  code: "#pragma once\n\n/**\n * @file complex.hpp\n * @brief Complex Number\n */\n\
+    \nnamespace workspace {\n\n// Complex number.\ntemplate <class _Tp> class complex\
+    \ {\n  _Tp re, im;\n\n  friend constexpr complex conj(const complex &x) noexcept\
+    \ {\n    return {x.re, -x.im};\n  }\n\n  friend constexpr _Tp abs(const complex\
+    \ &x) noexcept {\n    return hypot(x.re, x.im);\n  }\n\n  friend constexpr _Tp\
+    \ arg(const complex &x) noexcept {\n    return atan2(x.re, x.im);\n  }\n\n  template\
+    \ <class _Is>\n  friend constexpr _Is &operator>>(_Is &__is, complex &x) noexcept\
+    \ {\n    return __is >> x.re >> x.im;\n  }\n\n  template <class _Os>\n  friend\
+    \ constexpr _Os &operator<<(_Os &__os, const complex &x) noexcept {\n    return\
+    \ __os << x.re << ' ' << x.im;\n  }\n\n public:\n  constexpr complex() noexcept\
+    \ : re{}, im{} {}\n  constexpr complex(_Tp _re) noexcept : re{_re}, im{} {}\n\
+    \  constexpr complex(_Tp _re, _Tp _im) noexcept : re{_re}, im{_im} {}\n\n  constexpr\
+    \ _Tp real() const noexcept { return re; }\n  constexpr void real(_Tp _re) noexcept\
+    \ { re = _re; }\n\n  constexpr _Tp imag() const noexcept { return im; }\n  constexpr\
+    \ void imag(_Tp _im) noexcept { im = _im; }\n\n  constexpr complex operator+()\
+    \ const noexcept { return *this; }\n  constexpr complex operator-() const noexcept\
+    \ { return {-re, -im}; }\n\n  constexpr complex &operator+=(const complex &x)\
+    \ noexcept {\n    return re += x.re, im += x.im, *this;\n  }\n  constexpr complex\
+    \ &operator-=(const complex &x) noexcept {\n    return re -= x.re, im -= x.im,\
+    \ *this;\n  }\n  constexpr complex &operator*=(const complex &x) noexcept {\n\
+    \    _Tp _re{re * x.re - im * x.im};\n    return im = im * x.re + x.im * re, re\
+    \ = _re, *this;\n  }\n  constexpr complex &operator*=(_Tp x) noexcept {\n    return\
+    \ re *= x, im *= x, *this;\n  }\n  constexpr complex &operator/=(const complex\
+    \ &x) noexcept {\n    return (*this *= conj(x)) /= re * re + im * im;\n  }\n \
+    \ constexpr complex &operator/=(_Tp x) noexcept {\n    return re /= x, im /= x,\
+    \ *this;\n  }\n\n  constexpr complex operator+(const complex &x) const noexcept\
+    \ {\n    return {re + x.re, im + x.im};\n  }\n  constexpr complex operator-(const\
+    \ complex &x) const noexcept {\n    return {re - x.re, im - x.im};\n  }\n\n  constexpr\
+    \ complex operator*(const complex &x) const noexcept {\n    return complex(*this)\
+    \ *= x;\n  }\n\n  constexpr complex operator*(_Tp x) const noexcept { return {re\
+    \ * x, im * x}; }\n\n  constexpr complex operator/(const complex &x) const noexcept\
+    \ {\n    return complex(*this) /= x;\n  }\n\n  constexpr complex operator/(_Tp\
+    \ x) const noexcept { return {re / x, im / x}; }\n};\n\n}  // namespace workspace\n"
+  dependsOn: []
+  isVerificationFile: false
+  path: src/algebra/complex.hpp
+  requiredBy: []
+  timestamp: '2022-04-06 14:50:38+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
+documentation_of: src/algebra/complex.hpp
+layout: document
+redirect_from:
+- /library/src/algebra/complex.hpp
+- /library/src/algebra/complex.hpp.html
+title: Complex Number
+---

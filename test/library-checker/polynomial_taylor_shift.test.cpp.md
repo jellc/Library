@@ -20,24 +20,23 @@ data:
     , line 260, in _resolve\n    raise BundleErrorAt(path, -1, \"no such header\"\
     )\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: src\\utils\\sfinae.hpp:\
     \ line -1: no such header\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/division_of_polynomials\"\
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/polynomial_taylor_shift\"\
     \n\n#include \"src/algebra/modint.hpp\"\n#include \"src/algebra/polynomial.hpp\"\
     \n#include \"src/utils/io/istream.hpp\"\n#include \"src/utils/io/ostream.hpp\"\
-    \n\nint main() {\n  using namespace workspace;\n  using poly = polynomial<modint<998244353>>;\n\
-    \n  int n, m;\n  cin >> n >> m;\n  poly f(n), g(m);\n  cin >> f >> g;\n\n  auto\
-    \ [q, r] = f.divmod(g);\n  std::cout << q.size() << \" \" << r.size() << \"\\\
-    n\";\n  std::cout << q << \"\\n\";\n  std::cout << r << \"\\n\";\n}\n"
+    \n\nint main() {\n  using namespace workspace;\n\n  int n, c;\n  cin >> n >> c;\n\
+    \  polynomial<modint<998244353>> a(n);\n  cin >> a;\n  std::cout << a.shift(c)\
+    \ << \"\\n\";\n}\n"
   dependsOn: []
   isVerificationFile: true
-  path: test/library-checker/division_of_polynomials.test.cpp
+  path: test/library-checker/polynomial_taylor_shift.test.cpp
   requiredBy: []
   timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
-documentation_of: test/library-checker/division_of_polynomials.test.cpp
+documentation_of: test/library-checker/polynomial_taylor_shift.test.cpp
 layout: document
 redirect_from:
-- /verify/test/library-checker/division_of_polynomials.test.cpp
-- /verify/test/library-checker/division_of_polynomials.test.cpp.html
-title: test/library-checker/division_of_polynomials.test.cpp
+- /verify/test/library-checker/polynomial_taylor_shift.test.cpp
+- /verify/test/library-checker/polynomial_taylor_shift.test.cpp.html
+title: test/library-checker/polynomial_taylor_shift.test.cpp
 ---

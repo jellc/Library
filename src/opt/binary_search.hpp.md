@@ -144,10 +144,10 @@ data:
   timestamp: '2020-12-08 15:39:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/ALDS1_14_C.test.cpp
-  - test/aizu-online-judge/1342.test.cpp
-  - test/aizu-online-judge/0323.test.cpp
   - test/library-checker/zalgorithm_2.test.cpp
+  - test/aizu-online-judge/0323.test.cpp
+  - test/aizu-online-judge/1342.test.cpp
+  - test/aizu-online-judge/ALDS1_14_C.test.cpp
 documentation_of: src/opt/binary_search.hpp
 layout: document
 redirect_from:
