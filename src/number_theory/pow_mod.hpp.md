@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   _extendedVerifiedWith:
@@ -21,12 +21,27 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/bitwise_xor_convolution.test.cpp
     title: test/library-checker/bitwise_xor_convolution.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/division_of_polynomials.test.cpp
+    title: test/library-checker/division_of_polynomials.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/polynomial_taylor_shift.test.cpp
+    title: test/library-checker/polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
@@ -42,9 +57,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/system_of_linear_equations.test.cpp
     title: test/library-checker/system_of_linear_equations.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Modular Exponentiation
     links: []
@@ -132,11 +147,16 @@ data:
   - src/algebra/modint.hpp
   - src/number_theory/sqrt_mod.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/matrix_det.test.cpp
   - test/library-checker/sqrt_mod.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp
   - test/library-checker/bitwise_xor_convolution.test.cpp

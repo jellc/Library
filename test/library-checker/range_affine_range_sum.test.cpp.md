@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':heavy_check_mark:'
@@ -16,13 +16,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: src/data_structure/segment_tree/waitings.hpp
     title: src/data_structure/segment_tree/waitings.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

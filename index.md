@@ -42,22 +42,22 @@ data:
       title: deprecated/local/dump.hpp
   - name: src/algebra
     pages:
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/berlekamp_massey.hpp
       title: Berlekamp-Massey Algorithm
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/complex.hpp
       title: Complex Number
     - icon: ':warning:'
       path: src/algebra/extended.hpp
       title: Extended Numeric Type
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/fft.hpp
       title: Fast Fourier Transform
     - icon: ':warning:'
       path: src/algebra/interpolation.hpp
       title: Polynomial Interpolation
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/algebra/modint.hpp
       title: Modular Arithmetic
     - icon: ':warning:'
@@ -66,7 +66,7 @@ data:
     - icon: ':warning:'
       path: src/algebra/pair.hpp
       title: Pair Operations
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/algebra/polynomial.hpp
       title: Polynomial
     - icon: ':warning:'
@@ -264,7 +264,7 @@ data:
       title: Boyer-Moore Majority Vote Algorithm
   - name: src/number_theory
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/ext_gcd.hpp
       title: Extended Euclidean Algorithm
     - icon: ':warning:'
@@ -273,16 +273,16 @@ data:
     - icon: ':warning:'
       path: src/number_theory/order.hpp
       title: Order
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/pow_mod.hpp
       title: Modular Exponentiation
-    - icon: ':warning:'
+    - icon: ':x:'
       path: src/number_theory/primitive_root.hpp
       title: Primitive Root
     - icon: ':warning:'
       path: src/number_theory/quotients.hpp
       title: src/number_theory/quotients.hpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/number_theory/sqrt_mod.hpp
       title: Tonelli-Shanks Algorithm
     - icon: ':heavy_check_mark:'
@@ -368,7 +368,7 @@ data:
     - icon: ':warning:'
       path: src/utils/round_div.hpp
       title: Round Integer Division
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/sfinae.hpp
       title: SFINAE
     - icon: ':warning:'
@@ -384,10 +384,10 @@ data:
     - icon: ':warning:'
       path: src/utils/io/input.hpp
       title: Input
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/istream.hpp
       title: Input Stream
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: src/utils/io/ostream.hpp
       title: Output Stream
     - icon: ':warning:'

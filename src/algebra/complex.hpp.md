@@ -1,11 +1,35 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _extendedRequiredBy:
+  - icon: ':x:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':x:'
+    path: src/algebra/fft.hpp
+    title: Fast Fourier Transform
+  - icon: ':x:'
+    path: src/algebra/polynomial.hpp
+    title: Polynomial
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/division_of_polynomials.test.cpp
+    title: test/library-checker/division_of_polynomials.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/polynomial_taylor_shift.test.cpp
+    title: test/library-checker/polynomial_taylor_shift.test.cpp
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Complex Number
     links: []
@@ -78,10 +102,18 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: src/algebra/complex.hpp
-  requiredBy: []
+  requiredBy:
+  - src/algebra/polynomial.hpp
+  - src/algebra/fft.hpp
+  - src/algebra/berlekamp_massey.hpp
   timestamp: '2022-04-06 14:50:38+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/library-checker/division_of_polynomials.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/polynomial_taylor_shift.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
 documentation_of: src/algebra/complex.hpp
 layout: document
 redirect_from:

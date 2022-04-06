@@ -2,12 +2,21 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':x:'
+    path: src/algebra/fft.hpp
+    title: Fast Fourier Transform
+  - icon: ':question:'
     path: src/algebra/modint.hpp
     title: Modular Arithmetic
   - icon: ':warning:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
+  - icon: ':x:'
+    path: src/algebra/polynomial.hpp
+    title: Polynomial
   - icon: ':warning:'
     path: src/data_structure/cyclic.hpp
     title: Cyclic Array
@@ -23,7 +32,7 @@ data:
   - icon: ':warning:'
     path: src/data_structure/set.hpp
     title: Set
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
   - icon: ':warning:'
@@ -32,16 +41,16 @@ data:
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/pow_mod.hpp
     title: Modular Exponentiation
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
   - icon: ':warning:'
     path: src/number_theory/quotients.hpp
     title: src/number_theory/quotients.hpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/sqrt_mod.hpp
     title: Tonelli-Shanks Algorithm
   - icon: ':heavy_check_mark:'
@@ -59,7 +68,7 @@ data:
   - icon: ':warning:'
     path: src/utils/io/input.hpp
     title: Input
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/io/istream.hpp
     title: Input Stream
   - icon: ':warning:'
@@ -99,15 +108,30 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/cartesian_tree.test.cpp
     title: test/library-checker/cartesian_tree.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/division_of_polynomials.test.cpp
+    title: test/library-checker/division_of_polynomials.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/matrix_det.test.cpp
     title: test/library-checker/matrix_det.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/number_of_substrings.test.cpp
     title: test/library-checker/number_of_substrings.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/point_set_range_composite.test.cpp
     title: test/library-checker/point_set_range_composite.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/polynomial_taylor_shift.test.cpp
+    title: test/library-checker/polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/library-checker/queue_operate_all_composite.test.cpp
     title: test/library-checker/queue_operate_all_composite.test.cpp
@@ -129,9 +153,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/library-checker/zalgorithm_2.test.cpp
     title: test/library-checker/zalgorithm_2.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: SFINAE
     links: []
@@ -254,6 +278,9 @@ data:
   - src/string/rolling_hash.hpp
   - src/algebra/modint.hpp
   - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
+  - src/algebra/fft.hpp
+  - src/algebra/berlekamp_massey.hpp
   - src/data_structure/cyclic.hpp
   - src/data_structure/map.hpp
   - src/data_structure/segment_tree/lazy.hpp
@@ -272,13 +299,18 @@ data:
   - src/number_theory/least_factor.hpp
   - src/number_theory/quotients.hpp
   timestamp: '2021-05-25 17:32:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/library-checker/range_affine_range_sum.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
   - test/library-checker/suffix_array.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/matrix_det.test.cpp
   - test/library-checker/associative_array.test.cpp
   - test/library-checker/sqrt_mod.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/cartesian_tree.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
   - test/library-checker/bitwise_and_convolution.test.cpp

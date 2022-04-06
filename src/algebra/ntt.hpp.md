@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/number_theory/ext_gcd.hpp
     title: Extended Euclidean Algorithm
-  - icon: ':warning:'
+  - icon: ':x:'
     path: src/number_theory/primitive_root.hpp
     title: Primitive Root
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy: []

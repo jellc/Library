@@ -1,13 +1,22 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: src/utils/sfinae.hpp
     title: SFINAE
   _extendedRequiredBy:
+  - icon: ':x:'
+    path: src/algebra/berlekamp_massey.hpp
+    title: Berlekamp-Massey Algorithm
+  - icon: ':x:'
+    path: src/algebra/fft.hpp
+    title: Fast Fourier Transform
   - icon: ':warning:'
     path: src/algebra/ntt.hpp
     title: Number Theoretic Transform
+  - icon: ':x:'
+    path: src/algebra/polynomial.hpp
+    title: Polynomial
   - icon: ':warning:'
     path: src/number_theory/order.hpp
     title: Order
@@ -15,9 +24,24 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aizu-online-judge/NTL_1_E.test.cpp
     title: test/aizu-online-judge/NTL_1_E.test.cpp
-  _isVerificationFailed: false
+  - icon: ':x:'
+    path: test/library-checker/convolution_mod.test.cpp
+    title: test/library-checker/convolution_mod.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/division_of_polynomials.test.cpp
+    title: test/library-checker/division_of_polynomials.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/find_linear_recurrence.test.cpp
+    title: test/library-checker/find_linear_recurrence.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/multipoint_evaluation.test.cpp
+    title: test/library-checker/multipoint_evaluation.test.cpp
+  - icon: ':x:'
+    path: test/library-checker/polynomial_taylor_shift.test.cpp
+    title: test/library-checker/polynomial_taylor_shift.test.cpp
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Extended Euclidean Algorithm
     links: []
@@ -143,10 +167,18 @@ data:
   path: src/number_theory/ext_gcd.hpp
   requiredBy:
   - src/algebra/ntt.hpp
+  - src/algebra/polynomial.hpp
+  - src/algebra/fft.hpp
+  - src/algebra/berlekamp_massey.hpp
   - src/number_theory/order.hpp
   timestamp: '2021-07-16 03:07:50+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/library-checker/division_of_polynomials.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/polynomial_taylor_shift.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/aizu-online-judge/NTL_1_E.test.cpp
 documentation_of: src/number_theory/ext_gcd.hpp
 layout: document
