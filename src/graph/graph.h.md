@@ -268,8 +268,8 @@ data:
   timestamp: '2021-11-30 17:55:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aizu-online-judge/GRL_5_A.test.cpp
   - test/aizu-online-judge/GRL_2_A.test.cpp
+  - test/aizu-online-judge/GRL_5_A.test.cpp
 documentation_of: src/graph/graph.h
 layout: document
 redirect_from:

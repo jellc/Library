@@ -455,23 +455,23 @@ data:
   path: src/algebra/fft.hpp
   requiredBy:
   - src/algebra/interpolation.hpp
+  - src/algebra/fps.hpp
   - src/algebra/polynomial.hpp
   - src/algebra/berlekamp_massey.hpp
-  - src/algebra/fps.hpp
   timestamp: '2022-04-06 15:02:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/exp_of_formal_power_series.test.cpp
-  - test/library-checker/division_of_polynomials.test.cpp
-  - test/library-checker/find_linear_recurrence.test.cpp
-  - test/library-checker/inv_of_formal_power_series.test.cpp
-  - test/library-checker/convolution_mod.test.cpp
-  - test/library-checker/polynomial_taylor_shift.test.cpp
-  - test/library-checker/multipoint_evaluation.test.cpp
-  - test/library-checker/sqrt_of_formal_power_series.test.cpp
   - test/library-checker/log_of_formal_power_series.test.cpp
+  - test/library-checker/inv_of_formal_power_series.test.cpp
+  - test/library-checker/sqrt_of_formal_power_series.test.cpp
+  - test/library-checker/multipoint_evaluation.test.cpp
   - test/library-checker/pow_of_formal_power_series.test.cpp
+  - test/library-checker/polynomial_taylor_shift.test.cpp
   - test/library-checker/polynomial_interpolation.test.cpp
+  - test/library-checker/find_linear_recurrence.test.cpp
+  - test/library-checker/exp_of_formal_power_series.test.cpp
+  - test/library-checker/convolution_mod.test.cpp
+  - test/library-checker/division_of_polynomials.test.cpp
 documentation_of: src/algebra/fft.hpp
 layout: document
 redirect_from:

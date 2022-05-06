@@ -170,8 +170,8 @@ data:
   timestamp: '2021-01-25 22:14:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/line_add_get_min.test.cpp
   - test/library-checker/segment_add_get_min.test.cpp
+  - test/library-checker/line_add_get_min.test.cpp
 documentation_of: src/data_structure/convex_hull_trick/Li_Chao_tree.hpp
 layout: document
 redirect_from:

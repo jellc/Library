@@ -254,9 +254,9 @@ data:
   verifiedWith:
   - test/library-checker/shortest_path.test.cpp
   - test/library-checker/scc.test.cpp
-  - test/aizu-online-judge/GRL_4_A.test.cpp
-  - test/aizu-online-judge/GRL_1_A.test.cpp
   - test/aizu-online-judge/GRL_3_C.test.cpp
+  - test/aizu-online-judge/GRL_1_A.test.cpp
+  - test/aizu-online-judge/GRL_4_A.test.cpp
 documentation_of: src/graph/digraph.h
 layout: document
 redirect_from:
