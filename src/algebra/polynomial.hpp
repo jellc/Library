@@ -64,20 +64,31 @@ class polynomial : public std::vector<_Tp> {
   }
 
   void _conv_naive(const poly& __x) noexcept {
-    if (vec::_M_impl._M_start == vec::_M_impl._M_finish) return;
+    auto __n = vec::_M_impl._M_finish - vec::_M_impl._M_start;
+
+    if (__n == 0) return;
 
     if (__x._M_impl._M_start == __x._M_impl._M_finish) {
-      vec::_M_erase_at_end(vec::_M_impl._M_start);
+      vec::_M_erase_at_end(vec::_M_impl._M_start);  // clear
       return;
     }
 
     vec::_M_default_append(__x._M_impl._M_finish - __x._M_impl._M_start - 1);
 
-    for (auto __i = vec::_M_impl._M_finish; __i-- != vec::_M_impl._M_start;) {
-      auto __j = __i, __k = __x._M_impl._M_start;
-      *__i *= *__k++;
+    for (auto __h = vec::_M_impl._M_start + __n, __i = vec::_M_impl._M_finish;
+         __i != vec::_M_impl._M_start;) {
+      auto __k = __x._M_impl._M_start;
 
-      while (__j != vec::_M_impl._M_start && __k != __x._M_impl._M_finish)
+      if (__i != __h) {
+        __k += __i - __h;
+        --__i;
+      } else {
+        --__i, --__h;
+        *__i *= *__k++;
+      }
+
+      for (auto __j = __h;
+           __j != vec::_M_impl._M_start && __k != __x._M_impl._M_finish;)
         *__i += *--__j * *__k++;
     }
   }
