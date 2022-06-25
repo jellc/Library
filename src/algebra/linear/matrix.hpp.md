@@ -289,8 +289,8 @@ data:
   verifiedWith:
   - test/library-checker/matrix_det.test.cpp
   - test/library-checker/system_of_linear_equations.test.cpp
-  - test/aizu-online-judge/ITP1_7_D.test.cpp
   - test/aizu-online-judge/ITP1_6_D.test.cpp
+  - test/aizu-online-judge/ITP1_7_D.test.cpp
 documentation_of: src/algebra/linear/matrix.hpp
 layout: document
 redirect_from:

@@ -122,8 +122,8 @@ data:
   timestamp: '2021-05-22 02:27:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
   - test/library-checker/staticrmq.test.cpp
+  - test/library-checker/range_chmin_chmax_add_range_sum.test.cpp
   - test/aizu-online-judge/3170.test.cpp
 documentation_of: src/data_structure/buckets.hpp
 layout: document

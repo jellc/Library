@@ -173,10 +173,10 @@ data:
   isVerificationFile: false
   path: src/algebra/system/operation.hpp
   requiredBy:
+  - src/opt/golden_section.hpp
+  - src/data_structure/segment_tree/lazy.hpp
   - src/algebra/rational.hpp
   - src/algebra/interpolation.hpp
-  - src/data_structure/segment_tree/lazy.hpp
-  - src/opt/golden_section.hpp
   timestamp: '2022-04-06 15:16:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

@@ -224,10 +224,10 @@ data:
     \   *\n   * @return Whether a balanced flow exists.\n   */\n  bool run() {\n \
     \   b.resize(_Base::size());\n    p.resize(b.size());\n\n    _Cap delta = 0;\n\
     \    for (auto &&__adj : _Base::graph)\n      for (auto &&__e : __adj) delta =\
-    \ std::max(delta, __e.capacity);\n    if (delta == static_cast<_Cap>(0))\n   \
-    \   return std::all_of(b.begin(), b.end(),\n                         [](_Cap __x)\
-    \ { return __x == static_cast<_Cap>(0); });\n\n    parent.resize(b.size());\n\n\
-    \    while (static_cast<_Cap>(0) < delta) {\n      delta /= 2;\n\n      for (auto\
+    \ std::max(delta, __e.capacity);\n\n    if (delta == static_cast<_Cap>(0))\n \
+    \     if (std::any_of(b.begin(), b.end(),\n                      [](_Cap __x)\
+    \ { return __x != static_cast<_Cap>(0); }))\n        return false;\n\n    parent.resize(b.size());\n\
+    \n    while (static_cast<_Cap>(0) < delta) {\n      delta /= 2;\n\n      for (auto\
     \ &&__adj : _Base::graph)\n        for (auto &&__e : __adj)\n          if (delta\
     \ < __e.capacity && __e.cost < p[__e.head] - p[__e.tail]) {\n            b[__e.tail]\
     \ -= __e.capacity;\n            b[__e.head] += __e.capacity;\n            __e.push(__e.capacity);\n\
@@ -304,10 +304,10 @@ data:
     \   *\n   * @return Whether a balanced flow exists.\n   */\n  bool run() {\n \
     \   b.resize(_Base::size());\n    p.resize(b.size());\n\n    _Cap delta = 0;\n\
     \    for (auto &&__adj : _Base::graph)\n      for (auto &&__e : __adj) delta =\
-    \ std::max(delta, __e.capacity);\n    if (delta == static_cast<_Cap>(0))\n   \
-    \   return std::all_of(b.begin(), b.end(),\n                         [](_Cap __x)\
-    \ { return __x == static_cast<_Cap>(0); });\n\n    parent.resize(b.size());\n\n\
-    \    while (static_cast<_Cap>(0) < delta) {\n      delta /= 2;\n\n      for (auto\
+    \ std::max(delta, __e.capacity);\n\n    if (delta == static_cast<_Cap>(0))\n \
+    \     if (std::any_of(b.begin(), b.end(),\n                      [](_Cap __x)\
+    \ { return __x != static_cast<_Cap>(0); }))\n        return false;\n\n    parent.resize(b.size());\n\
+    \n    while (static_cast<_Cap>(0) < delta) {\n      delta /= 2;\n\n      for (auto\
     \ &&__adj : _Base::graph)\n        for (auto &&__e : __adj)\n          if (delta\
     \ < __e.capacity && __e.cost < p[__e.head] - p[__e.tail]) {\n            b[__e.tail]\
     \ -= __e.capacity;\n            b[__e.head] += __e.capacity;\n            __e.push(__e.capacity);\n\
@@ -353,15 +353,15 @@ data:
   isVerificationFile: false
   path: src/graph/directed/flow/min_cost_flow.hpp
   requiredBy: []
-  timestamp: '2021-12-19 14:32:09+09:00'
+  timestamp: '2022-06-25 20:33:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/library-checker/min_cost_b_flow.test.cpp
   - test/library-checker/assignment.test.cpp
-  - test/aizu-online-judge/1615.2.test.cpp
+  - test/library-checker/min_cost_b_flow.test.cpp
   - test/aizu-online-judge/1615.test.cpp
   - test/aizu-online-judge/2815.test.cpp
   - test/aizu-online-judge/GRL_6_B.test.cpp
+  - test/aizu-online-judge/1615.2.test.cpp
 documentation_of: src/graph/directed/flow/min_cost_flow.hpp
 layout: document
 redirect_from:
