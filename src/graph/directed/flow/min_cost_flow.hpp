@@ -125,9 +125,11 @@ class min_cost_flow : public flow_graph<_Cap, _Cost> {
     _Cap delta = 0;
     for (auto &&__adj : _Base::graph)
       for (auto &&__e : __adj) delta = std::max(delta, __e.capacity);
+
     if (delta == static_cast<_Cap>(0))
-      return std::all_of(b.begin(), b.end(),
-                         [](_Cap __x) { return __x == static_cast<_Cap>(0); });
+      if (std::any_of(b.begin(), b.end(),
+                      [](_Cap __x) { return __x != static_cast<_Cap>(0); }))
+        return false;
 
     parent.resize(b.size());
 
