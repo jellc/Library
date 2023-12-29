@@ -13,7 +13,9 @@ namespace workspace {
 
 /**
  * @brief Boyer-Moore majority vote algorithm.
- * @return Elements which appears at least k times in given range.
+ * @return Elements which appears at least k times in a given range.
+ * @note Runs in O(n * floor(n / k)) time, where n is the number of elements in
+ * a given range.
  */
 template <class _Iterator>
 auto majority_vote(_Iterator __first, _Iterator __last, size_t __k) {
